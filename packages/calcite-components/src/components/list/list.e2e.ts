@@ -161,6 +161,15 @@ describe("calcite-list", () => {
     );
   });
 
+  it("honors filterLabel property", async () => {
+    const page = await newE2EPage();
+    const label = "hello world";
+    await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
+
+    const filter = await page.find(`calcite-list >>> calcite-filter`);
+    expect(await filter.getProperty("label")).toBe(label);
+  });
+
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -186,14 +195,12 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    let modeValues = ["nested", "flat", "nested", "nested", "flat", "nested", "nested"];
-
     const items = await page.findAll("calcite-list-item");
 
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("nested");
     }
 
     const rootList = await page.find("#root");
@@ -202,12 +209,10 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    modeValues = ["flat", "flat", "nested", "nested", "flat", "flat", "flat"];
-
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("flat");
     }
   });
 

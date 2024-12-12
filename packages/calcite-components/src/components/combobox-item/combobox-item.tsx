@@ -32,12 +32,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   // #endregion
 
-  // #region Private Properties
-
-  private _selected = false;
-
-  // #endregion
-
   // #region State Properties
 
   @state() hasContent = false;
@@ -94,18 +88,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true })
-  get selected(): boolean {
-    return this._selected;
-  }
-
-  set selected(selected: boolean) {
-    const oldSelected = this._selected;
-    if (selected !== oldSelected) {
-      this._selected = selected;
-      this.selectedWatchHandler();
-    }
-  }
+  @property({ reflect: true }) selected: boolean = false;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -181,6 +164,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("textLabel")
     ) {
       this.calciteInternalComboboxItemChange.emit();
@@ -194,9 +178,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
-  private selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit();
-  }
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
@@ -210,6 +191,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     }
 
     this.selected = !this.selected;
+    this.calciteComboboxItemChange.emit();
   }
 
   private itemClickHandler(): void {
@@ -272,7 +254,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el) + 1;
+    const depth = getDepth(this.el);
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
