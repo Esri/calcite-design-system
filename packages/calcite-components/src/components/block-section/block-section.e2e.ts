@@ -263,16 +263,10 @@ describe("calcite-block-section", () => {
             {
               targetProp: "color",
             },
-            // {
-            //   shadowSelector: `.${CSS.toggle}`,
-            //   targetProp: "color",
-            // },
           ],
           "--calcite-block-section-text-color": [
             { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
-            // TODO: bug CSS.iconEnd doesn't properly apply on the element
-            // { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
           ],
           "--calcite-block-section-text-color-hover": [
             {
@@ -290,12 +284,6 @@ describe("calcite-block-section", () => {
               targetProp: "color",
               state: "hover",
             },
-            // TODO: bug CSS.iconEnd doesn't properly apply on the element
-            // {
-            //   shadowSelector: `.${CSS.iconEnd}`,
-            //   targetProp: "color",
-            //   state: "hover",
-            // },
             {
               shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",
