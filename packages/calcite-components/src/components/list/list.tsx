@@ -178,9 +178,9 @@ export class List
 
   @state() get showNoResultsContainer(): boolean {
     return (
-      this.hasFilterNoResults &&
       this.filterEnabled &&
       this.filterText &&
+      this.hasFilterNoResults &&
       this.visibleItems.length &&
       !this.filteredItems.length
     );
