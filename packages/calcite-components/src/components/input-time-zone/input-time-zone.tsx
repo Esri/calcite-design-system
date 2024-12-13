@@ -43,7 +43,7 @@ import {
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { styles } from "./input-time-zone.scss";
 

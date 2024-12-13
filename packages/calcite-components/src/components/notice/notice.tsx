@@ -23,7 +23,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/notice.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
 

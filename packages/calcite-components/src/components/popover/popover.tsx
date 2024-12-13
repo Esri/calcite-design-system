@@ -51,7 +51,7 @@ import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import PopoverManager from "./PopoverManager";
-import T9nStrings from "./assets/t9n/popover.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 

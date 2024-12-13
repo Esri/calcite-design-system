@@ -27,7 +27,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
-import T9nStrings from "./assets/t9n/dialog.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
   dialogDragStep,

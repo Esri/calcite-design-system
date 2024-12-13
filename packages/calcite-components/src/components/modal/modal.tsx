@@ -37,7 +37,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/modal.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
 

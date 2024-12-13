@@ -26,7 +26,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
-import T9nStrings from "./assets/t9n/tab-title.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./tab-title.scss";
 

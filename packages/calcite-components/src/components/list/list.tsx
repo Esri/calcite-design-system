@@ -38,7 +38,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/list.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 

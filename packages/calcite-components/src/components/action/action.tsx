@@ -18,7 +18,7 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
-import T9nStrings from "./assets/t9n/action.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action.scss";
 

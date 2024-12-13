@@ -20,7 +20,7 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
-import T9nStrings from "./assets/t9n/sort-handle.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";

@@ -21,7 +21,7 @@ import type { Label } from "../label/label";
 import type { Button } from "../button/button";
 import { styles } from "./inline-editable.scss";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/inline-editable.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
