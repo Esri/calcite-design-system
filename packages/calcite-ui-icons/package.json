@@ -31,13 +31,9 @@
     "lib/",
     "fonts/*.ttf",
     "bin/sprinter.js",
-    "docs/icons.json",
-    "docs/keywords.json",
-    "index.d.ts",
-    "index.js",
-    "sprite-16.svg",
-    "sprite-24.svg",
-    "sprite-32.svg"
+    "docs/{keywords,icons}.json",
+    "index.{js,d.ts}",
+    "sprite-{16,24,32}.svg"
   ],
   "scripts": {
     "build": "node bin/cli.js",
