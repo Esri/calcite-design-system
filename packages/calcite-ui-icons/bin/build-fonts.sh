@@ -25,7 +25,11 @@ fantasticon fonts/icons/16/ -n calcite-ui-icons-16 --normalize true -t ttf -g js
 fantasticon fonts/icons/24/ -n calcite-ui-icons-24 --normalize true -t ttf -g json -o fonts/
 fantasticon fonts/icons/32/ -n calcite-ui-icons-32 --normalize true -t ttf -g json -o fonts/
 
+# sync the generated codepoints back to the config file (only changes when adding new icons)
+#
 # NOTE: assumes `codepoints` is the only field used in the config file. If that changes,
-# migrate to a Node script to parse the JSON and replace the `codepoints` field's value
-echo "{\"codepoints\": $(cat fonts/calcite-ui-icons-16.json)}" |
-    prettier --parser json --write >./fantasticonrc.json
+# migrate to a Node script to parse the JSON and replace the `codepoints` value
+prettier --parser json --write >./fantasticonrc.json <<<"{\"codepoints\": $(
+    # the codepoints are the same for all sizes (picked 16 arbitrarily)
+    cat fonts/calcite-ui-icons-16.json
+)}"
