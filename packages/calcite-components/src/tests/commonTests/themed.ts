@@ -148,7 +148,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           targetProp,
           contextSelector,
           state: stateName,
-          expectedValue: setTokens[token],
+          expectedValue: tokens[token].expectedValue || setTokens[token],
           token: token as CalciteCSSCustomProp,
         });
       }
@@ -218,6 +218,9 @@ type TestSelectToken = {
 
   /** The CSSStyleDeclaration property to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
+
+  /** Override the default expect value set based on the token schema. Good for testing edge-cases where a token should not set the targetProp. */
+  expectedValue?: string;
 
   /** The state to apply to the target element. */
   state?: State | RequireExactlyOne<Record<State, ContextSelectByAttr>, "focus" | "hover" | "press">;

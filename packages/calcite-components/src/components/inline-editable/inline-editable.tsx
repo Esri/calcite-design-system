@@ -234,7 +234,7 @@ export class InlineEditable
       this.inputElement.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.value.setFocus();
+    this.enableEditingButton.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
@@ -270,8 +270,7 @@ export class InlineEditable
   private async enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      event.target === this.cancelEditingButton.value ||
-      event.target === this.confirmEditingButton.value
+      (event.target !== this.enableEditingButton.value && event.target !== this.inputElement)
     ) {
       return;
     }
