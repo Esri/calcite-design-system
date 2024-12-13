@@ -152,7 +152,7 @@ describe("calcite-text-area", () => {
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
-    element.setAttribute("max-length", "5");
+    element.setProperty("maxLength", "5");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
@@ -169,7 +169,7 @@ describe("calcite-text-area", () => {
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
-    element.setProperty("min-length", "5");
+    element.setProperty("minLength", "5");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");

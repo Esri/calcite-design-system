@@ -360,8 +360,8 @@ export class TextArea
 
   private getLocalizedCharacterLength(): CharacterLengthObj {
     const currentLength = this.value ? this.value.length.toString() : "0";
-    const maxLength = this.maxLength.toString();
-    const minLength = this.minLength.toString();
+    const maxLength = this.maxLength?.toString();
+    const minLength = this.minLength?.toString();
     if (this.numberingSystem === "latn") {
       return { currentLength, maxLength, minLength };
     }
@@ -434,9 +434,9 @@ export class TextArea
     template: string,
     placeholderToValueObject: { [key: string]: string },
   ): string {
-    let result = template;
+    let result;
     for (const key in placeholderToValueObject) {
-      result = result.replace(key, placeholderToValueObject[key]);
+      result = template.replace(key, placeholderToValueObject[key]);
     }
     return result;
   }
@@ -561,7 +561,7 @@ export class TextArea
   }
 
   private renderCharacterLimit(): JsxNode | null {
-    if (this.maxLength) {
+    if (this.maxLength || this.minLength) {
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
