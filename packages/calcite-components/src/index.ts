@@ -9,7 +9,7 @@ import { setAssetPath as runtimeSetAssetPath } from "./runtime";
 
 declare module "csstype" {
   interface Properties {
-    [index: `--${string}`]: any;
+    [index: `--calcite-${string}`]: any;
   }
 }
 
