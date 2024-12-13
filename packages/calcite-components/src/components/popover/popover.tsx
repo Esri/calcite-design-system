@@ -556,12 +556,9 @@ export class Popover
   override render(): JsxNode {
     const { referenceEl, heading, label, open, pointerDisabled, floatingLayout } = this;
     const displayed = referenceEl && open;
-    const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
       <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.storeArrowEl} />
     ) : null;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

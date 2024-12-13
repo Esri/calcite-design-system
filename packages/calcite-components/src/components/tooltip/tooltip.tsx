@@ -9,7 +9,6 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -311,9 +310,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   override render(): JsxNode {
     const { referenceEl, label, open, floatingLayout } = this;
     const displayed = referenceEl && open;
-    const hidden = !displayed;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
