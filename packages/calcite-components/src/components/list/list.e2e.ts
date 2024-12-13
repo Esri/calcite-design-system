@@ -665,6 +665,9 @@ describe("calcite-list", () => {
       return items.filter((item) => item.value === "item2");
     });
 
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
     let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems).toHaveLength(1);
