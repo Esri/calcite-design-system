@@ -37,8 +37,8 @@
   ],
   "scripts": {
     "build": "node bin/cli.js",
-    "postbuild": "npm run build:sprite && npm run build:fonts || true",
-    "build:fonts": "bin/build-fonts.sh",
+    "postbuild": "npm run build:sprite && npm run build:fonts",
+    "build:fonts": "bin/build-fonts.sh || true",
     "build:sprite": "concurrently npm:build:sprite-*",
     "build:sprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
     "build:sprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
