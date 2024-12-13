@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.62...@esri/calcite-components@3.0.0-next.63) (2024-12-13)
+
+### Bug Fixes
+
+- allow custom Calcite CSS properties in style object type ([#11051](https://github.com/Esri/calcite-design-system/issues/11051)) ([2555a61](https://github.com/Esri/calcite-design-system/commit/2555a61248f32f4dcf605ad85eb62fc20ecde040)), closes [#11013](https://github.com/Esri/calcite-design-system/issues/11013)
+
 ## [3.0.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.61...@esri/calcite-components@3.0.0-next.62) (2024-12-13)
 
 ### Bug Fixes
