@@ -40,7 +40,8 @@
     "sprite-32.svg"
   ],
   "scripts": {
-    "build": "npm run copy-assets && npm run build:sprite && npm run optimize",
+    "build": "node bin/cli.js",
+    "postbuild": "npm run build:sprite && npm run build:fonts || true",
     "build:fonts": "bin/build-fonts.sh",
     "build:sprite": "concurrently npm:build:sprite-*",
     "build:sprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
@@ -51,10 +52,8 @@
     "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
-    "optimize": "node bin/cli.js",
     "spriter": "node bin/spriter.js",
-    "start": "npm run copy-assets && node bin/server.js",
-    "prepublish": "npm run build:fonts"
+    "start": "npm run copy-assets && node bin/server.js"
   },
   "devDependencies": {
     "browser-sync": "3.0.2",

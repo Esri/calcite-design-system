@@ -24,3 +24,7 @@ cd .. || exit
 fantasticon font-icons/16/ -n calcite-ui-icons-16 --normalize true -t ttf -g json -o fonts/
 fantasticon font-icons/24/ -n calcite-ui-icons-24 --normalize true -t ttf -g json -o fonts/
 fantasticon font-icons/32/ -n calcite-ui-icons-32 --normalize true -t ttf -g json -o fonts/
+
+# update codepoints in config file
+echo "{\"codepoints\": $(cat fonts/calcite-ui-icons-16.json)}" >./fantasticonrc.json
+prettier --write ./fantasticonrc.json

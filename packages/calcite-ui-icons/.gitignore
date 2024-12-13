@@ -1,6 +1,7 @@
 /docs/icons.json
 /docs/resources
 /font-icons/
+/fonts/*.json
 /index.*
 /js
 /sprite-*.svg
