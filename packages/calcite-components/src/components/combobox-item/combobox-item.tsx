@@ -257,7 +257,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     const depth = getDepth(this.el);
 
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = "true";
+    this.el.inert = true;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = itemLabel;
 

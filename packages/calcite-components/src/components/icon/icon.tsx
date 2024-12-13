@@ -1,7 +1,7 @@
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { isBrowser } from "../../utils/browser";
@@ -164,7 +164,7 @@ export class Icon extends LitElement {
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(!semantic);
+    this.el.inert = !semantic;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = semantic ? textLabel : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
