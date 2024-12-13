@@ -427,12 +427,17 @@ describe("calcite-block", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(
-        html`
-          <calcite-block heading="heading" description="description" open collapsible icon-end="pen" icon-start="pen">
-            <calcite-icon icon="compass" slot="content-start"></calcite-icon>
-            <div>content</div>
-          </calcite-block>
-        `,
+        html`<calcite-block
+          heading="heading"
+          description="description"
+          open
+          collapsible
+          icon-end="pen"
+          icon-start="pen"
+        >
+          <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <div>content</div>
+        </calcite-block>`,
         {
           "--calcite-block-border-color": {
             targetProp: "borderColor",
@@ -446,7 +451,6 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: "hover",
           },
-          "--calcite-block-header-text-color": [{ shadowSelector: `.${CSS.heading}`, targetProp: "color" }],
           "--calcite-block-text-color": [
             { shadowSelector: `.${CSS.description}`, targetProp: "color" },
             { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
@@ -461,6 +465,11 @@ describe("calcite-block", () => {
           },
         },
       );
+    });
+    describe("closed", () => {
+      themed(html`<calcite-block heading="heading"></calcite-block>`, {
+        "--calcite-block-header-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
+      });
     });
   });
 });

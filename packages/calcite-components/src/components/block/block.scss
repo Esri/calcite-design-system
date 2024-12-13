@@ -124,11 +124,11 @@ calcite-handle {
 
 .description {
   @apply text-n2-wrap
-    p-0
-    word-break;
+    word-break
+    mt-0.5
+    p-0;
 
   color: var(--calcite-block-text-color, var(--calcite-color-text-3));
-  margin-block-start: var(calcite-spacing-base);
 }
 
 .icon {
