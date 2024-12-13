@@ -29,7 +29,7 @@ import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
-import { loader } from "./custom-theme/loader";
+import { loader, loaderTokens } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
@@ -154,6 +154,7 @@ const componentTokens = {
   ...labelTokens,
   ...linkTokens,
   ...listTokens,
+  ...loaderTokens,
   ...navigationLogoTokens,
   ...navigationTokens,
   ...navigationUserTokens,

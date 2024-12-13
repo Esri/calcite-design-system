@@ -75,6 +75,11 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
    */
   @property() items: object[] = [];
 
+  /**
+   * Specifies an accessible name for the component.
+   */
+  @property() label: string;
+
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -234,7 +239,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              label={this.messages.label}
+              label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
               onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}

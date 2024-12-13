@@ -208,6 +208,9 @@ export class List
   /** todo */
   @property() customFilter: (listItems: ListItem["el"][]) => ListItem["el"][];
 
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
+
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
@@ -253,8 +256,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -269,7 +274,16 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the nesting behavior. */
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -1008,6 +1022,7 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       effectiveFilterProps,
@@ -1044,6 +1059,7 @@ export class List
                         disabled={disabled}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
