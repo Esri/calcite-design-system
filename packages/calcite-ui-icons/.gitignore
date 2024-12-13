@@ -1,9 +1,10 @@
+/desktop-output/
 /docs/icons.json
 /docs/resources
-/font-icons/
 /fonts/*.json
+/fonts/icons/
 /index.*
-/js
+/js/
+/mobile-output/
+/output/
 /sprite-*.svg
-desktop-output
-mobile-output
