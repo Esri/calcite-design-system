@@ -63,6 +63,10 @@ describe("calcite-list", () => {
         defaultValue: false,
       },
       {
+        propertyName: "filterItems",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "filteredData",
         defaultValue: [],
       },
@@ -632,6 +636,49 @@ describe("calcite-list", () => {
     expect(visibleItems).toHaveLength(2);
     for (const item of visibleItems) {
       expect(await item.getProperty("description")).toBe("list2");
+    }
+  });
+
+  it.only("updating items after filtering with filterItems property", async () => {
+    const allValue = "all";
+    const matchingFont = "Courier";
+
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-list filter-enabled filter-text="">
+        <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+        <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+        <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+      </calcite-list>
+    `);
+    await page.waitForChanges();
+
+    const list = await page.find("calcite-list");
+
+    list.setProperty("filterItems", (items: ListItem["el"][]) => {
+      const list = document.querySelector("calcite-list");
+
+      if (list.filterText === allValue) {
+        return items;
+      }
+
+      return items.filter((item) => item.value === "item2");
+    });
+
+    let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+    expect(visibleItems).toHaveLength(1);
+    expect(await visibleItems[0].getProperty("value")).toBe("item2");
+
+    list.setProperty("filterText", allValue);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+    expect(visibleItems).toHaveLength(3);
+
+    for (const item of visibleItems) {
+      expect(await item.getProperty("description")).toBe("list1");
     }
   });
 

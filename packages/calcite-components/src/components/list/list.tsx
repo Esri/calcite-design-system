@@ -205,8 +205,8 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
-  /** todo */
-  @property() customFilter: (listItems: ListItem["el"][]) => ListItem["el"][];
+  /** Specifies a function to handle filtering. */
+  @property() filterItems: (listItems: ListItem["el"][]) => ListItem["el"][];
 
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
@@ -414,12 +414,8 @@ export class List
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText")) {
-      this.handleFilterTextChange();
-    }
-
-    if (changes.has("filterProps")) {
-      this.handleFilterPropsChange();
+    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterItems")) {
+      this.performFilter();
     }
 
     if (
@@ -452,14 +448,6 @@ export class List
   // #endregion
 
   // #region Private Methods
-
-  private async handleFilterTextChange(): Promise<void> {
-    this.performFilter();
-  }
-
-  private async handleFilterPropsChange(): Promise<void> {
-    this.performFilter();
-  }
 
   private handleListItemChange(): void {
     this.updateListItems({ performFilter: true });
@@ -732,16 +720,16 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText, customFilter } = this;
+    const { visibleItems, filteredData, filterText, filterItems } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = !filterText
-      ? visibleItems || []
-      : customFilter
-        ? customFilter(visibleItems)
+    const filteredItems = filterItems
+      ? filterItems(visibleItems)
+      : !filterText
+        ? visibleItems || []
         : filteredData.map((item) => item.el);
 
     const visibleParents = new WeakSet<HTMLElement>();
@@ -811,7 +799,7 @@ export class List
   }
 
   private getItemData(): ItemData {
-    return this.customFilter
+    return this.filterItems
       ? []
       : this.listItems.map((item) => ({
           label: item.label,
