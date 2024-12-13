@@ -182,8 +182,8 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-spacing-sm);
-  padding-inline: var(--calcite-spacing-md);
+  padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
+  padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
 }
 
 .content-start {
