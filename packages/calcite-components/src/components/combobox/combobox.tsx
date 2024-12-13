@@ -136,7 +136,7 @@ export class Combobox
         "label",
         "metadata",
         "shortHeading",
-      ]);
+      ]) as ItemData[];
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -1269,7 +1269,7 @@ export class Combobox
   private getData(): ItemData[] {
     return this.items.map((item) => ({
       description: item.description,
-      filterDisabled: item.filterDisabled,
+      constant: item.filterDisabled,
       label: item.heading || item.textLabel,
       metadata: item.metadata,
       shortHeading: item.shortHeading,

@@ -1,6 +1,11 @@
 import { escapeRegExp, forIn } from "lodash-es";
 
-export const filter = (data: object[], value: string, filterProps?: string[]): object[] => {
+export type FilterItem = {
+  constant?: boolean;
+  [key: string]: any;
+};
+
+export const filter = (data: FilterItem[], value: string, filterProps?: string[]): FilterItem[] => {
   const escapedValue = escapeRegExp(value);
   const regex = new RegExp(escapedValue, "i");
 
@@ -9,8 +14,8 @@ export const filter = (data: object[], value: string, filterProps?: string[]): o
     The data argument should be an array of objects`);
   }
 
-  const find = (input: object, RE: RegExp, fields?: string[]) => {
-    if ((input as any)?.constant || (input as any)?.filterDisabled) {
+  const find = (input: FilterItem, RE: RegExp, fields?: string[]) => {
+    if (input?.constant) {
       return true;
     }
 
