@@ -63,7 +63,7 @@ describe("calcite-list", () => {
         defaultValue: false,
       },
       {
-        propertyName: "filterItems",
+        propertyName: "filterPredicate",
         defaultValue: undefined,
       },
       {
@@ -639,7 +639,7 @@ describe("calcite-list", () => {
     }
   });
 
-  it("updating items after filtering with filterItems property", async () => {
+  it("updating items after filtering with filterPredicate property", async () => {
     const allValue = "all";
     const matchingFont = "Courier";
 
@@ -658,12 +658,12 @@ describe("calcite-list", () => {
     await page.$eval(
       "calcite-list",
       (list: List["el"], allValue) => {
-        list.filterItems = (items) => {
+        list.filterPredicate = (item) => {
           if (list.filterText === allValue) {
-            return items;
+            return true;
           }
 
-          return items.filter((item) => item.value === "item2");
+          return item.value === "item2";
         };
       },
       allValue,

@@ -206,7 +206,7 @@ export class List
   @property({ reflect: true }) filterEnabled = false;
 
   /** Specifies a function to handle filtering. */
-  @property() filterItems: (listItems: ListItem["el"][]) => ListItem["el"][];
+  @property() filterPredicate: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
@@ -414,7 +414,7 @@ export class List
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterItems")) {
+    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
       this.performFilter();
     }
 
@@ -720,14 +720,14 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText, filterItems } = this;
+    const { visibleItems, filteredData, filterText, filterPredicate } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = filterItems
-      ? filterItems(visibleItems)
+    const filteredItems = filterPredicate
+      ? visibleItems.filter(filterPredicate)
       : !filterText
         ? visibleItems || []
         : filteredData.map((item) => item.el);
@@ -799,7 +799,7 @@ export class List
   }
 
   private getItemData(): ItemData {
-    return this.filterItems
+    return this.filterPredicate
       ? []
       : this.listItems.map((item) => ({
           label: item.label,
