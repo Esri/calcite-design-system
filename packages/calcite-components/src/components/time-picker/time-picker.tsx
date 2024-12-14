@@ -5,6 +5,7 @@ import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
 import {
+  EffectiveHourFormat,
   formatTimePart,
   getLocaleHourFormat,
   getLocalizedDecimalSeparator,
@@ -75,6 +76,8 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   @state() activeEl: HTMLSpanElement;
 
+  @state() effectiveHourFormat: EffectiveHourFormat;
+
   @state() fractionalSecond: string;
 
   @state() hour: string;
@@ -112,9 +115,15 @@ export class TimePicker extends LitElement implements LoadableComponent {
   // #region Public Properties
 
   /**
-   * Displays the component's `value` in either 12 or 24 hour format.  Defaults to the `lang`'s preferred setting.
+   * Specifies how the hour will be displayed, where
+   *
+   * `"user"` uses `12` or `24` depending on the user's locale,
+   * `"12"` always uses the 12-hour format, and
+   * `"24"` always uses the 24-hour format.
+   *
+   * @default "user"
    */
-  @property({ reflect: true }) hourFormat: HourFormat;
+  @property({ reflect: true }) hourFormat: HourFormat = "user";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -182,10 +191,6 @@ export class TimePicker extends LitElement implements LoadableComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("hourFormat")) {
-      this.setValue(this.value);
-    }
-
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.toggleSecond();
     }
@@ -194,7 +199,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       this.setValue(this.value);
     }
 
-    if (changes.has("messages")) {
+    if (changes.has("hourFormat") || changes.has("messages")) {
       this.updateLocale();
     }
   }
@@ -236,7 +241,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
-            } else if (this.hourFormat === "12") {
+            } else if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -252,7 +257,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           case "ArrowRight":
             if (this.showFractionalSecond) {
               this.focusPart("fractionalSecond");
-            } else if (this.hourFormat === "12") {
+            } else if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -266,7 +271,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             event.preventDefault();
             break;
           case "ArrowRight":
-            if (this.hourFormat === "12") {
+            if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -401,7 +406,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
-        switch (this.hourFormat) {
+        switch (this.effectiveHourFormat) {
           case "12":
             newHour =
               this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
@@ -692,7 +697,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const {
-        hourFormat,
+        effectiveHourFormat,
         messages: { _lang: locale },
         numberingSystem,
       } = this;
@@ -710,7 +715,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         value,
         locale,
         numberingSystem,
-        hour12: hourFormat === "12",
+        hour12: effectiveHourFormat === "12",
       });
       this.hour = hour;
       this.minute = minute;
@@ -767,7 +772,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     value: number | string | Meridiem,
   ): void {
     const {
-      hourFormat,
+      effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
     } = this;
@@ -836,7 +841,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     this.value = newValue;
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts({
-          hour12: hourFormat === "12",
+          hour12: effectiveHourFormat === "12",
           locale,
           numberingSystem,
           value: this.value,
@@ -853,9 +858,8 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private updateLocale() {
-    if (!this.hourFormat) {
-      this.hourFormat = getLocaleHourFormat(this.messages._lang);
-    }
+    this.effectiveHourFormat =
+      this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.messages._lang,
       this.numberingSystem,
@@ -872,7 +876,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const showMeridiem = this.hourFormat === "12";
+    const showMeridiem = this.effectiveHourFormat === "12";
     return (
       <div
         class={{

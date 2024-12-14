@@ -11,9 +11,11 @@ import { isValidNumber } from "./number";
 
 export type FractionalSecondDigits = 1 | 2 | 3;
 
-export type HourFormat = "12" | "24";
+export type EffectiveHourFormat = "12" | "24";
 
-export const hourFormats: HourFormat[] = ["12", "24"];
+export type HourFormat = "user" | EffectiveHourFormat;
+
+export const hourFormats: EffectiveHourFormat[] = ["12", "24"];
 
 export interface LocalizedTime {
   localizedHour: string;
@@ -128,7 +130,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourFormat(locale: SupportedLocale): HourFormat {
+export function getLocaleHourFormat(locale: SupportedLocale): EffectiveHourFormat {
   const options: DateTimeFormatterOptions = { locale };
   if (locale === "mk") {
     // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
@@ -144,7 +146,7 @@ export function getLocaleHourFormat(locale: SupportedLocale): HourFormat {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
-export function getLocaleOppositeHourFormat(locale: SupportedLocale): HourFormat {
+export function getLocaleOppositeHourFormat(locale: SupportedLocale): EffectiveHourFormat {
   const localeDefaultHourFormat = getLocaleHourFormat(locale);
   if (localeDefaultHourFormat === "12") {
     return "24";
@@ -255,7 +257,7 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
   return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
-export function isLocaleHourFormatOpposite(hourFormat: HourFormat, locale: SupportedLocale): boolean {
+export function isLocaleHourFormatOpposite(hourFormat: EffectiveHourFormat, locale: SupportedLocale): boolean {
   if (!hourFormat) {
     return false;
   }
