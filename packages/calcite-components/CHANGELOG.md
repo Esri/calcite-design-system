@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.62...@esri/calcite-components@3.0.0-next.63) (2024-12-13)
+
+### Bug Fixes
+
+- allow custom Calcite CSS properties in style object type ([#11051](https://github.com/Esri/calcite-design-system/issues/11051)) ([2555a61](https://github.com/Esri/calcite-design-system/commit/2555a61248f32f4dcf605ad85eb62fc20ecde040)), closes [#11013](https://github.com/Esri/calcite-design-system/issues/11013)
+
+## [3.0.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.61...@esri/calcite-components@3.0.0-next.62) (2024-12-13)
+
+### Bug Fixes
+
+- **inline-editable:** fix cancel workflow ([#11046](https://github.com/Esri/calcite-design-system/issues/11046)) ([bc65eae](https://github.com/Esri/calcite-design-system/commit/bc65eae3d2101d40fe091cd476272ff68e9102b3))
+
+## [3.0.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.60...@esri/calcite-components@3.0.0-next.61) (2024-12-13)
+
+### Features
+
+- **loader:** add component tokens ([#10979](https://github.com/Esri/calcite-design-system/issues/10979)) ([18db2e2](https://github.com/Esri/calcite-design-system/commit/18db2e27f543e0817ed9ca3e89b2ad72edcd353d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#6695](https://github.com/Esri/calcite-design-system/issues/6695)
+- **sheet:** add resizable property ([#10521](https://github.com/Esri/calcite-design-system/issues/10521)) ([927eef5](https://github.com/Esri/calcite-design-system/commit/927eef53d4d3288606a9ae2bd89c11b878b6a7a0)), closes [#7591](https://github.com/Esri/calcite-design-system/issues/7591) [#3535](https://github.com/Esri/calcite-design-system/issues/3535)
+
+### Bug Fixes
+
+- **dialog, panel:** prevent `beforeClose` from being invoked during initialization ([#11038](https://github.com/Esri/calcite-design-system/issues/11038)) ([1a0bf3b](https://github.com/Esri/calcite-design-system/commit/1a0bf3b1ee693b79d5f5fe40e92207f0426dd3ca)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [/github.com/Esri/calcite-design-system/blame/bcc19be314a45ff584793e473e5851e15cefa83f/packages/calcite-components/src/components/panel/panel.tsx#L92](https://github.com/Esri//github.com/Esri/calcite-design-system/blame/bcc19be314a45ff584793e473e5851e15cefa83f/packages/calcite-components/src/components/panel/panel.tsx/issues/L92)
+- **tree:** ensures `lines` length is accurate ([#11036](https://github.com/Esri/calcite-design-system/issues/11036)) ([73fc55d](https://github.com/Esri/calcite-design-system/commit/73fc55dcdd8eb3de73086a45def47c77bd43e998)), closes [#11035](https://github.com/Esri/calcite-design-system/issues/11035)
+
 ## [3.0.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.59...@esri/calcite-components@3.0.0-next.60) (2024-12-12)
 
 ### Bug Fixes
