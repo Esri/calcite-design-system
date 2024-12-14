@@ -639,7 +639,7 @@ describe("calcite-list", () => {
     }
   });
 
-  it.only("updating items after filtering with filterItems property", async () => {
+  it("updating items after filtering with filterItems property", async () => {
     const allValue = "all";
     const matchingFont = "Courier";
 
@@ -655,15 +655,19 @@ describe("calcite-list", () => {
 
     const list = await page.find("calcite-list");
 
-    list.setProperty("filterItems", (items: ListItem["el"][]) => {
-      const list = document.querySelector("calcite-list");
+    await page.$eval(
+      "calcite-list",
+      (list: List["el"], allValue) => {
+        list.filterItems = (items) => {
+          if (list.filterText === allValue) {
+            return items;
+          }
 
-      if (list.filterText === allValue) {
-        return items;
-      }
-
-      return items.filter((item) => item.value === "item2");
-    });
+          return items.filter((item) => item.value === "item2");
+        };
+      },
+      allValue,
+    );
 
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
