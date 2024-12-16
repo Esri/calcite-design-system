@@ -267,7 +267,7 @@ describe("calcite-text-area", () => {
       });
     });
 
-    describe("max-chars", () => {
+    describe("max-chars valid range", () => {
       themed(html`<calcite-text-area max-length="10"></calcite-text-area>`, {
         "--calcite-text-area-divider-color": {
           shadowSelector: `.${CSS.textArea}`,
@@ -290,8 +290,8 @@ describe("calcite-text-area", () => {
       });
     });
 
-    describe("min-chars", () => {
-      themed(html`<calcite-text-area min-length="5"></calcite-text-area>`, {
+    describe("min-chars valid range", () => {
+      themed(html`<calcite-text-area min-length="4" value="12345"></calcite-text-area>`, {
         "--calcite-text-area-divider-color": {
           shadowSelector: `.${CSS.textArea}`,
           targetProp: "borderBlockEndColor",
@@ -323,7 +323,7 @@ describe("calcite-text-area", () => {
     });
 
     describe("under min limit", () => {
-      themed(html`<calcite-text-area min-length="4" value="12345"></calcite-text-area>`, {
+      themed(html`<calcite-text-area min-length="4" value="123"></calcite-text-area>`, {
         "--calcite-text-area-character-limit-text-color": {
           shadowSelector: `.${CSS.characterLimit}`,
           targetProp: "color",
