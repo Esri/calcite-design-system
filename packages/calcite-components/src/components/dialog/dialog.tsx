@@ -51,7 +51,7 @@ let initialDocumentOverflowStyle: string = "";
 /**
  * @slot - A slot for adding content.
  * @slot content - [Deprecated] Use `custom-content` slot instead.
- * @slot custom-content - A slot for adding custom content that. Will prevent the rendering of 'component chrome', except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
