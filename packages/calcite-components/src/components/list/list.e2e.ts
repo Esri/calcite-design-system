@@ -1231,8 +1231,26 @@ describe("calcite-list", () => {
                   slot="actions-end"
                 ></calcite-action
               ></calcite-list-item>
+              <calcite-list-item id="three" value="three" label="Three" description="hello world">
+                <calcite-action
+                  appearance="transparent"
+                  icon="ellipsis"
+                  text="menu"
+                  label="menu"
+                  slot="actions-end"
+                ></calcite-action
+              ></calcite-list-item>
             </calcite-list>
           </calcite-list-item>
+          <calcite-list-item id="four" value="four" label="Four" description="hello world">
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="actions-end"
+            ></calcite-action
+          ></calcite-list-item>
         </calcite-list>
       `);
       await page.waitForChanges();
