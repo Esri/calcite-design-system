@@ -149,10 +149,10 @@ describe("calcite-dropdown", () => {
     `);
     const dropdownItems = await page.findAll("calcite-dropdown-items");
 
-    dropdownItems.forEach(async (item) => {
+    for (const item of dropdownItems) {
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("s");
-    });
+    }
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
