@@ -11,7 +11,13 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { openAncestors, updateListItemChildren } from "../list-item/utils";
+import {
+  listItemGroupSelector,
+  listItemSelector,
+  listSelector,
+  openAncestors,
+  updateListItemChildren,
+} from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -42,9 +48,7 @@ declare global {
   }
 }
 
-const listItemSelector = "calcite-list-item";
-const listItemGroupSelector = "calcite-list-item-group";
-const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
+const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -78,17 +82,16 @@ export class List
 
   private listItems: ListItem["el"][] = [];
 
-  mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ performFilter: true }),
-  );
+  mutationObserver = createObserver("mutation", () => {
+    this.willPerformFilter = true;
+    this.updateListItems();
+  });
 
   private parentListEl: List["el"];
 
   sortable: Sortable;
 
-  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
-    const performFilter = options?.performFilter ?? false;
-
+  private updateListItems = debounce((): void => {
     this.updateGroupItems();
 
     const {
@@ -111,7 +114,7 @@ export class List
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
+      if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
@@ -126,7 +129,8 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && performFilter) {
+    if (filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
       if (filterEl) {
@@ -147,6 +151,9 @@ export class List
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
+
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willPerformFilter: boolean = false;
 
   // #endregion
 
@@ -182,6 +189,9 @@ export class List
 
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
+
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
 
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
@@ -246,7 +256,16 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the nesting behavior. */
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -357,7 +376,8 @@ export class List
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
     this.setUpSorting();
     this.setParentList();
   }
@@ -425,7 +445,8 @@ export class List
   }
 
   private handleListItemChange(): void {
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -601,7 +622,7 @@ export class List
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -979,6 +1000,7 @@ export class List
       filterPlaceholder,
       filterText,
       filteredItems,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
@@ -1016,6 +1038,7 @@ export class List
                         disabled={disabled}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}

@@ -13,7 +13,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { IDS as PanelIDS } from "../panel/resources";
 import { CSS, dialogDragStep, dialogResizeStep, SLOTS } from "./resources";
 import type { Dialog } from "./dialog";
@@ -511,6 +511,19 @@ describe("calcite-dialog", () => {
       expect(await dialog.getProperty("open")).toBe(true);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
       expect(dialog.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+    });
+
+    it("does not invoke beforeClose when initially open", async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async () => {
+        const dialog = document.createElement("calcite-dialog");
+        dialog.open = true;
+        dialog.beforeClose = () => new Promise(() => document.body.removeChild(dialog));
+        document.body.append(dialog);
+      });
+      await page.waitForChanges();
+
+      expect(await page.find("calcite-dialog")).not.toBeNull();
     });
   });
 

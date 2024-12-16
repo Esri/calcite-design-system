@@ -3,7 +3,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable } from "../../utils/dom";
+import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -600,16 +600,12 @@ export class Dialog
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: this.isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: this.isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
+              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
             },
             max: {
-              width: this.isPixelValue(maxInlineSize)
-                ? parseInt(maxInlineSize, 10)
-                : window.innerWidth,
-              height: this.isPixelValue(maxBlockSize)
-                ? parseInt(maxBlockSize, 10)
-                : window.innerHeight,
+              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
+              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
@@ -648,10 +644,6 @@ export class Dialog
         },
       });
     }
-  }
-
-  private isPixelValue(value: string): boolean {
-    return value.indexOf("px") !== -1;
   }
 
   private getAdjustedResizePosition({

@@ -55,6 +55,9 @@ export class Icon extends LitElement {
   })
   icon: IconNameOrString = null;
 
+  /** When true, it loads preloads the icon data. */
+  @property({ reflect: true }) preload = false;
+
   /** Specifies the size of the component. */
   @property({
     reflect: true,
@@ -73,6 +76,12 @@ export class Icon extends LitElement {
   // #region Lifecycle
 
   override connectedCallback(): void {
+    if (this.preload) {
+      this.visible = true;
+      this.loadIconPathData();
+      return;
+    }
+
     if (!this.visible) {
       this.waitUntilVisible(() => {
         this.visible = true;

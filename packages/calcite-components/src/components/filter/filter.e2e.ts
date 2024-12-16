@@ -67,6 +67,15 @@ describe("calcite-filter", () => {
     expect(await input.getProperty("scale")).toBe(scale);
   });
 
+  it("honors label property", async () => {
+    const page = await newE2EPage();
+    const label = "hello world";
+    await page.setContent(`<calcite-filter label="${label}"></calcite-filter>`);
+
+    const input = await page.find(`calcite-filter >>> calcite-input`);
+    expect(await input.getProperty("label")).toBe(label);
+  });
+
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {
       const page = await newE2EPage();
