@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.65...@esri/calcite-components@3.0.0-next.66) (2024-12-16)
+
+### Bug Fixes
+
+- **list, sort-handle:** disable sort-handle when no move to items are present and item count is one ([#11073](https://github.com/Esri/calcite-design-system/issues/11073)) ([a19e95a](https://github.com/Esri/calcite-design-system/commit/a19e95a2180bcf66e4851abe705c6dd60fe6525d)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- use inert on host elements instead of aria-hidden when host element is hidden ([#11056](https://github.com/Esri/calcite-design-system/issues/11056)) ([7ca5965](https://github.com/Esri/calcite-design-system/commit/7ca596558a00c3d1336018ca3c4b03a2d2a7395f)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
 ## [3.0.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.64...@esri/calcite-components@3.0.0-next.65) (2024-12-16)
 
 ### Bug Fixes
