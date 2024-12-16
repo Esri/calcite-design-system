@@ -319,7 +319,9 @@ export class NumberStringFormat {
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
-    this._decimal = parts.find((d) => d.type === "decimal").value;
+    // @see https://issues.chromium.org/issues/40656070
+    this._decimal =
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);
   }

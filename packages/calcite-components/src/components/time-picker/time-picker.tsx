@@ -933,7 +933,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
+        <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>
+          {this.localizedHourSuffix}
+        </span>
         <div class={CSS.column} role="group">
           <span
             ariaLabel={this.messages.minuteUp}
@@ -978,7 +980,11 @@ export class TimePicker extends LitElement implements LoadableComponent {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
+        {this.showSecond && (
+          <span class={{ [CSS.delimiter]: true, [CSS.minuteSuffix]: true }}>
+            {this.localizedMinuteSuffix}
+          </span>
+        )}
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
@@ -1026,7 +1032,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
           </div>
         )}
         {this.showFractionalSecond && (
-          <span class={CSS.delimiter}>{this.localizedDecimalSeparator}</span>
+          <span class={{ [CSS.delimiter]: true, [CSS.decimalSeparator]: true }}>
+            {this.localizedDecimalSeparator}
+          </span>
         )}
         {this.showFractionalSecond && (
           <div class={CSS.column} role="group">
@@ -1075,7 +1083,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
           </div>
         )}
         {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+          <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
+            {this.localizedSecondSuffix}
+          </span>
         )}
         {showMeridiem && (
           <div

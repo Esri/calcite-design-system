@@ -300,10 +300,15 @@ interface LocalizeTimePartParameters {
   value: string;
   part: TimePart;
   locale: SupportedLocale;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
 }
 
-export function localizeTimePart({ value, part, locale, numberingSystem }: LocalizeTimePartParameters): string {
+export function localizeTimePart({
+  value,
+  part,
+  locale,
+  numberingSystem = "latn",
+}: LocalizeTimePartParameters): string {
   if (part === "fractionalSecond") {
     const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
     let localizedFractionalSecond = null;
