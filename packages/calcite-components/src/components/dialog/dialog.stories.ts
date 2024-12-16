@@ -232,6 +232,12 @@ export const withCustomContent = (): string => html`
   </calcite-dialog>
 `;
 
+export const withCustomContentPanel = (): string => html`
+  <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+    <calcite-panel heading="Custom Panel" slot="${SLOTS.content}">Custom Panel Content!</calcite-panel>
+  </calcite-dialog>
+`;
+
 export const loading = (): string => html`
   <calcite-dialog loading open modal heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
