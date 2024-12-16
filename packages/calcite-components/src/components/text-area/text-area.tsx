@@ -470,23 +470,21 @@ export class TextArea
   override render(): JsxNode {
     const hasFooter =
       this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength || !!this.minLength;
+    const isOverMaxLimit = this.isCharacterOverMaxLimit();
+    const isUnderMinLimit = this.isCharacterUnderMinLimit();
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <textarea
           aria-describedby={this.guid}
           aria-errormessage={IDS.validationMessage}
-          ariaInvalid={
-            this.status === "invalid" ||
-            this.isCharacterOverMaxLimit() ||
-            this.isCharacterUnderMinLimit()
-          }
+          ariaInvalid={this.status === "invalid" || isOverMaxLimit || isUnderMinLimit}
           ariaLabel={getLabelText(this)}
           autofocus={this.el.autofocus}
           class={{
             [CSS.textArea]: true,
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]:
-              this.isCharacterOverMaxLimit() || this.isCharacterUnderMinLimit(),
+            [CSS.textAreaInvalid]: isOverMaxLimit || isUnderMinLimit,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.textAreaOnly]: !hasFooter,
           }}
@@ -537,12 +535,12 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
-        {this.isCharacterOverMaxLimit() && (
+        {isOverMaxLimit && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
             {this.replacePlaceholdersInLongMessages()}
           </span>
         )}
-        {this.isCharacterUnderMinLimit() && (
+        {isUnderMinLimit && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
             {this.replacePlaceholdersInShortMessages()}
           </span>
