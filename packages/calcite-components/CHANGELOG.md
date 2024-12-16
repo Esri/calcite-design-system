@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.66...@esri/calcite-components@3.0.0-next.67) (2024-12-16)
+
+### Bug Fixes
+
+- **dialog:** no longer modify slotted panels background color ([#11074](https://github.com/Esri/calcite-design-system/issues/11074)) ([474dcb8](https://github.com/Esri/calcite-design-system/commit/474dcb8da5c0ec7c2bdf99f3a3491d108c71f962)), closes [#11052](https://github.com/Esri/calcite-design-system/issues/11052)
+
 ## [3.0.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.65...@esri/calcite-components@3.0.0-next.66) (2024-12-16)
 
 ### Bug Fixes
