@@ -328,7 +328,7 @@ describe("calcite-tab-title", () => {
     });
   });
 
-  it.skip("emits active event on user interaction only", async () => {
+  it("emits active event on user interaction only", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
     const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
@@ -339,9 +339,11 @@ describe("calcite-tab-title", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
     await title.click();
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(1);
 
     await page.keyboard.press("Enter");
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
