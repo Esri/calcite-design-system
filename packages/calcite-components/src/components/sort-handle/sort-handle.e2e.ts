@@ -96,6 +96,52 @@ describe("calcite-sort-handle", () => {
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
   });
 
+  it("is disabled when no moveToItems, no setPosition or setSize < 2", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-sort-handle label="test"></calcite-sort-handle>`);
+    await skipAnimations(page);
+
+    const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
+    expect(await dropdown.getProperty("disabled")).toBe(true);
+
+    const sortHandle = await page.find("calcite-sort-handle");
+
+    const moveToItems = [
+      { label: "List 2", id: "list2" },
+      { label: "List 3", id: "list3" },
+    ];
+
+    sortHandle.setProperty("setSize", 2);
+    sortHandle.setProperty("setPosition", 1);
+    sortHandle.setProperty("moveToItems", moveToItems);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(false);
+
+    sortHandle.setProperty("setPosition", undefined);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(true);
+
+    sortHandle.setProperty("setSize", undefined);
+    sortHandle.setProperty("setPosition", 1);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(true);
+
+    sortHandle.setProperty("setSize", 1);
+    sortHandle.setProperty("moveToItems", []);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(true);
+
+    sortHandle.setProperty("moveToItems", moveToItems);
+    sortHandle.setProperty("setSize", 2);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(false);
+  });
+
   describe("translation support", () => {
     t9n("calcite-sort-handle");
   });

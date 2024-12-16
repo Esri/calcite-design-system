@@ -73,7 +73,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Defines the "Move to" items. */
-  @property() moveToItems: MoveTo[];
+  @property() moveToItems: MoveTo[] = [];
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -254,10 +254,12 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
       setPosition,
       setSize,
       widthScale,
+      moveToItems,
     } = this;
     const text = this.getLabel();
 
-    const isDisabled = disabled || !setPosition || !setSize;
+    const isDisabled =
+      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems?.length < 1);
 
     return (
       <InteractiveContainer disabled={disabled}>
