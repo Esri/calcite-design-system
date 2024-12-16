@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.0.0-next.63",
+  "version": "3.0.0-next.65",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -68,13 +68,13 @@
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "4.32.0-next.44",
-    "@arcgis/components-utils": "4.32.0-next.44",
-    "@arcgis/lumina": "4.32.0-next.44",
+    "@arcgis/components-controllers": "4.32.0-next.46",
+    "@arcgis/components-utils": "4.32.0-next.46",
+    "@arcgis/lumina": "4.32.0-next.46",
     "@esri/calcite-ui-icons": "4.0.0-next.2",
     "@floating-ui/dom": "1.6.12",
     "@floating-ui/utils": "0.2.8",
-    "@types/color": "3.0.6",
+    "@types/color": "4.2.0",
     "@types/sortablejs": "1.15.8",
     "color": "4.2.3",
     "composed-offset-position": "0.0.6",
