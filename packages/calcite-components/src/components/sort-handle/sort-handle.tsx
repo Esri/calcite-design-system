@@ -259,7 +259,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
     const text = this.getLabel();
 
     const isDisabled =
-      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems?.length < 1);
+      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems.length < 1);
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -321,7 +321,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   private renderMoveToGroup(): JsxNode {
     const { messages, moveToItems, scale } = this;
 
-    return moveToItems?.length ? (
+    return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
         key="move-to-items"
