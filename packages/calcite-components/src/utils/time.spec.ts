@@ -1,13 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   formatTimePart,
+  getLocaleHourFormat,
+  getLocaleOppositeHourFormat,
   getLocalizedMeridiem,
   getMeridiemOrder,
+  isLocaleHourFormatOpposite,
   isValidTime,
   localizeTimeStringToParts,
   parseTimeString,
   toISOTimeString,
 } from "./time";
+import { supportedLocales } from "./locale";
 
 describe("formatTimePart", () => {
   it("returns decimals less than 1 with leading and trailing zeros to match the provided length", () => {
@@ -250,6 +254,28 @@ describe("getMeridiemOrder", () => {
     expect(getMeridiemOrder("en")).not.toEqual(0);
     expect(getMeridiemOrder("es")).not.toEqual(0);
     expect(getMeridiemOrder("hi")).not.toEqual(0);
+  });
+});
+
+describe("hour-format utils", () => {
+  supportedLocales.forEach((locale) => {
+    const localeDefaultHourFormat = getLocaleHourFormat(locale);
+    it("getLocaleOppositeHourFormat returns the locale's opposite hour format", () => {
+      if (localeDefaultHourFormat === "12") {
+        expect(getLocaleOppositeHourFormat(locale)).toBe("24");
+      } else if (localeDefaultHourFormat === "24") {
+        expect(getLocaleOppositeHourFormat(locale)).toBe("12");
+      }
+    });
+    it("isLocaleHourFormatOpposite returns true when the locale's hour format is not set to its default and false otherwise", () => {
+      if (localeDefaultHourFormat === "12") {
+        expect(isLocaleHourFormatOpposite("12", locale)).toBe(false);
+        expect(isLocaleHourFormatOpposite("24", locale)).toBe(true);
+      } else if (localeDefaultHourFormat === "24") {
+        expect(isLocaleHourFormatOpposite("12", locale)).toBe(true);
+        expect(isLocaleHourFormatOpposite("24", locale)).toBe(false);
+      }
+    });
   });
 });
 
