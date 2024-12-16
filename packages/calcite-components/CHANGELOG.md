@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.63...@esri/calcite-components@3.0.0-next.64) (2024-12-16)
+
+### Bug Fixes
+
+- **list:** fix issue where last call to debounced update filter logic would override args from previous calls ([#11064](https://github.com/Esri/calcite-design-system/issues/11064)) ([9b93ade](https://github.com/Esri/calcite-design-system/commit/9b93adedc79a223115677d03525f3b1e825b4cdb))
+
 ## [3.0.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.62...@esri/calcite-components@3.0.0-next.63) (2024-12-13)
 
 ### Bug Fixes
