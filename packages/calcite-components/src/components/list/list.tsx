@@ -82,17 +82,16 @@ export class List
 
   private listItems: ListItem["el"][] = [];
 
-  mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ performFilter: true }),
-  );
+  mutationObserver = createObserver("mutation", () => {
+    this.willPerformFilter = true;
+    this.updateListItems();
+  });
 
   private parentListEl: List["el"];
 
   sortable: Sortable;
 
-  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
-    const performFilter = options?.performFilter ?? false;
-
+  private updateListItems = debounce((): void => {
     this.updateGroupItems();
 
     const {
@@ -130,7 +129,8 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && performFilter) {
+    if (filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
       if (filterEl) {
@@ -151,6 +151,9 @@ export class List
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
+
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willPerformFilter: boolean = false;
 
   // #endregion
 
@@ -394,7 +397,8 @@ export class List
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
     this.setUpSorting();
     this.setParentList();
   }
@@ -450,7 +454,8 @@ export class List
   // #region Private Methods
 
   private handleListItemChange(): void {
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
