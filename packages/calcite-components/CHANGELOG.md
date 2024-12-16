@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.67...@esri/calcite-components@3.0.0-next.68) (2024-12-16)
+
+### Bug Fixes
+
+- **action:** component in transparent active mode should use -hover ([#11075](https://github.com/Esri/calcite-design-system/issues/11075)) ([355f51e](https://github.com/Esri/calcite-design-system/commit/355f51ee761e0d32d33066baa6fecffa9bcb7f98)), closes [#10982](https://github.com/Esri/calcite-design-system/issues/10982)
+- **date-picker:** fix year-select width logic ([#11071](https://github.com/Esri/calcite-design-system/issues/11071)) ([d8fe3ff](https://github.com/Esri/calcite-design-system/commit/d8fe3ff9b75d4687af2ad40c8aa0c32ec2c6039d)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **dialog, modal, popover, sheet:** restore deactivating focus traps on outside click ([#11058](https://github.com/Esri/calcite-design-system/issues/11058)) ([472250d](https://github.com/Esri/calcite-design-system/commit/472250d49dada7bdb0d62b1d1003e5e79d6b35c2)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.66...@esri/calcite-components@3.0.0-next.67) (2024-12-16)
 
 ### Bug Fixes
