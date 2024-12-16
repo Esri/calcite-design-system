@@ -60,19 +60,7 @@ export class Sheet
 
   private contentId: string;
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -254,10 +242,16 @@ export class Sheet
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
+        // scrim closes on click, so we let it take over
         clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
     this.setupInteractions();
