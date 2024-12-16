@@ -13,7 +13,6 @@ import {
   focusFirstTabbable,
   setRequestedIcon,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
@@ -408,7 +407,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     this.el.toggleAttribute("calcite-hydrated-hidden", hidden);
