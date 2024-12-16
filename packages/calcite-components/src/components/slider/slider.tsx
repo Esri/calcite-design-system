@@ -982,35 +982,19 @@ export class Slider
     const { shadowRoot } = this.el;
     const mirror = this.shouldMirror();
     const leftModifier = mirror ? "value" : "minValue";
-    const rightModifier = mirror ? "minValue" : "value";
-
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${leftModifier}`,
     );
-    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`,
-    );
-    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`,
-    );
-    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`,
-    );
 
     if (intersects(minHandleBounds, maxHandleBounds)) {
-      leftValueLabel.textContent = `${leftValueLabelStatic.textContent} \u2014 ${rightValueLabelStatic.textContent}`;
-      rightValueLabel.style.visibility = "hidden";
+      leftValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
       const width = this.getStringWidth(
         leftValueLabel.textContent,
         window.getComputedStyle(leftValueLabel)["font"],
       );
-      leftValueLabel.style.transform = `translateY(-${width / 2}px) rotate(90deg)`;
-      leftValueLabel.style.width = `${width}px`;
-    } else if (rightValueLabel.style.visibility === "hidden") {
-      leftValueLabel.textContent = leftValueLabelStatic.textContent;
-      leftValueLabel.style.transform = leftValueLabelStatic.style.transform;
-      leftValueLabel.style.width = leftValueLabelStatic.style.width;
-      rightValueLabel.style.visibility = "visible";
+      leftValueLabel.style.transform = `translateY(-${width / 2 - 4}px) rotate(90deg)`;
+    } else {
+      leftValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
     }
   }
 
