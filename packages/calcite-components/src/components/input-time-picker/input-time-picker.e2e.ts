@@ -560,6 +560,30 @@ describe("calcite-input-time-picker", () => {
       const localeHourFormat = getLocaleHourFormat(locale);
 
       describe(`${locale} (${localeHourFormat}-hour)`, () => {
+        it(`uses the locale's preferred setting when hour-format="user"`, async () => {
+          const initialDelocalizedValue = "14:02:30.001";
+          const page = await newE2EPage();
+          await page.setContent(html`
+            <calcite-input-time-picker
+              focus-trap-disabled
+              lang="${locale}"
+              step=".001"
+              value="${initialDelocalizedValue}"
+            ></calcite-input-time-picker>
+            <input placeholder="${locale}" />
+          `);
+
+          const expectedLocalizedInitialValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            includeSeconds: true,
+            locale,
+            value: initialDelocalizedValue,
+          });
+
+          expect(initialDelocalizedValue).toBe("14:02:30.001");
+          expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
+        });
+
         it("supports localized 12-hour format", async () => {
           const page = await newE2EPage();
           await page.setContent(html`
