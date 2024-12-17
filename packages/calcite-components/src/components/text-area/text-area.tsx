@@ -161,7 +161,7 @@ export class TextArea
   @property() label: string;
 
   /**
-   * Specifies the maximum number of characters allowed.
+   * Specifies the maximum number of characters allowed. Must be greater than or equal to the value of `minLength`, if present and valid.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
@@ -178,7 +178,7 @@ export class TextArea
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
-   * Specifies the minimum number of characters allowed.
+   * Specifies the minimum number of characters allowed. Must be less than or equal to the value of `maxLength`, if present and valid.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
@@ -360,9 +360,10 @@ export class TextArea
 
   private getLocalizedCharacterLength(): CharacterLengthObj {
     const currentLength = this.value ? this.value.length.toString() : "0";
-    const maxLength = this.maxLength.toString();
+    const maxLength = this.maxLength?.toString();
+    const minLength = this.minLength?.toString();
     if (this.numberingSystem === "latn") {
-      return { currentLength, maxLength };
+      return { currentLength, maxLength, minLength };
     }
 
     numberStringFormatter.numberFormatOptions = {
@@ -374,13 +375,16 @@ export class TextArea
     return {
       currentLength: numberStringFormatter.localize(currentLength),
       maxLength: numberStringFormatter.localize(maxLength),
+      minLength: numberStringFormatter.localize(minLength),
     };
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceholdersInMessages());
+    if (this.isCharacterOverMaxLimit()) {
+      input.setCustomValidity(this.replacePlaceholdersInLongMessages());
+    } else if (this.isCharacterUnderMinLimit()) {
+      input.setCustomValidity(this.replacePlaceholdersInShortMessages());
     }
 
     syncHiddenFormInput("textarea", this, input);
@@ -426,14 +430,37 @@ export class TextArea
     };
   }
 
-  private replacePlaceholdersInMessages(): string {
-    return this.messages.tooLong
-      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
-      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
+  private replacePlaceholders(
+    template: string,
+    placeholderToValueObject: { [key: string]: string },
+  ): string {
+    let result;
+    for (const key in placeholderToValueObject) {
+      result = template.replace(key, placeholderToValueObject[key]);
+    }
+    return result;
   }
 
-  private isCharacterLimitExceeded(): boolean {
+  private replacePlaceholdersInLongMessages(): string {
+    return this.replacePlaceholders(this.messages.tooLong, {
+      "{currentLength}": this.localizedCharacterLengthObj.currentLength,
+      "{maxLength}": this.localizedCharacterLengthObj.maxLength,
+    });
+  }
+
+  private replacePlaceholdersInShortMessages(): string {
+    return this.replacePlaceholders(this.messages.tooShort, {
+      "{currentLength}": this.localizedCharacterLengthObj.currentLength,
+      "{minLength}": this.localizedCharacterLengthObj.minLength,
+    });
+  }
+
+  private isCharacterOverMaxLimit(): boolean {
     return this.value?.length > this.maxLength;
+  }
+
+  private isCharacterUnderMinLimit(): boolean {
+    return this.value?.length < this.minLength;
   }
 
   // #endregion
@@ -441,19 +468,23 @@ export class TextArea
   // #region Rendering
 
   override render(): JsxNode {
-    const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
+    const hasFooter =
+      this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength || !!this.minLength;
+    const isOverMaxLimit = this.isCharacterOverMaxLimit();
+    const isUnderMinLimit = this.isCharacterUnderMinLimit();
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <textarea
           aria-describedby={this.guid}
           aria-errormessage={IDS.validationMessage}
-          ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
+          ariaInvalid={this.status === "invalid" || isOverMaxLimit || isUnderMinLimit}
           ariaLabel={getLabelText(this)}
           autofocus={this.el.autofocus}
           class={{
             [CSS.textArea]: true,
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
+            [CSS.textAreaInvalid]: isOverMaxLimit || isUnderMinLimit,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.textAreaOnly]: !hasFooter,
           }}
@@ -504,9 +535,14 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
-        {this.isCharacterLimitExceeded() && (
+        {isOverMaxLimit && (
           <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
-            {this.replacePlaceholdersInMessages()}
+            {this.replacePlaceholdersInLongMessages()}
+          </span>
+        )}
+        {isUnderMinLimit && (
+          <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
+            {this.replacePlaceholdersInShortMessages()}
           </span>
         )}
         {this.validationMessage && this.status === "invalid" ? (
@@ -523,11 +559,16 @@ export class TextArea
   }
 
   private renderCharacterLimit(): JsxNode | null {
-    if (this.maxLength) {
+    if (this.maxLength || this.minLength) {
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
-          <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
+          <span
+            class={{
+              [CSS.characterLimitInvalid]:
+                this.isCharacterOverMaxLimit() || this.isCharacterUnderMinLimit(),
+            }}
+          >
             {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
