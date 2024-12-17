@@ -578,7 +578,7 @@ export class ListItem
     this.toggleSelected(event.shiftKey);
   }
 
-  private toggleSelected(shiftKey: boolean): void {
+  private async toggleSelected(shiftKey: boolean): Promise<void> {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -594,6 +594,8 @@ export class ListItem
     this.calciteInternalListItemSelectMultiple.emit({
       selectMultiple: shiftKey && selectionMode === "multiple",
     });
+
+    await this.updateComplete;
     this.calciteListItemSelect.emit();
   }
 

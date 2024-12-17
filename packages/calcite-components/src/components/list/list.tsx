@@ -654,7 +654,9 @@ export class List
     }
   }
 
-  private updateSelectedItems(emit = false): void {
+  private async updateSelectedItems(emit = false): Promise<void> {
+    await this.updateComplete;
+
     this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();

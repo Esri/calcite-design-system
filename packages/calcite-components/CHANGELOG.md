@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.68...@esri/calcite-components@3.0.0-next.69) (2024-12-17)
+
+### Bug Fixes
+
+- **list, list-item:** ensure change and select events are emitted after state is updated ([#11079](https://github.com/Esri/calcite-design-system/issues/11079)) ([c3affff](https://github.com/Esri/calcite-design-system/commit/c3affffe2a951d6708a90f76750bf536d4b08351)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
+## [3.0.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.67...@esri/calcite-components@3.0.0-next.68) (2024-12-16)
+
+### Bug Fixes
+
+- **action:** component in transparent active mode should use -hover ([#11075](https://github.com/Esri/calcite-design-system/issues/11075)) ([355f51e](https://github.com/Esri/calcite-design-system/commit/355f51ee761e0d32d33066baa6fecffa9bcb7f98)), closes [#10982](https://github.com/Esri/calcite-design-system/issues/10982)
+- **date-picker:** fix year-select width logic ([#11071](https://github.com/Esri/calcite-design-system/issues/11071)) ([d8fe3ff](https://github.com/Esri/calcite-design-system/commit/d8fe3ff9b75d4687af2ad40c8aa0c32ec2c6039d)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **dialog, modal, popover, sheet:** restore deactivating focus traps on outside click ([#11058](https://github.com/Esri/calcite-design-system/issues/11058)) ([472250d](https://github.com/Esri/calcite-design-system/commit/472250d49dada7bdb0d62b1d1003e5e79d6b35c2)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
+## [3.0.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.66...@esri/calcite-components@3.0.0-next.67) (2024-12-16)
+
+### Bug Fixes
+
+- **dialog:** no longer modify slotted panels background color ([#11074](https://github.com/Esri/calcite-design-system/issues/11074)) ([474dcb8](https://github.com/Esri/calcite-design-system/commit/474dcb8da5c0ec7c2bdf99f3a3491d108c71f962)), closes [#11052](https://github.com/Esri/calcite-design-system/issues/11052)
+
+## [3.0.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.65...@esri/calcite-components@3.0.0-next.66) (2024-12-16)
+
+### Bug Fixes
+
+- **list, sort-handle:** disable sort-handle when no move to items are present and item count is one ([#11073](https://github.com/Esri/calcite-design-system/issues/11073)) ([a19e95a](https://github.com/Esri/calcite-design-system/commit/a19e95a2180bcf66e4851abe705c6dd60fe6525d)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- use inert on host elements instead of aria-hidden when host element is hidden ([#11056](https://github.com/Esri/calcite-design-system/issues/11056)) ([7ca5965](https://github.com/Esri/calcite-design-system/commit/7ca596558a00c3d1336018ca3c4b03a2d2a7395f)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
 ## [3.0.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.64...@esri/calcite-components@3.0.0-next.65) (2024-12-16)
 
 ### Bug Fixes

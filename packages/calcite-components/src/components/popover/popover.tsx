@@ -78,20 +78,6 @@ export class Popover
 
   private arrowEl: SVGSVGElement;
 
-  private clickOutsideDeactivates = (event: MouseEvent): boolean => {
-    const path = event.composedPath();
-    const isReferenceElementInPath =
-      this.referenceEl instanceof EventTarget && path.includes(this.referenceEl);
-
-    const outsideClick = !path.includes(this.el);
-    const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
-
-    return (
-      shouldCloseOnOutsideClick &&
-      (this.triggerDisabled || (isReferenceElementInPath && !this.autoClose))
-    );
-  };
-
   private closeButtonEl = createRef<Action["el"]>();
 
   private filteredFlipPlacements: FlipPlacement[];
@@ -99,10 +85,6 @@ export class Popover
   floatingEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private guid = `calcite-popover-${guid()}`;
 
@@ -298,9 +280,15 @@ export class Popover
       focusTrapEl: this.el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        clickOutsideDeactivates: this.clickOutsideDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
         initialFocus: this.initialFocusTrapFocus,
-        onDeactivate: this.focusTrapDeactivates,
       },
     });
 
