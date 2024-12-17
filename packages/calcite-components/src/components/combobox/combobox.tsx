@@ -63,9 +63,15 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/combobox.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
+import {
+  ComboboxChildSelector,
+  ComboboxItemSelector,
+  ComboboxItemGroupSelector,
+  CSS,
+  IDS,
+} from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -1290,13 +1296,13 @@ export class Combobox
 
   private getItems(): HTMLCalciteComboboxItemElement["el"][] {
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
-      this.el.querySelectorAll(ComboboxItem),
+      this.el.querySelectorAll(ComboboxItemSelector),
     );
     return items.filter((item) => !item.disabled);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
-    return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
+    return Array.from(this.el.querySelectorAll(ComboboxItemGroupSelector));
   }
 
   private addCustomChip(value: string, focus?: boolean): void {

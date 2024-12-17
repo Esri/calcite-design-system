@@ -13,7 +13,7 @@ import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, ICONS } from "./resources";
-import T9nStrings from "./assets/t9n/pagination.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
 
 declare global {

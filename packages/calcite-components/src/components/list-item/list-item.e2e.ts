@@ -59,6 +59,18 @@ describe("calcite-list-item", () => {
       },
       {
         propertyName: "displayMode",
+        defaultValue: "flat",
+      },
+      {
+        propertyName: "iconStart",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconEnd",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
         defaultValue: undefined,
       },
     ]);
@@ -352,17 +364,17 @@ describe("calcite-list-item", () => {
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-list-item display-mode="nested"
-        ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
+      html: html`<calcite-list-item id="test" display-mode="nested"
+        ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
 
-    const listItem = await page.find("calcite-list-item");
+    const listItem = await page.find("#test");
     const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
     expect(await listItem.getProperty("open")).toBe(false);
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+    const openButton = await page.find(`#test >>> .${CSS.openContainer}`);
 
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(true);
@@ -396,6 +408,28 @@ describe("calcite-list-item", () => {
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
   });
 
+  it("should set displayMode on slotted list", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item><calcite-list></calcite-list></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const list = await page.find("calcite-list");
+
+    expect(await listItem.getProperty("displayMode")).toBe("flat");
+    expect(await list.getProperty("displayMode")).toBe("flat");
+
+    listItem.setProperty("displayMode", "nested");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("nested");
+
+    listItem.setProperty("displayMode", "flat");
+    await page.waitForChanges();
+
+    expect(await list.getProperty("displayMode")).toBe("flat");
+  });
+
   it("flat list should not render open container", async () => {
     const page = await newE2EPage({
       html: html`<calcite-list-item display-mode="flat"
@@ -406,6 +440,29 @@ describe("calcite-list-item", () => {
     const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
 
     expect(openButton).toBe(null);
+  });
+
+  it("renders with iconStart", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive" icon-start="banana"></calcite-list-item>`);
+
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).not.toBe(null);
+  });
+
+  it("renders with iconEnd", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive" icon-end="banana"></calcite-list-item>`);
+
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).not.toBe(null);
+  });
+
+  it("renders without iconStart or iconEnd", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).toBe(null);
   });
 
   describe("themed", () => {
@@ -420,6 +477,8 @@ describe("calcite-list-item", () => {
           bordered
           selection-mode="single"
           selection-appearance="icon"
+          icon-start="banana"
+          icon-end="banana"
         ></calcite-list-item>`,
         {
           "--calcite-list-background-color": {
@@ -470,6 +529,8 @@ describe("calcite-list-item", () => {
           bordered
           selection-mode="single"
           selection-appearance="border"
+          icon-start="banana"
+          icon-end="banana"
         ></calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": {

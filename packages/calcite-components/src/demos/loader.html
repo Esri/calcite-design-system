@@ -27,10 +27,21 @@
         align-items: flex-end;
       }
 
-      .green {
-        --calcite-color-brand: #50ba5f;
-        --calcite-color-brand-hover: #1a6324;
-        --calcite-color-brand-press: #338033;
+      .themed {
+        --calcite-loader-font-size: 1rem;
+        --calcite-loader-progress-color-inline: pink;
+        --calcite-loader-spacing: 30px;
+        --calcite-loader-text-color: red;
+        --calcite-loader-track-color: navy;
+        --calcite-loader-progress-color: orange;
+        --calcite-loader-text-spacing: 20px;
+        --calcite-loader-text-weight: bold;
+      }
+
+      .themed-inline {
+        --calcite-loader-track-color: lightblue;
+        --calcite-loader-progress-color-inline: pink;
+        --calcite-loader-size: 5rem;
       }
     </style>
     <script src="./_assets/head.ts"></script>
@@ -135,18 +146,49 @@
 
       <!-- Custom theme -->
       <div class="parent">
-        <div class="child right-aligned-text">Custom theme</div>
+        <div class="child right-aligned-text">Themed</div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="s" class="green"></calcite-loader>
+          <calcite-loader label="loading" scale="s" text="Indeterminate + text" class="themed"></calcite-loader>
         </div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="m" class="green"></calcite-loader>
+          <calcite-loader
+            label="loading"
+            scale="m"
+            text="Determinate + text"
+            type="determinate"
+            value="30"
+            class="themed"
+          ></calcite-loader>
         </div>
 
         <div class="child">
-          <calcite-loader label="loading" scale="l" class="green"></calcite-loader>
+          <calcite-loader
+            label="loading"
+            scale="l"
+            text="Determinate-value + text"
+            type="determinate-value"
+            value="30"
+            class="themed"
+          ></calcite-loader>
+        </div>
+      </div>
+
+      <!-- Custom theme inline -->
+      <div class="parent">
+        <div class="child right-aligned-text">Themed inline</div>
+
+        <div class="child">
+          <calcite-loader label="loading" scale="s" inline class="themed-inline"></calcite-loader>
+        </div>
+
+        <div class="child">
+          <calcite-loader label="loading" scale="m" inline class="themed-inline"></calcite-loader>
+        </div>
+
+        <div class="child">
+          <calcite-loader label="loading" scale="l" inline class="themed-inline"></calcite-loader>
         </div>
       </div>
 

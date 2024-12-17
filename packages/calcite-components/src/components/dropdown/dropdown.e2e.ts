@@ -82,7 +82,7 @@ describe("calcite-dropdown", () => {
     hidden("calcite-dropdown");
   });
 
-  describe.skip("disabled", () => {
+  describe("disabled", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
@@ -149,10 +149,10 @@ describe("calcite-dropdown", () => {
     `);
     const dropdownItems = await page.findAll("calcite-dropdown-items");
 
-    dropdownItems.forEach(async (item) => {
+    for (const item of dropdownItems) {
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("s");
-    });
+    }
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
@@ -1137,7 +1137,7 @@ describe("calcite-dropdown", () => {
     await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="title-group">

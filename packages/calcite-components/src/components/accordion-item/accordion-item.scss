@@ -75,7 +75,13 @@
   );
 }
 
-.header-content,
+.header-content {
+  padding: var(
+    --calcite-internal-accordion-item-padding,
+    var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+  );
+}
+
 .content {
   padding: var(
     --calcite-accordion-item-content-space,

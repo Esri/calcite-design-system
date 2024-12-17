@@ -13,7 +13,7 @@ import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/do
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { Columns } from "./interfaces";
-import T9nStrings from "./assets/t9n/action-group.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
 

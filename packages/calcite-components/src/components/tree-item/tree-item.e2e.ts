@@ -288,7 +288,7 @@ describe("calcite-tree-item", () => {
       await btn.click();
 
       const item = await page.find("#newbie");
-      expect(item).toEqualAttribute("aria-hidden", "false");
+      expect(item.inert).toBe(false);
       expect(item.tabIndex).toBe(0);
     });
   });
