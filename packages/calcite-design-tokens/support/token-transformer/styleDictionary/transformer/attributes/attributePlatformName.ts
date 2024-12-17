@@ -23,7 +23,7 @@ export const transformAttributesNamesPerPlatform: CalledTransformerFunction<{ [k
   return { ...token.attributes, names: tokenNameOutputByPlatform };
 };
 
-export const registerAttributePlatformNames = (sd: StyleDictionary): void => {
+export const registerAttributePlatformNames = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: attributePlatformNames,
     transformer: transformAttributesNamesPerPlatform,

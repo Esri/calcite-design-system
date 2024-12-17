@@ -10,7 +10,7 @@ export function transformNameIncludeMinus(token: TransformedToken): string {
   return token.name;
 }
 
-export function registerNameIncludeMinus(sd: StyleDictionary): void {
+export function registerNameIncludeMinus(sd: typeof StyleDictionary): void {
   sd.registerTransform({
     name: nameIncludeMinus,
     transform: transformNameIncludeMinus,

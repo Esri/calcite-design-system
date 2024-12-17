@@ -37,7 +37,7 @@ export const transformValuesAlignFontWeightAndStyles: CalledTransformerFunction<
   return token.value;
 };
 
-export const registerValueAlignFontWeightAndStyles = (sd: StyleDictionary): void => {
+export const registerValueAlignFontWeightAndStyles = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: valueAlignFontWeightAndStyles,
     transformer: transformValuesAlignFontWeightAndStyles,
