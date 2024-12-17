@@ -592,7 +592,7 @@ export class Dropdown
       }
     });
 
-    return items.length > maxItems ? maxScrollerHeight : 0;
+    return items.length >= maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
