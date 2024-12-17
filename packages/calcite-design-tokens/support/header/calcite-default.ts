@@ -4,7 +4,7 @@ export const headerCalciteDefault = (passedMessage = [""]): Promise<string[]> | 
   return ["// Calcite Design System", "// Do not edit directly, this file was auto-generated.", ...passedMessage];
 };
 
-export const registerCalciteDefaultFileHeader = (sd: StyleDictionary): void =>
+export const registerCalciteDefaultFileHeader = (sd: typeof StyleDictionary): void =>
   sd.registerFileHeader({
     name: HeaderCalciteDefault,
     fileHeader: headerCalciteDefault,
