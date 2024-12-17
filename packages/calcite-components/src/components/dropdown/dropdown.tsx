@@ -485,7 +485,7 @@ export class Dropdown
   }
 
   private getMaxHeightStyle(maxHeight: number): string {
-    return maxHeight > 0 ? `min(${maxHeight}px, 90vh)` : "";
+    return maxHeight > 0 ? `${maxHeight}px` : "";
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
