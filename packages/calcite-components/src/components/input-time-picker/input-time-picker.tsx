@@ -761,10 +761,16 @@ export class InputTimePicker
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ar/ca-generic.json#L761
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ar/ca-generic.json#L762
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
         formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
+          LT: "h:mm a", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ar/ca-generic.json#L322
+          LTS: "h:mm:ss a", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ar/ca-generic.json#L321
           L: "DD/MM/YYYY",
           LL: "D MMMM YYYY",
           LLL: "D MMMM YYYY h:mm a",
@@ -775,18 +781,36 @@ export class InputTimePicker
 
     if (locale === "en-au") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/en-AU/ca-generic.json#L225
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/en-AU/ca-generic.json#L228
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "en-ca") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/en-CA/ca-generic.json#L225
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/en-CA/ca-generic.json#L228
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "el") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/el/ca-generic.json#L223
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/el/ca-generic.json#L224
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
       };
     }
@@ -794,8 +818,8 @@ export class InputTimePicker
     if (locale === "es-mx") {
       return {
         formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
+          LT: "h:mm a", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/es-MX/ca-generic.json#L311
+          LTS: "h:mm:ss a", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/es-MX/ca-generic.json#L310
           L: "DD/MM/YYYY",
           LL: "D [de] MMMM [de] YYYY",
           LLL: "D [de] MMMM [de] YYYY H:mm",
@@ -807,43 +831,79 @@ export class InputTimePicker
     if (locale === "hi") {
       return {
         formats: {
-          LT: "h:mm A",
-          LTS: "h:mm:ss A",
+          LT: "h:mm A", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/hi/ca-generic.json#L310
+          LTS: "h:mm:ss A", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/hi/ca-generic.json#L309
           L: "DD/MM/YYYY",
           LL: "D MMMM YYYY",
           LLL: "D MMMM YYYY, h:mm A",
           LLLL: "dddd, D MMMM YYYY, h:mm A",
         },
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/hi/ca-generic.json#L749
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/hi/ca-generic.json#L750
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "ja") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ja/ca-generic.json#L224
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ja/ca-generic.json#L226
+         *
+         * @param hour
+         */
         meridiem: (hour) => (hour > 12 ? "午後" : "午前"),
       };
     }
 
     if (locale === "ko") {
       return {
+        /**
+         * am (wide): https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ko/ca-generic.json#L246
+         * pm (wide): https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ko/ca-generic.json#L248
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
       };
     }
 
     if (locale === "no") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/no/ca-generic.json#L224
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/no/ca-generic.json#L225
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "ru") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ru/ca-generic.json#L224
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/ru/ca-generic.json#L226
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "PM" : "AM"),
       };
     }
 
     if (locale === "zh-cn") {
       return {
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L224
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L225
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };
     }
@@ -851,8 +911,8 @@ export class InputTimePicker
     if (locale === "zh-tw") {
       return {
         formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
+          LT: "Ah:mm", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L356
+          LTS: "Ah:mm:ss", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L358
         },
       };
     }
@@ -860,9 +920,15 @@ export class InputTimePicker
     if (locale === "zh-hk") {
       return {
         formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
+          LT: "Ah:mm", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L356
+          LTS: "Ah:mm:ss", // https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L358
         },
+        /**
+         * am: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L224
+         * pm: https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-full/main/zh/ca-generic.json#L225
+         *
+         * @param hour
+         */
         meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
       };
     }
