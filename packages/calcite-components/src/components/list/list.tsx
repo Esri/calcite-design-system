@@ -171,6 +171,24 @@ export class List
 
   @state() moveToItems: MoveTo[] = [];
 
+  @state() get hasActiveFilter(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.filteredItems.length !== this.visibleItems.length
+    );
+  }
+
+  @state() get showNoResultsContainer(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.hasFilterNoResults &&
+      this.visibleItems.length &&
+      !this.filteredItems.length
+    );
+  }
+
   // #endregion
 
   // #region Public Properties
@@ -189,6 +207,17 @@ export class List
 
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
+
+  /**
+   * Specifies a function to handle filtering.
+   *
+   * @example
+   * myList.filterPredicate = (myListItem) => {
+   *   // returns true to show the list item if some condition is met
+   *   return myListItem.label.includes("someValue");
+   * };
+   */
+  @property() filterPredicate: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
@@ -397,12 +426,8 @@ export class List
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText")) {
-      this.handleFilterTextChange();
-    }
-
-    if (changes.has("filterProps")) {
-      this.handleFilterPropsChange();
+    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
+      this.performFilter();
     }
 
     if (
@@ -435,14 +460,6 @@ export class List
   // #endregion
 
   // #region Private Methods
-
-  private async handleFilterTextChange(): Promise<void> {
-    this.performFilter();
-  }
-
-  private async handleFilterPropsChange(): Promise<void> {
-    this.performFilter();
-  }
 
   private handleListItemChange(): void {
     this.willPerformFilter = true;
@@ -718,13 +735,18 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText, filterPredicate } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
+    const filteredItems = filterPredicate
+      ? visibleItems.filter(filterPredicate)
+      : !filterText
+        ? visibleItems || []
+        : filteredData.map((item) => item.el);
+
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -792,12 +814,14 @@ export class List
   }
 
   private getItemData(): ItemData {
-    return this.listItems.map((item) => ({
-      label: item.label,
-      description: item.description,
-      metadata: item.metadata,
-      el: item,
-    }));
+    return this.filterPredicate
+      ? []
+      : this.listItems.map((item) => ({
+          label: item.label,
+          description: item.description,
+          metadata: item.metadata,
+          el: item,
+        }));
   }
 
   private updateGroupItems(): void {
@@ -1001,11 +1025,9 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
-      filteredItems,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
-      hasFilterNoResults,
       effectiveFilterProps,
     } = this;
     return (
@@ -1064,7 +1086,7 @@ export class List
           <div
             ariaLive="polite"
             data-test-id="no-results-container"
-            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+            hidden={!this.showNoResultsContainer}
           >
             <slot
               name={SLOTS.filterNoResults}
@@ -1083,9 +1105,6 @@ export class List
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
-      filterEnabled,
-      filterText,
-      filteredData,
     } = this;
 
     numberStringFormatter.numberFormatOptions = {
@@ -1095,7 +1114,7 @@ export class List
 
     return !parentListEl ? (
       <div ariaLive="polite" class={CSS.assistiveText}>
-        {filterEnabled && filterText && filteredData?.length ? (
+        {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}
         <div key="aria-item-count">
