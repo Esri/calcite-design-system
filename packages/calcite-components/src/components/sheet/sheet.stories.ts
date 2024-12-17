@@ -70,8 +70,17 @@ export const resizable = (): string =>
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableFloat = (): string =>
+export const resizableFloatInlineStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
+
+export const resizableFloatInlineEnd = (): string =>
+  html`<calcite-sheet resizable label="libero nunc" open position="inline-end">${panelHTML}</calcite-sheet>`;
+
+export const resizableFloatBlockStart = (): string =>
+  html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
+
+export const resizableFloatBlockEnd = (): string =>
+  html`<calcite-sheet resizable label="libero nunc" open position="block-end">${panelHTML}</calcite-sheet>`;
 
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
