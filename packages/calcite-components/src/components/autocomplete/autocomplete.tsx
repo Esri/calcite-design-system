@@ -626,6 +626,7 @@ export class Autocomplete
     connectFloatingUI(this);
 
     // TODO: fixme when supported in jsx
+    // https://devtopia.esri.com/WebGIS/arcgis-web-components/issues/2694
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     el.enterKeyHint = enterKeyHint;
   }
