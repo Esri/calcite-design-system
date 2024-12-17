@@ -3,13 +3,13 @@ import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
@@ -55,7 +55,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -63,9 +63,9 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/combobox.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS, IDS } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -683,7 +683,7 @@ export class Combobox
       return;
     }
 
-    await componentOnReady(this.el);
+    await this.componentOnReady();
 
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
@@ -924,11 +924,10 @@ export class Combobox
 
     await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
-
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
@@ -1123,21 +1122,20 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const items = this.getItemsAndGroups().filter((item) => !item.hidden);
+    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const items = allItemsAndGroups.filter((item) => !item.hidden);
 
     const { maxItems } = this;
 
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
 
-    if (items.length > maxItems) {
+    if (items.length >= maxItems) {
       items.forEach((item) => {
         if (itemsToProcess < maxItems) {
           const height = this.calculateScrollerHeight(item);
-          if (height > 0) {
-            maxScrollerHeight += height;
-            itemsToProcess++;
-          }
+          maxScrollerHeight += height;
+          itemsToProcess += 1;
         }
       });
     }
@@ -1147,13 +1145,14 @@ export class Combobox
 
   private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
-      return;
+      return 0;
     }
 
     // if item has children items, don't count their height twice
     const parentHeight = item.getBoundingClientRect().height;
+    const DirectComboboxChildrenSelector = `:scope > ${ComboboxItemSelector}, :scope > ${ComboboxItemGroupSelector}`;
     const childrenTotalHeight = Array.from(
-      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+      item.querySelectorAll<ComboboxChildElement>(DirectComboboxChildrenSelector),
     ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
 
     return parentHeight - childrenTotalHeight;
@@ -1241,6 +1240,8 @@ export class Combobox
       item.scale = this.scale;
     });
 
+    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
+
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
@@ -1287,19 +1288,19 @@ export class Combobox
     this.filterText = "";
   }
 
-  private getItems(): HTMLCalciteComboboxItemElement["el"][] {
+  private getItems(withDisabled: boolean = false): HTMLCalciteComboboxItemElement["el"][] {
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
-      this.el.querySelectorAll(ComboboxItem),
+      this.el.querySelectorAll(ComboboxItemSelector),
     );
-    return items.filter((item) => !item.disabled);
+    return items.filter((item) => withDisabled || !item.disabled);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
-    return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
+    return Array.from(this.el.querySelectorAll(ComboboxItemGroupSelector));
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => el.textLabel === value);
+    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -1311,7 +1312,7 @@ export class Combobox
         "calcite-combobox-item",
       );
       item.value = value;
-      item.textLabel = value;
+      item.heading = value;
       item.selected = true;
       this.el.prepend(item);
       this.resetText();
@@ -1447,6 +1448,7 @@ export class Combobox
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={itemLabel}
+          label={label}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onFocusIn={() => (this.activeChipIndex = i)}
           oncalciteChipClose={() => this.calciteChipCloseHandler(item)}
@@ -1480,6 +1482,7 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        label={label}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1503,6 +1506,7 @@ export class Combobox
             compactSelectionDisplay
           ),
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1555,6 +1559,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1596,6 +1601,7 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1671,7 +1677,7 @@ export class Combobox
         role="option"
         tabIndex="-1"
       >
-        {item.textLabel}
+        {item.heading || item.textLabel}
       </li>
     ));
   }

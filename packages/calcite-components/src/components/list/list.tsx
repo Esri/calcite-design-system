@@ -9,9 +9,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { openAncestors, updateListItemChildren } from "../list-item/utils";
+import {
+  listItemGroupSelector,
+  listItemSelector,
+  listSelector,
+  openAncestors,
+  updateListItemChildren,
+} from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -32,8 +38,8 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/list.t9n.en.json";
-import { ListDragDetail, ListMoveDetail } from "./interfaces";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -42,13 +48,12 @@ declare global {
   }
 }
 
-const listItemSelector = "calcite-list-item";
-const parentSelector = "calcite-list-item-group, calcite-list-item";
+const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
- * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
@@ -77,17 +82,16 @@ export class List
 
   private listItems: ListItem["el"][] = [];
 
-  mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ performFilter: true }),
-  );
+  mutationObserver = createObserver("mutation", () => {
+    this.willPerformFilter = true;
+    this.updateListItems();
+  });
 
   private parentListEl: List["el"];
 
   sortable: Sortable;
 
-  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
-    const performFilter = options?.performFilter ?? false;
-
+  private updateListItems = debounce((): void => {
     this.updateGroupItems();
 
     const {
@@ -99,19 +103,23 @@ export class List
       filterEl,
       filterEnabled,
       moveToItems,
+      displayMode,
+      scale,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
     items.forEach((item) => {
+      item.scale = scale;
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
+      if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.displayMode = displayMode;
       }
     });
 
@@ -121,7 +129,8 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && performFilter) {
+    if (filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
       if (filterEl) {
@@ -142,6 +151,9 @@ export class List
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
+
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willPerformFilter: boolean = false;
 
   // #endregion
 
@@ -177,6 +189,9 @@ export class List
 
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
+
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
 
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
@@ -223,8 +238,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -239,15 +256,23 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
+
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /**
-   * One of the items within the list can be opened.
-   *
-   * @private
-   */
-  @property() openable = false;
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The currently selected items.
@@ -351,7 +376,8 @@ export class List
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
     this.setUpSorting();
     this.setParentList();
   }
@@ -385,7 +411,9 @@ export class List
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
-        (this.hasUpdated || this.selectionAppearance !== "icon"))
+        (this.hasUpdated || this.selectionAppearance !== "icon")) ||
+      (changes.has("displayMode") && this.hasUpdated) ||
+      (changes.has("scale") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -417,7 +445,8 @@ export class List
   }
 
   private handleListItemChange(): void {
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -593,7 +622,7 @@ export class List
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -625,7 +654,9 @@ export class List
     }
   }
 
-  private updateSelectedItems(emit = false): void {
+  private async updateSelectedItems(emit = false): Promise<void> {
+    await this.updateComplete;
+
     this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
@@ -770,7 +801,7 @@ export class List
   }
 
   private updateGroupItems(): void {
-    const { el, group } = this;
+    const { el, group, scale } = this;
 
     const rootNode = getRootNode(el);
 
@@ -785,6 +816,12 @@ export class List
       label: element.label ?? element.id,
       id: el.id || guid(),
     }));
+
+    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+
+    groupItems.forEach((item) => {
+      item.scale = scale;
+    });
   }
 
   private focusRow(focusEl: ListItem["el"]): void {
@@ -965,6 +1002,7 @@ export class List
       filterPlaceholder,
       filterText,
       filteredItems,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
@@ -1002,9 +1040,11 @@ export class List
                         disabled={disabled}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
+                        scale={this.scale}
                         value={filterText}
                       />
                       <slot

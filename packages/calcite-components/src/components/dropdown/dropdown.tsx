@@ -29,8 +29,9 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { ItemKeyboardEvent } from "./interfaces";
@@ -153,8 +154,15 @@ export class Dropdown
   /** Specifies the action to open the component from the container element. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @deprecated Use the `width` property instead.
+   */
   @property({ reflect: true }) widthScale: Scale;
+
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, Scale>;
 
   // #endregion
 
@@ -473,10 +481,9 @@ export class Dropdown
 
     this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
-
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
     if (el) {
       this.resizeObserver?.observe(el);
@@ -581,7 +588,7 @@ export class Dropdown
       }
     });
 
-    return items.length > maxItems ? maxScrollerHeight : 0;
+    return items.length >= maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -646,7 +653,16 @@ export class Dropdown
             onSlotChange={this.updateTriggers}
           />
         </div>
-        <div ariaHidden={!open} class={CSS.wrapper} ref={this.setFloatingEl}>
+        <div
+          ariaHidden={!open}
+          class={{
+            [CSS.wrapper]: true,
+            [getDimensionClass("width", this.width, this.widthScale)]: !!(
+              this.width || this.widthScale
+            ),
+          }}
+          ref={this.setFloatingEl}
+        >
           <div
             aria-labelledby={`${guid}-menubutton`}
             class={{

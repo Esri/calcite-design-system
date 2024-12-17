@@ -34,7 +34,7 @@ import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/rating.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
 import { IDS } from "./resources";
@@ -389,6 +389,8 @@ export class Rating
   // #region Rendering
 
   override render(): JsxNode {
+    const countString = this.count?.toString();
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <span class="wrapper">
@@ -442,9 +444,9 @@ export class Rating
             )}
 
             {(this.count || this.average) && this.showChip ? (
-              <calcite-chip scale={this.scale} value={this.count?.toString()}>
+              <calcite-chip label={countString} scale={this.scale} value={countString}>
                 {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
+                {!!this.count && <span class="number--count">({countString})</span>}
               </calcite-chip>
             ) : null}
           </fieldset>

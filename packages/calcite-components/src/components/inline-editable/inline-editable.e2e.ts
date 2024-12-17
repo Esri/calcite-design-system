@@ -225,6 +225,7 @@ describe("calcite-inline-editable", () => {
       await cancelEvent;
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditCancel).toHaveReceivedEventTimes(1);
+      expect(await element.getProperty("editingEnabled")).toBe(false);
     });
 
     it("restores input value after escape key is pressed", async () => {

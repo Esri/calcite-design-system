@@ -20,7 +20,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
-import T9nStrings from "./assets/t9n/chip.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { styles } from "./chip.scss";
 
@@ -71,6 +71,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
+  /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
+  @property({ reflect: true }) closeOnDelete = false;
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -91,7 +94,11 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** Specifies the kind of the component, which will apply to border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
-  /** Accessible name for the component. */
+  /**
+   * Accessible name for the component.
+   *
+   * @required
+   */
   @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
@@ -124,11 +131,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
     SelectionMode
   > = "none";
 
-  /**
-   * The component's value.
-   *
-   * @required
-   */
+  /** The component's value. */
   @property() value: any;
 
   // #endregion
@@ -221,6 +224,13 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
         case "Enter":
           this.handleEmittingEvent();
           event.preventDefault();
+          break;
+        case "Backspace":
+        case "Delete":
+          if (this.closable && !this.closed && this.closeOnDelete) {
+            event.preventDefault();
+            this.close();
+          }
           break;
         case "ArrowRight":
         case "ArrowLeft":
@@ -354,7 +364,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
           ? "radio"
           : this.interactive
             ? "button"
-            : undefined;
+            : "img";
     return (
       <InteractiveContainer disabled={disabled}>
         <div

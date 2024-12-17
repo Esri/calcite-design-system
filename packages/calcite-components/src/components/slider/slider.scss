@@ -4,9 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-slider-text-color: Specifies the component's text color.
- * @prop --calcite-slider-track-color: Specifies the component's track color. 
- * @prop --calcite-slider-track-fill-color: Specifies the component's track fill color. 
- * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color. 
+ * @prop --calcite-slider-track-color: Specifies the component's track color.
+ * @prop --calcite-slider-track-fill-color: Specifies the component's track fill color.
+ * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color.
  * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
  * @prop --calcite-slider-accent-color: Specifies the component's accent color.
  * @prop --calcite-slider-tick-color: Specifies the component's tick color.
@@ -125,6 +125,8 @@
   transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
+    white-space: nowrap;
+
     &.static,
     &.transformed {
       @apply absolute

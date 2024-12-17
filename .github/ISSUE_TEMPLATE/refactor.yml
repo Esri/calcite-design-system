@@ -45,5 +45,3 @@ body:
         - label: "@esri/calcite-design-tokens"
         - label: "@esri/calcite-ui-icons"
         - label: "@esri/eslint-plugin-calcite-components"
-    validations:
-      required: false

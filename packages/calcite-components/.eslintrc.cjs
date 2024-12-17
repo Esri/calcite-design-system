@@ -20,16 +20,6 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
   },
-  plugins: [
-    "@esri/calcite-components",
-    "@typescript-eslint",
-    "eslint-plugin-react",
-    "import",
-    "jest",
-    "jsdoc",
-    "prettier",
-    "unicorn",
-  ],
   rules: {
     "@esri/calcite-components/ban-events": [
       "warn",
@@ -44,7 +34,6 @@ module.exports = {
     ],
     "@esri/calcite-components/enforce-ref-last-prop": "off",
     "@esri/calcite-components/strict-boolean-attributes": "off",
-    "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
@@ -62,23 +51,32 @@ module.exports = {
         ],
       },
     ],
-    "@typescript-eslint/lines-between-class-members": ["error", "always"],
     "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
-    "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "import/order": ["error", { "newlines-between": "never" }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
+    "jsdoc/no-restricted-syntax": [
+      "error",
+      {
+        contexts: [
+          {
+            context: "any",
+            comment: `JsdocBlock:has(JsdocTag[tag="required"]):has(JsdocTag[tag="deprecated"])`,
+            message: "A property cannot be required and deprecated. Use `component#warnIfMissingRequiredProp` to handle required messaging.",
+          },
+        ],
+      },
+    ],
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-param-type": "off",
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
-    "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
@@ -156,6 +154,16 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    "@esri/calcite-components",
+    "@typescript-eslint",
+    "eslint-plugin-react",
+    "import",
+    "jest",
+    "jsdoc",
+    "prettier",
+    "unicorn",
+  ],
   settings: {
     react: {
       pragma: "h",

@@ -83,7 +83,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
-import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {
@@ -392,7 +392,10 @@ export class InputDatePicker
 
   override connectedCallback(): void {
     const { open } = this;
-    open && this.openHandler();
+
+    if (open) {
+      this.openHandler();
+    }
 
     if (this.min) {
       this.minAsDate = dateFromISO(this.min);
@@ -409,7 +412,7 @@ export class InputDatePicker
         const date = dateFromISO(this.value);
         const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
         this.valueAsDate = dateInRange;
-      } catch (error) {
+      } catch {
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
@@ -529,7 +532,11 @@ export class InputDatePicker
       return;
     }
 
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    if (focusTrapDisabled) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
   }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
@@ -796,7 +803,7 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
+    } else if (this.open && key === "Escape") {
       this.open = false;
       event.preventDefault();
       this.restoreInputFocus(true);

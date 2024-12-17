@@ -705,6 +705,14 @@ describe("calcite-combobox", () => {
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
     }
+
+    const totalItems = 11;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
+    }
   });
 
   it("should control max items displayed with group", async () => {
@@ -739,6 +747,14 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+
+    const totalItems = 11;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
     }
   });
 
@@ -780,6 +796,14 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+
+    const totalItems = 16;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
     }
   });
 
@@ -1106,7 +1130,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       const item = await page.find("calcite-combobox-item:first-child");
-      expect(await item.getProperty("textLabel")).toBe("K");
+      expect(await item.getProperty("heading")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
 
@@ -1135,7 +1159,7 @@ describe("calcite-combobox", () => {
       const customValue = await page.find("calcite-combobox-item:first-child");
       const item1 = await page.find("calcite-combobox-item#one");
 
-      expect(await customValue.getProperty("textLabel")).toBe("K");
+      expect(await customValue.getProperty("heading")).toBe("K");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await customValue.getProperty("selected")).toBe(true);
@@ -1463,7 +1487,7 @@ describe("calcite-combobox", () => {
     });
 
     it("tab will close the item group if it’s open", async () => {
-      skipAnimations(page);
+      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -2350,10 +2374,10 @@ describe("calcite-combobox", () => {
     `);
     const comboboxItems = await page.findAll("calcite-combobox-items");
 
-    comboboxItems.forEach(async (item) => {
+    for (const item of comboboxItems) {
       expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("l");
-    });
+    }
   });
 
   describe("custom input value when clicked outside of the component", () => {

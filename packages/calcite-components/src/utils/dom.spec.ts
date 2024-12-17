@@ -15,6 +15,7 @@ import {
   hasVisibleContent,
   isBefore,
   isKeyboardTriggeredClick,
+  isPixelValue,
   isPrimaryPointerButton,
   setRequestedIcon,
   slotChangeGetAssignedElements,
@@ -629,6 +630,17 @@ describe("dom", () => {
       expect(onStartCallback).toHaveBeenCalled();
       await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
+    });
+  });
+
+  describe("isPixelValue()", () => {
+    it("returns true for pixel values", () => {
+      expect(isPixelValue("10px")).toBe(true);
+    });
+
+    it("returns false for non-pixel values", () => {
+      expect(isPixelValue("10%")).toBe(false);
+      expect(isPixelValue("10em")).toBe(false);
     });
   });
 });

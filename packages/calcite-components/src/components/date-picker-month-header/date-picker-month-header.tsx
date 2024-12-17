@@ -1,7 +1,7 @@
 import {
-  calciteSizeXxxs,
-  calciteSizeXxs,
-  calciteSizeSm,
+  calciteSpacingBase,
+  calciteSpacingXxs,
+  calciteSpacingSm,
 } from "@esri/calcite-design-tokens/dist/es6/global.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
@@ -306,15 +306,20 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private setYearSelectMenuWidth(): void {
-    if (!this.monthPickerEl.value) {
+    const el = this.monthPickerEl.value;
+    if (!el) {
       return;
     }
 
-    const fontStyle = getComputedStyle(this.monthPickerEl.value).font;
-    const localeMonths = this.localeData.months[this.monthStyle];
-    const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
-    const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, fontStyle));
-    this.monthPickerEl.value.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
+    requestAnimationFrame(() => {
+      const computedStyle = getComputedStyle(el);
+      // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
+      const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
+      const localeMonths = this.localeData.months[this.monthStyle];
+      const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
+      const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, shorthandFont));
+      el.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
+    });
   }
 
   private isMonthInRange(index: number): boolean {
@@ -343,24 +348,38 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        isDirectionLeft
-          ? await this.nextMonthAction.setFocus()
-          : await this.prevMonthAction.setFocus();
+        await (isDirectionLeft ? this.nextMonthAction.setFocus() : this.prevMonthAction.setFocus());
       } else {
         this.yearInputEl.value.focus();
       }
     }
   }
 
+  private getPx(value: string): string {
+    const num = Number(value.replace(/[rem|px]/g, ""));
+    const base = 16;
+
+    if (value.includes("rem")) {
+      return `${num * base}px`;
+    }
+
+    return `${num}px`;
+  }
+
   private getYearSelectPadding(): string {
+    let padding;
     switch (this.scale) {
       case "l":
-        return calciteSizeSm;
+        padding = calciteSpacingSm;
+        break;
       case "s":
-        return calciteSizeXxxs;
+        padding = calciteSpacingBase;
+        break;
       default:
-        return calciteSizeXxs;
+        padding = calciteSpacingXxs;
+        break;
     }
+    return this.getPx(padding);
   }
 
   // #endregion

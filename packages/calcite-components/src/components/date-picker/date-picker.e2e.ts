@@ -109,10 +109,13 @@ describe("calcite-date-picker", () => {
       await page.waitForTimeout(animationDurationInMs);
 
       const now = new Date();
+      const currentMonth = now.getUTCMonth() + 1;
       const currentYear = now.getUTCFullYear();
-      const currentMonth = now.getUTCMonth() + 2;
-      const startDate = `${currentYear}-${formatTimePart(currentMonth)}-01`;
-      const endDate = `${currentYear}-${formatTimePart(currentMonth)}-15`;
+      const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+      const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+
+      const startDate = `${nextYear}-${formatTimePart(nextMonth)}-01`;
+      const endDate = `${nextYear}-${formatTimePart(nextMonth)}-15`;
 
       await selectDayInMonthById(startDate.replaceAll("-", ""), page);
       await page.waitForChanges();

@@ -57,7 +57,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/input.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
@@ -343,6 +343,8 @@ export class Input
    * Specifies the component type.
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
+   *
+   *  `"textarea"` [Deprecated] use the `calcite-text-area` component instead.
    */
   @property({ reflect: true }) type:
     | "color"
@@ -1094,60 +1096,56 @@ export class Input
         : (literal`textarea` as unknown as "textarea");
 
     const childEl =
-      this.type !== "number"
-        ? [
-            <DynamicHtmlTag
-              accept={this.accept}
-              aria-errormessage={IDS.validationMessage}
-              ariaInvalid={this.status === "invalid"}
-              ariaLabel={getLabelText(this)}
-              autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-              autofocus={autofocus}
-              class={{
-                [CSS.editingEnabled]: this.editingEnabled,
-                [CSS.inlineChild]: !!this.inlineEditableEl,
-              }}
-              defaultValue={this.defaultValue}
-              disabled={this.disabled ? true : null}
-              enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-              inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
-              max={this.maxString}
-              maxLength={this.maxLength}
-              min={this.minString}
-              minLength={this.minLength}
-              multiple={this.multiple}
-              name={this.name}
-              onBlur={this.inputBlurHandler}
-              onChange={this.inputChangeHandler}
-              onFocus={this.inputFocusHandler}
-              onInput={this.inputInputHandler}
-              onKeyDown={this.inputKeyDownHandler}
-              onKeyUp={this.inputKeyUpHandler}
-              pattern={this.pattern}
-              placeholder={this.placeholder || ""}
-              readOnly={this.readOnly}
-              ref={this.setChildElRef}
-              required={this.required ? true : null}
-              spellcheck={this.el.spellcheck}
-              step={this.step}
-              tabIndex={
-                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
-              }
-              type={this.type}
-              value={this.value}
-            />,
-            this.isTextarea ? (
-              <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
-              </div>
-            ) : null,
-          ]
-        : null;
+      this.type !== "number" ? (
+        <DynamicHtmlTag
+          accept={this.accept}
+          aria-errormessage={IDS.validationMessage}
+          ariaInvalid={this.status === "invalid"}
+          ariaLabel={getLabelText(this)}
+          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autofocus={autofocus}
+          class={{
+            [CSS.editingEnabled]: this.editingEnabled,
+            [CSS.inlineChild]: !!this.inlineEditableEl,
+          }}
+          defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
+          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          max={this.maxString}
+          maxLength={this.maxLength}
+          min={this.minString}
+          minLength={this.minLength}
+          multiple={this.multiple}
+          name={this.name}
+          onBlur={this.inputBlurHandler}
+          onChange={this.inputChangeHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          onKeyDown={this.inputKeyDownHandler}
+          onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
+          placeholder={this.placeholder || ""}
+          readOnly={this.readOnly}
+          ref={this.setChildElRef}
+          required={this.required ? true : null}
+          spellcheck={this.el.spellcheck}
+          step={this.step}
+          tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
+          type={this.type}
+          value={this.value}
+        />
+      ) : null;
 
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly

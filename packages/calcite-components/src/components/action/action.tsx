@@ -18,7 +18,7 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
-import T9nStrings from "./assets/t9n/action.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action.scss";
 
@@ -250,10 +250,11 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
       buttonId,
       messages,
     } = this;
-    const labelFallback = label || text;
-    const ariaLabel = labelFallback
-      ? `${labelFallback}${indicator ? ` (${messages.indicator})` : ""}`
-      : "";
+    const labelFallback = label || text || "";
+
+    const ariaLabel = indicator
+      ? messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
 
     const buttonClasses = {
       [CSS.button]: true,

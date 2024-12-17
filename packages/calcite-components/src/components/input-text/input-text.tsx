@@ -45,7 +45,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { CSS, IDS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/input-text.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
 
 declare global {

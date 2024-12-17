@@ -96,7 +96,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-lg));
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-md-plus));
   --calcite-internal-dialog-min-size-x: 388px;
   --calcite-internal-dialog-min-size-y: 220px;
 }
@@ -118,7 +118,11 @@ calcite-panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
-  --calcite-panel-background-color: var(--calcite-dialog-background-color);
+  --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
+}
+
+::slotted(*) {
+  --calcite-panel-background-color: initial;
 }
 
 .dialog {
@@ -189,32 +193,32 @@ calcite-panel {
  * Sizes
  */
 @mixin dialog-size($size, $width) {
-  :host([width-scale="#{$size}"]) .dialog {
+  .width-#{$size} {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width-scale="#{$size}"]) {
-      .dialog {
-        @apply m-0
+    .width-#{$size} {
+      @apply m-0
           h-full
           max-h-full
           w-full
           max-w-full;
-        inset-inline-start: 0;
-        inset-block-start: var(--calcite-internal-dialog-animation-offset);
-        &--opening {
-          &-active {
-            inset-block-start: 0;
-          }
+      inset-inline-start: 0;
+      inset-block-start: var(--calcite-internal-dialog-animation-offset);
+    }
+    .width-#{$size}.dialog {
+      &--opening {
+        &-active {
+          inset-block-start: 0;
         }
       }
     }
   }
 }
 
-:host([width="small"]) .dialog {
+.width-s {
   @apply w-auto;
 }
 

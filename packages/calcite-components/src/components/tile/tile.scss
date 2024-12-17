@@ -173,11 +173,11 @@ calcite-link {
   max-inline-size: 520px;
   min-inline-size: 160px;
   .container {
-    padding: var(--calcite-spacing-xl);
+    padding: var(--calcite-spacing-lg);
   }
   .content-container--has-content,
   .row {
-    gap: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-lg);
   }
   .heading {
     font-size: var(--calcite-font-size-0);
@@ -188,7 +188,7 @@ calcite-link {
     line-height: 1.20313rem;
   }
   .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-xl);
+    margin-block-end: var(--calcite-spacing-lg);
   }
 }
 

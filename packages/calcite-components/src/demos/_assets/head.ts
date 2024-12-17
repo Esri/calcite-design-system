@@ -31,12 +31,18 @@
     const template = parseTemplate(text);
     if (template) {
       const firstChild = document.body.firstChild;
-      firstChild && document.body.insertBefore(template.content, firstChild);
+      if (firstChild) {
+        document.body.insertBefore(template.content, firstChild);
+      }
     }
   };
 
   if (window.location.pathname.includes("/src/demos/") && !urlParams.has(DISABLE_HEADER_URL_PARAM)) {
-    document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadHeader) : loadHeader();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadHeader);
+    } else {
+      loadHeader();
+    }
   }
 
   const ROOT = "";

@@ -11,8 +11,9 @@ export const CSS = {
   wrapper: "element-wrapper",
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
-  resizeIconWrapper: "resize-icon-wrapper",
   numberButtonItem: "number-button-item",
+  hasSuffix: "has-suffix",
+  hasPrefix: "has-prefix",
 };
 
 export const IDS = {

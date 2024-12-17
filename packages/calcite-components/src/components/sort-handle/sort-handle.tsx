@@ -20,7 +20,7 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
-import T9nStrings from "./assets/t9n/sort-handle.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
@@ -55,12 +55,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   /** Specifies the label of the component. */
   @property() label: string;
 
-  /**
-   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
-   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
-   */
-  @property({ reflect: true }) maxItems = 0;
-
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -73,7 +67,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Defines the "Move to" items. */
-  @property() moveToItems: MoveTo[];
+  @property() moveToItems: MoveTo[] = [];
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -254,10 +248,12 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
       setPosition,
       setSize,
       widthScale,
+      moveToItems,
     } = this;
     const text = this.getLabel();
 
-    const isDisabled = disabled || !setPosition || !setSize;
+    const isDisabled =
+      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems.length < 1);
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -281,7 +277,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             class={CSS.handle}
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
-            scale="s"
+            scale={scale}
             slot="trigger"
             text={text}
             title={text}
@@ -319,7 +315,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   private renderMoveToGroup(): JsxNode {
     const { messages, moveToItems, scale } = this;
 
-    return moveToItems?.length ? (
+    return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
         key="move-to-items"

@@ -1,9 +1,9 @@
-import dayjs from "dayjs/esm";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat";
-import localeData from "dayjs/esm/plugin/localeData";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
-import updateLocale from "dayjs/esm/plugin/updateLocale";
+import dayjs from "dayjs/esm/index.js";
+import customParseFormat from "dayjs/esm/plugin/customParseFormat/index.js";
+import localeData from "dayjs/esm/plugin/localeData/index.js";
+import localizedFormat from "dayjs/esm/plugin/localizedFormat/index.js";
+import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat/index.js";
+import updateLocale from "dayjs/esm/plugin/updateLocale/index.js";
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -64,7 +64,7 @@ import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { styles } from "./input-time-picker.scss";
-import T9nStrings from "./assets/t9n/input-time-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 
 declare global {
@@ -728,6 +728,9 @@ export class InputTimePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
+      event.preventDefault();
+    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
+      this.open = false;
       event.preventDefault();
     }
   }
