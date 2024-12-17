@@ -1,18 +1,23 @@
-import { resolve } from "path";
 import StyleDictionary from "style-dictionary";
 import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "style-dictionary/enums";
 import { registerCalciteTransformers } from "./transforms/registerTransforms.js";
 import { registerCalciteActions } from "./actions/registerActions.js";
 import scss from "../src/config/scss.js";
 import { registerCalciteDefaultFileHeader } from "./header/calcite-default.js";
-import { __dirname } from "./utils/node.js";
-import { registerFilterLightColorTokens } from "./filter/light.js";
-import { registerFilterDarkColorTokens } from "./filter/dark.js";
+import { expandTypesMap, register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
+import { registerCalciteFilters } from "./filter/registerFilters.js";
+
+await registerTokenStudioTransformers(StyleDictionary);
+await registerCalciteFilters(StyleDictionary);
+await registerCalciteDefaultFileHeader(StyleDictionary);
+await registerCalciteTransformers(StyleDictionary);
+await registerCalciteActions(StyleDictionary);
 
 const sd = new StyleDictionary({
   // configuration
-  source: [resolve(__dirname, "../src/semantic/*.json")],
-  include: [resolve(__dirname, "../src/core/*.json")],
+  source: ["src/semantic/*.json"],
+  include: ["src/core/*.json"],
+  preprocessors: ["tokens-studio"],
   platforms: {
     scss,
   },
@@ -24,21 +29,15 @@ const sd = new StyleDictionary({
     },
   },
   expand: {
-    include: ["color", "boxShadow"],
+    include: ["color"],
     typesMap: {
-      color: "color",
-      boxShadow: "shadow",
       light: "color",
       dark: "color",
       min: "breakpoint",
       max: "breakpoint",
+      ...expandTypesMap,
     },
   },
 });
 
-await registerFilterLightColorTokens(sd);
-await registerFilterDarkColorTokens(sd);
-await registerCalciteDefaultFileHeader(sd);
-await registerCalciteTransformers(sd);
-await registerCalciteActions(sd);
 await sd.buildAllPlatforms();
