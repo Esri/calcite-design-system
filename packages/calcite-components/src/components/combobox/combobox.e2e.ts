@@ -705,6 +705,14 @@ describe("calcite-combobox", () => {
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
     }
+
+    const totalItems = 10;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
+    }
   });
 
   it("should control max items displayed with group", async () => {
