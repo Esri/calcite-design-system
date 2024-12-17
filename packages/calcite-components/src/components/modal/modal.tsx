@@ -37,7 +37,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/modal.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
 
@@ -80,19 +80,7 @@ export class Modal
     this.updateSizeCssVars();
   });
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = () => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -276,10 +264,16 @@ export class Modal
     this.updateSizeCssVars();
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
+        // scrim closes on click, so we let it take over
         clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
   }

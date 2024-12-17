@@ -57,7 +57,7 @@ import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./autocomplete.scss";
-import T9nStrings from "./assets/t9n/autocomplete.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";

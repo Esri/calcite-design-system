@@ -64,7 +64,7 @@ import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { styles } from "./input-time-picker.scss";
-import T9nStrings from "./assets/t9n/input-time-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 
 declare global {
