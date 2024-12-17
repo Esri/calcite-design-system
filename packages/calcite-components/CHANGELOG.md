@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.69...@esri/calcite-components@3.0.0-next.70) (2024-12-17)
+
+### Bug Fixes
+
+- **accordion-item:** stretch slotted actions only ([#11082](https://github.com/Esri/calcite-design-system/issues/11082)) ([c0dab73](https://github.com/Esri/calcite-design-system/commit/c0dab73d10186cd686e08ef422b3c353d7f495c2)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **combobox, dropdown:** honor `max-items` when it matches total items ([#10971](https://github.com/Esri/calcite-design-system/issues/10971)) ([e87d518](https://github.com/Esri/calcite-design-system/commit/e87d5182486366f2aedb6b103e80de44a9b45809)), closes [#6230](https://github.com/Esri/calcite-design-system/issues/6230)
+- **sheet:** fix rounded corners when `displayMode="float"` ([#11086](https://github.com/Esri/calcite-design-system/issues/11086)) ([e0f5a85](https://github.com/Esri/calcite-design-system/commit/e0f5a85b34addaab150be07c1dc427a49689b6cf)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.68...@esri/calcite-components@3.0.0-next.69) (2024-12-17)
 
 ### Bug Fixes
