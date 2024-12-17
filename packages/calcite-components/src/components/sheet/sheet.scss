@@ -234,17 +234,27 @@
   @apply flex-col-reverse;
 }
 
-:host([resizable][position="inline-start"]),
-:host([resizable][position="inline-end"]) {
+:host([resizable][position="inline-start"]) {
   .content {
     padding-inline-end: var(--calcite-size-fixed-sm-plus);
   }
 }
 
-:host([resizable][position="block-start"]),
-:host([resizable][position="block-end"]) {
+:host([resizable][position="inline-end"]) {
+  .content {
+    padding-inline-start: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][position="block-start"]) {
   .content {
     padding-block-end: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][position="block-end"]) {
+  .content {
+    padding-block-start: var(--calcite-size-fixed-sm-plus);
   }
 }
 
@@ -310,7 +320,7 @@
 
 :host([position="block-start"]) {
   .resize-handle {
-    block-size: var(--calcite-size-fixed-sm-plus);
+    block-size: var(--calcite-size-fixed-xxl);
     inline-size: 100%;
     inset-block-end: var(--calcite-internal-sheet-resize-handle-offset);
   }
@@ -328,7 +338,7 @@
 
 :host([position="block-end"]) {
   .resize-handle {
-    block-size: var(--calcite-size-fixed-sm-plus);
+    block-size: var(--calcite-size-fixed-xxl);
     inline-size: 100%;
     inset-block-start: var(--calcite-internal-sheet-resize-handle-offset);
   }
