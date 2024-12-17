@@ -706,7 +706,7 @@ describe("calcite-combobox", () => {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
     }
 
-    const totalItems = 10;
+    const totalItems = 11;
     element.setProperty("maxItems", totalItems);
     await page.waitForChanges();
 
@@ -748,6 +748,14 @@ describe("calcite-combobox", () => {
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
     }
+
+    const totalItems = 11;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
+    }
   });
 
   it("should show correct max items when nested", async () => {
@@ -788,6 +796,14 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+
+    const totalItems = 16;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
     }
   });
 

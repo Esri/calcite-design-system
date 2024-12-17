@@ -65,13 +65,7 @@ import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import {
-  ComboboxChildSelector,
-  ComboboxItemSelector,
-  ComboboxItemGroupSelector,
-  CSS,
-  IDS,
-} from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -1128,7 +1122,8 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const items = this.getItemsAndGroups().filter((item) => !item.hidden);
+    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const items = allItemsAndGroups.filter((item) => !item.hidden);
 
     const { maxItems } = this;
 
@@ -1139,10 +1134,8 @@ export class Combobox
       items.forEach((item) => {
         if (itemsToProcess < maxItems) {
           const height = this.calculateScrollerHeight(item);
-          if (height > 0) {
-            maxScrollerHeight += height;
-            itemsToProcess++;
-          }
+          maxScrollerHeight += height;
+          itemsToProcess += 1;
         }
       });
     }
@@ -1152,13 +1145,14 @@ export class Combobox
 
   private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
-      return;
+      return 0;
     }
 
     // if item has children items, don't count their height twice
     const parentHeight = item.getBoundingClientRect().height;
+    const DirectComboboxChildrenSelector = `:scope > ${ComboboxItemSelector}, :scope > ${ComboboxItemGroupSelector}`;
     const childrenTotalHeight = Array.from(
-      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+      item.querySelectorAll<ComboboxChildElement>(DirectComboboxChildrenSelector),
     ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
 
     return parentHeight - childrenTotalHeight;
@@ -1294,11 +1288,11 @@ export class Combobox
     this.filterText = "";
   }
 
-  private getItems(): HTMLCalciteComboboxItemElement["el"][] {
+  private getItems(withDisabled: boolean = false): HTMLCalciteComboboxItemElement["el"][] {
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
       this.el.querySelectorAll(ComboboxItemSelector),
     );
-    return items.filter((item) => !item.disabled);
+    return items.filter((item) => withDisabled || !item.disabled);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
