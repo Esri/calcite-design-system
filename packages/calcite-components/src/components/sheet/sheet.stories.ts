@@ -66,6 +66,11 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
 export const resizable = (): string =>
+  html`<calcite-sheet resizable display-mode="float" label="libero nunc" open position="inline-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloat = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
 export const resizableBlockStart = (): string =>
