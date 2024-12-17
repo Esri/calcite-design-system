@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.72...@esri/calcite-components@3.0.0-next.73) (2024-12-17)
+
+### Bug Fixes
+
+- **input-date-picker, modal, tile-select:** avoid using refs that have been nulled ([#11090](https://github.com/Esri/calcite-design-system/issues/11090)) ([a3a3a18](https://github.com/Esri/calcite-design-system/commit/a3a3a1887beafdf0465103119659a6db2fd60e66)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.71...@esri/calcite-components@3.0.0-next.72) (2024-12-17)
 
 ### Features
