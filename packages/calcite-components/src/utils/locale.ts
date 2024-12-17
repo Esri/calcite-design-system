@@ -98,6 +98,11 @@ export const locales = [
   "zh-TW",
 ];
 
+/**
+ * To reference the CLDR meridiems for each supported locale navigate to:
+ * https://github.com/unicode-org/cldr-json/tree/main/cldr-json/cldr-dates-full/main,
+ * click {locale}/ca-generic.json and drill down to main.{locale}.dates.calendars.generic.dayPeriods.format.abbreviated.
+ */
 export const localizedTwentyFourHourMeridiems = new Map(
   Object.entries({
     bg: { am: "пр.об.", pm: "сл.об." },
