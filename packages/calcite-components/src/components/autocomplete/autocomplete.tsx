@@ -625,7 +625,7 @@ export class Autocomplete
 
     connectFloatingUI(this);
 
-    // todo: fixme when supported in jsx
+    // TODO: fixme when supported in jsx
     const enterKeyHint = this.el.getAttribute("enterkeyhint");
     el.enterKeyHint = enterKeyHint;
   }

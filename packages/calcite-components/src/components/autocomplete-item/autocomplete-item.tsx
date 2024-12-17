@@ -139,40 +139,29 @@ export class AutocompleteItem
           }}
           onClick={this.handleClick}
         >
-          {this.renderIconStart()}
+          {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
             <div class={CSS.heading}>{heading}</div>
             <div class={CSS.description}>{description}</div>
           </div>
           <slot name={SLOTS.contentEnd} />
-          {this.renderIconEnd()}
+          {this.renderIcon("end")}
         </div>
       </InteractiveContainer>
     );
   }
 
-  private renderIconStart(): JsxNode {
-    const { iconStart, iconFlipRtl } = this;
+  private renderIcon(position: "start" | "end"): JsxNode {
+    const { iconFlipRtl } = this;
 
-    return iconStart ? (
+    const icon = position === "start" ? this.iconStart : this.iconEnd;
+
+    return icon ? (
       <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
-        icon={iconStart}
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-  }
-
-  private renderIconEnd(): JsxNode {
-    const { iconEnd, iconFlipRtl } = this;
-
-    return iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
-        icon={iconEnd}
+        class={position === "start" ? CSS.iconStart : CSS.iconEnd}
+        flipRtl={iconFlipRtl === position || iconFlipRtl === "both"}
+        icon={icon}
         scale={getIconScale(this.scale)}
       />
     ) : null;

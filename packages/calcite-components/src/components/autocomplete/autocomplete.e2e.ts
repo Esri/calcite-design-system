@@ -441,15 +441,19 @@ describe("calcite-autocomplete", () => {
       expect(await autocomplete.getProperty("open")).toBe(false);
     });
 
-    it("should set active with up arrow key", async () => {
+    it.each(["ArrowUp", "ArrowDown"])("should set active with %s key", async (key) => {
       const page = await newE2EPage();
       await page.setContent(simpleHTML);
 
       const autocomplete = await page.find("calcite-autocomplete");
 
-      await page.$eval("calcite-autocomplete >>> calcite-input", (input: Input["el"]) => {
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
-      });
+      await page.$eval(
+        "calcite-autocomplete >>> calcite-input",
+        (input: Input["el"], key) => {
+          input.dispatchEvent(new KeyboardEvent("keydown", { key: `${key}`, bubbles: true }));
+        },
+        key,
+      );
       await page.waitForChanges();
 
       expect(await autocomplete.getProperty("open")).toBe(true);
@@ -457,27 +461,7 @@ describe("calcite-autocomplete", () => {
       const items = await page.findAll("calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-    });
-
-    it("should set active with up arrow key", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-
-      await page.$eval("calcite-autocomplete >>> calcite-input", (input: Input["el"]) => {
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
-      });
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await page.findAll("calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(items.length - 2 === i);
+        expect(await items[i].getProperty("active")).toBe(key === "ArrowUp" ? items.length - 2 === i : i === 0);
       }
     });
 
