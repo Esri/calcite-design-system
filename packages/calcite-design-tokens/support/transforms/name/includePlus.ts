@@ -8,7 +8,7 @@ export function transformNameIncludePlus(token: TransformedToken): string {
   return token.name;
 }
 
-export function registerNameIncludePlus(sd: StyleDictionary): void {
+export function registerNameIncludePlus(sd: typeof StyleDictionary): void {
   sd.registerTransform({
     name: nameIncludePlus,
     transform: transformNameIncludePlus,

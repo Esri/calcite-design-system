@@ -4,7 +4,7 @@ export function transformNamesRemoveTier(token: TransformedToken): string {
   return token.name.replace(/(core|semantic)-/, "");
 }
 
-export function registerNameRemoveTier(sd: StyleDictionary): void {
+export function registerNameRemoveTier(sd: typeof StyleDictionary): void {
   sd.registerTransform({
     name: nameRemoveTier,
     transform: transformNamesRemoveTier,

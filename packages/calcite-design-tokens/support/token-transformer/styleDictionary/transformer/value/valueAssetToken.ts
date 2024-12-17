@@ -13,7 +13,7 @@ export const transformValuesAssetToken: CalledTransformerFunction<string> = (tok
   return char1IsQuote && char2IsQuote ? token.value : `"${token.value}"`;
 };
 
-export const registerValueAssetToken = (sd: StyleDictionary): void => {
+export const registerValueAssetToken = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: valueAssetToken,
     transformer: transformValuesAssetToken,

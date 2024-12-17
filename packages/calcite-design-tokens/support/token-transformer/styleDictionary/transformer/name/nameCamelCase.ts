@@ -12,7 +12,7 @@ export const transformNamesCamelCase: CalledTransformerFunction<string> = (token
   return tokenNameInParamCase;
 };
 
-export const registerNameCamelCase = (sd: StyleDictionary): void => {
+export const registerNameCamelCase = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: nameCamelCase,
     transformer: transformNamesCamelCase,

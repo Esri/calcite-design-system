@@ -26,7 +26,7 @@ export const transformToUnitless: CalledTransformerFunction<string> = (token) =>
   return token.value;
 };
 
-export const registerValueToUnitless = (sd: StyleDictionary): void => {
+export const registerValueToUnitless = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: CalciteValueToUnitless,
     transformer: transformToUnitless,

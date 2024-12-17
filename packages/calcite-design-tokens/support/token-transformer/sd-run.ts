@@ -2,6 +2,8 @@ import { default as StyleDictionary } from "style-dictionary";
 
 import { registerCalciteTransformers } from "./registerCalciteTransformers.js";
 import { filterSource } from "./styleDictionary/filter/filterSource.js";
+import { filterLight } from "./styleDictionary/filter/filterLight.js";
+import { filterDark } from "./styleDictionary/filter/filterDark.js";
 import { fileExtension } from "../types/fileExtensions.js";
 import { Platform, PlatformFormats, PlatformUnion, TypescriptPlatform } from "../types/platform.js";
 
@@ -28,10 +30,14 @@ const files = (platform: PlatformUnion, name: string, options?: Options): File[]
   switch (platform) {
     case Platform.JS:
     case Platform.ES6:
+    case Platform.ES6LIGHT:
+    case Platform.ES6DARK:
       f.push({
         format: format(platform === Platform.JS ? TypescriptPlatform.TS : TypescriptPlatform.ES6TS),
         destination: destination(name, TypescriptPlatform.TS),
-        filter: filterSource,
+        filter: [filterSource].concat(
+          platform === Platform.ES6LIGHT ? [filterLight] : platform === Platform.ES6DARK ? [filterDark] : [],
+        ),
         options: { ...options, platform },
       });
       break;
@@ -61,6 +67,7 @@ export const run = async ({
 
   const platforms = output.platforms.reduce(
     (acc, platform) => {
+      debugger;
       const platformConfig: PlatformOptions = {
         options: { ...options, expandFiles, platforms: output.platforms },
         transforms: transformations[platform],

@@ -22,7 +22,7 @@ export const transformNamesSet: CalledTransformerFunction<string> = (token, args
     : createTokenReference(t, args);
 };
 
-export const registerNameSet = (sd: StyleDictionary): void => {
+export const registerNameSet = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: nameSet,
     transformer: transformNamesSet,

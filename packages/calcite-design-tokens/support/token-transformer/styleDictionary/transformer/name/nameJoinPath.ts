@@ -8,7 +8,7 @@ export const transformNamesJoinPath: CalledTransformerFunction<string> = (token,
     .join(".")}`;
 };
 
-export const registerNameJoinPath = (sd: StyleDictionary): void => {
+export const registerNameJoinPath = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: nameJoinPath,
     transformer: transformNamesJoinPath,

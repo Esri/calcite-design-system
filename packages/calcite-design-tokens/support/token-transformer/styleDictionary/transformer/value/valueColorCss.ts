@@ -45,7 +45,7 @@ export const transformTransitiveValueColorCSS: CalledTransformerFunction<string>
   return deeplyNestedColorValue(token.value);
 };
 
-export const registerValueColorCSS = (sd: StyleDictionary): void => {
+export const registerValueColorCSS = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: transitiveValueColorCSS,
     transformer: transformTransitiveValueColorCSS,

@@ -17,7 +17,7 @@ export const transformValuesFontFamilyWithFallbacks: CalledTransformerFunction<s
   return token.value.join(",");
 };
 
-export const registerValueFontFamilyWithFallbacks = (sd: StyleDictionary): void => {
+export const registerValueFontFamilyWithFallbacks = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: valueFontFamilyFallbacks,
     transformer: transformValuesFontFamilyWithFallbacks,

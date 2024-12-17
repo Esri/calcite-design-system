@@ -15,7 +15,7 @@ export const transformNamesSpacePath: CalledTransformerFunction<string> = (token
   return name;
 };
 
-export const registerNameSpacePath = (sd: StyleDictionary): void => {
+export const registerNameSpacePath = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: nameSpacePath,
     transformer: transformNamesSpacePath,

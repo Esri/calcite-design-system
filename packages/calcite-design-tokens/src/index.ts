@@ -1,9 +1,6 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import { createCalciteTokenFiles } from "../support/token-transformer/helpers/createCalciteTokenFiles.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { __dirname } from "../support/utils/node.js";
 
 export const coreTokens = await createCalciteTokenFiles({
   name: "core",

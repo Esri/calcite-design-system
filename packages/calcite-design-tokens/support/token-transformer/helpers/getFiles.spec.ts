@@ -1,9 +1,6 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import { getFiles } from "./getFiles.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { __dirname } from "../../utils/node.js";
 
 describe("Helper to get files", () => {
   it("should accept a file path", async () => {

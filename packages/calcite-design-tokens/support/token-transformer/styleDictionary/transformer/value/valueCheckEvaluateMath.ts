@@ -24,7 +24,7 @@ export const transformValuesEvaluateMath: CalledTransformerFunction<any> = (toke
   return evaluateMathInValue(token.value);
 };
 
-export const registerValueEvaluateMath = (sd: StyleDictionary): void => {
+export const registerValueEvaluateMath = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: transitiveValueEvaluateMath,
     transformer: transformValuesEvaluateMath,

@@ -13,7 +13,7 @@ export const formatJsPlatform: CalledFormatterFunction = (args) => {
   );
 };
 
-export const registerFormatterJs = (sd: StyleDictionary): void => {
+export const registerFormatterJs = (sd: typeof StyleDictionary): void => {
   const formatterConfig: FormatterConfig = {
     name: CalciteJs,
     formatter: formatJsPlatform,

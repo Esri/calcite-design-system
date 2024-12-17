@@ -1,13 +1,13 @@
-import { TransformedToken, Core as StyleDictionary } from "style-dictionary";
+import StyleDictionary, { TransformedToken } from "style-dictionary";
 
 export function filterSourceMatcher(token: TransformedToken): boolean {
   return token.isSource;
 }
 
-export function registerFilterSource(sd: StyleDictionary): void {
+export function registerFilterSource(sd: typeof StyleDictionary): void {
   sd.registerFilter({
     name: filterSource,
-    matcher: filterSourceMatcher,
+    filter: filterSourceMatcher,
   });
 }
 

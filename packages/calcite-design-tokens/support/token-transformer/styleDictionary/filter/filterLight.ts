@@ -4,7 +4,7 @@ export function filterLightMatcher(token: TransformedToken): boolean {
   return token.path.includes("light");
 }
 
-export function registerFilterLight(sd: StyleDictionary): void {
+export function registerFilterLight(sd: typeof StyleDictionary): void {
   sd.registerFilter({
     name: filterLight,
     filter: filterLightMatcher,

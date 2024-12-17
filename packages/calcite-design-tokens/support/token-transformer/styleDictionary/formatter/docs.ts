@@ -1,14 +1,11 @@
-import { Core as StyleDictionary } from "style-dictionary";
+import StyleDictionary from "style-dictionary";
+import type { FormatFn } from "style-dictionary/types";
+
 import prettierSync from "@prettier/sync";
+import { relative, resolve } from "path";
+import { __dirname } from "../../../utils/node.js";
 
-import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
-import { dirname, relative, resolve } from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export const formatDocsPlatform: CalledFormatterFunction = (args) => {
+export const formatDocsPlatform: FormatFn = (args) => {
   const output = {
     timestamp: Date.now(),
     tokens: args.dictionary.allTokens.map((token) => {
@@ -22,13 +19,11 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
   return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
-export const registerFormatterDocs = (sd: StyleDictionary): void => {
-  const formatterConfig: FormatterConfig = {
+export const registerFormatterDocs = (sd: typeof StyleDictionary): void => {
+  sd.registerFormat({
     name: CalciteDocs,
-    formatter: formatDocsPlatform,
-  };
-
-  sd.registerFormat(formatterConfig);
+    format: formatDocsPlatform,
+  });
 };
 
 export const CalciteDocs = "calcite/format/docs";

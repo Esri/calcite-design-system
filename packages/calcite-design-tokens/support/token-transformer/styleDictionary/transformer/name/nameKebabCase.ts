@@ -11,7 +11,7 @@ export const transformNamesKebabCase: CalledTransformerFunction<string> = (token
   return tokenNameInParamCase;
 };
 
-export const registerNameKebabCase = (sd: StyleDictionary): void => {
+export const registerNameKebabCase = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: nameKebabCase,
     transformer: transformNamesKebabCase,

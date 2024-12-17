@@ -17,7 +17,7 @@ export const formatCssPlatform: CalledFormatterFunction = (args) => {
   return prettierSync.format(header + (tokens ? `:root {${tokens.join(EOL)}}` : ""), { parser: "css" });
 };
 
-export const registerFormatterCss = (sd: StyleDictionary): void => {
+export const registerFormatterCss = (sd: typeof StyleDictionary): void => {
   const formatterConfig: FormatterConfig = {
     name: CalciteCss,
     formatter: formatCssPlatform,

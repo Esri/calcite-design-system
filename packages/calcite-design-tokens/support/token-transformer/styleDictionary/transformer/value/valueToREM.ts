@@ -27,7 +27,7 @@ export const transformToREM: CalledTransformerFunction<string> = (token) => {
   return token.value;
 };
 
-export const registerValueToREM = (sd: StyleDictionary): void => {
+export const registerValueToREM = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: CalciteValueToREM,
     transformer: transformToREM,

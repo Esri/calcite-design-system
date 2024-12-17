@@ -21,7 +21,7 @@ import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transfor
 import { registerValueColorCSS } from "./styleDictionary/transformer/value/valueColorCss.js";
 import { registerValueToUnitless } from "./styleDictionary/transformer/value/valueToUnitless.js";
 
-export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
+export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
   // we need to pass "expand: false" so that we can use our own custom JSON file parser.
   // any references to "ts/..." below are references to these Token Studio transformers

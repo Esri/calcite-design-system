@@ -1,12 +1,8 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
-
+import { resolve } from "path";
 import { CalciteTokenTransformConfig } from "../support/types/config.js";
 import { Platform } from "../support/types/platform.js";
 import { globalTokens, coreTokens } from "./index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { __dirname } from "../support/utils/node.js";
 
 export const config: CalciteTokenTransformConfig = {
   files: [coreTokens, globalTokens],

@@ -20,7 +20,7 @@ export function parse(options: ParserOptions): DeepKeyTokenMap<false> {
   return expanded;
 }
 
-export function registerCustomJSONParser(sd: StyleDictionary): void {
+export function registerCustomJSONParser(sd: typeof StyleDictionary): void {
   sd.registerParser({
     pattern: /\.json$/,
     parse,

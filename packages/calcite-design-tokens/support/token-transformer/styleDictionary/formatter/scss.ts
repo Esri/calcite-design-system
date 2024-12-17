@@ -19,7 +19,7 @@ export const formatScssPlatform: CalledFormatterFunction = (args) => {
   return prettierSync.format(header + (tokens ? tokens.join(EOL) : ""), { parser: "scss" });
 };
 
-export const registerFormatterScss = (sd: StyleDictionary): void => {
+export const registerFormatterScss = (sd: typeof StyleDictionary): void => {
   const formatterConfig: FormatterConfig = {
     name: CalciteScss,
     formatter: formatScssPlatform,

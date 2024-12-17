@@ -1,10 +1,7 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import { createCalciteTokenFiles } from "./createCalciteTokenFiles.js";
 import { ConfigOptions } from "../../types/config.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { __dirname } from "../../utils/node.js";
 
 describe("Helper to create a Calcite Token Transformer configuration file", () => {
   it("should return a token file", async () => {

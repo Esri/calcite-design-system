@@ -10,7 +10,7 @@ export const transformValuesStringWrapper: CalledTransformerFunction<string> = (
   return `"${token.value}"`;
 };
 
-export const registerValueStringWrapper = (sd: StyleDictionary): void => {
+export const registerValueStringWrapper = (sd: typeof StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
     name: valueStringWrapper,
     transformer: transformValuesStringWrapper,
