@@ -136,6 +136,12 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
 
 const kitchenSinkHTML = html`
   <style>
+    .sb-show-main.sb-main-centered #storybook-root {
+      width: 1200px;
+      height: 1200px;
+    }
+  </style>
+  <style>
     .parent {
       display: flex;
       width: 85%;
@@ -422,7 +428,7 @@ const kitchenSinkHTML = html`
     </div>
   </div>
 
-  <div class="parent" style="margin-bottom:200px">
+  <div class="parent" style="margin-bottom:400px">
     <div class="child right-aligned-text">Open</div>
     <div class="child">
       <form class="locate-form">
