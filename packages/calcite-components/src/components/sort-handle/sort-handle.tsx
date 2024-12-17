@@ -55,12 +55,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   /** Specifies the label of the component. */
   @property() label: string;
 
-  /**
-   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
-   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
-   */
-  @property({ reflect: true }) maxItems = 0;
-
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
