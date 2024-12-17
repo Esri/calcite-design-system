@@ -66,24 +66,30 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
 export const resizable = (): string =>
-  html`<calcite-sheet resizable display-mode="float" label="libero nunc" open position="inline-start"
-    >${panelHTML}</calcite-sheet
-  >`;
-
-export const resizableFloatInlineStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
-
-export const resizableFloatInlineEnd = (): string =>
-  html`<calcite-sheet resizable label="libero nunc" open position="inline-end">${panelHTML}</calcite-sheet>`;
-
-export const resizableFloatBlockStart = (): string =>
-  html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
-
-export const resizableFloatBlockEnd = (): string =>
-  html`<calcite-sheet resizable label="libero nunc" open position="block-end">${panelHTML}</calcite-sheet>`;
 
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
+
+export const resizableFloatInlineStart = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatInlineEnd = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-end"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatBlockStart = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatBlockEnd = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-end"
+    >${panelHTML}</calcite-sheet
+  >`;
 
 export const resizableLoremIpsum = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-end"
