@@ -76,7 +76,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
-          if (typeof input === "string" && input.endsWith(".t9n.es.json")) {
+          if (typeof input === "string" && input.endsWith(".es.json")) {
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 

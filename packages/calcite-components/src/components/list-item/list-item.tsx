@@ -23,7 +23,7 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
-import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";

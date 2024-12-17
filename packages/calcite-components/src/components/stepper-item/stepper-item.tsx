@@ -32,7 +32,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/stepper-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
 
 declare global {
