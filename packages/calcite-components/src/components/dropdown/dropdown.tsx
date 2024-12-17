@@ -480,14 +480,10 @@ export class Dropdown
     }
 
     this.reposition(true);
-    scrollerEl.style.maxBlockSize = this.getMaxHeightStyle(this.getMaxScrollerHeight());
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
-
-  private getMaxHeightStyle(maxHeight: number): string {
-    return maxHeight > 0 ? `${maxHeight}px` : "";
-  }
-
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
     if (el) {
       this.resizeObserver?.observe(el);

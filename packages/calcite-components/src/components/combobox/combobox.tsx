@@ -923,15 +923,11 @@ export class Combobox
     }
 
     await this.reposition(true);
-    listContainerEl.style.maxBlockSize = this.getMaxHeightStyle(this.getMaxScrollerHeight());
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
-
-  private getMaxHeightStyle(maxHeight: number): string {
-    return maxHeight > 0 ? `${maxHeight}px` : "";
-  }
-
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
