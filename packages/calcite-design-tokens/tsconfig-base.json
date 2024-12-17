@@ -7,7 +7,7 @@
     "experimentalDecorators": true,
     "lib": ["dom", "dom.iterable", "ES2021"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
