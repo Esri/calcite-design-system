@@ -32,7 +32,7 @@ import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
-import T9nStrings from "./assets/t9n/button.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";

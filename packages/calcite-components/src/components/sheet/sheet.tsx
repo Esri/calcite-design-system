@@ -35,7 +35,7 @@ import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
-import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
 declare global {

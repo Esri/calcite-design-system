@@ -28,7 +28,7 @@ import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/alert.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import AlertManager from "./AlertManager";

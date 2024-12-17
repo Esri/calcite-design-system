@@ -83,7 +83,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
-import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {

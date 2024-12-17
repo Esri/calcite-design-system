@@ -16,7 +16,7 @@
     const component = path.split(sep)[2];
 
     const source = resolve(`${path}/messages.json`);
-    const destination = resolve(`${path}/messages_en.json`);
+    const destination = resolve(`${path}/messages.en.json`);
 
     await copyFile(source, destination);
     synchronized.push(component);
