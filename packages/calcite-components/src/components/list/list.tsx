@@ -208,7 +208,15 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
-  /** Specifies a function to handle filtering. */
+  /**
+   * Specifies a function to handle filtering.
+   *
+   * @example
+   * myList.filterPredicate = (myListItem) => {
+   *   // returns true to show the list item if some condition is met
+   *   return myListItem.label.includes("someValue");
+   * };
+   */
   @property() filterPredicate: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
