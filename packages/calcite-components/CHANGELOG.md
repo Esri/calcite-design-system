@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.70...@esri/calcite-components@3.0.0-next.71) (2024-12-17)
+
+### Bug Fixes
+
+- **input:** Avoid styling on non-reflected attributes ([#11089](https://github.com/Esri/calcite-design-system/issues/11089)) ([cd6afeb](https://github.com/Esri/calcite-design-system/commit/cd6afeb92a90bfc7166aacf574403fc99848859d)), closes [#10959](https://github.com/Esri/calcite-design-system/issues/10959) [#10958](https://github.com/Esri/calcite-design-system/issues/10958)
+
 ## [3.0.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.69...@esri/calcite-components@3.0.0-next.70) (2024-12-17)
 
 ### Bug Fixes
