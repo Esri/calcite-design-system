@@ -3,12 +3,14 @@ import { registerNameRemoveTier } from "./name/removeTier.js";
 import { registerNameRemoveColorMode } from "./name/removeColorMode.js";
 import { registerNameIncludePlus } from "./name/includePlus.js";
 import { registerNameIncludeMinus } from "./name/includeMinus.js";
-import { registerMathSum } from "./value/mathSum.js";
+import { registerValueMathSum } from "./value/mathSum.js";
+import { registerValueShadowShorthand } from "./value/shadow.js";
 
-export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
+export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
+  registerValueShadowShorthand(sd);
   registerNameRemoveTier(sd);
   registerNameRemoveColorMode(sd);
   registerNameIncludePlus(sd);
   registerNameIncludeMinus(sd);
-  registerMathSum(sd);
+  registerValueMathSum(sd);
 }
