@@ -216,11 +216,11 @@ export class InputTimePicker
   @property({ reflect: true }) form: string;
 
   /**
-   * Specifies how the hour will be displayed, where
+   * Specifies the component's hour format, where:
    *
-   * `"user"` uses `12` or `24` depending on the user's locale,
-   * `"12"` always uses the 12-hour format, and
-   * `"24"` always uses the 24-hour format.
+   * `"user"` displays the user's locale format,
+   * `"12"` displays a 12-hour format, and
+   * `"24"` displays a 24-hour format.
    *
    * @default "user"
    */
