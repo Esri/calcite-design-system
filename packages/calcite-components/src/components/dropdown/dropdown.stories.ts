@@ -307,6 +307,26 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
+export const maxItemsMatchesTotalItems = (): string => html`
+  <calcite-dropdown max-items="10">
+    <calcite-button appearance="outline" icon-end="hamburger" slot="trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+
 export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string =>
   html` <calcite-dropdown max-items="3" open>
     <calcite-button slot="trigger">Activate Dropdown</calcite-button>
