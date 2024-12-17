@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Table-advanced</title>
+    <style>
+      .parent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 3rem;
+      }
+
+      .title-text {
+        margin-bottom: 0.5rem;
+      }
+
+      .child {
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+    </style>
+    <script src="_assets/head.ts"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Table-advanced</h1>
+
+      <!-- Basic -->
+      <div class="parent">
+        <div class="child title-text">Table Advanced</div>
+        <div class="child">
+          <calcite-table-advanced scale="s"></calcite-table-advanced>
+        </div>
+      </div>
+
+      <!-- Column groups -->
+      <div class="parent">
+        <div class="child title-text">Column Groups</div>
+        <div class="child">
+          <calcite-table-advanced scale="m"></calcite-table-advanced>
+        </div>
+      </div>
+
+      <!-- Fit To Width -->
+      <div class="parent">
+        <div class="child title-text">Fit To Width</div>
+        <div class="child">
+          <calcite-table-advanced scale="l"></calcite-table-advanced>
+        </div>
+      </div>
+    </demo-dom-swapper>
+    <script>
+      var tableAdvanced = document.querySelectorAll("calcite-table-advanced")[0];
+      var tableAdvancedColumnGroups = document.querySelectorAll("calcite-table-advanced")[1];
+      var tableAdvancedFitToWidth = document.querySelectorAll("calcite-table-advanced")[2];
+
+      var data = [
+        { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
+        {
+          id: 2,
+          name: "Mary May",
+          progress: 1,
+          gender: "female",
+          rating: 2,
+          col: "blue",
+          dob: "14/05/1982",
+          car: true,
+        },
+        {
+          id: 3,
+          name: "Christine Lobowski",
+          progress: 42,
+          gender: "female",
+          rating: 0,
+          col: "green",
+          dob: "22/05/1982",
+          car: "true",
+        },
+        {
+          id: 4,
+          name: "Brendon Philips",
+          progress: 100,
+          gender: "male",
+          rating: 1,
+          col: "orange",
+          dob: "01/08/1980",
+        },
+        {
+          id: 5,
+          name: "Margret Marmajuke",
+          progress: 16,
+          gender: "female",
+          rating: 5,
+          col: "yellow",
+          dob: "31/01/1999",
+        },
+        {
+          id: 6,
+          name: "Frank Harbours",
+          progress: 38,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+          car: 1,
+        },
+      ];
+
+      var columns = [
+        { title: "Name", field: "name", editor: "input" },
+        { title: "Task Progress", field: "progress", hozAlign: "left", formatter: "progress", editor: true },
+        {
+          title: "Gender",
+          field: "gender",
+          width: 95,
+          editor: "select",
+          editorParams: { values: ["male", "female"] },
+        },
+        { title: "Rating", field: "rating", formatter: "star", hozAlign: "center", width: 100, editor: true },
+        { title: "Color", field: "col", width: 130, editor: "input" },
+        { title: "Date Of Birth", field: "dob", width: 130, sorter: "date", hozAlign: "center" },
+        {
+          title: "Driver",
+          field: "car",
+          width: 90,
+          hozAlign: "center",
+          formatter: "tickCross",
+          sorter: "boolean",
+          editor: true,
+        },
+      ];
+
+      tableAdvanced.data = data;
+      tableAdvanced.columns = columns;
+
+      var dataColumnGroups = [
+        {
+          id: 4,
+          name: "Brendon Philips",
+          progress: 100,
+          gender: "male",
+          rating: 1,
+          col: "orange",
+          dob: "01/08/1980",
+        },
+        {
+          id: 5,
+          name: "Margret Marmajuke",
+          progress: 16,
+          gender: "female",
+          rating: 5,
+          col: "yellow",
+          dob: "31/01/1999",
+        },
+        {
+          id: 6,
+          name: "Frank Harbours",
+          progress: 38,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+          car: 1,
+        },
+      ];
+
+      var columnGroups = [
+        { title: "Name", field: "name", width: 160 },
+        {
+          //create column group
+          title: "Work Info",
+          columns: [
+            { title: "Progress", field: "progress", hozAlign: "right", sorter: "number", width: 100 },
+            { title: "Rating", field: "rating", hozAlign: "center", width: 80 },
+            { title: "Driver", field: "car", hozAlign: "center", width: 80 },
+          ],
+        },
+        {
+          //create column group
+          title: "Personal Info",
+          columns: [
+            { title: "Gender", field: "gender", width: 90 },
+            { title: "Favourite Color", field: "col", width: 140 },
+            { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date", width: 130 },
+          ],
+        },
+      ];
+
+      tableAdvancedColumnGroups.data = dataColumnGroups;
+      tableAdvancedColumnGroups.columns = columnGroups;
+
+      var dataFitToWidth = [
+        { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
+        {
+          id: 2,
+          name: "Mary May",
+          progress: 1,
+          gender: "female",
+          rating: 2,
+          col: "blue",
+          dob: "14/05/1982",
+          car: true,
+        },
+        {
+          id: 3,
+          name: "Christine Lobowski",
+          progress: 42,
+          gender: "female",
+          rating: 0,
+          col: "green",
+          dob: "22/05/1982",
+          car: "true",
+        },
+      ];
+
+      var columnsFitToWidth = [
+        { title: "Name", field: "name", width: 200 },
+        { title: "Progress", field: "progress", hozAlign: "right", sorter: "number" },
+        { title: "Gender", field: "gender", widthGrow: 2 },
+        { title: "Rating", field: "rating", hozAlign: "center" },
+        { title: "Favourite Color", field: "col", widthGrow: 3 },
+        { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date", widthGrow: 2 },
+        { title: "Driver", field: "car", hozAlign: "center" },
+      ];
+
+      tableAdvancedFitToWidth.data = dataFitToWidth;
+      tableAdvancedFitToWidth.columns = columnsFitToWidth;
+    </script>
+  </body>
+</html>
