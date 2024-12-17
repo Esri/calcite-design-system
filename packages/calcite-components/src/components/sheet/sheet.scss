@@ -175,12 +175,17 @@
   transform: var(--calcite-sheet-hidden-position-internal);
 }
 
+.content-container {
+  @apply flex flex-1 relative max-h-full max-w-full overflow-hidden;
+}
+
 .container--open .content {
   transform: translate3d(0, 0, 0);
 }
 
 :host([display-mode="float"]) .content,
-:host([display-mode="float"]) .container {
+:host([display-mode="float"]) .container,
+:host([display-mode="float"]) .content-container {
   @apply rounded;
 }
 
@@ -261,6 +266,10 @@
 .resize-handle-bar {
   @apply flex bg-background justify-center items-center pointer-events-none;
   color: var(--calcite-color-border-input);
+}
+
+:host([display-mode="float"]) .resize-handle-bar {
+  @apply rounded-e;
 }
 
 .resize-handle:focus .resize-handle-bar {
