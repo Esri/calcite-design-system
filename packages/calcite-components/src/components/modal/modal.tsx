@@ -380,23 +380,23 @@ export class Modal
   }
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
+    this.transitionEl?.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
     activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
+    this.transitionEl?.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.transitionEl?.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
     deactivateFocusTrap(this);
   }
