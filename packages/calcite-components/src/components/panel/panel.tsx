@@ -29,7 +29,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
-import T9nStrings from "./assets/t9n/panel.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 

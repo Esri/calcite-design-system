@@ -94,12 +94,12 @@ describe("calcite-accordion", () => {
     </calcite-accordion>`);
     const accordionItems = await page.findAll("calcite-accordion-items");
 
-    accordionItems.forEach(async (item) => {
+    for (const item of accordionItems) {
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("l");
-    });
+    }
   });
 
   it("renders requested props when valid props are provided", async () => {

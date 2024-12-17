@@ -35,7 +35,7 @@ import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
-import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
 declare global {
@@ -60,19 +60,7 @@ export class Sheet
 
   private contentId: string;
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -254,10 +242,16 @@ export class Sheet
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
+        // scrim closes on click, so we let it take over
         clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
     this.setupInteractions();
@@ -641,7 +635,9 @@ export class Sheet
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} ref={this.setContentEl}>
-          <slot />
+          <div class={CSS.contentContainer}>
+            <slot />
+          </div>
           {resizable ? (
             <div
               ariaLabel={this.messages.resizeEnabled}

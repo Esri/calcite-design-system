@@ -12,7 +12,7 @@ import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
-import T9nStrings from "./assets/t9n/shell-panel.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";

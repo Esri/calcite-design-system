@@ -27,7 +27,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
-import T9nStrings from "./assets/t9n/dialog.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
   dialogDragStep,
@@ -78,19 +78,7 @@ export class Dialog
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  private escapeDeactivates = (event: KeyboardEvent): boolean => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -306,10 +294,16 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
-        clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        // scrim closes on click, so we let it take over
+        clickOutsideDeactivates: () => !this.modal,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
     this.setupInteractions();
