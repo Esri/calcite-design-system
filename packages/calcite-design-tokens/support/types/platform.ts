@@ -5,6 +5,8 @@ export const enum Platform {
   DOCS = "docs",
   JS = "js",
   ES6 = "es6",
+  ES6LIGHT = "es6light",
+  ES6DARK = "es6dark",
 }
 
 export const enum TypescriptPlatform {
