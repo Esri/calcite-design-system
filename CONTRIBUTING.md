@@ -214,19 +214,19 @@ johndoe/feature/add-something-to-modal
 
 ## Commit message format
 
-Calcite follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to generate the changelog automatically.
+Calcite follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), using the [Angular style](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular#commit-message-format), to automate changelog generation. Commit messages should be clear and detailed to ensure accurate changelogs.
 
 Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
 
-- [Convention type](#convention-type)
+- [Commit type](#commit-type)
 - [Scope of change](#scope-of-change), *optional*
 - [Descriptive commit subject](#descriptive-commit-subject)
 
 Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
 
-### Convention type
+### Commit type
 
-Contributions must adhere to **one** of the following conventions:
+Contributions must adhere to **one** of the following types:
 
 - **`chore`**: Adds a new build process, or auxiliary tool and libraries (e.g., documentation generation) 🤖
 - **`docs`**: Documentation only changes 📚
@@ -254,7 +254,7 @@ The subject should contain a concise description of the proposed change, where c
 
 - **Be succinct, yet informative** to ensure the change's purpose is conveyed once added to the changelog
 - Describe the commit's purpose, not a related issue or how the change was mitigated
-- Use present tense, such as "update" instead of "updated" or "updates"
+- Use the imperative, present tense, such as "update" instead of "updated" or "updates"
 - Not capitalize the first letter
 - Not insert a period `.` at the end
 
@@ -275,7 +275,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For more information, explore [Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format). Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
+For additional examples, you can look at [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
 
 ## Breaking changes
 
