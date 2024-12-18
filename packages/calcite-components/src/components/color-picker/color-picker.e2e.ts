@@ -11,15 +11,16 @@ import {
   getElementRect,
 } from "../../tests/utils";
 import { html } from "../../../support/formatting";
-import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
-import { getSliderWidth } from "./utils";
+import { getColorFieldDimensions, getSliderWidth } from "./utils";
 import type { ColorPicker } from "./color-picker";
 
 type SpyInstance = MockInstance;
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
+  const defaultMediumWidthInPx = 240;
 
   async function clickScope(page: E2EPage, scope: "hue" | "color-field"): Promise<void> {
     // helps workaround puppeteer not being able to click on a 0x0 element
@@ -579,9 +580,10 @@ describe("calcite-color-picker", () => {
     const picker = await page.find(`calcite-color-picker`);
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     let changes = 0;
-    const mediumScaleDimensions = DIMENSIONS.m;
+    const mediumScaleDimensions = STATIC_DIMENSIONS.m;
     const widthOffset = 0.5;
     const [colorFieldX, colorFieldY] = await getElementXY(page, "calcite-color-picker", `.${CSS.colorField}`);
+    const mediumScaleColorFieldDimensions = await getColorFieldDimensions(defaultMediumWidthInPx);
 
     // clicking color field colors to pick a color
     await page.mouse.click(colorFieldX, colorFieldY);
@@ -589,19 +591,19 @@ describe("calcite-color-picker", () => {
     expect(await picker.getProperty("value")).toBe("#ffffff");
     expect(spy).toHaveReceivedEventTimes(++changes);
 
-    await page.mouse.click(colorFieldX, colorFieldY + mediumScaleDimensions.colorField.height - 0.1);
+    await page.mouse.click(colorFieldX, colorFieldY + mediumScaleColorFieldDimensions.height - 0.1);
     await page.waitForChanges();
     expect(await picker.getProperty("value")).toBe("#000000");
     expect(spy).toHaveReceivedEventTimes(++changes);
 
-    await page.mouse.click(colorFieldX + mediumScaleDimensions.colorField.width - widthOffset, colorFieldY);
+    await page.mouse.click(colorFieldX + mediumScaleColorFieldDimensions.width - widthOffset, colorFieldY);
     await page.waitForChanges();
     expect(await picker.getProperty("value")).toBe("#ff0000");
     expect(spy).toHaveReceivedEventTimes(++changes);
 
     await page.mouse.click(
-      colorFieldX + mediumScaleDimensions.colorField.width - widthOffset,
-      colorFieldY + mediumScaleDimensions.colorField.height - 0.1,
+      colorFieldX + mediumScaleColorFieldDimensions.width - widthOffset,
+      colorFieldY + mediumScaleColorFieldDimensions.height - 0.1,
     );
     await page.waitForChanges();
     expect(await picker.getProperty("value")).toBe("#000000");
@@ -614,7 +616,8 @@ describe("calcite-color-picker", () => {
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
-    const offsetX = (getSliderWidth(mediumScaleDimensions, false) - widthOffset) / colorsToSample;
+    const offsetX =
+      (getSliderWidth(defaultMediumWidthInPx, mediumScaleDimensions, false) - widthOffset) / colorsToSample;
     const [hueSliderX, hueSliderY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
 
     let x = hueSliderX;
@@ -660,7 +663,7 @@ describe("calcite-color-picker", () => {
       (window as TestWindow).internalColor = color.color;
     });
 
-    const middleOfSlider = getSliderWidth(mediumScaleDimensions, false) / 2;
+    const middleOfSlider = getSliderWidth(defaultMediumWidthInPx, mediumScaleDimensions, false) / 2;
     await page.mouse.click(x + middleOfSlider, sliderHeight);
 
     const internalColorChanged = await page.evaluate(() => {
@@ -770,7 +773,7 @@ describe("calcite-color-picker", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-color-picker></calcite-color-picker>`);
     const [hueSliderX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
-    const sliderWidth = getSliderWidth(DIMENSIONS.m, false);
+    const sliderWidth = getSliderWidth(defaultMediumWidthInPx, STATIC_DIMENSIONS.m, false);
 
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
     let [hueScopeCenterX, hueScopeCenterY] = getScopeCenter(hueScopeX, hueScopeY);
@@ -784,7 +787,7 @@ describe("calcite-color-picker", () => {
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
     [hueScopeCenterX, hueScopeCenterY] = getScopeCenter(hueScopeX, hueScopeY);
 
-    expect(hueScopeCenterX).toBe(hueSliderX + DIMENSIONS.m.thumb.radius);
+    expect(hueScopeCenterX).toBe(hueSliderX + STATIC_DIMENSIONS.m.thumb.radius);
 
     await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
     await page.mouse.down();
@@ -795,7 +798,7 @@ describe("calcite-color-picker", () => {
     [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
     [hueScopeCenterX] = getScopeCenter(hueScopeX, hueScopeY);
 
-    expect(hueScopeCenterX).toBe(hueSliderX + sliderWidth - DIMENSIONS.m.thumb.radius);
+    expect(hueScopeCenterX).toBe(hueSliderX + sliderWidth - STATIC_DIMENSIONS.m.thumb.radius);
   });
 
   it("does not allow text selection when color field/sliders are used", async () => {
@@ -2308,7 +2311,8 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
 
         const finalStyle = await scope.getComputedStyle();
-        expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width - SCOPE_SIZE / 2}px`);
+        const mediumScaleColorFieldDimensions = await getColorFieldDimensions(defaultMediumWidthInPx);
+        expect(finalStyle.left).toBe(`${mediumScaleColorFieldDimensions.width - SCOPE_SIZE / 2}px`);
       });
 
       it("allows nudging color's hue even if it does not change RGB value", async () => {
@@ -2328,7 +2332,7 @@ describe("calcite-color-picker", () => {
 
         const getScopeLeftOffset = async () => parseFloat((await scope.getComputedStyle()).left);
 
-        expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.thumb.radius - 0.5, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
 
         await nudgeAThirdOfSlider();
         expect(await getScopeLeftOffset()).toBeCloseTo(58.9, 0);
@@ -2343,7 +2347,7 @@ describe("calcite-color-picker", () => {
 
         // nudge it to wrap around
         await scope.press("ArrowRight");
-        expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.thumb.radius - 0.5, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
       });
 
       it("allows editing hue slider via keyboard", async () => {
@@ -2382,7 +2386,7 @@ describe("calcite-color-picker", () => {
 
         expect(await hueSliderScope.getComputedStyle()).toMatchObject({
           top: "6.5px",
-          left: `${DIMENSIONS.m.thumb.radius - 0.5}px`,
+          left: `${STATIC_DIMENSIONS.m.thumb.radius - 0.5}px`,
         });
       });
 
