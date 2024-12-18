@@ -46,7 +46,6 @@ import {
   connectForm,
   disconnectForm,
   submitForm,
-  defaultFormReset,
 } from "../../utils/form";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -538,10 +537,9 @@ export class Autocomplete
     this.setFocus();
   }
 
-  onFormReset(): void {
-    defaultFormReset(this);
-    this.inputValue = this.defaultInputValue;
-  }
+  // onFormReset(): void {
+  //   this.inputValue = this.defaultInputValue;
+  // }
 
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();

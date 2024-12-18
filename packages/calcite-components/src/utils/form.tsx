@@ -365,7 +365,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
     component.defaultChecked = component.checked;
   }
 
-  const boundOnFormReset = (component.onFormReset || defaultFormReset).bind(component);
+  const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
   associatedForm.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
@@ -384,25 +384,25 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
     : closestElementCrossShadowBoundary(el, "form");
 }
 
-export function defaultFormReset<T>(component: FormComponent<T>): void {
-  if ("status" in component) {
-    component.status = "idle";
+function onFormReset<T>(this: FormComponent<T>): void {
+  if ("status" in this) {
+    this.status = "idle";
   }
 
-  if ("validationIcon" in component) {
-    component.validationIcon = false;
+  if ("validationIcon" in this) {
+    this.validationIcon = false;
   }
 
-  if ("validationMessage" in component) {
-    component.validationMessage = "";
+  if ("validationMessage" in this) {
+    this.validationMessage = "";
   }
 
-  if (isCheckable(component)) {
-    component.checked = component.defaultChecked;
+  if (isCheckable(this)) {
+    this.checked = this.defaultChecked;
     return;
   }
 
-  component.value = component.defaultValue;
+  this.value = this.defaultValue;
 }
 
 /**
