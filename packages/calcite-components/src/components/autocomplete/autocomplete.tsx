@@ -534,6 +534,10 @@ export class Autocomplete
     this.setFocus();
   }
 
+  onFormReset(): void {
+    this.inputValue = this.defaultValue;
+  }
+
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();
   }
