@@ -177,7 +177,7 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
   }
 
   override disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
+    this.input?.remove();
   }
 
   // #endregion
