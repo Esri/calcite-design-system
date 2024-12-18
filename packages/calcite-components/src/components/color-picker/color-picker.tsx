@@ -1,14 +1,14 @@
 import Color from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import {
   Direction,
   focusFirstTabbable,
   getElementDir,
   isPrimaryPointerButton,
 } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { Dimensions, Scale } from "../interfaces";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -28,13 +28,14 @@ import type { InputNumber } from "../input-number/input-number";
 import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
-import { Dimensions } from "../graph/interfaces";
 import {
   alphaCompatible,
   alphaToOpacity,
   colorEqual,
   CSSColorMode,
   Format,
+  getColorFieldDimensions,
+  getSliderWidth,
   hexify,
   normalizeAlpha,
   normalizeColor,
@@ -49,12 +50,12 @@ import {
   CSS,
   DEFAULT_COLOR,
   DEFAULT_STORAGE_KEY_PREFIX,
-  DIMENSIONS,
   HSV_LIMITS,
   HUE_LIMIT_CONSTRAINED,
   OPACITY_LIMITS,
   RGB_LIMITS,
   SCOPE_SIZE,
+  STATIC_DIMENSIONS,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import T9nStrings from "./assets/t9n/color-picker.t9n.en.json";
@@ -77,27 +78,22 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   // #region Private Properties
 
-  private resizeObserver = createObserver("resize", (entries) => this.resizeCanvas(entries));
-
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;
     bounds: DOMRect;
   };
 
+  private dynamicDimensions: {
+    colorField: Dimensions;
+    slider: Dimensions;
+  } = {
+    colorField: { width: 0, height: 0 },
+    slider: { width: 0, height: 0 },
+  };
+
   private get baseColorFieldColor(): Color {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
-
-  private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
-    const { width, height } = this._dims.colorField;
-    const saturation = Math.round((HSV_LIMITS.s / width) * x);
-    const value = Math.round((HSV_LIMITS.v / height) * (height - y));
-
-    this.internalColorSet(
-      this.baseColorFieldColor.hsv().saturationv(saturation).value(value),
-      skipEqual,
-    );
-  };
 
   private checkerPattern: HTMLCanvasElement;
 
@@ -107,90 +103,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private colorFieldScopeNode: HTMLDivElement;
 
-  private drawColorControls = throttle(
-    (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
-      if ((type === "all" || type === "color-field") && this.colorFieldRenderingContext) {
-        this.drawColorField();
-      }
-
-      if ((type === "all" || type === "hue-slider") && this.hueSliderRenderingContext) {
-        this.drawHueSlider();
-      }
-
-      if (
-        this.alphaChannel &&
-        (type === "all" || type === "opacity-slider") &&
-        this.opacitySliderRenderingContext
-      ) {
-        this.drawOpacitySlider();
-      }
-    },
-    throttleFor60FpsInMs,
-  );
-
   private get effectiveSliderWidth(): number {
-    return this._dims.slider.width;
+    return this.dynamicDimensions.slider.width;
   }
-
-  private globalPointerMoveHandler = (event: PointerEvent): void => {
-    const { activeCanvasInfo, el } = this;
-
-    if (!el.isConnected || !activeCanvasInfo) {
-      return;
-    }
-
-    const { context, bounds } = activeCanvasInfo;
-
-    let samplingX: number;
-    let samplingY: number;
-
-    const { clientX, clientY } = event;
-
-    if (context.canvas.matches(":hover")) {
-      samplingX = clientX - bounds.x;
-      samplingY = clientY - bounds.y;
-    } else {
-      // snap x and y to the closest edge
-
-      if (clientX < bounds.x + bounds.width && clientX > bounds.x) {
-        samplingX = clientX - bounds.x;
-      } else if (clientX < bounds.x) {
-        samplingX = 0;
-      } else {
-        samplingX = bounds.width;
-      }
-
-      if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
-        samplingY = clientY - bounds.y;
-      } else if (clientY < bounds.y) {
-        samplingY = 0;
-      } else {
-        samplingY = bounds.height;
-      }
-    }
-
-    if (context === this.colorFieldRenderingContext) {
-      this.captureColorFieldColor(samplingX, samplingY, false);
-    } else if (context === this.hueSliderRenderingContext) {
-      this.captureHueSliderColor(samplingX);
-    } else if (context === this.opacitySliderRenderingContext) {
-      this.captureOpacitySliderValue(samplingX);
-    }
-  };
-
-  private globalPointerUpHandler = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const previouslyDragging = this.activeCanvasInfo;
-    this.activeCanvasInfo = null;
-    this.drawColorControls();
-
-    if (previouslyDragging) {
-      this.calciteColorPickerChange.emit();
-    }
-  };
 
   private hueScopeNode: HTMLDivElement;
 
@@ -209,6 +124,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
   private previousColor: InternalColor | null;
+
+  private resizeObserver = createObserver("resize", (entries) => this.resizeCanvas(entries));
 
   private shiftKeyChannelAdjustment = 0;
 
@@ -230,7 +147,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   @state() colorFieldScopeTop: number;
 
-  @state() dimensions = DIMENSIONS.m;
+  @state() staticDimensions = STATIC_DIMENSIONS.m;
 
   @state() hueScopeLeft: number;
 
@@ -402,7 +319,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.setMode(format, false);
     this.internalColorSet(initialColor, false, "initial");
 
-    this.updateDimensions(this.scale);
+    this.updateStaticDimensions(this.scale);
 
     const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
@@ -430,7 +347,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     if (
       this.hasUpdated &&
       ((changes.has("alphaChannel") && this.alphaChannel !== false) ||
-        (changes.has("dimensions") && this.dimensions !== DIMENSIONS.m))
+        (changes.has("staticDimensions") && this.staticDimensions !== STATIC_DIMENSIONS.m))
     ) {
       this.handleAlphaChannelDimensionsChange();
     }
@@ -472,9 +389,101 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   // #region Private Methods
 
+  private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
+    const { width, height } = this.dynamicDimensions.colorField;
+    const saturation = Math.round((HSV_LIMITS.s / width) * x);
+    const value = Math.round((HSV_LIMITS.v / height) * (height - y));
+
+    this.internalColorSet(
+      this.baseColorFieldColor.hsv().saturationv(saturation).value(value),
+      skipEqual,
+    );
+  };
+
+  private drawColorControls = throttle(
+    (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
+      if ((type === "all" || type === "color-field") && this.colorFieldRenderingContext) {
+        this.drawColorField();
+      }
+
+      if ((type === "all" || type === "hue-slider") && this.hueSliderRenderingContext) {
+        this.drawHueSlider();
+      }
+
+      if (
+        this.alphaChannel &&
+        (type === "all" || type === "opacity-slider") &&
+        this.opacitySliderRenderingContext
+      ) {
+        this.drawOpacitySlider();
+      }
+    },
+    throttleFor60FpsInMs,
+  );
+
+  private globalPointerMoveHandler = (event: PointerEvent): void => {
+    const { activeCanvasInfo, el } = this;
+
+    if (!el.isConnected || !activeCanvasInfo) {
+      return;
+    }
+
+    const { context, bounds } = activeCanvasInfo;
+
+    let samplingX: number;
+    let samplingY: number;
+
+    const { clientX, clientY } = event;
+
+    if (context.canvas.matches(":hover")) {
+      samplingX = clientX - bounds.x;
+      samplingY = clientY - bounds.y;
+    } else {
+      // snap x and y to the closest edge
+
+      if (clientX < bounds.x + bounds.width && clientX > bounds.x) {
+        samplingX = clientX - bounds.x;
+      } else if (clientX < bounds.x) {
+        samplingX = 0;
+      } else {
+        samplingX = bounds.width;
+      }
+
+      if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
+        samplingY = clientY - bounds.y;
+      } else if (clientY < bounds.y) {
+        samplingY = 0;
+      } else {
+        samplingY = bounds.height;
+      }
+    }
+
+    if (context === this.colorFieldRenderingContext) {
+      this.captureColorFieldColor(samplingX, samplingY, false);
+    } else if (context === this.hueSliderRenderingContext) {
+      this.captureHueSliderColor(samplingX);
+    } else if (context === this.opacitySliderRenderingContext) {
+      this.captureOpacitySliderValue(samplingX);
+    }
+  };
+
+  private globalPointerUpHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    const previouslyDragging = this.activeCanvasInfo;
+    this.activeCanvasInfo = null;
+    this.drawColorControls();
+
+    if (previouslyDragging) {
+      this.calciteColorPickerChange.emit();
+    }
+  };
+
   private resizeCanvas(entries: ResizeObserverEntry[]): void {
     const last = entries.pop();
-    this.updateDims(last.contentRect.width);
+    this.updateDynamicDimensions(last.contentRect.width);
     this.updateCanvasSize();
     this.drawColorControls();
   }
@@ -510,7 +519,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   private handleScaleChange(scale: Scale = "m"): void {
-    this.updateDimensions(scale);
+    this.updateStaticDimensions(scale);
     this.updateCanvasSize("all");
     this.drawColorControls();
   }
@@ -956,7 +965,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private getSliderCapSpacing(): number {
     const {
-      dimensions: {
+      staticDimensions: {
         slider: { height },
         thumb: { radius },
       },
@@ -965,8 +974,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     return radius * 2 - height;
   }
 
-  private updateDimensions(scale: Scale = "m"): void {
-    this.dimensions = DIMENSIONS[scale];
+  private updateStaticDimensions(scale: Scale = "m"): void {
+    this.staticDimensions = STATIC_DIMENSIONS[scale];
   }
 
   private deleteColor(): void {
@@ -1009,7 +1018,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private drawColorField(): void {
     const context = this.colorFieldRenderingContext;
-    const { width, height } = this._dims.colorField;
+    const { width, height } = this.dynamicDimensions.colorField;
 
     context.fillStyle = this.baseColorFieldColor
       .hsv()
@@ -1081,30 +1090,14 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.drawOpacitySlider();
   }
 
-  private _dims: {
-    colorField: Dimensions;
-    slider: Dimensions;
-  };
-
-  private updateDims(width: number): void {
-    const borderWidthInPx = 1;
-
-    const colorFieldAspectRatio = 1.8;
-    const colorFieldDims = {
-      width: Math.max(width - borderWidthInPx * 2, 0),
-      height: Math.max(Math.floor((width - borderWidthInPx) / colorFieldAspectRatio), 0),
-    };
-
-    const hasAlpha = this.alphaChannel;
-    const previewWidth = hasAlpha ? DIMENSIONS["l"].preview.size : this.dimensions.preview.size;
-
+  private updateDynamicDimensions(width: number): void {
     const sliderDims = {
-      width: Math.max(width - borderWidthInPx * 2 - this.dimensions.gap * 3 - previewWidth, 0),
-      height: this.dimensions.slider.height,
+      width: getSliderWidth(width, this.staticDimensions, this.alphaChannel),
+      height: this.staticDimensions.slider.height,
     };
 
-    this._dims = {
-      colorField: colorFieldDims,
+    this.dynamicDimensions = {
+      colorField: getColorFieldDimensions(width),
       slider: sliderDims,
     };
   }
@@ -1112,15 +1105,20 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   private updateCanvasSize(
     context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
   ): void {
-    const { _dims, dimensions } = this;
+    const { dynamicDimensions, staticDimensions } = this;
 
     if (context === "all" || context === "color-field") {
-      this.setCanvasContextSize(this.colorFieldRenderingContext?.canvas, _dims.colorField);
+      this.setCanvasContextSize(
+        this.colorFieldRenderingContext?.canvas,
+        dynamicDimensions.colorField,
+      );
     }
 
     const adjustedSliderDimensions = {
       width: this.effectiveSliderWidth,
-      height: dimensions.slider.height + (dimensions.thumb.radius - _dims.slider.height / 2) * 2,
+      height:
+        staticDimensions.slider.height +
+        (staticDimensions.thumb.radius - dynamicDimensions.slider.height / 2) * 2,
     };
 
     if (context === "all" || context === "hue-slider") {
@@ -1145,12 +1143,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const hsvColor = color.hsv();
 
     const {
-      dimensions: {
+      staticDimensions: {
         thumb: { radius },
       },
     } = this;
 
-    const { width, height } = this._dims.colorField;
+    const { width, height } = this.dynamicDimensions.colorField;
 
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
@@ -1213,7 +1211,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const hsvColor = color.hsv().saturationv(100).value(100);
 
     const {
-      dimensions: {
+      staticDimensions: {
         thumb: { radius },
       },
     } = this;
@@ -1233,7 +1231,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   private drawHueSlider(): void {
     const context = this.hueSliderRenderingContext;
     const {
-      dimensions: {
+      staticDimensions: {
         slider: { height },
         thumb: { radius: thumbRadius },
       },
@@ -1281,7 +1279,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const context = this.opacitySliderRenderingContext;
     const {
       baseColorFieldColor: previousColor,
-      dimensions: {
+      staticDimensions: {
         slider: { height },
         thumb: { radius: thumbRadius },
       },
@@ -1370,7 +1368,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     const hsvColor = color;
 
     const {
-      dimensions: {
+      staticDimensions: {
         thumb: { radius },
       },
     } = this;
@@ -1459,7 +1457,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       color,
       colorFieldScopeLeft,
       colorFieldScopeTop,
-      dimensions: {
+      staticDimensions: {
         thumb: { radius: thumbRadius },
       },
       hexDisabled,

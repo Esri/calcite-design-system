@@ -1,5 +1,9 @@
 import Color from "color";
+import { Dimensions, Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
+import { STATIC_DIMENSIONS } from "./resources";
+
+export const borderWidthInPx = 1;
 
 export const hexChar = /^[0-9A-F]$/i;
 const shorthandHex = /^#[0-9A-F]{3}$/i;
@@ -256,4 +260,24 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
                 : mode;
 
   return nonAlphaMode;
+}
+
+export function getSliderWidth(
+  availableWidth: number,
+  activeStaticDimensions: (typeof STATIC_DIMENSIONS)[Scale],
+  hasAlpha: boolean,
+): number {
+  const previewWidth = hasAlpha ? STATIC_DIMENSIONS["l"].preview.size : activeStaticDimensions.preview.size;
+
+  return Math.max(availableWidth - activeStaticDimensions.gap * 3 - previewWidth, 0);
+}
+
+export function getColorFieldDimensions(availableWidth: number): Dimensions {
+  const colorFieldAspectRatio = 1.8;
+  const effectiveWidth = Math.floor(availableWidth - borderWidthInPx * 2);
+
+  return {
+    width: Math.max(effectiveWidth, 0),
+    height: Math.max(Math.floor(effectiveWidth / colorFieldAspectRatio), 0),
+  };
 }
