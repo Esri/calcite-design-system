@@ -386,21 +386,16 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
-    console.log("ovd");
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
-      console.log("bail");
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    const lbl =
+    this.comboboxEl.selectedItems[0].textLabel =
       !metadata.country || open
         ? label
         : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
-
-    console.log("label", lbl);
-    this.comboboxEl.selectedItems[0].textLabel = lbl;
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
