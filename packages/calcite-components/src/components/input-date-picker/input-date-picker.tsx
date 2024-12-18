@@ -696,7 +696,7 @@ export class InputDatePicker
     activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
-          this.datePickerEl.setFocus();
+          this.datePickerEl?.setFocus();
           this.focusOnOpen = false;
         }
       },
@@ -713,7 +713,7 @@ export class InputDatePicker
     hideFloatingUI(this);
     deactivateFocusTrap(this);
     this.focusOnOpen = false;
-    this.datePickerEl.reset();
+    this.datePickerEl?.reset();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
