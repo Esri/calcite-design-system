@@ -118,7 +118,8 @@ export class AutocompleteItem
 
   // #region Private Methods
 
-  private handleClick(): void {
+  private handleClick(event: MouseEvent): void {
+    event.preventDefault();
     this.calciteInternalAutocompleteItemSelect.emit();
   }
 

@@ -19,7 +19,7 @@ import {
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
-import { skipAnimations } from "../../tests/utils";
+import { isElementFocused, skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
@@ -552,7 +552,20 @@ describe("calcite-autocomplete", () => {
     expect(await autocomplete.getProperty("open")).toBe(false);
   });
 
-  it("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
+  it("should open when input is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`${simpleHTML}<div id="test">test</div>`);
+
+    const input = await page.find("calcite-autocomplete >>> calcite-input");
+    await input.click();
+    await page.waitForChanges();
+
+    const autocomplete = await page.find("calcite-autocomplete");
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+  });
+
+  it.only("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
 
@@ -569,6 +582,7 @@ describe("calcite-autocomplete", () => {
     expect(await autocomplete.getProperty("value")).toBe("two");
     expect(await autocomplete.getProperty("open")).toBe(false);
     expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await isElementFocused(page, "#myAutocomplete")).toBe(true);
   });
 
   it("should set value, close, and emit calciteAutocompleteChange when item is selected via keyboard", async () => {
