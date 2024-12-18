@@ -136,12 +136,11 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
 
 const kitchenSinkHTML = html`
   <style>
-    .sb-show-main.sb-main-centered #storybook-root {
+    .container {
       width: 1200px;
       height: 1200px;
     }
-  </style>
-  <style>
+
     .parent {
       display: flex;
       width: 85%;
@@ -167,343 +166,345 @@ const kitchenSinkHTML = html`
       border-top: 1px solid var(--calcite-color-border-2);
     }
   </style>
-  <!-- Header -->
-  <div class="parent">
-    <div class="child"></div>
-    <div class="child">Small</div>
-    <div class="child">Medium</div>
-    <div class="child">Large</div>
-  </div>
+  <div class="container">
+    <!-- Header -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child">Small</div>
+      <div class="child">Medium</div>
+      <div class="child">Large</div>
+    </div>
 
-  <div class="parent">
-    <div class="child right-aligned-text">Simple</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
+    <div class="parent">
+      <div class="child right-aligned-text">Simple</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
     </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
 
-  <div class="parent">
-    <div class="child right-aligned-text">Content start/end</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
+    <div class="parent">
+      <div class="child right-aligned-text">Content start/end</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
     </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
 
-  <div class="parent">
-    <div class="child right-aligned-text">Placeholder</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="s"
-          placeholder="Find an address"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="m"
-          placeholder="Find an address"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="l"
-          placeholder="Find an address"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Disabled</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Readonly</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Loading</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Default value</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="s"
-          input-value="Hello world!"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="m"
-          input-value="Hello world!"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="l"
-          input-value="Hello world!"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Custom Icon</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="s"
-          icon="banana"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="m"
-          icon="banana"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="l"
-          icon="banana"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Required</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" class="locator-autocomplete" name="location" required></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" class="locator-autocomplete" name="location" required></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" class="locator-autocomplete" name="location" required></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">Prefix & Suffix</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="s"
-          prefix-text="A"
-          suffix-text="Z"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="m"
-          prefix-text="A"
-          suffix-text="Z"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete
-          scale="l"
-          prefix-text="A"
-          suffix-text="Z"
-          class="locator-autocomplete"
-          name="location"
-        ></calcite-autocomplete>
-      </form>
-    </div>
-  </div>
-
-  <div class="parent" style="margin-bottom:400px">
-    <div class="child right-aligned-text">Open</div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="s" open>
-          <div slot="content-top">Content top</div>
-          <div slot="content-bottom">Content bottom</div>
-          <calcite-autocomplete-item
+    <div class="parent">
+      <div class="child right-aligned-text">Placeholder</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
             scale="s"
-            label="Item 1"
-            value="1"
-            heading="Item 1"
-            description="Item 1 description"
-            icon-start="information"
-            icon-end="gear"
-          ></calcite-autocomplete-item>
-          <calcite-autocomplete-item
-            disabled
+            placeholder="Find an address"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="m"
+            placeholder="Find an address"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="l"
+            placeholder="Find an address"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Disabled</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" disabled class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Readonly</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" read-only class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Loading</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" loading class="locator-autocomplete" name="location"></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Default value</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
             scale="s"
-            label="Item 2"
-            value="2"
-            heading="Item 2"
-            description="Item 2 description"
-          ></calcite-autocomplete-item>
-        </calcite-autocomplete>
-      </form>
-    </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="m" open>
-          <div slot="content-top">Content top</div>
-          <div slot="content-bottom">Content bottom</div>
-          <calcite-autocomplete-item
+            input-value="Hello world!"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
             scale="m"
-            label="Item 1"
-            value="1"
-            heading="Item 1"
-            description="Item 1 description"
-            icon-start="information"
-            icon-end="gear"
-          ></calcite-autocomplete-item>
-          <calcite-autocomplete-item
-            disabled
-            scale="m"
-            label="Item 2"
-            value="2"
-            heading="Item 2"
-            description="Item 2 description"
-          ></calcite-autocomplete-item>
-        </calcite-autocomplete>
-      </form>
+            input-value="Hello world!"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="l"
+            input-value="Hello world!"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
     </div>
-    <div class="child">
-      <form class="locate-form">
-        <calcite-autocomplete scale="l" open>
-          <div slot="content-top">Content top</div>
-          <div slot="content-bottom">Content bottom</div>
-          <calcite-autocomplete-item
+
+    <div class="parent">
+      <div class="child right-aligned-text">Custom Icon</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="s"
+            icon="banana"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="m"
+            icon="banana"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
             scale="l"
-            label="Item 1"
-            value="1"
-            heading="Item 1"
-            description="Item 1 description"
-            icon-start="information"
-            icon-end="gear"
-          ></calcite-autocomplete-item>
-          <calcite-autocomplete-item
-            disabled
+            icon="banana"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Required</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" class="locator-autocomplete" name="location" required></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child right-aligned-text">Prefix & Suffix</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="s"
+            prefix-text="A"
+            suffix-text="Z"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
+            scale="m"
+            prefix-text="A"
+            suffix-text="Z"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete
             scale="l"
-            label="Item 2"
-            value="2"
-            heading="Item 2"
-            description="Item 2 description"
-          ></calcite-autocomplete-item>
-        </calcite-autocomplete>
-      </form>
+            prefix-text="A"
+            suffix-text="Z"
+            class="locator-autocomplete"
+            name="location"
+          ></calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="parent" style="margin-top:400px">
+      <div class="child right-aligned-text">Open</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="s"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="s"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="m"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="m"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="l"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="l"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
     </div>
   </div>
 `;
