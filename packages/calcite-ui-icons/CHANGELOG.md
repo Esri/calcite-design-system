@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.2...@esri/calcite-ui-icons@4.0.0-next.3) (2024-12-17)
+
+### Bug Fixes
+
+- medical icon ([#11087](https://github.com/Esri/calcite-design-system/issues/11087)) ([8206d77](https://github.com/Esri/calcite-design-system/commit/8206d775b22ae23b889a06c6310bd8144815afaa))
+
 ## [4.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.1...@esri/calcite-ui-icons@4.0.0-next.2) (2024-12-10)
 
 ### Features

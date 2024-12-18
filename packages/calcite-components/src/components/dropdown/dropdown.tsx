@@ -481,10 +481,9 @@ export class Dropdown
 
     this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
-
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
     if (el) {
       this.resizeObserver?.observe(el);
@@ -589,7 +588,7 @@ export class Dropdown
       }
     });
 
-    return items.length > maxItems ? maxScrollerHeight : 0;
+    return items.length >= maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {

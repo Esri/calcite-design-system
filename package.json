@@ -33,7 +33,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "4.32.0-next.40",
+    "@arcgis/lumina-compiler": "4.32.0-next.54",
     "@cspell/eslint-plugin": "8.16.1",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
@@ -67,10 +67,10 @@
     "@types/react-dom": "18.3.1",
     "@types/semver": "7.5.8",
     "@types/shell-quote": "1.7.5",
-    "@typescript-eslint/eslint-plugin": "8.17.0",
-    "@typescript-eslint/parser": "8.17.0",
-    "@typescript-eslint/rule-tester": "8.17.0",
-    "@typescript-eslint/utils": "8.17.0",
+    "@typescript-eslint/eslint-plugin": "8.18.0",
+    "@typescript-eslint/parser": "8.18.0",
+    "@typescript-eslint/rule-tester": "8.18.0",
+    "@typescript-eslint/utils": "8.18.0",
     "@vitest/coverage-v8": "2.1.8",
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.20",
@@ -78,18 +78,18 @@
     "change-case": "5.4.4",
     "cheerio": "1.0.0",
     "chokidar": "4.0.1",
-    "chromatic": "11.20.0",
+    "chromatic": "11.20.2",
     "concurrently": "9.1.0",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
     "cross-env": "7.0.3",
     "dedent": "1.5.3",
-    "eslint": "9.16.0",
+    "eslint": "9.17.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest": "28.9.0",
-    "eslint-plugin-jsdoc": "50.6.0",
+    "eslint-plugin-jsdoc": "50.6.1",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-unicorn": "56.0.1",
@@ -100,7 +100,7 @@
     "jest-axe": "9.0.0",
     "jest-cli": "29.7.0",
     "lerna": "8.1.9",
-    "lint-staged": "15.2.10",
+    "lint-staged": "15.2.11",
     "markdownlint-cli": "0.43.0",
     "postcss": "8.4.49",
     "prettier": "3.4.2",
@@ -136,8 +136,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.1.4",
-    "@nx/nx-linux-x64-gnu": "20.1.4",
-    "@nx/nx-win32-x64-msvc": "20.1.4"
+    "@nx/nx-darwin-arm64": "20.2.2",
+    "@nx/nx-linux-x64-gnu": "20.2.2",
+    "@nx/nx-win32-x64-msvc": "20.2.2"
   }
 }
