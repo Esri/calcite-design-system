@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.75...@esri/calcite-components@3.0.0-next.76) (2024-12-18)
+
+### Bug Fixes
+
+- floating ui elements set max-content for inline-size ([#11095](https://github.com/Esri/calcite-design-system/issues/11095)) ([fbb9def](https://github.com/Esri/calcite-design-system/commit/fbb9defca9d98e46c1de06e6e28430b9b354d3df)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.74...@esri/calcite-components@3.0.0-next.75) (2024-12-18)
 
 ### Bug Fixes
