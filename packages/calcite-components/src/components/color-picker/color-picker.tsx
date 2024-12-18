@@ -1090,7 +1090,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.drawOpacitySlider();
   }
 
-  private updateDynamicDimensions(width: number): void {
+  private updateDynamicDimensions = throttle((width: number): void => {
     const sliderDims = {
       width: getSliderWidth(width, this.staticDimensions, this.alphaChannel),
       height: this.staticDimensions.slider.height,
@@ -1100,7 +1100,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       colorField: getColorFieldDimensions(width),
       slider: sliderDims,
     };
-  }
+  }, throttleFor60FpsInMs);
 
   private updateCanvasSize(
     context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
