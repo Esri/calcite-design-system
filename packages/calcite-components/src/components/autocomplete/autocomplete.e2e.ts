@@ -565,7 +565,7 @@ describe("calcite-autocomplete", () => {
     expect(await autocomplete.getProperty("open")).toBe(true);
   });
 
-  it.only("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
+  it("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
 
