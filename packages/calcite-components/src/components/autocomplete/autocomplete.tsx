@@ -516,10 +516,12 @@ export class Autocomplete
     this.open = false;
   }
 
-  private handleInternalAutocompleteItemSelect(event: Event): void {
+  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
     event.stopPropagation();
     this.emitChange();
+    await this.setFocus();
+    this.open = false;
   }
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
@@ -549,7 +551,6 @@ export class Autocomplete
   }
 
   private emitChange(): void {
-    this.open = false;
     this.calciteAutocompleteChange.emit();
   }
 
@@ -654,6 +655,7 @@ export class Autocomplete
         if (open && activeIndex > -1) {
           this.value = enabledItems[activeIndex].value;
           this.emitChange();
+          this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {
           if (submitForm(this)) {
@@ -690,6 +692,14 @@ export class Autocomplete
     event.stopPropagation();
     this.inputValue = (event.target as Input["el"]).value;
     this.calciteAutocompleteTextChange.emit();
+  }
+
+  private inputClickHandler(event: MouseEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    this.open = true;
   }
 
   private inputHandler(event: CustomEvent): void {
@@ -752,6 +762,7 @@ export class Autocomplete
             messageOverrides={this.messages}
             minLength={this.minLength}
             name={this.name}
+            onClick={this.inputClickHandler}
             onKeyDown={this.keyDownHandler}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}
