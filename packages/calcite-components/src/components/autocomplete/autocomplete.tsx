@@ -102,6 +102,8 @@ export class Autocomplete
 
   defaultValue: Autocomplete["value"];
 
+  defaultInputValue: Autocomplete["inputValue"];
+
   floatingEl: HTMLDivElement;
 
   floatingLayout?: FloatingLayout;
@@ -456,6 +458,7 @@ export class Autocomplete
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
+    this.defaultInputValue = this.inputValue || "";
     setComponentLoaded(this);
     connectFloatingUI(this);
   }
@@ -535,7 +538,7 @@ export class Autocomplete
   }
 
   onFormReset(): void {
-    this.inputValue = this.defaultValue;
+    this.inputValue = this.defaultInputValue;
   }
 
   onBeforeOpen(): void {
