@@ -398,6 +398,7 @@ export class Autocomplete
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+    this.defaultInputValue = this.inputValue || "";
 
     this.getAllItemsDebounced();
 
