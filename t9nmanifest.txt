@@ -3,6 +3,7 @@ packages\calcite-components\src\components\action-bar\assets\t9n
 packages\calcite-components\src\components\action-group\assets\t9n
 packages\calcite-components\src\components\action-pad\assets\t9n
 packages\calcite-components\src\components\alert\assets\t9n
+packages\calcite-components\src\components\autocomplete\assets\t9n
 packages\calcite-components\src\components\block\assets\t9n
 packages\calcite-components\src\components\block-section\assets\t9n
 packages\calcite-components\src\components\button\assets\t9n

@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { SLOTS } from "./resources";
 
 describe("calcite-combobox-item", () => {
   describe("defaults", () => {
@@ -39,7 +40,7 @@ describe("calcite-combobox-item", () => {
   });
 
   describe("slots", () => {
-    slots("calcite-combobox-item", [], true);
+    slots("calcite-combobox-item", SLOTS, true);
   });
 
   describe("disabled", () => {
