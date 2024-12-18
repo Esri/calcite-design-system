@@ -1,4 +1,4 @@
 {
   "chooseDate": "Vyberte dátum",
-  "dateFormat": "Formát dátumu:"
+  "dateFormat": "Date Format: {format}"
 }

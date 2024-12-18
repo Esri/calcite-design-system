@@ -1,4 +1,5 @@
 {
   "invalid": "Невалидно",
-  "tooLong": "Текущата дължина на символа е{currentLength}, която надвишава максималната дължина на символа от{maxLength}."
+  "tooLong": "Текущата дължина на символа е{currentLength}, която надвишава максималната дължина на символа от{maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

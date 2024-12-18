@@ -1,4 +1,5 @@
 {
   "invalid": "غير صالح",
-  "tooLong": "طول الأحرف الحالي هو {currentLength}، والذي يتجاوز الحد الأقصى لطول أحرف {maxLength}."
+  "tooLong": "طول الأحرف الحالي هو {currentLength}، والذي يتجاوز الحد الأقصى لطول أحرف {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

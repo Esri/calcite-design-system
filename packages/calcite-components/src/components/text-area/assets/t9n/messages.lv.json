@@ -1,4 +1,5 @@
 {
   "invalid": "Nederīgs",
-  "tooLong": "Pašreizējais rakstzīmju garums ir {currentLength}, kas pārsniedz maksimālo rakstzīmju garumu {maxLength}."
+  "tooLong": "Pašreizējais rakstzīmju garums ir {currentLength}, kas pārsniedz maksimālo rakstzīmju garumu {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }
