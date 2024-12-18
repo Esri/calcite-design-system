@@ -275,7 +275,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For additional examples, you can look at [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
+For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
 
 ## Breaking changes
 
