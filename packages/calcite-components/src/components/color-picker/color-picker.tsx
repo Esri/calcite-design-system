@@ -58,7 +58,7 @@ import {
   STATIC_DIMENSIONS,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
-import T9nStrings from "./assets/t9n/color-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 
 declare global {

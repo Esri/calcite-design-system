@@ -43,7 +43,7 @@ import {
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { styles } from "./input-time-zone.scss";
 
@@ -300,7 +300,7 @@ export class InputTimeZone
       this.openChanged();
     }
 
-    if (changes.has("value") && this.hasUpdated && this.value !== changes.get("value")) {
+    if (changes.has("value") && this.hasUpdated) {
       this.handleValueChange(this.value, changes.get("value"));
     }
   }
@@ -340,12 +340,12 @@ export class InputTimeZone
     }
   }
 
-  private handleValueChange(value: string, oldValue: string): void {
-    value = this.normalizeValue(value);
+  private async handleValueChange(value: string, oldValue: string): Promise<void> {
+    const normalized = this.normalizeValue(value);
 
-    if (!value) {
+    if (!normalized) {
       if (this.clearable) {
-        this._value = value;
+        this._value = normalized;
         this.selectedTimeZoneItem = null;
         return;
       }
@@ -355,14 +355,20 @@ export class InputTimeZone
       return;
     }
 
-    const timeZoneItem = this.findTimeZoneItem(value);
+    const timeZoneItem = this.findTimeZoneItem(normalized);
 
     if (!timeZoneItem) {
       this._value = oldValue;
       return;
     }
 
+    this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
+
+    if (normalized !== value) {
+      await this.updateComplete;
+      this.overrideSelectedLabelForRegion(this.open);
+    }
   }
 
   onLabelClick(): void {
@@ -380,16 +386,21 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
+    console.log("ovd");
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
+      console.log("bail");
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    this.comboboxEl.selectedItems[0].textLabel =
+    const lbl =
       !metadata.country || open
         ? label
         : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+
+    console.log("label", lbl);
+    this.comboboxEl.selectedItems[0].textLabel = lbl;
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {

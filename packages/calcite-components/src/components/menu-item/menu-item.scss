@@ -42,10 +42,12 @@
   border-block-end: theme("spacing[0.5]") solid transparent;
   padding-block-start: theme("spacing[0.5]");
   &:hover {
-    @apply bg-foreground-2 text-color-2;
+    @apply text-color-2 border-b-color-2;
   }
   &:focus {
-    @apply bg-foreground-2 text-color-2 focus-inset;
+    @apply text-color-2 focus-inset border-b-4;
+    padding-block-start: theme("spacing.1");
+    border-block-end-width: theme("spacing.1");
   }
   &:active {
     @apply bg-foreground-3 text-color-1;

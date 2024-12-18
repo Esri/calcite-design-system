@@ -1,25 +1,28 @@
+import { ListItem } from "../list-item/list-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
 
-const { selectionMode, interactionMode, selectionAppearance } = ATTRIBUTES;
+const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
   extends Pick<
-    List,
-    | "disabled"
-    | "displayMode"
-    | "dragEnabled"
-    | "filterEnabled"
-    | "interactionMode"
-    | "label"
-    | "loading"
-    | "scale"
-    | "selectionAppearance"
-    | "selectionMode"
-  > {
+      List,
+      | "disabled"
+      | "displayMode"
+      | "dragEnabled"
+      | "filterEnabled"
+      | "interactionMode"
+      | "label"
+      | "loading"
+      | "scale"
+      | "selectionAppearance"
+      | "selectionMode"
+    >,
+    Pick<ListItem, "iconStart" | "iconEnd"> {
   closable: boolean;
   closed: boolean;
 }
@@ -36,8 +39,11 @@ export default {
     interactionMode: interactionMode.values[0],
     label: "My List",
     loading: false,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
+    iconStart: "",
+    iconEnd: "",
   },
   argTypes: {
     selectionMode: {
@@ -54,8 +60,20 @@ export default {
       options: ["flat", "nested"],
       control: { type: "select" },
     },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     selectionAppearance: {
       options: selectionAppearance.values,
+      control: { type: "select" },
+    },
+    iconStart: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: iconNames,
       control: { type: "select" },
     },
   },
@@ -81,23 +99,29 @@ export const simple = (args: ListStoryArgs): string => html`
     display-mode="${args.displayMode}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
-    scale="${args.scale}
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
     selection-mode="${args.selectionMode}"
   >
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
       description="Aliquam tincidunt mauris eu risus."
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
     <calcite-list-item
       label="Vestibulum commodo felis quis tortor.
     "
       description="Vestibulum auctor dapibus neque.
     "
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
     <calcite-list-item
       disabled
@@ -105,6 +129,8 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
     <calcite-list-item
       drag-disabled
@@ -112,11 +138,15 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
     <calcite-list-item
       unavailable
       label="Vestibulum commodo felis quis tortor."
       description="Vestibulum auctor dapibus neque."
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
     ></calcite-list-item>
   </calcite-list>
 `;
@@ -124,11 +154,18 @@ export const simple = (args: ListStoryArgs): string => html`
 export const scales = (): string => html`
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales</div>
+    <div class="child right-aligned-text">scales with icon-start and icon-end</div>
 
     <div class="child">
       <calcite-list scale="s" selection-mode="none" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -137,18 +174,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -158,7 +185,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -167,18 +201,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -190,7 +214,14 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list selection-mode="none" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -199,18 +230,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -220,7 +241,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -229,18 +257,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -252,7 +270,14 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list scale="l" selection-mode="none" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -261,18 +286,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -282,7 +297,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -291,18 +313,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -318,11 +330,19 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales nested</div>
+    <div class="child right-aligned-text">scales nested with icon-start and icon-end</div>
 
     <div class="child">
       <calcite-list display-mode="nested" scale="s" selection-mode="none" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -331,18 +351,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -352,7 +362,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small parent" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small parent"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -361,18 +379,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -381,7 +389,15 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="small child" value="small" description="small hello world" scale="s">
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -390,18 +406,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -416,6 +426,8 @@ export const scales = (): string => html`
               value="small"
               description="small hello world"
               scale="s"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -425,18 +437,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -450,7 +460,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" selection-mode="none" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -459,18 +477,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -480,7 +488,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium parent" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium parent"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -489,18 +505,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -509,7 +515,15 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="medium child" value="medium" description="medium hello world" scale="m">
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -518,18 +532,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -544,6 +552,8 @@ export const scales = (): string => html`
               value="medium"
               description="medium hello world"
               scale="m"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -553,18 +563,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -578,7 +586,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" scale="l" selection-mode="none" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -587,18 +603,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -608,7 +614,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large parent" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large parent"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -617,18 +631,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -637,7 +641,15 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="large child" value="large" description="large hello world" scale="l">
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -646,18 +658,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -672,6 +678,8 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -681,18 +689,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -723,18 +729,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -753,18 +749,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -783,18 +769,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -816,18 +792,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -846,18 +812,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -876,18 +832,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -909,18 +855,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -939,18 +875,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -969,18 +895,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1009,18 +925,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1039,18 +945,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1068,18 +964,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1103,18 +993,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1137,18 +1025,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1167,18 +1045,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1196,18 +1064,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1231,18 +1093,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1265,18 +1125,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1295,18 +1145,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1324,18 +1164,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1359,18 +1193,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1392,7 +1224,16 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1401,18 +1242,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1422,7 +1253,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1431,18 +1270,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1455,7 +1284,16 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1464,18 +1302,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1485,7 +1313,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1494,18 +1330,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1518,7 +1344,16 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1527,18 +1362,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1548,7 +1373,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1557,18 +1390,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1588,7 +1411,15 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list display-mode="nested" scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1597,18 +1428,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1618,7 +1439,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small parent" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small parent"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1627,18 +1457,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1647,7 +1467,15 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="small child" value="small" description="small hello world" scale="s">
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1656,18 +1484,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1682,6 +1504,8 @@ export const scales = (): string => html`
               value="small"
               description="small hello world"
               scale="s"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1691,18 +1515,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1716,7 +1538,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1725,18 +1555,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1746,7 +1566,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium parent" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium parent"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1755,18 +1584,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1775,7 +1594,15 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="medium child" value="medium" description="medium hello world" scale="m">
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1784,18 +1611,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1810,6 +1631,8 @@ export const scales = (): string => html`
               value="medium"
               description="medium hello world"
               scale="m"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1819,18 +1642,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1844,7 +1665,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1853,18 +1682,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1874,7 +1693,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large parent" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large parent"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1883,18 +1711,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1903,7 +1721,15 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="large child" value="large" description="large hello world" scale="l">
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1912,18 +1738,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -1938,6 +1758,8 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -1947,18 +1769,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -1980,7 +1800,14 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list drag-enabled scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -1989,18 +1816,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2010,7 +1827,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2019,18 +1844,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2040,7 +1855,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2049,18 +1871,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2073,7 +1885,14 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2082,18 +1901,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2103,7 +1912,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2112,18 +1929,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2133,7 +1940,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2142,18 +1956,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2166,7 +1970,14 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2175,18 +1986,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2196,7 +1997,15 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2205,18 +2014,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2226,7 +2025,14 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2235,18 +2041,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2266,7 +2062,15 @@ export const scales = (): string => html`
 
     <div class="child">
       <calcite-list display-mode="nested" drag-enabled scale="s" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2275,18 +2079,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2296,7 +2090,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="small parent" value="small" description="small hello world" scale="s">
+        <calcite-list-item
+          closable
+          label="small parent"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2305,18 +2108,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2325,7 +2118,15 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="small child" value="small" description="small hello world" scale="s">
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2334,18 +2135,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2360,6 +2155,8 @@ export const scales = (): string => html`
               value="small"
               description="small hello world"
               scale="s"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -2369,18 +2166,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -2394,7 +2189,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" drag-enabled selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2403,18 +2206,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2424,7 +2217,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="medium parent" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item
+          closable
+          label="medium parent"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2433,18 +2235,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2453,7 +2245,15 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="medium child" value="medium" description="medium hello world" scale="m">
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2462,18 +2262,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2488,6 +2282,8 @@ export const scales = (): string => html`
               value="medium"
               description="medium hello world"
               scale="m"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -2497,18 +2293,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -2522,7 +2316,15 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" drag-enabled scale="l" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2531,18 +2333,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2552,7 +2344,16 @@ export const scales = (): string => html`
             slot="actions-end"
           ></calcite-action>
         </calcite-list-item>
-        <calcite-list-item closable label="large parent" value="large" description="large hello world" scale="l">
+        <calcite-list-item
+          closable
+          label="large parent"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2561,18 +2362,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2581,7 +2372,15 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-end"
           ></calcite-action>
-          <calcite-list-item closable label="large child" value="large" description="large hello world" scale="l">
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2590,18 +2389,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2616,6 +2409,8 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -2625,18 +2420,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -2667,18 +2460,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2697,18 +2480,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2730,18 +2503,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2760,18 +2523,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2793,18 +2546,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2823,18 +2566,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2863,18 +2596,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2893,18 +2616,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2922,18 +2635,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -2957,18 +2664,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -2991,18 +2696,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3021,18 +2716,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3050,18 +2735,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -3079,18 +2758,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -3113,18 +2790,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3143,18 +2810,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3172,18 +2829,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -3207,18 +2858,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -3249,18 +2898,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3279,18 +2918,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3309,18 +2938,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3342,18 +2961,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3372,18 +2981,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3402,18 +3001,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3435,18 +3024,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3465,18 +3044,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3495,18 +3064,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3542,18 +3101,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3572,18 +3121,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3601,18 +3140,12 @@ export const scales = (): string => html`
               scale="s"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="s"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="s"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -3636,18 +3169,16 @@ export const scales = (): string => html`
                 scale="s"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="s"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="s"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -3676,18 +3207,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3706,18 +3227,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3735,18 +3246,12 @@ export const scales = (): string => html`
               scale="m"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="m"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="m"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -3770,18 +3275,16 @@ export const scales = (): string => html`
                 scale="m"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="m"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="m"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -3811,18 +3314,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3841,18 +3334,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3870,18 +3353,12 @@ export const scales = (): string => html`
               scale="l"
               slot="actions-start"
             ></calcite-action>
-            <calcite-icon
-              icon="banana"
+            <calcite-avatar
               scale="l"
               slot="content-start"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
-            <calcite-icon
-              icon="banana"
-              scale="l"
-              slot="content-end"
-              style="color: var(--calcite-color-status-success)"
-            ></calcite-icon>
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
             <calcite-action
               appearance="transparent"
               icon="sort-ascending"
@@ -3905,18 +3382,16 @@ export const scales = (): string => html`
                 scale="l"
                 slot="actions-start"
               ></calcite-action>
-              <calcite-icon
-                icon="banana"
+              <calcite-avatar
                 scale="l"
                 slot="content-start"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
-              <calcite-icon
-                icon="banana"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
                 scale="l"
                 slot="content-end"
-                style="color: var(--calcite-color-status-success)"
-              ></calcite-icon>
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
               <calcite-action
                 appearance="transparent"
                 icon="sort-ascending"
@@ -3971,41 +3446,19 @@ export const scales = (): string => html`
           slot="filter-actions-end"
         ></calcite-action>
         <calcite-list-item label="small1" value="small1" description="small hello world 1">
-          <calcite-icon
-            icon="banana"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="small2" value="small2" description="small hello world 2">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="small3" value="small3" description="small hello world 3">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item disabled label="small4" value="small4" description="small hello world 4: disabled">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item unavailable label="small4" value="small5" description="small hello world 5: unavailable">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
           <div slot="title">No Results</div>
@@ -4050,41 +3503,19 @@ export const scales = (): string => html`
           slot="filter-actions-end"
         ></calcite-action>
         <calcite-list-item label="medium1" value="medium1" description="medium hello world 1">
-          <calcite-icon
-            icon="banana"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="medium2" value="medium2" description="medium hello world 2">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="medium3" value="medium3" description="medium hello world 3">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item disabled label="medium4" value="medium4" description="medium hello world 4: disabled">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item unavailable label="medium4" value="medium5" description="medium hello world 5: unavailable">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
           <div slot="title">No Results</div>
@@ -4133,41 +3564,19 @@ export const scales = (): string => html`
           slot="filter-actions-end"
         ></calcite-action>
         <calcite-list-item label="large1" value="large1" description="large hello world 1">
-          <calcite-icon
-            icon="banana"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="large2" value="large2" description="large hello world 2">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item label="large3" value="large3" description="large hello world 3">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-            --calcite-color-status-success
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item disabled label="large4" value="large4" description="large hello world 4: disabled">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-list-item unavailable label="large4" value="large5" description="large hello world 5: unavailable">
-          <calcite-icon
-            icon="compass"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
         </calcite-list-item>
         <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
           <div slot="title">No Results</div>
@@ -4192,18 +3601,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4222,18 +3621,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4252,18 +3641,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4283,18 +3662,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4313,18 +3682,8 @@ export const scales = (): string => html`
             scale="s"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="s"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4345,18 +3704,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4375,18 +3724,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4405,18 +3744,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4436,18 +3765,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4466,18 +3785,8 @@ export const scales = (): string => html`
             scale="m"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="m"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4498,18 +3807,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4528,18 +3827,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4558,18 +3847,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4589,18 +3868,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -4619,18 +3888,8 @@ export const scales = (): string => html`
             scale="l"
             slot="actions-start"
           ></calcite-action>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-start"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
-          <calcite-icon
-            icon="banana"
-            scale="l"
-            slot="content-end"
-            style="color: var(--calcite-color-status-success)"
-          ></calcite-icon>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -5824,3 +5083,8 @@ export const interactiveMode = (): string => html`
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
 `;
+
+export const sortableListWithSingleItem = (): string =>
+  html`<calcite-list drag-enabled label="test">
+    <calcite-list-item label="small" value="small" description="small hello world"></calcite-list-item>
+  </calcite-list>`;

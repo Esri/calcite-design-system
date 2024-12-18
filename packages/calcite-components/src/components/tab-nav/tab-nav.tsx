@@ -22,7 +22,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tabs } from "../tabs/tabs";
 import { CSS, ICON } from "./resources";
-import T9nStrings from "./assets/t9n/tab-nav.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./tab-nav.scss";
 
 declare global {

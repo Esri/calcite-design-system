@@ -18,7 +18,7 @@ import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/table-cell.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
 
 declare global {

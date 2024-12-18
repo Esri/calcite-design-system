@@ -18,7 +18,7 @@ import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
-import T9nStrings from "./assets/t9n/filter.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
 
@@ -74,6 +74,11 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
    * This property is needed to conduct filtering.
    */
   @property() items: object[] = [];
+
+  /**
+   * Specifies an accessible name for the component.
+   */
+  @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -232,7 +237,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              label={this.messages.label}
+              label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
               onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}

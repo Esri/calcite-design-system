@@ -65,6 +65,7 @@ $floating-ui-transition-offset: 5px;
 }
 
 @mixin floating-ui-container() {
+  inline-size: max-content;
   display: none;
   inset-block-start: 0;
   left: 0;

@@ -5,26 +5,24 @@
     flex-grow
     cursor-pointer
     items-center
-    no-underline
-    duration-150
-    ease-in-out;
+    no-underline;
 }
 
 :host {
   @apply relative
     flex
     flex-grow
-    items-center
-    focus-base;
+    focus-base
+    items-center;
 }
 
 .container {
   @include item-styling;
-  @apply text-start;
+  @apply focus-base text-start;
 
   & a {
+    outline: none;
     @include item-styling;
-    @apply focus-base;
   }
 }
 
@@ -88,10 +86,8 @@
 
 //focus
 :host(:focus) {
-  @apply focus-inset outline-none;
-
   .container {
-    @apply text-color-1 no-underline;
+    @apply focus-inset text-color-1 no-underline;
   }
 }
 
