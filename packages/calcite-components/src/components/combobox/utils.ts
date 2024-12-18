@@ -2,12 +2,12 @@ import { nodeListToArray } from "../../utils/dom";
 import { isBrowser } from "../../utils/browser";
 import { ComboboxItem } from "../combobox-item/combobox-item";
 import { ComboboxChildElement } from "./interfaces";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, ComboboxChildSelector } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
 import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
-  const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
-  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(ComboboxChildSelector);
+  const parent: ComboboxChildElement = element.parentElement?.closest(AllComboboxChildrenSelector);
+  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(AllComboboxChildrenSelector);
   return [parent, grandparent].filter((el) => el);
 }
 

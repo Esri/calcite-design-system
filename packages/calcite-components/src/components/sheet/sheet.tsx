@@ -635,7 +635,9 @@ export class Sheet
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} ref={this.setContentEl}>
-          <slot />
+          <div class={CSS.contentContainer}>
+            <slot />
+          </div>
           {resizable ? (
             <div
               ariaLabel={this.messages.resizeEnabled}

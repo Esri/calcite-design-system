@@ -33,7 +33,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "4.32.0-next.50",
+    "@arcgis/lumina-compiler": "4.32.0-next.52",
     "@cspell/eslint-plugin": "8.16.1",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
@@ -85,7 +85,7 @@
     "cpy-cli": "5.0.0",
     "cross-env": "7.0.3",
     "dedent": "1.5.3",
-    "eslint": "9.16.0",
+    "eslint": "9.17.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest": "28.9.0",

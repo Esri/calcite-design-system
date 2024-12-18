@@ -13,6 +13,7 @@ import {
 import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -110,7 +111,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
         <div style="display: flex">
           ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
@@ -145,6 +146,7 @@ const componentTokens = {
   ...actionPadTokens,
   ...actionTokens,
   ...alertTokens,
+  ...autocompleteTokens,
   ...avatarTokens,
   ...cardTokens,
   ...checkboxTokens,
