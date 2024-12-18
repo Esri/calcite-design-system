@@ -44,12 +44,12 @@ export function isObjectOfStringsOrNumbers(obj: any): obj is Record<string, stri
   return true;
 }
 
-export function transformMathSum(token: TransformedToken): any {
+export function transformValueMathSum(token: TransformedToken): any {
   if (typeof token.value === "string") {
     return mathSum(token.value);
   } else if (isObjectOfStringsOrNumbers(token.value)) {
     return Object.entries(token.value).reduce((acc, [key, value]) => {
-      acc[key] = mathSum(value);
+      acc[key] = mathSum(`${value}`);
       return acc;
     }, {});
   } else {
@@ -57,10 +57,10 @@ export function transformMathSum(token: TransformedToken): any {
   }
 }
 
-export function registerMathSum(sd: StyleDictionary): void {
+export function registerValueMathSum(sd: StyleDictionary): void {
   sd.registerTransform({
     name: ValueMathSum,
-    transform: transformMathSum,
+    transform: transformValueMathSum,
     type: "value",
     filter: (token) => !!Number(token.value) || !!hasOperator(token.value),
   });
