@@ -78,7 +78,6 @@ module.exports = {
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "no-eval": "error",
-    "no-console": ["error"],
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
       "error",
@@ -179,6 +178,12 @@ module.exports = {
       files: ["**/*.e2e.ts", "src/tests/**/*"],
       rules: {
         "@esri/calcite-components/no-dynamic-createelement": "off",
+      },
+    },
+    {
+      files: ["src/**/*"],
+      rules: {
+        "no-console": ["error"],
       },
     },
     {
