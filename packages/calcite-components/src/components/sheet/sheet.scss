@@ -106,18 +106,6 @@
   min-block-size: var(--calcite-sheet-min-height-internal);
 }
 
-:host([display-mode="float"][position^="inline"]) .container {
-  block-size: calc(100% - 1.5rem);
-  max-block-size: calc(100% - 1.5rem);
-  min-block-size: calc(100% - 1.5rem);
-}
-
-:host([display-mode="float"][position^="block"]) .container {
-  inline-size: calc(100% - 1.5rem);
-  max-inline-size: calc(100% - 1.5rem);
-  min-inline-size: calc(100% - 1.5rem);
-}
-
 :host([position^="inline"]) .width-s {
   --calcite-sheet-width-internal: var(--calcite-sheet-width, 15vw);
   --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 360px);
