@@ -286,7 +286,7 @@
             <li>
               <calcite-label>
                 Which framework do you use?
-                <calcite-autocomplete name="framework" required>
+                <calcite-autocomplete name="framework" required id="framework">
                   <calcite-autocomplete-item-group heading="Frameworks">
                     <calcite-autocomplete-item
                       label="VanillaJS"
@@ -509,6 +509,13 @@
       const datePicker = document.getElementById("when");
       datePicker.maxAsDate = new Date();
       datePicker.min = "2021-01-01";
+
+      // Autocomplete
+      const autocomplete = document.getElementById("framework");
+      autocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+        autocomplete.innerHTML = "";
+        autocomplete.inputValue = event.target.value;
+      });
 
       // Form submission
       const form = document.getElementById("form");
