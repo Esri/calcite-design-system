@@ -42,11 +42,7 @@
   }
 
   .control-section {
-    @apply flex-nowrap items-baseline;
-  }
-
-  .control-section {
-    @apply flex-wrap;
+    @apply flex flex-col flex-wrap items-baseline;
   }
 
   .color-hex-options {
@@ -97,12 +93,7 @@
 }
 
 .hex-and-channels-group {
-  @apply w-full;
-}
-
-.hex-and-channels-group,
-.control-section {
-  @apply flex flex-row flex-wrap;
+  @apply flex flex-col flex-wrap w-full;
 }
 
 .section {
