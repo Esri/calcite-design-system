@@ -633,11 +633,6 @@ export class Autocomplete
     this.resizeObserver?.observe(el);
 
     connectFloatingUI(this);
-
-    // TODO: fixme when supported in jsx
-    // https://devtopia.esri.com/WebGIS/arcgis-web-components/issues/2694
-    const enterKeyHint = this.el.getAttribute("enterkeyhint");
-    el.enterKeyHint = enterKeyHint;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -733,6 +728,7 @@ export class Autocomplete
     const { disabled, listId, inputId, isOpen } = this;
 
     const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
+    const enterKeyHint = this.el.getAttribute("enterkeyhint");
     const inputMode = this.el.getAttribute("inputmode") as
       | "none"
       | "text"
@@ -759,6 +755,7 @@ export class Autocomplete
             class={CSS.input}
             clearable={true}
             disabled={disabled}
+            enterKeyHint={enterKeyHint}
             form={this.form}
             icon={this.getIcon()}
             iconFlipRtl={this.iconFlipRtl}
