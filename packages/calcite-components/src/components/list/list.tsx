@@ -39,7 +39,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { Filter } from "../filter/filter";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/list.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import type { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
@@ -50,9 +50,7 @@ declare global {
   }
 }
 
-const listItemSelector = "calcite-list-item";
-const groupItemSelector = "calcite-list-item-group";
-const parentSelector = `${groupItemSelector}, ${listItemSelector}`;
+const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -114,7 +112,7 @@ export class List
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
-    this.groupItems = Array.from(this.el.querySelectorAll(groupItemSelector));
+    this.groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
 
     items.forEach((item) => {
       item.scale = scale;
@@ -816,7 +814,7 @@ export class List
 
   private filterGroupItemDescendants = (item: ListItemGroup): void => {
     const itemDescendants = Array.from(item.querySelectorAll(listItemSelector));
-    const groupDescendants = Array.from(item.querySelectorAll(groupItemSelector));
+    const groupDescendants = Array.from(item.querySelectorAll(listItemGroupSelector));
 
     itemDescendants.forEach((descendant: ListItem) => {
       descendant.filterHidden = false;
@@ -878,6 +876,7 @@ export class List
   private getGroupItemData = (): GroupItemData[] => {
     return this.groupItems.map((item: ListItemGroup) => ({
       heading: item.heading,
+      el: item,
     }));
   };
 
@@ -1081,8 +1080,7 @@ export class List
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText,s
-      filteredResults,
+      filterText,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
