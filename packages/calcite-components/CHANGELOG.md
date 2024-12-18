@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.74...@esri/calcite-components@3.0.0-next.75) (2024-12-18)
+
+### Bug Fixes
+
+- prevent transpilation issues by using `this` to reference static props ([#11088](https://github.com/Esri/calcite-design-system/issues/11088)) ([e78fa27](https://github.com/Esri/calcite-design-system/commit/e78fa2718fee8e388134055442d3bec87d582c79)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.73...@esri/calcite-components@3.0.0-next.74) (2024-12-18)
 
 ### Features
