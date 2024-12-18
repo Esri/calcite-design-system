@@ -92,9 +92,10 @@ export const responsive = (): string =>
         gap: 10px;
       }
       .breakpoint-story-container > * {
-        flex-basis: 100%;
+        // we avoid full width to stay within Chromatic’s screenshot size limit
+        width: 25%;
       }
     </style>
-    <calcite-color-picker scale="{scale}" style="inline-size: 100%"></calcite-color-picker>
-    <calcite-color-picker alpha-channel scale="{scale}" style="inline-size: 100%"></calcite-color-picker>
+    <calcite-color-picker scale="{scale}"></calcite-color-picker>
+    <calcite-color-picker alpha-channel scale="{scale}"></calcite-color-picker>
   `);
