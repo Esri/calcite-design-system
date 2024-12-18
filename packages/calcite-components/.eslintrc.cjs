@@ -78,6 +78,7 @@ module.exports = {
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "no-eval": "error",
+    "no-console": ["error"],
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
       "error",
