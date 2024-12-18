@@ -100,6 +100,7 @@ module.exports = {
     ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
+    "radix": ["error", "as-needed"],
     "react/forbid-component-props": [
       "warn",
       {

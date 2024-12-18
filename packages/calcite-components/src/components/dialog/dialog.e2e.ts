@@ -1051,8 +1051,8 @@ describe("calcite-dialog", () => {
       let computedStyle = await container.getComputedStyle();
       const initialBlockSize = computedStyle.blockSize;
       const initialInlineSize = computedStyle.inlineSize;
-      const initialHeight = parseInt(initialBlockSize, 10);
-      const initialWidth = parseInt(initialInlineSize, 10);
+      const initialHeight = parseInt(initialBlockSize);
+      const initialWidth = parseInt(initialInlineSize);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
