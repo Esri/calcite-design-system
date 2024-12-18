@@ -432,7 +432,7 @@ const kitchenSinkHTML = html`
       <div class="child right-aligned-text">Open</div>
       <div class="child">
         <form class="locate-form">
-          <calcite-autocomplete scale="s" open>
+          <calcite-autocomplete scale="s" open placement="top-start">
             <div slot="content-top">Content top</div>
             <div slot="content-bottom">Content bottom</div>
             <calcite-autocomplete-item
@@ -457,7 +457,7 @@ const kitchenSinkHTML = html`
       </div>
       <div class="child">
         <form class="locate-form">
-          <calcite-autocomplete scale="m" open>
+          <calcite-autocomplete scale="m" open placement="top-start">
             <div slot="content-top">Content top</div>
             <div slot="content-bottom">Content bottom</div>
             <calcite-autocomplete-item
@@ -482,7 +482,7 @@ const kitchenSinkHTML = html`
       </div>
       <div class="child">
         <form class="locate-form">
-          <calcite-autocomplete scale="l" open>
+          <calcite-autocomplete scale="l" open placement="top-start">
             <div slot="content-top">Content top</div>
             <div slot="content-bottom">Content bottom</div>
             <calcite-autocomplete-item
