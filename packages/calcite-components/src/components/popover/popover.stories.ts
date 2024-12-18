@@ -124,7 +124,7 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
-  <div style="width: 400px;">
+  <div style="width: 400px; height:400px;">
     ${referenceElementHTML}
     <calcite-popover
       heading="Dreams didn't make us kings. Dragons did. 🐉"
