@@ -194,6 +194,85 @@ const kitchenSinkHTML = html`
       </div>
     </div>
 
+    <div class="parent" style="margin-bottom:250px">
+      <div class="child right-aligned-text">Open</div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="s" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="s"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="s"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="m" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="m"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="m"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
+      <div class="child">
+        <form class="locate-form">
+          <calcite-autocomplete scale="l" open>
+            <div slot="content-top">Content top</div>
+            <div slot="content-bottom">Content bottom</div>
+            <calcite-autocomplete-item
+              scale="l"
+              label="Item 1"
+              value="1"
+              heading="Item 1"
+              description="Item 1 description"
+              icon-start="information"
+              icon-end="gear"
+            ></calcite-autocomplete-item>
+            <calcite-autocomplete-item
+              disabled
+              scale="l"
+              label="Item 2"
+              value="2"
+              heading="Item 2"
+              description="Item 2 description"
+            ></calcite-autocomplete-item>
+          </calcite-autocomplete>
+        </form>
+      </div>
+    </div>
+
     <div class="parent">
       <div class="child right-aligned-text">Content start/end</div>
       <div class="child">
@@ -424,85 +503,6 @@ const kitchenSinkHTML = html`
             class="locator-autocomplete"
             name="location"
           ></calcite-autocomplete>
-        </form>
-      </div>
-    </div>
-
-    <div class="parent" style="margin-top:400px">
-      <div class="child right-aligned-text">Open</div>
-      <div class="child">
-        <form class="locate-form">
-          <calcite-autocomplete scale="s" open placement="top-start">
-            <div slot="content-top">Content top</div>
-            <div slot="content-bottom">Content bottom</div>
-            <calcite-autocomplete-item
-              scale="s"
-              label="Item 1"
-              value="1"
-              heading="Item 1"
-              description="Item 1 description"
-              icon-start="information"
-              icon-end="gear"
-            ></calcite-autocomplete-item>
-            <calcite-autocomplete-item
-              disabled
-              scale="s"
-              label="Item 2"
-              value="2"
-              heading="Item 2"
-              description="Item 2 description"
-            ></calcite-autocomplete-item>
-          </calcite-autocomplete>
-        </form>
-      </div>
-      <div class="child">
-        <form class="locate-form">
-          <calcite-autocomplete scale="m" open placement="top-start">
-            <div slot="content-top">Content top</div>
-            <div slot="content-bottom">Content bottom</div>
-            <calcite-autocomplete-item
-              scale="m"
-              label="Item 1"
-              value="1"
-              heading="Item 1"
-              description="Item 1 description"
-              icon-start="information"
-              icon-end="gear"
-            ></calcite-autocomplete-item>
-            <calcite-autocomplete-item
-              disabled
-              scale="m"
-              label="Item 2"
-              value="2"
-              heading="Item 2"
-              description="Item 2 description"
-            ></calcite-autocomplete-item>
-          </calcite-autocomplete>
-        </form>
-      </div>
-      <div class="child">
-        <form class="locate-form">
-          <calcite-autocomplete scale="l" open placement="top-start">
-            <div slot="content-top">Content top</div>
-            <div slot="content-bottom">Content bottom</div>
-            <calcite-autocomplete-item
-              scale="l"
-              label="Item 1"
-              value="1"
-              heading="Item 1"
-              description="Item 1 description"
-              icon-start="information"
-              icon-end="gear"
-            ></calcite-autocomplete-item>
-            <calcite-autocomplete-item
-              disabled
-              scale="l"
-              label="Item 2"
-              value="2"
-              heading="Item 2"
-              description="Item 2 description"
-            ></calcite-autocomplete-item>
-          </calcite-autocomplete>
         </form>
       </div>
     </div>
