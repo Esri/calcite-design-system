@@ -9453,7 +9453,7 @@
     "release": "4.0.0"
   },
   "plug-connection": {
-    "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter"],
+    "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter", "service"],
     "category": "Objects",
     "release": "4.0.0"
   }
