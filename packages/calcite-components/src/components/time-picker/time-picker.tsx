@@ -876,6 +876,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
+    const showSecondSuffix = this.messages._lang !== "bg" && this.localizedSecondSuffix;
     const showMeridiem = this.effectiveHourFormat === "12";
     return (
       <div
@@ -1082,7 +1083,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             </span>
           </div>
         )}
-        {this.localizedSecondSuffix && (
+        {showSecondSuffix && (
           <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
             {this.localizedSecondSuffix}
           </span>
