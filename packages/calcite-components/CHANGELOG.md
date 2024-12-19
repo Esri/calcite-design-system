@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.79...@esri/calcite-components@3.0.0-next.80) (2024-12-19)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.0.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.78...@esri/calcite-components@3.0.0-next.79) (2024-12-19)
+
+### Bug Fixes
+
+- **list:** Don't require `filterEnabled` for `filterPredicate` usage ([#11109](https://github.com/Esri/calcite-design-system/issues/11109)) ([dd876e8](https://github.com/Esri/calcite-design-system/commit/dd876e810e8e91d920a11cb0358c0e5cda1e1413)), closes [#6544](https://github.com/Esri/calcite-design-system/issues/6544)
+
 ## [3.0.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.77...@esri/calcite-components@3.0.0-next.78) (2024-12-19)
 
 ### Bug Fixes
