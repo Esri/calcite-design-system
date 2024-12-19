@@ -101,7 +101,6 @@ export class List
       dragEnabled,
       el,
       filterEl,
-      filterEnabled,
       moveToItems,
       displayMode,
       scale,
@@ -129,7 +128,7 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && this.willPerformFilter) {
+    if (this.filterEnabled && this.willPerformFilter) {
       this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
@@ -438,7 +437,8 @@ export class List
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
       (changes.has("displayMode") && this.hasUpdated) ||
-      (changes.has("scale") && this.hasUpdated)
+      (changes.has("scale") && this.hasUpdated) ||
+      (changes.has("filterPredicate") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -814,14 +814,12 @@ export class List
   }
 
   private getItemData(): ItemData {
-    return this.filterPredicate
-      ? []
-      : this.listItems.map((item) => ({
-          label: item.label,
-          description: item.description,
-          metadata: item.metadata,
-          el: item,
-        }));
+    return this.listItems.map((item) => ({
+      label: item.label,
+      description: item.description,
+      metadata: item.metadata,
+      el: item,
+    }));
   }
 
   private updateGroupItems(): void {
