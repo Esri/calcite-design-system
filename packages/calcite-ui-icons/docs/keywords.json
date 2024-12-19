@@ -9451,5 +9451,10 @@
     "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "nodes"],
     "category": "Knowledge Graph",
     "release": "4.0.0"
+  },
+  "plug-connection": {
+    "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter"],
+    "category": "Objects",
+    "release": "4.0.0"
   }
 }
