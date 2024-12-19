@@ -102,6 +102,8 @@ export class Autocomplete
 
   defaultValue: Autocomplete["value"];
 
+  defaultInputValue: Autocomplete["inputValue"];
+
   floatingEl: HTMLDivElement;
 
   floatingLayout?: FloatingLayout;
@@ -396,6 +398,7 @@ export class Autocomplete
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+    this.defaultInputValue = this.inputValue || "";
 
     this.getAllItemsDebounced();
 
@@ -456,6 +459,7 @@ export class Autocomplete
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
+    this.defaultInputValue = this.inputValue || "";
     setComponentLoaded(this);
     connectFloatingUI(this);
   }
@@ -516,10 +520,12 @@ export class Autocomplete
     this.open = false;
   }
 
-  private handleInternalAutocompleteItemSelect(event: Event): void {
+  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
     event.stopPropagation();
     this.emitChange();
+    await this.setFocus();
+    this.open = false;
   }
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
@@ -530,6 +536,10 @@ export class Autocomplete
 
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  onFormReset(): void {
+    this.inputValue = this.defaultInputValue;
   }
 
   onBeforeOpen(): void {
@@ -549,7 +559,6 @@ export class Autocomplete
   }
 
   private emitChange(): void {
-    this.open = false;
     this.calciteAutocompleteChange.emit();
   }
 
@@ -624,11 +633,6 @@ export class Autocomplete
     this.resizeObserver?.observe(el);
 
     connectFloatingUI(this);
-
-    // TODO: fixme when supported in jsx
-    // https://devtopia.esri.com/WebGIS/arcgis-web-components/issues/2694
-    const enterKeyHint = this.el.getAttribute("enterkeyhint");
-    el.enterKeyHint = enterKeyHint;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -654,6 +658,7 @@ export class Autocomplete
         if (open && activeIndex > -1) {
           this.value = enabledItems[activeIndex].value;
           this.emitChange();
+          this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {
           if (submitForm(this)) {
@@ -692,6 +697,14 @@ export class Autocomplete
     this.calciteAutocompleteTextChange.emit();
   }
 
+  private inputClickHandler(event: MouseEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    this.open = true;
+  }
+
   private inputHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.inputValue = (event.target as Input["el"]).value;
@@ -715,6 +728,7 @@ export class Autocomplete
     const { disabled, listId, inputId, isOpen } = this;
 
     const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
+    const enterKeyHint = this.el.getAttribute("enterkeyhint");
     const inputMode = this.el.getAttribute("inputmode") as
       | "none"
       | "text"
@@ -741,6 +755,7 @@ export class Autocomplete
             class={CSS.input}
             clearable={true}
             disabled={disabled}
+            enterKeyHint={enterKeyHint}
             form={this.form}
             icon={this.getIcon()}
             iconFlipRtl={this.iconFlipRtl}
@@ -752,6 +767,7 @@ export class Autocomplete
             messageOverrides={this.messages}
             minLength={this.minLength}
             name={this.name}
+            onClick={this.inputClickHandler}
             onKeyDown={this.keyDownHandler}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}

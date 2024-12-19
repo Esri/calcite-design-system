@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.77...@esri/calcite-components@3.0.0-next.78) (2024-12-19)
+
+### Bug Fixes
+
+- **autocomplete:** handle focusing when item is clicked and reset inputValue on form reset ([#11099](https://github.com/Esri/calcite-design-system/issues/11099)) ([fc2ceee](https://github.com/Esri/calcite-design-system/commit/fc2ceee5b871443cd2a2b49bc7b668ded2abefc1)), closes [#10044](https://github.com/Esri/calcite-design-system/issues/10044)
+
+## [3.0.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.76...@esri/calcite-components@3.0.0-next.77) (2024-12-18)
+
+### Bug Fixes
+
+- **input-time-zone:** remove debugging log messages ([#11106](https://github.com/Esri/calcite-design-system/issues/11106)) ([d7e8b36](https://github.com/Esri/calcite-design-system/commit/d7e8b36d20ab83c6e81468cdc18174af2412ea4d)), closes [#10981](https://github.com/Esri/calcite-design-system/issues/10981)
+- **sheet:** remove some margin ([#11103](https://github.com/Esri/calcite-design-system/issues/11103)) ([2a2049c](https://github.com/Esri/calcite-design-system/commit/2a2049cea89f5ba8ae10efbec1831da1070c019c))
+
 ## [3.0.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.75...@esri/calcite-components@3.0.0-next.76) (2024-12-18)
 
 ### Bug Fixes
