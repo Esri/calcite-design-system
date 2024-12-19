@@ -770,12 +770,12 @@ export class List
     );
 
     this.filteredResults = filteredItems;
+    this.filteredItems = this.filteredResults;
 
     this.filterGroupItems(values, visibleParents);
 
     if (this.willFilterEmit) {
       this.willFilterEmit = false;
-      this.filteredItems = this.filteredResults;
       this.calciteListFilter.emit();
     }
   }
@@ -830,7 +830,7 @@ export class List
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata"];
+      return ["description", "label", "metadata", "heading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
