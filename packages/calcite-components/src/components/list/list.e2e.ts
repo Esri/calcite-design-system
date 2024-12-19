@@ -652,7 +652,7 @@ describe("calcite-list", () => {
 
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list filter-enabled filter-text="">
+        <calcite-list filter-text="">
           <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
           <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
           <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>

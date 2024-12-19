@@ -101,7 +101,6 @@ export class List
       dragEnabled,
       el,
       filterEl,
-      filterEnabled,
       moveToItems,
       displayMode,
       scale,
@@ -129,7 +128,7 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && this.willPerformFilter) {
+    if ((this.filterEnabled || !!this.filterPredicate) && this.willPerformFilter) {
       this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
