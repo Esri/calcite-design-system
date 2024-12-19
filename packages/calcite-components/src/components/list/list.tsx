@@ -183,7 +183,7 @@ export class List
     return (
       this.filterEnabled &&
       this.filterText &&
-      this.filteredItems.length !== this.visibleItems.length
+      this.filteredResults.length !== this.visibleItems.length + this.visibleGroupItems.length
     );
   }
 
@@ -193,7 +193,7 @@ export class List
       this.filterText &&
       this.hasFilterNoResults &&
       this.visibleItems.length &&
-      !this.filteredItems.length
+      !this.filteredResults.length
     );
   }
 
@@ -691,7 +691,7 @@ export class List
   private async updateSelectedItems(emit = false): Promise<void> {
     await this.updateComplete;
 
-    this.selectedItems = this.visibleItems.filter((item: ListItem["el"]) => item.selected);
+    this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -752,17 +752,9 @@ export class List
   private updateFilteredItems(): void {
     const { visibleItems, filteredData, filterText, filterPredicate } = this;
 
-    // const values = filteredData.map((item: ItemData | GroupItemData) => {
-    //   return (item as ItemData).value || (item as GroupItemData).heading;
-    // });
-
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
-
-    // const lastDescendantGroupItems = visibleGroupItems?.filter((listItemGroup) =>
-    //   visibleGroupItems.every((li) => li === listItemGroup || !listItemGroup.contains(li)),
-    // );
 
     const filteredItems = filterPredicate
       ? visibleItems.filter(filterPredicate)
@@ -778,7 +770,6 @@ export class List
 
     this.filteredResults = filteredItems;
     this.filteredItems = this.filteredResults;
-    console.log(filteredItems, visibleItems, this.filteredData, this.filteredResults);
 
     this.filterGroupItems(visibleParents);
 
@@ -1170,6 +1161,10 @@ export class List
       numberingSystem,
     } = this;
 
+    const filteredItemsOnly = filteredResults.filter(
+      (item): item is ListItem => item.nodeName === "CALCITE-LIST-ITEM",
+    );
+
     numberStringFormatter.numberFormatOptions = {
       locale: effectiveLocale,
       numberingSystem,
@@ -1183,13 +1178,13 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(filteredResults.length.toString()),
+            numberStringFormatter.localize(filteredItemsOnly.length.toString()),
           )}
         </div>
-        {filteredResults.length ? (
+        {filteredItemsOnly.length ? (
           <ol key="aria-item-list">
-            {filteredResults.map((item) => (
-              <li>{(item as ListItem).label || (item as ListItemGroup).heading}</li>
+            {filteredItemsOnly.map((item) => (
+              <li>{item.label}</li>
             ))}
           </ol>
         ) : null}
