@@ -14,7 +14,13 @@ import {
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
-import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
+import {
+  GlobalTestProps,
+  dragAndDrop,
+  isElementFocused,
+  getFocusedElementProp,
+  newProgrammaticE2EPage,
+} from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
@@ -61,6 +67,10 @@ describe("calcite-list", () => {
       {
         propertyName: "filterEnabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "filterPredicate",
+        defaultValue: undefined,
       },
       {
         propertyName: "filteredData",
@@ -161,6 +171,15 @@ describe("calcite-list", () => {
     );
   });
 
+  it("honors filterLabel property", async () => {
+    const page = await newE2EPage();
+    const label = "hello world";
+    await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
+
+    const filter = await page.find(`calcite-list >>> calcite-filter`);
+    expect(await filter.getProperty("label")).toBe(label);
+  });
+
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -186,14 +205,12 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    let modeValues = ["nested", "flat", "nested", "nested", "flat", "nested", "nested"];
-
     const items = await page.findAll("calcite-list-item");
 
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("nested");
     }
 
     const rootList = await page.find("#root");
@@ -202,12 +219,10 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    modeValues = ["flat", "flat", "nested", "nested", "flat", "flat", "flat"];
-
-    expect(items.length).toBe(modeValues.length);
+    expect(items.length).toBe(7);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("displayMode")).toBe(modeValues[i]);
+      expect(await items[i].getProperty("displayMode")).toBe("flat");
     }
   });
 
@@ -469,253 +484,412 @@ describe("calcite-list", () => {
     expect(await firstChildItem.getProperty("bordered")).toBe(true);
   });
 
-  it("navigating items after filtering", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled>
-        <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
-        <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
-      </calcite-list>
-    `);
-    await page.waitForChanges();
-    const list = await page.find("calcite-list");
-    const eventSpy = await list.spyOnEvent("calciteListChange");
-    const filter = await page.find(`calcite-list >>> calcite-filter`);
-    await page.waitForTimeout(DEBOUNCE.filter);
-    expect(await list.getProperty("filteredItems")).toHaveLength(2);
-    expect(await list.getProperty("filteredData")).toHaveLength(2);
-    expect(await list.getProperty("filterText")).toBeUndefined();
+  describe("filtering", () => {
+    it("navigating items after filtering", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled>
+          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      const eventSpy = await list.spyOnEvent("calciteListChange");
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredData")).toHaveLength(2);
+      expect(await list.getProperty("filterText")).toBeUndefined();
 
-    await filter.callMethod("setFocus");
-    await page.waitForChanges();
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
 
-    const calciteListFilterEvent = list.waitForEvent("calciteListFilter");
-    await page.keyboard.type("one");
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-    await calciteListFilterEvent;
-    expect(eventSpy).toHaveReceivedEventTimes(0);
-    expect(await list.getProperty("filteredItems")).toHaveLength(1);
-    expect(await list.getProperty("filteredData")).toHaveLength(1);
-    expect(await list.getProperty("filterText")).toBe("one");
+      const calciteListFilterEvent = list.waitForEvent("calciteListFilter");
+      await page.keyboard.type("one");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await calciteListFilterEvent;
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredData")).toHaveLength(1);
+      expect(await list.getProperty("filterText")).toBe("one");
 
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
 
-    const calciteListFilterEvent2 = list.waitForEvent("calciteListFilter");
-    await page.keyboard.type("two");
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-    await calciteListFilterEvent2;
-    expect(eventSpy).toHaveReceivedEventTimes(0);
-    expect(await list.getProperty("filteredItems")).toHaveLength(1);
-    expect(await list.getProperty("filteredData")).toHaveLength(1);
-    expect(await list.getProperty("filterText")).toBe("two");
+      const calciteListFilterEvent2 = list.waitForEvent("calciteListFilter");
+      await page.keyboard.type("two");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await calciteListFilterEvent2;
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredData")).toHaveLength(1);
+      expect(await list.getProperty("filterText")).toBe("two");
 
-    const calciteListFilterEvent3 = list.waitForEvent("calciteListFilter");
-    await page.keyboard.type(" blah");
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-    await calciteListFilterEvent3;
-    expect(eventSpy).toHaveReceivedEventTimes(0);
-    expect(await list.getProperty("filteredItems")).toHaveLength(0);
-    expect(await list.getProperty("filteredData")).toHaveLength(0);
-    expect(await list.getProperty("filterText")).toBe("two blah");
-  });
+      const calciteListFilterEvent3 = list.waitForEvent("calciteListFilter");
+      await page.keyboard.type(" blah");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await calciteListFilterEvent3;
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await list.getProperty("filteredItems")).toHaveLength(0);
+      expect(await list.getProperty("filteredData")).toHaveLength(0);
+      expect(await list.getProperty("filterText")).toBe("two blah");
+    });
 
-  it("selecting items after filtering", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled>
-        <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
-        <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
-        <calcite-list-item value="three" label="Three" description="hello world"></calcite-list-item>
-      </calcite-list>
-    `);
-    await page.waitForChanges();
+    it("selecting items after filtering", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled>
+          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
+          <calcite-list-item value="three" label="Three" description="hello world"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
 
-    async function getSelectedItemValues(): Promise<string[]> {
-      return await page.$eval("calcite-list", (list: List["el"]) => list.selectedItems.map((item) => item.value));
-    }
+      async function getSelectedItemValues(): Promise<string[]> {
+        return await page.$eval("calcite-list", (list: List["el"]) => list.selectedItems.map((item) => item.value));
+      }
 
-    const list = await page.find("calcite-list");
-    const listItems = await page.findAll("calcite-list-item");
-    await page.waitForTimeout(DEBOUNCE.filter);
-    expect(await list.getProperty("filteredItems")).toHaveLength(3);
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
-    expect(await list.getProperty("filterText")).toBeUndefined();
+      const list = await page.find("calcite-list");
+      const listItems = await page.findAll("calcite-list-item");
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filteredItems")).toHaveLength(3);
+      expect(await list.getProperty("filteredData")).toHaveLength(3);
+      expect(await list.getProperty("filterText")).toBeUndefined();
 
-    listItems[0].setProperty("selected", true);
-    list.setProperty("filterText", "two");
-    await page.waitForTimeout(DEBOUNCE.filter);
-    await page.waitForChanges();
-    let selectedItemValues = await getSelectedItemValues();
-    expect(selectedItemValues).toHaveLength(1);
-    expect(selectedItemValues[0]).toBe("one");
+      listItems[0].setProperty("selected", true);
+      list.setProperty("filterText", "two");
+      await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForChanges();
+      let selectedItemValues = await getSelectedItemValues();
+      expect(selectedItemValues).toHaveLength(1);
+      expect(selectedItemValues[0]).toBe("one");
 
-    listItems[1].setProperty("selected", true);
-    await page.waitForChanges();
-    selectedItemValues = await getSelectedItemValues();
-    expect(selectedItemValues).toHaveLength(2);
-    expect(selectedItemValues[0]).toBe("one");
-    expect(selectedItemValues[1]).toBe("two");
+      listItems[1].setProperty("selected", true);
+      await page.waitForChanges();
+      selectedItemValues = await getSelectedItemValues();
+      expect(selectedItemValues).toHaveLength(2);
+      expect(selectedItemValues[0]).toBe("one");
+      expect(selectedItemValues[1]).toBe("two");
 
-    list.setProperty("filterText", "three");
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-    listItems[2].setProperty("selected", true);
-    await page.waitForChanges();
-    selectedItemValues = await getSelectedItemValues();
-    expect(selectedItemValues).toHaveLength(3);
-    expect(selectedItemValues[0]).toBe("one");
-    expect(selectedItemValues[1]).toBe("two");
-    expect(selectedItemValues[2]).toBe("three");
+      list.setProperty("filterText", "three");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      listItems[2].setProperty("selected", true);
+      await page.waitForChanges();
+      selectedItemValues = await getSelectedItemValues();
+      expect(selectedItemValues).toHaveLength(3);
+      expect(selectedItemValues[0]).toBe("one");
+      expect(selectedItemValues[1]).toBe("two");
+      expect(selectedItemValues[2]).toBe("three");
 
-    listItems[0].setProperty("selected", false);
-    await page.waitForChanges();
-    selectedItemValues = await getSelectedItemValues();
-    expect(selectedItemValues).toHaveLength(2);
-    expect(selectedItemValues[0]).toBe("two");
-    expect(selectedItemValues[1]).toBe("three");
-  });
+      listItems[0].setProperty("selected", false);
+      await page.waitForChanges();
+      selectedItemValues = await getSelectedItemValues();
+      expect(selectedItemValues).toHaveLength(2);
+      expect(selectedItemValues[0]).toBe("two");
+      expect(selectedItemValues[1]).toBe("three");
+    });
 
-  it("updating items after filtering", async () => {
-    const matchingFont = "Courier";
+    it("updating items after filtering", async () => {
+      const matchingFont = "Courier";
 
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled filter-text="">
-        <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
-        <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
-        <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
-      </calcite-list>
-    `);
-    await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="">
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
 
-    const list = await page.find("calcite-list");
-    let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      const list = await page.find("calcite-list");
+      let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems).toHaveLength(3);
-    for (const item of visibleItems) {
-      expect(await item.getProperty("description")).toBe("list1");
-    }
+      expect(visibleItems).toHaveLength(3);
+      for (const item of visibleItems) {
+        expect(await item.getProperty("description")).toBe("list1");
+      }
 
-    list.setProperty("filterText", matchingFont);
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
+      list.setProperty("filterText", matchingFont);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
-    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
-    expect(visibleItems).toHaveLength(2);
-    for (const item of visibleItems) {
-      expect(await item.getProperty("description")).toBe("list1");
-    }
+      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      expect(visibleItems).toHaveLength(2);
+      for (const item of visibleItems) {
+        expect(await item.getProperty("description")).toBe("list1");
+      }
 
-    list.innerHTML = html`
-      <calcite-list-item value="item4" label="${matchingFont}" description="list2"></calcite-list-item>
-      <calcite-list-item value="item5" label="${matchingFont} 2" description="list2"></calcite-list-item>
-      <calcite-list-item value="item6" label="Other Font" description="list2"></calcite-list-item>
-    `;
+      list.innerHTML = html`
+        <calcite-list-item value="item4" label="${matchingFont}" description="list2"></calcite-list-item>
+        <calcite-list-item value="item5" label="${matchingFont} 2" description="list2"></calcite-list-item>
+        <calcite-list-item value="item6" label="Other Font" description="list2"></calcite-list-item>
+      `;
 
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(await list.getProperty("filterText")).toBe(matchingFont);
-    visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      expect(await list.getProperty("filterText")).toBe(matchingFont);
+      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems).toHaveLength(2);
-    for (const item of visibleItems) {
-      expect(await item.getProperty("description")).toBe("list2");
-    }
-  });
+      expect(visibleItems).toHaveLength(2);
+      for (const item of visibleItems) {
+        expect(await item.getProperty("description")).toBe("list2");
+      }
+    });
 
-  it("filters initially", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled filter-text="match">
-        <calcite-list-item
-          id="label-match"
-          label="match"
-          description="description-1"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="description-match"
-          label="label-2"
-          description="match"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="value-not-matched-by-default"
-          label="label-3"
-          description="description-3"
-          value="match"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="no-match"
-          label="label-4"
-          description="description-4"
-          value="value-4"
-        ></calcite-list-item>
-      </calcite-list>
-    `);
+    it("updating items after filtering with filterPredicate property", async () => {
+      const allValue = "all";
+      const matchingFont = "Courier";
 
-    await page.waitForChanges();
-    const list = await page.find("calcite-list");
-    await page.waitForTimeout(DEBOUNCE.filter);
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="">
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(2);
-    expect(await list.getProperty("filteredData")).toHaveLength(2);
+      const list = await page.find("calcite-list");
 
-    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      await page.$eval(
+        "calcite-list",
+        (list: List["el"], allValue) => {
+          list.filterPredicate = (item) => {
+            if (list.filterText === allValue) {
+              return true;
+            }
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
-  });
+            return item.value === "item2";
+          };
+        },
+        allValue,
+      );
 
-  it("filters initially with filterProps", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled filter-text="match">
-        <calcite-list-item
-          id="label-match"
-          label="match"
-          description="description-1"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="description-match"
-          label="label-2"
-          description="match"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="value-not-matched-by-default"
-          label="label-3"
-          description="description-3"
-          value="match"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="no-match"
-          label="label-4"
-          description="description-4"
-          value="value-4"
-        ></calcite-list-item>
-      </calcite-list>
-    `);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
-    await page.waitForChanges();
-    const list = await page.find("calcite-list");
-    list.setProperty("filterProps", ["label", "description"]);
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
+      let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(2);
-    expect(await list.getProperty("filteredData")).toHaveLength(2);
+      expect(visibleItems).toHaveLength(1);
+      expect(await visibleItems[0].getProperty("value")).toBe("item2");
 
-    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      list.setProperty("filterText", allValue);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
+      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      expect(visibleItems).toHaveLength(3);
+
+      for (const item of visibleItems) {
+        expect(await item.getProperty("description")).toBe("list1");
+      }
+    });
+
+    it("filterPredicate will work without filterEnabled", async () => {
+      const matchingFont = "Courier";
+
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list>
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+
+      await page.$eval("calcite-list", (list: List["el"]) => {
+        list.filterPredicate = (item) => {
+          return item.value === "item2";
+        };
+      });
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems).toHaveLength(1);
+      expect(await visibleItems[0].getProperty("value")).toBe("item2");
+    });
+
+    it("filters initially", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="match">
+          <calcite-list-item
+            id="label-match"
+            label="match"
+            description="description-1"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="description-match"
+            label="label-2"
+            description="match"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="value-not-matched-by-default"
+            label="label-3"
+            description="description-3"
+            value="match"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="no-match"
+            label="label-4"
+            description="description-4"
+            value="value-4"
+          ></calcite-list-item>
+        </calcite-list>
+      `);
+
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredData")).toHaveLength(2);
+
+      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
+    });
+
+    it("filters initially with filterProps", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="match">
+          <calcite-list-item
+            id="label-match"
+            label="match"
+            description="description-1"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="description-match"
+            label="label-2"
+            description="match"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="value-not-matched-by-default"
+            label="label-3"
+            description="description-3"
+            value="match"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="no-match"
+            label="label-4"
+            description="description-4"
+            value="value-4"
+          ></calcite-list-item>
+        </calcite-list>
+      `);
+
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      list.setProperty("filterProps", ["label", "description"]);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredData")).toHaveLength(2);
+
+      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
+    });
+
+    it("should show no-results content when filter does not match", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-list>
+          <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+          <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+          <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+          <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+            <div slot="title">No fruits found</div>
+            <div slot="message">Try a different fruit?</div>
+          </calcite-notice>
+        </calcite-list>`,
+      );
+      await page.waitForChanges();
+
+      const noResultsContainer = await page.find(`calcite-list >>> [data-test-id="no-results-container"]`);
+
+      expect(await noResultsContainer.isVisible()).toBe(false);
+
+      const list = await page.find("calcite-list");
+      list.setProperty("filterText", "Bananas");
+      await page.waitForChanges();
+      expect(await noResultsContainer.isVisible()).toBe(false);
+
+      list.setProperty("filterEnabled", true);
+      await page.waitForChanges();
+      expect(await noResultsContainer.isVisible()).toBe(true);
+    });
+
+    it("subsequently appended lists should initialize filter data consistently", async () => {
+      const page = await newProgrammaticE2EPage();
+      type TestWindow = GlobalTestProps<{
+        createTestList: () => void;
+      }>;
+
+      await page.evaluate(() => {
+        (window as TestWindow).createTestList = function createTestList(): void {
+          const item1 = document.createElement("calcite-list-item");
+          item1.label = "item A";
+          item1.value = "item A";
+
+          const item2 = document.createElement("calcite-list-item");
+          item2.label = "item B";
+          item2.value = "item B";
+
+          const item3 = document.createElement("calcite-list-item");
+          item3.label = "item C";
+          item3.value = "item C";
+
+          const list = document.createElement("calcite-list");
+          list.label = "items";
+          list.filterEnabled = true;
+
+          list.append(item1, item2, item3);
+          document.body.append(list);
+        };
+      });
+
+      await page.evaluate(() => {
+        (window as TestWindow).createTestList();
+      });
+      await page.waitForChanges();
+
+      await page.$eval("calcite-list", (list) => {
+        list.remove();
+        (window as TestWindow).createTestList();
+      });
+      await page.waitForChanges();
+
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      await filter.callMethod("setFocus");
+      await page.keyboard.type("A");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      const list = await page.find("calcite-list");
+      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+    });
   });
 
   it("should support shift click to select multiple items", async () => {
@@ -939,35 +1113,6 @@ describe("calcite-list", () => {
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
   });
 
-  it("should show no-results content when filter does not match", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-list>
-        <calcite-list-item label="Apples" value="apples"></calcite-list-item>
-        <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
-        <calcite-list-item label="Pears" value="pears"></calcite-list-item>
-        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
-          <div slot="title">No fruits found</div>
-          <div slot="message">Try a different fruit?</div>
-        </calcite-notice>
-      </calcite-list>`,
-    );
-    await page.waitForChanges();
-
-    const noResultsContainer = await page.find(`calcite-list >>> [data-test-id="no-results-container"]`);
-
-    expect(await noResultsContainer.isVisible()).toBe(false);
-
-    const list = await page.find("calcite-list");
-    list.setProperty("filterText", "Bananas");
-    await page.waitForChanges();
-    expect(await noResultsContainer.isVisible()).toBe(false);
-
-    list.setProperty("filterEnabled", true);
-    await page.waitForChanges();
-    expect(await noResultsContainer.isVisible()).toBe(true);
-  });
-
   describe("keyboard navigation", () => {
     it("should navigate via ArrowUp, ArrowDown, Home, and End", async () => {
       const page = await newE2EPage();
@@ -1168,8 +1313,26 @@ describe("calcite-list", () => {
                   slot="actions-end"
                 ></calcite-action
               ></calcite-list-item>
+              <calcite-list-item id="three" value="three" label="Three" description="hello world">
+                <calcite-action
+                  appearance="transparent"
+                  icon="ellipsis"
+                  text="menu"
+                  label="menu"
+                  slot="actions-end"
+                ></calcite-action
+              ></calcite-list-item>
             </calcite-list>
           </calcite-list-item>
+          <calcite-list-item id="four" value="four" label="Four" description="hello world">
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="actions-end"
+            ></calcite-action
+          ></calcite-list-item>
         </calcite-list>
       `);
       await page.waitForChanges();

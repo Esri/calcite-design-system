@@ -12,11 +12,11 @@ import { styles } from "./navigation-logo.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-navigation-logo": CalciteNavigationLogo;
+    "calcite-navigation-logo": NavigationLogo;
   }
 }
 
-export class CalciteNavigationLogo extends LitElement implements LoadableComponent {
+export class NavigationLogo extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

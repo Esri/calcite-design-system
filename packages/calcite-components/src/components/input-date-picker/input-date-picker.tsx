@@ -83,7 +83,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
-import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {
@@ -696,7 +696,7 @@ export class InputDatePicker
     activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
-          this.datePickerEl.setFocus();
+          this.datePickerEl?.setFocus();
           this.focusOnOpen = false;
         }
       },
@@ -713,7 +713,7 @@ export class InputDatePicker
     hideFloatingUI(this);
     deactivateFocusTrap(this);
     this.focusOnOpen = false;
-    this.datePickerEl.reset();
+    this.datePickerEl?.reset();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -782,7 +782,7 @@ export class InputDatePicker
       return;
     }
 
-    const targeHasSelect = event
+    const targetHasSelect = event
       .composedPath()
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
@@ -799,7 +799,7 @@ export class InputDatePicker
       if (submitForm(this)) {
         this.restoreInputFocus(true);
       }
-    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targeHasSelect) {
+    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();

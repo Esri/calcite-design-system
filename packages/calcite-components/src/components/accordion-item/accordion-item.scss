@@ -75,7 +75,13 @@
   );
 }
 
-.header-content,
+.header-content {
+  padding: var(
+    --calcite-internal-accordion-item-padding,
+    var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+  );
+}
+
 .content {
   padding: var(
     --calcite-accordion-item-content-space,
@@ -89,8 +95,11 @@
 .header {
   @apply flex items-stretch;
 
-  * {
-    @apply inline-flex
+  &-content,
+  &-container,
+  .actions-start,
+  .actions-end {
+    @apply flex
       items-center
       duration-150
       ease-in-out;
@@ -147,9 +156,8 @@
 
 .actions-start,
 .actions-end {
-  @apply flex items-stretch;
-  * {
-    @apply items-stretch;
+  ::slotted(calcite-action) {
+    @apply self-stretch;
   }
 }
 

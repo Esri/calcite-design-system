@@ -19,7 +19,7 @@ jobs:
           npx --workspace=@esri/calcite-components stencil build --docs
           npm run --workspace=@esri/calcite-components lint:md
       - name: Commit and create pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           base: dev
           branch: ci/update-component-docs
@@ -48,7 +48,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           npx update-browserslist-db@latest
       - name: Commit and create pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           base: dev
           branch: ci/update-browserslist-db
