@@ -809,7 +809,6 @@ export class List
 
     filteredGroupItems.forEach((groupItem: ListItemGroup) => {
       this.filterGroupItemDescendants(groupItem);
-      //this.filteredResults.push(groupItem);
     });
   };
 

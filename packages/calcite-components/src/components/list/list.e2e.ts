@@ -1925,7 +1925,6 @@ describe("calcite-list", () => {
       await page.keyboard.type("Bui");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
-
       expect(await list.getProperty("filterText")).toBe("Bui");
       expect(await list.getProperty("filteredResults")).toHaveLength(1);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
