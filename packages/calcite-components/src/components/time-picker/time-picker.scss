@@ -12,15 +12,10 @@
     font-medium;
 
   border-radius: var(--calcite-border-radius);
-  word-break: keep-all;
 
   .column {
     @apply flex
       flex-col;
-  }
-
-  .meridiem {
-    inline-size: max-content;
   }
 
   .meridiem--start {
