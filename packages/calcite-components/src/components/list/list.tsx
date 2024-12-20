@@ -1160,10 +1160,6 @@ export class List
       numberingSystem,
     } = this;
 
-    const filteredItemsOnly = filteredResults.filter(
-      (item): item is ListItem => item.nodeName === "CALCITE-LIST-ITEM",
-    );
-
     numberStringFormatter.numberFormatOptions = {
       locale: effectiveLocale,
       numberingSystem,
@@ -1177,13 +1173,15 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(filteredItemsOnly.length.toString()),
+            numberStringFormatter.localize(filteredResults.length.toString()),
           )}
         </div>
-        {filteredItemsOnly.length ? (
+        {filteredResults.length ? (
           <ol key="aria-item-list">
-            {filteredItemsOnly.map((item) => (
-              <li>{item.label}</li>
+            {filteredResults.map((item) => (
+              <li role={(item as ListItemGroup).heading ? "group" : "none"}>
+                {(item as ListItem).label || (item as ListItemGroup).heading}
+              </li>
             ))}
           </ol>
         ) : null}
