@@ -1044,13 +1044,13 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderOpen()}
-            {this.renderActionsStart()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
                 [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
               }}
             >
+              {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
             </div>
