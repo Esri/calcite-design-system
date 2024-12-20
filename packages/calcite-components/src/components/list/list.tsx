@@ -33,7 +33,7 @@ import {
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
-import { GroupItemData } from "../list-item-group/interfaces";
+import { ItemGroupData } from "../list-item-group/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -135,7 +135,7 @@ export class List
     this.listItems = items;
     if (this.filterEnabled && this.willPerformFilter) {
       this.willPerformFilter = false;
-      this.dataForFilter = [...this.getItemData(), ...this.getGroupItemData()];
+      this.dataForFilter = [...this.getItemData(), ...this.getItemGroupData()];
 
       if (filterEl) {
         filterEl.items = this.dataForFilter;
@@ -147,7 +147,9 @@ export class List
     this.visibleGroupItems = this.groupItems.filter((item) => !item.hidden);
     this.updateFilteredItems();
     this.borderItems();
-    this.focusableItems = this.filteredResults.filter((item): item is ListItem => !item.disabled);
+    this.focusableItems = this.filteredResults.filter(
+      (item): item is ListItem["el"] => !item.disabled,
+    );
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
@@ -169,7 +171,7 @@ export class List
 
   @state() assistiveText: string;
 
-  @state() dataForFilter: (ItemData | GroupItemData)[] = [];
+  @state() dataForFilter: (ItemData | ItemGroupData)[] = [];
 
   @state() hasFilterActionsEnd = false;
 
@@ -244,7 +246,7 @@ export class List
    *
    * @readonly
    */
-  @property() filteredData: (ItemData | GroupItemData)[] = [];
+  @property() filteredData: (ItemData | ItemGroupData)[] = [];
 
   /**
    * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
@@ -787,7 +789,7 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as (ItemData | GroupItemData)[];
+      this.filteredData = filterEl.filteredItems as (ItemData | ItemGroupData)[];
     }
 
     this.updateListItems();
@@ -870,7 +872,7 @@ export class List
     }));
   }
 
-  private getGroupItemData = (): GroupItemData[] => {
+  private getItemGroupData = (): ItemGroupData[] => {
     return this.groupItems.map((item: ListItemGroup) => ({
       heading: item.heading,
       el: item,
