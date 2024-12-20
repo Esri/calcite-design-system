@@ -247,7 +247,7 @@ export class List
   @property() filteredData: (ItemData | GroupItemData)[] = [];
 
   /**
-   * The currently filtered `calcite-list-item`s.
+   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
    *
    * @readonly
    * @deprecated Use `filteredResults` instead.
@@ -255,7 +255,7 @@ export class List
   @property() filteredItems: ListElement[] = [];
 
   /**
-   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`
+   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
    *
    * @readonly
    */
