@@ -8,6 +8,7 @@ import {
   state,
   JsxNode,
   stringOrBoolean,
+  LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
 import { debounce } from "lodash-es";
@@ -166,9 +167,9 @@ export class Autocomplete
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -727,17 +728,9 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const enterKeyHint = this.el.getAttribute("enterkeyhint");
-    const inputMode = this.el.getAttribute("inputmode") as
-      | "none"
-      | "text"
-      | "search"
-      | "email"
-      | "tel"
-      | "url"
-      | "numeric"
-      | "decimal";
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
       <InteractiveContainer disabled={disabled}>
