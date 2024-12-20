@@ -17,6 +17,7 @@ declare global {
   }
 }
 
+/** @slot - A slot for adding HTML tables */
 export class TableAdvanced extends LitElement implements LoadableComponent {
   // #region Static Members
 
@@ -27,6 +28,8 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   // #region Private Properties
 
   private tableEl: HTMLElement;
+
+  private customSlotTableEl: HTMLElement;
 
   // #endregion
 
@@ -80,10 +83,15 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   loaded(): void {
     setComponentLoaded(this);
 
-    this.tabulator = new Tabulator(this.tableEl, {
-      data: this.data,
-      columns: this.columns,
-    });
+    if (this.el.querySelector("table")) {
+      this.customSlotTableEl = this.el.querySelector("table");
+      this.tabulator = new Tabulator(this.customSlotTableEl, {});
+    } else {
+      this.tabulator = new Tabulator(this.tableEl, {
+        data: this.data || [],
+        columns: this.columns || [],
+      });
+    }
   }
 
   // #endregion
@@ -112,7 +120,11 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        <div class={CSS.tableContainer} ref={this.setTableElRef} />
+        {this.el.querySelector("table") ? (
+          <div>{this.customSlotTableEl}</div>
+        ) : (
+          <div class={CSS.tableContainer} ref={this.setTableElRef} />
+        )}
       </div>
     );
   }
