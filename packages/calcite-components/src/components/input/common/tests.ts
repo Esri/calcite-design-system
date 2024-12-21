@@ -136,7 +136,7 @@ export function testWorkaroundForGlobalPropRemoval(
 
     const input = await page.find(inputTag);
 
-    // we intentionally teast each one to avoid renders caused by unrelated props affecting result
+    // we intentionally test each one to avoid renders caused by unrelated props affecting result
     await input.removeAttribute("autofocus");
     await page.waitForChanges();
     expect(internalInput.getAttribute("autofocus")).toBe(null);
