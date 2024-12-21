@@ -981,7 +981,9 @@ export class InputNumber
         defaultValue={this.defaultValue}
         disabled={this.disabled}
         enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+        inputMode={
+          (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
+        }
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
