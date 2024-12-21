@@ -75,7 +75,7 @@ export class InputText
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 

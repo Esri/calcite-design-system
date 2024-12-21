@@ -89,7 +89,7 @@ export class InputNumber
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode"],
+    ["autofocus", "enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
   );
 
