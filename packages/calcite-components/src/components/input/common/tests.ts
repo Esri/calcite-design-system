@@ -128,11 +128,17 @@ export function testWorkaroundForGlobalPropRemoval(
         <${inputTag} autofocus inputmode="${testInputMode}" enterkeyhint="${testEnterKeyHint}"></${inputTag}>
     `);
 
-    const input = await page.find(`${inputTag} >>> input`);
+    const internalInput = await page.find(`${inputTag} >>> input`);
 
-    expect(input.getAttribute("autofocus")).toBe("");
-    expect(input.getAttribute("inputmode")).toBe(testInputMode);
-    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+    expect(internalInput.getAttribute("autofocus")).toBe("");
+    expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
+    expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+
+    const input = await page.find(inputTag);
+
+    await input.removeAttribute("autofocus");
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("autofocus")).toBe(null);
   });
 
   it("supports global props", async () => {
@@ -150,5 +156,9 @@ export function testWorkaroundForGlobalPropRemoval(
     expect(internalInput.getAttribute("autofocus")).toBe("");
     expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
     expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+
+    input.setProperty("autofocus", false);
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("autofocus")).toBe(null);
   });
 }
