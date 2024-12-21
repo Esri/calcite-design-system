@@ -1,7 +1,7 @@
 import StyleDictionary from "style-dictionary";
 
 export const headerCalciteDefault = (passedMessage = [""]): Promise<string[]> | string[] => {
-  return ["// Calcite Design System", "// Do not edit directly, this file was auto-generated.", ...passedMessage];
+  return ["Calcite Design System", ...passedMessage];
 };
 
 export const registerCalciteDefaultFileHeader = (sd: typeof StyleDictionary): void =>
