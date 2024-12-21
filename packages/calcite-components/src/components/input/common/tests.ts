@@ -166,7 +166,7 @@ export function testWorkaroundForGlobalPropRemoval(
     expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
     expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
 
-    // we intentionally teast each one to avoid renders caused by unrelated props affecting result
+    // we intentionally test each one to avoid renders caused by unrelated props affecting result
     input.setProperty("autofocus", false);
     await page.waitForChanges();
     expect(internalInput.getAttribute("autofocus")).toBe(null);
