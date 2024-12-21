@@ -1181,9 +1181,7 @@ export class List
         {filteredResults.length ? (
           <ol key="aria-item-list">
             {filteredResults.map((item) => (
-              <li role={(item as ListItemGroup).heading ? "group" : "none"}>
-                {(item as ListItem).label || (item as ListItemGroup).heading}
-              </li>
+              <li>{(item as ListItem).label || (item as ListItemGroup).heading}</li>
             ))}
           </ol>
         ) : null}
