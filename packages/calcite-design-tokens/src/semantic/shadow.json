@@ -3,7 +3,7 @@
     "shadow": {
       "none": {
         "value": "{core.shadow.0}",
-        "type": "boxShadow",
+        "type": "shadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -27,7 +27,7 @@
       },
       "sm": {
         "value": ["{core.shadow.1}", "{core.shadow.2}"],
-        "type": "boxShadow",
+        "type": "shadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -51,7 +51,7 @@
       },
       "md": {
         "value": ["{core.shadow.3}", "{core.shadow.4}"],
-        "type": "boxShadow",
+        "type": "shadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
