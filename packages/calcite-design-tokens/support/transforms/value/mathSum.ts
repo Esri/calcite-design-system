@@ -57,10 +57,11 @@ export function transformValueMathSum(token: TransformedToken): any {
   }
 }
 
-export function registerValueMathSum(sd: StyleDictionary): void {
+export function registerValueMathSum(sd: typeof StyleDictionary): void {
   sd.registerTransform({
     name: ValueMathSum,
     transform: transformValueMathSum,
+    transitive: true,
     type: "value",
     filter: (token) => !!Number(token.value) || !!hasOperator(token.value),
   });
