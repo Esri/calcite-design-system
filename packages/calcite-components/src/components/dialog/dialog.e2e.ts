@@ -1035,7 +1035,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
           ><p>
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
             Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
             eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
             ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu

@@ -14,7 +14,7 @@ function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
       .replace(":30", ".5")
       .replace(":45", ".75")
 
-      // ensures decimal string representation is parseable
+      // ensures decimal string representation is parsable
       .replace(minusSign, hyphen)
   );
 }

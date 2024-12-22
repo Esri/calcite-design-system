@@ -19,6 +19,12 @@ t9nmanifest
 unslotted
 VDOM
 
+## eslint-plugin-import
+esmodule
+
+## eslint-plugin-calcite-components
+createelement
+
 ## events
 formdata
 
@@ -38,10 +44,19 @@ stringifying
 uppercased
 
 ## GIS
+ArcGIS
 ArcGISOnline
 basemap
 basemaps
 wkid
+
+## iso 8601
+YYYY
+MM
+DDTHH
+MM
+SS
+SSSZ
 
 # lorem-ipsum
 potenti
@@ -242,6 +257,7 @@ Jujuy
 Juneau
 Kentucky
 Monticello
+Kolkata
 Kralendijk
 La_Paz
 Lima
@@ -555,6 +571,7 @@ CLDR
 ### color
 hexa
 saturationv
+interactjs
 
 ### stylelint
 stylelintrc

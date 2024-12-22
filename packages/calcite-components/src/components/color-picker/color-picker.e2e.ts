@@ -1646,6 +1646,7 @@ describe("calcite-color-picker", () => {
 
             it("allows modifying color via hex input", async () => {
               const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
+              // eslint-disable-next-line @cspell/spellchecker -- testing hex code
               await clearAndEnterHexOrChannelValue(page, hexInput, "abcf");
 
               expect(await picker.getProperty("value")).toBe("#aabbccff");

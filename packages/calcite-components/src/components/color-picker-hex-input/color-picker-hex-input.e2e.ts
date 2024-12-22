@@ -300,6 +300,7 @@ describe("calcite-color-picker-hex-input", () => {
     const selectAllText = async (): Promise<void> => await input.click({ clickCount: 3 });
 
     await selectAllText();
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
     await page.keyboard.type("zaaaz");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -307,6 +308,7 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe("#aaaaaa");
 
     await selectAllText();
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
     await page.keyboard.type("bbbbbbc");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -320,6 +322,7 @@ describe("calcite-color-picker-hex-input", () => {
       "<calcite-color-picker-hex-input alpha-channel value='#b33f33'></calcite-color-picker-hex-input>",
     );
     const input = await page.find("calcite-color-picker-hex-input");
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
     const blockedCharsAndLonghandHexa = "zabcdz";
 
     await selectText(input);
@@ -331,6 +334,7 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe(expandedLonghandHexa);
 
     await selectText(input);
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
     const longhandHexWithExtraChars = "bbbbbbbbc";
     await page.keyboard.type(longhandHexWithExtraChars);
     await page.waitForChanges();
@@ -404,6 +408,7 @@ describe("calcite-color-picker-hex-input", () => {
 
         it("commits hex chars on Tab and Enter", async () => {
           await assertTabAndEnterBehavior("b00", "#bb0000");
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
           await assertTabAndEnterBehavior("", startingHex);
         });
@@ -422,7 +427,9 @@ describe("calcite-color-picker-hex-input", () => {
         });
 
         it("prevents committing invalid hex values", async () => {
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("aabbc", startingHex);
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("aabb", startingHex);
           await assertTabAndEnterBehavior("aa", startingHex);
           await assertTabAndEnterBehavior("a", startingHex);
@@ -463,12 +470,15 @@ describe("calcite-color-picker-hex-input", () => {
 
           it("commits hex chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000");
+            // eslint-disable-next-line @cspell/spellchecker -- test hex code
             await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
             await assertTabAndEnterBehavior("", undefined);
           });
 
           it("prevents committing invalid hex values", async () => {
+            // eslint-disable-next-line @cspell/spellchecker -- test hex code
             await assertTabAndEnterBehavior("aabbc", startingHex);
+            // eslint-disable-next-line @cspell/spellchecker -- test hex code
             await assertTabAndEnterBehavior("aabb", startingHex);
             await assertTabAndEnterBehavior("aa", startingHex);
             await assertTabAndEnterBehavior("a", startingHex);
@@ -527,13 +537,16 @@ describe("calcite-color-picker-hex-input", () => {
         it.skip("commits hexa chars on Tab and Enter", async () => {
           await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
           await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
           await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b0b0", true);
           await assertTabAndEnterBehavior("", startingHexa, true);
         });
 
         it.skip("prevents committing invalid hexa values", async () => {
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
+          // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
           await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
           await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
@@ -578,13 +591,16 @@ describe("calcite-color-picker-hex-input", () => {
           it.skip("commits hexa chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
             await assertTabAndEnterBehavior("baba", "#bbaabbaa", true);
+            // eslint-disable-next-line @cspell/spellchecker -- testing hex code
             await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
             await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c0c0", true);
             await assertTabAndEnterBehavior("", null, true);
           });
 
           it.skip("prevents committing invalid hexa values", async () => {
+            // eslint-disable-next-line @cspell/spellchecker -- testing hex code
             await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
+            // eslint-disable-next-line @cspell/spellchecker -- testing hex code
             await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
             await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
             await assertTabAndEnterBehavior("ff00", "#ffff0000", true);

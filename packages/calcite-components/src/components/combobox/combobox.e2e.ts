@@ -342,7 +342,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await combobox.getProperty("open")).toBe(false);
 
-      const text = "nomatchingtexthere";
+      const text = "no-matching-text-here";
 
       await combobox.type(text);
       await page.waitForChanges();

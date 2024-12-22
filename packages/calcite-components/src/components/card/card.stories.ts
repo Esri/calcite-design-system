@@ -147,30 +147,30 @@ export const thumbnail = (): string => html`
 
 export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
-    <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <h3 slot="heading">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
     <span slot="description"
-      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+      >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</span
     >
     <p>
-      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
-      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
-      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
-      protect the world from devastation.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </calcite-card>
 `;
 
 export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
-    <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <h3 slot="title">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
     <span slot="subtitle"
-      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+      >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</span
     >
     <p>
-      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
-      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
-      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
-      protect the world from devastation.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </calcite-card>
 `;

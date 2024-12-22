@@ -145,7 +145,7 @@ describe("calcite-tree", () => {
                 <calcite-tree-item id="grandchild-two">
                   <span>Grandchild 2</span>
                   <calcite-tree slot="children">
-                    <calcite-tree-item id="greatgrandchild">
+                    <calcite-tree-item id="great-grandchild">
                       <span>Great Grandchild</span>
                     </calcite-tree-item></calcite-tree
                   >
@@ -163,7 +163,7 @@ describe("calcite-tree", () => {
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
     const grandchildTwo = await page.find("#grandchild-two");
-    const greatgrandchild = await page.find("#greatgrandchild");
+    const greatGrandchild = await page.find("#great-grandchild");
 
     expect(one).not.toHaveAttribute("indeterminate");
     expect(one).not.toHaveAttribute("selected");
@@ -173,7 +173,7 @@ describe("calcite-tree", () => {
     expect(childOne).not.toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
-    expect(greatgrandchild).not.toHaveAttribute("selected");
+    expect(greatGrandchild).not.toHaveAttribute("selected");
 
     await directItemClick(page, two);
 
@@ -184,7 +184,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
-    expect(greatgrandchild).toHaveAttribute("selected");
+    expect(greatGrandchild).toHaveAttribute("selected");
 
     await directItemClick(page, childOne);
 
@@ -196,7 +196,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
-    expect(greatgrandchild).not.toHaveAttribute("selected");
+    expect(greatGrandchild).not.toHaveAttribute("selected");
 
     grandchildTwo.setProperty("disabled", true);
     await page.waitForChanges();
@@ -210,7 +210,7 @@ describe("calcite-tree", () => {
     expect(childTwo).not.toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
-    expect(greatgrandchild).not.toHaveAttribute("selected");
+    expect(greatGrandchild).not.toHaveAttribute("selected");
 
     grandchildTwo.setProperty("disabled", false);
     await page.waitForChanges();
@@ -223,7 +223,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
-    expect(greatgrandchild).toHaveAttribute("selected");
+    expect(greatGrandchild).toHaveAttribute("selected");
   });
 
   describe("item selection", () => {
