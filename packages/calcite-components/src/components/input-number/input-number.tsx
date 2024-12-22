@@ -159,9 +159,9 @@ export class InputNumber
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
@@ -976,20 +976,13 @@ export class InputNumber
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
-        autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-        autofocus={this.el.autofocus ? true : null}
+        autocomplete={this.autocomplete}
+        autofocus={this.el.autofocus}
         defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
-        enterKeyHint={
-          (this.el.enterKeyHint ||
-            this.el.getAttribute(
-              "enterkeyhint",
-            )) as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
-        }
+        disabled={this.disabled}
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
         inputMode={
-          (this.el.inputMode ||
-            this.el.getAttribute("inputmode") ||
-            "decimal") as LuminaJsx.HTMLElementTags["input"]["inputMode"]
+          (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
         }
         key="localized-input"
         maxLength={this.maxLength}
