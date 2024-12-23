@@ -5,6 +5,7 @@ import { FilterLightColorTokens } from "../../support/filter/light.js";
 import { FilterDarkColorTokens } from "../../support/filter/dark.js";
 import { FilterGlobalTokens } from "../../support/filter/global.js";
 import { CalciteTransformGroup } from "../../support/transforms/group/calcite.js";
+import { PlatformConfig } from "style-dictionary/types";
 
 export default {
   actions: [ActionGenerateBreakpoints],
@@ -29,6 +30,7 @@ export default {
     },
   ],
   options: {
+    fileExtension: ".scss",
     fileHeader: HeaderCalciteDefault,
   },
-};
+} as PlatformConfig;
