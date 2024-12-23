@@ -233,6 +233,7 @@ export class InputTimeZone
 
   // #region Public Methods
 
+  /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
