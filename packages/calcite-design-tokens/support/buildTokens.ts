@@ -6,6 +6,7 @@ import scss from "../src/config/scss.js";
 import { registerCalciteDefaultFileHeader } from "./header/calcite-default.js";
 import { expandTypesMap, register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
 import { registerCalciteFilters } from "./filter/registerFilters.js";
+import css from "../src/config/css.js";
 
 await registerTokenStudioTransformers(StyleDictionary);
 await registerCalciteFilters(StyleDictionary);
@@ -20,6 +21,7 @@ const sd = new StyleDictionary({
   preprocessors: ["tokens-studio"],
   platforms: {
     scss,
+    css,
   },
   log: {
     warnings: logWarningLevels.warn,
