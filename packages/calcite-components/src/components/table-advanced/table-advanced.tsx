@@ -29,7 +29,7 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
 
   private tableEl: HTMLElement;
 
-  private customSlotTableEl: HTMLElement;
+  private customSlotTableEl: HTMLElement = this.el.querySelector("table");
 
   // #endregion
 
@@ -83,15 +83,12 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   loaded(): void {
     setComponentLoaded(this);
 
-    if (this.el.querySelector("table")) {
-      this.customSlotTableEl = this.el.querySelector("table");
-      this.tabulator = new Tabulator(this.customSlotTableEl, {});
-    } else {
-      this.tabulator = new Tabulator(this.tableEl, {
-        data: this.data || [],
-        columns: this.columns || [],
-      });
-    }
+    this.tabulator = this.customSlotTableEl
+      ? new Tabulator(this.customSlotTableEl, {})
+      : new Tabulator(this.tableEl, {
+          data: this.data || [],
+          columns: this.columns || [],
+        });
   }
 
   // #endregion
@@ -120,8 +117,8 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        {this.el.querySelector("table") ? (
-          <div>{this.customSlotTableEl}</div>
+        {this.customSlotTableEl ? (
+          <span>{this.customSlotTableEl}</span>
         ) : (
           <div class={CSS.tableContainer} ref={this.setTableElRef} />
         )}

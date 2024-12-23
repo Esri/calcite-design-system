@@ -11,5 +11,25 @@ table {
   overflow-x: scroll;
 }
 
+.tabulator {
+  .tabulator-header {
+    border-color: var(--calcite-color-border-1);
+
+    .tabulator-col-content {
+      background-color: var(--calcite-color-background);
+
+      .tabulator-col-title {
+        color: gray;
+      }
+    }
+  }
+
+  .tabulator-row {
+    .tabulator-cell {
+      padding: 0.6rem;
+    }
+  }
+}
+
 @include base-component();
 @import "../../../../../node_modules/tabulator-tables/dist/css/tabulator.min.css";
