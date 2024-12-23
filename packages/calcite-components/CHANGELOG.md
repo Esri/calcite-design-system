@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.80...@esri/calcite-components@3.0.0-next.81) (2024-12-23)
+
+### Features
+
+- **list-item:** extend bottom border to include actions-start slot ([#11116](https://github.com/Esri/calcite-design-system/issues/11116)) ([1553fc5](https://github.com/Esri/calcite-design-system/commit/1553fc53eb72ea8cd0e80b6c530eaec8df44de9e)), closes [#11115](https://github.com/Esri/calcite-design-system/issues/11115)
+
+### Bug Fixes
+
+- **input, input-text, input-number:** restore handling of autofocus global attribute ([#11118](https://github.com/Esri/calcite-design-system/issues/11118)) ([af32894](https://github.com/Esri/calcite-design-system/commit/af32894eb1d1a083ed1e0894f170300d7439a904))
+
 ## [3.0.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.79...@esri/calcite-components@3.0.0-next.80) (2024-12-19)
 
 **Note:** Version bump only for package @esri/calcite-components
