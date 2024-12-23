@@ -1234,8 +1234,8 @@ describe("calcite-tooltip", () => {
           <div id="ref">referenceElement</div>`,
       );
       await page.waitForChanges();
-      const popover = await page.find("calcite-popover");
-      await popover.callMethod("remove");
+      const tooltip = await page.find("calcite-tooltip");
+      await tooltip.callMethod("remove");
       await page.waitForChanges();
 
       expect(consoleSpy).not.toHaveBeenCalled();
