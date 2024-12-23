@@ -216,7 +216,7 @@ export class List
    *   return myListItem.label.includes("someValue");
    * };
    */
-  @property() filterPredicate: (item: ListItem["el"]) => boolean;
+  @property() filterPredicate?: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
