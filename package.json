@@ -77,7 +77,7 @@
     "axe-core": "4.10.2",
     "change-case": "5.4.4",
     "cheerio": "1.0.0",
-    "chokidar": "4.0.1",
+    "chokidar": "4.0.3",
     "chromatic": "11.20.2",
     "concurrently": "9.1.0",
     "conventional-changelog-conventionalcommits": "7.0.2",
