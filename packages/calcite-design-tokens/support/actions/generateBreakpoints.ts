@@ -45,7 +45,8 @@ const formatTokenOutput = (
 };
 
 const generateBreakpoints = async function (dictionary: Dictionary, config: PlatformConfig) {
-  const format = ".scss";
+  const format = config.options?.fileExtension || ".scss";
+  debugger;
   const filePath = config.buildPath + "breakpoints" + format;
   const fileHeader = await Promise.resolve(
     typeof config.options.fileHeader === "function" ? config.options.fileHeader() : [config.options.fileHeader],
