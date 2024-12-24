@@ -319,6 +319,8 @@ export class ActionMenu extends LitElement implements LoadableComponent {
       "keydown",
       this.menuButtonKeyDown,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+
+    this.menuButtonEl = null;
   }
 
   private setMenuButtonEl(event: Event): void {
@@ -334,7 +336,10 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
     this.defaultMenuButtonEl = el;
-    this.connectMenuButtonEl();
+
+    if (el) {
+      this.connectMenuButtonEl();
+    }
   }
 
   private setPopoverEl(el: Popover["el"]): void {

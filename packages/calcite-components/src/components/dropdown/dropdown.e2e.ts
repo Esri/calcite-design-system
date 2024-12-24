@@ -82,7 +82,7 @@ describe("calcite-dropdown", () => {
     hidden("calcite-dropdown");
   });
 
-  describe.skip("disabled", () => {
+  describe("disabled", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
@@ -149,10 +149,10 @@ describe("calcite-dropdown", () => {
     `);
     const dropdownItems = await page.findAll("calcite-dropdown-items");
 
-    dropdownItems.forEach(async (item) => {
+    for (const item of dropdownItems) {
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("s");
-    });
+    }
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
@@ -605,8 +605,9 @@ describe("calcite-dropdown", () => {
 
     it("control max items displayed", async () => {
       const maxItems = 7;
-      const page = await newE2EPage({
-        html: html`<calcite-dropdown max-items="${maxItems}">
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dropdown max-items="${maxItems}">
           <calcite-button slot="trigger">Open Dropdown</calcite-button>
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -623,7 +624,7 @@ describe("calcite-dropdown", () => {
             <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>`,
-      });
+      );
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
@@ -642,6 +643,14 @@ describe("calcite-dropdown", () => {
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
+      }
+
+      const totalItems = 10;
+      element.setProperty("maxItems", totalItems);
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].isIntersectingViewport()).toBe(true);
       }
     });
   });
@@ -1128,7 +1137,7 @@ describe("calcite-dropdown", () => {
     await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="title-group">

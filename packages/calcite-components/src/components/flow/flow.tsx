@@ -102,9 +102,9 @@ export class Flow extends LitElement implements LoadableComponent {
     await componentFocusable(this);
 
     const { items } = this;
-    const activeItem = items[items.length - 1];
+    const selectedItem = items[this.selectedIndex];
 
-    return activeItem?.setFocus();
+    return selectedItem?.setFocus();
   }
 
   // #endregion

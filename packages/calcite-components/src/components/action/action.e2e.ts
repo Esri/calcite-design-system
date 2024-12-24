@@ -220,7 +220,7 @@ describe("calcite-action", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-action-background-color-pressed": {
+        "--calcite-action-background-color-press": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
           state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
@@ -241,7 +241,7 @@ describe("calcite-action", () => {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
           },
-          "--calcite-action-text-color-pressed": {
+          "--calcite-action-text-color-press": {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
             state: "hover",
@@ -260,7 +260,7 @@ describe("calcite-action", () => {
           icon="configure-popup"
         ></calcite-action>`,
         {
-          "--calcite-action-text-color-pressed": {
+          "--calcite-action-text-color-press": {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
           },
@@ -319,6 +319,10 @@ describe("calcite-action", () => {
             targetProp: "borderStartStartRadius",
           },
         ],
+      });
+    });
+    describe("deprecated", () => {
+      themed(html`calcite-action`, {
         "--calcite-action-corner-radius-end-end": [
           {
             shadowSelector: `.${CSS.button}`,
@@ -439,6 +443,16 @@ describe("calcite-action", () => {
             targetProp: "borderStartStartRadius",
           },
         ],
+        "--calcite-action-text-color-pressed": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-action-background-color-pressed": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+        },
       });
     });
     describe("transparent", () => {

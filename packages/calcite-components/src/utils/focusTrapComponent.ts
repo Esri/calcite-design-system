@@ -46,6 +46,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   }
 
   const focusTrapOptions: FocusTrapOptions = {
+    clickOutsideDeactivates: true,
     fallbackFocus: focusTrapNode,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);

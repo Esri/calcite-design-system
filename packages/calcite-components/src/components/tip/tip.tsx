@@ -3,7 +3,7 @@ import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Head
 import { logger } from "../../utils/logger";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/tip.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tip.scss";
 

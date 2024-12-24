@@ -365,7 +365,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
     component.defaultChecked = component.checked;
   }
 
-  const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
+  const boundOnFormReset = onFormReset.bind(component);
   associatedForm.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
@@ -403,6 +403,8 @@ function onFormReset<T>(this: FormComponent<T>): void {
   }
 
   this.value = this.defaultValue;
+
+  this.onFormReset?.();
 }
 
 /**

@@ -13,7 +13,9 @@ import {
 import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
+import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
@@ -29,7 +31,7 @@ import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
-import { loader } from "./custom-theme/loader";
+import { loader, loaderTokens } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
@@ -110,7 +112,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${notices} ${segmentedControl}
+        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
         <div style="display: flex">
           ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
@@ -130,8 +132,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers}</div>
-      ${alert}
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection}</div>
+      <div class="demo-column">${alert}</div>
     </div>
   </div>`;
 
@@ -145,7 +147,9 @@ const componentTokens = {
   ...actionPadTokens,
   ...actionTokens,
   ...alertTokens,
+  ...autocompleteTokens,
   ...avatarTokens,
+  ...blockSectionTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
@@ -154,6 +158,7 @@ const componentTokens = {
   ...labelTokens,
   ...linkTokens,
   ...listTokens,
+  ...loaderTokens,
   ...navigationLogoTokens,
   ...navigationTokens,
   ...navigationUserTokens,
