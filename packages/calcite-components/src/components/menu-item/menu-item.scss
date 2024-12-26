@@ -9,6 +9,8 @@
  * @prop --calcite-menu-item-action-border-color: Specifies the border inline start color of an action sub-component.
  * @prop --calcite-menu-item-action-text-color: Specifies the text color of an action sub component.
  * @prop --calcite-menu-item-action-text-color-press: Specifies the text color of an action sub component.
+ * @prop --calcite-menu-item-accent-color: Specifies the border color of the component when `active`.
+ * @prop --calcite-menu-item-accent-color-hover: Specifies the border color of the component when hovered.
  * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
  * @prop --calcite-menu-item-icon-color: Specifies the color of the icon.
  * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
@@ -56,7 +58,7 @@
   w-full;
   text-decoration: none;
   padding-block-start: theme("spacing[0.5]");
-  border-block-end: theme("spacing[0.5]") solid transparent;
+  border-block-end: theme("spacing[0.5]") solid var(--calcite-color-transparent);
 
   background-color: var(
     --calcite-menu-item-background-color,
@@ -71,7 +73,7 @@
   }
 
   &:hover {
-    @apply border-b-color-2;
+    border-block-end-color: var(--calcite-menu-item-accent-color-hover, var(--calcite-color-border-2));
   }
 
   &:focus {
@@ -93,7 +95,7 @@
     @apply flex w-full justify-start;
     padding-block: 1rem;
     border-block-end: 0;
-    border-inline-end: theme("spacing.1") solid transparent;
+    border-inline-end: theme("spacing.1") solid var(--calcite-color-transparent);
   }
 }
 
@@ -105,7 +107,7 @@
   .content {
     --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-3);
     --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
-    --calcite-internal-menu-item-border-color: var(--calcite-color-brand);
+    border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
   }
   .icon {
     --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
