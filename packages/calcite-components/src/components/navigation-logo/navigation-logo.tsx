@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
+import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import {
   LoadableComponent,
   componentFocusable,
@@ -8,72 +8,72 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
+import { styles } from "./navigation-logo.scss";
 
-@Component({
-  tag: "calcite-navigation-logo",
-  styleUrl: "navigation-logo.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-})
-export class CalciteNavigationLogo implements LoadableComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  //--------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-navigation-logo": NavigationLogo;
+  }
+}
+
+export class NavigationLogo extends LitElement implements LoadableComponent {
+  // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @Prop({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active: boolean;
 
-  /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
-  @Prop({ reflect: true }) href: string;
+  /** A description for the component, which displays below the `heading`. */
+  @property() description: string;
+
+  /** Specifies heading text for the component, such as a product or organization name. */
+  @property() heading: string;
+
+  /** Specifies the heading level of the component's heading for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
+  @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
-  @Prop() label: string;
+  @property() label: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @Prop({ reflect: true }) rel: string;
-
-  /** A description for the component, which displays below the `heading`.*/
-  @Prop() description: string;
+  @property({ reflect: true }) rel: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
    * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @Prop({ reflect: true }) target: string;
-
-  /** Specifies heading text for the component, such as a product or organization name.*/
-  @Prop() heading: string;
+  @property({ reflect: true }) target: string;
 
   /** Specifies the `src` to an image. */
-  @Prop() thumbnail: string;
+  @property() thumbnail: string;
 
-  /**
-   * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  // #endregion
 
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  // #region Public Methods
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     if (this.href) {
@@ -81,40 +81,28 @@ export class CalciteNavigationLogo implements LoadableComponent {
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteNavigationLogoElement;
+  // #region Lifecycle
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
+  load(): void {
     setUpLoadableComponent(this);
   }
 
-  componentDidLoad(): void {
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  private renderIcon(): VNode {
+  // #region Rendering
+
+  private renderIcon(): JsxNode {
     /** Icon scale is not variable as the component does not have a scale property */
     return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
   }
 
-  renderHeaderContent(): VNode {
+  private renderHeaderContent(): JsxNode {
     const { heading, headingLevel, description } = this;
     const headingNode = heading ? (
       <Heading
@@ -143,16 +131,16 @@ export class CalciteNavigationLogo implements LoadableComponent {
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const { thumbnail } = this;
     return (
-      <Host>
-        <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
-          {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
-          {this.icon && this.renderIcon()}
-          {this.renderHeaderContent()}
-        </a>
-      </Host>
+      <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
+        {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
+        {this.icon && this.renderIcon()}
+        {this.renderHeaderContent()}
+      </a>
     );
   }
+
+  // #endregion
 }

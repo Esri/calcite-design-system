@@ -13,6 +13,22 @@
         margin: 25px 0;
       }
 
+      .font,
+      .header {
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .font {
+        font-size: var(--calcite-font-size-0);
+      }
+
+      .header {
+        font-size: var(--calcite-font-size-2) !important;
+        margin-bottom: 25px !important;
+      }
+
       .child {
         flex: 0 0 70%;
         margin: 0 25px;
@@ -21,6 +37,10 @@
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
         padding: 0 10px;
+      }
+
+      .child-width {
+        flex: 0 0 63%;
       }
 
       .right-aligned-text {
@@ -32,10 +52,23 @@
         margin: 60px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-slider-track-color: darkblue;
+        --calcite-slider-track-fill-color: green;
+        --calcite-slider-handle-fill-color: cyan;
+        --calcite-slider-handle-extension-color: rgb(183, 0, 0);
+        --calcite-slider-accent-color: rgb(247, 0, 255);
+        --calcite-slider-tick-color: white;
+        --calcite-slider-tick-border-color: red;
+        --calcite-slider-tick-selected-color: cyan;
+        --calcite-slider-text-color: red;
+        --calcite-slider-graph-color: lime;
+      }
     </style>
-    <script src="./_assets/head.js"></script>
-    <script type="module" src="./_assets/demo-form.js"></script>
-    <script type="module" src="./_assets/demo-spacer.js"></script>
+    <script src="./_assets/head.ts"></script>
+    <script type="module" src="./_assets/demo-form.ts"></script>
+    <script type="module" src="./_assets/demo-spacer.ts"></script>
   </head>
 
   <body>
@@ -1579,6 +1612,55 @@
         </div>
       </div>
 
+      <div class="parent">
+        <div class="child right-aligned-text">themed</div>
+
+        <div class="child">
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="s"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="m"
+            class="themed"
+          >
+          </calcite-slider>
+          <calcite-slider
+            label-ticks
+            label-handles
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            scale="l"
+            class="themed"
+          >
+          </calcite-slider>
+        </div>
+      </div>
+
       <hr />
 
       <div class="parent">
@@ -2543,6 +2625,214 @@
             precise
           >
           </calcite-slider>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--
+      ******************************************************
+      * ERROR STATES
+      ******************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="font header child">Error states</div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child child-width font">Small</div>
+        <div class="child child-width font">Medium</div>
+        <div class="child child-width font">Large</div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Standard</div>
+        <div class="child child-width">
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            step="1"
+            min-label="Temperature"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+          </calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="m"
+            min="0"
+            max="100"
+            step="1"
+            min-label="Temperature"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+          </calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            step="1"
+            min-label="Temperature"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+          </calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Labeled ticks</div>
+        <div class="child child-width">
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            step="10"
+            ticks="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            label-ticks
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="m"
+            min="0"
+            max="100"
+            step="10"
+            ticks="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            label-ticks
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            step="10"
+            ticks="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            label-ticks
+          ></calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Precise</div>
+        <div class="child child-width">
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="m"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+          ></calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Labeled handles with precise</div>
+        <div class="child child-width">
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+            label-handles
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="m"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+            label-handles
+          ></calcite-slider>
+        </div>
+
+        <div class="child child-width">
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="100"
+            step="10"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+            precise
+            label-handles
+          ></calcite-slider>
         </div>
       </div>
 

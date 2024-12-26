@@ -1,7 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
+import type { Filter } from "./filter";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -65,6 +67,15 @@ describe("calcite-filter", () => {
     expect(await input.getProperty("scale")).toBe(scale);
   });
 
+  it("honors label property", async () => {
+    const page = await newE2EPage();
+    const label = "hello world";
+    await page.setContent(`<calcite-filter label="${label}"></calcite-filter>`);
+
+    const input = await page.find(`calcite-filter >>> calcite-input`);
+    expect(await input.getProperty("label")).toBe(label);
+  });
+
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {
       const page = await newE2EPage();
@@ -104,7 +115,7 @@ describe("calcite-filter", () => {
 
         await page.$eval(
           "calcite-filter",
-          async (filter: HTMLCalciteFilterElement, buttonSelector: string): Promise<void> => {
+          async (filter: Filter["el"], buttonSelector: string): Promise<void> => {
             return filter.shadowRoot
               .querySelector("calcite-input")
               .shadowRoot.querySelector<HTMLElement>(buttonSelector)
@@ -214,7 +225,7 @@ describe("calcite-filter", () => {
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+      await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
         filter.items = filter.items.slice(3);
       });
       await page.waitForTimeout(DEBOUNCE.filter);
@@ -223,7 +234,7 @@ describe("calcite-filter", () => {
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
 
-      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
+      await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
         filter.items = [];
       });
       await page.waitForTimeout(DEBOUNCE.filter);

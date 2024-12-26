@@ -16,7 +16,7 @@ export class BigDecimal {
 
   static ROUNDED = true; // numbers are truncated (false) or rounded (true)
 
-  static SHIFT = BigInt("1" + "0".repeat(BigDecimal.DECIMALS)); // derived constant
+  static SHIFT = BigInt("1" + "0".repeat(this.DECIMALS)); // derived constant
 
   constructor(input: string | BigDecimal) {
     if (input instanceof BigDecimal) {
@@ -56,7 +56,10 @@ export class BigDecimal {
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
     const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
-    this.isNegative && parts.unshift({ type: "minusSign", value: formatter.minusSign });
+
+    if (this.isNegative) {
+      parts.unshift({ type: "minusSign", value: formatter.minusSign });
+    }
 
     if (decimals.length) {
       parts.push({ type: "decimal", value: formatter.decimal });

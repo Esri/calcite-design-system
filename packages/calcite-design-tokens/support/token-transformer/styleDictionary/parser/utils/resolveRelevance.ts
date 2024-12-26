@@ -41,7 +41,7 @@ export function resolveReference<T extends SingleToken<false>["value"]>(
       } else {
         ref = flattenValues(getRefResult) as T;
       }
-    } catch (error: unknown) {
+    } catch {
       console.warn(`Warning: could not resolve reference ${ref}`);
       return ref;
     }

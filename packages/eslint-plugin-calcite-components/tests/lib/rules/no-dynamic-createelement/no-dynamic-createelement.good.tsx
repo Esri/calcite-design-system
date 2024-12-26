@@ -1,10 +1,22 @@
 // @ts-nocheck
-@Component({ tag: "sample-tag" })
-export class SampleTag {
-  @Prop()
-  type: "one" | "two" = "one";
+import { LitElement, h, property } from "@arcgis/lumina";
 
-  connectedCallback() {
+declare global {
+  interface DeclareElements {
+    "calcite-test-component": TestComponent;
+  }
+}
+
+export class TestComponent extends LitElement {
+  //#region Public Properties
+
+  @property() type: "one" | "two" = "one";
+
+  //#endregion
+
+  //#region Lifecycle
+
+  createPart() {
     const child =
       this.type === "one"
         ? document.createElement("my-component-1")
@@ -13,7 +25,5 @@ export class SampleTag {
     this.internalEl = child;
   }
 
-  disconnectedCallback() {
-    this.internalEl.remove();
-  }
+  //#endregion
 }

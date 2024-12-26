@@ -1,8 +1,9 @@
-import { E2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import { DateLocaleData } from "../date-picker/utils";
 import { renders } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
-import { DatePickerMessages } from "../../components";
+import T9nStrings from "../date-picker/assets/t9n/messages.en.json";
 
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
@@ -36,9 +37,9 @@ describe("calcite-date-picker-month-header", () => {
   } as DateLocaleData;
 
   let page: E2EPage;
-  let messages: DatePickerMessages;
+  let messages: typeof T9nStrings;
   beforeEach(async () => {
-    messages = await import(`../date-picker/assets/date-picker/t9n/messages.json`);
+    messages = await import("../date-picker/assets/t9n/messages.json");
     page = await newProgrammaticE2EPage();
     await page.evaluate(
       (localeData, messages) => {

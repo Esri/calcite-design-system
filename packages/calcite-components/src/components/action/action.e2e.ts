@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -219,10 +220,10 @@ describe("calcite-action", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-action-background-color-pressed": {
+        "--calcite-action-background-color-press": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.button } },
+          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
         },
       });
     });
@@ -240,7 +241,7 @@ describe("calcite-action", () => {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
           },
-          "--calcite-action-text-color-pressed": {
+          "--calcite-action-text-color-press": {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
             state: "hover",
@@ -259,7 +260,7 @@ describe("calcite-action", () => {
           icon="configure-popup"
         ></calcite-action>`,
         {
-          "--calcite-action-text-color-pressed": {
+          "--calcite-action-text-color-press": {
             shadowSelector: `.${CSS.button}`,
             targetProp: "color",
           },
@@ -318,6 +319,10 @@ describe("calcite-action", () => {
             targetProp: "borderStartStartRadius",
           },
         ],
+      });
+    });
+    describe("deprecated", () => {
+      themed(html`calcite-action`, {
         "--calcite-action-corner-radius-end-end": [
           {
             shadowSelector: `.${CSS.button}`,
@@ -438,6 +443,37 @@ describe("calcite-action", () => {
             targetProp: "borderStartStartRadius",
           },
         ],
+        "--calcite-action-text-color-pressed": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-action-background-color-pressed": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+        },
+      });
+    });
+    describe("transparent", () => {
+      themed(html`<calcite-action appearance="transparent"></calcite-action>`, {
+        "--calcite-action-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          expectedValue: "rgba(0, 0, 0, 0)",
+        },
+        "--calcite-action-background-color-hover": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          expectedValue: "rgba(0, 0, 0, 0.04)",
+          state: "hover",
+        },
+        "--calcite-action-background-color-pressed": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          expectedValue: "rgba(0, 0, 0, 0.08)",
+          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+        },
       });
     });
   });

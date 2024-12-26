@@ -1,31 +1,30 @@
 import { nodeListToArray } from "../../utils/dom";
 import { isBrowser } from "../../utils/browser";
+import { ComboboxItem } from "../combobox-item/combobox-item";
 import { ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
 import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
-  const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
-  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(ComboboxChildSelector);
+  const parent: ComboboxChildElement = element.parentElement?.closest(AllComboboxChildrenSelector);
+  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(AllComboboxChildrenSelector);
   return [parent, grandparent].filter((el) => el);
 }
 
-export function getItemAncestors(item: HTMLCalciteComboboxItemElement): HTMLCalciteComboboxItemElement[] {
-  return (
-    item.ancestors?.filter((el): el is HTMLCalciteComboboxItemElement => el.nodeName === "CALCITE-COMBOBOX-ITEM") || []
-  );
+export function getItemAncestors(item: ComboboxItem["el"]): ComboboxItem["el"][] {
+  return item.ancestors?.filter((el): el is ComboboxItem["el"] => el.nodeName === "CALCITE-COMBOBOX-ITEM") || [];
 }
 
-export function getItemChildren(item: HTMLCalciteComboboxItemElement): HTMLCalciteComboboxItemElement[] {
+export function getItemChildren(item: ComboboxItem["el"]): ComboboxItem["el"][] {
   return nodeListToArray(item.querySelectorAll("calcite-combobox-item"));
 }
 
-export function hasActiveChildren(node: HTMLCalciteComboboxItemElement): boolean {
+export function hasActiveChildren(node: ComboboxItem["el"]): boolean {
   const items = nodeListToArray(node.querySelectorAll("calcite-combobox-item"));
   return items.filter((item) => item.selected).length > 0;
 }
 
-export function getDepth(element: HTMLElement): number {
+export function getDepth(element: ComboboxChildElement): number {
   if (!isBrowser()) {
     return 0;
   }
@@ -38,13 +37,26 @@ export function getDepth(element: HTMLElement): number {
     null,
   );
 
-  return result.snapshotLength;
+  const depth = result.snapshotLength;
+
+  if (depth > 0 && element.nodeName === ComboboxItemSelector) {
+    for (let i = 0; i < depth; i++) {
+      const parent = result.snapshotItem(i);
+      if (parent.nodeName === ComboboxItemGroupSelector) {
+        return depth;
+      }
+    }
+  } else if (element.nodeName === ComboboxItemGroupSelector) {
+    return depth;
+  }
+
+  return depth + 1;
 }
 
 export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean {
   return selectionMode.includes("single");
 }
 
-export function getLabel(item: HTMLCalciteComboboxItemElement): string {
-  return item.shortHeading || item.textLabel;
+export function getLabel(item: ComboboxItem["el"]): string {
+  return item.shortHeading || item.heading || item.textLabel;
 }

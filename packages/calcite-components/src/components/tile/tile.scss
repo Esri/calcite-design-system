@@ -3,46 +3,58 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tile-background-color: Specifies the background color of the component.
- * @prop --calcite-tile-border-color: Specifies the border color of the component.
- * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
- * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
+ * @prop --calcite-tile-accent-color-press: When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+ * @prop --calcite-tile-background-color: Specifies the component's background color.
+ * @prop --calcite-tile-border-color: Specifies the component's border color.
+ * @prop --calcite-tile-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-tile-heading-text-color: Specifies the component's `heading` text color.
+ * @prop --calcite-tile-link-color: When `href` is present, specifies the component's link color.
+ * @prop --calcite-tile-shadow: Specifies the shadow around the component.
+ * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+ * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
 
 :host {
-  --calcite-tile-background-color: var(--calcite-color-foreground-1);
-  --calcite-tile-border-color: var(--calcite-color-border-2);
-  --calcite-tile-description-text-color: var(--calcite-color-text-3);
-  --calcite-tile-heading-text-color: var(--calcite-color-text-2);
-  --calcite-icon-color: var(--calcite-color-text-3);
-
+  box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   display: inline-block;
 }
 
+calcite-link {
+  --calcite-link-text-color: var(--calcite-tile-link-text-color);
+}
+
 .container {
-  background-color: var(--calcite-tile-background-color);
+  background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
   block-size: var(--calcite-container-size-content-fluid);
+  border-radius: var(--calcite-tile-corner-radius, var(--calcite-corner-radius));
   box-sizing: border-box;
+  color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   inline-size: var(--calcite-container-size-content-fluid);
-  outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color);
+  outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
   user-select: none;
+
+  .selection-icon {
+    color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
+  }
+
   &.interactive {
     cursor: pointer;
+
     &:hover,
     &:focus,
     &.selected {
-      outline-color: var(--calcite-color-brand);
+      outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       position: relative;
       .selection-icon {
-        --calcite-icon-color: var(--calcite-color-brand);
+        color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       }
     }
     &.selected {
       z-index: var(--calcite-z-index);
     }
     &:focus {
-      box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
+      box-shadow: inset 0 0 0 1px var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       z-index: var(--calcite-z-index-sticky);
     }
   }
@@ -70,9 +82,14 @@
 }
 
 .heading {
-  color: var(--calcite-tile-heading-text-color);
+  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
   font-weight: var(--calcite-font-weight-medium);
   line-height: 1.20313rem;
+  overflow-wrap: break-word;
+}
+
+.description {
+  font-weight: var(--calcite-font-weight-regular);
   overflow-wrap: break-word;
 }
 
@@ -93,26 +110,15 @@
   }
 }
 
-.description {
-  color: var(--calcite-tile-description-text-color);
-  font-weight: var(--calcite-font-weight-regular);
-  overflow-wrap: break-word;
-}
-
 :host([alignment="center"]) {
   .icon {
     align-self: center;
-  }
-  .text-content-container {
-    justify-content: center;
   }
   .text-content {
     text-align: center;
   }
   slot[name="content-start"]::slotted(*),
-  slot[name="content-end"]::slotted(*),
-  slot[name="content-top"]::slotted(*),
-  slot[name="content-bottom"]::slotted(*) {
+  slot[name="content-end"]::slotted(*) {
     align-self: center;
   }
 }
@@ -167,11 +173,11 @@
   max-inline-size: 520px;
   min-inline-size: 160px;
   .container {
-    padding: var(--calcite-spacing-xl);
+    padding: var(--calcite-spacing-lg);
   }
   .content-container--has-content,
   .row {
-    gap: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-lg);
   }
   .heading {
     font-size: var(--calcite-font-size-0);
@@ -182,7 +188,7 @@
     line-height: 1.20313rem;
   }
   .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-xl);
+    margin-block-end: var(--calcite-spacing-lg);
   }
 }
 
@@ -190,7 +196,7 @@
 :host([selection-appearance="border"][layout="vertical"]) {
   .container.selected:focus::before {
     block-size: 100%;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
+    box-shadow: inset 0 0 0 1px var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
     content: "";
     display: block;
     inline-size: 100%;
@@ -202,58 +208,67 @@
 
 :host([selection-appearance="border"][layout="horizontal"]) {
   .container.selected {
-    box-shadow: inset 0 -4px 0 0 var(--calcite-color-brand);
+    box-shadow: inset 0 -4px 0 0 var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
   }
 }
 
 :host([selection-appearance="border"][layout="vertical"]) {
   .container.selected {
-    box-shadow: inset 4px 0 0 0 var(--calcite-color-brand);
+    box-shadow: inset 4px 0 0 0 var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+  }
+}
+
+:host(:hover:not([disabled])),
+:host([active]:not([disabled])) {
+  .heading {
+    color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
+  }
+  .description {
+    color: var(--calcite-tile-text-color, var(--calcite-color-text-2));
   }
 }
 
 :host([href]:focus:not([disabled])),
 :host([href]:hover:not([disabled])) {
-  --calcite-tile-border-color: var(--calcite-color-text-link);
-  --calcite-tile-heading-text-color: var(--calcite-color-text-link);
-  --calcite-icon-color: var(--calcite-color-text-link);
   .container {
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
     position: relative;
     z-index: var(--calcite-z-index);
+  }
+  .icon {
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+  }
+  .heading {
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
   }
 }
 
 :host([href]:active:not([disabled])) {
   .container {
-    box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
+    box-shadow: inset 0 0 0 1px var(--calcite-tile-link-color, var(--calcite-color-text-link));
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
   }
 }
 
 :host([embed]) {
   .container {
-    box-shadow: none;
     padding: 0;
   }
 }
 
 :host([selection-mode="none"]) {
   .container {
-    outline-color: var(--calcite-tile-border-color);
+    &:hover,
+    &.selected {
+      outline-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
+    }
     &:focus {
-      outline-color: var(--calcite-color-brand);
-      position: relative;
+      outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
     }
   }
 }
 
 @include disabled();
-
-:host(:hover:not([disabled])),
-:host([active]:not([disabled])) {
-  --calcite-tile-description-text-color: var(--calcite-color-text-2);
-  --calcite-tile-heading-text-color: var(--calcite-color-text-1);
-}
-
 @include base-component();
 
 ::slotted(*) {

@@ -44,8 +44,8 @@
         border-top: 1px solid var(--calcite-color-border-2);
       }
     </style>
-    <script src="./_assets/head.js"></script>
-    <script type="module" src="./_assets/demo-form.js"></script>
+    <script src="./_assets/head.ts"></script>
+    <script type="module" src="./_assets/demo-form.ts"></script>
   </head>
 
   <body>
@@ -305,6 +305,21 @@
         <div class="child-flex child-flex-padding">
           <calcite-label>
             Calcite Label wrapping a Calcite Switch
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent-flex">
+        <style>
+          .themed-label {
+            --calcite-label-margin-bottom: 20px;
+            --calcite-label-text-color: red;
+          }
+        </style>
+        <div class="child-flex child-flex-padding">
+          <calcite-label class="themed-label">
+            Themed
             <calcite-switch></calcite-switch>
           </calcite-label>
         </div>

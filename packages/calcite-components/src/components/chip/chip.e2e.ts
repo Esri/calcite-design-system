@@ -1,4 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -12,8 +13,8 @@ describe("calcite-chip", () => {
     hidden("calcite-chip");
   });
 
-  describe("accessible without calcite-label", () => {
-    accessible(`<calcite-chip>doritos</calcite-chip>`);
+  describe("accessible with icon only", () => {
+    accessible(`<calcite-chip label="Gray basemap" icon="basemap"></calcite-chip>`);
   });
 
   describe("slots", () => {
@@ -66,19 +67,6 @@ describe("calcite-chip", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
-  it("should emit event after the close button is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
-
-    const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
-
-    const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
-
-    await closeButton.click();
-
-    expect(eventSpy).toHaveReceivedEvent();
-  });
-
   it("should receive focus when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
@@ -97,6 +85,9 @@ describe("calcite-chip", () => {
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("kind", "neutral");
     expect(element).toEqualAttribute("scale", "m");
+
+    const close = await page.find(`calcite-chip >>> .${CSS.close}`);
+    expect(close).toBeNull();
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -119,20 +110,45 @@ describe("calcite-chip", () => {
     expect(element).toEqualAttribute("scale", "l");
   });
 
-  it("renders a close button when requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
+  describe("closing", () => {
+    it("via mouse", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
+      const chip = await page.find("calcite-chip");
+      const eventSpy = await chip.spyOnEvent("calciteChipClose");
 
-    const close = await page.find("calcite-chip >>> button.close");
-    expect(close).not.toBeNull();
-  });
+      await page.click(`calcite-chip >>> .${CSS.close}`);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
 
-  it("does not render a close button when not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+      await chip.callMethod("setFocus");
+      await chip.press("Delete");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
 
-    const close = await page.find("calcite-chip >>> button.close");
-    expect(close).toBeNull();
+      await chip.setProperty("closed", false);
+      await page.waitForChanges();
+
+      await chip.callMethod("setFocus");
+      await chip.press("Backspace");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("can be closed via keyboard", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-chip closable close-on-delete>cheetos</calcite-chip>`);
+      const chip = await page.find("calcite-chip");
+      const eventSpy = await chip.spyOnEvent("calciteChipClose");
+
+      await chip.callMethod("setFocus");
+      await chip.press("Delete");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await chip.setProperty("closed", false);
+      await page.waitForChanges();
+
+      await chip.callMethod("setFocus");
+      await chip.press("Backspace");
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+    });
   });
 
   describe("CSS properties for light/dark mode", () => {

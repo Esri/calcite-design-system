@@ -1,3 +1,21 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-slider-text-color: Specifies the component's text color.
+ * @prop --calcite-slider-track-color: Specifies the component's track color.
+ * @prop --calcite-slider-track-fill-color: Specifies the component's track fill color.
+ * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color.
+ * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
+ * @prop --calcite-slider-accent-color: Specifies the component's accent color.
+ * @prop --calcite-slider-tick-color: Specifies the component's tick color.
+ * @prop --calcite-slider-tick-border-color: Specifies the component's tick border color.
+ * @prop --calcite-slider-tick-selected-color: Specifies the component's tick color when in selected range.
+ * @prop --calcite-slider-graph-color: Specifies the component's graph color.
+ *
+ */
+
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
   --calcite-slider-handle-extension-height: 0.4rem;
@@ -30,12 +48,18 @@
 
 .handle__label,
 .tick__label {
-  @apply text-color-2 font-medium;
+  @apply font-medium;
+  color: var(--calcite-slider-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-slider-container-font-size);
 }
 
 :host {
   @apply block;
+
+  // remove top padding applied by validation component.
+  .validation-container {
+    padding-block-start: 0 !important;
+  }
 }
 
 .container {
@@ -101,6 +125,8 @@
   transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
+    white-space: nowrap;
+
     &.static,
     &.transformed {
       @apply absolute
@@ -120,9 +146,9 @@
 
   .handle {
     @apply focus-base
-      bg-foreground-1
       box-border
       rounded-full;
+    background-color: var(--calcite-slider-handle-fill-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
     box-shadow: 0 0 0 2px var(--calcite-color-text-3) inset;
@@ -135,7 +161,7 @@
   .handle-extension {
     @apply w-0.5;
     block-size: var(--calcite-slider-handle-extension-height);
-    background-color: var(--calcite-color-text-3);
+    background-color: var(--calcite-slider-handle-extension-color, var(--calcite-color-text-3));
   }
 
   &:hover {
@@ -143,7 +169,7 @@
       box-shadow: 0 0 0 3px var(--calcite-color-brand) inset;
     }
     .handle-extension {
-      @apply bg-brand;
+      background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     }
   }
 
@@ -152,7 +178,7 @@
       @apply focus-outset;
     }
     .handle-extension {
-      @apply bg-brand;
+      background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     }
   }
 
@@ -216,7 +242,7 @@
 .thumb:focus,
 .thumb--active {
   .handle {
-    @apply bg-brand;
+    background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // shadow 1 press
   }
 }
@@ -224,21 +250,22 @@
 .thumb:hover.thumb--precise::after,
 .thumb:focus.thumb--precise::after,
 .thumb--active.thumb--precise::after {
-  @apply bg-brand;
+  background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
 }
 
 .track {
   @apply relative h-0.5 rounded-none;
-  background-color: var(--calcite-color-border-2);
+  background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }
 
 .track__range {
-  @apply bg-brand
-  absolute
+  @apply absolute
   top-0
   h-0.5;
+  background-color: var(--calcite-slider-track-fill-color, var(--calcite-color-brand));
 }
+
 .container--range {
   .track__range {
     &:hover {
@@ -282,15 +309,15 @@
     w-0.5
     border
     border-solid;
-  background-color: var(--calcite-color-border-input);
-  border-color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-slider-tick-color, var(--calcite-color-border-input));
+  border-color: var(--calcite-slider-tick-border-color, var(--calcite-color-foreground-1));
   inset-block-start: -2px;
   pointer-events: none;
   margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
 
 .tick--active {
-  @apply bg-brand;
+  background-color: var(--calcite-slider-tick-selected-color, var(--calcite-color-brand));
 }
 
 .tick__label {
@@ -317,7 +344,7 @@
 }
 
 .graph {
-  color: var(--calcite-color-foreground-3);
+  color: var(--calcite-slider-graph-color, var(--calcite-color-foreground-3));
   block-size: 48px;
 }
 
@@ -373,5 +400,6 @@
   }
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

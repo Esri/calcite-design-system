@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
@@ -6,6 +7,7 @@ import { formatTimePart } from "../../utils/time";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
+import type { DatePicker } from "./date-picker";
 
 describe("calcite-date-picker", () => {
   describe("renders", () => {
@@ -107,10 +109,13 @@ describe("calcite-date-picker", () => {
       await page.waitForTimeout(animationDurationInMs);
 
       const now = new Date();
+      const currentMonth = now.getUTCMonth() + 1;
       const currentYear = now.getUTCFullYear();
-      const currentMonth = now.getUTCMonth() + 2;
-      const startDate = `${currentYear}-${formatTimePart(currentMonth)}-01`;
-      const endDate = `${currentYear}-${formatTimePart(currentMonth)}-15`;
+      const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+      const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+
+      const startDate = `${nextYear}-${formatTimePart(nextMonth)}-01`;
+      const endDate = `${nextYear}-${formatTimePart(nextMonth)}-15`;
 
       await selectDayInMonthById(startDate.replaceAll("-", ""), page);
       await page.waitForChanges();
@@ -220,7 +225,7 @@ describe("calcite-date-picker", () => {
       element.setProperty("max", "2023-11-15");
       await page.waitForChanges();
       const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
-      const minDateAsTime = await page.$eval("calcite-date-picker", (picker: HTMLCalciteDatePickerElement) =>
+      const minDateAsTime = await page.$eval("calcite-date-picker", (picker: DatePicker["el"]) =>
         picker.minAsDate.getTime(),
       );
       expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
@@ -235,12 +240,12 @@ describe("calcite-date-picker", () => {
 
       const element = await page.find("calcite-date-picker");
 
-      element.setProperty("min", null);
-      element.setProperty("max", null);
+      element.setProperty("min", undefined);
+      element.setProperty("max", undefined);
       await page.waitForChanges();
 
-      expect(await element.getProperty("minAsDate")).toBe(null);
-      expect(await element.getProperty("maxAsDate")).toBe(null);
+      expect(await element.getProperty("minAsDate")).toBe(undefined);
+      expect(await element.getProperty("maxAsDate")).toBe(undefined);
 
       const dateBeyondMax = "2022-11-26";
       await setActiveDate(page, dateBeyondMax);
@@ -931,7 +936,7 @@ describe("calcite-date-picker", () => {
     await skipAnimations(page);
 
     async function getActiveMonthDate(): Promise<string> {
-      return page.$eval("calcite-date-picker", (datePicker: HTMLCalciteDatePickerElement) =>
+      return page.$eval("calcite-date-picker", (datePicker: DatePicker["el"]) =>
         datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString(),
       );
     }
@@ -939,7 +944,7 @@ describe("calcite-date-picker", () => {
     async function getActiveMonthHeaderInputValue(): Promise<string> {
       return page.$eval(
         "calcite-date-picker",
-        (datePicker: HTMLCalciteDatePickerElement) =>
+        (datePicker: DatePicker["el"]) =>
           datePicker.shadowRoot
             .querySelector("calcite-date-picker-month")
             .shadowRoot.querySelector("calcite-date-picker-month-header")
@@ -972,11 +977,14 @@ describe("calcite-date-picker", () => {
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month`);
 
     expect(await date.getProperty("messages")).toEqual({
+      _lang: "en",
+      _loading: false,
+      _t9nLocale: "en",
+      monthMenu: "Month menu",
       nextMonth: "Next month",
       prevMonth: "Previous month",
-      monthMenu: "Month menu",
-      yearMenu: "Year menu",
       year: "Year",
+      yearMenu: "Year menu",
     });
   });
 

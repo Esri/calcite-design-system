@@ -1,5 +1,5 @@
-import { setCSSVariables } from "../src/tests/utils/cssTokenValues";
 import { html } from "../support/formatting";
+import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
   actionMenu,
@@ -13,11 +13,14 @@ import {
 import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
+import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
+import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
+import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -25,16 +28,25 @@ import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
-import { loader } from "./custom-theme/loader";
+import { label, labelTokens } from "./custom-theme/label";
+import { link, linkTokens } from "./custom-theme/link";
+import { list, listTokens } from "./custom-theme/list";
+import { loader, loaderTokens } from "./custom-theme/loader";
 import { notices } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
-import { slider } from "./custom-theme/slider";
-import { tabs } from "./custom-theme/tabs";
+import { slider, sliderTokens } from "./custom-theme/slider";
+import { switchTokens } from "./custom-theme/switch";
+import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
+import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
+import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
+import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
+import { tileTokens, tile } from "./custom-theme/tile";
+import { navigationTokens, navigation } from "./custom-theme/navigation";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -99,47 +111,65 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       }
     </style>
     <div class="demo">
-        <div class="demo-column">
-          ${accordion} ${actionBar} ${notices} ${segmentedControl}
-          <div style="display: flex">
-            ${actionPad}
-            <div style="width: 40px; height: 40px;">${actionMenu}</div>
-            ${icon}
-          </div>
-          ${input} ${inputNumber} ${inputText}
+      <div class="demo-column">
+        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
+        <div style="display: flex">
+          ${actionPad}
+          <div style="width: 40px; height: 40px;">${actionMenu}</div>
+          ${icon}
         </div>
-        <div class="demo-column">
-          <div>${card}</div>
-          ${cardThumbnail}
-          <div>${dropdown} ${buttons}</div>
-          <div>${checkbox}</div>
-          ${chips} ${pagination} ${slider}
-        </div>
-        <div class="demo-column">${datePicker} ${tabs} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover}</div>
-        ${alert}
+        ${input} ${inputNumber} ${inputText}
       </div>
+      <div class="demo-column">
+        <div>${card}</div>
+        ${cardThumbnail}
+        <div>${dropdown} ${buttons}</div>
+        <div>${checkbox}</div>
+        ${chips} ${pagination} ${slider}
+      </div>
+      <div class="demo-column">
+        ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
+        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${comboboxItem}
+      </div>
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection}</div>
+      <div class="demo-column">${alert}</div>
     </div>
   </div>`;
 
 const componentTokens = {
   ...globalTokens,
-  ...accordionTokens,
   ...accordionItemTokens,
-  ...actionTokens,
+  ...accordionTokens,
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
   ...actionPadTokens,
-  ...avatarTokens,
-  ...cardTokens,
+  ...actionTokens,
   ...alertTokens,
-  ...chipTokens,
+  ...autocompleteTokens,
+  ...avatarTokens,
+  ...blockSectionTokens,
+  ...cardTokens,
   ...checkboxTokens,
+  ...chipTokens,
   ...handleTokens,
+  ...inputTokens,
+  ...labelTokens,
+  ...linkTokens,
+  ...listTokens,
+  ...loaderTokens,
+  ...navigationLogoTokens,
+  ...navigationTokens,
+  ...navigationUserTokens,
   ...popoverTokens,
   ...progressTokens,
-  ...inputTokens,
+  ...sliderTokens,
+  ...switchTokens,
+  ...tabsTokens,
   ...textAreaTokens,
+  ...tileTokens,
+  ...tooltipTokens,
 };
 
 export default {

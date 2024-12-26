@@ -1,18 +1,18 @@
+import { PropertyValues } from "lit";
+import { createRef } from "lit-html/directives/ref.js";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  forceUpdate,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { getElementDir, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
+  method,
+  state,
+  JsxNode,
+  LuminaJsx,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { useWatchAttributes } from "@arcgis/components-controllers";
+import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -34,147 +34,226 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { CSS_UTILITY } from "../../utils/resources";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import type { InlineEditable } from "../inline-editable/inline-editable";
+import type { Label } from "../label/label";
 import { CSS, IDS, SLOTS } from "./resources";
-import { InputTextMessages } from "./assets/input-text/t9n";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { styles } from "./input-text.scss";
 
-/**
- * @slot action - A slot for positioning a button next to the component.
- */
-@Component({
-  tag: "calcite-input-text",
-  styleUrl: "input-text.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
+declare global {
+  interface DeclareElements {
+    "calcite-input-text": InputText;
+  }
+}
+
+/** @slot action - A slot for positioning a button next to the component. */
 export class InputText
+  extends LitElement
   implements
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
     LoadableComponent,
-    LocalizedComponent,
-    TextualInputComponent,
-    T9nComponent
+    TextualInputComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Global attributes
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
 
-  @Watch("autofocus")
-  @Watch("enterkeyhint")
-  @Watch("inputmode")
-  @Watch("spellcheck")
-  handleGlobalAttributesChanged(): void {
-    forceUpdate(this);
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private actionWrapperEl = createRef<HTMLDivElement>();
+
+  attributeWatch = useWatchAttributes(
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
+    this.handleGlobalAttributesChanged,
+  );
+
+  /** keep track of the rendered child */
+  private childEl?: HTMLInputElement;
+
+  defaultValue: InputText["value"];
+
+  formEl: HTMLFormElement;
+
+  private inlineEditableEl: InlineEditable["el"];
+
+  private inputWrapperEl = createRef<HTMLDivElement>();
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  labelEl: Label["el"];
+
+  private onHiddenFormInputInput = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      this.setValue({
+        value: (event.target as HTMLInputElement).value,
+        origin: "direct",
+      });
+    }
+    this.setFocus();
+    event.stopPropagation();
+  };
+
+  private previousEmittedValue: string;
+
+  private previousValue: string;
+
+  private previousValueOrigin: SetValueOrigin = "initial";
+
+  /** the computed icon to render */
+  private requestedIcon?: IconNameOrString;
+
+  private userChangedValue = false;
+
+  private _value = "";
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() slottedActionElDisabledInternally = false;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
+  @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
-   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
    *
-   * @ignore
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() autofocus: boolean;
+  @property() autocomplete: AutoFill;
 
-  /**
-   * When `true`, a clear button is displayed when the component has a value.
-   */
-  @Prop({ reflect: true }) clearable = false;
+  /** When `true`, a clear button is displayed when the component has a value. */
+  @property({ reflect: true }) clearable = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
-  @Prop({ reflect: true }) disabled = false;
+  @property({ reflect: true }) disabled = false;
 
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() enterKeyHint: string;
+  /** @private */
+  @property({ reflect: true }) editingEnabled = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @property({ reflect: true }) form: string;
 
   /**
    * Specifies an icon to display.
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
-   *
-   * @futureBreaking kebab-cased attribute will not be supported in a future release
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/reserved-member-names
-  @Prop() inputMode: string;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
-  @Prop() label: string;
+  @property() label: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
-  @Prop({ reflect: true }) loading = false;
+  @property({ reflect: true }) loading = false;
 
   /**
    * Specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength: number;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength: number;
 
-  /** Specifies the validation message to display under the component. */
-  @Prop() validationMessage: string;
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   */
+  @property({ reflect: true }) name: string;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @property() pattern: string;
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder: string;
+
+  /** Adds text to the start of the component. */
+  @property() prefixText: string;
+
+  /**
+   * When `true`, the component's value can be read, but cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @property({ reflect: true }) readOnly = false;
+
+  /** When `true`, the component must have a value in order for the form to submit. */
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /** Adds text to the end of the component. */
+  @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
+    | IconNameOrString
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
 
   /**
    * The current validation state of the component.
@@ -182,8 +261,7 @@ export class InputText
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: MutableValidityState = {
+  @property() validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,
@@ -197,89 +275,120 @@ export class InputText
     valueMissing: false,
   };
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
-   */
-  @Prop({ reflect: true }) name: string;
-
-  /**
-   * Specifies placeholder text for the component.
-   *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
-   */
-  @Prop() placeholder: string;
-
-  /** Adds text to the start of the component. */
-  @Prop() prefixText: string;
-
-  /**
-   * When `true`, the component's value can be read, but cannot be modified.
-   *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
-   */
-  @Prop({ reflect: true }) readOnly = false;
-
-  /** When `true`, the component must have a value in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
-   */
-  @Prop() autocomplete: string;
-
-  /**
-   * Specifies a regex pattern the component's `value` must match for validation.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
-   */
-  @Prop() pattern: string;
-
-  /** Adds text to the end of the component.  */
-  @Prop() suffixText: string;
-
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true, reflect: true }) editingEnabled = false;
-
   /** The component's value. */
-  @Prop({ mutable: true }) value = "";
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: InputTextMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  @property()
+  get value(): string {
+    return this._value;
   }
 
-  @Watch("value")
-  valueWatcher(newValue: string, previousValue: string): void {
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value, oldValue);
+    }
+  }
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Selects the text of the component's `value`. */
+  @method()
+  async selectText(): Promise<void> {
+    this.childEl?.select();
+  }
+
+  /** Sets focus on the component. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    this.childEl?.focus();
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires each time a new value is typed and committed. */
+  calciteInputTextChange = createEvent();
+
+  /** Fires each time a new value is typed. */
+  calciteInputTextInput = createEvent();
+
+  /** @private */
+  calciteInternalInputTextBlur = createEvent<{ element: HTMLInputElement; value: string }>();
+
+  /** @private */
+  calciteInternalInputTextFocus = createEvent<{
+    element: HTMLInputElement;
+    value: string;
+  }>();
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    if (this.inlineEditableEl) {
+      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
+    }
+
+    connectLabel(this);
+    connectForm(this);
+    this.el.addEventListener(
+      internalHiddenInputInputEvent,
+      this.onHiddenFormInputInput,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
+
+  async load(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+    this.setPreviousEmittedValue(this.value);
+    this.setPreviousValue(this.value);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("icon")) {
+      this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+    this.el.removeEventListener(
+      internalHiddenInputInputEvent,
+      this.onHiddenFormInputInput,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleGlobalAttributesChanged(): void {
+    this.requestUpdate();
+  }
+
+  private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       this.setValue({
         origin: "direct",
@@ -290,161 +399,7 @@ export class InputText
     this.userChangedValue = false;
   }
 
-  @Watch("icon")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon({}, this.icon, "text");
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Properties
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTextElement;
-
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultValue: InputText["value"];
-
-  inlineEditableEl: HTMLCalciteInlineEditableElement;
-
-  private inputWrapperEl: HTMLDivElement;
-
-  private actionWrapperEl: HTMLDivElement;
-
-  /** keep track of the rendered child */
-  private childEl?: HTMLInputElement;
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
-
-  private previousEmittedValue: string;
-
-  private previousValue: string;
-
-  private previousValueOrigin: SetValueOrigin = "initial";
-
-  /** the computed icon to render */
-  private requestedIcon?: IconNameOrString;
-
-  private userChangedValue = false;
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: InputTextMessages;
-
-  @State() slottedActionElDisabledInternally = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
-    if (this.inlineEditableEl) {
-      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
-    }
-
-    connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon({}, this.icon, "text");
-    await setUpMessages(this);
-
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputTextFocus: EventEmitter<{
-    element: HTMLInputElement;
-    value: string;
-  }>;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputTextBlur: EventEmitter<{ element: HTMLInputElement; value: string }>;
-
-  /**
-   * Fires each time a new value is typed.
-   */
-  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<void>;
-
-  /**
-   * Fires each time a new value is typed and committed.
-   */
-  @Event() calciteInputTextChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.childEl?.focus();
-  }
-
-  /** Selects the text of the component's `value`. */
-  @Method()
-  async selectText(): Promise<void> {
-    this.childEl?.select();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
@@ -458,38 +413,38 @@ export class InputText
         event.preventDefault();
       }
     }
-  };
+  }
 
   onLabelClick(): void {
     this.setFocus();
   }
 
-  private clearInputTextValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
+  private clearInputTextValue(nativeEvent: KeyboardEvent | MouseEvent): void {
     this.setValue({
       committing: true,
       nativeEvent,
       origin: "user",
       value: "",
     });
-  };
+  }
 
-  private emitChangeIfUserModified = (): void => {
+  private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
       this.setPreviousEmittedValue(this.value);
     }
-  };
+  }
 
-  private inputTextBlurHandler = () => {
+  private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
       element: this.childEl,
       value: this.value,
     });
 
     this.emitChangeIfUserModified();
-  };
+  }
 
-  private clickHandler = (event: MouseEvent): void => {
+  private clickHandler(event: MouseEvent): void {
     if (this.disabled) {
       return;
     }
@@ -497,23 +452,23 @@ export class InputText
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl) ||
-      composedPath.includes(this.actionWrapperEl)
+      !composedPath.includes(this.inputWrapperEl.value) ||
+      composedPath.includes(this.actionWrapperEl.value)
     ) {
       return;
     }
 
     this.setFocus();
-  };
+  }
 
-  private inputTextFocusHandler = (): void => {
+  private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
       value: this.value,
     });
-  };
+  }
 
-  private inputTextInputHandler = (nativeEvent: InputEvent): void => {
+  private inputTextInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -522,52 +477,41 @@ export class InputText
       origin: "user",
       value: (nativeEvent.target as HTMLInputElement).value,
     });
-  };
+  }
 
-  private inputTextKeyDownHandler = (event: KeyboardEvent): void => {
+  private inputTextKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
     if (event.key === "Enter") {
       this.emitChangeIfUserModified();
     }
-  };
+  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("text", this, input);
   }
 
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
-
-  private setChildElRef = (el) => {
+  private setChildElRef(el) {
     this.childEl = el;
-  };
+  }
 
-  private setInputValue = (newInputValue: string): void => {
+  private setInputValue(newInputValue: string): void {
     if (!this.childEl) {
       return;
     }
     this.childEl.value = newInputValue;
-  };
+  }
 
-  private setPreviousEmittedValue = (value: string): void => {
+  private setPreviousEmittedValue(value: string): void {
     this.previousEmittedValue = value;
-  };
+  }
 
-  private setPreviousValue = (value: string): void => {
+  private setPreviousValue(value: string): void {
     this.previousValue = value;
-  };
+  }
 
-  private setValue = ({
+  private setValue({
     committing = false,
     nativeEvent,
     origin,
@@ -579,7 +523,7 @@ export class InputText
     origin: SetValueOrigin;
     previousValue?: string;
     value: string;
-  }): void => {
+  }): void {
     this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
@@ -599,15 +543,13 @@ export class InputText
         this.emitChangeIfUserModified();
       }
     }
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
+  // #region Rendering
+
+  override render(): JsxNode {
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
@@ -617,7 +559,7 @@ export class InputText
 
     const inputClearButton = (
       <button
-        aria-label={this.messages.clear}
+        ariaLabel={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputTextValue}
@@ -641,18 +583,18 @@ export class InputText
     const childEl = (
       <input
         aria-errormessage={IDS.validationMessage}
-        aria-invalid={toAriaBoolean(this.status === "invalid")}
-        aria-label={getLabelText(this)}
+        ariaInvalid={this.status === "invalid"}
+        ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.el.autofocus ? true : null}
+        autofocus={this.el.autofocus}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
-        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
@@ -673,36 +615,36 @@ export class InputText
     );
 
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            ref={(el) => (this.inputWrapperEl = el)}
-          >
-            {this.prefixText ? prefixText : null}
-            <div class={CSS.wrapper}>
-              {childEl}
-              {this.isClearable ? inputClearButton : null}
-              {this.requestedIcon ? iconEl : null}
-              {this.loading ? loader : null}
-            </div>
-            <div class={CSS.actionWrapper} ref={(el) => (this.actionWrapperEl = el)}>
-              <slot name={SLOTS.action} />
-            </div>
-            {this.suffixText ? suffixText : null}
-            <HiddenFormInputSlot component={this} />
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          ref={this.inputWrapperEl}
+        >
+          {this.prefixText ? prefixText : null}
+          <div class={CSS.wrapper}>
+            {childEl}
+            {this.isClearable ? inputClearButton : null}
+            {this.requestedIcon ? iconEl : null}
+            {this.loading ? loader : null}
           </div>
-          {this.validationMessage && this.status === "invalid" ? (
-            <Validation
-              icon={this.validationIcon}
-              id={IDS.validationMessage}
-              message={this.validationMessage}
-              scale={this.scale}
-              status={this.status}
-            />
-          ) : null}
-        </InteractiveContainer>
-      </Host>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+            <slot name={SLOTS.action} />
+          </div>
+          {this.suffixText ? suffixText : null}
+          <HiddenFormInputSlot component={this} />
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

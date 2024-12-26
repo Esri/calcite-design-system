@@ -1,16 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  VNode,
-  Watch,
-  State,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
   dateFromRange,
   getFirstValidDateInMonth,
@@ -22,9 +11,18 @@ import {
 } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
-import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { HeadingLevel } from "../functional/Heading";
+import type { DatePickerMonthHeader } from "../date-picker-month-header/date-picker-month-header";
+import type { DatePickerDay } from "../date-picker-day/date-picker-day";
+import type { DatePicker } from "../date-picker/date-picker";
 import { CSS } from "./resources";
+import { styles } from "./date-picker-month.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-date-picker-month": DatePickerMonth;
+  }
+}
 
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
@@ -39,23 +37,159 @@ interface Day {
   ref?: boolean;
 }
 
-@Component({
-  tag: "calcite-date-picker-month",
-  styleUrl: "date-picker-month.scss",
-  shadow: true,
-})
-export class DatePickerMonth {
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+export class DatePickerMonth extends LitElement {
+  // #region Static Members
 
-  /** The currently active Date.*/
-  @Prop() activeDate: Date = new Date();
+  static override styles = styles;
 
-  @Watch("activeDate")
-  updateFocusedDateWithActive(newActiveDate: Date): void {
+  // #endregion
+
+  // #region Private Properties
+
+  private activeFocus: boolean;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() focusedDate: Date;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** The currently active Date. */
+  @property() activeDate: Date = new Date();
+
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @private
+   */
+  @property() dateTimeFormat: Intl.DateTimeFormat;
+
+  /** End date currently active. */
+  @property() endDate?: Date;
+
+  /** Specifies the number at which section headings should start. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** The range of dates currently being hovered. */
+  @property() hoverRange: HoverRange;
+
+  /**
+   * Specifies the layout of the component.
+   *
+   * @private
+   */
+  @property({ reflect: true }) layout: "horizontal" | "vertical";
+
+  /**
+   * CLDR locale data for current locale.
+   *
+   * @private
+   */
+  @property() localeData: DateLocaleData;
+
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @property() max: Date;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  @property() messages: DatePicker["messages"]["_overrides"];
+
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @property() min: Date;
+
+  /** Specifies the monthStyle used by the component. */
+  @property() monthStyle: "abbreviated" | "wide";
+
+  /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
+  @property({ reflect: true }) range: boolean = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale;
+
+  /** Already selected date. */
+  @property() selectedDate: Date;
+
+  /** Start date currently active. */
+  @property() startDate?: Date;
+
+  // #endregion
+
+  // #region Events
+
+  /**
+   * Fires when user hovers the date.
+   *
+   * @private
+   */
+  calciteInternalDatePickerDayHover = createEvent<Date>({ cancelable: false });
+
+  /**
+   * Fires when user selects the date.
+   *
+   * @private
+   */
+  calciteInternalDatePickerDaySelect = createEvent<Date>({ cancelable: false });
+
+  /**
+   * Active date for the user keyboard access.
+   *
+   * @private
+   */
+  calciteInternalDatePickerMonthActiveDateChange = createEvent<Date>({ cancelable: false });
+
+  /**
+   * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+   *
+   * @private
+   */
+  calciteInternalDatePickerMonthChange = createEvent<{
+    date: Date;
+    position: string;
+  }>({ cancelable: false });
+
+  /** @private */
+  calciteInternalDatePickerMonthMouseOut = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("pointerout", this.pointerOutHandler);
+    this.listen("focusout", this.disableActiveFocus);
+  }
+
+  load(): void {
+    this.focusedDate = this.selectedDate || this.activeDate;
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("activeDate")) {
+      this.updateFocusedDateWithActive(this.activeDate);
+    }
+
+    if (changes.has("selectedDate")) {
+      this.focusedDate = this.selectedDate;
+    }
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {
       this.focusedDate = inRange(newActiveDate, this.min, this.max)
         ? newActiveDate
@@ -63,136 +197,13 @@ export class DatePickerMonth {
     }
   }
 
-  /**
-   * The DateTimeFormat used to provide screen reader labels.
-   *
-   * @internal
-   */
-  @Prop() dateTimeFormat: Intl.DateTimeFormat;
-
-  /** End date currently active.  */
-  @Prop() endDate?: Date;
-
-  /** Specifies the number at which section headings should start. */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
-
-  /** The range of dates currently being hovered. */
-  @Prop() hoverRange: HoverRange;
-
-  /**
-   * Specifies the layout of the component.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
-
-  /**
-   * CLDR locale data for current locale.
-   *
-   * @internal
-   */
-  @Prop() localeData: DateLocaleData;
-
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() max: Date;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  @Prop() messages: DatePickerMessages;
-
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() min: Date;
-
-  /**
-   * Specifies the monthStyle used by the component.
-   */
-  @Prop() monthStyle: "abbreviated" | "wide";
-
-  /**
-   * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
-   */
-  @Prop({ reflect: true }) range: boolean = false;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale;
-
-  /** Already selected date.*/
-  @Prop() selectedDate: Date;
-
-  @Watch("selectedDate")
-  updateFocusedDate(newActiveDate: Date): void {
-    this.focusedDate = newActiveDate;
-  }
-
-  /** Start date currently active. */
-  @Prop() startDate?: Date;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when user selects the date.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerDaySelect: EventEmitter<Date>;
-
-  /**
-   * Fires when user hovers the date.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerDayHover: EventEmitter<Date>;
-
-  /**
-   * Active date for the user keyboard access.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerMonthActiveDateChange: EventEmitter<Date>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerMonthMouseOut: EventEmitter<void>;
-
-  /**
-   * Emits when user updates month or year using `calcite-date-picker-month-header` component.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalDatePickerMonthChange: EventEmitter<{
-    date: Date;
-    position: string;
-  }>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @State() focusedDate: Date;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
       return;
     }
 
     const isRTL = this.el.dir === "rtl";
-    const dateValue = (event.target as HTMLCalciteDatePickerDayElement).value;
+    const dateValue = (event.target as DatePickerDay["el"]).value;
 
     switch (event.key) {
       case "ArrowUp":
@@ -238,80 +249,20 @@ export class DatePickerMonth {
       case "Tab":
         this.activeFocus = false;
     }
-  };
+  }
 
   /**
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  disableActiveFocus = (): void => {
+  private disableActiveFocus(): void {
     this.activeFocus = false;
-  };
+  }
 
-  @Listen("pointerout")
-  pointerOutHandler(): void {
+  private pointerOutHandler(): void {
     this.calciteInternalDatePickerMonthMouseOut.emit();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    this.focusedDate = this.selectedDate || this.activeDate;
-  }
-
-  render(): VNode {
-    const month = this.activeDate.getMonth();
-    const year = this.activeDate.getFullYear();
-    const startOfWeek = this.localeData.weekStart % 7;
-    const { abbreviated, short, narrow } = this.localeData.days;
-    const weekDays =
-      this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
-    const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
-    const curMonDays = this.getCurrentMonthDays(month, year);
-    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
-    const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    const nextMonth = month + 1;
-    const endCalendarPrevMonDays = this.getPreviousMonthDays(nextMonth, year, startOfWeek);
-    const endCalendarCurrMonDays = this.getCurrentMonthDays(nextMonth, year);
-    const endCalendarNextMonDays = this.getNextMonthDays(nextMonth, year, startOfWeek);
-    const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
-
-    const nextMonthDays = this.getDays(
-      endCalendarPrevMonDays,
-      endCalendarCurrMonDays,
-      endCalendarNextMonDays,
-      "end",
-    );
-
-    return (
-      <Host onFocusout={this.disableActiveFocus}>
-        <div class={{ [CSS.calendarContainer]: true }} role="grid">
-          {this.renderCalendar(adjustedWeekDays, days)}
-          {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
-        </div>
-      </Host>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerMonthElement;
-
-  private activeFocus: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
   /**
    * Add n months to the current month
    *
@@ -460,108 +411,21 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (event: CustomEvent): void => {
-    const target = event.target as HTMLCalciteDatePickerDayElement;
+  private dayHover(event: CustomEvent): void {
+    const target = event.target as DatePickerDay["el"];
     if (target.disabled) {
       this.calciteInternalDatePickerMonthMouseOut.emit();
     } else {
       this.calciteInternalDatePickerDayHover.emit(target.value);
     }
     event.stopPropagation();
-  };
+  }
 
-  daySelect = (event: CustomEvent): void => {
-    const target = event.target as HTMLCalciteDatePickerDayElement;
+  private daySelect(event: CustomEvent): void {
+    const target = event.target as DatePickerDay["el"];
     this.activeFocus = false;
     this.calciteInternalDatePickerDaySelect.emit(target.value);
     event.stopPropagation();
-  };
-
-  /**
-   * Render calcite-date-picker-day
-   *
-   * @param active.active
-   * @param active
-   * @param day
-   * @param dayInWeek
-   * @param date
-   * @param currentMonth
-   * @param ref
-   * @param active.currentMonth
-   * @param active.date
-   * @param active.day
-   * @param active.dayInWeek
-   * @param active.ref
-   * @param key
-   * @param active.currentDay
-   */
-  private renderDateDay(
-    { active, currentMonth, currentDay, date, day, dayInWeek, ref }: Day,
-    key: number,
-  ): VNode {
-    const isDateInRange = inRange(date, this.min, this.max);
-
-    return (
-      <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
-        <calcite-date-picker-day
-          active={active}
-          class={{
-            [CSS.currentDay]: currentDay,
-            [CSS.insideRangeHover]: this.isHoverInRange(),
-            [CSS.outsideRangeHover]: !this.isHoverInRange(),
-            [CSS.noncurrent]: this.range && !currentMonth,
-          }}
-          currentMonth={currentMonth}
-          dateTimeFormat={this.dateTimeFormat}
-          day={day}
-          disabled={!isDateInRange}
-          endOfRange={this.isEndOfRange(date)}
-          highlighted={this.betweenSelectedRange(date)}
-          onCalciteInternalDayHover={this.dayHover}
-          onCalciteInternalDaySelect={this.daySelect}
-          range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-          rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
-          rangeHover={isDateInRange && this.isRangeHover(date)}
-          ref={(el: HTMLCalciteDatePickerDayElement) => {
-            // when moving via keyboard, focus must be updated on active date
-            if (ref && active && this.activeFocus) {
-              el?.setFocus();
-            }
-          }}
-          scale={this.scale}
-          selected={this.isSelected(date)}
-          startOfRange={this.isStartOfRange(date)}
-          value={date}
-        />
-      </div>
-    );
-  }
-
-  private renderCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
-    return (
-      <div
-        class={{
-          [CSS.calendar]: true,
-          [CSS.calendarStart]: !isEndCalendar,
-        }}
-      >
-        <calcite-date-picker-month-header
-          activeDate={isEndCalendar ? nextMonth(this.activeDate) : this.activeDate}
-          data-test-calendar={isEndCalendar ? "end" : "start"}
-          headingLevel={this.headingLevel}
-          localeData={this.localeData}
-          max={this.max}
-          messages={this.messages}
-          min={this.min}
-          monthStyle={this.monthStyle}
-          onCalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
-          position={isEndCalendar ? "end" : this.range ? "start" : null}
-          scale={this.scale}
-          selectedDate={this.selectedDate}
-        />
-        {this.renderMonthCalendar(weekDays, days, isEndCalendar)}
-      </div>
-    );
   }
 
   private isFocusedOnStart(): boolean {
@@ -678,7 +542,152 @@ export class DatePickerMonth {
     return days;
   }
 
-  private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
+  private monthHeaderSelectChange(event: CustomEvent<Date>): void {
+    const date = new Date(event.detail);
+    const target = event.target as DatePickerMonthHeader["el"];
+    this.updateFocusableDate(date);
+    event.stopPropagation();
+    this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
+  }
+
+  private updateFocusableDate(date: Date): void {
+    if (!this.selectedDate || !this.range) {
+      this.focusedDate = this.getFirstValidDateOfMonth(date);
+    } else if (this.selectedDate && this.range) {
+      if (!hasSameMonthAndYear(this.startDate, date) || !hasSameMonthAndYear(this.endDate, date)) {
+        this.focusedDate = this.getFirstValidDateOfMonth(date);
+      }
+    }
+  }
+
+  private getFirstValidDateOfMonth(date: Date): Date {
+    return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const month = this.activeDate.getMonth();
+    const year = this.activeDate.getFullYear();
+    const startOfWeek = this.localeData.weekStart % 7;
+    const { abbreviated, short, narrow } = this.localeData.days;
+    const weekDays =
+      this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
+    const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
+    const curMonDays = this.getCurrentMonthDays(month, year);
+    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
+    const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
+    const nextMonth = month + 1;
+    const endCalendarPrevMonDays = this.getPreviousMonthDays(nextMonth, year, startOfWeek);
+    const endCalendarCurrMonDays = this.getCurrentMonthDays(nextMonth, year);
+    const endCalendarNextMonDays = this.getNextMonthDays(nextMonth, year, startOfWeek);
+    const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
+
+    const nextMonthDays = this.getDays(
+      endCalendarPrevMonDays,
+      endCalendarCurrMonDays,
+      endCalendarNextMonDays,
+      "end",
+    );
+
+    return (
+      <div class={{ [CSS.calendarContainer]: true }} role="grid">
+        {this.renderCalendar(adjustedWeekDays, days)}
+        {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
+      </div>
+    );
+  }
+
+  /**
+   * Render calcite-date-picker-day
+   *
+   * @param active.active
+   * @param active
+   * @param day
+   * @param dayInWeek
+   * @param date
+   * @param currentMonth
+   * @param ref
+   * @param active.currentMonth
+   * @param active.date
+   * @param active.day
+   * @param active.dayInWeek
+   * @param active.ref
+   * @param key
+   * @param active.currentDay
+   */
+  private renderDateDay(
+    { active, currentMonth, currentDay, date, day, dayInWeek, ref }: Day,
+    key: number,
+  ): JsxNode {
+    const isDateInRange = inRange(date, this.min, this.max);
+
+    return (
+      <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
+        <calcite-date-picker-day
+          active={active}
+          class={{
+            [CSS.currentDay]: currentDay,
+            [CSS.insideRangeHover]: this.isHoverInRange(),
+            [CSS.outsideRangeHover]: !this.isHoverInRange(),
+            [CSS.noncurrent]: this.range && !currentMonth,
+          }}
+          currentMonth={currentMonth}
+          dateTimeFormat={this.dateTimeFormat}
+          day={day}
+          disabled={!isDateInRange}
+          endOfRange={this.isEndOfRange(date)}
+          highlighted={this.betweenSelectedRange(date)}
+          oncalciteInternalDayHover={this.dayHover}
+          oncalciteInternalDaySelect={this.daySelect}
+          range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
+          rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
+          rangeHover={isDateInRange && this.isRangeHover(date)}
+          ref={(el) => {
+            // when moving via keyboard, focus must be updated on active date
+            if (ref && active && this.activeFocus) {
+              el?.setFocus();
+            }
+          }}
+          scale={this.scale}
+          selected={this.isSelected(date)}
+          startOfRange={this.isStartOfRange(date)}
+          value={date}
+        />
+      </div>
+    );
+  }
+
+  private renderCalendar(weekDays: string[], days: Day[], isEndCalendar = false): JsxNode {
+    return (
+      <div
+        class={{
+          [CSS.calendar]: true,
+          [CSS.calendarStart]: !isEndCalendar,
+        }}
+      >
+        <calcite-date-picker-month-header
+          activeDate={isEndCalendar ? nextMonth(this.activeDate) : this.activeDate}
+          data-test-calendar={isEndCalendar ? "end" : "start"}
+          headingLevel={this.headingLevel}
+          localeData={this.localeData}
+          max={this.max}
+          messages={this.messages}
+          min={this.min}
+          monthStyle={this.monthStyle}
+          oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
+          position={isEndCalendar ? "end" : this.range ? "start" : null}
+          scale={this.scale}
+          selectedDate={this.selectedDate}
+        />
+        {this.renderMonthCalendar(weekDays, days, isEndCalendar)}
+      </div>
+    );
+  }
+
+  private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): JsxNode {
     const endCalendarStartIndex = 50;
     return (
       <div class={{ [CSS.month]: true }} onKeyDown={this.keyDownHandler}>
@@ -699,25 +708,5 @@ export class DatePickerMonth {
     );
   }
 
-  private monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
-    const date = new Date(event.detail);
-    const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
-    this.updateFocusableDate(date);
-    event.stopPropagation();
-    this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
-  };
-
-  private updateFocusableDate(date: Date): void {
-    if (!this.selectedDate || !this.range) {
-      this.focusedDate = this.getFirstValidDateOfMonth(date);
-    } else if (this.selectedDate && this.range) {
-      if (!hasSameMonthAndYear(this.startDate, date) || !hasSameMonthAndYear(this.endDate, date)) {
-        this.focusedDate = this.getFirstValidDateOfMonth(date);
-      }
-    }
-  }
-
-  private getFirstValidDateOfMonth(date: Date): Date {
-    return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
-  }
+  // #endregion
 }

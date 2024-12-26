@@ -1,5 +1,14 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-background-color: Specifies the component's background color.
+ * @prop --calcite-list-color: Specifies the component's color.
+ */
+
 :host {
-  @apply flex flex-col bg-foreground-1;
+  @apply flex flex-col;
 }
 
 :host([filter-hidden]) {
@@ -9,7 +18,58 @@
 @include disabled();
 
 .container {
-  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-medium;
+  @apply m-0 flex flex-1;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-list-color, var(--calcite-color-text-2));
+}
+.heading {
+  font-weight: var(--calcite-font-weight-medium);
+}
+
+:host([scale="s"]) {
+  .container {
+    padding-inline: var(--calcite-spacing-sm);
+  }
+  .heading {
+    font-size: var(--calcite-font-size-sm);
+    line-height: var(--calcite-font-line-height-fixed-base);
+    padding-block: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"]) {
+  .container {
+    padding-inline: var(--calcite-spacing-md);
+  }
+  .heading {
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
+    padding-block: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-md);
+  }
+}
+:host([scale="l"]) {
+  .container {
+    padding-inline: var(--calcite-spacing-lg);
+  }
+  .heading {
+    font-size: var(--calcite-font-size-md);
+    line-height: var(--calcite-font-line-height-fixed-lg);
+    padding-block: var(--calcite-spacing-xl) var(--calcite-spacing-sm-plus, 0.625rem);
+  }
+}
+:host([scale="l"]:not(:first-child)) {
+  .container {
+    padding-block-start: var(--calcite-spacing-md-plus, 0.875rem);
+  }
 }
 
 .heading {

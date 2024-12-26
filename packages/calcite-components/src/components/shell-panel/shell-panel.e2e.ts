@@ -1,8 +1,10 @@
-import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   describe("renders", () => {
@@ -24,12 +26,25 @@ describe("calcite-shell-panel", () => {
         defaultValue: false,
       },
       {
-        propertyName: "detached",
-        defaultValue: false,
-      },
-      {
         propertyName: "displayMode",
         defaultValue: "dock",
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-shell-panel", [
+      {
+        propertyName: "widthScale",
+        value: "m",
+      },
+      {
+        propertyName: "width",
+        value: "m",
       },
     ]);
   });
@@ -44,7 +59,7 @@ describe("calcite-shell-panel", () => {
 
     const contentBodyHasSlot = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, contentBodyClass: string) => {
+      (panel: ShellPanel["el"], contentBodyClass: string) => {
         const contentBody = panel.shadowRoot.querySelector(contentBodyClass);
         return contentBody.firstElementChild.tagName == "SLOT";
       },
@@ -94,7 +109,7 @@ describe("calcite-shell-panel", () => {
 
     const actionSlotIsFirst = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, containerClass: string, slotName: string) => {
+      (panel: ShellPanel["el"], containerClass: string, slotName: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
         return (
           container.firstElementChild.tagName == "SLOT" &&
@@ -116,9 +131,9 @@ describe("calcite-shell-panel", () => {
 
     const divElementIsFirst = await page.$eval(
       "calcite-shell-panel",
-      (panel: HTMLCalciteShellPanelElement, containerClass: string, contentClass: string) => {
+      (panel: ShellPanel["el"], containerClass: string, contentClass: string) => {
         const container = panel.shadowRoot.querySelector(containerClass);
-        return container.firstElementChild.className == contentClass;
+        return container.firstElementChild.classList.contains(contentClass);
       },
       `.${CSS.container}`,
       CSS.content,
@@ -142,7 +157,7 @@ describe("calcite-shell-panel", () => {
     `);
   });
 
-  it("should have detached class when detached", async () => {
+  it("should have floatContent class when detached", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
@@ -153,13 +168,9 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    expect(await panel.getProperty("detached")).toBe(false);
-
     panel.setProperty("displayMode", "float-content");
 
     await page.waitForChanges();
-
-    expect(await panel.getProperty("detached")).toBe(true);
 
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.floatContent}`);
 

@@ -1,5 +1,6 @@
-import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
-import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
+import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -327,7 +328,7 @@ describe("calcite-tab-title", () => {
     });
   });
 
-  it.skip("emits active event on user interaction only", async () => {
+  it("emits active event on user interaction only", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
     const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
@@ -338,9 +339,26 @@ describe("calcite-tab-title", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
     await title.click();
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(1);
 
     await page.keyboard.press("Enter");
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
+  });
+
+  describe("theme", () => {
+    describe("start/end icons", () => {
+      themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
+        "--calcite-tab-icon-color-end": {
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        "--calcite-tab-icon-color-start": {
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });

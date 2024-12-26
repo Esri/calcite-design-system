@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Meter } from "./meter";
+
 const { fillType, appearance, labelType } = ATTRIBUTES;
 
 type MeterStoryArgs = Pick<

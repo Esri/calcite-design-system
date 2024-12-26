@@ -1,17 +1,14 @@
+import { PropertyValues } from "lit";
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
+  LitElement,
+  property,
+  createEvent,
   h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+  method,
+  state,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -19,6 +16,7 @@ import {
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
+  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
@@ -30,66 +28,70 @@ import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
+import { styles } from "./tooltip.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-tooltip": Tooltip;
+  }
+}
 
 const manager = new TooltipManager();
 
-/**
- * @slot - A slot for adding text.
- */
-@Component({
-  tag: "calcite-tooltip",
-  styleUrl: "tooltip.scss",
-  shadow: true,
-})
-export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+/** @slot - A slot for adding text. */
+export class Tooltip extends LitElement implements FloatingUIComponent, OpenCloseComponent {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private arrowEl: SVGSVGElement;
+
+  floatingEl: HTMLDivElement;
+
+  private guid = `calcite-tooltip-${guid()}`;
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() floatingLayout: FloatingLayout = "vertical";
+
+  @state() referenceEl: ReferenceElement;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** Closes the component when the `referenceElement` is clicked. */
-  @Prop({ reflect: true }) closeOnClick = false;
+  @property({ reflect: true }) closeOnClick = false;
 
   /**
    * Accessible name for the component.
    *
    * @deprecated No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.
    */
-  @Prop() label: string;
+  @property() label: string;
 
   /**
    * Offset the position of the component away from the `referenceElement`.
    *
    * @default 6
    */
-  @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  @Watch("offsetDistance")
-  offsetDistanceOffsetHandler(): void {
-    this.reposition(true);
-  }
+  /** Offset the position of the component along the `referenceElement`. */
+  @property({ reflect: true }) offsetSkidding = 0;
 
-  /**
-   * Offset the position of the component along the `referenceElement`.
-   */
-  @Prop({ reflect: true }) offsetSkidding = 0;
-
-  @Watch("offsetSkidding")
-  offsetSkiddingHandler(): void {
-    this.reposition(true);
-  }
-
-  /**
-   * When `true`, the component is open.
-   */
-  @Prop({ reflect: true }) open = false;
-
-  @Watch("open")
-  openHandler(): void {
-    onToggleOpenCloseComponent(this);
-    this.reposition(true);
-  }
+  /** When `true`, the component is open. */
+  @property({ reflect: true }) open = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -97,24 +99,11 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  @Watch("overlayPositioning")
-  overlayPositioningHandler(): void {
-    this.reposition(true);
-  }
-
-  /**
-   * Determines where the component will be positioned relative to the `referenceElement`.
-   */
-  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
-
-  @Watch("placement")
-  placementHandler(): void {
-    this.reposition(true);
-  }
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
    * The `referenceElement` to position the component according to its `"placement"` value.
@@ -123,109 +112,34 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
    *
    * However, a string ID of the reference element can be used.
    */
-  @Prop() referenceElement: ReferenceElement | string;
+  @property() referenceElement: ReferenceElement | string;
 
-  @Watch("referenceElement")
-  referenceElementHandler(): void {
-    this.setUpReferenceElement();
-  }
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTooltipElement;
-
-  @State() effectiveReferenceElement: ReferenceElement;
-
-  @State() floatingLayout: FloatingLayout = "vertical";
-
-  arrowEl: SVGSVGElement;
-
-  guid = `calcite-tooltip-${guid()}`;
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLDivElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.setUpReferenceElement(true);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  async componentWillLoad(): Promise<void> {
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  componentDidLoad(): void {
-    if (this.referenceElement && !this.effectiveReferenceElement) {
-      this.setUpReferenceElement();
-    }
-  }
-
-  disconnectedCallback(): void {
-    this.removeReferences();
-    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteTooltipBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteTooltipClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteTooltipBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteTooltipOpen: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
+  // #region Public Methods
 
   /**
    * Updates the position of the component.
    *
    * @param delayed
    */
-  @Method()
+  @method()
   async reposition(delayed = false): Promise<void> {
     const {
-      el,
-      effectiveReferenceElement,
+      referenceEl,
       placement,
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
       arrowEl,
+      floatingEl,
     } = this;
 
     return reposition(
       this,
       {
-        floatingEl: el,
-        referenceEl: effectiveReferenceElement,
+        floatingEl,
+        referenceEl: referenceEl,
         overlayPositioning,
         placement,
         offsetDistance,
@@ -237,11 +151,82 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     );
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteTooltipBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteTooltipBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteTooltipClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteTooltipOpen = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.setUpReferenceElement(true);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
+  }
+
+  load(): void {
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("offsetDistance") &&
+        (this.hasUpdated || this.offsetDistance !== defaultOffsetDistance)) ||
+      (changes.has("offsetSkidding") && (this.hasUpdated || this.offsetSkidding !== 0)) ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== "auto"))
+    ) {
+      this.reposition(true);
+    }
+
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.openHandler();
+    }
+
+    if (changes.has("referenceElement")) {
+      this.setUpReferenceElement();
+    }
+  }
+
+  loaded(): void {
+    if (this.referenceElement && !this.referenceEl) {
+      this.setUpReferenceElement();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.removeReferences();
+    disconnectFloatingUI(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+  private openHandler(): void {
+    onToggleOpenCloseComponent(this);
+    this.reposition(true);
+  }
 
   onBeforeOpen(): void {
     this.calciteTooltipBeforeOpen.emit();
@@ -257,81 +242,91 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calciteTooltipClose.emit();
+    hideFloatingUI(this);
   }
 
-  private setTransitionEl = (el): void => {
+  private setFloatingEl(el: HTMLDivElement): void {
+    this.floatingEl = el;
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
+  }
+
+  private setTransitionEl(el: HTMLDivElement): void {
     this.transitionEl = el;
-  };
+  }
 
-  setUpReferenceElement = (warn = true): void => {
+  private setUpReferenceElement(warn = true): void {
     this.removeReferences();
-    this.effectiveReferenceElement = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    this.referenceEl = getEffectiveReferenceElement(this.el);
+    connectFloatingUI(this);
 
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (warn && referenceElement && !effectiveReferenceElement) {
+    const { el, referenceElement, referenceEl } = this;
+    if (warn && referenceElement && !referenceEl) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
     }
 
     this.addReferences();
-  };
+  }
 
-  getId = (): string => {
+  private getId(): string {
     return this.el.id || this.guid;
-  };
+  }
 
-  addReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+  private addReferences(): void {
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
     const id = this.getId();
 
-    if ("setAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in referenceEl) {
+      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
     }
 
-    manager.registerElement(effectiveReferenceElement, this.el);
-  };
+    manager.registerElement(referenceEl, this.el);
+  }
 
-  removeReferences = (): void => {
-    const { effectiveReferenceElement } = this;
+  private removeReferences(): void {
+    const { referenceEl } = this;
 
-    if (!effectiveReferenceElement) {
+    if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in effectiveReferenceElement) {
-      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in referenceEl) {
+      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
     }
 
-    manager.unregisterElement(effectiveReferenceElement);
-  };
+    manager.unregisterElement(referenceEl);
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
-    const { effectiveReferenceElement, label, open, floatingLayout } = this;
-    const displayed = effectiveReferenceElement && open;
+  // #region Rendering
+
+  override render(): JsxNode {
+    const { referenceEl, label, open, floatingLayout } = this;
+    const displayed = referenceEl && open;
     const hidden = !displayed;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.inert = hidden;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLabel = label;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.ariaLive = "polite";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", this.getId());
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.role = "tooltip";
 
     return (
-      <Host
-        aria-hidden={toAriaBoolean(hidden)}
-        aria-label={label}
-        aria-live="polite"
-        calcite-hydrated-hidden={hidden}
-        id={this.getId()}
-        role="tooltip"
-      >
+      <div class={CSS.positionContainer} ref={this.setFloatingEl}>
         <div
           class={{
             [FloatingCSS.animation]: true,
@@ -347,7 +342,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             <slot />
           </div>
         </div>
-      </Host>
+      </div>
     );
   }
+
+  // #endregion
 }

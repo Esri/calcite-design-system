@@ -1,27 +1,5 @@
 #!/usr/bin/env sh
 
-ensure_types_are_up_to_date() {
-  types_path="packages/calcite-components/src/components.d.ts"
-
-  if [ -n "$(git diff --name-only -- "$types_path")" ]; then
-    echo "Automatically staging changes to \"$types_path\""
-    git add "$types_path" >/dev/null 2>&1 || true
-  fi
-}
-
-update_stylelint_config_if_sass_file_edited() {
-  staged_files="$(
-    git diff --cached --name-only --diff-filter=ACM -- packages/**/*.scss
-  )" 
-
-  if [ -n "$staged_files" ]; then
-    npm run util:update-stylelint-custom-sass-functions
-    git add "packages/calcite-components/.stylelintrc.cjs" >/dev/null 2>&1 || true
-  fi
-
-  unset staged_files
-}
-
 check_ui_icon_name_consistency() {
   # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
   # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
@@ -61,7 +39,5 @@ check_ui_icon_name_consistency() {
 
 lint-staged
 check_ui_icon_name_consistency
-ensure_types_are_up_to_date
-update_stylelint_config_if_sass_file_edited
 
 exit 0

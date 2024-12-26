@@ -1,32 +1,13 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { focusFirstTabbable, toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status, Position } from "../interfaces";
+import { FlipContext, Position, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
@@ -40,10 +21,18 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import { BlockMessages } from "./assets/block/t9n";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { styles } from "./block.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-block": Block;
+  }
+}
 
 /**
  * @slot - A slot for adding custom content.
@@ -53,115 +42,96 @@ import { BlockMessages } from "./assets/block/t9n";
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-@Component({
-  tag: "calcite-block",
-  styleUrl: "block.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
 export class Block
-  implements
-    InteractiveComponent,
-    LocalizedComponent,
-    T9nComponent,
-    LoadableComponent,
-    OpenCloseComponent
+  extends LitElement
+  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
 {
-  // --------------------------------------------------------------------------
-  //
-  //  Public Properties
-  //
-  // --------------------------------------------------------------------------
+  // #region Static Members
 
-  /**
-   * When `true`, the component is collapsible.
-   */
-  @Prop({ reflect: true }) collapsible = false;
+  static override styles = styles;
 
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
+  // #endregion
 
-  /**
-   * When `true`, displays a drag handle in the header.
-   */
-  @Prop({ reflect: true }) dragHandle = false;
+  // #region Private Properties
+
+  openTransitionProp = "margin-top";
+
+  transitionEl: HTMLElement;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasContentStart = false;
+
+  @state() hasControl = false;
+
+  @state() hasEndActions = false;
+
+  @state() hasIcon = false;
+
+  @state() hasMenuActions = false;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, the component is collapsible. */
+  @property({ reflect: true }) collapsible = false;
+
+  /** A description for the component, which displays below the heading. */
+  @property() description: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** When `true`, displays a drag handle in the header. */
+  @property({ reflect: true }) dragHandle = false;
 
   /**
    * The component header text.
+   *
    */
-  @Prop() heading!: string;
+  @property() heading: string;
 
-  /**
-   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true }) iconEnd: IconNameOrString;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, a busy indicator is displayed.
+   * Specifies an accessible name for the component.
    */
-  @Prop({ reflect: true }) loading = false;
+  @property() label: string;
 
-  /**
-   * Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available.
-   */
-  @Prop() menuFlipPlacements: FlipPlacement[];
+  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  @property() menuFlipPlacements: FlipPlacement[];
 
-  /**
-   * Determines where the action menu will be positioned.
-   */
-  @Prop({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /**
-   * When `true`, expands the component and its contents.
-   */
-  @Prop({ reflect: true, mutable: true }) open = false;
-
-  @Watch("open")
-  openHandler(): void {
-    onToggleOpenCloseComponent(this);
-  }
-
-  /**
-   * Displays a status-related indicator icon.
-   *
-   * @deprecated Use `icon-start` instead.
-   */
-  @Prop({ reflect: true }) status: Status;
-
-  /**
-   * A description for the component, which displays below the heading.
-   */
-  @Prop() description: string;
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: BlockMessages;
+  messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<BlockMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  /** When `true`, expands the component and its contents. */
+  @property({ reflect: true }) open = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -169,26 +139,93 @@ export class Block
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Sets focus on the component's first tabbable element.
+   * Displays a status-related indicator icon.
    *
+   * @deprecated Use `icon-start` instead.
    */
-  @Method()
+  @property({ reflect: true }) status: Status;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /** Sets focus on the component's first tabbable element. */
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     focusFirstTabbable(this.el);
   }
 
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteBlockBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteBlockBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteBlockClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteBlockOpen = createEvent({ cancelable: false });
+
+  /**
+   * Fires when the component's header is clicked.
+   *
+   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
+   */
+  calciteBlockToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.transitionEl = this.el;
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
+
+    if (!this.heading && !this.label) {
+      logger.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      onToggleOpenCloseComponent(this);
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
   }
@@ -205,142 +242,43 @@ export class Block
     this.calciteBlockClose.emit();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteBlockElement;
-
-  @State() defaultMessages: BlockMessages;
-
-  @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() hasIcon = false;
-
-  @State() hasControl = false;
-
-  @State() hasMenuActions = false;
-
-  @State() hasContentStart = false;
-
-  @State() hasEndActions = false;
-
-  openTransitionProp = "margin-top";
-
-  transitionEl: HTMLElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-
-    this.transitionEl = this.el;
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    setUpLoadableComponent(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteBlockBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteBlockClose: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
-
-  /**
-   * Fires when the component's header is clicked.
-   *
-   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
-   */
-  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  onHeaderClick = (): void => {
+  private onHeaderClick(): void {
     this.open = !this.open;
     this.calciteBlockToggle.emit();
-  };
+  }
 
-  private controlSlotChangeHandler = (event: Event): void => {
+  private controlSlotChangeHandler(event: Event): void {
     this.hasControl = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private menuActionsSlotChangeHandler = (event: Event): void => {
+  private menuActionsSlotChangeHandler(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private iconSlotChangeHandler = (event: Event): void => {
+  private iconSlotChangeHandler(event: Event): void {
     this.hasIcon = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private actionsEndSlotChangeHandler = (event: Event): void => {
+  private actionsEndSlotChangeHandler(event: Event): void {
     this.hasEndActions = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  private handleContentStartSlotChange = (event: Event): void => {
+  private handleContentStartSlotChange(event: Event): void {
     this.hasContentStart = slotChangeHasAssignedElement(event);
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderScrim(): VNode[] {
+  // #region Rendering
+
+  private renderScrim(): JsxNode {
     const { loading } = this;
     const defaultSlot = <slot />;
 
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  private renderLoaderStatusIcon(): VNode[] {
+  private renderLoaderStatusIcon(): JsxNode {
     const { loading, messages, status } = this;
 
     return loading ? (
@@ -361,28 +299,28 @@ export class Block
       </div>
     ) : (
       <div class={CSS.icon} hidden={!this.hasIcon} key="icon-slot">
-        <slot key="icon-slot" name={SLOTS.icon} onSlotchange={this.iconSlotChangeHandler} />
+        <slot key="icon-slot" name={SLOTS.icon} onSlotChange={this.iconSlotChangeHandler} />
       </div>
     );
   }
 
-  private renderActionsEnd(): VNode {
+  private renderActionsEnd(): JsxNode {
     return (
       <div class={CSS.actionsEnd} hidden={!this.hasEndActions}>
-        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.actionsEndSlotChangeHandler} />
       </div>
     );
   }
 
-  private renderContentStart(): VNode {
+  private renderContentStart(): JsxNode {
     return (
       <div class={CSS.contentStart} hidden={!this.hasContentStart}>
-        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
       </div>
     );
   }
 
-  renderTitle(): VNode {
+  private renderTitle(): JsxNode {
     const { heading, headingLevel, description } = this;
     return heading || description ? (
       <div class={CSS.title}>
@@ -394,7 +332,7 @@ export class Block
     ) : null;
   }
 
-  private renderIcon(position: Extract<"start" | "end", Position>): VNode {
+  private renderIcon(position: Extract<"start" | "end", Position>): JsxNode {
     const { iconFlipRtl } = this;
 
     const flipRtl =
@@ -421,11 +359,12 @@ export class Block
     );
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     const {
       collapsible,
       loading,
       open,
+      label,
       heading,
       messages,
       description,
@@ -451,12 +390,12 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle label={heading} /> : null}
+        {this.dragHandle ? <calcite-handle label={heading || label} /> : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            aria-expanded={collapsible ? toAriaBoolean(open) : null}
+            ariaExpanded={collapsible ? open : null}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
@@ -477,7 +416,7 @@ export class Block
           headerContent
         )}
         <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
-          <slot name={SLOTS.control} onSlotchange={this.controlSlotChangeHandler} />
+          <slot name={SLOTS.control} onSlotChange={this.controlSlotChangeHandler} />
         </div>
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
@@ -486,33 +425,29 @@ export class Block
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
         >
-          <slot name={SLOTS.headerMenuActions} onSlotchange={this.menuActionsSlotChangeHandler} />
+          <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
         </calcite-action-menu>
         {this.renderActionsEnd()}
       </div>
     );
 
     return (
-      <Host>
-        <InteractiveContainer disabled={this.disabled}>
-          <article
-            aria-busy={toAriaBoolean(loading)}
-            class={{
-              [CSS.container]: true,
-            }}
-          >
-            {headerNode}
-            <section
-              aria-labelledby={IDS.toggle}
-              class={CSS.content}
-              hidden={!open}
-              id={IDS.content}
-            >
-              {this.renderScrim()}
-            </section>
-          </article>
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <article
+          aria-label={label}
+          ariaBusy={loading}
+          class={{
+            [CSS.container]: true,
+          }}
+        >
+          {headerNode}
+          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+            {this.renderScrim()}
+          </section>
+        </article>
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

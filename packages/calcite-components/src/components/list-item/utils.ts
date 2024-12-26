@@ -1,36 +1,49 @@
 import { isBrowser } from "../../utils/browser";
+import type { List } from "../list/list";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
+import type { ListItem } from "./list-item";
 
-const listSelector = "calcite-list";
-const listItemGroupSelector = "calcite-list-item-group";
-const listItemSelector = "calcite-list-item";
+export const listSelector = "calcite-list";
+export const listItemGroupSelector = "calcite-list-item-group";
+export const listItemSelector = "calcite-list-item";
 
-export function getListItemChildLists(slotEl: HTMLSlotElement): HTMLCalciteListElement[] {
-  return Array.from(
-    slotEl.assignedElements({ flatten: true }).filter((el): el is HTMLCalciteListElement => el.matches(listSelector)),
-  );
+export function openAncestors(el: ListItem["el"]): void {
+  const ancestor = el.parentElement?.closest(listItemSelector);
+
+  if (!ancestor) {
+    return;
+  }
+
+  ancestor.open = true;
+  openAncestors(ancestor);
 }
 
-export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListItemElement[] {
+export function getListItemChildren(slotEl: HTMLSlotElement): {
+  lists: List["el"][];
+  items: ListItem["el"][];
+} {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
-  const listItemGroupChildren = assignedElements
-    .filter((el): el is HTMLCalciteListItemGroupElement => el?.matches(listItemGroupSelector))
-    .map((group) => Array.from(group.querySelectorAll(listItemSelector)))
-    .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+  const groupChildren = assignedElements
+    .filter((el): el is ListItemGroup["el"] => el?.matches(listItemGroupSelector))
+    .map((group) => Array.from(group.querySelectorAll<ListItem["el"]>(listItemSelector)))
+    .flat();
 
-  const listItemChildren = assignedElements.filter((el): el is HTMLCalciteListItemElement =>
-    el?.matches(listItemSelector),
-  );
+  const listItemChildren = assignedElements.filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
 
-  const listItemListChildren = assignedElements
-    .filter((el): el is HTMLCalciteListElement => el?.matches(listSelector))
-    .map((list) => Array.from(list.querySelectorAll(listItemSelector)))
-    .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+  const listChildren = assignedElements.filter((el): el is List["el"] => el?.matches(listSelector));
 
-  return [...listItemListChildren, ...listItemGroupChildren, ...listItemChildren];
+  return {
+    lists: listChildren,
+    items: groupChildren.concat(listItemChildren),
+  };
 }
 
-export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElement[]): void {
+export function updateListItemChildren(slotEl: HTMLSlotElement): void {
+  const listItemChildren = slotEl
+    .assignedElements({ flatten: true })
+    .filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
+
   listItemChildren.forEach((listItem) => {
     listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
     listItem.setSize = listItemChildren.length;

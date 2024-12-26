@@ -1,115 +1,85 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
-} from "@stencil/core";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { useT9n } from "../../controllers/useT9n";
+import type { Tooltip } from "../tooltip/tooltip";
+import type { ActionGroup } from "../action-group/action-group";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
+import { styles } from "./action-pad.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-action-pad": ActionPad;
+  }
+}
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-@Component({
-  tag: "calcite-action-pad",
-  styleUrl: "action-pad.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
-  assetsDirs: ["assets"],
-})
-export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+export class ActionPad extends LitElement implements LoadableComponent {
+  // #region Static Members
 
-  /**
-   * Specifies the accessible label for the last `calcite-action-group`.
-   */
-  @Prop() actionsEndGroupLabel: string;
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  /**
-   * When `true`, the expand-toggling behavior is disabled.
-   */
-  @Prop({ reflect: true }) expandDisabled = false;
+  static override styles = styles;
 
-  /**
-   * When `true`, the component is expanded.
-   */
-  @Prop({ reflect: true, mutable: true }) expanded = false;
+  // #endregion
 
-  @Watch("expanded")
-  expandedHandler(expanded: boolean): void {
-    toggleChildActionText({ el: this.el, expanded });
-  }
+  // #region Private Properties
 
-  /**
-   * Indicates the layout of the component.
-   */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
+  private actionGroups: ActionGroup["el"][];
 
-  @Watch("layout")
-  layoutHandler(): void {
-    this.updateGroups();
-  }
+  private mutationObserver = createObserver("mutation", () => this.updateGroups());
 
-  /**
-   * Arranges the component depending on the element's `dir` property.
-   */
-  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
+  private toggleExpand = (): void => {
+    this.expanded = !this.expanded;
+    this.calciteActionPadToggle.emit();
+  };
 
-  /**
-   * Specifies the size of the expand `calcite-action`.
-   */
-  @Prop({ reflect: true }) scale: Scale;
+  // #endregion
+
+  // #region State Properties
+
+  @state() expandTooltip: Tooltip["el"];
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** Specifies the accessible label for the last `calcite-action-group`. */
+  @property() actionsEndGroupLabel: string;
+
+  /** When `true`, the expand-toggling behavior is disabled. */
+  @property({ reflect: true }) expandDisabled = false;
+
+  /** When `true`, the component is expanded. */
+  @property({ reflect: true }) expanded = false;
+
+  /** Indicates the layout of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ActionPadMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionPadMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -117,142 +87,113 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
    *
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   *
    */
-  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  /** Arranges the component depending on the element's `dir` property. */
+  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
-  /**
-   * Fires when the `expanded` property is toggled.
-   */
-  @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
+  /** Specifies the size of the expand `calcite-action`. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteActionPadElement;
+  // #region Public Methods
 
-  @State() expandTooltip: HTMLCalciteTooltipElement;
-
-  mutationObserver = createObserver("mutation", () =>
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
-  );
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
   }
 
-  @State() defaultMessages: ActionPadMessages;
+  // #endregion
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  // #region Events
 
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+  /** Fires when the `expanded` property is toggled. */
+  calciteActionPadToggle = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+  }
+
+  override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.mutationObserver?.disconnect();
-  }
-
-  async componentWillLoad(): Promise<void> {
+  async load(): Promise<void> {
     setUpLoadableComponent(this);
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    await setUpMessages(this);
   }
 
-  componentDidLoad(): void {
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expanded") && this.hasUpdated) {
+      toggleChildActionText({ el: this.el, expanded: this.expanded });
+    }
+
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
+      this.updateGroups();
+    }
+  }
+
+  loaded(): void {
     setComponentLoaded(this);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Sets focus on the component's first focusable element.
-   */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
-    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
+  // #region Private Methods
+  private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+      this.actionGroups?.forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
       });
     }
-  };
-
-  toggleExpand = (): void => {
-    this.expanded = !this.expanded;
-    this.calciteActionPadToggle.emit();
-  };
-
-  updateGroups(): void {
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
 
-  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
+  private updateGroups(): void {
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    this.setGroupLayout(groups);
+  }
+
+  private setGroupLayout(groups: ActionGroup["el"][]): void {
     groups.forEach((group) => (group.layout = this.layout));
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteActionGroupElement => el?.matches("calcite-action-group"),
-    );
+  private handleDefaultSlotChange(): void {
+    this.updateGroups();
+  }
 
-    this.setGroupLayout(groups);
-  };
-
-  handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter(
-      (el): el is HTMLCalciteTooltipElement => el?.matches("calcite-tooltip"),
+  private handleTooltipSlotChange(event: Event): void {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
+      el?.matches("calcite-tooltip"),
     );
 
     this.expandTooltip = tooltips[0];
-  };
+  }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Component Methods
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  renderBottomActionGroup(): VNode {
+  // #region Rendering
+
+  private renderBottomActionGroup(): JsxNode {
     const {
       expanded,
       expandDisabled,
@@ -289,20 +230,20 @@ export class ActionPad implements LoadableComponent, LocalizedComponent, T9nComp
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
+        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
     ) : null;
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
-        <div class={CSS.container}>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
-          {this.renderBottomActionGroup()}
-        </div>
-      </Host>
+      <div class={CSS.container}>
+        <slot onSlotChange={this.handleDefaultSlotChange} />
+        {this.renderBottomActionGroup()}
+      </div>
     );
   }
+
+  // #endregion
 }

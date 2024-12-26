@@ -16,6 +16,7 @@ import { transitiveValueColorCSS } from "./value/valueColorCss.js";
 import { transitiveValueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
 import { valueFontFamilyFallbacks } from "./value/valueFontFamilyFallbacks.js";
 import { CalciteValueToREM } from "./value/valueToREM.js";
+import { CalciteValueToUnitless } from "./value/valueToUnitless.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -31,6 +32,8 @@ export const globalTransformations = [
   "ts/opacity",
   "ts/size/px",
   "ts/color/modifiers",
+  CalciteValueToREM,
+  CalciteValueToUnitless,
   valueAlignFontWeightAndStyles,
   transitiveValueColorCSS,
   transitiveValueEvaluateMath,
@@ -45,7 +48,6 @@ export const styles = [
   "ts/shadow/css/shorthand",
   valueAssetToken,
   valueStringWrapper,
-  CalciteValueToREM,
   valueFontFamilyFallbacks,
   nameKebabCase,
 ];

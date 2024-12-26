@@ -1,17 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "npm:unpublishSafe",
-    "workarounds:typesNodeVersioning",
-    ":pinAllExceptPeerDependencies",
-    ":widenPeerDependencies"
-  ],
+  "extends": ["config:recommended", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
   "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 5am on every weekday"],
+  "schedule": ["before 5am every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
@@ -31,7 +25,19 @@
   "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
+      "groupName": "ArcGIS",
+      "matchPackageNames": ["@arcgis/**"]
+    },
+    {
+      "groupName": "ESLint",
+      "matchPackageNames": ["/eslint/"]
+    },
+    {
+      "groupName": "Stylelint",
+      "matchPackageNames": ["/stylelint/"]
+    },
+    {
+      "matchPackageNames": ["*"],
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
       "addLabels": ["chore"]

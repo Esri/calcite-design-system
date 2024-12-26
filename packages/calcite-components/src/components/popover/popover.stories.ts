@@ -1,8 +1,8 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
-import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
 
 const contentHTML = `
@@ -124,18 +124,20 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
-  <div style="width: 400px;">
-    ${referenceElementHTML}
-    <calcite-popover
-      heading="Dreams didn't make us kings. Dragons did. 🐉"
-      reference-element="reference-element"
-      placement="auto"
-      open
-      closable
-      scale="m"
-    >
-      ${contentHTML}
-    </calcite-popover>
+  <div style="width: 800px; height:800px;">
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-popover
+        heading="Dreams didn't make us kings. Dragons did. 🐉"
+        reference-element="reference-element"
+        placement="auto"
+        open
+        closable
+        scale="m"
+      >
+        ${contentHTML}
+      </calcite-popover>
+    </div>
   </div>
 `;
 
@@ -208,3 +210,9 @@ export const transparentBG_TestOnly = (): string => html`
     </calcite-popover>
   </div>
 `;
+
+export const closedShouldNotCauseScrollbars = (): string =>
+  html`<calcite-popover reference-element="button">
+      <div style="width:10000px; height:10000px;">Popover</div>
+    </calcite-popover>
+    <calcite-button id="button">Button</calcite-button>`;

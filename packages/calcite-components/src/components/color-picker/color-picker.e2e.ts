@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, afterAll, afterEach, beforeAll, beforeEach, vi, MockInstance } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
 import {
   GlobalTestProps,
@@ -13,8 +14,9 @@ import { html } from "../../../support/formatting";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getSliderWidth } from "./utils";
+import type { ColorPicker } from "./color-picker";
 
-type SpyInstance = jest.SpyInstance;
+type SpyInstance = MockInstance;
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -24,7 +26,7 @@ describe("calcite-color-picker", () => {
     // https://github.com/puppeteer/puppeteer/issues/4147#issuecomment-473208182
     await page.$eval(
       `calcite-color-picker`,
-      (colorPicker: HTMLCalciteColorPickerElement, scopeSelector: string): void => {
+      (colorPicker: ColorPicker["el"], scopeSelector: string): void => {
         colorPicker.shadowRoot.querySelector<HTMLElement>(scopeSelector).click();
       },
       `.${scope === "hue" ? CSS.hueScope : CSS.colorFieldScope}`,
@@ -38,7 +40,7 @@ describe("calcite-color-picker", () => {
 
   beforeEach(
     () =>
-      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+      (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
         // hide warning messages during test
       })),
   );
@@ -97,18 +99,6 @@ describe("calcite-color-picker", () => {
       },
       {
         propertyName: "hexDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideChannels",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideHex",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hideSaved",
         defaultValue: false,
       },
       {
@@ -450,7 +440,7 @@ describe("calcite-color-picker", () => {
 
         const initialValueIsRendered = await page.$eval(
           "calcite-color-picker",
-          (picker: HTMLCalciteColorPickerElement, initialValue: string) =>
+          (picker: ColorPicker["el"], initialValue: string) =>
             // color prop is used to render the active color
             picker.color.string() === initialValue,
           initialValue,
@@ -662,7 +652,7 @@ describe("calcite-color-picker", () => {
     x = 0;
 
     type TestWindow = GlobalTestProps<{
-      internalColor: HTMLCalciteColorPickerElement["color"];
+      internalColor: ColorPicker["el"]["color"];
     }>;
 
     await page.evaluateHandle(() => {
@@ -860,7 +850,7 @@ describe("calcite-color-picker", () => {
 
     it("ignores unsupported value types", () => assertUnsupportedValue(page, "unsupported-color-format"));
 
-    it("ignores null when not allowed", () => assertUnsupportedValue(page, null));
+    it("ignores null when not allowed", () => assertUnsupportedValue(page, undefined));
   });
 
   describe("normalizes shorthand CSS hex", () => {
@@ -899,9 +889,7 @@ describe("calcite-color-picker", () => {
     const initialColor = supportedFormatToSampleValue.hex;
 
     async function getInternalColorAsHex(page: E2EPage): Promise<string> {
-      return page.$eval("calcite-color-picker", (picker: HTMLCalciteColorPickerElement) =>
-        picker.color.hex().toLowerCase(),
-      );
+      return page.$eval("calcite-color-picker", (picker: ColorPicker["el"]) => picker.color.hex().toLowerCase());
     }
 
     it("value as attribute", async () => {
@@ -912,18 +900,16 @@ describe("calcite-color-picker", () => {
     });
 
     it("value as property", async () => {
-      // initialize page with calcite-color-picker to make it available in the evaluate callback below
       const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>",
+        html: "",
       });
-      await page.setContent("");
 
       await page.evaluate(async (color) => {
         const picker = document.createElement("calcite-color-picker");
         picker.value = color;
         document.body.append(picker);
 
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await picker.componentOnReady();
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);
@@ -1338,7 +1324,7 @@ describe("calcite-color-picker", () => {
 
               await clearAndEnterHexOrChannelValue(page, hexInput, "");
 
-              expect(await picker.getProperty("value")).toBe(null);
+              expect(await picker.getProperty("value")).toBe(undefined);
             });
 
             it("clears color via RGB channel inputs", async () => {
@@ -1357,7 +1343,7 @@ describe("calcite-color-picker", () => {
               expect(await gInput.getProperty("value")).toBe("");
               expect(await bInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
 
             it("clears color via HSV channel inputs", async () => {
@@ -1377,7 +1363,7 @@ describe("calcite-color-picker", () => {
               expect(await sInput.getProperty("value")).toBe("");
               expect(await vInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
           });
         });
@@ -1850,9 +1836,9 @@ describe("calcite-color-picker", () => {
               customValueClearingFn?: () => Promise<void>,
             ): Promise<void> => {
               async function clearValue(): Promise<void> {
-                customValueClearingFn
-                  ? await customValueClearingFn()
-                  : await clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, "");
+                await (customValueClearingFn
+                  ? customValueClearingFn()
+                  : clearAndEnterHexOrChannelValue(page, calciteInputOrSlider, ""));
               }
 
               const initialInputValue = await calciteInputOrSlider.getProperty("value");
@@ -1928,7 +1914,7 @@ describe("calcite-color-picker", () => {
               const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
               await clearAndEnterHexOrChannelValue(page, hexInput, "");
 
-              expect(await picker.getProperty("value")).toBe(null);
+              expect(await picker.getProperty("value")).toBe(undefined);
             });
 
             it("clears color via RGB channel inputs", async () => {
@@ -1952,7 +1938,7 @@ describe("calcite-color-picker", () => {
               expect(await bInput.getProperty("value")).toBe("");
               expect(await rgbAInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
 
             it("clears color via HSV channel inputs", async () => {
@@ -1977,7 +1963,7 @@ describe("calcite-color-picker", () => {
               expect(await vInput.getProperty("value")).toBe("");
               expect(await hsvAInput.getProperty("value")).toBe("");
 
-              expect(await picker.getProperty("value")).toBeNull();
+              expect(await picker.getProperty("value")).toBeUndefined();
             });
           });
         });
@@ -2211,16 +2197,16 @@ describe("calcite-color-picker", () => {
 
     const color = await page.find("calcite-color-picker");
 
-    expect(await color.getProperty("value")).not.toBe(null);
-    expect(await color.getProperty("color")).not.toBe(null);
+    expect(await color.getProperty("value")).not.toBe(undefined);
+    expect(await color.getProperty("color")).not.toBe(undefined);
 
-    color.setProperty("value", null);
+    color.setProperty("value", undefined);
     await page.waitForChanges();
 
-    expect(await color.getProperty("value")).toBe(null);
-    expect(await color.getProperty("color")).toBe(null);
+    expect(await color.getProperty("value")).toBe(undefined);
+    expect(await color.getProperty("color")).toBe(undefined);
 
-    expect(() => assertUnsupportedValueMessage(null, "auto")).toThrow();
+    expect(() => assertUnsupportedValueMessage(undefined, "auto")).toThrow();
   });
 
   it("allows hiding sections", async () => {
@@ -2243,7 +2229,7 @@ describe("calcite-color-picker", () => {
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
-        const hideSectionProp = `hide${section.charAt(0).toUpperCase() + section.slice(1)}`;
+        const hideSectionProp = `${section.charAt(0) + section.slice(1)}Disabled`;
 
         color.setProperty(hideSectionProp, !sectionVisibility[section]);
         await page.waitForChanges();
@@ -2293,15 +2279,15 @@ describe("calcite-color-picker", () => {
         await scope.press("ArrowDown");
         expect(await picker.getProperty("value")).toBe("#ffffff");
         await scope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
         await scope.press("ArrowDown");
-        expect(await picker.getProperty("value")).toBe("#dbdbdb");
+        expect(await picker.getProperty("value")).toBe("#d6d6d6");
         await scope.press("ArrowUp");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
         await scope.press("ArrowRight");
-        expect(await picker.getProperty("value")).toBe("#e4eaed");
+        expect(await picker.getProperty("value")).toBe("#e1e7eb");
         await scope.press("ArrowLeft");
-        expect(await picker.getProperty("value")).toBe("#ededed");
+        expect(await picker.getProperty("value")).toBe("#ebebeb");
       });
 
       it("allows nudging color's saturation even if it does not change RGB value", async () => {
@@ -2330,7 +2316,7 @@ describe("calcite-color-picker", () => {
         await page.setContent(`<calcite-color-picker value="#000"></calcite-color-picker>`);
         const scope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
 
-        const nudgeAQuarterOfSlider = async () => {
+        const nudgeAThirdOfSlider = async () => {
           let totalNudgesByTen = 12;
 
           while (totalNudgesByTen--) {
@@ -2344,16 +2330,16 @@ describe("calcite-color-picker", () => {
 
         expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.thumb.radius - 0.5, 0);
 
-        await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(70, 0);
+        await nudgeAThirdOfSlider();
+        expect(await getScopeLeftOffset()).toBeCloseTo(58.9, 0);
 
-        await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(141, 0);
+        await nudgeAThirdOfSlider();
+        expect(await getScopeLeftOffset()).toBeCloseTo(118.5, 0);
 
-        await nudgeAQuarterOfSlider();
+        await nudgeAThirdOfSlider();
         // hue wraps around, so we nudge it back to assert position at the edge
         await scope.press("ArrowLeft");
-        expect(await getScopeLeftOffset()).toBeCloseTo(204.5, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(170.5, 0);
 
         // nudge it to wrap around
         await scope.press("ArrowRight");

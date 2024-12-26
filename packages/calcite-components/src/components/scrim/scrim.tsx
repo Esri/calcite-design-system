@@ -1,144 +1,82 @@
-import { Component, Element, h, Prop, State, VNode, Watch } from "@stencil/core";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
+import { useT9n } from "../../controllers/useT9n";
+import type { Loader } from "../loader/loader";
 import { CSS, BREAKPOINTS } from "./resources";
-import { ScrimMessages } from "./assets/scrim/t9n";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { styles } from "./scrim.scss";
 
-/**
- * @slot - A slot for adding custom content, primarily loading information.
- */
-@Component({
-  tag: "calcite-scrim",
-  styleUrl: "scrim.scss",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class Scrim implements LocalizedComponent, T9nComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
+declare global {
+  interface DeclareElements {
+    "calcite-scrim": Scrim;
+  }
+}
 
-  /**
-   * When `true`, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
+/** @slot - A slot for adding custom content, primarily loading information. */
+export class Scrim extends LitElement {
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private loaderEl: Loader["el"];
+
+  private resizeObserver = createObserver("resize", () => this.handleResize());
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() hasContent = false;
+
+  @state() loaderScale: Scale;
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ScrimMessages;
+  messages = useT9n<typeof T9nStrings>();
 
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ScrimMessages>;
+  // #endregion
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  // #region Lifecycle
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteScrimElement;
-
-  resizeObserver = createObserver("resize", () => this.handleResize());
-
-  loaderEl: HTMLCalciteLoaderElement;
-
-  @State() loaderScale: Scale;
-
-  @State() defaultMessages: ScrimMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() hasContent = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+  override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
   }
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
+  override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Render Method
-  //
-  // --------------------------------------------------------------------------
+  // #endregion
 
-  render(): VNode {
-    const { hasContent, loading, messages } = this;
+  // #region Private Methods
 
-    return (
-      <div class={CSS.scrim}>
-        {loading ? (
-          <calcite-loader
-            label={messages.loading}
-            ref={this.storeLoaderEl}
-            scale={this.loaderScale}
-          />
-        ) : null}
-        <div class={CSS.content} hidden={!hasContent}>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
-        </div>
-      </div>
-    );
+  private handleDefaultSlotChange(event: Event): void {
+    this.hasContent = slotChangeHasContent(event);
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private handleDefaultSlotChange = (event: Event): void => {
-    this.hasContent = slotChangeHasContent(event);
-  };
-
-  private storeLoaderEl = (el: HTMLCalciteLoaderElement): void => {
+  private storeLoaderEl(el: Loader["el"]): void {
     this.loaderEl = el;
     this.handleResize();
-  };
+  }
 
   private getScale(size: number): Scale {
     if (size < BREAKPOINTS.s) {
@@ -159,4 +97,29 @@ export class Scrim implements LocalizedComponent, T9nComponent {
 
     this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
   }
+
+  // #endregion
+
+  // #region Rendering
+
+  override render(): JsxNode {
+    const { hasContent, loading, messages } = this;
+
+    return (
+      <div class={CSS.scrim}>
+        {loading ? (
+          <calcite-loader
+            label={messages.loading}
+            ref={this.storeLoaderEl}
+            scale={this.loaderScale}
+          />
+        ) : null}
+        <div class={CSS.content} hidden={!hasContent}>
+          <slot onSlotChange={this.handleDefaultSlotChange} />
+        </div>
+      </div>
+    );
+  }
+
+  // #endregion
 }

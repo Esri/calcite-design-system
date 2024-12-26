@@ -1,8 +1,10 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
-import { CSS } from "./resources";
+import { CSS, sheetResizeShiftStep, sheetResizeStep } from "./resources";
+import type { Sheet } from "./sheet";
 
 describe("calcite-sheet properties", () => {
   describe("defaults", () => {
@@ -39,7 +41,49 @@ describe("calcite-sheet properties", () => {
         propertyName: "opened",
         defaultValue: false,
       },
+      {
+        propertyName: "resizable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "heightScale",
+        defaultValue: "m",
+      },
     ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-sheet", [
+      {
+        propertyName: "resizable",
+        value: true,
+      },
+    ]);
+
+    describe("reflects", () => {
+      reflects("calcite-sheet", [
+        {
+          propertyName: "height",
+          value: "m",
+        },
+        {
+          propertyName: "heightScale",
+          value: "m",
+        },
+        {
+          propertyName: "width",
+          value: "m",
+        },
+        {
+          propertyName: "widthScale",
+          value: "m",
+        },
+      ]);
+    });
   });
 
   describe("renders", () => {
@@ -149,7 +193,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -157,10 +201,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     expect(await sheet.getProperty("opened")).toBe(true);
@@ -173,7 +215,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via escape", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -181,10 +223,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await skipAnimations(page);
     await page.waitForEvent("calciteSheetOpen");
@@ -199,7 +239,7 @@ describe("calcite-sheet properties", () => {
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
     const page = await newE2EPage();
-    const mockCallBack = jest.fn();
+    const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-sheet open></calcite-sheet>
@@ -207,10 +247,8 @@ describe("calcite-sheet properties", () => {
     const sheet = await page.find("calcite-sheet");
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose),
+      (elm: Sheet["el"]) =>
+        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
     );
     await page.waitForChanges();
     sheet.setProperty("open", true);
@@ -225,15 +263,14 @@ describe("calcite-sheet properties", () => {
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
-    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
     await page.setContent(`<calcite-sheet open></calcite-sheet>`);
 
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -251,8 +288,7 @@ describe("calcite-sheet properties", () => {
 
     await page.$eval(
       "calcite-sheet",
-      (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -287,6 +323,33 @@ describe("calcite-sheet properties", () => {
     sheet.setProperty("open", true);
     await page.waitForChanges();
     expect(await sheet.isVisible()).toBe(true);
+  });
+
+  it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-sheet open label="hello world" focus-trap-disabled
+        ><calcite-panel heading="Ultrices neque"
+          ><p>Lorem ipsum dolor sit amet.</p>
+          <calcite-button slot="footer" width="half">tincidunt lobortis</calcite-button>
+        </calcite-panel></calcite-sheet
+      >`,
+    );
+    const sheet = await page.find("calcite-sheet");
+    sheet.setProperty("open", true);
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await sheet.isVisible()).toBe(true);
+    expect(await sheet.getProperty("open")).toBe(true);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+
+    expect(await sheet.isVisible()).toBe(false);
+    expect(await sheet.getProperty("open")).toBe(false);
   });
 
   it("should close when the scrim is clicked", async () => {
@@ -359,7 +422,7 @@ describe("calcite-sheet properties", () => {
 
       type SheetEventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
-      await page.$eval("calcite-sheet", (sheet: HTMLCalciteSheetElement) => {
+      await page.$eval("calcite-sheet", (sheet: Sheet["el"]) => {
         const receivedEvents: string[] = [];
         (window as SheetEventOrderWindow).events = receivedEvents;
 
@@ -550,6 +613,150 @@ describe("calcite-sheet properties", () => {
 
       expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
       expect(closeSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("keyboard resize", () => {
+    it("should resize properly via arrow keys", async () => {
+      const maxSize = 600;
+      const minSize = 100;
+      const initialSize = 500;
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-sheet
+          width-scale="m"
+          height-scale="m"
+          heading="Hello world"
+          position="inline-start"
+          resizable
+          open
+          style="
+            --calcite-sheet-width: ${initialSize}px;
+            --calcite-sheet-max-width: ${maxSize}px;
+            --calcite-sheet-min-width: ${minSize}px;
+            --calcite-sheet-height: ${initialSize}px;
+            --calcite-sheet-max-height: ${maxSize}px;
+            --calcite-sheet-min-height: ${minSize}px;"
+        >
+          <p>
+            Lorem ipsum odor amet adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et
+            euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod eros ante.
+            Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut ultrices;
+            lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu fermentum
+            tellus quis ad facilisis ultrices eros imperdiet.
+          </p>
+        </calcite-sheet>`,
+      );
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialWidth = parseInt(initialInlineSize, 10);
+
+      const resizeHandle = await page.find(`calcite-sheet >>> .${CSS.resizeHandle}`);
+      await resizeHandle.focus();
+
+      await page.keyboard.down("ArrowLeft");
+      await page.keyboard.up("ArrowLeft");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - sheetResizeStep}px`);
+
+      await page.keyboard.down("ArrowRight");
+      await page.keyboard.up("ArrowRight");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.down("ArrowLeft");
+      await page.keyboard.up("ArrowLeft");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - sheetResizeShiftStep}px`);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.down("ArrowRight");
+      await page.keyboard.up("ArrowRight");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await page.keyboard.down("End");
+      await page.keyboard.up("End");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${maxSize}px`);
+
+      await page.keyboard.down("Home");
+      await page.keyboard.up("Home");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.inlineSize).toBe(`${minSize}px`);
+
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("position", "block-start");
+      await page.waitForChanges();
+      computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialHeight = parseInt(initialBlockSize, 10);
+
+      await page.keyboard.down("ArrowDown");
+      await page.keyboard.up("ArrowDown");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight + sheetResizeStep}px`);
+
+      await page.keyboard.down("ArrowUp");
+      await page.keyboard.up("ArrowUp");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.down("ArrowDown");
+      await page.keyboard.up("ArrowDown");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight + sheetResizeShiftStep}px`);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.down("ArrowUp");
+      await page.keyboard.up("ArrowUp");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+
+      await page.keyboard.down("End");
+      await page.keyboard.up("End");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${maxSize}px`);
+
+      await page.keyboard.down("Home");
+      await page.keyboard.up("Home");
+      await page.waitForChanges();
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${minSize}px`);
     });
   });
 });

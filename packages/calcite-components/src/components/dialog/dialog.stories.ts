@@ -232,6 +232,18 @@ export const withCustomContent = (): string => html`
   </calcite-dialog>
 `;
 
+export const withCustomContentPanel = (): string => html`
+  <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+    <calcite-panel heading="Custom Panel" slot="${SLOTS.content}">Custom Panel Content!</calcite-panel>
+  </calcite-dialog>
+`;
+
+export const withCustomContentDivPanel = (): string => html`
+  <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+    <div slot="${SLOTS.content}"><calcite-panel heading="Custom Panel">Custom Panel Content!</calcite-panel></div>
+  </calcite-dialog>
+`;
+
 export const loading = (): string => html`
   <calcite-dialog loading open modal heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
@@ -376,16 +388,8 @@ const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calc
 --calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
 
 export const withShellInside = (): string =>
-  html`<calcite-dialog
-    open
-    modal
-    heading="heading"
-    description="description"
-    scale="m"
-    width-scale="l"
-    style="--calcite-dialog-content-space: 0;"
-  >
-    <calcite-shell style="position:relative">
+  html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="l">
+    <calcite-shell>
       <calcite-shell-panel slot="panel-start">
         <calcite-action-bar slot="action-bar" expanded>
           <calcite-action-group>

@@ -1,26 +1,13 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  forceUpdate,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  VNode,
-  Watch,
-} from "@stencil/core";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
   HiddenFormInputSlot,
 } from "../../utils/form";
-import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -34,139 +21,110 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
+import type { Label } from "../label/label";
 import { CSS } from "./resources";
+import { styles } from "./radio-button.scss";
 
-@Component({
-  tag: "calcite-radio-button",
-  styleUrl: "radio-button.scss",
-  shadow: true,
-})
+declare global {
+  interface DeclareElements {
+    "calcite-radio-button": RadioButton;
+  }
+}
+
 export class RadioButton
+  extends LitElement
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Global attributes
-  //
-  //--------------------------------------------------------------------------
+  // #region Static Members
 
-  @Watch("hidden")
-  handleHiddenChange(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
+  static override styles = styles;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region Private Properties
+
+  private containerEl: HTMLDivElement;
+
+  defaultChecked: boolean;
+
+  defaultValue: RadioButton["value"];
+
+  formEl: HTMLFormElement;
+
+  labelEl: Label["el"];
+
+  private rootNode: HTMLElement;
+
+  // #endregion
+
+  // #region Public Properties
 
   /** When `true`, the component is checked. */
-  @Prop({ mutable: true, reflect: true }) checked = false;
-
-  @Watch("checked")
-  checkedChanged(newChecked: boolean): void {
-    if (newChecked) {
-      this.uncheckOtherRadioButtonsInGroup();
-    }
-
-    this.calciteInternalRadioButtonCheckedChange.emit();
-  }
+  @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledChanged(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
+  @property({ reflect: true }) disabled = false;
 
   /**
    * The focused state of the component.
    *
-   * @internal
+   * @private
    */
-  @Prop({ mutable: true, reflect: true }) focused = false;
+  @property({ reflect: true }) focused = false;
 
   /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
-
-  /**
-   * The `id` of the component. When omitted, a globally unique identifier is used.
-   *
-   * @deprecated No longer necessary.
-   */
-  @Prop({ reflect: true, mutable: true }) guid: string;
+  @property({ reflect: true }) form: string;
 
   /**
    * The hovered state of the component.
    *
-   * @internal
+   * @private
    */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  @property({ reflect: true }) hovered = false;
 
   /**
    * Accessible name for the component.
    *
-   * @internal
+   * @private
    */
-  @Prop() label?: string;
+  @property() label?: string;
 
   /**
    * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
    *
    * Required to pass the component's `value` on form submission.
    */
-  @Prop({ reflect: true }) name: string;
-
-  @Watch("name")
-  nameChanged(): void {
-    this.checkLastRadioButton();
-  }
+  @property({ reflect: true }) name: string;
 
   /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
-  @Prop({ reflect: true }) required = false;
+  @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) scale: Scale = "m";
 
-  /** The component's value. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
-  @Prop({ mutable: true }) value!: any;
+  /**
+   * The component's value.
+   *
+   * @required
+   */
+  @property() value: any;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
 
-  @Element() el: HTMLCalciteRadioButtonElement;
+  // #region Public Methods
 
-  labelEl: HTMLCalciteLabelElement;
-
-  formEl: HTMLFormElement;
-
-  defaultChecked: boolean;
-
-  defaultValue: RadioButton["value"];
-
-  rootNode: HTMLElement;
-
-  containerEl: HTMLDivElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  /** @private */
+  @method()
+  async emitCheckedChange(): Promise<void> {
+    this.calciteInternalRadioButtonCheckedChange.emit();
+  }
 
   /** Sets focus on the component. */
-  @Method()
+  @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
@@ -175,36 +133,137 @@ export class RadioButton
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  // #endregion
+
+  // #region Events
+
+  /**
+   * Fires when the radio button is blurred.
+   *
+   * @private
+   */
+  calciteInternalRadioButtonBlur = createEvent({ cancelable: false });
+
+  /**
+   * Fires when the checked property changes.  This is an internal event used for styling purposes only.
+   * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
+   *
+   * @private
+   */
+  calciteInternalRadioButtonCheckedChange = createEvent({ cancelable: false });
+
+  /**
+   * Fires when the radio button is focused.
+   *
+   * @private
+   */
+  calciteInternalRadioButtonFocus = createEvent({ cancelable: false });
+
+  /**
+   * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
+   * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
+   * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
+   * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
+   */
+  calciteRadioButtonChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("pointerenter", this.pointerEnterHandler);
+    this.listen("pointerleave", this.pointerLeaveHandler);
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.handleKeyDown);
+  }
+
+  override connectedCallback(): void {
+    this.rootNode = this.el.getRootNode() as HTMLElement;
+    if (this.name) {
+      this.checkLastRadioButton();
+    }
+    connectLabel(this);
+    connectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+    super.connectedCallback();
+  }
+
+  load(): void {
+    setUpLoadableComponent(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (this.hasUpdated && changes.has("checked")) {
+      this.checkedChanged(this.checked);
+    }
+
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.updateTabIndexOfOtherRadioButtonsInGroup();
+    }
+
+    if (changes.has("name")) {
+      this.checkLastRadioButton();
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    setComponentLoaded(this);
+
+    if (this.focused && !this.disabled) {
+      this.setFocus();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private checkedChanged(newChecked: boolean): void {
+    if (newChecked) {
+      this.uncheckOtherRadioButtonsInGroup();
+    }
+
+    this.calciteInternalRadioButtonCheckedChange.emit();
+  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "radio";
   }
 
-  selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
+  private selectItem(items: RadioButton["el"][], selectedIndex: number): void {
     items[selectedIndex].click();
-  };
+  }
 
-  queryButtons = (): HTMLCalciteRadioButtonElement[] => {
+  private queryButtons(): RadioButton["el"][] {
     return Array.from(
-      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
-        "calcite-radio-button:not([hidden])",
-      ),
+      this.rootNode.querySelectorAll<RadioButton["el"]>("calcite-radio-button:not([hidden])"),
     ).filter((radioButton) => radioButton.name === this.name);
-  };
+  }
 
-  isFocusable = (): boolean => {
+  private isFocusable(): boolean {
     const radioButtons = this.queryButtons();
     const firstFocusable = radioButtons.find((radioButton) => !radioButton.disabled);
     const checked = radioButtons.find((radioButton) => radioButton.checked);
     return firstFocusable === this.el && !checked;
-  };
+  }
 
-  check = (): void => {
+  private check(): void {
     if (this.disabled) {
       return;
     }
@@ -219,30 +278,26 @@ export class RadioButton
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.calciteRadioButtonChange.emit();
-  };
+  }
 
-  private clickHandler = (): void => {
+  private clickHandler(): void {
     if (this.disabled) {
       return;
     }
 
     this.check();
-  };
+  }
 
   onLabelClick(event: CustomEvent): void {
     if (this.disabled || this.el.hidden) {
       return;
     }
 
-    const label = event.currentTarget as HTMLCalciteLabelElement;
+    const label = event.currentTarget as Label["el"];
 
     const radioButton = label.for
-      ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
-          `calcite-radio-button[id="${label.for}"]`,
-        )
-      : label.querySelector<HTMLCalciteRadioButtonElement>(
-          `calcite-radio-button[name="${this.name}"]`,
-        );
+      ? this.rootNode.querySelector<RadioButton["el"]>(`calcite-radio-button[id="${label.for}"]`)
+      : label.querySelector<RadioButton["el"]>(`calcite-radio-button[name="${this.name}"]`);
 
     if (!radioButton) {
       return;
@@ -268,22 +323,16 @@ export class RadioButton
       const lastCheckedRadioButton = checkedRadioButtons[checkedRadioButtons.length - 1];
       checkedRadioButtons
         .filter((checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton)
-        .forEach((checkedRadioButton: HTMLCalciteRadioButtonElement) => {
+        .forEach((checkedRadioButton: RadioButton["el"]) => {
           checkedRadioButton.checked = false;
           checkedRadioButton.emitCheckedChange();
         });
     }
   }
 
-  /** @internal */
-  @Method()
-  async emitCheckedChange(): Promise<void> {
-    this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  private setContainerEl = (el: HTMLDivElement): void => {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
-  };
+  }
 
   private uncheckAllRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
@@ -297,7 +346,7 @@ export class RadioButton
 
   private uncheckOtherRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
-    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton.guid !== this.guid);
+    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton !== this.el);
     otherRadioButtons.forEach((otherRadioButton) => {
       if (otherRadioButton.checked) {
         otherRadioButton.checked = false;
@@ -309,10 +358,10 @@ export class RadioButton
   private updateTabIndexOfOtherRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     const otherFocusableRadioButtons = radioButtons.filter(
-      (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled,
+      (radioButton) => radioButton !== this.el && !radioButton.disabled,
     );
     otherFocusableRadioButtons.forEach((radioButton) => {
-      forceUpdate(radioButton);
+      radioButton.manager?.component.requestUpdate();
     });
   }
 
@@ -323,50 +372,7 @@ export class RadioButton
     return this.checked || this.isFocusable() ? 0 : -1;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the radio button is blurred.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalRadioButtonBlur: EventEmitter<void>;
-
-  /**
-   * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
-   * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
-   * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
-   * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
-   */
-  @Event({ cancelable: false }) calciteRadioButtonChange: EventEmitter<void>;
-
-  /**
-   * Fires when the checked property changes.  This is an internal event used for styling purposes only.
-   * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalRadioButtonCheckedChange: EventEmitter<void>;
-
-  /**
-   * Fires when the radio button is focused.
-   *
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalRadioButtonFocus: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("pointerenter")
-  pointerEnterHandler(): void {
+  private pointerEnterHandler(): void {
     if (this.disabled) {
       return;
     }
@@ -374,8 +380,7 @@ export class RadioButton
     this.hovered = true;
   }
 
-  @Listen("pointerleave")
-  pointerLeaveHandler(): void {
+  private pointerLeaveHandler(): void {
     if (this.disabled) {
       return;
     }
@@ -383,7 +388,7 @@ export class RadioButton
     this.hovered = false;
   }
 
-  handleKeyDown = (event: KeyboardEvent): void => {
+  private handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
     const { el } = this;
@@ -410,9 +415,7 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll<HTMLCalciteRadioButtonElement>(
-        "calcite-radio-button:not([hidden])",
-      ),
+      this.rootNode.querySelectorAll<RadioButton["el"]>("calcite-radio-button:not([hidden])"),
     ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
@@ -442,85 +445,44 @@ export class RadioButton
       default:
         return;
     }
-  };
+  }
 
-  private onContainerBlur = (): void => {
+  private onContainerBlur(): void {
     this.focused = false;
     this.calciteInternalRadioButtonBlur.emit();
-  };
+  }
 
-  private onContainerFocus = (): void => {
+  private onContainerFocus(): void {
     if (!this.disabled) {
       this.focused = true;
       this.calciteInternalRadioButtonFocus.emit();
     }
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.rootNode = this.el.getRootNode() as HTMLElement;
-    this.guid = this.el.id || `calcite-radio-button-${guid()}`;
-    if (this.name) {
-      this.checkLastRadioButton();
-    }
-    connectLabel(this);
-    connectForm(this);
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
+  // #endregion
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
+  // #region Rendering
 
-    if (this.focused && !this.disabled) {
-      this.setFocus();
-    }
-  }
-
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render(): VNode {
+  override render(): JsxNode {
     const tabIndex = this.getTabIndex();
     return (
-      <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
-        <InteractiveContainer disabled={this.disabled}>
-          <div
-            aria-checked={toAriaBoolean(this.checked)}
-            aria-label={getLabelText(this)}
-            class={CSS.container}
-            onBlur={this.onContainerBlur}
-            onFocus={this.onContainerFocus}
-            ref={this.setContainerEl}
-            role="radio"
-            tabIndex={tabIndex}
-          >
-            <div class="radio" />
-          </div>
-          <HiddenFormInputSlot component={this} />
-        </InteractiveContainer>
-      </Host>
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          ariaChecked={this.checked}
+          ariaLabel={getLabelText(this)}
+          class={CSS.container}
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          ref={this.setContainerEl}
+          role="radio"
+          tabIndex={tabIndex}
+        >
+          <div class="radio" />
+        </div>
+        <HiddenFormInputSlot component={this} />
+      </InteractiveContainer>
     );
   }
+
+  // #endregion
 }

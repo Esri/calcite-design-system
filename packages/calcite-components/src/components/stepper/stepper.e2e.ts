@@ -1,11 +1,14 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeAll } from "vitest";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { isElementFocused } from "../../tests/utils";
+import type { StepperItem } from "../stepper-item/stepper-item";
+import type { Stepper } from "./stepper";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
-async function itemClicker(item: HTMLCalciteStepperItemElement) {
+async function itemClicker(item: StepperItem["el"]) {
   item.click();
 }
 
@@ -113,12 +116,12 @@ describe("calcite-stepper", () => {
     `);
     const stepperItems = await page.findAll("calcite-stepper-items");
 
-    stepperItems.forEach(async (item) => {
+    for (const item of stepperItems) {
       expect(await item.getProperty("icon")).toBe(true);
       expect(await item.getProperty("layout")).toBe("vertical");
       expect(await item.getProperty("scale")).toBe("l");
       expect(await item.getProperty("numbered")).toBe(true);
-    });
+    }
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
@@ -475,7 +478,7 @@ describe("calcite-stepper", () => {
 
             connectedCallback(): void {
               this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
-              const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
+              const stepper = this.shadowRoot.getElementById("stepper") as Stepper["el"];
               this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
               this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
             }
@@ -483,6 +486,7 @@ describe("calcite-stepper", () => {
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
         const wrapper = document.querySelector(wrapperName);
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -496,13 +500,14 @@ describe("calcite-stepper", () => {
 
         return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
       }, templateHTML);
+      await page.waitForChanges();
 
       expect(finalSelectedItem).toBe("item-3");
     });
   });
 
   describe("should emit calciteStepperChange/calciteStepperItemChange on user interaction", () => {
-    let layout: HTMLCalciteStepperElement["layout"];
+    let layout: Stepper["el"]["layout"];
 
     async function assertEmitting(page: E2EPage, hasContent: boolean): Promise<void> {
       const element = await page.find("calcite-stepper");
@@ -530,7 +535,7 @@ describe("calcite-stepper", () => {
       expect(await getSelectedItemId()).toBe("step-2");
 
       if (hasContent) {
-        await page.$eval("#step-1", (item: HTMLCalciteStepperItemElement) =>
+        await page.$eval("#step-1", (item: StepperItem["el"]) =>
           item.shadowRoot.querySelector<HTMLElement>(".stepper-item-content").click(),
         );
 
@@ -703,7 +708,7 @@ describe("calcite-stepper", () => {
 
     const stepper = await page.find("calcite-stepper");
     const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
-    const messages = await import(`./assets/stepper/t9n/messages.json`);
+    const messages = await import("./assets/t9n/messages.json");
 
     expect(stepper.getAttribute("aria-label")).toEqual(messages.label);
     expect(stepperItem1.getAttribute("aria-current")).toEqual("step");
@@ -791,7 +796,7 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 2" id="step-2">
             <calcite-button id="button2">Click</calcite-button>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-2">
+          <calcite-stepper-item heading="Step 3" id="step-3">
             <calcite-button id="button3">Click</calcite-button>
           </calcite-stepper-item>
         </calcite-stepper>`,

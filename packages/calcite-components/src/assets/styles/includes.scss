@@ -1,7 +1,6 @@
-@import "~@esri/calcite-colors/dist/colors";
-@import "~@esri/calcite-base/dist/index";
-@import "~@esri/calcite-design-tokens/dist/scss/index";
-@import "~@esri/calcite-design-tokens/dist/scss/core";
+@import "@esri/calcite-base/dist/index";
+@import "@esri/calcite-design-tokens/dist/scss/index";
+@import "@esri/calcite-design-tokens/dist/scss/core";
 
 /* mixins & extensions */
 @import "animation";
@@ -164,7 +163,7 @@
       focus-base
       items-center
       m-0
-      rounded-half 
+      rounded-half
       transition-default;
 
     background-color: var(--calcite-close-background-color, var(--calcite-color-transparent));
@@ -192,4 +191,22 @@
       color: inherit;
     }
   }
+}
+
+// we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
+$common-animatable-props: "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform";
+
+// Mixin for default component transitions with support for customization:
+// - Use $extra-props to add specific properties (comma-separated string).
+// - Use $target-props to replace the default base properties entirely (comma-separated string).
+@mixin transition-default($target-props: $common-animatable-props, $extra-props: null) {
+  $merged-props: $target-props;
+
+  @if $extra-props != null {
+    $merged-props: join($target-props, $extra-props, comma);
+  }
+
+  transition-property: #{$merged-props};
+  transition-duration: var(--calcite-animation-timing);
+  transition-timing-function: ease-in-out;
 }

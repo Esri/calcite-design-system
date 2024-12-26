@@ -70,8 +70,14 @@
     color: var(--calcite-menu-item-text-color-hover, var(--calcite-color-text-2));
   }
 
+  &:hover {
+    @apply border-b-color-2;
+  }
+
   &:focus {
-    @apply focus-inset;
+    @apply focus-inset border-b-4;
+    padding-block-start: theme("spacing.1");
+    border-block-end-width: theme("spacing.1");
   }
 
   &:active {
