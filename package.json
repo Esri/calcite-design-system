@@ -67,10 +67,10 @@
     "@types/react-dom": "18.3.1",
     "@types/semver": "7.5.8",
     "@types/shell-quote": "1.7.5",
-    "@typescript-eslint/eslint-plugin": "8.18.1",
-    "@typescript-eslint/parser": "8.18.1",
-    "@typescript-eslint/rule-tester": "8.18.1",
-    "@typescript-eslint/utils": "8.18.1",
+    "@typescript-eslint/eslint-plugin": "8.18.2",
+    "@typescript-eslint/parser": "8.18.2",
+    "@typescript-eslint/rule-tester": "8.18.2",
+    "@typescript-eslint/utils": "8.18.2",
     "@vitest/coverage-v8": "2.1.8",
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.20",
@@ -91,7 +91,7 @@
     "eslint-plugin-jest": "28.10.0",
     "eslint-plugin-jsdoc": "50.6.1",
     "eslint-plugin-prettier": "5.2.1",
-    "eslint-plugin-react": "7.37.2",
+    "eslint-plugin-react": "7.37.3",
     "eslint-plugin-unicorn": "56.0.1",
     "globby": "14.0.2",
     "happy-dom": "15.11.7",
@@ -108,7 +108,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rimraf": "6.0.1",
-    "rollup": "4.28.1",
+    "rollup": "4.29.1",
     "semver": "7.6.3",
     "shell-quote": "1.8.2",
     "storybook": "8.4.7",
@@ -136,8 +136,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.2.2",
-    "@nx/nx-linux-x64-gnu": "20.2.2",
-    "@nx/nx-win32-x64-msvc": "20.2.2"
+    "@nx/nx-darwin-arm64": "20.3.0",
+    "@nx/nx-linux-x64-gnu": "20.3.0",
+    "@nx/nx-win32-x64-msvc": "20.3.0"
   }
 }
