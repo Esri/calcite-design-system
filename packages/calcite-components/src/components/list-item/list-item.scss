@@ -299,15 +299,26 @@
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-md);
   }
 }
+:host([scale="l"][display-mode="flat"][drag-handle][selection-mode="none"]),
+:host([scale="l"][display-mode="flat"][drag-handle][selection-appearance="border"]) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
 :host([scale="l"][display-mode="nested"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="l"][display-mode="nested"][drag-handle]) {
+  .container {
+    padding-inline-start: 0;
   }
 }
 :host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
