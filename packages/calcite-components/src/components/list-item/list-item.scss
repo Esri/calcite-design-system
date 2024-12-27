@@ -179,6 +179,12 @@
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
+:host([scale="s"][display-mode="flat"][drag-handle][selection-mode="none"]),
+:host([scale="s"][display-mode="flat"][drag-handle][selection-appearance="border"]) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
 :host([scale="s"][display-mode="nested"]) {
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
