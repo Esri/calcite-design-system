@@ -616,6 +616,11 @@ describe("calcite-autocomplete", () => {
     const page = await newE2EPage();
     await page.setContent(scrollHTML);
 
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.setProperty("open", true);
+
+    await page.waitForChanges();
+
     const scrollEl = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(0);
