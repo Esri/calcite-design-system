@@ -61,6 +61,18 @@ describe("calcite-list-item", () => {
         propertyName: "displayMode",
         defaultValue: "flat",
       },
+      {
+        propertyName: "iconStart",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconEnd",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -430,6 +442,29 @@ describe("calcite-list-item", () => {
     expect(openButton).toBe(null);
   });
 
+  it("renders with iconStart", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive" icon-start="banana"></calcite-list-item>`);
+
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).not.toBe(null);
+  });
+
+  it("renders with iconEnd", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive" icon-end="banana"></calcite-list-item>`);
+
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).not.toBe(null);
+  });
+
+  it("renders without iconStart or iconEnd", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);
+    const icon = await page.find(`calcite-list-item >>> .${CSS.icon}`);
+    expect(icon).toBe(null);
+  });
+
   describe("themed", () => {
     describe(`selection-appearance="icon"`, () => {
       themed(
@@ -442,6 +477,8 @@ describe("calcite-list-item", () => {
           bordered
           selection-mode="single"
           selection-appearance="icon"
+          icon-start="banana"
+          icon-end="banana"
         ></calcite-list-item>`,
         {
           "--calcite-list-background-color": {
@@ -492,6 +529,8 @@ describe("calcite-list-item", () => {
           bordered
           selection-mode="single"
           selection-appearance="border"
+          icon-start="banana"
+          icon-end="banana"
         ></calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": {

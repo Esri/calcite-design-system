@@ -354,18 +354,19 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
-    const chevron = this.hasChildren ? (
-      <calcite-icon
-        class={{
-          [CSS.chevron]: true,
-          [CSS_UTILITY.rtl]: rtl,
-        }}
-        data-test-id="icon"
-        icon={ICONS.chevronRight}
-        onClick={this.iconClickHandler}
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
+    const chevron =
+      this.hasChildren || this.selectionMode === "ancestors" ? (
+        <calcite-icon
+          class={{
+            [CSS.chevron]: true,
+            [CSS_UTILITY.rtl]: rtl,
+          }}
+          data-test-id="icon"
+          icon={this.hasChildren ? ICONS.chevronRight : ICONS.blank}
+          onClick={this.iconClickHandler}
+          scale={getIconScale(this.scale)}
+        />
+      ) : null;
     const defaultSlotNode: JsxNode = <slot key="default-slot" />;
 
     const checkbox =
@@ -382,7 +383,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             }
             scale={getIconScale(this.scale)}
           />
-          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
         </div>
       ) : null;
     const selectedIcon = showBulletPoint
@@ -433,7 +433,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -462,8 +462,13 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             >
               {chevron}
               {itemIndicator}
+              {checkbox ? checkbox : null}
               {this.iconStart ? iconStartEl : null}
-              {checkbox ? checkbox : defaultSlotNode}
+              {checkbox ? (
+                <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+              ) : (
+                defaultSlotNode
+              )}
             </div>
             <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapper}>
               {slotNode}

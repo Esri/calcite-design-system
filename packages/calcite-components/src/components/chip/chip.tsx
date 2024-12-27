@@ -20,7 +20,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
-import T9nStrings from "./assets/t9n/chip.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { styles } from "./chip.scss";
 

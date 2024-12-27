@@ -43,7 +43,7 @@ import {
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { styles } from "./input-time-zone.scss";
 
@@ -233,6 +233,7 @@ export class InputTimeZone
 
   // #region Public Methods
 
+  /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -386,21 +387,16 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
-    console.log("ovd");
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
-      console.log("bail");
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    const lbl =
+    this.comboboxEl.selectedItems[0].textLabel =
       !metadata.country || open
         ? label
         : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
-
-    console.log("label", lbl);
-    this.comboboxEl.selectedItems[0].textLabel = lbl;
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
