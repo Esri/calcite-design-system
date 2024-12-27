@@ -234,10 +234,16 @@
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][display-mode="flat"][drag-handle][selection-mode="none"]),
+:host([scale="m"][display-mode="flat"][drag-handle][selection-appearance="border"]) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
 :host([scale="m"][display-mode="nested"]) {
@@ -255,7 +261,7 @@
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs);
