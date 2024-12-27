@@ -341,6 +341,23 @@ export class Autocomplete
   }
 
   /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @example
+   * myAutocomplete.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.transitionEl?.scrollTo(options);
+  }
+
+  /**
    * Selects the text of the component's `value`.
    *
    * @returns {Promise<void>}
@@ -671,25 +688,33 @@ export class Autocomplete
         this.open = true;
         this.activeIndex =
           activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "ArrowUp":
         this.open = true;
         this.activeIndex =
           activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "Home":
         this.open = true;
         this.activeIndex = 0;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "End":
         this.open = true;
         this.activeIndex = enabledItems.length - 1;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
     }
+  }
+
+  private scrollToActiveItem(): void {
+    this.enabledItems[this.activeIndex]?.scrollIntoView({ block: "nearest" });
   }
 
   private changeHandler(event: CustomEvent): void {
