@@ -1,8 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "../../../src/components/menu-item/resources";
+import { Layout } from "./interfaces";
 
 describe("calcite-menu-item", () => {
   describe("renders", () => {
@@ -115,5 +118,179 @@ describe("calcite-menu-item", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
+
+  describe("theme", () => {
+    const menuWithSlottedSubmenuHTML = (layout: Layout): string => html`
+      <calcite-menu layout="${layout}">
+        <calcite-menu-item text="calcite-navigation" href="#calcite-menu">
+          <calcite-menu-item slot="submenu-item" text="Slots"></calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Css vars"></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>
+    `;
+    describe("slotted submenu", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-menu-item-action-background-color-hover": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-menu-item-action-background-color-press": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: { attribute: "class", value: "dropdown-action" } },
+        },
+        "--calcite-menu-item-action-background-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-menu-item-action-text-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-menu-item-action-text-color-press": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: { attribute: "class", value: "dropdown-action" } },
+        },
+        "--calcite-menu-item-sub-menu-border-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.dropdownMenuItems}`,
+          targetProp: "borderColor",
+        },
+      };
+      describe("horizontal layout", () => {
+        themed(menuWithSlottedSubmenuHTML("horizontal"), tokens);
+      });
+      //TODO: fix border for vertical layout
+      describe("vertical layout", () => {
+        themed(menuWithSlottedSubmenuHTML("vertical"), {
+          "--calcite-menu-item-sub-menu-corner-radius": {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.dropdownVertical}`,
+            targetProp: "borderRadius",
+          },
+        });
+      });
+    });
+
+    describe("default", () => {
+      const menuHTML: string = html`
+        <calcite-menu>
+          <calcite-menu-item text="Ideas"> </calcite-menu-item>
+        </calcite-menu>
+      `;
+      const tokens: ComponentTestTokens = {
+        "--calcite-menu-item-accent-color-hover": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "borderBlockEndColor",
+          state: "hover",
+        },
+        "--calcite-menu-item-background-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-menu-item-background-color-hover": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-menu-item-background-color-press": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
+        },
+        "--calcite-menu-item-text-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "color",
+        },
+        "--calcite-menu-item-text-color-hover": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-menu-item-text-color-press": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
+        },
+      };
+      themed(menuHTML, tokens);
+    });
+
+    describe("active", () => {
+      const activeMenuItemHTML: string = html`
+        <calcite-menu>
+          <calcite-menu-item text="Ideas" active> </calcite-menu-item>
+        </calcite-menu>
+      `;
+      const tokens: ComponentTestTokens = {
+        "--calcite-menu-item-accent-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "borderBlockEndColor",
+        },
+      };
+      themed(activeMenuItemHTML, tokens);
+    });
+
+    describe("icons", () => {
+      const iconMenuItemHTML: string = html` <calcite-menu>
+        <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" href="#calcite-menu">
+          <calcite-menu-item
+            href="#calcite-navigation-slots"
+            icon-start="add-in"
+            slot="submenu-item"
+            text="Slots"
+            active
+          ></calcite-menu-item>
+          <calcite-menu-item
+            href="#calcite-navigation-css-vars"
+            icon-start="multiple-variables"
+            slot="submenu-item"
+            text="Css vars"
+          ></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>`;
+
+      const tokens: ComponentTestTokens = {
+        "--calcite-menu-item-text-color": [
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.iconBreadcrumb}`,
+            targetProp: "color",
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.iconDropdown}`,
+            targetProp: "color",
+          },
+        ],
+      };
+      themed(iconMenuItemHTML, tokens);
+    });
   });
 });
