@@ -74,6 +74,13 @@ export class AutocompleteItem
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true }) iconStart: IconNameOrString;
 
+  /**
+   * Pattern for highlighting heading matches.
+   *
+   * @private
+   */
+  @property({ reflect: true }) inputValueMatchPattern: RegExp;
+
   /** Accessible name for the component. */
   @property() label: string;
 
@@ -143,14 +150,31 @@ export class AutocompleteItem
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            <div class={CSS.heading}>{heading}</div>
-            <div class={CSS.description}>{description}</div>
+            <div class={CSS.heading}>{this.renderTextContent(heading)}</div>
+            <div class={CSS.description}>{this.renderTextContent(description)}</div>
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}
         </div>
       </InteractiveContainer>
     );
+  }
+
+  private renderTextContent(text: string): string | (string | JsxNode)[] {
+    const pattern = this.inputValueMatchPattern;
+
+    if (!pattern || !text) {
+      return text;
+    }
+
+    const parts: (string | JsxNode)[] = text.split(pattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <mark class={CSS.textMatch}>{parts[1]}</mark>;
+    }
+
+    return parts;
   }
 
   private renderIcon(position: "start" | "end"): JsxNode {

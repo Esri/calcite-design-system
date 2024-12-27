@@ -11,7 +11,7 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import { debounce } from "lodash-es";
+import { debounce, escapeRegExp } from "lodash-es";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -129,6 +129,8 @@ export class Autocomplete
   referenceEl: Input["el"];
 
   transitionEl: HTMLDivElement;
+
+  private inputValueMatchPattern: RegExp;
 
   // #endregion
 
@@ -444,9 +446,18 @@ export class Autocomplete
       this.reposition(true);
     }
 
+    if (changes.has("inputValue") && (this.hasUpdated || this.inputValue)) {
+      this.inputValueMatchPattern =
+        this.inputValue && new RegExp(`(${escapeRegExp(this.inputValue)})`, "i");
+      this.updateItems();
+      this.updateGroups();
+      return;
+    }
+
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.updateItems();
       this.updateGroups();
+      return;
     }
 
     if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
@@ -566,6 +577,7 @@ export class Autocomplete
   private updateGroups(): void {
     this.groups.forEach((group, index, items) => {
       group.scale = this.scale;
+      group.inputValueMatchPattern = this.inputValueMatchPattern;
 
       if (index === 0) {
         group.disableSpacing = true;
@@ -591,6 +603,7 @@ export class Autocomplete
 
       item.active = isActive;
       item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;

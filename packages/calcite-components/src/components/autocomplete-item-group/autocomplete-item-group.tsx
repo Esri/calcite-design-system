@@ -37,6 +37,13 @@ export class AutocompleteItemGroup extends LitElement {
    */
   @property() heading: string;
 
+  /**
+   * Pattern for highlighting heading matches.
+   *
+   * @private
+   */
+  @property({ reflect: true }) inputValueMatchPattern: RegExp;
+
   /** Accessible name for the component. */
   @property() label: any;
 
@@ -68,11 +75,32 @@ export class AutocompleteItemGroup extends LitElement {
         role="group"
       >
         <div class={CSS.heading} role="presentation">
-          {this.heading}
+          {this.renderTextContent(this.heading)}
         </div>
         <slot />
       </div>
     );
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private renderTextContent(text: string): string | (string | JsxNode)[] {
+    const pattern = this.inputValueMatchPattern;
+
+    if (!pattern || !text) {
+      return text;
+    }
+
+    const parts: (string | JsxNode)[] = text.split(pattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <mark class={CSS.textMatch}>{parts[1]}</mark>;
+    }
+
+    return parts;
   }
 
   // #endregion

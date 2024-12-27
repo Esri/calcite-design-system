@@ -61,6 +61,12 @@
   color: var(--calcite-autocomplete-heading-text-color, var(--calcite-color-text-1));
 }
 
+.text-match {
+  font-weight: var(--calcite-font-weight-bold);
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-foreground-current);
+}
+
 .heading,
 .description {
   line-height: var(--calcite-font-line-height-relative-snug);
