@@ -204,12 +204,7 @@ describe("calcite-menu-item", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-menu-item-background-color-press": {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
-        },
+        //failing if press tokens are ahead in the order
         "--calcite-menu-item-text-color": {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
@@ -225,6 +220,12 @@ describe("calcite-menu-item", () => {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "color",
+          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
+        },
+        "--calcite-menu-item-background-color-press": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
           state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
         },
       };
@@ -249,14 +250,7 @@ describe("calcite-menu-item", () => {
 
     describe("icons", () => {
       const iconMenuItemHTML: string = html` <calcite-menu>
-        <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" href="#calcite-menu">
-          <calcite-menu-item
-            href="#calcite-navigation-slots"
-            icon-start="add-in"
-            slot="submenu-item"
-            text="Slots"
-            active
-          ></calcite-menu-item>
+        <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers">
           <calcite-menu-item
             href="#calcite-navigation-css-vars"
             icon-start="multiple-variables"
