@@ -382,7 +382,7 @@ export async function getFocusedElementProp(
 /**
  * Custom integer matcher to use with object matchers.
  *
- * @see https://jasmine.github.io/tutorials/custom_argument_matchers
+ * @see [Custom Asymmetric Equality Testers](https://jasmine.github.io/tutorials/custom_asymmetric_equality_testers).
  */
 export function toBeInteger(): any {
   return {
@@ -399,7 +399,7 @@ export function toBeInteger(): any {
 /**
  * Custom number matcher to use with object matchers.
  *
- * @see https://jasmine.github.io/tutorials/custom_argument_matchers
+ * @see [Custom Asymmetric Equality Testers](https://jasmine.github.io/tutorials/custom_asymmetric_equality_testers).
  */
 export function toBeNumber(): any {
   return {
