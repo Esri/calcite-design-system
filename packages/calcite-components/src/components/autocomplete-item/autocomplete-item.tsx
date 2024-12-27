@@ -75,7 +75,7 @@ export class AutocompleteItem
   @property({ reflect: true }) iconStart: IconNameOrString;
 
   /**
-   * Pattern for highlighting heading matches.
+   * Pattern for highlighting text matches.
    *
    * @private
    */

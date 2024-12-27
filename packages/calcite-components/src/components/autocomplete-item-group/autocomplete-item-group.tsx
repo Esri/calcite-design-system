@@ -38,7 +38,7 @@ export class AutocompleteItemGroup extends LitElement {
   @property() heading: string;
 
   /**
-   * Pattern for highlighting heading matches.
+   * Pattern for highlighting text matches.
    *
    * @private
    */
