@@ -11,8 +11,11 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -793,6 +796,15 @@ describe("calcite-rating", () => {
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(element).toEqualAttribute("value", "2");
+    });
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-rating></calcite-rating>`, {
+      "--calcite-rating-idle-unselected-color": {
+        shadowSelector: `.${CSS.star}`,
+        targetProp: "color",
+      },
     });
   });
 });

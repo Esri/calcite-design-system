@@ -37,6 +37,7 @@ import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
+import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
@@ -132,7 +133,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection}</div>
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${rating}</div>
       <div class="demo-column">${alert}</div>
     </div>
   </div>`;
@@ -164,6 +165,7 @@ const componentTokens = {
   ...navigationUserTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...ratingTokens,
   ...sliderTokens,
   ...switchTokens,
   ...tabsTokens,
