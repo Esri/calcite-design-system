@@ -1,7 +1,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
@@ -363,6 +363,39 @@ describe("calcite-pagination", () => {
       );
       const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
       expect(hiddenChevrons.length).toBe(0);
+    });
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+      /*"--calcite-pagination-spacing": {
+        shadowSelector: `.${CSS.list}`,
+        targetProp: "columnGap",
+      },*/
+      "--calcite-pagination-width": [
+        {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "minInlineSize",
+        },
+        {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "minInlineSize",
+        },
+        {
+          shadowSelector: `.${CSS.ellipsis}`,
+          targetProp: "minInlineSize",
+        },
+      ],
+      "--calcite-pagination-color": [
+        {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `.${CSS.ellipsis}`,
+          targetProp: "color",
+        },
+      ],
     });
   });
 });

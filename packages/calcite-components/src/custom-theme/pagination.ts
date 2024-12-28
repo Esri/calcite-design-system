@@ -1,5 +1,16 @@
 import { html } from "../../support/formatting";
 
+export const paginationTokens = {
+  calcitePaginationSpacing: "",
+  calcitePaginationWidth: "",
+  calcitePaginationColor: "",
+  calcitePaginationSelectedColorHover: "",
+  calcitePaginationHoverBottomBorderColor: "",
+  calcitePaginationSelectedBottomBorderColor: "",
+  calcitePaginationActiveBackgroundColor: "",
+  calcitePaginationHoverChevronBackgroundColor: "",
+};
+
 export const pagination = html`<calcite-pagination
   total-items="1200"
   page-size="100"
