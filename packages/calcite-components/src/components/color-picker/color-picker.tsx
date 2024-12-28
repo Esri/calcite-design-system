@@ -56,7 +56,7 @@ import {
   SCOPE_SIZE,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
-import T9nStrings from "./assets/t9n/color-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 
 declare global {
@@ -325,8 +325,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
    *
    * @default
    *
-   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/color-picker/interfaces.ts#L10).
    */
   @property()
   get value(): ColorValue | null {

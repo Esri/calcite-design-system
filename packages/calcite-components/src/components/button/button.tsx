@@ -32,7 +32,7 @@ import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
-import T9nStrings from "./assets/t9n/button.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
@@ -107,8 +107,9 @@ export class Button
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
-   * Without a value, the browser will suggest a filename/extension
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   * Without a value, the browser will suggest a filename/extension.
+   *
+   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -185,7 +186,7 @@ export class Button
   @property({ reflect: true }) type = "button";
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
-  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   // #endregion
 

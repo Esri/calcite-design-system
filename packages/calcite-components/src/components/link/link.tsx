@@ -53,8 +53,9 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
-   * Without a value, the browser will suggest a filename/extension
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   * Without a value, the browser will suggest a filename/extension.
+   *
+   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 

@@ -26,7 +26,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
-import T9nStrings from "./assets/t9n/tab-title.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./tab-title.scss";
 
@@ -204,7 +204,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/tab/interfaces.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
@@ -212,7 +212,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/tab/interfaces.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });

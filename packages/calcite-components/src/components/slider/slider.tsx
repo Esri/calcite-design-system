@@ -209,7 +209,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/graph/interfaces.ts#L5).
    */
   @property() histogram: DataSeries;
 
@@ -995,15 +995,14 @@ export class Slider
    * @private
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
-    const hostBounds = this.el.getBoundingClientRect();
-    const buffer = 7;
+    const { left, right } = this.el.getBoundingClientRect();
 
-    if (leftBounds + buffer < hostBounds.left) {
-      return hostBounds.left - leftBounds - buffer;
+    if (leftBounds < left) {
+      return left - leftBounds;
     }
 
-    if (rightBounds - buffer > hostBounds.right) {
-      return -(rightBounds - hostBounds.right) + buffer;
+    if (rightBounds > right) {
+      return -(rightBounds - right);
     }
 
     return 0;

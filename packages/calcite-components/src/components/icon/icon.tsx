@@ -48,12 +48,15 @@ export class Icon extends LitElement {
   /**
    * Displays a specific icon.
    *
-   * @see [Icons](https://esri.github.io/calcite-ui-icons)
+   * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
   @property({
     reflect: true,
   })
   icon: IconNameOrString = null;
+
+  /** When true, it loads preloads the icon data. */
+  @property({ reflect: true }) preload = false;
 
   /** Specifies the size of the component. */
   @property({
@@ -73,6 +76,12 @@ export class Icon extends LitElement {
   // #region Lifecycle
 
   override connectedCallback(): void {
+    if (this.preload) {
+      this.visible = true;
+      this.loadIconPathData();
+      return;
+    }
+
     if (!this.visible) {
       this.waitUntilVisible(() => {
         this.visible = true;

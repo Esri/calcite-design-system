@@ -116,12 +116,12 @@ describe("calcite-stepper", () => {
     `);
     const stepperItems = await page.findAll("calcite-stepper-items");
 
-    stepperItems.forEach(async (item) => {
+    for (const item of stepperItems) {
       expect(await item.getProperty("icon")).toBe(true);
       expect(await item.getProperty("layout")).toBe("vertical");
       expect(await item.getProperty("scale")).toBe("l");
       expect(await item.getProperty("numbered")).toBe(true);
-    });
+    }
   });
 
   describe.skip("honors hidden attribute", () => {

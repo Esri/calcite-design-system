@@ -158,7 +158,7 @@ export class Select
   @property() value: string = null;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
-  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   // #endregion
 
@@ -293,7 +293,7 @@ export class Select
       option.value = optionOrGroup.value;
 
       // need to set innerText for mobile
-      // see https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701
+      // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
       option.innerText = optionOrGroup.label;
     }
   }

@@ -14,19 +14,19 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { useT9n } from "../../controllers/useT9n";
-import type { CalciteMenuItem } from "../menu-item/menu-item";
-import T9nStrings from "./assets/t9n/menu.t9n.en.json";
+import type { MenuItem } from "../menu-item/menu-item";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-menu": CalciteMenu;
+    "calcite-menu": Menu;
   }
 }
 
 type Layout = "horizontal" | "vertical";
 
-export class CalciteMenu extends LitElement implements LoadableComponent {
+export class Menu extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -39,7 +39,7 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
 
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
-  private menuItems: CalciteMenuItem["el"][] = [];
+  private menuItems: MenuItem["el"][] = [];
 
   // #endregion
 
@@ -113,7 +113,7 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
   }
 
   private calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
-    const target = event.target as CalciteMenuItem["el"];
+    const target = event.target as MenuItem["el"];
     const submenuItems = event.detail.children;
     const key = event.detail.event.key;
     event.stopPropagation();
@@ -147,29 +147,29 @@ export class CalciteMenu extends LitElement implements LoadableComponent {
         focusElementInGroup(this.menuItems, target, "previous", false);
       } else {
         if (event.detail.isSubmenuOpen) {
-          this.focusParentElement(event.target as CalciteMenuItem["el"]);
+          this.focusParentElement(event.target as MenuItem["el"]);
         }
       }
     } else if (key === "Escape") {
-      this.focusParentElement(event.target as CalciteMenuItem["el"]);
+      this.focusParentElement(event.target as MenuItem["el"]);
     }
     event.preventDefault();
   }
 
   private handleMenuSlotChange(event: Event): void {
-    this.menuItems = slotChangeGetAssignedElements<CalciteMenuItem["el"]>(event);
+    this.menuItems = slotChangeGetAssignedElements<MenuItem["el"]>(event);
     this.setMenuItemLayout(this.menuItems, this.layout);
   }
 
-  private focusParentElement(el: CalciteMenuItem["el"]): void {
-    const parentEl = el.parentElement as CalciteMenuItem["el"];
+  private focusParentElement(el: MenuItem["el"]): void {
+    const parentEl = el.parentElement as MenuItem["el"];
     if (parentEl) {
       focusElement(parentEl);
       parentEl.open = false;
     }
   }
 
-  private setMenuItemLayout(items: CalciteMenuItem["el"][], layout: Layout): void {
+  private setMenuItemLayout(items: MenuItem["el"][], layout: Layout): void {
     items.forEach((item) => {
       item.layout = layout;
       if (this.getEffectiveRole() === "menubar") {

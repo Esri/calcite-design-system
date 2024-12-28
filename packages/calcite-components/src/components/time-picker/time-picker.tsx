@@ -31,7 +31,7 @@ import {
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/time-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
 
 declare global {

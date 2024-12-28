@@ -23,19 +23,19 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
-import T9nStrings from "./assets/t9n/menu-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-menu-item": CalciteMenuItem;
+    "calcite-menu-item": MenuItem;
   }
 }
 
 type Layout = "horizontal" | "vertical";
 
 /** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
-export class CalciteMenuItem extends LitElement implements LoadableComponent {
+export class MenuItem extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -56,7 +56,7 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
 
   @state() hasSubmenu = false;
 
-  @state() submenuItems: CalciteMenuItem["el"][];
+  @state() submenuItems: MenuItem["el"][];
 
   // #endregion
 
@@ -206,7 +206,7 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
   }
 
   private focusHandler(event: FocusEvent): void {
-    const target = event.target as CalciteMenuItem["el"];
+    const target = event.target as MenuItem["el"];
     this.isFocused = true;
     if (target.open && !this.open) {
       target.open = false;
@@ -214,7 +214,7 @@ export class CalciteMenuItem extends LitElement implements LoadableComponent {
   }
 
   private handleMenuItemSlotChange(event: Event): void {
-    this.submenuItems = slotChangeGetAssignedElements<CalciteMenuItem["el"]>(event);
+    this.submenuItems = slotChangeGetAssignedElements<MenuItem["el"]>(event);
     this.submenuItems.forEach((item) => {
       if (!item.topLevelMenuLayout) {
         item.topLevelMenuLayout = this.topLevelMenuLayout;

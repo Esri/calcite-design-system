@@ -705,6 +705,14 @@ describe("calcite-combobox", () => {
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
     }
+
+    const totalItems = 11;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
+    }
   });
 
   it("should control max items displayed with group", async () => {
@@ -739,6 +747,14 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+
+    const totalItems = 11;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
     }
   });
 
@@ -780,6 +796,14 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+
+    const totalItems = 16;
+    element.setProperty("maxItems", totalItems);
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(true);
     }
   });
 
@@ -1463,7 +1487,7 @@ describe("calcite-combobox", () => {
     });
 
     it("tab will close the item group if it’s open", async () => {
-      skipAnimations(page);
+      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -2350,10 +2374,10 @@ describe("calcite-combobox", () => {
     `);
     const comboboxItems = await page.findAll("calcite-combobox-items");
 
-    comboboxItems.forEach(async (item) => {
+    for (const item of comboboxItems) {
       expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("l");
-    });
+    }
   });
 
   describe("custom input value when clicked outside of the component", () => {

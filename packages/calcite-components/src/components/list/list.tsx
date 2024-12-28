@@ -11,7 +11,13 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
-import { openAncestors, updateListItemChildren } from "../list-item/utils";
+import {
+  listItemGroupSelector,
+  listItemSelector,
+  listSelector,
+  openAncestors,
+  updateListItemChildren,
+} from "../list-item/utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -32,7 +38,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/list.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
@@ -42,9 +48,7 @@ declare global {
   }
 }
 
-const listItemSelector = "calcite-list-item";
-const listItemGroupSelector = "calcite-list-item-group";
-const parentSelector = `${listItemGroupSelector}, calcite-list-item`;
+const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -78,17 +82,16 @@ export class List
 
   private listItems: ListItem["el"][] = [];
 
-  mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ performFilter: true }),
-  );
+  mutationObserver = createObserver("mutation", () => {
+    this.willPerformFilter = true;
+    this.updateListItems();
+  });
 
   private parentListEl: List["el"];
 
   sortable: Sortable;
 
-  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
-    const performFilter = options?.performFilter ?? false;
-
+  private updateListItems = debounce((): void => {
     this.updateGroupItems();
 
     const {
@@ -98,7 +101,6 @@ export class List
       dragEnabled,
       el,
       filterEl,
-      filterEnabled,
       moveToItems,
       displayMode,
       scale,
@@ -111,7 +113,7 @@ export class List
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
-      if (item.closest("calcite-list") === el) {
+      if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
@@ -126,7 +128,8 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && performFilter) {
+    if (this.filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
       if (filterEl) {
@@ -148,6 +151,9 @@ export class List
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
 
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willPerformFilter: boolean = false;
+
   // #endregion
 
   // #region State Properties
@@ -163,6 +169,24 @@ export class List
   @state() hasFilterNoResults = false;
 
   @state() moveToItems: MoveTo[] = [];
+
+  @state() get hasActiveFilter(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.filteredItems.length !== this.visibleItems.length
+    );
+  }
+
+  @state() get showNoResultsContainer(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.hasFilterNoResults &&
+      this.visibleItems.length &&
+      !this.filteredItems.length
+    );
+  }
 
   // #endregion
 
@@ -182,6 +206,20 @@ export class List
 
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
+
+  /**
+   * Specifies a function to handle filtering.
+   *
+   * @example
+   * myList.filterPredicate = (myListItem) => {
+   *   // returns true to show the list item if some condition is met
+   *   return myListItem.label.includes("someValue");
+   * };
+   */
+  @property() filterPredicate?: (item: ListItem["el"]) => boolean;
+
+  /** Specifies an accessible name for the filter input field. */
+  @property({ reflect: true }) filterLabel: string;
 
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
@@ -228,8 +266,10 @@ export class List
    * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
+   *
+   * @required
    */
-  @property() label!: string;
+  @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -244,18 +284,20 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the nesting behavior. */
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
-
-  /**
-   * One of the items within the list can be opened.
-   *
-   * @private
-   */
-  @property() openable = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -362,7 +404,8 @@ export class List
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
     this.setUpSorting();
     this.setParentList();
   }
@@ -382,12 +425,8 @@ export class List
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText")) {
-      this.handleFilterTextChange();
-    }
-
-    if (changes.has("filterProps")) {
-      this.handleFilterPropsChange();
+    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
+      this.performFilter();
     }
 
     if (
@@ -397,7 +436,9 @@ export class List
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
-      (changes.has("displayMode") && this.hasUpdated)
+      (changes.has("displayMode") && this.hasUpdated) ||
+      (changes.has("scale") && this.hasUpdated) ||
+      (changes.has("filterPredicate") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -420,16 +461,9 @@ export class List
 
   // #region Private Methods
 
-  private async handleFilterTextChange(): Promise<void> {
-    this.performFilter();
-  }
-
-  private async handleFilterPropsChange(): Promise<void> {
-    this.performFilter();
-  }
-
   private handleListItemChange(): void {
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -605,7 +639,7 @@ export class List
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -637,7 +671,9 @@ export class List
     }
   }
 
-  private updateSelectedItems(emit = false): void {
+  private async updateSelectedItems(emit = false): Promise<void> {
+    await this.updateComplete;
+
     this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
@@ -699,13 +735,18 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText, filterPredicate } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
+    const filteredItems = filterPredicate
+      ? visibleItems.filter(filterPredicate)
+      : !filterText
+        ? visibleItems || []
+        : filteredData.map((item) => item.el);
+
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -982,10 +1023,9 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
-      filteredItems,
+      filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
-      hasFilterNoResults,
       effectiveFilterProps,
     } = this;
     return (
@@ -1020,6 +1060,7 @@ export class List
                         disabled={disabled}
                         filterProps={effectiveFilterProps}
                         items={dataForFilter}
+                        label={filterLabel}
                         oncalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
@@ -1043,7 +1084,7 @@ export class List
           <div
             ariaLive="polite"
             data-test-id="no-results-container"
-            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+            hidden={!this.showNoResultsContainer}
           >
             <slot
               name={SLOTS.filterNoResults}
@@ -1062,9 +1103,6 @@ export class List
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
-      filterEnabled,
-      filterText,
-      filteredData,
     } = this;
 
     numberStringFormatter.numberFormatOptions = {
@@ -1074,7 +1112,7 @@ export class List
 
     return !parentListEl ? (
       <div ariaLive="polite" class={CSS.assistiveText}>
-        {filterEnabled && filterText && filteredData?.length ? (
+        {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}
         <div key="aria-item-count">

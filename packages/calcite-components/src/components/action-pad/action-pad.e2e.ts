@@ -357,9 +357,9 @@ describe("calcite-action-pad", () => {
 
     const groups = await page.findAll("calcite-action-group");
 
-    groups.forEach(async (group) => {
-      expect(await group.getProperty("layout")).toBe("vertical");
-    });
+    for (const childGroup of groups) {
+      expect(await childGroup.getProperty("layout")).toBe("vertical");
+    }
   });
 
   describe("theme", () => {
