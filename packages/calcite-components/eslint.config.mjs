@@ -1,3 +1,5 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import cspellPluginRecommended from "@cspell/eslint-plugin/recommended";
 import { fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -11,8 +13,6 @@ import jsdocPlugin from "eslint-plugin-jsdoc";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,12 +27,7 @@ export default [
     ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
   },
 
-  ...compat.extends(
-    "eslint:recommended",
-    "plugin:@esri/calcite-components/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-  ),
+  ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"),
 
   cspellPluginRecommended,
   jestPlugin.configs["flat/recommended"],
@@ -166,8 +161,8 @@ export default [
         },
       ],
 
-      "@esri/calcite-components/enforce-ref-last-prop": "off",
-      "@esri/calcite-components/strict-boolean-attributes": "off",
+      "@esri/calcite-components/no-dynamic-createelement": "warn",
+      "@esri/calcite-components/strict-boolean-attributes": "error",
       "@esri/calcite-components/ban-events": [
         "warn",
         {
@@ -237,6 +232,15 @@ export default [
           checkFilenames: false,
         },
       ],
+    },
+  },
+
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      globals: {
+        module: "writable",
+      },
     },
   },
 
