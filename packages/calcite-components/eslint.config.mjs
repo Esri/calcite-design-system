@@ -13,6 +13,7 @@ import jsdocPlugin from "eslint-plugin-jsdoc";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
+import vitestPlugin from "eslint-plugin-vitest";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,7 @@ export default [
 
   ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"),
 
+  vitestPlugin.configs.recommended,
   cspellPluginRecommended,
   jestPlugin.configs["flat/recommended"],
   jsdocPlugin.configs["flat/recommended"],
@@ -44,6 +46,7 @@ export default [
       jest: jestPlugin,
       prettier: prettierPlugin,
       unicorn: unicornPlugin,
+      vitest: vitestPlugin,
     },
 
     languageOptions: {
@@ -132,9 +135,6 @@ export default [
           ],
         },
       ],
-
-      "jest/expect-expect": "off",
-      "jest/no-export": "warn",
 
       curly: "error",
       "one-var": ["error", "never"],
@@ -232,6 +232,7 @@ export default [
           checkFilenames: false,
         },
       ],
+      "vitest/expect-expect": "off",
     },
   },
 
