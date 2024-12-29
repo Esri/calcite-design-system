@@ -13,7 +13,7 @@ import jsdocPlugin from "eslint-plugin-jsdoc";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
-import vitestPlugin from "eslint-plugin-vitest";
+import vitestPlugin from "@vitest/eslint-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
