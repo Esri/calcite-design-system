@@ -1081,6 +1081,7 @@ export class Input
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
+          // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
@@ -1123,6 +1124,7 @@ export class Input
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
           onKeyDown={this.inputKeyDownHandler}
+          // eslint-disable-next-line react/forbid-component-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}

@@ -110,9 +110,13 @@ export default [
         },
       ],
 
+      "jsdoc/check-param-names": "off",
       "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param-description": "off",
       "jsdoc/require-param-type": "off",
       "jsdoc/require-property-type": "off",
+      "jsdoc/require-returns": "off",
+      "jsdoc/require-returns-description": "off",
       "jsdoc/require-returns-type": "off",
       "jsdoc/check-tag-names": "off",
       "jsdoc/tag-lines": [
