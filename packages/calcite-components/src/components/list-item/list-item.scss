@@ -147,8 +147,7 @@
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
 }
 
-:host([display-mode="flat"][drag-handle][selection-mode="none"]),
-:host([display-mode="flat"][drag-handle][selection-appearance="border"]) {
+:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
   .drag-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
