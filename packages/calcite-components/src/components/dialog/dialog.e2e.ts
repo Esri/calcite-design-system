@@ -215,7 +215,7 @@ describe("calcite-dialog", () => {
     ]);
   });
 
-  describe("accessible", async () => {
+  describe("accessible", () => {
     accessible(async () => {
       const page = await newE2EPage();
 
