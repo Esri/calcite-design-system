@@ -135,7 +135,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${comboboxItem}
       </div>
       <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block}</div>
-      <div class="demo-column">${alert}</div></div>
+      <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
     </div>
   </div>`;

@@ -168,7 +168,6 @@ describe("calcite-menu-item", () => {
       describe("horizontal layout", () => {
         themed(menuWithSlottedSubmenuHTML("horizontal"), tokens);
       });
-      //TODO: fix border for vertical layout
       describe("vertical layout", () => {
         themed(menuWithSlottedSubmenuHTML("vertical"), {
           "--calcite-menu-item-sub-menu-corner-radius": {
