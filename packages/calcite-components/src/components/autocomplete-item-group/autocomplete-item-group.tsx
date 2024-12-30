@@ -1,5 +1,6 @@
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
+import { mark } from "../../utils/text";
 import { CSS } from "./resources";
 import { styles } from "./autocomplete-item-group.scss";
 
@@ -75,32 +76,15 @@ export class AutocompleteItemGroup extends LitElement {
         role="group"
       >
         <div class={CSS.heading} role="presentation">
-          {this.renderTextContent(this.heading)}
+          {mark({
+            text: this.heading,
+            className: CSS.textMatch,
+            pattern: this.inputValueMatchPattern,
+          })}
         </div>
         <slot />
       </div>
     );
-  }
-
-  // #endregion
-
-  // #region Private Methods
-
-  private renderTextContent(text: string): string | (string | JsxNode)[] {
-    const pattern = this.inputValueMatchPattern;
-
-    if (!pattern || !text) {
-      return text;
-    }
-
-    const parts: (string | JsxNode)[] = text.split(pattern);
-
-    if (parts.length > 1) {
-      // we only highlight the first match
-      parts[1] = <mark class={CSS.textMatch}>{parts[1]}</mark>;
-    }
-
-    return parts;
   }
 
   // #endregion

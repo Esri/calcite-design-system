@@ -13,6 +13,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
+import { mark } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
@@ -135,7 +136,7 @@ export class AutocompleteItem
   // #region Rendering
 
   override render(): JsxNode {
-    const { active, description, heading, disabled } = this;
+    const { active, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -150,31 +151,26 @@ export class AutocompleteItem
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            <div class={CSS.heading}>{this.renderTextContent(heading)}</div>
-            <div class={CSS.description}>{this.renderTextContent(description)}</div>
+            <div class={CSS.heading}>
+              {mark({
+                text: heading,
+                className: CSS.textMatch,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
+            <div class={CSS.description}>
+              {mark({
+                text: description,
+                className: CSS.textMatch,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}
         </div>
       </InteractiveContainer>
     );
-  }
-
-  private renderTextContent(text: string): string | (string | JsxNode)[] {
-    const pattern = this.inputValueMatchPattern;
-
-    if (!pattern || !text) {
-      return text;
-    }
-
-    const parts: (string | JsxNode)[] = text.split(pattern);
-
-    if (parts.length > 1) {
-      // we only highlight the first match
-      parts[1] = <mark class={CSS.textMatch}>{parts[1]}</mark>;
-    }
-
-    return parts;
   }
 
   private renderIcon(position: "start" | "end"): JsxNode {
