@@ -57,8 +57,6 @@
 
 .text-match {
   font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-color-text-1);
-  background-color: var(--calcite-color-foreground-current);
 }
 
 @include base-component();
