@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 import { LuminaJsx } from "@arcgis/lumina";
 import { E2EElement, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";

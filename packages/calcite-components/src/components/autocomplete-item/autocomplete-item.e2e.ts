@@ -43,10 +43,6 @@ describe("calcite-autocomplete-item", () => {
     disabled("calcite-autocomplete-item", { focusTarget: "none" });
   });
 
-  describe("slots", () => {
-    slots("calcite-autocomplete-item", SLOTS);
-  });
-
   describe("theme", () => {
     themed("calcite-autocomplete-item", {
       "--calcite-autocomplete-background-color": {
