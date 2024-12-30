@@ -55,10 +55,4 @@
   padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit);
 }
 
-.text-match {
-  font-weight: var(--calcite-font-weight-bold);
-  background-color: transparent;
-  color: inherit;
-}
-
 @include base-component();
