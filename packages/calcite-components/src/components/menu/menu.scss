@@ -1,9 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+* @prop --calcite-menu-background-color: Specifies the background color of the component.
+ */
+
 :host {
   @apply flex;
 }
 
 ul {
   @apply inline-flex items-center h-full m-0 p-0;
+  background-color: var(--calcite-menu-background-color, var(--calcite-color-transparent));
 }
 
 :host([layout="vertical"]) ul {

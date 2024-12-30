@@ -3,17 +3,14 @@ import { html } from "../../support/formatting";
 export const menuItemTokens = {
   calciteMenuItemAccentColor: "",
   calciteMenuItemAccentColorHover: "",
-  calciteMenuItemActionBackgroundColor: "",
-  calciteMenuItemActionBackgroundColorHover: "",
-  calciteMenuItemActionBackgroundColorPress: "",
-  calciteMenuItemBackgroundColor: "",
-  calciteMenuItemBackgroundColorHover: "",
-  calciteMenuItemBackgroundColorPress: "",
+  calciteMenuBackgroundColor: "",
+  calciteMenuBackgroundColorHover: "",
+  calciteMenuBackgroundColorPress: "",
   calciteMenuItemSubMenuBorderColor: "",
   calciteMenuItemSubMenuCornerRadius: "",
-  calciteMenuItemTextColor: "",
-  calciteMenuItemTextColorHover: "",
-  calciteMenuItemTextColorPress: "",
+  calciteMenuTextColor: "",
+  calciteMenuTextColorHover: "",
+  calciteMenuTextColorPress: "",
 };
 const menuHTML = (layout: string) => html`<calcite-menu layout="${layout}>
       <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" open>
