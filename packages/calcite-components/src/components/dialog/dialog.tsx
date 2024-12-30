@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";

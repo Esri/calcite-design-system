@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem, numberStringFormatter } from "./locale";
 import { decimalPlaces } from "./math";
 import { isValidNumber } from "./number";

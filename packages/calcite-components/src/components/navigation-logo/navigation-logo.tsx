@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import {
   LoadableComponent,

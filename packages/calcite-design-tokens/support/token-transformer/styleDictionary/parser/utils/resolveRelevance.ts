@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 /**
  * This is a copy/extension of sd-transforms/src/parsers/resolveReference.ts but now with better types!
  */

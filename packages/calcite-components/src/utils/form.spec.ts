@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, vi } from "vitest";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "./form";
 
