@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-rating-spacing-unit: Specifies the amount of left and right margin spacing between each item.
- * @prop --calcite-rating-hover-selected-color: Specifies the component's item color when hovered or selected.
- * @prop --calcite-rating-idle-unselected-color: Specifies the component's item color when idle or unselected.
+ * @prop --calcite-rating-selected-color-hover: Specifies the component's item color when hovered or selected.
+ * @prop --calcite-rating-color: Specifies the component's item color.
  * @prop --calcite-rating-average-color: Specifies the component's item color when average is set.
  * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
@@ -56,7 +56,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  color: var(--calcite-rating-idle-unselected-color, theme("borderColor.color.input"));
+  color: var(--calcite-rating-color, theme("borderColor.color.input"));
   &:focus {
     @apply focus-outset;
   }
@@ -69,7 +69,7 @@
 
 .hovered,
 .selected {
-  color: var(--calcite-rating-hover-selected-color, theme("colors.brand"));
+  color: var(--calcite-rating-selected-color-hover, theme("colors.brand"));
 }
 
 .fraction {
