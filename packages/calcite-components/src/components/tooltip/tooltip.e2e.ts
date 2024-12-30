@@ -1,5 +1,5 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
@@ -1201,6 +1201,54 @@ describe("calcite-tooltip", () => {
       await other.focus();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(false);
+    });
+  });
+
+  describe("warning messages", () => {
+    let consoleSpy: MockInstance;
+
+    beforeEach(
+      () =>
+        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+          // hide warning messages during test
+        })),
+    );
+
+    afterEach(() => consoleSpy.mockClear());
+
+    it("does not warn if reference element is present", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          <div id="ref">referenceElement</div>`,
+      );
+      await page.waitForChanges();
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it("does not warn after removal", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          <div id="ref">referenceElement</div>`,
+      );
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      await tooltip.callMethod("remove");
+      await page.waitForChanges();
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it("warns if reference element is not present", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>`);
+      await page.waitForChanges();
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
+      );
     });
   });
 

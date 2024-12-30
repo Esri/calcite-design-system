@@ -869,18 +869,18 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
-      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true })).toBe(true);
 
       await inputTimePicker.click();
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
-      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true })).toBe(true);
 
       await input.click();
       await page.waitForChanges();
 
-      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true }));
+      expect(await isElementFocused(page, "calcite-input-text", { shadowed: true })).toBe(true);
     });
 
     it("toggles the time picker when using arrow down/escape key", async () => {
