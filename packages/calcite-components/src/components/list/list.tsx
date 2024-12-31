@@ -38,7 +38,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import type { ListElement } from "./interfaces";
+import { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
@@ -224,7 +224,7 @@ export class List
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -686,7 +686,7 @@ export class List
     visibleParents,
   }: {
     el: ListElement;
-    filteredItems: ListElement[];
+    filteredItems: ListItem["el"][];
     visibleParents: WeakSet<ListElement>;
   }): void {
     const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el as ListItem["el"]);
