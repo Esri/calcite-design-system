@@ -148,12 +148,10 @@ export function getLocaleHourFormat(locale: SupportedLocale): EffectiveHourForma
 
 export function getLocaleOppositeHourFormat(locale: SupportedLocale): EffectiveHourFormat {
   const localeDefaultHourFormat = getLocaleHourFormat(locale);
-  if (localeDefaultHourFormat === "12") {
-    return "24";
-  }
   if (localeDefaultHourFormat === "24") {
     return "12";
   }
+  return "24";
 }
 
 /**
