@@ -1915,8 +1915,7 @@ describe("calcite-list", () => {
       const list = await page.find("calcite-list");
       await filter.callMethod("setFocus");
       await page.waitForChanges();
-      expect(await list.getProperty("filteredResults")).toHaveLength(9);
-      expect(await list.getProperty("filteredItems")).toHaveLength(9);
+      expect(await list.getProperty("filteredItems")).toHaveLength(6);
 
       const group1 = await page.find("#recreation");
       const group2 = await page.find("#buildings");
@@ -1926,8 +1925,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("Bui");
-      expect(await list.getProperty("filteredResults")).toHaveLength(1);
-      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
 
       expect(await group1.isVisible()).toBe(false);
       await assertDescendantItems(page, "#recreation", false);
@@ -1940,8 +1938,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("");
-      expect(await list.getProperty("filteredResults")).toHaveLength(9);
-      expect(await list.getProperty("filteredItems")).toHaveLength(9);
+      expect(await list.getProperty("filteredItems")).toHaveLength(6);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", true);
@@ -1954,8 +1951,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("Bea");
-      expect(await list.getProperty("filteredResults")).toHaveLength(1);
-      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", false);
@@ -1968,8 +1964,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("Be");
-      expect(await list.getProperty("filteredResults")).toHaveLength(1);
-      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
     });
   });
 

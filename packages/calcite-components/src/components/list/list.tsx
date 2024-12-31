@@ -33,7 +33,6 @@ import {
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
-import { ItemGroupData } from "../list-item-group/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -111,7 +110,6 @@ export class List
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
-    this.groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
 
     items.forEach((item) => {
       item.scale = scale;
@@ -135,7 +133,7 @@ export class List
     this.listItems = items;
     if (this.filterEnabled && this.willPerformFilter) {
       this.willPerformFilter = false;
-      this.dataForFilter = [...this.getItemData(), ...this.getItemGroupData()];
+      this.dataForFilter = this.getItemData();
 
       if (filterEl) {
         filterEl.items = this.dataForFilter;
@@ -144,20 +142,15 @@ export class List
     }
 
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.visibleGroupItems = this.groupItems.filter((item) => !item.hidden);
     this.updateFilteredItems();
     this.borderItems();
-    this.focusableItems = this.filteredResults.filter(
-      (item): item is ListItem["el"] => !item.disabled,
-    );
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
   }, debounceTimeout);
 
   private visibleItems: ListItem["el"][] = [];
-
-  private visibleGroupItems: ListItemGroup["el"][] = [];
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
@@ -171,7 +164,7 @@ export class List
 
   @state() assistiveText: string;
 
-  @state() dataForFilter: (ItemData | ItemGroupData)[] = [];
+  @state() dataForFilter: ItemData[] = [];
 
   @state() hasFilterActionsEnd = false;
 
@@ -185,7 +178,7 @@ export class List
     return (
       this.filterEnabled &&
       this.filterText &&
-      this.filteredResults.length !== this.visibleItems.length + this.visibleGroupItems.length
+      this.filteredItems.length !== this.visibleItems.length
     );
   }
 
@@ -195,7 +188,7 @@ export class List
       this.filterText &&
       this.hasFilterNoResults &&
       this.visibleItems.length &&
-      !this.filteredResults.length
+      !this.filteredItems.length
     );
   }
 
@@ -246,22 +239,14 @@ export class List
    *
    * @readonly
    */
-  @property() filteredData: (ItemData | ItemGroupData)[] = [];
-
-  /**
-   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
-   *
-   * @readonly
-   * @deprecated Use `filteredResults` instead.
-   */
-  @property() filteredItems: ListElement[] = [];
+  @property() filteredData: ItemData[] = [];
 
   /**
    * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
    *
    * @readonly
    */
-  @property() filteredResults: ListElement[] = [];
+  @property() filteredItems: ListItem["el"][] = [];
 
   /**
    * The list's group identifier.
@@ -761,7 +746,7 @@ export class List
     const filteredItems = filterPredicate
       ? visibleItems.filter(filterPredicate)
       : !filterText
-        ? [...visibleItems, ...this.visibleGroupItems]
+        ? [...visibleItems]
         : filteredData.map((item) => item.el);
 
     const visibleParents = new WeakSet<HTMLElement>();
@@ -770,10 +755,7 @@ export class List
       this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
-    this.filteredResults = filteredItems;
-    this.filteredItems = this.filteredResults;
-
-    this.filterGroupItems(visibleParents);
+    this.filteredItems = filteredItems;
 
     if (this.willFilterEmit) {
       this.willFilterEmit = false;
@@ -789,41 +771,11 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as (ItemData | ItemGroupData)[];
+      this.filteredData = filterEl.filteredItems as ItemData[];
     }
 
     this.updateListItems();
   }
-
-  private filterGroupItems = (visibleParents: WeakSet<HTMLElement>): void => {
-    const lastDescendantGroupItems = this.groupItems?.filter((groupItem) =>
-      this.groupItems.every((li) => li === groupItem || !groupItem.contains(li)),
-    );
-
-    const filteredGroupItems =
-      this.filteredResults.filter(
-        (item): item is ListItemGroup["el"] => item.nodeName === "CALCITE-LIST-ITEM-GROUP",
-      ) || [];
-
-    lastDescendantGroupItems.forEach((groupItem) =>
-      this.filterElements({ el: groupItem, filteredItems: filteredGroupItems, visibleParents }),
-    );
-
-    filteredGroupItems.forEach((groupItem: ListItemGroup) => {
-      this.filterGroupItemDescendants(groupItem);
-    });
-  };
-
-  private filterGroupItemDescendants = (item: ListItemGroup): void => {
-    const itemDescendants = Array.from(item.querySelectorAll(listItemSelector));
-    const groupDescendants = Array.from(item.querySelectorAll(listItemGroupSelector));
-
-    itemDescendants.forEach((descendant: ListItem) => {
-      descendant.filterHidden = false;
-    });
-
-    groupDescendants.forEach((descendant) => (descendant.filterHidden = false));
-  };
 
   private async filterAndUpdateData(): Promise<void> {
     await this.filterEl?.filter(this.filterText);
@@ -868,16 +820,10 @@ export class List
       label: item.label,
       description: item.description,
       metadata: item.metadata,
+      heading: item.parentElement?.closest(listItemGroupSelector)?.heading || "",
       el: item,
     }));
   }
-
-  private getItemGroupData = (): ItemGroupData[] => {
-    return this.groupItems.map((item: ListItemGroup) => ({
-      heading: item.heading,
-      el: item,
-    }));
-  };
 
   private updateGroupItems(): void {
     const { el, group, scale } = this;
@@ -1025,7 +971,7 @@ export class List
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.filteredResults.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
@@ -1156,7 +1102,7 @@ export class List
   private renderItemAriaLive(): JsxNode {
     const {
       messages,
-      filteredResults,
+      filteredItems,
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
@@ -1175,13 +1121,13 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(filteredResults.length.toString()),
+            numberStringFormatter.localize(filteredItems.length.toString()),
           )}
         </div>
-        {filteredResults.length ? (
+        {filteredItems.length ? (
           <ol key="aria-item-list">
-            {filteredResults.map((item) => (
-              <li>{(item as ListItem).label || (item as ListItemGroup).heading}</li>
+            {filteredItems.map((item) => (
+              <li>{item.label}</li>
             ))}
           </ol>
         ) : null}
