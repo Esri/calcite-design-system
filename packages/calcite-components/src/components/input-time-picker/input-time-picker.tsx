@@ -644,17 +644,15 @@ export class InputTimePicker
     if (localizedTwentyFourHourMeridiems.has(effectiveLocale) && effectiveHourFormat === "12") {
       const localizedAM = localizedTwentyFourHourMeridiems.get(effectiveLocale).am;
       const localizedPM = localizedTwentyFourHourMeridiems.get(effectiveLocale).pm;
-      const localizedAMRegEx = new RegExp(String.raw`${localizedAM}`, "g");
-      const localizedPMRegEx = new RegExp(String.raw`${localizedPM}`, "g");
       const meridiemFormatToken = getMeridiemFormatToken(effectiveLocale);
       const caseAdjustedAMString =
         meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "AM" : "am";
       const caseAdjustedPMString =
         meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "PM" : "pm";
 
-      localizedTimeString = localizedTimeString.match(localizedPMRegEx)
-        ? localizedTimeString.replaceAll(localizedPMRegEx, caseAdjustedPMString)
-        : localizedTimeString.replaceAll(localizedAMRegEx, caseAdjustedAMString);
+      localizedTimeString = localizedTimeString.includes(localizedPM)
+        ? localizedTimeString.replaceAll(localizedPM, caseAdjustedPMString)
+        : localizedTimeString.replaceAll(localizedAM, caseAdjustedAMString);
     }
 
     this.setLocaleTimeFormat({
