@@ -258,21 +258,14 @@ describe("getMeridiemOrder", () => {
 describe("hour-format utils", () => {
   supportedLocales.forEach((locale) => {
     const localeDefaultHourFormat = getLocaleHourFormat(locale);
-    it("getLocaleOppositeHourFormat returns the locale's opposite hour format", () => {
-      if (localeDefaultHourFormat === "12") {
-        expect(getLocaleOppositeHourFormat(locale)).toBe("24");
-      } else if (localeDefaultHourFormat === "24") {
-        expect(getLocaleOppositeHourFormat(locale)).toBe("12");
-      }
+    it(`getLocaleOppositeHourFormat returns ${locale}'s opposite hour format`, () => {
+      const expected = localeDefaultHourFormat === "12" ? "24" : "12";
+      expect(getLocaleOppositeHourFormat(locale)).toBe(expected);
     });
-    it("isLocaleHourFormatOpposite returns true when the locale's hour format is not set to its default and false otherwise", () => {
-      if (localeDefaultHourFormat === "12") {
-        expect(isLocaleHourFormatOpposite("12", locale)).toBe(false);
-        expect(isLocaleHourFormatOpposite("24", locale)).toBe(true);
-      } else if (localeDefaultHourFormat === "24") {
-        expect(isLocaleHourFormatOpposite("12", locale)).toBe(true);
-        expect(isLocaleHourFormatOpposite("24", locale)).toBe(false);
-      }
+    it(`isLocaleHourFormatOpposite returns true when ${locale}'s hour format is not set to its default and false otherwise`, () => {
+      const expected = localeDefaultHourFormat === "12";
+      expect(isLocaleHourFormatOpposite("12", locale)).toBe(!expected);
+      expect(isLocaleHourFormatOpposite("24", locale)).toBe(expected);
     });
   });
 });
