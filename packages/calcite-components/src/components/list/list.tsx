@@ -742,7 +742,7 @@ export class List
     const filteredItems = filterPredicate
       ? visibleItems.filter(filterPredicate)
       : !filterText
-        ? visibleItems
+        ? visibleItems || []
         : filteredData.map((item) => item.el);
 
     const visibleParents = new WeakSet<HTMLElement>();
