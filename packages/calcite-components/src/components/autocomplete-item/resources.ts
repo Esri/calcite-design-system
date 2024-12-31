@@ -6,7 +6,6 @@ export const CSS = {
   contentCenter: "content-center",
   description: "description",
   heading: "heading",
-  textMatch: "text-match",
   iconEnd: "icon-end",
   iconStart: "icon-start",
   scale: (scale: Scale) => `scale--${scale}` as const,
