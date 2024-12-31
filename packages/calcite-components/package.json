@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.0.0-next.80",
+  "version": "3.0.0-next.85",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -46,7 +46,7 @@
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
-    "lint:ts": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
+    "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "prepublish": "./support/cleanupDistFiles.sh",
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
@@ -67,9 +67,9 @@
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.0-next.55",
-    "@arcgis/components-utils": "^4.32.0-next.55",
-    "@arcgis/lumina": "^4.32.0-next.55",
+    "@arcgis/components-controllers": "4.32.0-next.65",
+    "@arcgis/components-utils": "4.32.0-next.65",
+    "@arcgis/lumina": "4.32.0-next.65",
     "@esri/calcite-ui-icons": "^4.0.0-next.3",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
@@ -86,8 +86,8 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "3.0.0-next.2",
-    "@esri/eslint-plugin-calcite-components": "2.0.0-next.1",
+    "@esri/calcite-design-tokens": "3.0.0-next.3",
+    "@esri/eslint-plugin-calcite-components": "2.0.0-next.2",
     "vitest": "2.1.8"
   },
   "volta": {

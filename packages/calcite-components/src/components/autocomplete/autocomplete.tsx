@@ -8,9 +8,10 @@ import {
   state,
   JsxNode,
   stringOrBoolean,
+  LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import { debounce } from "lodash-es";
+import { debounce, escapeRegExp } from "lodash-es";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -129,6 +130,8 @@ export class Autocomplete
 
   transitionEl: HTMLDivElement;
 
+  private inputValueMatchPattern: RegExp;
+
   // #endregion
 
   // #region State Properties
@@ -166,9 +169,9 @@ export class Autocomplete
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -340,6 +343,23 @@ export class Autocomplete
   }
 
   /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @example
+   * myAutocomplete.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.transitionEl?.scrollTo(options);
+  }
+
+  /**
    * Selects the text of the component's `value`.
    *
    * @returns {Promise<void>}
@@ -443,12 +463,27 @@ export class Autocomplete
       this.reposition(true);
     }
 
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+    let itemsAndGroupsUpdated = false;
+
+    if (changes.has("inputValue") && (this.hasUpdated || this.inputValue)) {
+      this.inputValueMatchPattern =
+        this.inputValue && new RegExp(`(${escapeRegExp(this.inputValue)})`, "i");
       this.updateItems();
       this.updateGroups();
+      itemsAndGroupsUpdated = true;
     }
 
-    if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
+    if (!itemsAndGroupsUpdated && changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.updateItems();
+      this.updateGroups();
+      itemsAndGroupsUpdated = true;
+    }
+
+    if (
+      !itemsAndGroupsUpdated &&
+      changes.has("activeIndex") &&
+      (this.hasUpdated || this.activeIndex !== -1)
+    ) {
       this.updateItems();
     }
   }
@@ -590,6 +625,7 @@ export class Autocomplete
 
       item.active = isActive;
       item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;
@@ -670,25 +706,33 @@ export class Autocomplete
         this.open = true;
         this.activeIndex =
           activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "ArrowUp":
         this.open = true;
         this.activeIndex =
           activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "Home":
         this.open = true;
         this.activeIndex = 0;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
       case "End":
         this.open = true;
         this.activeIndex = enabledItems.length - 1;
+        this.scrollToActiveItem();
         event.preventDefault();
         break;
     }
+  }
+
+  private scrollToActiveItem(): void {
+    this.enabledItems[this.activeIndex]?.scrollIntoView({ block: "nearest" });
   }
 
   private changeHandler(event: CustomEvent): void {
@@ -727,17 +771,9 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const enterKeyHint = this.el.getAttribute("enterkeyhint");
-    const inputMode = this.el.getAttribute("inputmode") as
-      | "none"
-      | "text"
-      | "search"
-      | "email"
-      | "tel"
-      | "url"
-      | "numeric"
-      | "decimal";
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
       <InteractiveContainer disabled={disabled}>
