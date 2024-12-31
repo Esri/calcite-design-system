@@ -120,17 +120,20 @@ export class Combobox
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text, [
-        "description",
-        "label",
-        "metadata",
-        "shortHeading",
-      ]);
+      const filteredData = filter([...this.data, ...this.groupData], text, this.effectiveFilterProps);
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -306,6 +309,9 @@ export class Combobox
       this.filterTextChange(filterText);
     }
   }
+
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  @property() filterProps: string[];
 
   /**
    * Specifies the component's filtered items.
@@ -1263,9 +1269,10 @@ export class Combobox
     return this.items.map((item) => ({
       description: item.description,
       filterDisabled: item.filterDisabled,
-      label: item.heading || item.textLabel,
+      label: item.heading,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
+      textLabel: item.textLabel,
       el: item, // used for matching items to data
     }));
   }

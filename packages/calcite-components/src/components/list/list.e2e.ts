@@ -767,7 +767,7 @@ describe("calcite-list", () => {
       expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
     });
 
-    it("filters initially with filterProps", async () => {
+    it("supports filterProps", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-list filter-enabled filter-text="match">
