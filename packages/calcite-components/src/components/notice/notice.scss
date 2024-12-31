@@ -91,7 +91,7 @@
   text-align: start;
   border-inline-start: var(--calcite-border-width-md) solid;
   box-shadow: 0 0 0 0 transparent;
-  background-color: var(--calcite-notice-background, var(bg-foreground-1));
+  background-color: var(--calcite-notice-background, var(--calcite-color-foreground-1));
 }
 
 // focus styles
@@ -118,7 +118,7 @@
 @include slotted("title", "*", ".container") {
   @apply m-0 font-medium;
 
-  color: var(--calcite-notice-close-text-color-hover, var(text-color-1));
+  color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
 }
 
 @include slotted("message", "*", ".container") {
@@ -161,16 +161,16 @@
   @include notice-element-base;
   -webkit-appearance: none;
 
-  color: var(--calcite-notice-close-text-color, var(text-color-3));
+  color: var(--calcite-notice-close-text-color, var(--calcite-color-text-3));
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-notice-close-background-focus, var(bg-foreground-2));
-    color: var(--calcite-notice-close-text-color-hover, var(text-color-1));
+    background-color: var(--calcite-notice-close-background-focus, var(--calcite-color-foreground-2));
+    color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
   }
 
   &:active {
-    background-color: var(--calcite-notice-close-background-press, var(bg-foreground-3));
+    background-color: var(--calcite-notice-close-background-press, var(--calcite-color-foreground-3));
   }
 }
 
