@@ -1307,17 +1307,17 @@ describe("calcite-time-picker", () => {
           const secondSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.secondSuffix}`);
           const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-          expect(hourEl.textContent).toEqual(expectedLocalizedHour);
-          expect(hourSuffixEl.textContent).toEqual(expectedLocalizedHourSuffix);
-          expect(minuteEl.textContent).toEqual(expectedLocalizedMinute);
-          expect(minuteSuffixEl.textContent).toEqual(expectedLocalizedMinuteSuffix);
-          expect(secondEl.textContent).toEqual(expectedLocalizedSecond);
-          expect(decimalSeparatorEl.textContent).toEqual(expectedLocalizedDecimalSeparator);
-          expect(fractionalSecondEl.textContent).toEqual(expectedLocalizedFractionalSecond);
+          expect(hourEl).toEqualText(expectedLocalizedHour);
+          expect(hourSuffixEl).toEqualText(expectedLocalizedHourSuffix);
+          expect(minuteEl).toEqualText(expectedLocalizedMinute);
+          expect(minuteSuffixEl).toEqualText(expectedLocalizedMinuteSuffix);
+          expect(secondEl).toEqualText(expectedLocalizedSecond);
+          expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
+          expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
           if (secondSuffixEl) {
-            expect(secondSuffixEl.textContent).toEqual(expectedLocalizedSecondSuffix);
+            expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
-          expect(meridiemEl.textContent).toEqual(expectedLocalizedMeridiem);
+          expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
         });
 
         it("supports localized 24-hour format", async () => {
@@ -1357,15 +1357,15 @@ describe("calcite-time-picker", () => {
           const secondSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.secondSuffix}`);
           const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-          expect(hourEl.textContent).toEqual(expectedLocalizedHour);
-          expect(hourSuffixEl.textContent).toEqual(expectedLocalizedHourSuffix);
-          expect(minuteEl.textContent).toEqual(expectedLocalizedMinute);
-          expect(minuteSuffixEl.textContent).toEqual(expectedLocalizedMinuteSuffix);
-          expect(secondEl.textContent).toEqual(expectedLocalizedSecond);
-          expect(decimalSeparatorEl.textContent).toEqual(expectedLocalizedDecimalSeparator);
-          expect(fractionalSecondEl.textContent).toEqual(expectedLocalizedFractionalSecond);
+          expect(hourEl).toEqualText(expectedLocalizedHour);
+          expect(hourSuffixEl).toEqualText(expectedLocalizedHourSuffix);
+          expect(minuteEl).toEqualText(expectedLocalizedMinute);
+          expect(minuteSuffixEl).toEqualText(expectedLocalizedMinuteSuffix);
+          expect(secondEl).toEqualText(expectedLocalizedSecond);
+          expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
+          expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
           if (secondSuffixEl) {
-            expect(secondSuffixEl.textContent).toEqual(expectedLocalizedSecondSuffix);
+            expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
           expect(meridiemEl).toBeNull();
         });
