@@ -829,13 +829,10 @@ export class List
     }));
   }
 
-  private getGroupHeading(item: ListItem["el"]): string {
-    let heading = "";
-    this.listItemGroups.forEach((group) => {
-      if (group.contains(item)) {
-        heading += group.heading;
-      }
-    });
+  private getGroupHeading(item: ListItem["el"]): string[] {
+    const heading = this.listItemGroups
+      .filter((group) => group.contains(item))
+      .map((group) => group.heading);
 
     return heading;
   }
