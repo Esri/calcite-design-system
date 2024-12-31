@@ -35,7 +35,6 @@ import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/inte
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
-import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { Filter } from "../filter/filter";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -82,8 +81,6 @@ export class List
   private lastSelectedInfo: { selectedItem: ListItem["el"]; selected: boolean };
 
   private listItems: ListItem["el"][] = [];
-
-  private groupItems: ListItemGroup["el"][] = [];
 
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
@@ -242,7 +239,7 @@ export class List
   @property() filteredData: ItemData[] = [];
 
   /**
-   * The currently filtered `calcite-list-item's` & `calcite-list-item-group's`.
+   * The currently filtered `calcite-list-item's`.
    *
    * @readonly
    */
@@ -693,7 +690,7 @@ export class List
     filteredItems: ListElement[];
     visibleParents: WeakSet<ListElement>;
   }): void {
-    const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el);
+    const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el as ListItem["el"]);
 
     el.filterHidden = filterHidden;
 
@@ -746,7 +743,7 @@ export class List
     const filteredItems = filterPredicate
       ? visibleItems.filter(filterPredicate)
       : !filterText
-        ? [...visibleItems]
+        ? visibleItems
         : filteredData.map((item) => item.el);
 
     const visibleParents = new WeakSet<HTMLElement>();
