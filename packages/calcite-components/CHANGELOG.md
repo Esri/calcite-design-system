@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.83...@esri/calcite-components@3.0.0-next.84) (2024-12-31)
+
+### Features
+
+- **autocomplete:** highlight text matching the inputValue ([#11155](https://github.com/Esri/calcite-design-system/issues/11155)) ([a43982b](https://github.com/Esri/calcite-design-system/commit/a43982b2798fcfc6dd96aa98b668abd008e86626)), closes [#11154](https://github.com/Esri/calcite-design-system/issues/11154)
+
 ## [3.0.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.82...@esri/calcite-components@3.0.0-next.83) (2024-12-31)
 
 ### Features
