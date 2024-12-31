@@ -6,6 +6,13 @@ interface Locale {
   locale: SupportedLocale;
   dir?: "ltr" | "rtl";
   numberingSystem?: NumberingSystem;
+  /*
+   * Hour formats below are based on:
+   * @see https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/timeData.json
+   *
+   * To reference a specific locale, search for the lang code in the timeData.json file and see the "_preferred" value.
+   * The value "h" generally refers to a 12-hour clock format, whereas "H" refers to a 24-hour style.
+   */
   hourFormat: HourFormat;
 }
 
