@@ -137,7 +137,6 @@ export class List
         this.filterAndUpdateData();
       }
     }
-
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems();
     this.borderItems();
@@ -239,7 +238,7 @@ export class List
   @property() filteredData: ItemData[] = [];
 
   /**
-   * The currently filtered `calcite-list-item's`.
+   * The currently filtered `calcite-list-item`s.
    *
    * @readonly
    */
