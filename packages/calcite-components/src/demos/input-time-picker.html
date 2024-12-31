@@ -132,19 +132,23 @@
                   ...{ hourFormat: "12", step: 0.001 },
                 });
           if (hourFormat === "12") {
-            h12.append(defaultHourFormat);
-            h12.append(defaultHourFormatSeconds);
-            h12.append(defaultHourFormatMilliSeconds);
-            h12.append(oppositeHourFormat);
-            h12.append(oppositeHourFormatSeconds);
-            h12.append(oppositeHourFormatMilliSeconds);
+            h12.append(
+              defaultHourFormat,
+              defaultHourFormatSeconds,
+              defaultHourFormatMilliSeconds,
+              oppositeHourFormat,
+              oppositeHourFormatSeconds,
+              oppositeHourFormatMilliSeconds,
+            );
           } else {
-            h23.append(defaultHourFormat);
-            h23.append(defaultHourFormatSeconds);
-            h23.append(defaultHourFormatMilliSeconds);
-            h23.append(oppositeHourFormat);
-            h23.append(oppositeHourFormatSeconds);
-            h23.append(oppositeHourFormatMilliSeconds);
+            h23.append(
+              defaultHourFormat,
+              defaultHourFormatSeconds,
+              defaultHourFormatMilliSeconds,
+              oppositeHourFormat,
+              oppositeHourFormatSeconds,
+              oppositeHourFormatMilliSeconds,
+            );
           }
         });
       })();
