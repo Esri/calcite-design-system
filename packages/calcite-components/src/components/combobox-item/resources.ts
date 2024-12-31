@@ -6,7 +6,6 @@ export const CSS = {
   container: "container",
   custom: "icon--custom",
   description: "description",
-  filterMatch: "filter-match",
   icon: "icon",
   iconSelected: "icon--selected",
   label: "label",
