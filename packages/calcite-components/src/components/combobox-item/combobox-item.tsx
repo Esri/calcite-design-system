@@ -12,7 +12,7 @@ import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
-import { mark } from "../../utils/text";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -285,17 +285,15 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>
-                {mark({
+                {highlightText({
                   text: headingText,
-                  className: CSS.filterMatch,
                   pattern: filterTextMatchPattern,
                 })}
               </div>
               {description ? (
                 <div class={CSS.description}>
-                  {mark({
+                  {highlightText({
                     text: description,
-                    className: CSS.filterMatch,
                     pattern: filterTextMatchPattern,
                   })}
                 </div>
@@ -303,9 +301,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             </div>
             {shortHeading ? (
               <div class={CSS.shortText}>
-                {mark({
+                {highlightText({
                   text: shortHeading,
-                  className: CSS.filterMatch,
                   pattern: filterTextMatchPattern,
                 })}
               </div>

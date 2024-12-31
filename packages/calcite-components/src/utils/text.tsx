@@ -1,13 +1,11 @@
 import { h, JsxNode } from "@arcgis/lumina";
 
-export function mark({
+export function highlightText({
   text,
   pattern,
-  className,
 }: {
   text: string;
   pattern: RegExp;
-  className: string;
 }): string | (string | JsxNode)[] {
   if (!pattern || !text) {
     return text;
@@ -17,7 +15,7 @@ export function mark({
 
   if (parts.length > 1) {
     // we only highlight the first match
-    parts[1] = <mark class={className}>{parts[1]}</mark>;
+    parts[1] = <mark class="text-match">{parts[1]}</mark>;
   }
 
   return parts;

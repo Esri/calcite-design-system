@@ -61,15 +61,15 @@
   color: var(--calcite-autocomplete-heading-text-color, var(--calcite-color-text-1));
 }
 
+.heading,
+.description {
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
 .text-match {
   font-weight: var(--calcite-font-weight-bold);
   background-color: transparent;
   color: inherit;
-}
-
-.heading,
-.description {
-  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 :host(:hover:not([disabled])) .container {

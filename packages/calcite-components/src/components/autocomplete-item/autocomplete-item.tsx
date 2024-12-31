@@ -13,7 +13,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
-import { mark } from "../../utils/text";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
@@ -152,16 +152,14 @@ export class AutocompleteItem
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
             <div class={CSS.heading}>
-              {mark({
+              {highlightText({
                 text: heading,
-                className: CSS.textMatch,
                 pattern: inputValueMatchPattern,
               })}
             </div>
             <div class={CSS.description}>
-              {mark({
+              {highlightText({
                 text: description,
-                className: CSS.textMatch,
                 pattern: inputValueMatchPattern,
               })}
             </div>

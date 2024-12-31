@@ -446,21 +446,27 @@ export class Autocomplete
       this.reposition(true);
     }
 
+    let itemsAndGroupsUpdated = false;
+
     if (changes.has("inputValue") && (this.hasUpdated || this.inputValue)) {
       this.inputValueMatchPattern =
         this.inputValue && new RegExp(`(${escapeRegExp(this.inputValue)})`, "i");
       this.updateItems();
       this.updateGroups();
-      return;
+      itemsAndGroupsUpdated = true;
     }
 
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+    if (!itemsAndGroupsUpdated && changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.updateItems();
       this.updateGroups();
-      return;
+      itemsAndGroupsUpdated = true;
     }
 
-    if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
+    if (
+      !itemsAndGroupsUpdated &&
+      changes.has("activeIndex") &&
+      (this.hasUpdated || this.activeIndex !== -1)
+    ) {
       this.updateItems();
     }
   }
