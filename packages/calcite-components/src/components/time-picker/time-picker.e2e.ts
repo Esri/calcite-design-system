@@ -1315,6 +1315,9 @@ describe("calcite-time-picker", () => {
           expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
           expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
           if (secondSuffixEl) {
+            // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
+            // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
+            // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
             expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
           expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
@@ -1365,6 +1368,9 @@ describe("calcite-time-picker", () => {
           expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
           expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
           if (secondSuffixEl) {
+            // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
+            // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
+            // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
             expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
           expect(meridiemEl).toBeNull();
