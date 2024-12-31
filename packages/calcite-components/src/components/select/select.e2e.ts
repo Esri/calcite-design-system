@@ -10,6 +10,7 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -435,6 +436,50 @@ describe("calcite-select", () => {
         // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
         // due to the context menu not being accessible in puppeteer
         changeValueKeys: ["t"],
+      },
+    );
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-select>
+          <calcite-option>uno</calcite-option>
+          <calcite-option>dos</calcite-option>
+          <calcite-option>tres</calcite-option>
+        </calcite-select>
+      `,
+      {
+        "--calcite-select-font-size": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "fontSize",
+        },
+        "--calcite-select-text-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "color",
+        },
+        "--calcite-select-size": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-select-block-size": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-select-border-color": [
+          {
+            shadowSelector: `.${CSS.select}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.iconContainer}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-select-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
       },
     );
   });
