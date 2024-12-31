@@ -1894,6 +1894,14 @@ describe("calcite-list", () => {
             <calcite-list-item-group heading="Beaches" id="beaches">
               <calcite-list-item label="Surfing" description="Surfing" value="Surfing"></calcite-list-item>
               <calcite-list-item label="Paragliding" description="Paragliding" value="Paragliding"></calcite-list-item>
+              <calcite-list-item-group heading="Underwater" id="underwater">
+                <calcite-list-item label="Snorkeling" description="Snorkeling" value="Snorkeling"></calcite-list-item>
+                <calcite-list-item
+                  label="Scuba diving"
+                  description="Scuba diving"
+                  value="Scuba diving"
+                ></calcite-list-item>
+              </calcite-list-item-group>
             </calcite-list-item-group>
           </calcite-list-item-group>
           <calcite-list-item-group heading="Buildings" id="buildings">
@@ -1915,11 +1923,12 @@ describe("calcite-list", () => {
       const list = await page.find("calcite-list");
       await filter.callMethod("setFocus");
       await page.waitForChanges();
-      expect(await list.getProperty("filteredItems")).toHaveLength(6);
+      expect(await list.getProperty("filteredItems")).toHaveLength(8);
 
       const group1 = await page.find("#recreation");
       const group2 = await page.find("#buildings");
       const group3 = await page.find("#beaches");
+      const group4 = await page.find("#underwater");
 
       await page.keyboard.type("Bui");
       await page.waitForChanges();
@@ -1933,12 +1942,14 @@ describe("calcite-list", () => {
       await assertDescendantItems(page, `#buildings`, true);
       expect(await group3.isVisible()).toBe(false);
       await assertDescendantItems(page, `#beaches`, false);
+      expect(await group4.isVisible()).toBe(false);
+      await assertDescendantItems(page, `#underwater`, false);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("");
-      expect(await list.getProperty("filteredItems")).toHaveLength(6);
+      expect(await list.getProperty("filteredItems")).toHaveLength(8);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", true);
@@ -1946,12 +1957,14 @@ describe("calcite-list", () => {
       await assertDescendantItems(page, "#buildings", true);
       expect(await group3.isVisible()).toBe(true);
       await assertDescendantItems(page, "#beaches", true);
+      expect(await group4.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#underwater`, true);
 
       await page.keyboard.type("Bea");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("Bea");
-      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredItems")).toHaveLength(4);
 
       expect(await group1.isVisible()).toBe(true);
       await assertDescendantItems(page, "#recreation", false);
@@ -1959,12 +1972,14 @@ describe("calcite-list", () => {
       await assertDescendantItems(page, "#buildings", false);
       expect(await group3.isVisible()).toBe(true);
       await assertDescendantItems(page, "#beaches", true);
+      expect(await group4.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#underwater`, true);
 
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filterText")).toBe("Be");
-      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredItems")).toHaveLength(4);
     });
   });
 

@@ -36,6 +36,7 @@ import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
@@ -81,6 +82,8 @@ export class List
   private lastSelectedInfo: { selectedItem: ListItem["el"]; selected: boolean };
 
   private listItems: ListItem["el"][] = [];
+
+  private listItemGroups: ListItemGroup["el"][] = [];
 
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
@@ -408,6 +411,7 @@ export class List
     this.updateListItems();
     this.setUpSorting();
     this.setParentList();
+    this.setListItemGroups();
   }
 
   async load(): Promise<void> {
@@ -649,6 +653,10 @@ export class List
     }
   }
 
+  private setListItemGroups(): void {
+    this.listItemGroups = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+  }
+
   private handleFilterActionsStartSlotChange(event: Event): void {
     this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
   }
@@ -816,9 +824,20 @@ export class List
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      heading: item.parentElement?.closest(listItemGroupSelector)?.heading || "",
+      heading: this.getGroupHeading(item),
       el: item,
     }));
+  }
+
+  private getGroupHeading(item: ListItem["el"]): string {
+    let heading = "";
+    this.listItemGroups.forEach((group) => {
+      if (group.contains(item)) {
+        heading += group.heading;
+      }
+    });
+
+    return heading;
   }
 
   private updateGroupItems(): void {
