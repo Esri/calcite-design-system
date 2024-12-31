@@ -267,9 +267,6 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
 }
 
 export function isLocaleHourFormatOpposite(hourFormat: EffectiveHourFormat, locale: SupportedLocale): boolean {
-  if (!hourFormat) {
-    return false;
-  }
   return hourFormat === getLocaleOppositeHourFormat(locale);
 }
 
