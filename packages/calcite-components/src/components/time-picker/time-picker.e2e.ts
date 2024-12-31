@@ -1268,6 +1268,7 @@ describe("calcite-time-picker", () => {
             expect(meridiemEl).toBeNull();
           }
         });
+
         it("supports localized 12-hour format", async () => {
           const initialDelocalizedValue = "14:02:30.001";
           const page = await newE2EPage();
@@ -1318,6 +1319,7 @@ describe("calcite-time-picker", () => {
           }
           expect(meridiemEl.textContent).toEqual(expectedLocalizedMeridiem);
         });
+
         it("supports localized 24-hour format", async () => {
           const initialDelocalizedValue = "14:02:30.001";
           const page = await newE2EPage();
