@@ -146,7 +146,7 @@ const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
 // for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
-// see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+// @see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
@@ -212,7 +212,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * See https://github.com/Esri/calcite-design-system/issues/9387
+ * @see https://github.com/Esri/calcite-design-system/issues/9387
  *
  * @param locale – the BCP 47 locale code
  * @returns {string} a BCP 47 locale code
