@@ -239,21 +239,19 @@ describe("getLocalizedMeridiem", () => {
 });
 
 describe("getMeridiemOrder", () => {
-  it("returns correct order for rtl langs", () => {
-    expect(getMeridiemOrder("ar")).not.toEqual(0);
-    expect(getMeridiemOrder("he")).not.toEqual(0);
-    expect(getMeridiemOrder("hu")).toEqual(0);
-    expect(getMeridiemOrder("ja")).toEqual(0);
-    expect(getMeridiemOrder("ko")).toEqual(0);
-    expect(getMeridiemOrder("tr")).toEqual(0);
-    expect(getMeridiemOrder("zh-CN")).toEqual(0);
-    expect(getMeridiemOrder("zh-HK")).toEqual(0);
+  const nonZeroLangs = ["ar", "el", "en", "es", "he", "hi"];
+  const zeroLangs = ["hu", "ja", "ko", "tr", "zh-CN", "zh-HK"];
+
+  nonZeroLangs.forEach((lang) => {
+    it(`returns non-zero for ${lang}`, () => {
+      expect(getMeridiemOrder(lang)).not.toEqual(0);
+    });
   });
-  it("returns non-zero for ltr langs", () => {
-    expect(getMeridiemOrder("el")).not.toEqual(0);
-    expect(getMeridiemOrder("en")).not.toEqual(0);
-    expect(getMeridiemOrder("es")).not.toEqual(0);
-    expect(getMeridiemOrder("hi")).not.toEqual(0);
+
+  zeroLangs.forEach((lang) => {
+    it(`returns zero for ${lang}`, () => {
+      expect(getMeridiemOrder(lang)).toEqual(0);
+    });
   });
 });
 
