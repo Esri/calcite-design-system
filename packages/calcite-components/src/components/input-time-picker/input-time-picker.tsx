@@ -579,9 +579,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private delocalizeTimeString(value: string, locale?: SupportedLocale): string {
+  private delocalizeTimeString(value: string): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(locale || this.getSupportedDayjsLocale(this.messages._lang.toLowerCase()));
+    dayjs.locale(this.getSupportedDayjsLocale(this.messages._lang.toLowerCase()));
 
     const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
 
