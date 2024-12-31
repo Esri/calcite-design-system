@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.84...@esri/calcite-components@3.0.0-next.85) (2024-12-31)
+
+### Features
+
+- **autocomplete:** add scrollContentTo method and automatically scroll when navigating items via keyboard ([#11153](https://github.com/Esri/calcite-design-system/issues/11153)) ([be57a3b](https://github.com/Esri/calcite-design-system/commit/be57a3b64fabd321a06412fe8476d7b06ac84c69)), closes [#11152](https://github.com/Esri/calcite-design-system/issues/11152)
+
 ## [3.0.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.83...@esri/calcite-components@3.0.0-next.84) (2024-12-31)
 
 ### Features
