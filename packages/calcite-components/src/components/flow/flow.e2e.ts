@@ -37,6 +37,19 @@ describe("calcite-flow", () => {
     );
   });
 
+  describe("is focusable on selected flow item", () => {
+    focusable(
+      html`<calcite-flow>
+        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
+        <calcite-flow-item id="two" selected heading="two">Hello World</calcite-flow-item>
+        <calcite-flow-item id="three" heading="three">Hello World</calcite-flow-item>
+      </calcite-flow>`,
+      {
+        focusTargetSelector: "#two",
+      },
+    );
+  });
+
   it("frame defaults", async () => {
     const page = await newE2EPage();
 

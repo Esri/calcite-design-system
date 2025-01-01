@@ -630,7 +630,7 @@ export class InputDatePicker
   private handleDateTimeFormatChange(): void {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      // @see [Arabic numbering system support context](https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195) for more info.
       numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 
@@ -782,7 +782,7 @@ export class InputDatePicker
       return;
     }
 
-    const targeHasSelect = event
+    const targetHasSelect = event
       .composedPath()
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
@@ -799,7 +799,7 @@ export class InputDatePicker
       if (submitForm(this)) {
         this.restoreInputFocus(true);
       }
-    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targeHasSelect) {
+    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();

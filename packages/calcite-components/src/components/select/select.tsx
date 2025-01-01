@@ -293,7 +293,7 @@ export class Select
       option.value = optionOrGroup.value;
 
       // need to set innerText for mobile
-      // see https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701
+      // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
       option.innerText = optionOrGroup.label;
     }
   }

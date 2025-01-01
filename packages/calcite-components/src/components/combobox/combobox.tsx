@@ -925,7 +925,7 @@ export class Combobox
     await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
+    listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {

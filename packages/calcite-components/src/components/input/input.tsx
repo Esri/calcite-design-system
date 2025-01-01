@@ -91,7 +91,7 @@ export class Input
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -180,9 +180,9 @@ export class Input
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type. */
   @property({ reflect: true }) clearable = false;
@@ -1055,9 +1055,9 @@ export class Input
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const enterKeyHint = this.el.enterKeyHint || this.el.getAttribute("enterkeyhint");
-    const inputMode = this.el.inputMode || this.el.getAttribute("inputmode");
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1066,12 +1066,12 @@ export class Input
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
-          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1102,7 +1102,7 @@ export class Input
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
-          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
             [CSS.editingEnabled]: this.editingEnabled,
@@ -1110,8 +1110,8 @@ export class Input
           }}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}
           min={this.minString}

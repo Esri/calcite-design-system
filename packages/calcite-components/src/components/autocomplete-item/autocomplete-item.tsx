@@ -13,6 +13,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
@@ -74,6 +75,13 @@ export class AutocompleteItem
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true }) iconStart: IconNameOrString;
 
+  /**
+   * Pattern for highlighting text matches.
+   *
+   * @private
+   */
+  @property({ reflect: true }) inputValueMatchPattern: RegExp;
+
   /** Accessible name for the component. */
   @property() label: string;
 
@@ -118,7 +126,8 @@ export class AutocompleteItem
 
   // #region Private Methods
 
-  private handleClick(): void {
+  private handleClick(event: MouseEvent): void {
+    event.preventDefault();
     this.calciteInternalAutocompleteItemSelect.emit();
   }
 
@@ -127,7 +136,7 @@ export class AutocompleteItem
   // #region Rendering
 
   override render(): JsxNode {
-    const { active, description, heading, disabled } = this;
+    const { active, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -142,8 +151,18 @@ export class AutocompleteItem
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            <div class={CSS.heading}>{heading}</div>
-            <div class={CSS.description}>{description}</div>
+            <div class={CSS.heading}>
+              {highlightText({
+                text: heading,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
+            <div class={CSS.description}>
+              {highlightText({
+                text: description,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}

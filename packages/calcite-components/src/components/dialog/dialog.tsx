@@ -149,7 +149,7 @@ export class Dialog
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
 
