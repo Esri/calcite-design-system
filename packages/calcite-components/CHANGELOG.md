@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.85...@esri/calcite-components@3.0.0-next.86) (2025-01-01)
+
+### Features
+
+- **input-time-picker:** add hour-format property ([#10997](https://github.com/Esri/calcite-design-system/issues/10997)) ([52e9013](https://github.com/Esri/calcite-design-system/commit/52e9013883728f593942482dbade23724754824b)), closes [#4756](https://github.com/Esri/calcite-design-system/issues/4756)
+
 ## [3.0.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.84...@esri/calcite-components@3.0.0-next.85) (2024-12-31)
 
 ### Features
