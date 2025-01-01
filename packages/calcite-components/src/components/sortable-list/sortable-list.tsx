@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {

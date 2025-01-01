@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import dayjs from "dayjs/esm/index.js";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat/index.js";
 import localeData from "dayjs/esm/plugin/localeData/index.js";

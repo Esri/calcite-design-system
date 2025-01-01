@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import type { Label } from "../components/label/label";
 import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
 
