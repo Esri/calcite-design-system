@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, afterAll, afterEach, beforeAll, beforeEach, vi, MockInstance } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";

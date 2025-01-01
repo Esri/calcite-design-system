@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement } from "@arcgis/lumina";
 import { isBrowser } from "./browser";
 

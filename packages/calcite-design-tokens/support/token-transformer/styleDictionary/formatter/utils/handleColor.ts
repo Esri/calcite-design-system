@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";

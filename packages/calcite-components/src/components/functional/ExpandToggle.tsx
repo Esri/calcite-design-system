@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";

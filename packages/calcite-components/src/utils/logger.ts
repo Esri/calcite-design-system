@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LuminaJsx } from "@arcgis/lumina";
 import { logLevel } from "./config";
 

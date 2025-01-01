@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { checkAndEvaluateMath } from "@tokens-studio/sd-transforms";
 
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";

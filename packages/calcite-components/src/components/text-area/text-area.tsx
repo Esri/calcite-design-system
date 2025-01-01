@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { throttle } from "lodash-es";
 import { createRef } from "lit-html/directives/ref.js";
 import {

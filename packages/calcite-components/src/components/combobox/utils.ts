@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { nodeListToArray } from "../../utils/dom";
 import { isBrowser } from "../../utils/browser";
 import { ComboboxItem } from "../combobox-item/combobox-item";

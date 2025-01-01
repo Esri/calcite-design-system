@@ -160,6 +160,7 @@ export default [
           ],
         },
       ],
+      "radix": ["error", "as-needed"],
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",

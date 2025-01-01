@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
 export const defaultLocale = "en";

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { DataSeries, Extent, Graph, Point, TranslateOptions, Translator } from "./interfaces";
 
 /**
