@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import dedent from "dedent";
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";

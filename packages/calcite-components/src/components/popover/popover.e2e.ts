@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { html } from "../../../support/formatting";

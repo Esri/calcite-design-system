@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Color from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";

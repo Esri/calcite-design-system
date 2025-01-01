@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { PlatformOptions } from "../../../../types/styleDictionary/platform.js";
 import { FormattingRules } from "../utils.js";

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import type { RequireExactlyOne } from "type-fest";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";

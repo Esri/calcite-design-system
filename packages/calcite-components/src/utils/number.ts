@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 

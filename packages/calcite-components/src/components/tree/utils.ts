@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import type { TreeItem } from "../tree-item/tree-item";
 import type { Tree } from "./tree";
 

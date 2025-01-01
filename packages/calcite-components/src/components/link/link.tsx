@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { focusElement, getElementDir } from "../../utils/dom";
