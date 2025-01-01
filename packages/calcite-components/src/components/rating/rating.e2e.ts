@@ -800,11 +800,54 @@ describe("calcite-rating", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-rating></calcite-rating>`, {
-      "--calcite-rating-idle-unselected-color": {
-        shadowSelector: `.${CSS.star}`,
-        targetProp: "color",
-      },
+    describe("default", () => {
+      themed(html`<calcite-rating></calcite-rating>`, {
+        /*"--calcite-rating-spacing": {
+          shadowSelector: `.${CSS.fieldSet}`,
+          targetProp: "gap",
+        },*/
+        "--calcite-rating-color": {
+          shadowSelector: `.${CSS.star}`,
+          targetProp: "color",
+        },
+      });
+    });
+    describe("selected", () => {
+      themed(html`<calcite-rating value="2" class=${CSS.hovered}></calcite-rating>`, {
+        "--calcite-rating-color-hover": [
+          {
+            shadowSelector: `.${CSS.star}`,
+            targetProp: "color",
+            state: { hover: { attribute: "class", value: CSS.hovered } },
+          },
+          {
+            shadowSelector: `.${CSS.selected}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("average", () => {
+      themed(html`<calcite-rating average="3.65" count="240" show-chip></calcite-rating>`, {
+        "--calcite-rating-average-color": [
+          {
+            shadowSelector: `.${CSS.average}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.fraction}`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-rating-average-text-color": {
+          shadowSelector: `.${CSS.numberAverage}`,
+          targetProp: "color",
+        },
+        "--calcite-rating-count-text-color": {
+          shadowSelector: `.${CSS.numberCount}`,
+          targetProp: "color",
+        },
+      });
     });
   });
 });

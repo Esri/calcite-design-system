@@ -1,12 +1,12 @@
 import { html } from "../../support/formatting";
 
 export const ratingTokens = {
-  calciteRatingSpacingUnit: "",
-  calciteRatingHoverSelectedColor: "",
-  calciteRatingIdleUnselectedColor: "",
+  calciteRatingSpacing: "",
+  calciteRatingColorHover: "",
+  calciteRatingColor: "",
   calciteRatingAverageColor: "",
   calciteRatingAverageTextColor: "",
-  calciteRatingCountColor: "",
+  calciteRatingCountTextColor: "",
 };
 
 export const rating = html`<calcite-rating></calcite-rating>`;
