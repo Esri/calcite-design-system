@@ -314,7 +314,7 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value, 10);
+    this.startItem = parseInt(target.value);
     this.emitUpdate();
   }
 

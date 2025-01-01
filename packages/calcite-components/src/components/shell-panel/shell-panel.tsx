@@ -294,9 +294,9 @@ export class ShellPanel extends LitElement {
   }
 
   private updateWidths(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
-    const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
-    const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
+    const max = parseInt(computedStyle.getPropertyValue("max-width"));
+    const min = parseInt(computedStyle.getPropertyValue("min-width"));
+    const valueNow = parseInt(computedStyle.getPropertyValue("width"));
 
     if (typeof valueNow === "number" && !isNaN(valueNow)) {
       this.initialContentWidth = valueNow;
@@ -312,9 +312,9 @@ export class ShellPanel extends LitElement {
   }
 
   private updateHeights(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-height"), 10);
-    const min = parseInt(computedStyle.getPropertyValue("min-height"), 10);
-    const valueNow = parseInt(computedStyle.getPropertyValue("height"), 10);
+    const max = parseInt(computedStyle.getPropertyValue("max-height"));
+    const min = parseInt(computedStyle.getPropertyValue("min-height"));
+    const valueNow = parseInt(computedStyle.getPropertyValue("height"));
 
     if (typeof valueNow === "number" && !isNaN(valueNow)) {
       this.initialContentHeight = valueNow;

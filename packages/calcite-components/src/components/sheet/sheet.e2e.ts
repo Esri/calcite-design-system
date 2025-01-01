@@ -655,7 +655,7 @@ describe("calcite-sheet properties", () => {
 
       let computedStyle = await container.getComputedStyle();
       const initialInlineSize = computedStyle.inlineSize;
-      const initialWidth = parseInt(initialInlineSize, 10);
+      const initialWidth = parseInt(initialInlineSize);
 
       const resizeHandle = await page.find(`calcite-sheet >>> .${CSS.resizeHandle}`);
       await resizeHandle.focus();
@@ -711,7 +711,7 @@ describe("calcite-sheet properties", () => {
       await page.waitForChanges();
       computedStyle = await container.getComputedStyle();
       const initialBlockSize = computedStyle.blockSize;
-      const initialHeight = parseInt(initialBlockSize, 10);
+      const initialHeight = parseInt(initialBlockSize);
 
       await page.keyboard.down("ArrowDown");
       await page.keyboard.up("ArrowDown");
