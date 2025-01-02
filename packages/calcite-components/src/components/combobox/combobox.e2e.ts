@@ -3,6 +3,7 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it, beforeEach } from "vitest";
 import {
   accessible,
+  debounceCancelled,
   defaults,
   disabled,
   hidden,
@@ -126,6 +127,10 @@ describe("calcite-combobox", () => {
         value: true,
       },
     ]);
+  });
+
+  describe("debounceCancelled", () => {
+    debounceCancelled("calcite-combobox");
   });
 
   describe("honors hidden attribute", () => {

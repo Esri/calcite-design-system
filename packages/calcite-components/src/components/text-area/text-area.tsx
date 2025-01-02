@@ -325,6 +325,7 @@ export class TextArea
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+    this.setHeightAndWidthToAuto.cancel();
   }
 
   // #endregion

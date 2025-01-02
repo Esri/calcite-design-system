@@ -249,6 +249,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    this.resize.cancel();
   }
 
   // #endregion

@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
+  debounceCancelled,
   defaults,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -69,6 +70,10 @@ describe("calcite-action-bar", () => {
         value: "fixed",
       },
     ]);
+  });
+
+  describe("debounceCancelled", () => {
+    debounceCancelled("calcite-action-bar");
   });
 
   describe("delegates to floating-ui-owner component", () => {
