@@ -3,8 +3,6 @@
     "color": {
       "neutral": {
         "blk-000": {
-          "value": "#ffffff",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -24,11 +22,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#ffffff"
         },
         "blk-005": {
-          "value": "#f8f8f8",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -48,11 +46,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#f8f8f8"
         },
         "blk-010": {
-          "value": "#f3f3f3",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -72,11 +70,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#f3f3f3"
         },
         "blk-020": {
-          "value": "#eaeaea",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -96,11 +94,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#eaeaea"
         },
         "blk-030": {
-          "value": "#dfdfdf",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -120,11 +118,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#dfdfdf"
         },
         "blk-040": {
-          "value": "#d4d4d4",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -144,11 +142,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#d4d4d4"
         },
         "blk-050": {
-          "value": "#cacaca",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -168,11 +166,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#cacaca"
         },
         "blk-060": {
-          "value": "#bfbfbf",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -192,11 +190,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#bfbfbf"
         },
         "blk-070": {
-          "value": "#b5b5b5",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -216,11 +214,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#b5b5b5"
         },
         "blk-080": {
-          "value": "#aaaaaa",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -240,11 +238,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#aaaaaa"
         },
         "blk-090": {
-          "value": "#9f9f9f",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -264,11 +262,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#9f9f9f"
         },
         "blk-100": {
-          "value": "#949494",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -288,11 +286,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#949494"
         },
         "blk-110": {
-          "value": "#8a8a8a",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -312,11 +310,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#8a8a8a"
         },
         "blk-120": {
-          "value": "#808080",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -336,11 +334,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#808080"
         },
         "blk-130": {
-          "value": "#757575",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -360,11 +358,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#757575"
         },
         "blk-140": {
-          "value": "#6a6a6a",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -384,11 +382,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#6a6a6a"
         },
         "blk-150": {
-          "value": "#606060",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -408,11 +406,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#606060"
         },
         "blk-160": {
-          "value": "#555555",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -432,11 +430,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#555555"
         },
         "blk-170": {
-          "value": "#4a4a4a",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -456,11 +454,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#4a4a4a"
         },
         "blk-180": {
-          "value": "#404040",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -480,11 +478,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#404040"
         },
         "blk-190": {
-          "value": "#353535",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -504,11 +502,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#353535"
         },
         "blk-200": {
-          "value": "#2b2b2b",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -528,11 +526,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#2b2b2b"
         },
         "blk-210": {
-          "value": "#202020",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -552,11 +550,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#202020"
         },
         "blk-220": {
-          "value": "#151515",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -576,11 +574,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#151515"
         },
         "blk-230": {
-          "value": "#0b0b0b",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -600,11 +598,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#0b0b0b"
         },
         "blk-235": {
-          "value": "#060606",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -624,11 +622,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#060606"
         },
         "blk-240": {
-          "value": "#000000",
-          "type": "color",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -648,14 +646,14 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "color",
+          "$value": "#000000"
         }
       },
       "high-saturation": {
         "blue": {
           "h-bb-010": {
-            "value": "#c7eaff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -675,11 +673,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c7eaff"
           },
           "h-bb-020": {
-            "value": "#9fd4f3",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -699,11 +697,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#9fd4f3"
           },
           "h-bb-030": {
-            "value": "#77bde7",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -723,11 +721,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#77bde7"
           },
           "h-bb-040": {
-            "value": "#50a7da",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -747,11 +745,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#50a7da"
           },
           "h-bb-050": {
-            "value": "#2890ce",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -771,11 +769,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#2890ce"
           },
           "h-bb-060": {
-            "value": "#007ac2",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -795,11 +793,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#007ac2"
           },
           "h-bb-070": {
-            "value": "#00619b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -819,11 +817,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00619b"
           },
           "h-bb-080": {
-            "value": "#004874",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -843,11 +841,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#004874"
           },
           "h-bb-090": {
-            "value": "#00304d",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -867,11 +865,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00304d"
           },
           "h-bb-100": {
-            "value": "#001726",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -891,13 +889,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#001726"
           }
         },
         "green-blue": {
           "h-gb-010": {
-            "value": "#cef5f4",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -917,11 +915,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#cef5f4"
           },
           "h-gb-020": {
-            "value": "#afedec",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -941,11 +939,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#afedec"
           },
           "h-gb-030": {
-            "value": "#8fe6e5",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -965,11 +963,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#8fe6e5"
           },
           "h-gb-040": {
-            "value": "#5ae0de",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -989,11 +987,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#5ae0de"
           },
           "h-gb-050": {
-            "value": "#28cecb",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1013,11 +1011,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#28cecb"
           },
           "h-gb-060": {
-            "value": "#00bab5",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1037,11 +1035,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00bab5"
           },
           "h-gb-070": {
-            "value": "#009b98",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1061,11 +1059,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#009b98"
           },
           "h-gb-080": {
-            "value": "#007472",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1085,11 +1083,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#007472"
           },
           "h-gb-090": {
-            "value": "#004d4c",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1109,11 +1107,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#004d4c"
           },
           "h-gb-100": {
-            "value": "#002625",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1133,13 +1131,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#002625"
           }
         },
         "green": {
           "h-gg-010": {
-            "value": "#bdf2c4",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1159,11 +1157,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#bdf2c4"
           },
           "h-gg-020": {
-            "value": "#a2e4ab",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1183,11 +1181,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#a2e4ab"
           },
           "h-gg-030": {
-            "value": "#87d692",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1207,11 +1205,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#87d692"
           },
           "h-gg-040": {
-            "value": "#6bc878",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1231,11 +1229,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#6bc878"
           },
           "h-gg-050": {
-            "value": "#50ba5f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1255,11 +1253,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#50ba5f"
           },
           "h-gg-060": {
-            "value": "#35ac46",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1279,11 +1277,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#35ac46"
           },
           "h-gg-070": {
-            "value": "#288835",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1303,11 +1301,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#288835"
           },
           "h-gg-080": {
-            "value": "#1a6324",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1327,11 +1325,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#1a6324"
           },
           "h-gg-090": {
-            "value": "#0d3f14",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1351,11 +1349,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#0d3f14"
           },
           "h-gg-100": {
-            "value": "#001a03",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1375,13 +1373,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#001a03"
           }
         },
         "yellow-green": {
           "h-yg-010": {
-            "value": "#e5f7b4",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1401,11 +1399,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e5f7b4"
           },
           "h-yg-020": {
-            "value": "#d9ef9f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1425,11 +1423,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d9ef9f"
           },
           "h-yg-030": {
-            "value": "#cde78a",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1449,11 +1447,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#cde78a"
           },
           "h-yg-040": {
-            "value": "#c2e075",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1473,11 +1471,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c2e075"
           },
           "h-yg-050": {
-            "value": "#b6d860",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1497,11 +1495,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#b6d860"
           },
           "h-yg-060": {
-            "value": "#aad04b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1521,11 +1519,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#aad04b"
           },
           "h-yg-070": {
-            "value": "#84a338",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1545,11 +1543,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#84a338"
           },
           "h-yg-080": {
-            "value": "#5e7526",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1569,11 +1567,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#5e7526"
           },
           "h-yg-090": {
-            "value": "#384813",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1593,11 +1591,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#384813"
           },
           "h-yg-100": {
-            "value": "#121a00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1617,13 +1615,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#121a00"
           }
         },
         "yellow": {
           "h-yy-010": {
-            "value": "#fff7cc",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1643,11 +1641,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fff7cc"
           },
           "h-yy-020": {
-            "value": "#fef3ad",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1667,11 +1665,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fef3ad"
           },
           "h-yy-030": {
-            "value": "#fcee8d",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1691,11 +1689,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fcee8d"
           },
           "h-yy-040": {
-            "value": "#fbea6e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1715,11 +1713,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fbea6e"
           },
           "h-yy-050": {
-            "value": "#f9e54e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1739,11 +1737,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f9e54e"
           },
           "h-yy-060": {
-            "value": "#edd317",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1763,11 +1761,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#edd317"
           },
           "h-yy-070": {
-            "value": "#d9bc00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1787,11 +1785,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d9bc00"
           },
           "h-yy-080": {
-            "value": "#bfa200",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1811,11 +1809,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#bfa200"
           },
           "h-yy-090": {
-            "value": "#8c7500",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1835,11 +1833,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#8c7500"
           },
           "h-yy-100": {
-            "value": "#5c4e00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1859,13 +1857,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#5c4e00"
           }
         },
         "orange-yellow": {
           "h-oy-010": {
-            "value": "#ffe2bf",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1885,11 +1883,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffe2bf"
           },
           "h-oy-020": {
-            "value": "#fed3a1",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1909,11 +1907,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fed3a1"
           },
           "h-oy-030": {
-            "value": "#fcc582",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1933,11 +1931,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fcc582"
           },
           "h-oy-040": {
-            "value": "#fbb664",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1957,11 +1955,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fbb664"
           },
           "h-oy-050": {
-            "value": "#f9a845",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -1981,11 +1979,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f9a845"
           },
           "h-oy-060": {
-            "value": "#f89927",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2005,11 +2003,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f89927"
           },
           "h-oy-070": {
-            "value": "#c67718",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2029,11 +2027,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c67718"
           },
           "h-oy-080": {
-            "value": "#9a5b10",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2053,11 +2051,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#9a5b10"
           },
           "h-oy-090": {
-            "value": "#6d3f08",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2077,11 +2075,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#6d3f08"
           },
           "h-oy-100": {
-            "value": "#402300",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2101,13 +2099,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#402300"
           }
         },
         "orange": {
           "h-oo-010": {
-            "value": "#ffd8bf",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2127,11 +2125,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffd8bf"
           },
           "h-oo-020": {
-            "value": "#fdc39f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2151,11 +2149,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fdc39f"
           },
           "h-oo-030": {
-            "value": "#faae7f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2175,11 +2173,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#faae7f"
           },
           "h-oo-040": {
-            "value": "#f89960",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2199,11 +2197,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f89960"
           },
           "h-oo-050": {
-            "value": "#f58440",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2223,11 +2221,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f58440"
           },
           "h-oo-060": {
-            "value": "#f36f20",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2247,11 +2245,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f36f20"
           },
           "h-oo-070": {
-            "value": "#c65a18",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2271,11 +2269,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c65a18"
           },
           "h-oo-080": {
-            "value": "#9a4410",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2295,11 +2293,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#9a4410"
           },
           "h-oo-090": {
-            "value": "#6d2f08",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2319,11 +2317,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#6d2f08"
           },
           "h-oo-100": {
-            "value": "#401900",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2343,13 +2341,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#401900"
           }
         },
         "red-orange": {
           "h-ro-010": {
-            "value": "#ffc7b3",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2369,11 +2367,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffc7b3"
           },
           "h-ro-020": {
-            "value": "#f8af95",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2393,11 +2391,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f8af95"
           },
           "h-ro-030": {
-            "value": "#f09677",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2417,11 +2415,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f09677"
           },
           "h-ro-040": {
-            "value": "#e97e5a",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2441,11 +2439,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e97e5a"
           },
           "h-ro-050": {
-            "value": "#e1653c",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2465,11 +2463,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e1653c"
           },
           "h-ro-060": {
-            "value": "#da4d1e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2489,11 +2487,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#da4d1e"
           },
           "h-ro-070": {
-            "value": "#ad3c16",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2513,11 +2511,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ad3c16"
           },
           "h-ro-080": {
-            "value": "#802c0f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2537,11 +2535,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#802c0f"
           },
           "h-ro-090": {
-            "value": "#531b07",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2561,11 +2559,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#531b07"
           },
           "h-ro-100": {
-            "value": "#260a00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2585,13 +2583,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#260a00"
           }
         },
         "red": {
           "h-rr-010": {
-            "value": "#ffc6bf",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2611,11 +2609,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffc6bf"
           },
           "h-rr-020": {
-            "value": "#ffaaa1",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2635,11 +2633,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffaaa1"
           },
           "h-rr-030": {
-            "value": "#f2877b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2659,11 +2657,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f2877b"
           },
           "h-rr-040": {
-            "value": "#f07062",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2683,11 +2681,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f07062"
           },
           "h-rr-050": {
-            "value": "#e65240",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2707,11 +2705,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e65240"
           },
           "h-rr-060": {
-            "value": "#d83020",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2731,11 +2729,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d83020"
           },
           "h-rr-070": {
-            "value": "#a82b1e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2755,11 +2753,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#a82b1e"
           },
           "h-rr-080": {
-            "value": "#7c1d13",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2779,11 +2777,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#7c1d13"
           },
           "h-rr-090": {
-            "value": "#4f0e08",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2803,11 +2801,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#4f0e08"
           },
           "h-rr-100": {
-            "value": "#210300",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2827,13 +2825,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#210300"
           }
         },
         "pink": {
           "h-pk-010": {
-            "value": "#ffd1ef",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2853,11 +2851,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffd1ef"
           },
           "h-pk-020": {
-            "value": "#fabee4",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2877,11 +2875,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fabee4"
           },
           "h-pk-030": {
-            "value": "#f2a5d6",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2901,11 +2899,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f2a5d6"
           },
           "h-pk-040": {
-            "value": "#eb8dc9",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2925,11 +2923,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#eb8dc9"
           },
           "h-pk-050": {
-            "value": "#e673bb",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2949,11 +2947,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e673bb"
           },
           "h-pk-060": {
-            "value": "#e04ea6",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2973,11 +2971,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e04ea6"
           },
           "h-pk-070": {
-            "value": "#ba2f7e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -2997,11 +2995,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ba2f7e"
           },
           "h-pk-080": {
-            "value": "#851b52",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3021,11 +3019,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#851b52"
           },
           "h-pk-090": {
-            "value": "#590b32",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3045,11 +3043,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#590b32"
           },
           "h-pk-100": {
-            "value": "#260404",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3069,13 +3067,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#260404"
           }
         },
         "violet-red": {
           "h-vr-010": {
-            "value": "#fadbff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3095,11 +3093,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fadbff"
           },
           "h-vr-020": {
-            "value": "#e4beeb",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3119,11 +3117,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e4beeb"
           },
           "h-vr-030": {
-            "value": "#cfa1d7",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3143,11 +3141,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#cfa1d7"
           },
           "h-vr-040": {
-            "value": "#b983c3",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3167,11 +3165,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#b983c3"
           },
           "h-vr-050": {
-            "value": "#a466af",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3191,11 +3189,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#a466af"
           },
           "h-vr-060": {
-            "value": "#8e499b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3215,11 +3213,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#8e499b"
           },
           "h-vr-070": {
-            "value": "#73377e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3239,11 +3237,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#73377e"
           },
           "h-vr-080": {
-            "value": "#572561",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3263,11 +3261,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#572561"
           },
           "h-vr-090": {
-            "value": "#3c1243",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3287,11 +3285,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#3c1243"
           },
           "h-vr-100": {
-            "value": "#200026",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3311,13 +3309,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#200026"
           }
         },
         "violet": {
           "h-vv-010": {
-            "value": "#e8d9ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3337,11 +3335,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e8d9ff"
           },
           "h-vv-020": {
-            "value": "#cdb9eb",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3361,11 +3359,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#cdb9eb"
           },
           "h-vv-030": {
-            "value": "#b39ad7",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3385,11 +3383,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#b39ad7"
           },
           "h-vv-040": {
-            "value": "#987ac3",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3409,11 +3407,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#987ac3"
           },
           "h-vv-050": {
-            "value": "#7e5baf",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3433,11 +3431,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#7e5baf"
           },
           "h-vv-060": {
-            "value": "#633b9b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3457,11 +3455,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#633b9b"
           },
           "h-vv-070": {
-            "value": "#4e2c7e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3481,11 +3479,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#4e2c7e"
           },
           "h-vv-080": {
-            "value": "#3a1e61",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3505,11 +3503,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#3a1e61"
           },
           "h-vv-090": {
-            "value": "#250f43",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3529,11 +3527,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#250f43"
           },
           "h-vv-100": {
-            "value": "#100026",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3553,15 +3551,15 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#100026"
           }
         }
       },
       "vibrant": {
         "blue": {
           "v-bb-120": {
-            "value": "#59d6ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3581,11 +3579,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#59d6ff"
           },
           "v-bb-140": {
-            "value": "#3db8ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3605,11 +3603,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#3db8ff"
           },
           "v-bb-160": {
-            "value": "#009af2",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3629,11 +3627,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#009af2"
           },
           "v-bb-180": {
-            "value": "#009af2",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3653,13 +3651,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#009af2"
           }
         },
         "green-blue": {
           "v-gb-120": {
-            "value": "#59fffc",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3679,11 +3677,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#59fffc"
           },
           "v-gb-140": {
-            "value": "#00f7f3",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3703,11 +3701,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00f7f3"
           },
           "v-gb-160": {
-            "value": "#00e6e2",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3727,11 +3725,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00e6e2"
           },
           "v-gb-180": {
-            "value": "#00cfca",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3751,13 +3749,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00cfca"
           }
         },
         "green": {
           "v-gg-120": {
-            "value": "#73ff84",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3777,11 +3775,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#73ff84"
           },
           "v-gg-140": {
-            "value": "#3bed52",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3801,11 +3799,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#3bed52"
           },
           "v-gg-160": {
-            "value": "#00b81b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3825,11 +3823,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00b81b"
           },
           "v-gg-180": {
-            "value": "#00a118",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3849,13 +3847,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00a118"
           }
         },
         "yellow-green": {
           "v-yg-120": {
-            "value": "#d7ff73",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3875,11 +3873,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d7ff73"
           },
           "v-yg-140": {
-            "value": "#bbed3b",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3899,11 +3897,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#bbed3b"
           },
           "v-yg-160": {
-            "value": "#96cc00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3923,11 +3921,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#96cc00"
           },
           "v-yg-180": {
-            "value": "#7fab00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3947,13 +3945,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#7fab00"
           }
         },
         "yellow": {
           "v-yy-120": {
-            "value": "#fff766",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3973,11 +3971,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#fff766"
           },
           "v-yy-140": {
-            "value": "#ffee33",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -3997,11 +3995,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffee33"
           },
           "v-yy-160": {
-            "value": "#f5d000",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4021,11 +4019,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#f5d000"
           },
           "v-yy-180": {
-            "value": "#ebba17",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4045,13 +4043,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ebba17"
           }
         },
         "orange-yellow": {
           "v-oy-120": {
-            "value": "#ffb54d",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4071,11 +4069,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ffb54d"
           },
           "v-oy-140": {
-            "value": "#ff9500",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4095,11 +4093,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff9500"
           },
           "v-oy-160": {
-            "value": "#e68600",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4119,11 +4117,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#e68600"
           },
           "v-oy-180": {
-            "value": "#d17300",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4143,13 +4141,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d17300"
           }
         },
         "red-orange": {
           "v-ro-120": {
-            "value": "#ff824d",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4169,11 +4167,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff824d"
           },
           "v-ro-140": {
-            "value": "#ff4d00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4193,11 +4191,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff4d00"
           },
           "v-ro-160": {
-            "value": "#de4300",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4217,11 +4215,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#de4300"
           },
           "v-ro-180": {
-            "value": "#c93b00",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4241,13 +4239,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c93b00"
           }
         },
         "red": {
           "v-rr-120": {
-            "value": "#ff624d",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4267,11 +4265,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff624d"
           },
           "v-rr-140": {
-            "value": "#ff0015",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4291,11 +4289,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff0015"
           },
           "v-rr-160": {
-            "value": "#d90012",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4315,11 +4313,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d90012"
           },
           "v-rr-180": {
-            "value": "#b3000f",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4339,13 +4337,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#b3000f"
           }
         },
         "pink": {
           "v-pk-120": {
-            "value": "#ff66c2",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4365,11 +4363,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff66c2"
           },
           "v-pk-140": {
-            "value": "#ff19a4",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4389,11 +4387,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ff19a4"
           },
           "v-pk-160": {
-            "value": "#d11486",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4413,11 +4411,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#d11486"
           },
           "v-pk-180": {
-            "value": "#c00073",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4437,13 +4435,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#c00073"
           }
         },
         "violet-red": {
           "v-vr-120": {
-            "value": "#ea80ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4463,11 +4461,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ea80ff"
           },
           "v-vr-140": {
-            "value": "#dd33ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4487,11 +4485,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#dd33ff"
           },
           "v-vr-160": {
-            "value": "#ac08cc",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4511,11 +4509,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#ac08cc"
           },
           "v-vr-180": {
-            "value": "#83009e",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4535,13 +4533,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#83009e"
           }
         },
         "violet": {
           "v-vv-120": {
-            "value": "#b580ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4561,11 +4559,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#b580ff"
           },
           "v-vv-140": {
-            "value": "#974dff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4585,11 +4583,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#974dff"
           },
           "v-vv-160": {
-            "value": "#8129ff",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4609,11 +4607,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#8129ff"
           },
           "v-vv-180": {
-            "value": "#6a0be6",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4633,15 +4631,15 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#6a0be6"
           }
         }
       },
       "dark": {
         "green": {
           "d-gg-410": {
-            "value": "#44ED51",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4661,11 +4659,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#44ED51"
           },
           "d-gg-420": {
-            "value": "#36DA43",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4685,11 +4683,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#36DA43"
           },
           "d-gg-430": {
-            "value": "#36DA43",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4709,13 +4707,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#36DA43"
           }
         },
         "yellow": {
           "d-yy-410": {
-            "value": "#FFE24D",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4735,11 +4733,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#FFE24D"
           },
           "d-yy-420": {
-            "value": "#FFC900",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4759,11 +4757,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#FFC900"
           },
           "d-yy-430": {
-            "value": "#F4B000",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4783,13 +4781,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#F4B000"
           }
         },
         "red": {
           "d-rr-410": {
-            "value": "#FF7465",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4809,11 +4807,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#FF7465"
           },
           "d-rr-420": {
-            "value": "#FE583E",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4833,11 +4831,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#FE583E"
           },
           "d-rr-430": {
-            "value": "#F3381B",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4857,13 +4855,13 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#F3381B"
           }
         },
         "blue": {
           "d-bb-410": {
-            "value": "#47BBFF",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4883,11 +4881,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#47BBFF"
           },
           "d-bb-420": {
-            "value": "#00A0FF",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4907,11 +4905,11 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#00A0FF"
           },
           "d-bb-430": {
-            "value": "#0087D7",
-            "type": "color",
             "attributes": {
               "calcite-schema": {
                 "system": "calcite",
@@ -4931,7 +4929,9 @@
                 "context": "",
                 "mode": ""
               }
-            }
+            },
+            "$type": "color",
+            "$value": "#0087D7"
           }
         }
       }

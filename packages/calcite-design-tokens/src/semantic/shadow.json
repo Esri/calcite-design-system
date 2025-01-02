@@ -2,8 +2,6 @@
   "semantic": {
     "shadow": {
       "none": {
-        "value": "{core.shadow.0}",
-        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -23,11 +21,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "boxShadow",
+        "$value": "{core.shadow.0}"
       },
       "sm": {
-        "value": ["{core.shadow.1}", "{core.shadow.2}"],
-        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -47,11 +45,14 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "boxShadow",
+        "$value": [
+          "{core.shadow.1}",
+          "{core.shadow.2}"
+        ]
       },
       "md": {
-        "value": ["{core.shadow.3}", "{core.shadow.4}"],
-        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -71,7 +72,12 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "boxShadow",
+        "$value": [
+          "{core.shadow.3}",
+          "{core.shadow.4}"
+        ]
       }
     }
   }

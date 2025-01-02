@@ -2,33 +2,7 @@
   "core": {
     "size": {
       "default": {
-        "none": {
-          "value": "0",
-          "type": "size",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "core",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "default",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "none",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
         "1": {
-          "value": "1px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -48,11 +22,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "1px"
         },
         "2": {
-          "value": "2px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -72,11 +46,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "2px"
         },
         "4": {
-          "value": "4px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -96,11 +70,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "4px"
         },
         "6": {
-          "value": "6px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -120,11 +94,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "6px"
         },
         "8": {
-          "value": "8px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -144,11 +118,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "8px"
         },
         "10": {
-          "value": "10px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -168,11 +142,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "10px"
         },
         "12": {
-          "value": "12px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -192,11 +166,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "12px"
         },
         "14": {
-          "value": "14px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -216,11 +190,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "14px"
         },
         "16": {
-          "value": "16px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -240,11 +214,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "16px"
         },
         "20": {
-          "value": "20px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -264,11 +238,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "20px"
         },
         "24": {
-          "value": "24px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -288,11 +262,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "24px"
         },
         "28": {
-          "value": "28px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -312,11 +286,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "28px"
         },
         "32": {
-          "value": "32px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -336,11 +310,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "32px"
         },
         "36": {
-          "value": "36px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -360,11 +334,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "36px"
         },
         "40": {
-          "value": "40px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -384,11 +358,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "40px"
         },
         "44": {
-          "value": "44px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -408,11 +382,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "44px"
         },
         "48": {
-          "value": "48px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -432,11 +406,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "48px"
         },
         "56": {
-          "value": "56px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -456,11 +430,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "56px"
         },
         "64": {
-          "value": "64px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -480,11 +454,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "64px"
         },
         "72": {
-          "value": "72px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -504,11 +478,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "72px"
         },
         "80": {
-          "value": "80px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -528,11 +502,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "80px"
         },
         "96": {
-          "value": "96px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -552,11 +526,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "96px"
         },
         "112": {
-          "value": "112px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -576,11 +550,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "112px"
         },
         "128": {
-          "value": "128px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -600,11 +574,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "128px"
         },
         "144": {
-          "value": "144px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -624,11 +598,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "144px"
         },
         "160": {
-          "value": "160px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -648,11 +622,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "160px"
         },
         "192": {
-          "value": "192px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -672,11 +646,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "192px"
         },
         "224": {
-          "value": "224px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -696,11 +670,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "224px"
         },
         "256": {
-          "value": "256px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -720,11 +694,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "256px"
         },
         "288": {
-          "value": "288px",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -744,13 +718,11 @@
               "context": "",
               "mode": ""
             }
-          }
-        }
-      },
-      "relative": {
-        "auto": {
-          "value": "auto",
-          "type": "size",
+          },
+          "$type": "size",
+          "$value": "288px"
+        },
+        "none": {
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -760,21 +732,23 @@
               "pattern": "",
               "element": "",
               "category": "size",
-              "group": "relative",
+              "group": "default",
               "kind": "",
               "appearance": "",
               "property": "",
               "variant": "",
               "state": "",
-              "scale": "auto",
+              "scale": "none",
               "context": "",
               "mode": ""
             }
-          }
-        },
+          },
+          "$type": "size",
+          "$value": "0"
+        }
+      },
+      "relative": {
         "50": {
-          "value": "50%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -794,11 +768,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "50%"
         },
         "100": {
-          "value": "100%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -818,11 +792,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "100%"
         },
         "125": {
-          "value": "125%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -842,11 +816,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "125%"
         },
         "137": {
-          "value": "137.5%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -866,11 +840,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "137.5%"
         },
         "150": {
-          "value": "150%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -890,11 +864,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "150%"
         },
         "162": {
-          "value": "162.5%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -914,11 +888,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "162.5%"
         },
         "200": {
-          "value": "200%",
-          "type": "size",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -938,7 +912,33 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "size",
+          "$value": "200%"
+        },
+        "auto": {
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "size",
+              "group": "relative",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "auto",
+              "context": "",
+              "mode": ""
+            }
+          },
+          "$type": "size",
+          "$value": "auto"
         }
       }
     }
