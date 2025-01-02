@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";

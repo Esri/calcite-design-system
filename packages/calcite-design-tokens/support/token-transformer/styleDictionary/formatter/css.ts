@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import sd, { Core as StyleDictionary } from "style-dictionary";
 import prettierSync from "@prettier/sync";
 

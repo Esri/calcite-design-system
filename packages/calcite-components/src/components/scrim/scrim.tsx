@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";

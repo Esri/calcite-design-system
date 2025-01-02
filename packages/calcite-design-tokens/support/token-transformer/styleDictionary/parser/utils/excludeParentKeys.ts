@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 /**
  * This is a copy of @tokens-studio/sd-transforms/dist/parsers/exclude-parent-key.js because it is not provided in the exports and we need to update the types.
  */

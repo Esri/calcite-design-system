@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { EOL } from "os";
 import { Platform } from "../../../../types/platform.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
