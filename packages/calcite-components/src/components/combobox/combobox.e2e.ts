@@ -40,12 +40,12 @@ describe("calcite-combobox", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
+        propertyName: "filterProps",
+        defaultValue: undefined,
       },
       {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
       },
       {
         propertyName: "scale",
@@ -674,6 +674,61 @@ describe("calcite-combobox", () => {
       expect(await input.getProperty("value")).toBe("anm");
       expect(input).not.toHaveClass(`${CSS.inputHidden}`);
     });
+
+    it("supports filterProps", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox filter-text="match">
+          <calcite-combobox-item
+            id="text-label-match"
+            text-label="match"
+            description="description-1"
+            value="value-1"
+            short-heading="short-heading-1"
+          ></calcite-combobox-item>
+          <calcite-combobox-item
+            id="description-match"
+            text-label="text-label-2"
+            description="match"
+            value="value-2"
+            short-heading="short-heading-2"
+          ></calcite-combobox-item>
+          <calcite-combobox-item
+            id="value-match"
+            text-label="text-label-3"
+            description="description-3"
+            value="match"
+            short-heading="short-heading-3"
+          ></calcite-combobox-item>
+          <calcite-combobox-item
+            id="short-heading-match"
+            text-label="text-label-4"
+            description="description-4"
+            value="value-4"
+            short-heading="match"
+          ></calcite-combobox-item>
+          <calcite-combobox-item
+            id="no-match"
+            text-label="text-label-5"
+            description="description-5"
+            value="value-5"
+            short-heading="short-heading-5"
+            ></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+
+      await page.waitForChanges();
+      const combobox = await page.find("calcite-combobox");
+      combobox.setProperty("filterProps", ["textLabel", "description"]);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      expect(await combobox.getProperty("filteredItems")).toHaveLength(2);
+
+      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
+
+      expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
+    })
   });
 
   it("should control max items displayed", async () => {
