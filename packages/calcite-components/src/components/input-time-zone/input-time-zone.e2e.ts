@@ -650,4 +650,23 @@ describe("calcite-input-time-zone", () => {
       await assertItemLabelMatches(page, "UTC");
     });
   });
+
+  it("keeps internal combobox in sync after selection when setting value along with time zone item-related props", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneItems[0].name);
+    await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+    const inputTimeZone = await page.find("calcite-input-time-zone");
+    const combobox = await page.find("calcite-input-time-zone >>> calcite-combobox");
+
+    inputTimeZone.setProperty("referenceDate", new Date());
+    inputTimeZone.setProperty("value", testTimeZoneItems[1].offset);
+    await page.waitForChanges();
+
+    await inputTimeZone.callMethod("setFocus");
+    await inputTimeZone.press("ArrowDown");
+    await inputTimeZone.press("Escape");
+    await page.waitForChanges();
+
+    expect(await combobox.getProperty("value")).not.toBe("");
+  });
 });

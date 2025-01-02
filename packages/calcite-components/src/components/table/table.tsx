@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
@@ -20,7 +21,7 @@ import {
   TableSelectionDisplay,
 } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/table.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
 declare global {

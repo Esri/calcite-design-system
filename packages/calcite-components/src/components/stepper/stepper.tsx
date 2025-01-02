@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
@@ -15,7 +16,7 @@ import {
   StepperItemKeyEventDetail,
   StepperLayout,
 } from "./interfaces";
-import T9nStrings from "./assets/t9n/stepper.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper.scss";
 
 declare global {

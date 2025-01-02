@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
@@ -15,6 +16,7 @@ import {
   hasVisibleContent,
   isBefore,
   isKeyboardTriggeredClick,
+  isPixelValue,
   isPrimaryPointerButton,
   setRequestedIcon,
   slotChangeGetAssignedElements,
@@ -331,12 +333,8 @@ describe("dom", () => {
       const element = document.createElement("div");
       document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
-    });
 
-    it("should return false if element has no visible content", () => {
-      const element = document.createElement("div");
       element.innerHTML = "\n<!-- some comment -->\n";
-      document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
     });
   });
@@ -629,6 +627,17 @@ describe("dom", () => {
       expect(onStartCallback).toHaveBeenCalled();
       await waitForAnimationFrame();
       expect(onEndCallback).toHaveBeenCalled();
+    });
+  });
+
+  describe("isPixelValue()", () => {
+    it("returns true for pixel values", () => {
+      expect(isPixelValue("10px")).toBe(true);
+    });
+
+    it("returns false for non-pixel values", () => {
+      expect(isPixelValue("10%")).toBe(false);
+      expect(isPixelValue("10em")).toBe(false);
     });
   });
 });

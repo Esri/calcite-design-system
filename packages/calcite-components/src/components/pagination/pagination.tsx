@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -13,7 +14,7 @@ import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, ICONS } from "./resources";
-import T9nStrings from "./assets/t9n/pagination.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
 
 declare global {
@@ -313,7 +314,7 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value, 10);
+    this.startItem = parseInt(target.value);
     this.emitUpdate();
   }
 

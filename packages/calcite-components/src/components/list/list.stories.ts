@@ -5083,3 +5083,8 @@ export const interactiveMode = (): string => html`
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
 `;
+
+export const sortableListWithSingleItem = (): string =>
+  html`<calcite-list drag-enabled label="test">
+    <calcite-list-item label="small" value="small" description="small hello world"></calcite-list-item>
+  </calcite-list>`;

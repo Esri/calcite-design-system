@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -13,7 +14,6 @@ import {
   focusFirstTabbable,
   setRequestedIcon,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
@@ -29,7 +29,7 @@ import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/alert.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import AlertManager from "./AlertManager";
@@ -408,7 +408,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     this.el.toggleAttribute("calcite-hydrated-hidden", hidden);

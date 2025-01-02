@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
@@ -288,7 +289,7 @@ describe("calcite-tree-item", () => {
       await btn.click();
 
       const item = await page.find("#newbie");
-      expect(item).toEqualAttribute("aria-hidden", "false");
+      expect(item.inert).toBe(false);
       expect(item.tabIndex).toBe(0);
     });
   });

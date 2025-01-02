@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -37,7 +38,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/modal.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
 
@@ -80,19 +81,7 @@ export class Modal
     this.updateSizeCssVars();
   });
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = () => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -276,10 +265,16 @@ export class Modal
     this.updateSizeCssVars();
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
+        // scrim closes on click, so we let it take over
         clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
   }
@@ -386,23 +381,23 @@ export class Modal
   }
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
+    this.transitionEl?.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
     activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
+    this.transitionEl?.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.transitionEl?.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
     deactivateFocusTrap(this);
   }

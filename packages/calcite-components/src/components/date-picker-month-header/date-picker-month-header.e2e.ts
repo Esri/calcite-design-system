@@ -3,7 +3,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { DateLocaleData } from "../date-picker/utils";
 import { renders } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
-import T9nStrings from "../date-picker/assets/t9n/date-picker.t9n.en.json";
+import T9nStrings from "../date-picker/assets/t9n/messages.en.json";
 
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {

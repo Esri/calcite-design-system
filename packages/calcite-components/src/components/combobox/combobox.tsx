@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { debounce, escapeRegExp } from "lodash-es";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
@@ -63,15 +64,9 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/combobox.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import {
-  ComboboxChildSelector,
-  ComboboxItemSelector,
-  ComboboxItemGroupSelector,
-  CSS,
-  IDS,
-} from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -930,11 +925,10 @@ export class Combobox
 
     await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
+    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
-
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
@@ -1129,21 +1123,20 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const items = this.getItemsAndGroups().filter((item) => !item.hidden);
+    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const items = allItemsAndGroups.filter((item) => !item.hidden);
 
     const { maxItems } = this;
 
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
 
-    if (items.length > maxItems) {
+    if (items.length >= maxItems) {
       items.forEach((item) => {
         if (itemsToProcess < maxItems) {
           const height = this.calculateScrollerHeight(item);
-          if (height > 0) {
-            maxScrollerHeight += height;
-            itemsToProcess++;
-          }
+          maxScrollerHeight += height;
+          itemsToProcess += 1;
         }
       });
     }
@@ -1153,13 +1146,14 @@ export class Combobox
 
   private calculateScrollerHeight(item: ComboboxChildElement): number {
     if (!item) {
-      return;
+      return 0;
     }
 
     // if item has children items, don't count their height twice
     const parentHeight = item.getBoundingClientRect().height;
+    const DirectComboboxChildrenSelector = `:scope > ${ComboboxItemSelector}, :scope > ${ComboboxItemGroupSelector}`;
     const childrenTotalHeight = Array.from(
-      item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector),
+      item.querySelectorAll<ComboboxChildElement>(DirectComboboxChildrenSelector),
     ).reduce((total, child) => total + child.getBoundingClientRect().height, 0);
 
     return parentHeight - childrenTotalHeight;
@@ -1295,11 +1289,11 @@ export class Combobox
     this.filterText = "";
   }
 
-  private getItems(): HTMLCalciteComboboxItemElement["el"][] {
+  private getItems(withDisabled: boolean = false): HTMLCalciteComboboxItemElement["el"][] {
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
       this.el.querySelectorAll(ComboboxItemSelector),
     );
-    return items.filter((item) => !item.disabled);
+    return items.filter((item) => withDisabled || !item.disabled);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
