@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {

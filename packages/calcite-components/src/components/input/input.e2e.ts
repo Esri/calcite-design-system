@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { KeyInput } from "puppeteer";
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";

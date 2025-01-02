@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { FocusTrap } from "focus-trap";
 import { PropertyValues } from "lit";
 import {
@@ -630,7 +631,7 @@ export class InputDatePicker
   private handleDateTimeFormatChange(): void {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      // @see [Arabic numbering system support context](https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195) for more info.
       numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 

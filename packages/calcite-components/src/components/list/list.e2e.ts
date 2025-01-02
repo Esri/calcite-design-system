@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -694,6 +695,34 @@ describe("calcite-list", () => {
       for (const item of visibleItems) {
         expect(await item.getProperty("description")).toBe("list1");
       }
+    });
+
+    it("filterPredicate will work without filterEnabled", async () => {
+      const matchingFont = "Courier";
+
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list>
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+
+      await page.$eval("calcite-list", (list: List["el"]) => {
+        list.filterPredicate = (item) => {
+          return item.value === "item2";
+        };
+      });
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems).toHaveLength(1);
+      expect(await visibleItems[0].getProperty("value")).toBe("item2");
     });
 
     it("filters initially", async () => {

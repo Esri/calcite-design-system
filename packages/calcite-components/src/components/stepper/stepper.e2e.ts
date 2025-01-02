@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeAll } from "vitest";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
@@ -124,7 +125,6 @@ describe("calcite-stepper", () => {
     }
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("honors hidden attribute", () => {
     hidden("calcite-stepper");
   });

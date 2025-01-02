@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, vi } from "vitest";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, labelClickEvent } from "./label";
 
