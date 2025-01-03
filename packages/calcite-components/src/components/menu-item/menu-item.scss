@@ -3,16 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
-* @prop --calcite-menu-item-accent-color: Specifies the border color of the component when `active`.
-* @prop --calcite-menu-item-accent-color-hover: Specifies the border color of the component when hovered.
-* @prop --calcite-menu-background-color: Specifies the background color of the component.
-* @prop --calcite-menu-background-color-hover: Specifies the background color of the component when hovered.
-* @prop --calcite-menu-background-color-press: Specifies the background color of the component when active.
-* @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
-* @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
-* @prop --calcite-menu-text-color: Specifies the text color of the component.
-* @prop --calcite-menu-text-color-hover: Specifies the text color of the component when hovered.
-* @prop --calcite-menu-text-color-press: Specifies the text color of the component when active.
+ * @prop --calcite-menu-item-accent-color: Specifies the border color of the component when `active`.
+ * @prop --calcite-menu-item-accent-color-hover: Specifies the border color of the component when hovered.
+ * @prop --calcite-menu-background-color: Specifies the background color of the component.
+ * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
+ * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
+ * @prop --calcite-menu-text-color: Specifies the text color of the component.
  */
 
 :host {
@@ -57,13 +53,16 @@
   padding-block-start: theme("spacing[0.5]");
   border-block-end: theme("spacing[0.5]") solid var(--calcite-color-transparent);
 
-  background-color: var(--calcite-menu-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-menu-text-color, var(--calcite-internal-menu-item-text-color, var(--calcite-color-text-2)));
+  background-color: var(
+    --calcite-menu-background-color,
+    var(--calcite-internal-menu-background-color, var(--calcite-color-foreground-1))
+  );
+  color: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color, var(--calcite-color-text-2)));
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-menu-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-menu-text-color-hover, var(--calcite-color-text-2));
+    --calcite-internal-menu-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-text-color: var(--calcite-color-text-2);
   }
 
   &:hover {
@@ -77,8 +76,8 @@
   }
 
   &:active {
-    background-color: var(--calcite-menu-background-color-press, var(--calcite-color-foreground-3));
-    color: var(--calcite-menu-text-color-press, var(--calcite-color-text-1));
+    --calcite-internal-menu-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-menu-text-color: var(--calcite-color-text-1);
   }
 
   & span {
@@ -100,7 +99,7 @@
 :host([active]) {
   .content {
     background-color: var(--calcite-menu-background-color, (--calcite-color-foreground-3));
-    --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
+    --calcite-internal-menu-text-color: var(--calcite-color-text-1);
     border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
   }
   .icon {
@@ -186,19 +185,28 @@ calcite-action {
 
   &:hover,
   &:focus {
-    --calcite-action-background-color-hover: var(--calcite-menu-background-color-hover);
-    --calcite-action-text-color-press: var(--calcite-menu-text-color-press);
+    --calcite-action-background-color-hover: var(
+      --calcite-menu-background-color,
+      var(--calcite-internal-menu-background-color)
+    );
+    --calcite-action-text-color-press: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color));
   }
 
   &:active {
-    --calcite-action-background-color-press: var(--calcite-menu-background-color-press);
+    --calcite-action-background-color-press: var(
+      --calcite-menu-background-color,
+      var(--calcite-internal-menu-background-color)
+    );
   }
 }
 
 // extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
-  --calcite-action-text-color: var(--calcite-menu-text-color-press, var(--calcite-color-text-1));
+  --calcite-action-text-color: var(
+    --calcite-menu-text-color,
+    var(--calcite-internal-menu-text-color, var(--calcite-color-text-1))
+  );
 
   &::after {
     @apply h-full;

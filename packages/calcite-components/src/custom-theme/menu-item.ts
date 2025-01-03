@@ -4,15 +4,12 @@ export const menuItemTokens = {
   calciteMenuItemAccentColor: "",
   calciteMenuItemAccentColorHover: "",
   calciteMenuBackgroundColor: "",
-  calciteMenuBackgroundColorHover: "",
-  calciteMenuBackgroundColorPress: "",
   calciteMenuItemSubMenuBorderColor: "",
   calciteMenuItemSubMenuCornerRadius: "",
   calciteMenuTextColor: "",
-  calciteMenuTextColorHover: "",
-  calciteMenuTextColorPress: "",
 };
-const menuHTML = (layout: string) => html`<calcite-menu layout="${layout}>
+
+const menuHTML = (layout: string) => html`<calcite-menu layout="${layout}">
       <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" open>
         <calcite-menu-item
           href="#calcite-navigation-slots"

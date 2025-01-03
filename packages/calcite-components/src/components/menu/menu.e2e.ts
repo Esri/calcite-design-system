@@ -292,42 +292,4 @@ describe("calcite-menu", () => {
     expect(await menuItemMenu.isVisible()).toBe(false);
     expect(await getFocusedElementProp(page, "id")).toBe("ArcGISOnline");
   });
-
-  describe("theme", () => {
-    const menuHtml = (): string => html`
-     <calcite-menu>
-      <calcite-menu-item breadcrumb icon-start="home" text="Files" href="#calcite-menu">
-        <calcite-menu-item
-          href="#calcite-navigation-slots"
-          icon-start="add-in"
-          slot="submenu-item"
-          text="Slots"
-        ></calcite-menu-item>
-        <calcite-menu-item
-          href="#calcite-navigation-slots"
-          icon-start="add-in"
-          slot="submenu-item"
-          text="Slots"
-        ></calcite-menu-item>
-      </calcite-menu-item>
-      <calcite-menu-item breadcrumb text="Proposals" active> </calcite-menu-item>
-    </calcite-menu>`
-
-    const tokens: ComponentTestTokens = {
-      "--calcite-menu-background-color": [{
-        selector: "calcite-menu",
-        shadowSelector: "ul",
-        targetProp: "backgroundColor",
-      },
-      {
-        selector: "calcite-menu-item",
-        shadowSelector: ".content",
-        targetProp: "backgroundColor",
-      }
-      ]
-    }
-
-    themed(menuHtml, tokens)
-
-  })
 });

@@ -131,34 +131,35 @@ describe("calcite-menu-item", () => {
     `;
     describe("slotted submenu", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-menu-background-color-hover": {
+        "--calcite-menu-background-color": [{
           selector: "calcite-menu-item",
           shadowSelector: `calcite-action`,
           targetProp: "--calcite-action-background-color-hover",
           state: "hover",
         },
-        "--calcite-menu-background-color-press": {
+        {
           selector: "calcite-menu-item",
           shadowSelector: `calcite-action`,
           targetProp: "--calcite-action-background-color-press",
           state: { press: { attribute: "class", value: "dropdown-action" } },
         },
-        "--calcite-menu-background-color": {
+        {
           selector: "calcite-menu-item",
           shadowSelector: `calcite-action`,
           targetProp: "--calcite-action-background-color",
-        },
-        "--calcite-menu-text-color": {
+        }],
+        "--calcite-menu-text-color": [{
           selector: "calcite-menu-item",
           shadowSelector: `calcite-action`,
           targetProp: "--calcite-action-text-color",
         },
-        "--calcite-menu-text-color-press": {
+        {
           selector: "calcite-menu-item",
           shadowSelector: `calcite-action`,
           targetProp: "--calcite-action-text-color-press",
           state: { press: { attribute: "class", value: "dropdown-action" } },
         },
+        ],
         "--calcite-menu-item-sub-menu-border-color": {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.dropdownMenuItems}`,
@@ -192,40 +193,42 @@ describe("calcite-menu-item", () => {
           targetProp: "borderBlockEndColor",
           state: "hover",
         },
-        "--calcite-menu-background-color": {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-menu-background-color-hover": {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-menu-text-color": {
+        "--calcite-menu-text-color": [{
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "color",
         },
-        "--calcite-menu-text-color-hover": {
+        {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "color",
           state: "hover",
         },
-        "--calcite-menu-text-color-press": {
+        {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "color",
           state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
         },
-        "--calcite-menu-background-color-press": {
+        ],
+        "--calcite-menu-background-color": [{
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "backgroundColor",
           state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
-        },
+        }
+        ]
       };
       themed(menuHTML, tokens);
     });
