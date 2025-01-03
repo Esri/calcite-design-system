@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { Position, Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";

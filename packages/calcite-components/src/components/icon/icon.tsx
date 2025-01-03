@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";

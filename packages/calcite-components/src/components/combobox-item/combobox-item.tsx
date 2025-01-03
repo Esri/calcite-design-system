@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -12,6 +13,7 @@ import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -241,7 +243,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const { disabled, heading, label, textLabel, value } = this;
+    const {
+      disabled,
+      heading,
+      label,
+      textLabel,
+      value,
+      filterTextMatchPattern,
+      description,
+      shortHeading,
+    } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const icon = disabled || isSingleSelect ? undefined : "check";
     const selectionIcon = isSingleSelect ? "bullet-point" : "check";
@@ -274,13 +285,28 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             {this.renderSelectIndicator(selectionIcon)}
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
-              <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
-              {this.description ? (
-                <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+              <div class={CSS.title}>
+                {highlightText({
+                  text: headingText,
+                  pattern: filterTextMatchPattern,
+                })}
+              </div>
+              {description ? (
+                <div class={CSS.description}>
+                  {highlightText({
+                    text: description,
+                    pattern: filterTextMatchPattern,
+                  })}
+                </div>
               ) : null}
             </div>
-            {this.shortHeading ? (
-              <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+            {shortHeading ? (
+              <div class={CSS.shortText}>
+                {highlightText({
+                  text: shortHeading,
+                  pattern: filterTextMatchPattern,
+                })}
+              </div>
             ) : null}
             <slot name={SLOTS.contentEnd} />
           </li>
@@ -288,23 +314,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         </div>
       </InteractiveContainer>
     );
-  }
-
-  private renderTextContent(text: string): string | (string | JsxNode)[] {
-    const pattern = this.filterTextMatchPattern;
-
-    if (!pattern || !text) {
-      return text;
-    }
-
-    const parts: (string | JsxNode)[] = text.split(pattern);
-
-    if (parts.length > 1) {
-      // we only highlight the first match
-      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
-    }
-
-    return parts;
   }
 
   // #endregion

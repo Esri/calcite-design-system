@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Writable } from "type-fest";
 import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";

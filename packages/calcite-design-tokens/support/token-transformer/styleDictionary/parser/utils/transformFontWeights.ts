@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 // This is a copy/extension of sd-transforms/src/transformFontWeights.ts
-// eslint-disable-next-line @cspell/spellchecker
+
 // "demi" was added to align with our design terminology. This was added to utils because these named exports are not available from the node module dependency.
 
 import { FontWeight } from "../../../../types/tokenStudio/fontWeight.js";
