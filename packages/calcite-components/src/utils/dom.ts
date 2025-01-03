@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { tabbable } from "tabbable";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
@@ -704,4 +705,14 @@ function isTransitionEvent(event: TransitionOrAnimationEvent): event is Transiti
 
 function getTransitionOrAnimationName(event: TransitionOrAnimationEvent): string {
   return isTransitionEvent(event) ? event.propertyName : event.animationName;
+}
+
+/**
+ * This util helps determine when a string value is a pixel value.
+ *
+ * @param value The value to check.
+ * @returns {boolean} Whether the value is a pixel value.
+ */
+export function isPixelValue(value: string): boolean {
+  return value.endsWith("px");
 }

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
@@ -15,7 +16,7 @@ import {
 } from "../../utils/loadable";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
-import T9nStrings from "./assets/t9n/menu.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 
 declare global {

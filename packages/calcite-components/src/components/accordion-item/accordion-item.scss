@@ -6,13 +6,15 @@
  * @prop --calcite-accordion-border-color: [Deprecated] Use `--calcite-accordion-item-border-color`. Specifies the component's border color.
  * @prop --calcite-accordion-item-background-color: Specifies the component's background color.
  * @prop --calcite-accordion-item-border-color: Specifies the component's border color.
+ * @prop --calcite-accordion-item-icon-color-end: Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-icon-color-start: Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-content-space: Specifies the component's padding.
- * @prop --calcite-accordion-item-end-icon-color: Specifies the component's `iconEnd` color. Fallback to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-end-icon-color: [Deprecated] Use `--calcite-accordion-item-icon-color-end`. Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-expand-icon-color: Specifies the component's expand icon color.
  * @prop --calcite-accordion-item-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-accordion-item-heading-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-accordion-item-icon-color: Specifies the component's default icon color.
- * @prop --calcite-accordion-item-start-icon-color: Specifies the component's `iconStart` color. Fallback to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-start-icon-color: [Deprecated] Use `--calcite-accordion-item-icon-color-start`. Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-text-color: Specifies the component's text color.
  * @prop --calcite-accordion-text-color-hover: [Deprecated] Use `--calcite-accordion-item-text-color-hover`. Specifies the component's main text color on hover.
  * @prop --calcite-accordion-text-color-pressed: [Deprecated] Use `--calcite-accordion-item-text-color-press`. Specifies the component's main text color when pressed.
@@ -75,7 +77,13 @@
   );
 }
 
-.header-content,
+.header-content {
+  padding: var(
+    --calcite-internal-accordion-item-padding,
+    var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+  );
+}
+
 .content {
   padding: var(
     --calcite-accordion-item-content-space,
@@ -89,8 +97,11 @@
 .header {
   @apply flex items-stretch;
 
-  * {
-    @apply inline-flex
+  &-content,
+  &-container,
+  .actions-start,
+  .actions-end {
+    @apply flex
       items-center
       duration-150
       ease-in-out;
@@ -147,9 +158,8 @@
 
 .actions-start,
 .actions-end {
-  @apply flex items-stretch;
-  * {
-    @apply items-stretch;
+  ::slotted(calcite-action) {
+    @apply self-stretch;
   }
 }
 
@@ -163,12 +173,18 @@
 }
 
 .icon--start {
-  color: var(--calcite-accordion-item-start-icon-color, var(--calcite-accordion-item-icon-color, currentColor));
+  color: var(
+    --calcite-accordion-item-icon-color-start,
+    var(--calcite-accordion-item-start-icon-color, var(--calcite-accordion-item-icon-color, currentColor))
+  );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
 }
 
 .icon--end {
-  color: var(--calcite-accordion-item-end-icon-color, var(--calcite-accordion-item-icon-color, currentColor));
+  color: var(
+    --calcite-accordion-item-icon-color-end,
+    var(--calcite-accordion-item-end-icon-color, var(--calcite-accordion-item-icon-color, currentColor))
+  );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
   margin-inline-start: var(--calcite-internal-accordion-icon-margin);
 }

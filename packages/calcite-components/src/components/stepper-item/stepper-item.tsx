@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -32,7 +33,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/stepper-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
 
 declare global {

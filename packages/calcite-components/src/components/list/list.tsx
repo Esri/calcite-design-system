@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
@@ -38,7 +39,8 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/list.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
@@ -82,17 +84,18 @@ export class List
 
   private listItems: ListItem["el"][] = [];
 
-  mutationObserver = createObserver("mutation", () =>
-    this.updateListItems({ performFilter: true }),
-  );
+  private listItemGroups: ListItemGroup["el"][] = [];
+
+  mutationObserver = createObserver("mutation", () => {
+    this.willPerformFilter = true;
+    this.updateListItems();
+  });
 
   private parentListEl: List["el"];
 
   sortable: Sortable;
 
-  private updateListItems = debounce((options?: { performFilter?: boolean }): void => {
-    const performFilter = options?.performFilter ?? false;
-
+  private updateListItems = debounce((): void => {
     this.updateGroupItems();
 
     const {
@@ -102,7 +105,6 @@ export class List
       dragEnabled,
       el,
       filterEl,
-      filterEnabled,
       moveToItems,
       displayMode,
       scale,
@@ -130,7 +132,8 @@ export class List
     }
 
     this.listItems = items;
-    if (filterEnabled && performFilter) {
+    if (this.filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
 
       if (filterEl) {
@@ -152,13 +155,16 @@ export class List
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
 
+  /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
+  private willPerformFilter: boolean = false;
+
   // #endregion
 
   // #region State Properties
 
   @state() assistiveText: string;
 
-  @state() dataForFilter: ItemData = [];
+  @state() dataForFilter: ItemData[] = [];
 
   @state() hasFilterActionsEnd = false;
 
@@ -167,6 +173,24 @@ export class List
   @state() hasFilterNoResults = false;
 
   @state() moveToItems: MoveTo[] = [];
+
+  @state() get hasActiveFilter(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.filteredItems.length !== this.visibleItems.length
+    );
+  }
+
+  @state() get showNoResultsContainer(): boolean {
+    return (
+      this.filterEnabled &&
+      this.filterText &&
+      this.hasFilterNoResults &&
+      this.visibleItems.length &&
+      !this.filteredItems.length
+    );
+  }
 
   // #endregion
 
@@ -187,13 +211,24 @@ export class List
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
+  /**
+   * Specifies a function to handle filtering.
+   *
+   * @example
+   * myList.filterPredicate = (myListItem) => {
+   *   // returns true to show the list item if some condition is met
+   *   return myListItem.label.includes("someValue");
+   * };
+   */
+  @property() filterPredicate?: (item: ListItem["el"]) => boolean;
+
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
 
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -204,7 +239,7 @@ export class List
    *
    * @readonly
    */
-  @property() filteredData: ItemData = [];
+  @property() filteredData: ItemData[] = [];
 
   /**
    * The currently filtered `calcite-list-item`s.
@@ -253,7 +288,16 @@ export class List
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the nesting behavior. */
+  /**
+   * Specifies the nesting behavior of `calcite-list-item`s, where
+   *
+   * `"flat"` displays `calcite-list-item`s in a uniform list, and
+   *
+   * `"nested"` displays `calcite-list-item`s under their parent element.
+   *
+   *  The parent component's behavior should follow throughout its child elements.
+   *
+   */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -364,9 +408,11 @@ export class List
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
     this.setUpSorting();
     this.setParentList();
+    this.setListItemGroups();
   }
 
   async load(): Promise<void> {
@@ -384,12 +430,8 @@ export class List
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText")) {
-      this.handleFilterTextChange();
-    }
-
-    if (changes.has("filterProps")) {
-      this.handleFilterPropsChange();
+    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
+      this.performFilter();
     }
 
     if (
@@ -400,7 +442,8 @@ export class List
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
       (changes.has("displayMode") && this.hasUpdated) ||
-      (changes.has("scale") && this.hasUpdated)
+      (changes.has("scale") && this.hasUpdated) ||
+      (changes.has("filterPredicate") && this.hasUpdated)
     ) {
       this.handleListItemChange();
     }
@@ -423,16 +466,9 @@ export class List
 
   // #region Private Methods
 
-  private async handleFilterTextChange(): Promise<void> {
-    this.performFilter();
-  }
-
-  private async handleFilterPropsChange(): Promise<void> {
-    this.performFilter();
-  }
-
   private handleListItemChange(): void {
-    this.updateListItems({ performFilter: true });
+    this.willPerformFilter = true;
+    this.updateListItems();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -618,6 +654,10 @@ export class List
     }
   }
 
+  private setListItemGroups(): void {
+    this.listItemGroups = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+  }
+
   private handleFilterActionsStartSlotChange(event: Event): void {
     this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
   }
@@ -640,7 +680,9 @@ export class List
     }
   }
 
-  private updateSelectedItems(emit = false): void {
+  private async updateSelectedItems(emit = false): Promise<void> {
+    await this.updateComplete;
+
     this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
@@ -652,17 +694,15 @@ export class List
     filteredItems,
     visibleParents,
   }: {
-    el: ListItem["el"] | ListItemGroup["el"];
+    el: ListElement;
     filteredItems: ListItem["el"][];
-    visibleParents: WeakSet<ListItem["el"] | ListItemGroup["el"]>;
+    visibleParents: WeakSet<ListElement>;
   }): void {
     const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el as ListItem["el"]);
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest<ListItem["el"] | ListItemGroup["el"]>(
-      parentSelector,
-    );
+    const closestParent = el.parentElement.closest<ListElement>(parentSelector);
 
     if (!closestParent) {
       return;
@@ -702,13 +742,18 @@ export class List
   }
 
   private updateFilteredItems(): void {
-    const { visibleItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText, filterPredicate } = this;
 
     const lastDescendantItems = visibleItems?.filter((listItem) =>
       visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
-    const filteredItems = !filterText ? visibleItems || [] : filteredData.map((item) => item.el);
+    const filteredItems = filterPredicate
+      ? visibleItems.filter(filterPredicate)
+      : !filterText
+        ? visibleItems || []
+        : filteredData.map((item) => item.el);
+
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
@@ -731,7 +776,7 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as ItemData;
+      this.filteredData = filterEl.filteredItems as ItemData[];
     }
 
     this.updateListItems();
@@ -744,7 +789,7 @@ export class List
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata"];
+      return ["description", "label", "metadata", "heading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
@@ -775,13 +820,22 @@ export class List
     this.updateFilteredData();
   }
 
-  private getItemData(): ItemData {
+  private getItemData(): ItemData[] {
     return this.listItems.map((item) => ({
       label: item.label,
       description: item.description,
       metadata: item.metadata,
+      heading: this.getGroupHeading(item),
       el: item,
     }));
+  }
+
+  private getGroupHeading(item: ListItem["el"]): string[] {
+    const heading = this.listItemGroups
+      .filter((group) => group.contains(item))
+      .map((group) => group.heading);
+
+    return heading;
   }
 
   private updateGroupItems(): void {
@@ -985,11 +1039,9 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
-      filteredItems,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
-      hasFilterNoResults,
       effectiveFilterProps,
     } = this;
     return (
@@ -1048,7 +1100,7 @@ export class List
           <div
             ariaLive="polite"
             data-test-id="no-results-container"
-            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+            hidden={!this.showNoResultsContainer}
           >
             <slot
               name={SLOTS.filterNoResults}
@@ -1067,9 +1119,6 @@ export class List
       parentListEl,
       messages: { _lang: effectiveLocale },
       numberingSystem,
-      filterEnabled,
-      filterText,
-      filteredData,
     } = this;
 
     numberStringFormatter.numberFormatOptions = {
@@ -1079,7 +1128,7 @@ export class List
 
     return !parentListEl ? (
       <div ariaLive="polite" class={CSS.assistiveText}>
-        {filterEnabled && filterText && filteredData?.length ? (
+        {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}
         <div key="aria-item-count">

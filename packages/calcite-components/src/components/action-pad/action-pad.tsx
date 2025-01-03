@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
@@ -14,7 +15,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
-import T9nStrings from "./assets/t9n/action-pad.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
 

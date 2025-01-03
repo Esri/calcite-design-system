@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -23,7 +24,7 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
-import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
@@ -578,7 +579,7 @@ export class ListItem
     this.toggleSelected(event.shiftKey);
   }
 
-  private toggleSelected(shiftKey: boolean): void {
+  private async toggleSelected(shiftKey: boolean): Promise<void> {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -594,6 +595,8 @@ export class ListItem
     this.calciteInternalListItemSelectMultiple.emit({
       selectMultiple: shiftKey && selectionMode === "multiple",
     });
+
+    await this.updateComplete;
     this.calciteListItemSelect.emit();
   }
 
@@ -1042,13 +1045,13 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderOpen()}
-            {this.renderActionsStart()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
                 [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
               }}
             >
+              {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
             </div>

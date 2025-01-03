@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -177,7 +178,7 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
   }
 
   override disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
+    this.input?.remove();
   }
 
   // #endregion

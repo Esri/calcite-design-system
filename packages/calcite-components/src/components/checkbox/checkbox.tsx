@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";

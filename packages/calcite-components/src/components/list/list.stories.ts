@@ -5083,3 +5083,32 @@ export const interactiveMode = (): string => html`
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
 `;
+
+export const sortableListWithSingleItem = (): string =>
+  html`<calcite-list drag-enabled label="test">
+    <calcite-list-item label="small" value="small" description="small hello world"></calcite-list-item>
+  </calcite-list>`;
+
+export const filterGroups = (): string =>
+  html` <calcite-list
+    filter-enabled
+    filter-placeholder="typing 'recreation' should show 1st group with all items"
+    filter-text="Beaches"
+  >
+    <calcite-list-item-group heading="Outdoor recreation" id="recreation">
+      <calcite-list-item
+        label="Hiking trails"
+        description="Designated routes for hikers to use."
+        value="hiking-trails"
+      ></calcite-list-item>
+      <calcite-list-item
+        label="Waterfalls"
+        description="Vertical drops from a river."
+        value="waterfalls"
+      ></calcite-list-item>
+      <calcite-list-item-group heading="Beaches" id="beaches">
+        <calcite-list-item label="Surfing" description="Surfing" value="Surfing"></calcite-list-item>
+        <calcite-list-item label="Paragliding" description="Paragliding" value="Paragliding"></calcite-list-item>
+      </calcite-list-item-group>
+    </calcite-list-item-group>
+  </calcite-list>`;

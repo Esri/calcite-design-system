@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { dateFromISO } from "../../utils/date";
 import { getSupportedLocale } from "../../utils/locale";
 import { getAssetPath } from "../../runtime";

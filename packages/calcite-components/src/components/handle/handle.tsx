@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -13,7 +14,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/handle.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { styles } from "./handle.scss";

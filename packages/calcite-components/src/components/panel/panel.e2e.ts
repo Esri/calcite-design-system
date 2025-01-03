@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
@@ -15,7 +16,7 @@ import {
   themed,
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
@@ -255,39 +256,54 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  it("should handle rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
+  describe("beforeClose", () => {
+    it("should handle rejected 'beforeClose' promise'", async () => {
+      const page = await newE2EPage();
 
-    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
-    await page.exposeFunction("beforeClose", mockCallBack);
+      const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
+      await page.exposeFunction("beforeClose", mockCallBack);
 
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+      await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
-    await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
-    await page.waitForChanges();
+      await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
+      await page.waitForChanges();
 
-    const panel = await page.find("calcite-panel");
-    expect(await panel.getProperty("closed")).toBe(false);
-    panel.setProperty("closed", true);
-    await page.waitForChanges();
+      const panel = await page.find("calcite-panel");
+      expect(await panel.getProperty("closed")).toBe(false);
+      panel.setProperty("closed", true);
+      await page.waitForChanges();
 
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-  });
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+    });
 
-  it("should remain open with rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
+    it("should remain open with rejected 'beforeClose' promise'", async () => {
+      const page = await newE2EPage();
 
-    await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+      await page.exposeFunction("beforeClose", () => Promise.reject());
+      await page.setContent(`<calcite-panel closable></calcite-panel>`);
 
-    await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
+      await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
 
-    const panel = await page.find("calcite-panel");
-    panel.setProperty("closed", true);
-    await page.waitForChanges();
+      const panel = await page.find("calcite-panel");
+      panel.setProperty("closed", true);
+      await page.waitForChanges();
 
-    expect(await panel.getProperty("closed")).toBe(false);
-    expect(panel.getAttribute("closed")).toBe(null); // Makes sure attribute is added back
+      expect(await panel.getProperty("closed")).toBe(false);
+      expect(panel.getAttribute("closed")).toBe(null); // Makes sure attribute is added back
+    });
+
+    it("does not invoke beforeClose when initially closed", async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async () => {
+        const panel = document.createElement("calcite-panel");
+        panel.closed = true;
+        panel.beforeClose = () => new Promise(() => document.body.removeChild(panel));
+        document.body.append(panel);
+      });
+      await page.waitForChanges();
+
+      expect(await page.find("calcite-panel")).not.toBeNull();
+    });
   });
 
   it("honors collapsed & collapsible properties", async () => {

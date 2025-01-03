@@ -1,9 +1,10 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable } from "../../utils/dom";
+import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -27,7 +28,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
-import T9nStrings from "./assets/t9n/dialog.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
   dialogDragStep,
@@ -78,19 +79,7 @@ export class Dialog
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  private escapeDeactivates = (event: KeyboardEvent): boolean => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -161,7 +150,7 @@ export class Dialog
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
 
@@ -306,10 +295,16 @@ export class Dialog
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
-        clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        // scrim closes on click, so we let it take over
+        clickOutsideDeactivates: () => !this.modal,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
     this.setupInteractions();
@@ -599,16 +594,12 @@ export class Dialog
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: this.isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: this.isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
             },
             max: {
-              width: this.isPixelValue(maxInlineSize)
-                ? parseInt(maxInlineSize, 10)
-                : window.innerWidth,
-              height: this.isPixelValue(maxBlockSize)
-                ? parseInt(maxBlockSize, 10)
-                : window.innerHeight,
+              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
@@ -647,10 +638,6 @@ export class Dialog
         },
       });
     }
-  }
-
-  private isPixelValue(value: string): boolean {
-    return value.indexOf("px") !== -1;
   }
 
   private getAdjustedResizePosition({

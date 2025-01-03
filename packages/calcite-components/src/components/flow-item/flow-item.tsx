@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
@@ -19,7 +20,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
-import T9nStrings from "./assets/t9n/flow-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
 

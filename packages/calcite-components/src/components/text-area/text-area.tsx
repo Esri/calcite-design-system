@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { throttle } from "lodash-es";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -42,7 +43,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
-import T9nStrings from "./assets/t9n/text-area.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import { styles } from "./text-area.scss";
 

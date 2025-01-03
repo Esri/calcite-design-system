@@ -1,6 +1,8 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { hidden, renders } from "../../tests/commonTests";
+import { hidden, renders, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-loader", () => {
@@ -56,5 +58,84 @@ describe("calcite-loader", () => {
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("id");
     expect(loader.getAttribute("id").length).toEqual(36);
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(html`<calcite-loader></calcite-loader>`, {
+      "--calcite-loader-track-color": {
+        shadowSelector: `.${CSS.trackRing}`,
+        targetProp: "stroke",
+      },
+      "--calcite-loader-progress-color": {
+        shadowSelector: `.${CSS.progressRing}`,
+        targetProp: "stroke",
+      },
+    });
+  });
+
+  describe("text", () => {
+    describe("text color", () => {
+      themed(html`<calcite-loader label="loading" scale="l" text="Themed loader"></calcite-loader>`, {
+        "--calcite-loader-text-color": {
+          shadowSelector: `.${CSS.text}`,
+          targetProp: "color",
+        },
+      });
+    });
+    describe("percentage text size", () => {
+      themed(html`<calcite-loader label="loading" scale="l" type="determinate-value"></calcite-loader>`, {
+        "--calcite-loader-font-size": {
+          shadowSelector: `.${CSS.percentage}`,
+          targetProp: "fontSize",
+        },
+      });
+    });
+    describe("percentage text color", () => {
+      themed(
+        html`<calcite-loader
+          label="loading"
+          scale="l"
+          text="Themed loader"
+          type="determinate-value"
+          value="30"
+        ></calcite-loader>`,
+        {
+          "--calcite-loader-text-color": {
+            shadowSelector: `.${CSS.percentage}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+  });
+
+  describe("size", () => {
+    describe("loader size", () => {
+      themed(html`<calcite-loader label="loading" scale="l"></calcite-loader>`, {
+        "--calcite-loader-size": {
+          shadowSelector: `.${CSS.ring}`,
+          targetProp: "blockSize",
+        },
+      });
+    });
+    describe("inline loader size", () => {
+      themed(html`<calcite-loader label="loading" scale="l" inline></calcite-loader>`, {
+        "--calcite-loader-size-inline": {
+          shadowSelector: `.${CSS.ring}`,
+          targetProp: "inlineSize",
+        },
+      });
+    });
+  });
+
+  describe("inline color", () => {
+    themed(html`<calcite-loader inline></calcite-loader>`, {
+      "--calcite-loader-progress-color-inline": {
+        shadowSelector: `.${CSS.progressRing}`,
+        targetProp: "stroke",
+      },
+    });
   });
 });

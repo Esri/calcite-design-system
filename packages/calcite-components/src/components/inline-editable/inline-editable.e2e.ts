@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
@@ -225,6 +226,7 @@ describe("calcite-inline-editable", () => {
       await cancelEvent;
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditCancel).toHaveReceivedEventTimes(1);
+      expect(await element.getProperty("editingEnabled")).toBe(false);
     });
 
     it("restores input value after escape key is pressed", async () => {

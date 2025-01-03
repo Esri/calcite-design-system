@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 
 describe("config", () => {

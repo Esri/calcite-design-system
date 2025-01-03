@@ -1,6 +1,6 @@
 name: Accessibility
 description: Report an accessibility issue in a component
-labels: ["a11y", "bug", "0 - new", "p - high", "needs triage"]
+labels: ["a11y", "bug", "0 - new", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues
@@ -9,8 +9,7 @@ body:
       description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
       options:
         - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates and reviewed the [Accessibility page](https://developers.arcgis.com/calcite-design-system/foundations/accessibility) for guidance.
-    validations:
-      required: true
+          required: true
   - type: textarea
     id: summary
     attributes:
@@ -36,7 +35,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [React Codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), [Angular Codesandbox](https://codesandbox.io/p/sandbox/little-fire-2hx4qh?file=%2Fsrc%2Fapp%2Fapp.component.html%3A16%2C51), or [jsbin](https://jsbin.com/qecewik/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
+        We provide the following templates to help get started: [CodePen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [StackBlitz](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md) (Calcite with React wrapper), or [JS Bin](https://jsbin.com/qecewik/edit?html,output) (Calcite with Maps SDK for JS). You can also click the "Open in StackBlitz" link at the top of each of [Calcite example's](https://github.com/Esri/calcite-design-system/tree/dev/examples/components) README or make your own from scratch. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -105,8 +104,6 @@ body:
         - label: "@esri/calcite-components-react"
         - label: "@esri/calcite-design-tokens"
         - label: "@esri/eslint-plugin-calcite-components"
-    validations:
-      required: false
   - type: dropdown
     id: esri-team
     validations:
