@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.87...@esri/calcite-components@3.0.0-next.88) (2025-01-03)
+
+### Features
+
+- **combobox:** add `filterProps` ([#11180](https://github.com/Esri/calcite-design-system/issues/11180)) ([09d5a27](https://github.com/Esri/calcite-design-system/commit/09d5a2777ebe3c915a3284efca02768cf5c2823a)), closes [#8043](https://github.com/Esri/calcite-design-system/issues/8043)
+
+### Bug Fixes
+
+- **autocomplete:** fix item key functionality ([#11191](https://github.com/Esri/calcite-design-system/issues/11191)) ([d2ced69](https://github.com/Esri/calcite-design-system/commit/d2ced69f4967f17bddb39a2a9e0256ec59c5a0bf)), closes [#11154](https://github.com/Esri/calcite-design-system/issues/11154)
+- **list:** include groups in filtering ([#10664](https://github.com/Esri/calcite-design-system/issues/10664)) ([904623b](https://github.com/Esri/calcite-design-system/commit/904623be3cff426e71d51001a29df188a72ea00b)), closes [#7702](https://github.com/Esri/calcite-design-system/issues/7702)
+
 ## [3.0.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.86...@esri/calcite-components@3.0.0-next.87) (2025-01-02)
 
 **Note:** Version bump only for package @esri/calcite-components
