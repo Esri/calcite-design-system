@@ -215,7 +215,8 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
 // - this should be used in conjunction with the `text.tsx` util.
 @mixin text-highlight-item() {
   .text-match {
-    font-weight: var(--calcite-font-weight-bold);
     background-color: transparent;
+    color: inherit;
+    font-weight: var(--calcite-font-weight-bold);
   }
 }
