@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 
 describe("calcite-menu", () => {
   describe("renders", () => {
