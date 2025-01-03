@@ -8,6 +8,7 @@ import { registerValueCSSShadow } from "./value/cssShadow.js";
 import { registerValueSizePxToRem } from "./value/pxToRem.js";
 import { registerNameRemoveDefault } from "./name/removeDefault.js";
 import { registerCalciteTransformGroup } from "./group/calcite.js";
+import { registerValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   registerValueCSSShadow(sd);
@@ -18,5 +19,6 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
   registerNameIncludeMinus(sd);
   registerValueMathSum(sd);
   registerValueSizePxToRem(sd);
+  registerValueSizeUnitlessToPx(sd);
   registerCalciteTransformGroup(sd);
 }

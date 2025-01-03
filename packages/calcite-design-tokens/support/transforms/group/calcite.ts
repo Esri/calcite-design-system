@@ -8,8 +8,9 @@ import { NameRemoveDefault } from "../name/removeDefault.js";
 import { nameRemoveColorMode } from "../name/removeColorMode.js";
 import { nameIncludePlus } from "../name/includePlus.js";
 import { nameIncludeMinus } from "../name/includeMinus.js";
+import { ValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
 
-export function getTransforms(sd: StyleDictionary, transformOpts?: TransformOptions): string[] {
+export function getTransforms(sd: typeof StyleDictionary, transformOpts?: TransformOptions): string[] {
   const agnosticTransforms = [
     "ts/descriptionToComment",
     "ts/resolveMath",
@@ -25,6 +26,7 @@ export function getTransforms(sd: StyleDictionary, transformOpts?: TransformOpti
       "ts/color/css/hexrgba",
       "ts/size/css/letterspacing",
       ValueSizePxToRem,
+      ValueSizeUnitlessToPx,
       ValueCSSShadow,
       transforms.nameKebab,
       nameRemoveTier,
@@ -44,7 +46,7 @@ export function getTransforms(sd: StyleDictionary, transformOpts?: TransformOpti
 export const CalciteTransformGroup = "calcite";
 
 export async function registerCalciteTransformGroup(
-  sd: StyleDictionary,
+  sd: typeof StyleDictionary,
   transformOpts?: TransformOptions,
 ): Promise<void> {
   const includeBuiltinGroup = transformOpts?.withSDBuiltins ?? true;
@@ -52,6 +54,6 @@ export async function registerCalciteTransformGroup(
 
   sd.registerTransformGroup({
     name: CalciteTransformGroup,
-    transforms: [...getTransforms(sd, transformOpts), ...(includeBuiltinGroup ? builtinTransforms : [])],
+    transforms: [...(includeBuiltinGroup ? builtinTransforms : []), ...getTransforms(sd, transformOpts)],
   });
 }

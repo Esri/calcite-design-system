@@ -1,19 +1,21 @@
 import StyleDictionary from "style-dictionary";
 import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "style-dictionary/enums";
 import { registerCalciteTransformers } from "./transforms/registerTransforms.js";
-import { registerCalciteActions } from "./actions/registerActions.js";
 import scss from "../src/config/scss.js";
 import { registerCalciteDefaultFileHeader } from "./header/calcite-default.js";
 import { expandTypesMap, register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
 import { registerCalciteFilters } from "./filter/registerFilters.js";
+import { registerCalciteFormats } from "./format/registerFormats.js";
+
 import css from "../src/config/css.js";
 
 await registerTokenStudioTransformers(StyleDictionary);
+await registerCalciteFormats(StyleDictionary);
 await registerCalciteFilters(StyleDictionary);
 await registerCalciteDefaultFileHeader(StyleDictionary);
 await registerCalciteTransformers(StyleDictionary);
-await registerCalciteActions(StyleDictionary);
 
+const sdTypes = expandTypesMap;
 const sd = new StyleDictionary({
   // configuration
   source: ["src/semantic/*.json"],
@@ -31,7 +33,7 @@ const sd = new StyleDictionary({
     },
   },
   expand: {
-    include: ["color"],
+    include: ["color", "breakpoint"],
     typesMap: {
       light: "color",
       dark: "color",
@@ -42,7 +44,7 @@ const sd = new StyleDictionary({
       size: "dimension",
       space: "dimension",
       spacing: "dimension",
-      ...expandTypesMap,
+      ...sdTypes,
     },
   },
 });

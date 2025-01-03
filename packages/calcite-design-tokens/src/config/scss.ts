@@ -1,14 +1,14 @@
 import { formats } from "style-dictionary/enums";
+import { PlatformConfig } from "style-dictionary/types";
 import { HeaderCalciteDefault } from "../../support/header/calcite-default.js";
-import { ActionGenerateBreakpoints } from "../../support/actions/generateBreakpoints.js";
 import { FilterLightColorTokens } from "../../support/filter/light.js";
 import { FilterDarkColorTokens } from "../../support/filter/dark.js";
 import { FilterGlobalTokens } from "../../support/filter/global.js";
+import { FilterBreakpointTokens } from "../../support/filter/breakpoints.js";
 import { CalciteTransformGroup } from "../../support/transforms/group/calcite.js";
-import { PlatformConfig } from "style-dictionary/types";
+import { FilterCoreTokens } from "../../support/filter/core.js";
 
 export default {
-  actions: [ActionGenerateBreakpoints],
   transformGroup: CalciteTransformGroup,
   buildPath: "dist/scss/",
   prefix: "calcite",
@@ -27,6 +27,16 @@ export default {
       destination: "global.scss",
       format: formats.scssVariables,
       filter: FilterGlobalTokens,
+    },
+    {
+      destination: "core.scss",
+      format: formats.scssVariables,
+      filter: FilterCoreTokens,
+    },
+    {
+      destination: "breakpoints.scss",
+      format: formats.scssVariables,
+      filter: FilterBreakpointTokens,
     },
   ],
   options: {

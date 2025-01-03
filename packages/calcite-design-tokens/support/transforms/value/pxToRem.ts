@@ -37,9 +37,14 @@ function isNotBorderOrFixed(token: TransformedToken) {
   return !token.path.some((path) => ["border", "fixed"].includes(path));
 }
 
+function isNotBreakpointType(token: TransformedToken) {
+  return !(token.type === "breakpoint");
+}
+
 function filter(token: TransformedToken, options: Config) {
   return (
     isSource(token) &&
+    isNotBreakpointType(token) &&
     isNotBorderOrFixed(token) &&
     (isDimension(token, options) || isFontSize(token, options)) &&
     isPxUnit(token)
