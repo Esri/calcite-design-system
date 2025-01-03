@@ -2,7 +2,7 @@
   "core": {
     "container-size": {
       "0": {
-        "value": 0,
+        "value": "0",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -26,7 +26,7 @@
         }
       },
       "154": {
-        "value": 154,
+        "value": "154",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -50,7 +50,7 @@
         }
       },
       "320": {
-        "value": 320,
+        "value": "320",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -74,7 +74,7 @@
         }
       },
       "328": {
-        "value": 328,
+        "value": "328",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -98,7 +98,7 @@
         }
       },
       "476": {
-        "value": 476,
+        "value": "476",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -122,7 +122,7 @@
         }
       },
       "504": {
-        "value": 504,
+        "value": "504",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -146,7 +146,7 @@
         }
       },
       "678": {
-        "value": 678,
+        "value": "678",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -170,7 +170,7 @@
         }
       },
       "768": {
-        "value": 768,
+        "value": "768",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -194,7 +194,7 @@
         }
       },
       "854": {
-        "value": 854,
+        "value": "854",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -218,7 +218,7 @@
         }
       },
       "1152": {
-        "value": 1152,
+        "value": "1152",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {
@@ -242,7 +242,7 @@
         }
       },
       "1440": {
-        "value": 1440,
+        "value": "1440",
         "type": "sizing",
         "attributes": {
           "calcite-schema": {

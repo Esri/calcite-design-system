@@ -1,0 +1,27 @@
+{
+  "tokenSetOrder": [
+    "core/color",
+    "core/container-size",
+    "core/font",
+    "core/opacity",
+    "core/shadow",
+    "core/size",
+    "core/z-index",
+    "semantic-old/border",
+    "semantic-old/color",
+    "semantic-old/container-size",
+    "semantic-old/corner",
+    "semantic-old/font",
+    "semantic-old/opacity",
+    "semantic-old/shadow",
+    "semantic-old/size",
+    "semantic-old/space",
+    "semantic-old/typography",
+    "semantic-old/z-index",
+    "semantic/colors/calcite/dark",
+    "semantic/colors/calcite/light",
+    "semantic/colors/survey123/dark",
+    "semantic/colors/survey123/light",
+    "semantic/colors/dev-summit/light"
+  ]
+}

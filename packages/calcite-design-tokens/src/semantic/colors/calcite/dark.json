@@ -1,0 +1,10 @@
+{
+  "color": {
+    "background": {
+      "default": {
+        "value": "{core.color.neutral.blk-190}",
+        "type": "color"
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+[
+  {
+    "id": "0dcef941fc163562ce54e23b47f85730078abcc2",
+    "name": "Brand Light",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "source",
+      "semantic/colors/calcite/light": "enabled"
+    },
+    "$figmaVariableReferences": {
+      "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
+    },
+    "$figmaCollectionId": "VariableCollectionId:1814:1167",
+    "$figmaModeId": "11496:3",
+    "group": "color"
+  },
+  {
+    "id": "1ba50b984fb31a227260ffc5cb76a3895b6eb7fc",
+    "name": "Brand Dark",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "source",
+      "semantic/colors/calcite/dark": "enabled"
+    },
+    "$figmaVariableReferences": {
+      "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
+    },
+    "$figmaCollectionId": "VariableCollectionId:1814:1167",
+    "$figmaModeId": "11496:4",
+    "group": "color"
+  },
+  {
+    "id": "e4b71a5e8257339ed0980ab4d51eb02ee05b13f0",
+    "name": "Default",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "enabled",
+      "core/container-size": "enabled",
+      "core/font": "enabled",
+      "core/opacity": "enabled",
+      "core/shadow": "enabled",
+      "core/size": "enabled",
+      "core/z-index": "enabled"
+    },
+    "$figmaVariableReferences": {},
+    "group": "Core"
+  },
+  {
+    "id": "478ea2a422a612bc3df29ff143b71b34db0ce17b",
+    "name": "Survey123 Light",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "source",
+      "semantic/colors/survey123/light": "enabled",
+      "semantic/colors/calcite/light": "source"
+    },
+    "group": "color",
+    "$figmaCollectionId": "VariableCollectionId:1814:1167",
+    "$figmaModeId": "11496:5",
+    "$figmaVariableReferences": {
+      "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
+    }
+  },
+  {
+    "id": "d56dd5a6e7068dda4c8c91a8d70f6e5afab94408",
+    "name": "Survey123 Dark",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "source",
+      "semantic/colors/survey123/dark": "enabled",
+      "semantic/colors/calcite/dark": "source"
+    },
+    "group": "color",
+    "$figmaCollectionId": "VariableCollectionId:1814:1167",
+    "$figmaModeId": "11496:6",
+    "$figmaVariableReferences": {
+      "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
+    }
+  },
+  {
+    "id": "88e888cb278874e16621c943a268d92e70a2b3d1",
+    "name": "Dev Summit Light",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/color": "source",
+      "semantic/colors/dev-summit/light": "enabled"
+    },
+    "group": "color",
+    "$figmaCollectionId": "VariableCollectionId:1814:1167",
+    "$figmaModeId": "11496:7",
+    "$figmaVariableReferences": {
+      "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
+    }
+  }
+]
