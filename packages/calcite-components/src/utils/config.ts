@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
@@ -8,7 +9,7 @@ export interface CalciteConfig {
    *
    * This is useful if your application uses its own instance of `focus-trap` and both need to be aware of each other.
    *
-   * @see https://github.com/focus-trap/focus-trap#createoptions
+   * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions).
    */
   focusTrapStack: FocusTrap[];
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 import { handleColor } from "./handleColor.js";
 import { handleStringValueTokens } from "./handleStringValue.js";

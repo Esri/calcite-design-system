@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import {

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
