@@ -2,7 +2,6 @@ import { html } from "../../support/formatting";
 
 export const menuItemTokens = {
   calciteMenuItemAccentColor: "",
-  calciteMenuItemAccentColorHover: "",
   calciteMenuBackgroundColor: "",
   calciteMenuItemSubMenuBorderColor: "",
   calciteMenuItemSubMenuCornerRadius: "",

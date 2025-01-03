@@ -187,7 +187,7 @@ describe("calcite-menu-item", () => {
         </calcite-menu>
       `;
       const tokens: ComponentTestTokens = {
-        "--calcite-menu-item-accent-color-hover": {
+        "--calcite-menu-item-accent-color": {
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "borderBlockEndColor",
@@ -240,11 +240,17 @@ describe("calcite-menu-item", () => {
         </calcite-menu>
       `;
       const tokens: ComponentTestTokens = {
-        "--calcite-menu-item-accent-color": {
+        "--calcite-menu-item-accent-color": [{
           selector: "calcite-menu-item",
           shadowSelector: `.${CSS.content}`,
           targetProp: "borderBlockEndColor",
         },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "borderBlockEndColor",
+          state: "hover",
+        },]
       };
       themed(activeMenuItemHTML, tokens);
     });

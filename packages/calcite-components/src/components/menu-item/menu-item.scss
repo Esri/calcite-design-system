@@ -4,7 +4,6 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-menu-item-accent-color: Specifies the border color of the component when `active`.
- * @prop --calcite-menu-item-accent-color-hover: Specifies the border color of the component when hovered.
  * @prop --calcite-menu-background-color: Specifies the background color of the component.
  * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
  * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
@@ -66,7 +65,7 @@
   }
 
   &:hover {
-    border-block-end-color: var(--calcite-menu-item-accent-color-hover, var(--calcite-color-border-2));
+    border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-border-2));
   }
 
   &:focus {
