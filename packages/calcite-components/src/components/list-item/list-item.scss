@@ -147,6 +147,11 @@
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
 }
 
+:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
 :host([scale="s"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
@@ -228,7 +233,7 @@
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
@@ -249,7 +254,7 @@
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs);
@@ -287,7 +292,7 @@
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-md);
@@ -296,6 +301,11 @@
 :host([scale="l"][display-mode="nested"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="l"][display-mode="nested"][drag-handle]) {
+  .container {
+    padding-inline-start: 0;
   }
 }
 :host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {

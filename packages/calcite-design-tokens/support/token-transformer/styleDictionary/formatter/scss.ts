@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import sd, { Core as StyleDictionary } from "style-dictionary";
 
 import { formatTokens } from "./utils/formatTokens.js";

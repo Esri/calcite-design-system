@@ -23,6 +23,8 @@ import { isElementFocused, skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
+const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete"></calcite-autocomplete>`;
+
 const simpleHTML = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
@@ -32,6 +34,33 @@ const simpleHTML = html`
     <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
   </calcite-autocomplete>
 `;
+
+const scrollHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete">
+  <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+  <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item six" value="six" heading="Item six"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item seven" value="seven" heading="Item seven"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item eight" value="eight" heading="Item eight"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item nine" value="nine" heading="Item nine"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item ten" value="ten" heading="Item ten"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item eleven" value="eleven" heading="Item eleven"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item twelve" value="twelve" heading="Item twelve"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item thirteen" value="thirteen" heading="Item thirteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item fourteen" value="fourteen" heading="Item fourteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item fifteen" value="fifteen" heading="Item fifteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item sixteen" value="sixteen" heading="Item sixteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item
+    label="Item seventeen"
+    value="seventeen"
+    heading="Item seventeen"
+  ></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item eighteen" value="eighteen" heading="Item eighteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item nineteen" value="nineteen" heading="Item nineteen"></calcite-autocomplete-item>
+  <calcite-autocomplete-item label="Item twenty" value="twenty" heading="Item twenty"></calcite-autocomplete-item>
+</calcite-autocomplete>`;
 
 const simpleGroupHTML = html`
   <calcite-autocomplete label="Pets">
@@ -585,6 +614,26 @@ describe("calcite-autocomplete", () => {
     expect(await isElementFocused(page, "#myAutocomplete")).toBe(true);
   });
 
+  it("handles scrollContentTo method", async () => {
+    const page = await newE2EPage();
+    await page.setContent(scrollHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.setProperty("open", true);
+
+    await page.waitForChanges();
+
+    const scrollEl = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    await page.$eval("calcite-autocomplete", async (autocomplete: Autocomplete["el"]) => {
+      await autocomplete.scrollContentTo({ top: 100 });
+    });
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(100);
+  });
+
   it("should set value, close, and emit calciteAutocompleteChange when item is selected via keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
@@ -601,6 +650,18 @@ describe("calcite-autocomplete", () => {
     expect(await autocomplete.getProperty("value")).toBe("one");
     expect(await autocomplete.getProperty("open")).toBe(false);
     expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("should not throw error when enter is pressed after arrow key", async () => {
+    const page = await newE2EPage();
+    await page.setContent(emptyAutocompleteHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
   });
 
   it("should set scale on items and item groups", async () => {

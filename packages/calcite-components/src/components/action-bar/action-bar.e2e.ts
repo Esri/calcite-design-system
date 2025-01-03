@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -550,25 +551,27 @@ describe("calcite-action-bar", () => {
   });
 
   describe("theme", () => {
-    themed(
-      html`<calcite-action-bar expanded layout="vertical">
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-      {
-        "--calcite-action-bar-expanded-max-width": {
-          targetProp: "maxInlineSize",
+    describe("default", () => {
+      themed(
+        html`<calcite-action-bar expanded layout="vertical">
+          <calcite-action-group>
+            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action-menu label="Save and open">
+              <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
+            </calcite-action-menu>
+          </calcite-action-group>
+        </calcite-action-bar>`,
+        {
+          "--calcite-action-bar-expanded-max-width": {
+            targetProp: "maxInlineSize",
+          },
+          "--calcite-action-bar-items-space": {
+            targetProp: "gap",
+          },
         },
-        "--calcite-action-bar-items-space": {
-          targetProp: "gap",
-        },
-      },
-    );
+      );
+    });
   });
 });
