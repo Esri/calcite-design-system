@@ -14,6 +14,7 @@ import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
+import { block, blockTokens } from "./custom-theme/block";
 import { buttons } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -132,8 +133,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection}</div>
-      <div class="demo-column">${alert}</div>
+      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block}</div>
+      <div class="demo-column"><div class="demo-column">${alert}</div></div>
     </div>
   </div>`;
 
@@ -150,6 +151,7 @@ const componentTokens = {
   ...autocompleteTokens,
   ...avatarTokens,
   ...blockSectionTokens,
+  ...blockTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,

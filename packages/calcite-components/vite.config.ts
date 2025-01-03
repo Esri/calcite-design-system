@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";

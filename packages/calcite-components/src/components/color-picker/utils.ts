@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Color from "color";
 import { Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";

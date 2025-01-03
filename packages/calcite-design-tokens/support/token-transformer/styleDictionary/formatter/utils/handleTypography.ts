@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { kebabCase } from "change-case";
 
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";

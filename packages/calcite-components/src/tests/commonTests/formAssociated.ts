@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";

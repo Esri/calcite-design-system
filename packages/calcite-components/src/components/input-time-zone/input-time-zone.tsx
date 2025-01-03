@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -276,8 +277,7 @@ export class InputTimeZone
     const initialValue = this.value;
     const normalized = this.normalizeValue(initialValue);
     this.value = normalized || (initialValue === "" ? normalized : undefined);
-
-    await this.updateTimeZoneSelection();
+    this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
     afterConnectDefaultValueSet(this, selectedValue);
@@ -289,6 +289,10 @@ export class InputTimeZone
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && this.hasUpdated) {
+      this.handleValueChange(this.value, changes.get("value"));
+    }
+
     if (
       changes.has("messages") ||
       (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
@@ -299,10 +303,6 @@ export class InputTimeZone
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
-    }
-
-    if (changes.has("value") && this.hasUpdated) {
-      this.handleValueChange(this.value, changes.get("value"));
     }
   }
 
@@ -325,12 +325,12 @@ export class InputTimeZone
 
   // #region Private Methods
 
-  private handleTimeZoneItemPropsChange(): void {
+  private async handleTimeZoneItemPropsChange(): Promise<void> {
     if (!this.timeZoneItems || !this.hasUpdated) {
       return;
     }
 
-    this.updateTimeZoneItems();
+    await this.updateTimeZoneItems();
     this.updateTimeZoneSelection();
   }
 
@@ -459,7 +459,7 @@ export class InputTimeZone
     this.timeZoneItems = await this.createTimeZoneItems();
   }
 
-  private async updateTimeZoneSelection(): Promise<void> {
+  private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;

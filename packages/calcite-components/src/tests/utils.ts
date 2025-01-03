@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
 import { LuminaJsx } from "@arcgis/lumina";
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";

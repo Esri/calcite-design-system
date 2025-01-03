@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 export interface AnimationEventDispatcher {
   (element: HTMLElement, type: "animationstart" | "animationend", animationName: string): void;
 }

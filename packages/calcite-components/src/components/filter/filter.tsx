@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
