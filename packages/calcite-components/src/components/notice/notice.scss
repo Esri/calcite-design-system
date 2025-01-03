@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-notice-background: Specifies the background color of the component.
- * @prop --calcite-notice-close-background-focus: Specifies the background color of the component when focused.
- * @prop --calcite-notice-close-background-press: Specifies the background color of the component when active.
+ * @prop --calcite-notice-background-color: Specifies the background color of the component.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component when focused.
+ * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component when active.
  * @prop --calcite-notice-close-text-color-hover: Specifies the background color of component's close button when hovered.
  * @prop --calcite-notice-close-text-color: Specifies the text color of component's close button.
  * @prop --calcite-notice-content-text-color: Specifies the content text color of the component.
- * @prop --calcite-notice-width: Specifies the width of the component.
+ * @prop --calcite-notice-width: [Deprecated} Specifies the width of the component.
  */
 
 // scale variables
@@ -91,7 +91,7 @@
   text-align: start;
   border-inline-start: var(--calcite-border-width-md) solid;
   box-shadow: 0 0 0 0 transparent;
-  background-color: var(--calcite-notice-background, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
 }
 
 // focus styles
@@ -165,12 +165,12 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-notice-close-background-focus, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-notice-close-background-color-focus, var(--calcite-color-foreground-2));
     color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
   }
 
   &:active {
-    background-color: var(--calcite-notice-close-background-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-notice-close-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 

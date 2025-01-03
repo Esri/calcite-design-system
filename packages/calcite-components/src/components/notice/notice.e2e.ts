@@ -141,11 +141,11 @@ describe("calcite-notice", () => {
           </calcite-notice>
         `,
         {
-          "--calcite-notice-background": {
+          "--calcite-notice-background-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-notice-close-background-focus": [
+          "--calcite-notice-close-background-color-focus": [
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "backgroundColor",
@@ -157,10 +157,14 @@ describe("calcite-notice", () => {
               state: "hover",
             },
           ],
-          // "--calcite-notice-close-background-press": {
+          // "--calcite-notice-close-background-color-press": {
           //   shadowSelector: `.${CSS.close}`,
           //   targetProp: "backgroundColor",
           //   state: { press: { attribute: "class", value: CSS.close } },
+          // },
+          // "--calcite-notice-close-text-color": {
+          //   shadowSelector: `.${CSS.close}`,
+          //   targetProp: "color",
           // },
           "--calcite-notice-close-text-color-hover": [
             {
@@ -174,14 +178,6 @@ describe("calcite-notice", () => {
               state: "hover",
             },
           ],
-          // "--calcite-notice-close-text-color": {
-          //   shadowSelector: `.${CSS.close}`,
-          //   targetProp: "color",
-          // },
-          // "--calcite-notice-content-text-color": {
-          //   shadowSelector: `div([slot=message])`,
-          //   targetProp: "color",
-          // },
         },
       );
     });
