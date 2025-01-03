@@ -65,6 +65,18 @@ describe("calcite-time-picker", () => {
   });
 
   describe("focusing", () => {
+    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
+      focusable(`calcite-time-picker`, {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+      });
+    });
+
+    describe("should focus the first focusable element when setFocus is called (rtl)", () => {
+      focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+      });
+    });
+
     it("should focus input when corresponding nudge up button is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
@@ -294,18 +306,6 @@ describe("calcite-time-picker", () => {
           `.${CSS.hour}`,
         ),
       ).toBe(true);
-    });
-  });
-
-  describe("should focus the first focusable element when setFocus is called (ltr)", () => {
-    focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-    });
-  });
-
-  describe("should focus the first focusable element when setFocus is called (rtl)", () => {
-    focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
     });
   });
 
