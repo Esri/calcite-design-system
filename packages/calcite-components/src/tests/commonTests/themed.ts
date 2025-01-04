@@ -275,29 +275,29 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   if (contextSelector) {
     const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
       const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
-        const { attribute, value } = context as {
+        const { attribute, value: valueToMatch } = context as {
           attribute: string;
           value: string;
         };
+
         if (node.nodeType === 1) {
-          const attr = (node as Element).getAttribute(attribute);
-          if (typeof value === "string" && attr === value) {
-            return node;
-          }
-          if (attr === value) {
-            return node;
+          const el = node as Element;
+          const attrValue = el.getAttribute(attribute);
+
+          if (
+            (attribute === "class" && el.classList.contains(valueToMatch)) ||
+            (attrValue === valueToMatch) ||
+            (!attribute && !valueToMatch)
+          ) {
+            return el;
           }
 
-          if ((node as Element) && !attribute && !value) {
-            return node;
-          }
-        }
-
-        if (node.nodeType === 1 && (node as Element).shadowRoot) {
-          for (const child of (node as Element).shadowRoot.children) {
-            const result = searchInShadowDom(child);
-            if (result) {
-              return result;
+          if (el.shadowRoot) {
+            for (const child of el.shadowRoot.children) {
+              const result = searchInShadowDom(child);
+              if (result) {
+                return result;
+              }
             }
           }
         }
@@ -309,6 +309,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
           }
         }
       };
+
       return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
         requestAnimationFrame(() => {
           const foundNode =
