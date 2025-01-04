@@ -145,27 +145,10 @@ describe("calcite-notice", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-notice-close-background-color-focus": [
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-          ],
-          // "--calcite-notice-close-background-color-press": {
-          //   shadowSelector: `.${CSS.close}`,
-          //   targetProp: "backgroundColor",
-          //   state: { press: { attribute: "class", value: CSS.close } },
-          // },
-          // "--calcite-notice-close-text-color": {
-          //   shadowSelector: `.${CSS.close}`,
-          //   targetProp: "color",
-          // },
+          "--calcite-notice-close-text-color": {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "color",
+          },
           "--calcite-notice-close-text-color-hover": [
             {
               shadowSelector: `.${CSS.close}`,
@@ -178,6 +161,23 @@ describe("calcite-notice", () => {
               state: "hover",
             },
           ],
+          "--calcite-notice-close-background-color-focus": [
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "backgroundColor",
+              state: "focus",
+            },
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+          ],
+          "--calcite-notice-close-background-color-press": {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.close } },
+          },
         },
       );
     });
