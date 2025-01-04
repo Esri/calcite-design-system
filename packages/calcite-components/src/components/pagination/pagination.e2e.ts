@@ -368,35 +368,105 @@ describe("calcite-pagination", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-      /*"--calcite-pagination-spacing": {
-        shadowSelector: `.${CSS.list}`,
-        targetProp: "columnGap",
-      },*/
-      "--calcite-pagination-width": [
-        {
-          shadowSelector: `.${CSS.chevron}`,
-          targetProp: "minInlineSize",
-        },
-        {
+    describe("default", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        /*"--calcite-pagination-spacing": {
+          shadowSelector: `.${CSS.list}`,
+          targetProp: "columnGap",
+        },*/
+        "--calcite-pagination-size": [
+          {
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "minInlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "minInlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.ellipsis}`,
+            targetProp: "minInlineSize",
+          },
+        ],
+        "--calcite-pagination-color": [
+          {
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "color",
+          },
+          /*{
           shadowSelector: `.${CSS.page}`,
-          targetProp: "minInlineSize",
-        },
-        {
-          shadowSelector: `.${CSS.ellipsis}`,
-          targetProp: "minInlineSize",
-        },
-      ],
-      "--calcite-pagination-color": [
-        {
+          targetProp: "color",
+        },*/
+          {
+            shadowSelector: `.${CSS.ellipsis}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("hover", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": [
+          /*{
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "color",
+            state: "hover",
+          },*/
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        ],
+        /*"--calcite-pagination-color-border-hover": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "borderBlockEndColor",
+          state: "hover",
+        },*/
+        /*"--calcite-pagination-chevron-color-background-hover": {
           shadowSelector: `.${CSS.chevron}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },*/
+      });
+    });
+    describe("active", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": [
+          /*{
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "color",
+          },*/
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "color",
+          },
+        ],
+        /*"--calcite-pagination-color-background": [
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "backgroundColor",
+          },
+        ],*/
+      });
+    });
+    describe("selected", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": {
+          shadowSelector: `.${CSS.page}`,
           targetProp: "color",
+          state: "focus",
         },
-        {
-          shadowSelector: `.${CSS.ellipsis}`,
-          targetProp: "color",
+        "--calcite-pagination-color-border-active": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "borderBlockEndColor",
+          state: "focus",
         },
-      ],
+      });
     });
   });
 });

@@ -2,13 +2,13 @@ import { html } from "../../support/formatting";
 
 export const paginationTokens = {
   calcitePaginationSpacing: "",
-  calcitePaginationWidth: "",
+  calcitePaginationSize: "",
   calcitePaginationColor: "",
-  calcitePaginationSelectedColorHover: "",
-  calcitePaginationHoverBottomBorderColor: "",
-  calcitePaginationSelectedBottomBorderColor: "",
-  calcitePaginationActiveBackgroundColor: "",
-  calcitePaginationHoverChevronBackgroundColor: "",
+  calcitePaginationColorHover: "",
+  calcitePaginationColorBorderHover: "",
+  calcitePaginationColorBorderActive: "",
+  calcitePaginationColorBackground: "",
+  calcitePaginationChevronColorBackgroundHover: "",
 };
 
 export const pagination = html`<calcite-pagination
