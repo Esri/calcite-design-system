@@ -73,32 +73,79 @@ describe("calcite-navigation-logo", () => {
   });
 
   describe("theme", () => {
-    const navigationLogoHtml = (active = false): string => html`
-      <calcite-navigation-logo
+    const navigationLogoHtml = (props: Partial<{ active: boolean, link: boolean}> = {}): string => {
+      const { active = false, link = false } = props;
+
+      return html`<calcite-navigation-logo
         heading="Walt's Chips"
         description="Eastern Potato Chip Company"
         icon="layers"
-        ${boolean("active", active)}
+        ${active ? "active" : ""}
+        ${link ? "href=https://github.com/Esri/calcite-design-system" : ""}
       >
       </calcite-navigation-logo>
-    `;
+    `};
 
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-background-color": [
           {
-            shadowSelector: `.${CSS.anchor}`,
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-navigation-logo-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-navigation-logo-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+      };
+
+      themed(navigationLogoHtml(), tokens);
+    });
+
+    describe("default + active", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-accent-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-text-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      };
+
+      themed(navigationLogoHtml({
+        active: true,
+      }), tokens);
+    })
+
+    describe("with link", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
           {
-            shadowSelector: `.${CSS.anchor}`,
+            shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
             state: "hover",
           },
           {
-            shadowSelector: `.${CSS.anchor}`,
+            shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: CSS.anchor } },
+            state: { press: { attribute: "class", value: CSS.container } },
           },
         ],
         "--calcite-navigation-logo-text-color": [
@@ -113,7 +160,7 @@ describe("calcite-navigation-logo", () => {
           {
             shadowSelector: `calcite-icon`,
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.anchor } },
+            state: { press: { attribute: "class", value: CSS.container } },
           },
         ],
         "--calcite-navigation-logo-heading-text-color": {
@@ -121,13 +168,14 @@ describe("calcite-navigation-logo", () => {
           targetProp: "color",
         },
       };
-      themed(navigationLogoHtml(), tokens);
+
+      themed(navigationLogoHtml({ link: true }), tokens);
     });
 
-    describe("active", () => {
+    describe("with link + active", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-accent-color": {
-          shadowSelector: `.${CSS.anchor}`,
+          shadowSelector: `.${CSS.container}`,
           targetProp: "borderBlockEndColor",
         },
         "--calcite-navigation-logo-text-color": {
@@ -135,7 +183,11 @@ describe("calcite-navigation-logo", () => {
           targetProp: "color",
         },
       };
-      themed(navigationLogoHtml(true), tokens);
-    });
+
+      themed(navigationLogoHtml({
+        active: true,
+        link: true
+      }), tokens);
+    })
   });
 });
