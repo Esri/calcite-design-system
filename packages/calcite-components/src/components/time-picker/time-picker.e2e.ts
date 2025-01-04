@@ -1308,7 +1308,7 @@ describe("calcite-time-picker", () => {
               await page.keyboard.press("ArrowUp");
               await page.waitForChanges();
 
-              expect(hour.textContent).toBe(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
+              expect(hour).toEqualText(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
             }
 
             await page.keyboard.press("Delete");
@@ -1319,7 +1319,7 @@ describe("calcite-time-picker", () => {
               await page.keyboard.press("ArrowDown");
               await page.waitForChanges();
 
-              expect(hour.textContent).toBe(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
+              expect(hour).toEqualText(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
             }
           });
         });
@@ -1390,19 +1390,19 @@ describe("calcite-time-picker", () => {
               await page.keyboard.press("ArrowUp");
               await page.waitForChanges();
 
-              expect(hour.textContent).toBe(formatTimePart(i));
+              expect(hour).toEqualText(formatTimePart(i));
             }
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
 
-            expect(hour.textContent).toBe("00");
+            expect(hour).toEqualText("00");
 
             for (let i = 23; i > 0; i--) {
               await page.keyboard.press("ArrowDown");
               await page.waitForChanges();
 
-              expect(hour.textContent).toBe(formatTimePart(i));
+              expect(hour).toEqualText(formatTimePart(i));
             }
           });
         });
