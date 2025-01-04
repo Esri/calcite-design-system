@@ -2,7 +2,7 @@ import { describe } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
-import { CSS } from "../../../src/components/navigation-logo/resources";
+import { CSS } from "./resources";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
