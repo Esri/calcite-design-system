@@ -577,6 +577,7 @@ input[type="date"]::-webkit-input-placeholder {
     border-dashed
     text-center;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
+  block-size: initial;
 }
 
 :host([type="file"][scale="s"]) input {
