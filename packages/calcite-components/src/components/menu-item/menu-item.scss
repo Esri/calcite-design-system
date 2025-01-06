@@ -60,7 +60,6 @@
 
   &:hover,
   &:focus {
-    --calcite-internal-menu-background-color: var(--calcite-color-foreground-2);
     --calcite-internal-menu-text-color: var(--calcite-color-text-2);
   }
 
@@ -97,9 +96,8 @@
 
 :host([active]) {
   .content {
-    background-color: var(--calcite-menu-background-color, (--calcite-color-foreground-3));
     --calcite-internal-menu-text-color: var(--calcite-color-text-1);
-    border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
+    border-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
   }
   .icon {
     --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
