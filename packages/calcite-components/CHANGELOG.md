@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.88...@esri/calcite-components@3.0.0-next.89) (2025-01-04)
+
+### Features
+
+- **combobox, input-time-zone:** highlight text matches consistently ([#11193](https://github.com/Esri/calcite-design-system/issues/11193)) ([75f54de](https://github.com/Esri/calcite-design-system/commit/75f54de466fa2938af9a333cb9c3e4b8ed00460b)), closes [#11173](https://github.com/Esri/calcite-design-system/issues/11173)
+
 ## [3.0.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.87...@esri/calcite-components@3.0.0-next.88) (2025-01-03)
 
 ### Features
