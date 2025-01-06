@@ -2,14 +2,14 @@ import { html } from "../../support/formatting";
 
 export const selectTokens = {
   calciteSelectFontSize: "",
-  calciteSelectFontWeight: "",
+  calciteSelectTextWeight: "",
   calciteSelectSpacingInline: "",
   calciteSelectTextColor: "",
   calciteSelectSelectSize: "",
   calciteSelectBlockSize: "",
   calciteSelectBorderColor: "",
   calciteSelectIconColor: "",
-  calciteSelectIconActiveColorHover: "",
+  calciteSelectIconColorHover: "",
 };
 
 export const select = html`<calcite-select>

@@ -443,10 +443,10 @@ describe("calcite-select", () => {
   describe("theme", () => {
     themed(
       html`
-        <calcite-select>
-          <calcite-option>uno</calcite-option>
-          <calcite-option>dos</calcite-option>
-          <calcite-option>tres</calcite-option>
+        <calcite-select label="calcite select">
+          <calcite-option value="high">uno</calcite-option>
+          <calcite-option value="medium">dos</calcite-option>
+          <calcite-option value="low">tres</calcite-option>
         </calcite-select>
       `,
       {
@@ -454,6 +454,14 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.select}`,
           targetProp: "fontSize",
         },
+        /*"--calcite-select-text-weight": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "fontWeight",
+        },*/
+        /*"--calcite-select-spacing-inline": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "paddingInline",
+        },*/
         "--calcite-select-text-color": {
           shadowSelector: `.${CSS.select}`,
           targetProp: "color",
@@ -480,6 +488,11 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
         },
+        /*"--calcite-select-icon-color-hover": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: CSS.icon } },
+        },*/
       },
     );
   });

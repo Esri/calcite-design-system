@@ -4,14 +4,14 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-select-font-size: Specifies the font size of `calcite-option`s in the component.
- * @prop --calcite-select-font-weight: Specifies the font weight of `calcite-option`s in the component.
+ * @prop --calcite-select-text-weight: Specifies the font weight of `calcite-option`s in the component.
  * @prop --calcite-select-spacing-inline: Specifies the inline padding of `calcite-option`s in the component.
  * @prop --calcite-select-text-color: Specifies the text color of `calcite-option`s in the component.
  * @prop --calcite-select-size: Specifies the component's width.
  * @prop --calcite-select-block-size: Specifies the component's height.
  * @prop --calcite-select-border-color: Specifies the component's border color.
  * @prop --calcite-select-icon-color: Specifies the component's icon color.
- * @prop --calcite-select-icon-active-color-hover: Specifies the component's icon color when hovered or active.
+ * @prop --calcite-select-icon-color-hover: Specifies the component's icon color when hovered or active.
  */
 
 :host {
@@ -27,7 +27,7 @@
   &:active,
   &:hover {
     .icon {
-      color: var(--calcite-select-icon-active-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-select-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -80,7 +80,7 @@
     rounded-none
     border-solid;
   font-size: var(--calcite-select-font-size, var(--calcite-internal-font-size));
-  font-weight: var(--calcite-select-font-weight, var(--calcite-font-weight-regular));
+  font-weight: var(--calcite-select-text-weight, var(--calcite-font-weight-regular));
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
