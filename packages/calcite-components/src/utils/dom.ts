@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { tabbable } from "tabbable";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";

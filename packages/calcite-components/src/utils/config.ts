@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";

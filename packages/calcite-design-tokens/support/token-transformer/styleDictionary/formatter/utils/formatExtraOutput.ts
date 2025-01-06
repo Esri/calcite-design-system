@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import prettierSync from "@prettier/sync";

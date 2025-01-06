@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { FocusTrap } from "focus-trap";
 import { PropertyValues } from "lit";
 import {

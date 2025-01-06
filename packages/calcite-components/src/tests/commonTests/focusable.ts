@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import {} from "../utils";
 import { expect, it } from "vitest";

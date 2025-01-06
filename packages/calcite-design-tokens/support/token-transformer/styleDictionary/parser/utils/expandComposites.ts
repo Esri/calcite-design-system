@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 /**
  * This is a copy/extension of @tokens-studio/sd-transforms/dist/parsers/expand-composites.js but now with better types!
  */
