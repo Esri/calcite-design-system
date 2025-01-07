@@ -1,5 +1,5 @@
 {
   "invalid": "Non valido",
   "tooLong": "La lunghezza in caratteri corrente è {currentLength}, superiore al limite massimo di {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "La lunghezza in caratteri corrente è {currentLength}, quindi inferiore al limite minimo di {minLength}."
 }

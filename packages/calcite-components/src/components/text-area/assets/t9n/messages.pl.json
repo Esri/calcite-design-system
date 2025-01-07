@@ -1,5 +1,5 @@
 {
   "invalid": "Niepoprawny",
   "tooLong": "Bieżąca liczba znaków wynosi {currentLength}, co przekracza maksymalną liczbę znaków {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Aktualnie liczba znaków wynosi {currentLength}, więc nie została osiągnięta minimalna liczba znaków ({minLength})."
 }

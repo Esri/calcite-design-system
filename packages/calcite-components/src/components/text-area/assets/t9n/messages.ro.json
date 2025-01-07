@@ -1,5 +1,5 @@
 {
   "invalid": "Nevalid",
   "tooLong": "Lungimea maximă a caracterelor curentă este {currentLength}, ceea ce depășește lungimea maximă a caracterelor de maximum {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Lungimea curentă a caracterelor este {currentLength}, ceea ce este mai puțin decât lungimea minimă a caracterelor de {minLength}."
 }

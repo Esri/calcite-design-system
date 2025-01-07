@@ -1,5 +1,5 @@
 {
   "invalid": "Geçersiz",
   "tooLong": "Mevcut karakter uzunluğu {currentLength} ve maksimum karakter uzunluğu {maxLength}'i aşıyor.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Mevcut karakter uzunluğu, {minLength}'nin minimum karakter uzunluğundan daha kısa olan {currentLength}'dir."
 }

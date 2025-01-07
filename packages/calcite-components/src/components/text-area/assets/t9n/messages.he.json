@@ -1,5 +1,5 @@
 {
   "invalid": "לא תקין",
   "tooLong": "אורך התו הנוכחי הוא {currentLength}, אשר חורג מאורך התו המרבי של {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "אורך התו הנוכחי הוא {currentLength}, אשר קטן מאורך התו המינימלי של {minLength}."
 }

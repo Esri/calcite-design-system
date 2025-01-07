@@ -1,5 +1,5 @@
 {
   "invalid": "Neplatný",
   "tooLong": "Aktuální počet znaků je {currentLength}, což překračuje maximální počet znaků {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Aktuální počet znaků je {currentLength}, což je méně než minimální počet {minLength} znaků."
 }

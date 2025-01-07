@@ -1,5 +1,5 @@
 {
   "invalid": "Nevažeće",
   "tooLong": "Trenutni broj znakova je {currentLength}, što premašuje maksimalni broj znakova od {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Trenutni broj znakova je {currentLength}, što je manje od minimalnog broja znakova {minLength}."
 }

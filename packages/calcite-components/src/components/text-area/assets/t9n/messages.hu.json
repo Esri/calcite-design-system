@@ -1,5 +1,5 @@
 {
   "invalid": "Érvénytelen",
   "tooLong": "Az aktuális karakterhossz {currentLength}, ami meghaladja a maximális {maxLength} karakterhosszúságot.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Az aktuális karakterhossz {currentLength}, ami kevesebb, mint a(z) {minLength} maximális karakterhosszúsága."
 }

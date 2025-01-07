@@ -1,5 +1,5 @@
 {
   "invalid": "Неприпустимий",
   "tooLong": "Поточна довжина символу становить {currentLength}, що перевищує максимальну довжину символів {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Поточна довжина символів становить {currentLength}, що менше мінімальної довжини символів {minLength}."
 }

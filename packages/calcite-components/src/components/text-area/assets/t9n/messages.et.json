@@ -1,5 +1,5 @@
 {
   "invalid": "Sobimatu",
   "tooLong": "Praegune tähemärkide arv on {currentLength}, mis ületab tähemärkide maksimaalse arvu{maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "tooShort": "Praegune tähemärkide arv on {currentLength}, mis on väiksem kui minimaalne tähemärkide arv ({minLength})."
 }
