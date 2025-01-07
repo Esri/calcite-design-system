@@ -3,338 +3,558 @@
     "container-size": {
       "height": {
         "xxs": {
-          "value": {
-            "min": "0",
-            "max": "{core.container-size.154}"
+          "min": {
+            "value": "0",
+            "type": "breakpoint",
+            "description": "Small handheld devices and mini-windows",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xxs",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small handheld devices and mini-windows",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.154}",
+            "type": "breakpoint",
+            "description": "Small handheld devices and mini-windows",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xxs",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "xs": {
-          "value": {
-            "min": "{core.container-size.154} + 1",
-            "max": "{core.container-size.328}"
+          "min": {
+            "value": "{core.container-size.154} + 1",
+            "type": "breakpoint",
+            "description": "Handheld devices",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xs",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Handheld devices",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.328}",
+            "type": "breakpoint",
+            "description": "Handheld devices",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xs",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "sm": {
-          "value": {
-            "min": "{core.container-size.328} + 1",
-            "max": "{core.container-size.504}"
+          "min": {
+            "value": "{core.container-size.328} + 1",
+            "type": "breakpoint",
+            "description": "Small tablets",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small tablets",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.504}",
+            "type": "breakpoint",
+            "description": "Small tablets",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "md": {
-          "value": {
-            "min": "{core.container-size.504} + 1",
-            "max": "{core.container-size.678}"
+          "min": {
+            "value": "{core.container-size.504} + 1",
+            "type": "breakpoint",
+            "description": "Small laptops",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "md",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small laptops",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.678}",
+            "type": "breakpoint",
+            "description": "Small laptops",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "md",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "lg": {
-          "value": {
-            "min": "{core.container-size.678} + 1",
-            "max": "{core.container-size.854}"
+          "min": {
+            "value": "{core.container-size.678} + 1",
+            "type": "breakpoint",
+            "description": "Large laptops and desktop computers",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Large laptops and desktop computers",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.854}",
+            "type": "breakpoint",
+            "description": "Large laptops and desktop computers",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "xl": {
-          "value": {
-            "min": "{core.container-size.854} + 1"
-          },
-          "type": "breakpoint",
-          "description": "Projectors and televisions",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "height",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
+          "min": {
+            "value": "{core.container-size.854} + 1",
+            "type": "breakpoint",
+            "description": "Projectors and televisions"
           }
         }
       },
       "width": {
         "xxs": {
-          "value": {
-            "min": "0",
-            "max": "{core.container-size.320}"
+          "min": {
+            "value": "0",
+            "type": "breakpoint",
+            "description": "Small handheld devices and mini-windows",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xxs",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small handheld devices and mini-windows",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.320}",
+            "type": "breakpoint",
+            "description": "Small handheld devices and mini-windows",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xxs",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "xs": {
-          "value": {
-            "min": "{core.container-size.320} + 1",
-            "max": "{core.container-size.476}"
+          "min": {
+            "value": "{core.container-size.320} + 1",
+            "type": "breakpoint",
+            "description": "Handheld devices",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xs",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Handheld devices",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.476}",
+            "type": "breakpoint",
+            "description": "Handheld devices",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xs",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "sm": {
-          "value": {
-            "min": "{core.container-size.476} + 1",
-            "max": "{core.container-size.768}"
+          "min": {
+            "value": "{core.container-size.476} + 1",
+            "type": "breakpoint",
+            "description": "Small tablets",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small tablets",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.768}",
+            "type": "breakpoint",
+            "description": "Small tablets",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "md": {
-          "value": {
-            "min": "{core.container-size.768} + 1",
-            "max": "{core.container-size.1152}"
+          "min": {
+            "value": "{core.container-size.768} + 1",
+            "type": "breakpoint",
+            "description": "Small laptops",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "md",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Small laptops",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.1152}",
+            "type": "breakpoint",
+            "description": "Small laptops",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "md",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "lg": {
-          "value": {
-            "min": "{core.container-size.1152} + 1",
-            "max": "{core.container-size.1440}"
+          "min": {
+            "value": "{core.container-size.1152} + 1",
+            "type": "breakpoint",
+            "description": "Large laptops and desktop computers",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "breakpoint",
-          "description": "Large laptops and desktop computers",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
+          "max": {
+            "value": "{core.container-size.1440}",
+            "type": "breakpoint",
+            "description": "Large laptops and desktop computers",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         },
         "xl": {
-          "value": {
-            "min": "{core.container-size.1440} + 1"
-          },
-          "type": "breakpoint",
-          "description": "Projectors and televisions",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "breakpoint",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
+          "min": {
+            "value": "{core.container-size.1440} + 1",
+            "type": "breakpoint",
+            "description": "Projectors and televisions",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "breakpoint",
+                "group": "width",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "xl",
+                "context": "",
+                "mode": ""
+              }
             }
           }
         }

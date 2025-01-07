@@ -9,7 +9,7 @@
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})"
         },
-        "type": "shadow",
+        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -39,7 +39,7 @@
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
         },
-        "type": "shadow",
+        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -69,7 +69,7 @@
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
         },
-        "type": "shadow",
+        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -99,7 +99,7 @@
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
         },
-        "type": "shadow",
+        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -129,7 +129,7 @@
           "spread": "-2",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.10})"
         },
-        "type": "shadow",
+        "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
