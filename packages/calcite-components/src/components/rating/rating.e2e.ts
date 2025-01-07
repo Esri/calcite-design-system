@@ -799,13 +799,13 @@ describe("calcite-rating", () => {
     });
   });
 
-  describe("theme", () => {
-    describe("default", () => {
+  describe.only("theme", () => {
+    describe.only("default", () => {
       themed(html`<calcite-rating></calcite-rating>`, {
-        /*"--calcite-rating-spacing": {
+        "--calcite-rating-spacing": {
           shadowSelector: `.${CSS.fieldSet}`,
           targetProp: "gap",
-        },*/
+        },
         "--calcite-rating-color": {
           shadowSelector: `.${CSS.star}`,
           targetProp: "color",
