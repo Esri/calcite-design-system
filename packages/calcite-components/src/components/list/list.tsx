@@ -40,6 +40,7 @@ import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
 import { styles } from "./list.scss";
 
@@ -82,6 +83,8 @@ export class List
   private lastSelectedInfo: { selectedItem: ListItem["el"]; selected: boolean };
 
   private listItems: ListItem["el"][] = [];
+
+  private listItemGroups: ListItemGroup["el"][] = [];
 
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
@@ -161,7 +164,7 @@ export class List
 
   @state() assistiveText: string;
 
-  @state() dataForFilter: ItemData = [];
+  @state() dataForFilter: ItemData[] = [];
 
   @state() hasFilterActionsEnd = false;
 
@@ -225,7 +228,7 @@ export class List
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -236,7 +239,7 @@ export class List
    *
    * @readonly
    */
-  @property() filteredData: ItemData = [];
+  @property() filteredData: ItemData[] = [];
 
   /**
    * The currently filtered `calcite-list-item`s.
@@ -409,6 +412,7 @@ export class List
     this.updateListItems();
     this.setUpSorting();
     this.setParentList();
+    this.setListItemGroups();
   }
 
   async load(): Promise<void> {
@@ -650,6 +654,10 @@ export class List
     }
   }
 
+  private setListItemGroups(): void {
+    this.listItemGroups = Array.from(this.el.querySelectorAll(listItemGroupSelector));
+  }
+
   private handleFilterActionsStartSlotChange(event: Event): void {
     this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
   }
@@ -686,17 +694,15 @@ export class List
     filteredItems,
     visibleParents,
   }: {
-    el: ListItem["el"] | ListItemGroup["el"];
+    el: ListElement;
     filteredItems: ListItem["el"][];
-    visibleParents: WeakSet<ListItem["el"] | ListItemGroup["el"]>;
+    visibleParents: WeakSet<ListElement>;
   }): void {
     const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el as ListItem["el"]);
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest<ListItem["el"] | ListItemGroup["el"]>(
-      parentSelector,
-    );
+    const closestParent = el.parentElement.closest<ListElement>(parentSelector);
 
     if (!closestParent) {
       return;
@@ -770,7 +776,7 @@ export class List
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as ItemData;
+      this.filteredData = filterEl.filteredItems as ItemData[];
     }
 
     this.updateListItems();
@@ -783,7 +789,7 @@ export class List
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata"];
+      return ["description", "label", "metadata", "heading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
@@ -814,13 +820,22 @@ export class List
     this.updateFilteredData();
   }
 
-  private getItemData(): ItemData {
+  private getItemData(): ItemData[] {
     return this.listItems.map((item) => ({
       label: item.label,
       description: item.description,
       metadata: item.metadata,
+      heading: this.getGroupHeading(item),
       el: item,
     }));
+  }
+
+  private getGroupHeading(item: ListItem["el"]): string[] {
+    const heading = this.listItemGroups
+      .filter((group) => group.contains(item))
+      .map((group) => group.heading);
+
+    return heading;
   }
 
   private updateGroupItems(): void {
