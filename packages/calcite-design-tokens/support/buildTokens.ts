@@ -18,7 +18,7 @@ await registerCalciteTransformers(StyleDictionary);
 const sdTypes = expandTypesMap;
 const sd = new StyleDictionary({
   // configuration
-  source: ["src/semantic/*.json"],
+  source: ["src/semantic-old/*.json"],
   include: ["src/core/*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
