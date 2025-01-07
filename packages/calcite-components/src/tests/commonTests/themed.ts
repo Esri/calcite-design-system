@@ -1,9 +1,10 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import type { RequireExactlyOne } from "type-fest";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
-import { toElementHandle } from "../utils";
+import { skipAnimations, toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -74,6 +75,7 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
 export function themed(componentTestSetup: ComponentTestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
+    await skipAnimations(page);
     await page.evaluate(() => {
       // we block all clicks to prevent triggering behavior as mouse states are activated between assertions
       document.addEventListener(

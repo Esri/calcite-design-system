@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();

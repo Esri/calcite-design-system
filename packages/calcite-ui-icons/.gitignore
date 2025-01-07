@@ -1,7 +1,7 @@
+/*output/
 /docs/icons.json
-/docs/resources
+/docs/resources/
+/fonts/
 /index.*
-/js
+/js/
 /sprite-*.svg
-desktop-output
-mobile-output

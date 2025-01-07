@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";

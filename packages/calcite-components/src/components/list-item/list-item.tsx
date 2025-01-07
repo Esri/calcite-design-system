@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -1044,13 +1045,13 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderOpen()}
-            {this.renderActionsStart()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
                 [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
               }}
             >
+              {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
             </div>

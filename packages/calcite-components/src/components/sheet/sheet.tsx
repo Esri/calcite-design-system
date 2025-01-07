@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
@@ -475,12 +476,12 @@ export class Sheet
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize, 10) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize, 10) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
+      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
+      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
     };
 
     this.resizeValues = values;

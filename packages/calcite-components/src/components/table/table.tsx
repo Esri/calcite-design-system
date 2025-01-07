@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";

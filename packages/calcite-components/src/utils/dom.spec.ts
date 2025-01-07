@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
@@ -332,12 +333,8 @@ describe("dom", () => {
       const element = document.createElement("div");
       document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
-    });
 
-    it("should return false if element has no visible content", () => {
-      const element = document.createElement("div");
       element.innerHTML = "\n<!-- some comment -->\n";
-      document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
     });
   });
