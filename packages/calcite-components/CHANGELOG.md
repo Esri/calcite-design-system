@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.90...@esri/calcite-components@3.0.0-next.91) (2025-01-07)
+
+### Bug Fixes
+
+- **text-area:** make `readOnly` prop writable ([#11218](https://github.com/Esri/calcite-design-system/issues/11218)) ([0cbf766](https://github.com/Esri/calcite-design-system/commit/0cbf766156e3b0ec7a662571606af62895e23f59)), closes [#11217](https://github.com/Esri/calcite-design-system/issues/11217) [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
 ## [3.0.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.89...@esri/calcite-components@3.0.0-next.90) (2025-01-06)
 
 ### Features
