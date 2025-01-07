@@ -19,6 +19,7 @@
     "./types/*": "./dist/types/*.d.ts",
     "./hydrate": "./hydrate/index.js",
     "./calcite/calcite.css": "./dist/calcite/calcite.css",
+    "./docs/*": "./dist/docs/*",
     "./dist/calcite/calcite.css": "./dist/calcite/calcite.css",
     "./dist/loader": "./dist/loader.js",
     "./dist/components": "./dist/index.js",
