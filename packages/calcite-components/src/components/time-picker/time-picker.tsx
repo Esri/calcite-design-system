@@ -777,6 +777,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       messages: { _lang: locale },
       numberingSystem,
     } = this;
+    const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -798,6 +799,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           part: "hour",
           locale,
           numberingSystem,
+          hour12,
         });
       }
     } else if (key === "fractionalSecond") {
@@ -813,6 +815,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: "fractionalSecond",
         locale,
         numberingSystem,
+        hour12,
       });
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
@@ -821,6 +824,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: key,
         locale,
         numberingSystem,
+        hour12,
       });
     }
     let emit = false;
@@ -842,7 +846,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     this.value = newValue;
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts({
-          hour12: effectiveHourFormat === "12",
+          hour12,
           locale,
           numberingSystem,
           value: this.value,
