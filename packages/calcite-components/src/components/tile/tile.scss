@@ -68,7 +68,7 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
-  word-break: break-word;
+@include word-break();
 }
 
 .text-content-container {
