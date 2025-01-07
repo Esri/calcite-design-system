@@ -799,8 +799,8 @@ describe("calcite-rating", () => {
     });
   });
 
-  describe.only("theme", () => {
-    describe.only("default", () => {
+  describe("theme", () => {
+    describe("default", () => {
       themed(html`<calcite-rating></calcite-rating>`, {
         "--calcite-rating-spacing": {
           shadowSelector: `.${CSS.fieldSet}`,
