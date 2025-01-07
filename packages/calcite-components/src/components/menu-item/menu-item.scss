@@ -58,11 +58,6 @@
   );
   color: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color, var(--calcite-color-text-2)));
 
-  &:hover,
-  &:focus {
-    --calcite-internal-menu-text-color: var(--calcite-color-text-2);
-  }
-
   &:hover {
     border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-border-2));
   }
@@ -180,30 +175,15 @@ calcite-action {
     inset-block: 0;
   }
 
-  &:hover,
-  &:focus {
-    --calcite-action-background-color-hover: var(
-      --calcite-menu-background-color,
-      var(--calcite-internal-menu-background-color)
-    );
-    --calcite-action-text-color-press: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color));
-  }
-
   &:active {
-    --calcite-action-background-color-press: var(
-      --calcite-menu-background-color,
-      var(--calcite-internal-menu-background-color)
-    );
+    --calcite-action-background-color-press: var(--calcite-menu-background-color);
   }
 }
 
 // extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
-  --calcite-action-text-color: var(
-    --calcite-menu-text-color,
-    var(--calcite-internal-menu-text-color, var(--calcite-color-text-1))
-  );
+  --calcite-action-text-color: var(--calcite-menu-text-color, var(--calcite-color-text-1));
 
   &::after {
     @apply h-full;
@@ -214,6 +194,7 @@ calcite-action {
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
@@ -232,7 +213,6 @@ calcite-action {
 
 .dropdown--vertical.dropdown-menu-items {
   @apply relative;
-  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   box-shadow: none;
   inset-block-start: 0;
   transform: none;

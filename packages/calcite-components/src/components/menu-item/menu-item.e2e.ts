@@ -130,129 +130,122 @@ describe("calcite-menu-item", () => {
       </calcite-menu>
     `;
     describe("slotted submenu", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-menu-background-color": [{
-          selector: "calcite-menu-item",
-          shadowSelector: `calcite-action`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "hover",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `calcite-action`,
-          targetProp: "--calcite-action-background-color-press",
-          state: { press: { attribute: "class", value: "dropdown-action" } },
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `calcite-action`,
-          targetProp: "--calcite-action-background-color",
-        }],
-        "--calcite-menu-text-color": [{
-          selector: "calcite-menu-item",
-          shadowSelector: `calcite-action`,
-          targetProp: "--calcite-action-text-color",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `calcite-action`,
-          targetProp: "--calcite-action-text-color-press",
-          state: { press: { attribute: "class", value: "dropdown-action" } },
-        },
-        ],
-        "--calcite-menu-item-sub-menu-border-color": {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.dropdownMenuItems}`,
-          targetProp: "borderColor",
-        },
-      };
-      describe("horizontal layout", () => {
-        themed(menuWithSlottedSubmenuHTML("horizontal"), tokens);
-      });
-      describe("vertical layout", () => {
-        themed(menuWithSlottedSubmenuHTML("vertical"), {
+      const tokens = (layout: Layout): ComponentTestTokens => {
+        return {
+          "--calcite-menu-background-color": [{
+            selector: "calcite-menu-item",
+            shadowSelector: `calcite-action`,
+            targetProp: "--calcite-action-background-color-press",
+            state: { press: { attribute: "class", value: "dropdown-action" } },
+          }, {
+            selector: "calcite-menu-item",
+            shadowSelector: `calcite-action`,
+            targetProp: "--calcite-action-background-color",
+          }],
+          "--calcite-menu-text-color": {
+            selector: "calcite-menu-item",
+            shadowSelector: `calcite-action`,
+            targetProp: "--calcite-action-text-color",
+          },
           "--calcite-menu-item-sub-menu-corner-radius": {
             selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.dropdownVertical}`,
+            shadowSelector: `.${CSS.dropdownMenuItems}`,
             targetProp: "borderRadius",
           },
-        });
+          "--calcite-menu-item-sub-menu-border-color": {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.dropdownMenuItems}`,
+            targetProp: layout === "horizontal" ? "borderColor" : "borderBlockColor",
+          }
+        };
+      }
+
+      describe("horizontal layout", () => {
+        themed(menuWithSlottedSubmenuHTML("horizontal"), tokens("horizontal"));
+      });
+
+      describe("vertical layout", () => {
+        themed(menuWithSlottedSubmenuHTML("vertical"), tokens("vertical"));
       });
     });
 
     describe("default", () => {
-      const menuHTML: string = html`
-        <calcite-menu>
+      const menuHTML = (layout: Layout): string => html`
+        <calcite-menu layout="${layout}">
           <calcite-menu-item text="Ideas"> </calcite-menu-item>
         </calcite-menu>
       `;
       const tokens: ComponentTestTokens = {
-        "--calcite-menu-item-accent-color": {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "borderBlockEndColor",
-          state: "hover",
-        },
+        "--calcite-menu-background-color": [
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
+          }],
         "--calcite-menu-text-color": [{
           selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
+          shadowSelector: ` .${CSS.content} `,
           targetProp: "color",
         },
         {
           selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
+          shadowSelector: ` .${CSS.content} `,
           targetProp: "color",
           state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
-        },
-        ],
-        "--calcite-menu-background-color": [{
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
-        }
-        ]
-      };
-      themed(menuHTML, tokens);
-    });
+        }],
+      }
+
+      describe("horizontal layout", () => {
+        themed(menuHTML("horizontal"), {
+          ...tokens, "--calcite-menu-item-accent-color": {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "borderBlockEndColor",
+            state: "hover",
+          },
+        });
+      })
+
+      describe("vertical layout", () => {
+        themed(menuHTML("vertical"), tokens);
+      });
+    })
 
     describe("active", () => {
-      const activeMenuItemHTML: string = html`
-        <calcite-menu>
+      const activeMenuItemHTML = (layout: Layout): string => html`
+        <calcite-menu layout="${layout}">
           <calcite-menu-item text="Ideas" active> </calcite-menu-item>
         </calcite-menu>
       `;
-      const tokens: ComponentTestTokens = {
-        "--calcite-menu-item-accent-color": [{
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "borderBlockEndColor",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "borderBlockEndColor",
-          state: "hover",
-        },]
+      const tokens = (layout: Layout): ComponentTestTokens => {
+        const targetBorderProp = layout === "horizontal" ? "borderBlockEndColor" : "borderInlineEndColor";
+        return {
+          "--calcite-menu-item-accent-color": [{
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: targetBorderProp
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: targetBorderProp,
+            state: "hover",
+          },]
+        }
       };
-      themed(activeMenuItemHTML, tokens);
+      describe("horizontal layout", () => {
+        themed(activeMenuItemHTML("horizontal"), tokens("horizontal"));
+      })
+
+      describe("vertical layout", () => {
+        themed(activeMenuItemHTML("vertical"), tokens("vertical"));
+      })
     });
 
     describe("icons", () => {
