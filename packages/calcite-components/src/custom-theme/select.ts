@@ -3,10 +3,7 @@ import { html } from "../../support/formatting";
 export const selectTokens = {
   calciteSelectFontSize: "",
   calciteSelectTextWeight: "",
-  calciteSelectSpacingInline: "",
   calciteSelectTextColor: "",
-  calciteSelectSelectSize: "",
-  calciteSelectBlockSize: "",
   calciteSelectBorderColor: "",
   calciteSelectIconColor: "",
   calciteSelectIconColorHover: "",

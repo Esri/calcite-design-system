@@ -5,10 +5,7 @@
  *
  * @prop --calcite-select-font-size: Specifies the font size of `calcite-option`s in the component.
  * @prop --calcite-select-text-weight: Specifies the font weight of `calcite-option`s in the component.
- * @prop --calcite-select-spacing-inline: Specifies the inline padding of `calcite-option`s in the component.
  * @prop --calcite-select-text-color: Specifies the text color of `calcite-option`s in the component.
- * @prop --calcite-select-size: Specifies the component's width.
- * @prop --calcite-select-block-size: Specifies the component's height.
  * @prop --calcite-select-border-color: Specifies the component's border color.
  * @prop --calcite-select-icon-color: Specifies the component's icon color.
  * @prop --calcite-select-icon-color-hover: Specifies the component's icon color when hovered or active.
@@ -21,8 +18,6 @@
 
 .wrapper {
   @apply relative flex items-stretch;
-  inline-size: var(--calcite-select-size);
-  block-size: var(--calcite-select-block-size, var(--calcite-internal-select-block-size));
   &:focus-within,
   &:active,
   &:hover {
@@ -38,21 +33,18 @@
   --calcite-internal-font-size: theme("fontSize.n2h");
   --calcite-internal-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
-  --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
   --calcite-internal-font-size: theme("fontSize.n1h");
   --calcite-internal-spacing-inline: theme("spacing.3") theme("spacing.10");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-md);
-  --calcite-internal-select-block-size: #{$calcite-size-32};
 }
 
 :host([scale="l"]) {
   --calcite-internal-font-size: theme("fontSize.0h");
   --calcite-internal-spacing-inline: theme("spacing.4") theme("spacing.12");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
-  --calcite-internal-select-block-size: #{$calcite-size-44};
 }
 
 :host([width="auto"]) {
@@ -84,7 +76,7 @@
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
-  padding-inline: var(--calcite-select-spacing-inline, var(--calcite-internal-spacing-inline));
+  padding-inline: var(--calcite-internal-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
   line-height: var(--calcite-select-line-height, normal);

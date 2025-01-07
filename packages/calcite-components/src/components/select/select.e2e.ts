@@ -459,21 +459,9 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.select}`,
           targetProp: "fontWeight",
         },*/
-        /*"--calcite-select-spacing-inline": {
-          shadowSelector: `.${CSS.select}`,
-          targetProp: "paddingInline",
-        },*/
         "--calcite-select-text-color": {
           shadowSelector: `.${CSS.select}`,
           targetProp: "color",
-        },
-        "--calcite-select-size": {
-          shadowSelector: `.${CSS.wrapper}`,
-          targetProp: "inlineSize",
-        },
-        "--calcite-select-block-size": {
-          shadowSelector: `.${CSS.wrapper}`,
-          targetProp: "blockSize",
         },
         "--calcite-select-border-color": [
           {
