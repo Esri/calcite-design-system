@@ -335,6 +335,7 @@ export function setRequestedIcon(
   } else if (typeof iconValue === "string") {
     return iconValue || iconObject[matchedValue];
   }
+  return iconObject[matchedValue];
 }
 
 /**
