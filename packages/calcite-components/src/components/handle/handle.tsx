@@ -66,7 +66,6 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 

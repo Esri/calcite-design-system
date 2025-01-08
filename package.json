@@ -34,7 +34,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.0-next.69",
+    "@arcgis/lumina-compiler": "^4.32.0-next.72",
     "@cspell/eslint-plugin": "8.17.1",
     "@eslint/compat": "1.2.4",
     "@eslint/eslintrc": "3.2.0",
@@ -71,12 +71,10 @@
     "@types/react-dom": "18.3.1",
     "@types/semver": "7.5.8",
     "@types/shell-quote": "1.7.5",
-    "@typescript-eslint/eslint-plugin": "8.19.0",
-    "@typescript-eslint/parser": "8.19.0",
     "@typescript-eslint/rule-tester": "8.19.0",
     "@typescript-eslint/utils": "8.19.0",
     "@vitest/coverage-v8": "2.1.8",
-    "@vitest/eslint-plugin": "1.1.23",
+    "@vitest/eslint-plugin": "1.1.24",
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.20",
     "axe-core": "4.10.2",
@@ -94,7 +92,6 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest": "28.10.0",
     "eslint-plugin-jsdoc": "50.6.1",
-    "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.3",
     "eslint-plugin-unicorn": "56.0.1",
     "globals": "15.14.0",
@@ -127,6 +124,7 @@
     "tsx": "4.19.2",
     "turbo": "2.3.3",
     "typescript": "5.6.3",
+    "typescript-eslint": "8.19.1",
     "typescript-strict-plugin": "2.4.4",
     "vite": "5.4.11"
   },

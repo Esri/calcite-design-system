@@ -176,8 +176,9 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
     const { allowEmpty, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
+    const anyShorthand = isShorthandHex(hex, true) || isShorthandHex(hex, false);
 
-    if (isShorthandHex(hex, this.alphaChannel)) {
+    if (anyShorthand) {
       // ensure modified pasted hex values are committed since we prevent default to remove the # char.
       this.onHexInputChange();
     }
