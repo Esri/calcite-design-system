@@ -33,7 +33,6 @@ calcite-link {
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
   padding: var(--calcite-internal-tile-spacing);
-  position: relative;
   user-select: none;
 
   .selection-icon {
@@ -227,6 +226,7 @@ calcite-link {
 :host([href]:hover:not([disabled])) {
   .container {
     outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+    position: relative;
     z-index: var(--calcite-z-index);
   }
   .icon {
