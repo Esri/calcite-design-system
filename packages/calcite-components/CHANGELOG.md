@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.91...@esri/calcite-components@3.0.0-next.92) (2025-01-08)
+
+### Features
+
+- **menu-item:** add component tokens ([#10654](https://github.com/Esri/calcite-design-system/issues/10654)) ([9dc1262](https://github.com/Esri/calcite-design-system/commit/9dc12626331dbf9252ee4f15fc42dab3358029f1)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **rating:** add component tokens ([#11150](https://github.com/Esri/calcite-design-system/issues/11150)) ([6dbb559](https://github.com/Esri/calcite-design-system/commit/6dbb55946597559e37ce7c1747386a3a69533025)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **docs:** add docs package export ([#11221](https://github.com/Esri/calcite-design-system/issues/11221)) ([4b0d804](https://github.com/Esri/calcite-design-system/commit/4b0d8043ddcd2d05451253256a6812d5427a69eb)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **docs:** use updated translation bundle paths to generate `translations.json` ([#11219](https://github.com/Esri/calcite-design-system/issues/11219)) ([dce5635](https://github.com/Esri/calcite-design-system/commit/dce56356568f606004f9210ab21cbbcf7dcb94af)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **tile:** wrap overflowing text content ([#11213](https://github.com/Esri/calcite-design-system/issues/11213)) ([732933a](https://github.com/Esri/calcite-design-system/commit/732933a8ed6e0da21edef9d6b8d6b59b363d7292)), closes [#11170](https://github.com/Esri/calcite-design-system/issues/11170)
+
 ## [3.0.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.90...@esri/calcite-components@3.0.0-next.91) (2025-01-07)
 
 ### Bug Fixes
