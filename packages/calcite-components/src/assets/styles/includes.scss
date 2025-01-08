@@ -98,7 +98,8 @@
 
 @mixin base-component() {
   :host([hidden]),
-  :host([hide-item]),
+  :host([hidden-item]),
+  [hidden-item],
   [hidden] {
     @apply hidden;
   }

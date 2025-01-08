@@ -468,7 +468,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([hidden-item]), calcite-combobox-item-group:not([hidden-item])",
       );
       const visibleItemAndGroupIds = await Promise.all(visibleItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -496,7 +496,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const filteredItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([hidden-item]), calcite-combobox-item-group:not([hidden-item])",
       );
       const filteredItemAndGroupIds = await Promise.all(filteredItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -569,7 +569,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden-item])");
 
       expect(visibleItems.length).toBe(1);
       expect(await visibleItems[0].getProperty("value")).toBe("1");
@@ -815,7 +815,7 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="Pine" text-label="Pine">
           <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" hide-item text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
       </calcite-combobox-item>
       <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
@@ -836,7 +836,7 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-      <calcite-combobox-item value="Trees" text-label="Trees" hide-item>
+      <calcite-combobox-item value="Trees" text-label="Trees" hidden>
         <calcite-combobox-item value="Pine" text-label="Pine">
           <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
         </calcite-combobox-item>

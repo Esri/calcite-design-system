@@ -137,20 +137,20 @@ export class Combobox
 
       itemsAndGroups.forEach((item) => {
         if (matchAll) {
-          item.hidden = false;
+          item.hiddenItem = false;
           return;
         }
 
         const hidden = !find(item, filteredData);
-        item.hidden = hidden;
+        item.hiddenItem = hidden;
         const [parent, grandparent] = item.ancestors;
 
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
-          item.hidden = false;
+          item.hiddenItem = false;
         }
 
         if (!hidden) {
-          item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
+          item.ancestors.forEach((ancestor) => (ancestor.hiddenItem = false));
         }
       });
 
@@ -1223,7 +1223,9 @@ export class Combobox
   }
 
   private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
+    return this.filterText === ""
+      ? this.items
+      : this.items.filter((item) => !item.hidden && !item.hiddenItem);
   }
 
   private updateItems(): void {
@@ -1677,7 +1679,7 @@ export class Combobox
         role="option"
         tabIndex="-1"
       >
-        {item.heading || item.textLabel}
+        {item.heading || item.textLabel} ADdedte≈t
       </li>
     ));
   }
