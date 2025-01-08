@@ -33,11 +33,12 @@ import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
 import { loader, loaderTokens } from "./custom-theme/loader";
-import { notices } from "./custom-theme/notice";
+import { notice, noticeTokens } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
+import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
@@ -114,7 +115,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
+        ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
           ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
@@ -134,7 +135,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block}</div>
+      <div class="demo-column">
+        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
+      </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
     </div>
@@ -166,8 +169,10 @@ const componentTokens = {
   ...navigationLogoTokens,
   ...navigationTokens,
   ...navigationUserTokens,
+  ...noticeTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...ratingTokens,
   ...sliderTokens,
   ...switchTokens,
   ...tabsTokens,

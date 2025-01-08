@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.90...@esri/calcite-components@3.0.0-next.91) (2025-01-07)
+
+### Bug Fixes
+
+- **text-area:** make `readOnly` prop writable ([#11218](https://github.com/Esri/calcite-design-system/issues/11218)) ([0cbf766](https://github.com/Esri/calcite-design-system/commit/0cbf766156e3b0ec7a662571606af62895e23f59)), closes [#11217](https://github.com/Esri/calcite-design-system/issues/11217) [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
+## [3.0.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.89...@esri/calcite-components@3.0.0-next.90) (2025-01-06)
+
+### Features
+
+- **notice:** add component tokens ([#11042](https://github.com/Esri/calcite-design-system/issues/11042)) ([a61c15a](https://github.com/Esri/calcite-design-system/commit/a61c15af46e772956a58fcc71f873b910897097e)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **input:** correctly apply placeholder styles ([#11107](https://github.com/Esri/calcite-design-system/issues/11107)) ([7fa1eea](https://github.com/Esri/calcite-design-system/commit/7fa1eeaeaf090b1cf4e835a6e3bcd678c3918173)), closes [#8967](https://github.com/Esri/calcite-design-system/issues/8967)
+- **time-picker:** display correct localized hour based on hour-format when no value is set ([#11200](https://github.com/Esri/calcite-design-system/issues/11200)) ([a938192](https://github.com/Esri/calcite-design-system/commit/a938192b510a5c57fa7613bbea7e965d540243c7)), closes [#11198](https://github.com/Esri/calcite-design-system/issues/11198)
+
+## [3.0.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.88...@esri/calcite-components@3.0.0-next.89) (2025-01-04)
+
+### Features
+
+- **combobox, input-time-zone:** highlight text matches consistently ([#11193](https://github.com/Esri/calcite-design-system/issues/11193)) ([75f54de](https://github.com/Esri/calcite-design-system/commit/75f54de466fa2938af9a333cb9c3e4b8ed00460b)), closes [#11173](https://github.com/Esri/calcite-design-system/issues/11173)
+
 ## [3.0.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.87...@esri/calcite-components@3.0.0-next.88) (2025-01-03)
 
 ### Features
