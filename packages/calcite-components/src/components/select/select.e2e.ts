@@ -477,11 +477,11 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
         },
-        /*"--calcite-select-icon-color-hover": {
-          shadowSelector: `.${CSS.wrapper}`,
+        "--calcite-select-icon-color-hover": {
+          shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
-          state: { hover: { attribute: "class", value: CSS.icon } },
-        },*/
+          state: "hover",
+        },
       },
     );
   });
