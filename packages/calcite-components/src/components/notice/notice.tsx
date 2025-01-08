@@ -151,7 +151,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.kind, this.icon);
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
@@ -170,7 +170,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
       changes.has("icon") ||
       (changes.has("kind") && (this.hasUpdated || this.kind !== "brand"))
     ) {
-      this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+      this.requestedIcon = setRequestedIcon(KindIcons, this.kind, this.icon);
     }
   }
 

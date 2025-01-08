@@ -58,33 +58,23 @@ describe("dom", () => {
   }
 
   describe("setRequestedIcon()", () => {
+    const iconObject = { exampleValue: "exampleReturnedValue" };
+    const matchedValue = "exampleValue";
+
     it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
-        "myCustomValue",
-      ));
+      expect(setRequestedIcon(iconObject, matchedValue, "myCustomValue")).toBe("myCustomValue"));
 
     it("returns the pre-defined icon name if custom value is empty string", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
+      expect(setRequestedIcon(iconObject, matchedValue, "")).toBe(iconObject[matchedValue]));
 
     it("returns the pre-defined icon name if custom value is undefined", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, undefined, "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
-
-    it("returns the pre-defined icon name if custom value is null", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, null, "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
+      expect(setRequestedIcon(iconObject, matchedValue, undefined)).toBe(iconObject[matchedValue]));
 
     it("returns the pre-defined icon name if custom value is true", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, true, "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
+      expect(setRequestedIcon(iconObject, matchedValue, true)).toBe(iconObject[matchedValue]));
 
-    it("returns no icon if custom value is false", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, false, "exampleValue")).toBe(undefined));
+    it("returns no icon name if custom value is false", () =>
+      expect(setRequestedIcon(iconObject, matchedValue, false)).toBe(undefined));
   });
 
   describe("uniqueId", () => {

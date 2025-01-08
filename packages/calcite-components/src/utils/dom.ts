@@ -321,24 +321,20 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  * Set a default icon from a defined set or allow an override with an icon name string
  *
  * @param {Record<string, string>} iconObject The icon object.
- * @param {string | boolean} iconValue The icon value.
  * @param {string} matchedValue The matched value.
+ * @param {string|boolean|undefined} iconValue The icon value.
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconNameOrString>,
-  iconValue: IconNameOrString | boolean,
   matchedValue: string,
+  iconValue: IconNameOrString | boolean | undefined,
 ): IconNameOrString | undefined {
-  console.log(iconValue, matchedValue);
-
-  if (iconValue === false) {
-    return undefined;
-  } else if (iconValue === true || !iconValue) {
-    return iconObject[matchedValue];
+  if (typeof iconValue === "boolean") {
+    return iconValue ? iconObject[matchedValue] : undefined;
+  } else if (typeof iconValue === "string") {
+    return iconValue || iconObject[matchedValue];
   }
-
-  return iconValue;
 }
 
 /**

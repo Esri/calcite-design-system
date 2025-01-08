@@ -413,7 +413,7 @@ export class InputNumber
     setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
-    this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    this.requestedIcon = setRequestedIcon({}, "number", this.icon);
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
@@ -440,7 +440,7 @@ export class InputNumber
     }
 
     if (changes.has("icon")) {
-      this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+      this.requestedIcon = setRequestedIcon({}, "number", this.icon);
     }
 
     if (changes.has("messages")) {

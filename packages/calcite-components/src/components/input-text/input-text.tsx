@@ -353,14 +353,14 @@ export class InputText
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+    this.requestedIcon = setRequestedIcon({}, "text", this.icon);
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("icon")) {
-      this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+      this.requestedIcon = setRequestedIcon({}, "text", this.icon);
     }
   }
 

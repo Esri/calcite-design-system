@@ -405,7 +405,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     const { open, autoClose, label, placement, active, openAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const effectiveIcon = setRequestedIcon(KindIcons, this.kind, this.icon);
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;

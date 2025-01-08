@@ -479,7 +479,7 @@ export class Input
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.type, this.icon);
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
 
@@ -511,7 +511,7 @@ export class Input
     }
 
     if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
-      this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+      this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.type, this.icon);
     }
   }
 

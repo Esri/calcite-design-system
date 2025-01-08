@@ -55,7 +55,7 @@ export class InputMessage extends LitElement {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
+    this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.status, this.icon);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -67,7 +67,7 @@ export class InputMessage extends LitElement {
       (changes.has("status") && (this.hasUpdated || this.status !== "idle")) ||
       changes.has("icon")
     ) {
-      this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
+      this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.status, this.icon);
     }
   }
 
