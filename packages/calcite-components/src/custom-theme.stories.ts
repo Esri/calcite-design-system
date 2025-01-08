@@ -50,6 +50,7 @@ import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
+import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -139,6 +140,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
+      <div class="demo-column">${menuItem}</div>
     </div>
   </div>`;
 
@@ -179,6 +181,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...tileTokens,
   ...tooltipTokens,
+  ...menuItemTokens,
 };
 
 export default {
