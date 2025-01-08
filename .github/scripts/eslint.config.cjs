@@ -1,28 +1,24 @@
-const { FlatCompat } = require("@eslint/eslintrc");
-const js = require("@eslint/js");
+const cspellPlugin = require("@cspell/eslint-plugin");
+const eslint = require("@eslint/js");
 const globals = require("globals");
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
 module.exports = [
-  ...compat.extends("eslint:recommended", "plugin:prettier/recommended"),
+  eslint.configs.recommended,
   {
     files: ["**/*.{c,m,}js"],
+    plugins: { "@cspell": cspellPlugin },
+
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "commonjs",
       globals: {
         ...globals.node,
       },
-
-      ecmaVersion: 2021,
-      sourceType: "commonjs",
     },
 
     rules: {
       "comma-dangle": "off",
+      "@cspell/spellchecker": ["warn", {}],
     },
   },
 ];
