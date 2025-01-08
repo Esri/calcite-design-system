@@ -112,7 +112,6 @@ We also recommend installing the following extensions in your editor of choice: 
 
 - <https://tailwindcss.com/docs/intellisense>
 - <https://eslint.org/docs/latest/user-guide/integrations>
-- <https://stylelint.io/user-guide/integrations/editor>
 - <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
