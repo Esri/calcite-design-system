@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-block-border-color: Specifies the border color of the component.
- * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
- * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
- * @prop --calcite-block-header-text-color: Specifies the text color of the component's header.
+ * @prop --calcite-block-border-color: Specifies the component's border color.
+ * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
+ * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
+ * @prop --calcite-block-header-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
- * @prop --calcite-block-text-color: Specifies the text color of the component.
- * @prop --calcite-block-text-color-hover: Specifies the text color component when hovered
+ * @prop --calcite-block-text-color: Specifies the component's text color.
+ * @prop --calcite-block-text-color-hover: Specifies the component's text color when hovered.
  */
 
 :host {
