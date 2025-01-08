@@ -1679,7 +1679,7 @@ export class Combobox
         role="option"
         tabIndex="-1"
       >
-        {item.heading || item.textLabel} ADdedte≈t
+        {item.heading || item.textLabel}
       </li>
     ));
   }
