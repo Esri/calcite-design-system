@@ -223,8 +223,8 @@ export class Table extends LitElement implements LoadableComponent {
     const destination = event.detail.destination;
     const lastCell = event.detail.lastCell;
 
-    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
-    const visibleAll = this.allRows?.filter((row) => !row.hidden);
+    const visibleBody = this.bodyRows?.filter((row) => !row.hidden && !row.hiddenItem);
+    const visibleAll = this.allRows?.filter((row) => !row.hidden && !row.hiddenItem);
 
     const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
     const firstBodyRow = visibleBody[0]?.positionAll;
@@ -273,9 +273,7 @@ export class Table extends LitElement implements LoadableComponent {
   private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
     return el
       ?.assignedElements({ flatten: true })
-      ?.filter(
-        (el) => el?.matches("calcite-table-row") && !(el as TableRow["el"])?.hideItem,
-      ) as TableRow["el"][];
+      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
   }
 
   private updateRows(): void {
@@ -340,7 +338,7 @@ export class Table extends LitElement implements LoadableComponent {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.hiddenItem = this.pageSize > 0 && !inView && !this.footRows.includes(row);
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
@@ -393,7 +391,7 @@ export class Table extends LitElement implements LoadableComponent {
   // #region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden || el.hiddenItem)?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;

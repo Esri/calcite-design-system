@@ -49,7 +49,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) alignment: Alignment;
 
   /** Specifies whether this row should be hidden */
-  @property() hideItem = false;
+  @property({ reflect: true }) hiddenItem = false;
 
   /** @private */
   @property() bodyRowCount: number;
