@@ -3,7 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
+ * @prop --calcite-rating-spacing-unit: [Deprecated] Use `--calcite-rating-spacing`. Specifies the amount of left and right margin spacing between each item.
+ * @prop --calcite-rating-spacing: Specifies the amount of left and right margin spacing between each item.
+ * @prop --calcite-rating-color-hover: Specifies the component's item color when hovered or selected.
+ * @prop --calcite-rating-color: Specifies the component's item color.
+ * @prop --calcite-rating-average-color: Specifies the component's item color when average is set.
+ * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
+ * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
 
 :host {
@@ -15,17 +21,17 @@
 
 :host([scale="s"]) {
   @apply h-6;
-  --calcite-rating-spacing-unit: theme("spacing.1");
+  --calcite-internal-rating-spacing: theme("spacing.1");
 }
 
 :host([scale="m"]) {
   @apply h-8;
-  --calcite-rating-spacing-unit: theme("spacing.2");
+  --calcite-internal-rating-spacing: theme("spacing.2");
 }
 
 :host([scale="l"]) {
   @apply h-11;
-  --calcite-rating-spacing-unit: theme("spacing.3");
+  --calcite-internal-rating-spacing: theme("spacing.3");
 }
 
 :host([read-only]) {
@@ -38,7 +44,7 @@
   border-width: 0;
   padding: 0;
   align-items: center;
-  gap: var(--calcite-rating-spacing-unit);
+  gap: var(--calcite-rating-spacing, var(--calcite-internal-rating-spacing));
 }
 
 .wrapper {
@@ -51,7 +57,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  color: theme("borderColor.color.input");
+  color: var(--calcite-rating-color, theme("borderColor.color.input"));
   &:focus {
     @apply focus-outset;
   }
@@ -59,12 +65,12 @@
 
 .average,
 .fraction {
-  color: theme("colors.warning");
+  color: var(--calcite-rating-average-color, theme("colors.warning"));
 }
 
 .hovered,
 .selected {
-  color: theme("colors.brand");
+  color: var(--calcite-rating-color-hover, theme("colors.brand"));
 }
 
 .fraction {
@@ -84,13 +90,14 @@ calcite-chip {
 
 .number--average {
   font-weight: bold;
+  color: var(--calcite-rating-average-text-color);
 }
 
 .number--count {
-  color: var(--calcite-color-text-2);
+  color: var(--calcite-rating-count-text-color, var(--calcite-color-text-2));
   font-style: italic;
   &:not(:first-child) {
-    margin-inline-start: var(--calcite-rating-spacing-unit);
+    margin-inline-start: var(--calcite-rating-spacing, var(--calcite-internal-rating-spacing));
   }
 }
 
