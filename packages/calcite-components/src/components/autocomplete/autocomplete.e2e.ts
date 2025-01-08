@@ -23,6 +23,8 @@ import { isElementFocused, skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
+const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete"></calcite-autocomplete>`;
+
 const simpleHTML = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
@@ -663,6 +665,18 @@ describe("calcite-autocomplete", () => {
     expect(await autocomplete.getProperty("value")).toBe("one");
     expect(await autocomplete.getProperty("open")).toBe(false);
     expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("should not throw error when enter is pressed after arrow key", async () => {
+    const page = await newE2EPage();
+    await page.setContent(emptyAutocompleteHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
   });
 
   it("should set scale on items and item groups", async () => {

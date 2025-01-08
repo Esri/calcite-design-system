@@ -27,7 +27,7 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "followTag": "next"
+      "rangeStrategy": "bump"
     },
     {
       "groupName": "ESLint",

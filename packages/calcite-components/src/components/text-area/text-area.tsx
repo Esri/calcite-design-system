@@ -205,7 +205,6 @@ export class TextArea
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @readonly
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;

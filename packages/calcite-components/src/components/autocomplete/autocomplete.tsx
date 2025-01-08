@@ -675,6 +675,8 @@ export class Autocomplete
 
     const { open, activeIndex, enabledItems } = this;
 
+    const activeItem = enabledItems.length && activeIndex > -1 ? enabledItems[activeIndex] : null;
+
     switch (key) {
       case "Escape":
         if (open) {
@@ -686,8 +688,8 @@ export class Autocomplete
         this.open = false;
         break;
       case "Enter":
-        if (open && activeIndex > -1) {
-          this.value = enabledItems[activeIndex].value;
+        if (open && activeItem) {
+          this.value = activeItem.value;
           this.emitChange();
           this.open = false;
           event.preventDefault();
@@ -698,30 +700,38 @@ export class Autocomplete
         }
         break;
       case "ArrowDown":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "Home":
-        this.open = true;
-        this.activeIndex = 0;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "End":
-        this.open = true;
-        this.activeIndex = enabledItems.length - 1;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
     }
   }
