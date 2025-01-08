@@ -176,6 +176,19 @@ describe("calcite-menu-item", () => {
         </calcite-menu>
       `;
       const tokens: ComponentTestTokens = {
+        "--calcite-menu-text-color": [
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "color",
+          },
+          {
+            selector: "calcite-menu-item",
+            shadowSelector: ` .${CSS.content} `,
+            targetProp: "color",
+            state: { press: { attribute: "role", value: `menuitem` } },
+          }
+        ],
         "--calcite-menu-background-color": [
           {
             selector: "calcite-menu-item",
@@ -186,19 +199,8 @@ describe("calcite-menu-item", () => {
             selector: "calcite-menu-item",
             shadowSelector: `.${CSS.content}`,
             targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
+            state: { press: { attribute: "role", value: `menuitem` } },
           }],
-        "--calcite-menu-text-color": [{
-          selector: "calcite-menu-item",
-          shadowSelector: ` .${CSS.content} `,
-          targetProp: "color",
-        },
-        {
-          selector: "calcite-menu-item",
-          shadowSelector: ` .${CSS.content} `,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: ` ${CSS.content} ` } },
-        }],
       }
 
       describe("horizontal layout", () => {
