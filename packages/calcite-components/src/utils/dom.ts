@@ -332,10 +332,9 @@ export function setRequestedIcon(
 ): IconNameOrString | undefined {
   if (typeof iconValue === "boolean") {
     return iconValue ? iconObject[matchedValue] : undefined;
-  } else if (typeof iconValue === "string") {
-    return iconValue || iconObject[matchedValue];
+  } else if (typeof iconValue === "string" && !!iconValue) {
+    return iconValue;
   }
-  return iconObject[matchedValue];
 }
 
 /**

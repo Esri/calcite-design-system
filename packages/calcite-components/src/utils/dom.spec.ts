@@ -64,16 +64,16 @@ describe("dom", () => {
     it("returns the custom icon name if custom value is passed", () =>
       expect(setRequestedIcon(iconObject, matchedValue, "myCustomValue")).toBe("myCustomValue"));
 
-    it("returns the pre-defined icon name if custom value is empty string", () =>
-      expect(setRequestedIcon(iconObject, matchedValue, "")).toBe(iconObject[matchedValue]));
-
-    it("returns the pre-defined icon name if custom value is undefined", () =>
-      expect(setRequestedIcon(iconObject, matchedValue, undefined)).toBe(iconObject[matchedValue]));
-
     it("returns the pre-defined icon name if custom value is true", () =>
       expect(setRequestedIcon(iconObject, matchedValue, true)).toBe(iconObject[matchedValue]));
 
-    it("returns no icon name if custom value is false", () =>
+    it("returns undefined if custom value is an empty string", () =>
+      expect(setRequestedIcon(iconObject, matchedValue, "")).toBe(undefined));
+
+    it("returns undefined if custom value is undefined", () =>
+      expect(setRequestedIcon(iconObject, matchedValue, undefined)).toBe(undefined));
+
+    it("returns undefined if custom value is false", () =>
       expect(setRequestedIcon(iconObject, matchedValue, false)).toBe(undefined));
   });
 
