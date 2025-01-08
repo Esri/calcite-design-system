@@ -327,14 +327,18 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconNameOrString>,
-  iconValue: IconNameOrString | boolean | "",
+  iconValue: IconNameOrString | boolean,
   matchedValue: string,
 ): IconNameOrString | undefined {
-  if (typeof iconValue === "string" && iconValue !== "") {
-    return iconValue;
-  } else if (iconValue === "" || iconValue === true) {
+  console.log(iconValue, matchedValue);
+
+  if (iconValue === false) {
+    return undefined;
+  } else if (iconValue === true || !iconValue) {
     return iconObject[matchedValue];
   }
+
+  return iconValue;
 }
 
 /**
