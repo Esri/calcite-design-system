@@ -687,7 +687,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
     </div>
 
     <div class="parent">
-      <div class="child right-aligned-text">icon and heading (large visual) + single selection mode</div>
+      <div class="child right-aligned-text">icon and heading (large visual) + multiple selection mode</div>
       <div class="child">
         ${getTileGroupHtml(
           {
@@ -695,7 +695,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "s",
         )}
       </div>
@@ -706,7 +706,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "m",
         )}
       </div>
@@ -717,7 +717,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "l",
         )}
       </div>
