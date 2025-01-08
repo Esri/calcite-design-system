@@ -32,7 +32,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { isBrowser } from "../../utils/browser";
 import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";

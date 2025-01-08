@@ -23,7 +23,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
-import T9nStrings from "./assets/t9n/menu-item.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
 
 declare global {

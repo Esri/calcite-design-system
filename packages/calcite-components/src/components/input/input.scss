@@ -6,30 +6,30 @@
  * @prop --calcite-input-prefix-size: Specifies the component's prefix width, when present.
  * @prop --calcite-input-suffix-size: Specifies the component's suffix width, when present.
  * 
- * @prop --calcite-input-background-color: Specifies the background color of the component.
- * @prop --calcite-input-border-color: Specifies the border color of the component.
- * @prop --calcite-input-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-input-shadow: Specifies the shadow of the component.
+ * @prop --calcite-input-background-color: Specifies the component's background color.
+ * @prop --calcite-input-border-color: Specifies the component's border color.
+ * @prop --calcite-input-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-input-shadow: Specifies the shadow around the component.
 
- * @prop --calcite-input-icon-color:  Specifies the icon color of the component.
- * @prop --calcite-input-text-color: Specifies the text color of the component.
- * @prop --calcite-input-placeholder-text-color: Specifies the color of placeholder text in the component.
+ * @prop --calcite-input-icon-color: Specifies the component's icon color.
+ * @prop --calcite-input-text-color: Specifies the component's text color.
+ * @prop --calcite-input-placeholder-text-color: Specifies the component's placeholder text color.
 
- * @prop --calcite-input-actions-background-color: Specifies the background color of Input's `clearable` and `number-button-type` elements.
- * @prop --calcite-input-actions-background-color-hover: Specifies the background color of Input's `clearable` and `number-button-type` elements when hovered.
- * @prop --calcite-input-actions-background-color-press: Specifies the background color of Input's `clearable` and `number-button-type` elements when pressed.
- * @prop --calcite-input-actions-icon-color: Specifies the icon color of Input's `clearable` and `number-button-type` elements.
- * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of Input's `clearable` and `number-button-type` elements when hovered.
- * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of Input's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-input-actions-background-color: Specifies the background color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the component's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-input-actions-background-color-press: Specifies the background color of the component's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
  
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element, when present.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element, when present.
  
- * @prop --calcite-input-prefix-background-color:  Specifies the background color of the component's prefix, when present.
- * @prop --calcite-input-prefix-text-color:  Specifies the text color of the component's prefix, when present.
+ * @prop --calcite-input-prefix-background-color:  Specifies the component's prefix background color, when present.
+ * @prop --calcite-input-prefix-text-color:  Specifies the component's prefix text color, when present.
 
- * @prop --calcite-input-suffix-background-color:  Specifies the background color of the component's suffix, when present.
- * @prop --calcite-input-suffix-text-color:  Specifies the text color of the component's suffix, when present.
+ * @prop --calcite-input-suffix-background-color:  Specifies the component's suffix background color, when present.
+ * @prop --calcite-input-suffix-text-color:  Specifies the component's suffix text color, when present.
  *
  */
 
@@ -177,20 +177,18 @@ input {
   border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-:host([prefix-text]) input {
+.has-prefix input {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
 }
 
-:host([suffix-text]) input,
+.has-suffix input,
 .element-wrapper:has(.clear-button) input,
 :host([number-button-type="vertical"][type="number"]) input,
-:host([suffix-text][number-button-type="horizontal"]) .suffix,
-:host([suffix-text][number-button-type="vertical"][type="number"]) .suffix,
-:host([number-button-type="vertical"][type="number"])
-  .clear-button
-  :host([number-button-type="horizontal"][type="number"])
-  .clear-button {
+:host([number-button-type="horizontal"]) .has-suffix .suffix,
+:host([number-button-type="vertical"][type="number"]) .has-suffix .suffix,
+:host([number-button-type="vertical"][type="number"]) .clear-button,
+:host([number-button-type="horizontal"][type="number"]) .clear-button {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
 }
@@ -202,18 +200,23 @@ input {
   border-end-end-radius: 0;
 }
 
-:host([prefix-text]) .prefix:first-child,
+.has-prefix .prefix:first-child,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"] {
   border-start-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
   border-end-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-:host([suffix-text]) .suffix,
-:host([suffix-text][number-button-type="vertical"][type="number"][read-only]) .suffix,
-:host([clearable]:not([suffix-text])) .clear-button,
+.has-suffix .suffix,
+:host([number-button-type="vertical"][type="number"][read-only]) .has-suffix .suffix,
+:host([clearable]) .clear-button,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
   border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
   border-start-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([clearable]) .has-suffix .clear-button {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {

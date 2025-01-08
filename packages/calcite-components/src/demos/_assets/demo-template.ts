@@ -6,8 +6,10 @@ const toggleMode = (): void => {
   document.body.classList.toggle("calcite-mode-dark");
 };
 
-const closeHeader = (): void => {
-  document.getElementById("demo-header")?.remove();
+const removeHeader = (): void => {
+  const url = new URL(window.location.href);
+  url.searchParams.set("header-disabled", "");
+  window.location.search = url.search;
 };
 
 const toggleDom = ({ currentTarget }): void => {
@@ -31,7 +33,7 @@ const loadDemoToggles = () => {
   document.getElementById("toggle-dir")?.addEventListener("calciteSwitchChange", toggleDir);
   document.getElementById("toggle-mode")?.addEventListener("calciteSwitchChange", toggleMode);
   document.getElementById("toggle-dom")?.addEventListener("calciteSwitchChange", toggleDom);
-  document.getElementById("close-header")?.addEventListener("click", closeHeader);
+  document.getElementById("close-header")?.addEventListener("click", removeHeader);
 };
 
 if (document.readyState === "loading") {

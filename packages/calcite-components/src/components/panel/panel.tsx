@@ -29,7 +29,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
-import T9nStrings from "./assets/t9n/panel.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 
@@ -234,7 +234,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
+    if (changes.has("closed") && this.hasUpdated) {
       if (this.closed) {
         this.close();
       } else {

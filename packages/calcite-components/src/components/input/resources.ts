@@ -12,6 +12,8 @@ export const CSS = {
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
   numberButtonItem: "number-button-item",
+  hasSuffix: "has-suffix",
+  hasPrefix: "has-prefix",
 };
 
 export const IDS = {

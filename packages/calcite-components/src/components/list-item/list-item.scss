@@ -8,9 +8,9 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-border-color: Specifies the component's border color.
  * @prop --calcite-list-content-text-color: Specifies the content color.
- * @prop --calcite-list-description-text-color: Specifies the description color.
+ * @prop --calcite-list-description-text-color: Specifies the `description` color.
  * @prop --calcite-list-icon-color: Specifies the component's icon color.
- * @prop --calcite-list-label-text-color: Specifies the label color.
+ * @prop --calcite-list-label-text-color: Specifies the `label` color.
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
@@ -411,7 +411,7 @@
     content: "";
     inline-size: theme("spacing[0.5]");
     z-index: theme("zIndex.header");
-    background-color: theme("colors.brand");
+    background-color: var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
     inset-block: 0;
   }
   &::before {

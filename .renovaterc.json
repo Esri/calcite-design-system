@@ -1,12 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "npm:unpublishSafe",
-    "workarounds:typesNodeVersioning",
-    ":pinAllExceptPeerDependencies",
-    ":widenPeerDependencies"
-  ],
+  "extends": ["config:recommended", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
   "enabledManagers": ["npm", "github-actions"],

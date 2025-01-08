@@ -13,7 +13,7 @@ module.exports = async ({ github, context }) => {
   } = payload;
 
   const pullRequestBody = payload.pull_request.body;
-  const omitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`;
+  const omitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nomitted from changelog\nEND_COMMIT_OVERRIDE`;
   const omitCommentRegex = /BEGIN_COMMIT_OVERRIDE/gm;
 
   if (!pullRequestBody) {
