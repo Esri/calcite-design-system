@@ -101,16 +101,18 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
     selected = false,
   } = options;
 
+  const imageWidth = 275;
+  const imageHeight = 100;
   const content = [
-    contentTop ? html`<img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />` : "",
-    contentBottom ? html`<img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />` : "",
+    contentTop ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-top" />` : "",
+    contentBottom ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-bottom" />` : "",
   ];
 
   return html`
     <calcite-tile
-      ${heading ? 'heading="Tile heading lorem ipsum"' : ""}
+      ${heading ? 'heading="Tile heading"' : ""}
       ${description
-        ? 'description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."'
+        ? 'description="This is sort of a medium length description."'
         : ""}
       ${link ? 'href="/"' : ""}
       ${icon ? 'icon="layers"' : ""}
