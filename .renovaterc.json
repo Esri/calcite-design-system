@@ -30,6 +30,10 @@
       "rangeStrategy": "bump"
     },
     {
+      "groupName": "Floating UI",
+      "matchPackageNames": ["@floating-ui/**"]
+    },
+    {
       "groupName": "ESLint",
       "matchPackageNames": ["/eslint/"]
     },
