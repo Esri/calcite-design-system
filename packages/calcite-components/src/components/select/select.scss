@@ -18,6 +18,7 @@
 
 .wrapper {
   @apply relative flex items-stretch;
+  block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
   &:focus-within,
   &:active,
   &:hover {
@@ -33,6 +34,7 @@
   --calcite-internal-font-size: theme("fontSize.n2h");
   --calcite-internal-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
+  --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
@@ -45,6 +47,7 @@
   --calcite-internal-font-size: theme("fontSize.0h");
   --calcite-internal-spacing-inline: theme("spacing.4") theme("spacing.12");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
+  --calcite-internal-select-block-size: #{$calcite-size-44};
 }
 
 :host([width="auto"]) {
