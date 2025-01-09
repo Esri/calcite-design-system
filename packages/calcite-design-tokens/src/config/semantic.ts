@@ -4,12 +4,13 @@ import { expandTypesMap } from "@tokens-studio/sd-transforms";
 import { HeaderCalciteDefault } from "../../support/header/calcite-default.js";
 import { CalciteTransformGroup } from "../../support/transforms/group/calcite.js";
 import * as filter from "../../support/filter/index.js";
+import { Config } from "style-dictionary/types";
 
 const sdTypes = expandTypesMap;
 
 export default {
   // configuration
-  source: ["src/semantic/**/*.json"],
+  source: ["src/semantic/*.json"],
   include: ["src/core/*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
@@ -18,16 +19,6 @@ export default {
       buildPath: "dist/scss/",
       prefix: "calcite",
       files: [
-        {
-          destination: "light.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterDarkColorTokens,
-        },
         {
           destination: "global.scss",
           format: formats.scssVariables,
@@ -55,17 +46,7 @@ export default {
       prefix: "calcite",
       files: [
         {
-          destination: "light.css",
-          format: formats.cssVariables,
-          filter: filter.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.css",
-          format: formats.cssVariables,
-          filter: filter.FilterDarkColorTokens,
-        },
-        {
-          destination: "global.css",
+          destination: "semantic.css",
           format: formats.cssVariables,
           filter: filter.FilterGlobalTokens,
         },
@@ -106,4 +87,4 @@ export default {
       ...sdTypes,
     },
   },
-};
+} as Config;

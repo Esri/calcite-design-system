@@ -10,7 +10,7 @@
             "org.esri.calcite.fontFallbacks": [
               "{core.font.family.avenir}",
               "{core.font.family.helveticaNeue}",
-              "{core.font.family.sanserif}"
+              "{core.font.family.sansSerif}"
             ],
             "org.esri.calcite.schema": {
               "system": "calcite",

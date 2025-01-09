@@ -1,13 +1,16 @@
 import StyleDictionary from "style-dictionary";
-import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "style-dictionary/enums";
+import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
+
 import { registerCalciteTransformers } from "./transforms/registerTransforms.js";
-import scss from "../src/config/scss.js";
 import { registerCalciteDefaultFileHeader } from "./header/calcite-default.js";
-import { expandTypesMap, register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
 import { registerCalciteFilters } from "./filter/registerFilters.js";
 import { registerCalciteFormats } from "./format/registerFormats.js";
-
-import css from "../src/config/css.js";
+import config from "../src/config/semantic.js";
+import calciteLightConfig from "../src/config/calcite/light.js";
+import calciteDarkConfig from "../src/config/calcite/dark.js";
+import survey123LightConfig from "../src/config/survey123/light.js";
+import survey123DarkConfig from "../src/config/survey123/dark.js";
+import devSummitLightConfig from "../src/config/dev-summit/light.js";
 
 await registerTokenStudioTransformers(StyleDictionary);
 await registerCalciteFormats(StyleDictionary);
@@ -15,38 +18,20 @@ await registerCalciteFilters(StyleDictionary);
 await registerCalciteDefaultFileHeader(StyleDictionary);
 await registerCalciteTransformers(StyleDictionary);
 
-const sdTypes = expandTypesMap;
-const sd = new StyleDictionary({
-  // configuration
-  source: ["src/semantic-old/*.json"],
-  include: ["src/core/*.json"],
-  preprocessors: ["tokens-studio"],
-  platforms: {
-    scss,
-    css,
-  },
-  log: {
-    warnings: logWarningLevels.warn,
-    verbosity: logVerbosityLevels.verbose,
-    errors: {
-      brokenReferences: logBrokenReferenceLevels.throw,
-    },
-  },
-  expand: {
-    include: ["color", "breakpoint"],
-    typesMap: {
-      light: "color",
-      dark: "color",
-      min: "breakpoint",
-      max: "breakpoint",
-      fontSizes: "fontSize",
-      sizing: "dimension",
-      size: "dimension",
-      space: "dimension",
-      spacing: "dimension",
-      ...sdTypes,
-    },
-  },
-});
-
+const sd = new StyleDictionary(config);
 await sd.buildAllPlatforms();
+
+const calciteLight = new StyleDictionary(calciteLightConfig);
+await calciteLight.buildAllPlatforms();
+
+const calciteDark = new StyleDictionary(calciteDarkConfig);
+await calciteDark.buildAllPlatforms();
+
+const survey123Light = new StyleDictionary(survey123LightConfig);
+await survey123Light.buildAllPlatforms();
+
+const survey123Dark = new StyleDictionary(survey123DarkConfig);
+await survey123Dark.buildAllPlatforms();
+
+const devSummitLight = new StyleDictionary(devSummitLightConfig);
+await devSummitLight.buildAllPlatforms();

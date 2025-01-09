@@ -1,7 +1,10 @@
 import StyleDictionary, { TransformedToken } from "style-dictionary";
 
 export function filterLightColorTokens(token: TransformedToken): boolean {
-  return token.isSource && token.original.type === "color" && token.path[token.path.length - 1] === "light";
+  if (token.isSource && token.type === "color") {
+    debugger;
+  }
+  return token.isSource && token.type === "color" && token.path[token.path.length - 1] === "light";
 }
 
 export function registerFilterLightColorTokens(sd: typeof StyleDictionary): void {
