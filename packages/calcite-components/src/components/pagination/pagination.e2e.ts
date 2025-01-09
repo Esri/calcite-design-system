@@ -370,10 +370,10 @@ describe("calcite-pagination", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-        /*"--calcite-pagination-spacing": {
+        "--calcite-pagination-spacing": {
           shadowSelector: `.${CSS.list}`,
           targetProp: "columnGap",
-        },*/
+        },
         "--calcite-pagination-size": [
           {
             shadowSelector: `.${CSS.chevron}`,
@@ -396,7 +396,7 @@ describe("calcite-pagination", () => {
           /*{
           shadowSelector: `.${CSS.page}`,
           targetProp: "color",
-        },*/
+          },*/
           {
             shadowSelector: `.${CSS.ellipsis}`,
             targetProp: "color",
