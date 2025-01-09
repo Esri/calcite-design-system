@@ -428,6 +428,21 @@ describe("calcite-autocomplete", () => {
     focusable("calcite-autocomplete");
   });
 
+  it("should be able to remove icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    const input = await page.find("calcite-autocomplete >>> calcite-input");
+
+    expect(await input.getProperty("icon")).toBe(undefined);
+
+    autocomplete.setProperty("icon", false);
+    await page.waitForChanges();
+
+    expect(await input.getProperty("icon")).toBe(false);
+  });
+
   describe("keyboard navigation", () => {
     let page: E2EPage;
     beforeEach(async () => {
