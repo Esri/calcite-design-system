@@ -1,5 +1,3 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import cspellPlugin from "@cspell/eslint-plugin";
 import eslint from "@eslint/js";
 import calcitePlugin from "@esri/eslint-plugin-calcite-components";
@@ -11,9 +9,6 @@ import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default tseslint.config(
   {
@@ -37,7 +32,7 @@ export default tseslint.config(
       sourceType: "module",
       parser: tseslint.parser,
       parserOptions: {
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig-eslint.json"],
       },
     },
@@ -118,6 +113,7 @@ export default tseslint.config(
       "no-implied-eval": "error",
       "no-new-func": "error",
       "no-unneeded-ternary": "error",
+      "no-unexpected-multiline": "off", // conflicts with prettier - https://github.com/prettier/eslint-config-prettier/issues/32
       "no-multiple-empty-lines": [
         "error",
         {
@@ -249,6 +245,7 @@ export default tseslint.config(
     },
     rules: {
       "vitest/expect-expect": "off",
+      "@esri/calcite-components/no-dynamic-createelement": "off",
     },
     languageOptions: {
       globals: {
@@ -256,13 +253,6 @@ export default tseslint.config(
         ...globals.browser,
         ...vitestPlugin.environments?.env.globals,
       },
-    },
-  },
-
-  {
-    files: ["**/*.e2e.ts", "src/tests/**/*"],
-    rules: {
-      "@esri/calcite-components/no-dynamic-createelement": "off",
     },
   },
 );

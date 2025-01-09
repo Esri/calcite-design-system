@@ -6,11 +6,6 @@ import prettierConfig from "eslint-config-prettier";
 import jestPlugin from "eslint-plugin-jest";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import unicornPlugin from "eslint-plugin-unicorn";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default tseslint.config(
   {
@@ -35,17 +30,15 @@ export default tseslint.config(
     },
 
     languageOptions: {
-      globals: {
-        ...jestPlugin.environments.globals.globals,
-      },
-
-      parser: tseslint.parser,
       ecmaVersion: 2021,
       sourceType: "module",
-
+      parser: tseslint.parser,
       parserOptions: {
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig-eslint.json"],
+      },
+      globals: {
+        ...jestPlugin.environments.globals.globals,
       },
     },
 
@@ -98,6 +91,7 @@ export default tseslint.config(
       "no-new-func": "error",
       "no-unneeded-ternary": "error",
       "no-implied-eval": "error",
+      "no-unexpected-multiline": "off", // conflicts with prettier - https://github.com/prettier/eslint-config-prettier/issues/32
       "no-multiple-empty-lines": [
         "error",
         {
