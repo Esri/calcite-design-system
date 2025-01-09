@@ -3,10 +3,6 @@ export const SLOTS = {
   contentTop: "content-top",
 } as const;
 
-export const ICONS = {
-  search: "search",
-} as const;
-
 export const CSS = {
   inputContainer: "input-container",
   input: "input",
