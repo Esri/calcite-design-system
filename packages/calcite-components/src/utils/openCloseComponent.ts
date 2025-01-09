@@ -9,36 +9,65 @@ export interface OpenCloseComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
+  /** When true, the component closes. */
+  closed?: boolean;
+
+  /** When true, the component collapses. */
+  collapsed?: boolean;
+
+  /** When true, the component is expanded. */
+  expanded?: boolean;
+
   /** When true, the component opens. */
   open?: boolean;
 
   /** When true, the component is open. */
   opened?: boolean;
 
-  /** Specifies the name of transitionProp. */
+  /** The name of the transition to watch for completion. */
   transitionProp?: string;
-
-  /** Specifies property on which active transition is watched for. */
-  openTransitionProp: string;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
 
   /** Defines method for `beforeOpen` event handler. */
-  onBeforeOpen: () => void;
+  onBeforeOpen?: () => void;
 
   /** Defines method for `open` event handler: */
-  onOpen: () => void;
+  onOpen?: () => void;
 
   /** Defines method for `beforeClose` event handler: */
-  onBeforeClose: () => void;
+  onBeforeClose?: () => void;
 
   /** Defines method for `close` event handler: */
-  onClose: () => void;
+  onClose?: () => void;
+
+  /** Defines method for `beforeExpanded` event handler. */
+  onBeforeExpanded?: () => void;
+
+  /** Defines method for `expanded` event handler: */
+  onExpanded?: () => void;
+
+  /** Defines method for `beforeCollapsed` event handler: */
+  onBeforeCollapsed?: () => void;
+
+  /** Defines method for `collapsed` event handler: */
+  onCollapsed?: () => void;
 }
 
-function isOpen(component: OpenCloseComponent): boolean {
-  return "opened" in component ? component.opened : component.open;
+function isOpenOrExpanded(component: OpenCloseComponent): boolean {
+  switch (true) {
+    case "expanded" in component:
+      return component.expanded;
+    case "opened" in component || "open" in component:
+      return component.open;
+    case "collapsed" in component:
+      return component.collapsed;
+    case "closed" in component:
+      return component.closed;
+    default:
+      return false;
+  }
 }
 
 /**
@@ -57,7 +86,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * async toggleModal(value: boolean): Promise<void> {
  *    onToggleOpenCloseComponent(this);
  * }
- * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
+ * @param component - OpenCloseComponent uses `open`/`close` or `expanded`/`collapsed` props to emit (before)open/close or (before)expanded/collapsed respectively.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
   requestAnimationFrame((): void => {
@@ -67,19 +96,41 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
 
     whenTransitionDone(
       component.transitionEl,
-      component.openTransitionProp,
+      component.transitionProp,
       () => {
-        if (isOpen(component)) {
-          component.onBeforeOpen();
-        } else {
-          component.onBeforeClose();
+        if (isOpenOrExpanded(component)) {
+          switch (true) {
+            case component.expanded:
+              component.onBeforeExpanded();
+              break;
+            case component.open:
+              component.onBeforeOpen();
+              break;
+            case component.collapsed || (component.expanded !== undefined && !component.expanded):
+              component.onBeforeCollapsed();
+              break;
+            case component.closed || (component.open !== undefined && !component.open):
+              component.onBeforeClose();
+              break;
+          }
         }
       },
       () => {
-        if (isOpen(component)) {
-          component.onOpen();
-        } else {
-          component.onClose();
+        if (isOpenOrExpanded(component)) {
+          switch (true) {
+            case component.expanded:
+              component.onExpanded();
+              break;
+            case component.open:
+              component.onOpen();
+              break;
+            case component.collapsed || (component.expanded !== undefined && !component.expanded):
+              component.onCollapsed();
+              break;
+            case component.closed || (component.open !== undefined && !component.open):
+              component.onClose();
+              break;
+          }
         }
       },
     );
