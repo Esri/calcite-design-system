@@ -32,20 +32,20 @@
 
 :host([scale="s"]) {
   --calcite-internal-select-font-size: theme("fontSize.n2h");
-  --calcite-internal-select-spacing-inline: theme("spacing.2") theme("spacing.8");
+  --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
   --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
   --calcite-internal-select-font-size: theme("fontSize.n1h");
-  --calcite-internal-select-spacing-inline: theme("spacing.3") theme("spacing.10");
+  --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-md);
 }
 
 :host([scale="l"]) {
   --calcite-internal-select-font-size: theme("fontSize.0h");
-  --calcite-internal-select-spacing-inline: theme("spacing.4") theme("spacing.12");
+  --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
   --calcite-internal-select-block-size: #{$calcite-size-44};
 }
@@ -79,7 +79,7 @@
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
-  padding-inline: var(--calcite-internal-select-spacing-inline);
+  padding-inline: var(--calcite-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
   line-height: var(--calcite-select-line-height, normal);
