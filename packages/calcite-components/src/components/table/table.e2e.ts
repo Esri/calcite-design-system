@@ -1132,7 +1132,7 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id]);
   });
 
-    it("correctly updates selected items and does not emit public event when table row selected properties are programmatically set", async () => {
+  it("correctly updates selected items and does not emit public event when table row selected properties are programmatically set", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
