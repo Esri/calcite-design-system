@@ -2,7 +2,6 @@ import { html } from "../../support/formatting";
 
 export const selectTokens = {
   calciteSelectFontSize: "",
-  calciteSelectTextWeight: "",
   calciteSelectTextColor: "",
   calciteSelectBorderColor: "",
   calciteSelectIconColor: "",

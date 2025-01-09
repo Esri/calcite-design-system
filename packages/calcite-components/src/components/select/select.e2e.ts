@@ -455,10 +455,6 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.select}`,
           targetProp: "fontSize",
         },
-        /*"--calcite-select-text-weight": {
-          shadowSelector: `.${CSS.select}`,
-          targetProp: "fontWeight",
-        },*/
         "--calcite-select-text-color": {
           shadowSelector: `.${CSS.select}`,
           targetProp: "color",
