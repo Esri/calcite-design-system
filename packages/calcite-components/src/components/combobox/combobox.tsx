@@ -63,6 +63,7 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
+import { isHidden } from "../../utils/component";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -1123,7 +1124,7 @@ export class Combobox
 
   private getMaxScrollerHeight(): number {
     const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
-    const items = allItemsAndGroups.filter((item) => !item.hidden);
+    const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
 
@@ -1223,9 +1224,7 @@ export class Combobox
   }
 
   private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === ""
-      ? this.items
-      : this.items.filter((item) => !item.hidden && !item.hiddenItem);
+    return this.filterText === "" ? this.items : this.items.filter((item) => !isHidden(item));
   }
 
   private updateItems(): void {
