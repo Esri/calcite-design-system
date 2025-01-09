@@ -617,7 +617,12 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant: string = null;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
+      item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
+    });
+
+    this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
       if (isActive) {
@@ -625,8 +630,6 @@ export class Autocomplete
       }
 
       item.active = isActive;
-      item.scale = this.scale;
-      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;
