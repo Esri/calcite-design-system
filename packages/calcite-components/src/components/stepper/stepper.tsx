@@ -347,7 +347,7 @@ export class Stepper extends LitElement {
   }
 
   private filterItems(): StepperItem["el"][] {
-    return this.items.filter((item) => !item.disabled && !item.hideItem);
+    return this.items.filter((item) => !item.disabled && !item.hiddenItem && !item.hidden);
   }
 
   private setStepperItemNumberingSystem(): void {
@@ -390,7 +390,9 @@ export class Stepper extends LitElement {
   private handleDefaultSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements(event).filter(
       (el): el is StepperItem["el"] =>
-        el?.tagName === "CALCITE-STEPPER-ITEM" && !(el as StepperItem["el"])?.hideItem,
+        el?.tagName === "CALCITE-STEPPER-ITEM" &&
+        !(el as StepperItem["el"])?.hiddenItem &&
+        !(el as StepperItem["el"])?.hidden,
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");

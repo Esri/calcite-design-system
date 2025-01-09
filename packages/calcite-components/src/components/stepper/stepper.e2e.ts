@@ -262,7 +262,7 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 3" id="step-3">
             <div>Step 3 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 4" id="step-4" hide-item>
+          <calcite-stepper-item heading="Step 4" id="step-4" hidden>
             <div>Step 4 content</div>
           </calcite-stepper-item>
         </calcite-stepper>`,
@@ -371,7 +371,7 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 4" id="step-4" disabled>
             <div>Step 4 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 5" id="step-5" hide-item>
+          <calcite-stepper-item heading="Step 5" id="step-5" hidden>
             <div>Step 5 content</div>
           </calcite-stepper-item>
         </calcite-stepper>`,
@@ -616,7 +616,7 @@ describe("calcite-stepper", () => {
             <calcite-stepper-item heading="Step 4" id="step-4">
               <div>Step 4 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 5" id="step-5" hide-item>
+            <calcite-stepper-item heading="Step 5" id="step-5" hidden>
               <div>Step 5 content</div>
             </calcite-stepper-item>
           </calcite-stepper>`,
@@ -633,7 +633,7 @@ describe("calcite-stepper", () => {
             <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
             <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
             <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 5" id="step-5" hide-item></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 5" id="step-5" hidden></calcite-stepper-item>
           </calcite-stepper>`,
         );
 
@@ -662,7 +662,7 @@ describe("calcite-stepper", () => {
             <calcite-stepper-item heading="Step 4" id="step-4">
               <div>Step 4 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 5" id="step-5" hide-item>
+            <calcite-stepper-item heading="Step 5" id="step-5" hidden>
               <div>Step 5 content</div>
             </calcite-stepper-item>
           </calcite-stepper>`,
@@ -679,7 +679,7 @@ describe("calcite-stepper", () => {
             <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
             <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
             <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
-            <calcite-stepper-item heading="Step 5" id="step-5" hide-item></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 5" id="step-5" hidden></calcite-stepper-item>
           </calcite-stepper>`,
         );
 
@@ -877,7 +877,7 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 2" id="step-2" disabled>
             <div>Step 2 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 2.1" id="step-2.1" hide-item>
+          <calcite-stepper-item heading="Step 2.1" id="step-2.1" hidden>
             <div>Step 2.1 content</div>
           </calcite-stepper-item>
           <calcite-stepper-item heading="Step 3" id="step-2">
@@ -915,22 +915,20 @@ describe("calcite-stepper", () => {
     it(`switching to layout="horizontal-single" dynamically from another option should display a single item (#8931)`, async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`
-          <calcite-stepper layout="horizontal">
-            <calcite-stepper-item heading="Step 1" selected>
-              <div>Step 1 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 2">
-              <div>Step 2 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Step 3">
-              <div>Step 3 content</div>
-            </calcite-stepper-item>
-            <calcite-stepper-item heading="Review">
-              <div>Step 4 content</div>
-            </calcite-stepper-item>
-          </calcite-stepper>
-          </calcite-stepper>`,
+        html` <calcite-stepper layout="horizontal">
+          <calcite-stepper-item heading="Step 1" selected>
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2">
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 3">
+            <div>Step 3 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Review">
+            <div>Step 4 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>`,
       );
 
       const stepper = await page.find("calcite-stepper");

@@ -91,8 +91,12 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, the item will be hidden */
-  @property({ reflect: true }) hideItem = false;
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) hiddenItem = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
@@ -276,7 +280,8 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   private handleItemClick(event: MouseEvent): void {
     if (
       this.disabled ||
-      this.hideItem ||
+      this.hiddenItem ||
+      this.el.hidden ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
@@ -306,9 +311,11 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item"))
-      .filter((s) => !s.hidden && !s.hideItem)
-      .indexOf(this.el);
+    return Array.from(
+      this.parentStepperEl?.querySelectorAll(
+        "calcite-stepper-item:not([hidden]):not([hidden-item])",
+      ),
+    ).indexOf(this.el);
   }
 
   // #endregion
