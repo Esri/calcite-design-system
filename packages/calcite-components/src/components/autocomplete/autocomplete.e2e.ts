@@ -435,7 +435,7 @@ describe("calcite-autocomplete", () => {
     const autocomplete = await page.find("calcite-autocomplete");
     const input = await page.find("calcite-autocomplete >>> calcite-input");
 
-    expect(await input.getProperty("icon")).toBe(undefined);
+    expect(await input.getProperty("icon")).toBe(true);
 
     autocomplete.setProperty("icon", false);
     await page.waitForChanges();
