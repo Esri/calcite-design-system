@@ -97,9 +97,10 @@
 }
 
 @mixin base-component() {
-  :host([hidden]),
-  :host([hidden-item]),
-  [hidden-item],
+  :host([hidden]) {
+    @apply hidden;
+  }
+
   [hidden] {
     @apply hidden;
   }
@@ -208,4 +209,10 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   transition-property: #{$merged-props};
   transition-duration: var(--calcite-animation-timing);
   transition-timing-function: ease-in-out;
+}
+
+@mixin hidden-item() {
+  :host([hidden-item]) {
+    @apply hidden;
+  }
 }
