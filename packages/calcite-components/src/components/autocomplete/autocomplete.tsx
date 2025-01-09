@@ -798,7 +798,7 @@ export class Autocomplete
             disabled={disabled}
             enterKeyHint={enterKeyHint}
             form={this.form}
-            icon={this.icon}
+            icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
             inputMode={inputMode}
