@@ -1,4 +1,4 @@
 {
   "chooseDate": "Pilih tanggal",
-  "dateFormat": "Format Tanggal:"
+  "dateFormat": "Format Tanggal: {format}"
 }
