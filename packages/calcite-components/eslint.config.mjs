@@ -38,7 +38,6 @@ export default tseslint.config(
       parser: tseslint.parser,
       parserOptions: {
         tsconfigRootDir: __dirname,
-        projectService: true,
         project: ["tsconfig-eslint.json"],
       },
     },
