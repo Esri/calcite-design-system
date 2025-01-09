@@ -17,7 +17,7 @@
  */
 
 :host {
-  @apply inline-block relative w-full h-full;
+  @apply block relative h-full;
 
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
@@ -30,8 +30,6 @@
 .footer {
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
   background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
-  padding-block: var(--calcite-spacing-sm);
-  padding-inline: var(--calcite-spacing-md);
 }
 
 .text-area {
