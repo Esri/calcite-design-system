@@ -148,7 +148,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
         testTargets.push({
           target,
           targetProp,
-          interactionSelector: interactionSelector,
+          interactionSelector,
           state: stateName,
           expectedValue: tokens[token].expectedValue || setTokens[token],
           token: token as CalciteCSSCustomProp,
