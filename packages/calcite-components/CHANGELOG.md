@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.93...@esri/calcite-components@3.0.0-next.94) (2025-01-10)
+
+### Features
+
+- **combobox-item:** Add support for `content-start` slot ([#11250](https://github.com/Esri/calcite-design-system/issues/11250)) ([233a7fd](https://github.com/Esri/calcite-design-system/commit/233a7fdc0b843a0e4bdfb14feeab340f59ada0fa)), closes [#9322](https://github.com/Esri/calcite-design-system/issues/9322)
+
+## [3.0.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.92...@esri/calcite-components@3.0.0-next.93) (2025-01-10)
+
+### Features
+
+- **time-picker:** expose `calciteTimePickerChange` event ([#11214](https://github.com/Esri/calcite-design-system/issues/11214)) ([d33cb31](https://github.com/Esri/calcite-design-system/commit/d33cb313131c91555b385ce1555ba5272f375508)), closes [#10102](https://github.com/Esri/calcite-design-system/issues/10102)
+
+### Bug Fixes
+
+- **autocomplete:** allow hiding icon ([#11239](https://github.com/Esri/calcite-design-system/issues/11239)) ([0cfd639](https://github.com/Esri/calcite-design-system/commit/0cfd63928365704ecef173125d91b57d599d7b4f)), closes [#11224](https://github.com/Esri/calcite-design-system/issues/11224)
+- **autocomplete:** ignore disabled items when navigating via keyboard ([#11242](https://github.com/Esri/calcite-design-system/issues/11242)) ([2c55557](https://github.com/Esri/calcite-design-system/commit/2c5555726f7bfda51a15eb0f959175fd1a8ff761)), closes [#11152](https://github.com/Esri/calcite-design-system/issues/11152)
+- **color-picker:** ensure shorthand hex is expanded regardless of alpha channel presence ([#11188](https://github.com/Esri/calcite-design-system/issues/11188)) ([dc7a0ef](https://github.com/Esri/calcite-design-system/commit/dc7a0ef476ccaf85dc806ea2dc06cc71181a0fa1)), closes [#11187](https://github.com/Esri/calcite-design-system/issues/11187)
+- **input:** fix clipping for type=file with Japanese locale ([#11205](https://github.com/Esri/calcite-design-system/issues/11205)) ([ced3eb3](https://github.com/Esri/calcite-design-system/commit/ced3eb36409b8e9fdc8027de741e5124b0386ab2)), closes [#8053](https://github.com/Esri/calcite-design-system/issues/8053)
+- **table, table-row:** Improve programmatic Table Row selection behavior ([#11237](https://github.com/Esri/calcite-design-system/issues/11237)) ([2911675](https://github.com/Esri/calcite-design-system/commit/29116752a20bebc92068487f28ecc4896aff8a1a)), closes [#11142](https://github.com/Esri/calcite-design-system/issues/11142)
+- **tile-group:** keep selection icon size consistent for large tiles ([#11215](https://github.com/Esri/calcite-design-system/issues/11215)) ([de20dc8](https://github.com/Esri/calcite-design-system/commit/de20dc8b8c13d9829698c6a4eaf5b2bbe42a230d)), closes [#10931](https://github.com/Esri/calcite-design-system/issues/10931)
+
 ## [3.0.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.91...@esri/calcite-components@3.0.0-next.92) (2025-01-08)
 
 ### Features
