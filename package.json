@@ -39,8 +39,6 @@
     "@cspell/dict-pokemon": "1.0.0",
     "@cspell/dict-scientific-terms-us": "3.0.5",
     "@cspell/eslint-plugin": "8.17.1",
-    "@eslint/compat": "1.2.4",
-    "@eslint/eslintrc": "3.2.0",
     "@eslint/js": "9.17.0",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
