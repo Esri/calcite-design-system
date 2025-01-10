@@ -9,6 +9,7 @@
  * @prop --calcite-button-loader-color: Specifies the component's loader color.
  * @prop --calcite-button-shadow-color: Specifies the component's box-shadow color.
  * @prop --calcite-button-text-color: Specifies the component's text color.
+ * @prop --calcite-button-border-width: Specifies the component's border width.
  */
 
 :host {
@@ -243,8 +244,9 @@
   a {
     --calcite-internal-button-border-color: var(--calcite-color-transparent);
 
-    @apply border
-      border-solid;
+    @apply border-solid;
+
+    border-width: var(--calcite-button-border-size, 1px);
   }
 }
 
@@ -336,7 +338,8 @@
   button,
   a {
     --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
-    @apply border border-solid;
+    @apply border-solid;
+    border-width: var(--calcite-button-border-size, 1px);
   }
 }
 :host([appearance="outline-fill"][kind="brand"]) {
@@ -435,8 +438,10 @@
 :host([appearance="outline"]) {
   button,
   a {
-    @apply border border-solid;
     --calcite-internal-button-background-color: var(--calcite-color-transparent);
+
+    @apply border-solid;
+    border-width: var(--calcite-button-border-size, 1px);
   }
 }
 :host([appearance="outline"][kind="brand"]) {
