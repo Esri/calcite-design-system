@@ -679,6 +679,11 @@ export class Input
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
+
     this.setValue({
       nativeEvent,
       origin: "user",
