@@ -813,12 +813,12 @@ describe("calcite-rating", () => {
       });
     });
     describe("selected", () => {
-      themed(html`<calcite-rating value="2" class=${CSS.hovered}></calcite-rating>`, {
+      themed(html`<calcite-rating value="2"></calcite-rating>`, {
         "--calcite-rating-color-hover": [
           {
-            shadowSelector: `.${CSS.star}`,
+            shadowSelector: `.${CSS.star}[data-value='3']`,
             targetProp: "color",
-            state: { hover: { attribute: "class", value: CSS.hovered } },
+            state: "hover",
           },
           {
             shadowSelector: `.${CSS.selected}`,

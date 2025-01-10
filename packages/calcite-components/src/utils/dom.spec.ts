@@ -58,15 +58,23 @@ describe("dom", () => {
   }
 
   describe("setRequestedIcon()", () => {
-    it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
-        "myCustomValue",
-      ));
+    const iconObject = { exampleValue: "exampleReturnedValue" };
+    const matchedValue = "exampleValue";
 
-    it("returns the pre-defined icon name if custom value is not passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
+    it("returns the custom icon name if custom value is passed", () =>
+      expect(setRequestedIcon(iconObject, "myCustomValue", matchedValue)).toBe("myCustomValue"));
+
+    it("returns the pre-defined icon name if custom value is true", () =>
+      expect(setRequestedIcon(iconObject, true, matchedValue)).toBe(iconObject[matchedValue]));
+
+    it("returns the pre-defined icon name if is an empty string", () =>
+      expect(setRequestedIcon(iconObject, "", matchedValue)).toBe(iconObject[matchedValue]));
+
+    it("returns undefined if custom value is undefined", () =>
+      expect(setRequestedIcon(iconObject, undefined, matchedValue)).toBe(undefined));
+
+    it("returns undefined if custom value is false", () =>
+      expect(setRequestedIcon(iconObject, false, matchedValue)).toBe(undefined));
   });
 
   describe("uniqueId", () => {

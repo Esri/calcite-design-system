@@ -1,4 +1,4 @@
 {
   "chooseDate": "Вибрати дату",
-  "dateFormat": "Формат дати:"
+  "dateFormat": "Формат дати: {format}"
 }
