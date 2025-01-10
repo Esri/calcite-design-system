@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import type { RequireExactlyOne } from "type-fest";
-import { E2EElement, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
 import { skipAnimations, toElementHandle } from "../utils";
@@ -116,7 +116,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         const target: TargetInfo = { el, selector, shadowSelector };
-        let contextSelector: ContextSelectByAttr;
+        let interactionSelector: InteractionSelector;
         let stateName: State;
 
         if (state) {
@@ -134,7 +134,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           target.el = await page.find(`${selector} >>> ${effectiveShadowSelector}`);
         }
         if (state && typeof state !== "string") {
-          contextSelector = Object.values(state)[0] as ContextSelectByAttr;
+          interactionSelector = Object.values(state)[0] as ElementMatcher;
         }
 
         if (!target.el) {
@@ -148,7 +148,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
         testTargets.push({
           target,
           targetProp,
-          contextSelector,
+          interactionSelector: interactionSelector,
           state: stateName,
           expectedValue: tokens[token].expectedValue || setTokens[token],
           token: token as CalciteCSSCustomProp,
@@ -173,7 +173,10 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
   });
 }
 
-type ContextSelectByAttr = { attribute: string; value: string };
+/**
+ * @deprecatd use FindSelector instead
+ */
+type ElementMatcher = { attribute: string; value: string };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
@@ -184,8 +187,8 @@ type TestTarget = {
   /** An object with target element and selector info. */
   target: TargetInfo;
 
-  /** @todo doc */
-  contextSelector?: ContextSelectByAttr;
+  /** The selector for the interaction's target element. */
+  interactionSelector?: InteractionSelector;
 
   /** The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on. */
   targetProp: CSSProp | MappedCalciteCSSCustomProp;
@@ -202,6 +205,13 @@ type TestTarget = {
 
 /** Represents a Calcite CSS custom prop */
 type CalciteCSSCustomProp = `--calcite-${string}`;
+
+type InteractionSelector = ElementMatcher | Extract<FindSelector, string>;
+
+/**
+ * Represents a stateful interaction and its target CSS selector or element attribute/value matcher.
+ */
+type StateDetail = RequireExactlyOne<Record<State, InteractionSelector>, State>;
 
 /**
  * Represents a mapped Calcite CSS custom prop (used for sub-components)
@@ -225,7 +235,7 @@ type TestSelectToken = {
   expectedValue?: string;
 
   /** The state to apply to the target element. */
-  state?: State | RequireExactlyOne<Record<State, ContextSelectByAttr>, "focus" | "hover" | "press">;
+  state?: Exclude<State, "press"> | StateDetail;
 };
 
 /**
@@ -258,13 +268,13 @@ async function getComputedStylePropertyValue(
  * @param page - the e2e page
  * @param options - the options to pass to the utility
  * @param options.target - the element to get the computed style from
- * @param options.contextSelector - the selector of the target element
+ * @param options.interactionSelector - the selector of the interaction's target element
  * @param options.targetProp - the CSSStyleDeclaration property to check
  * @param options.state - the state to apply to the target element
  * @param options.expectedValue - the expected value of the targetProp
  */
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
-  const { target, contextSelector, targetProp, state, expectedValue, token } = options;
+  const { target, interactionSelector, targetProp, state, expectedValue, token } = options;
 
   await page.mouse.reset();
   await page.waitForChanges();
@@ -272,19 +282,22 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   const targetEl = target.el;
   const pseudoElement = target.shadowSelector?.match(pseudoElementPattern)?.[0] ?? undefined;
 
-  if (contextSelector) {
-    const handle = await toElementHandle(targetEl);
-    const { attribute, value: valueToMatch } = contextSelector;
-    const matched =
-      (attribute === "class" &&
-        (await handle.evaluate((el, valueToMatch) => el.classList.contains(valueToMatch), valueToMatch))) ||
-      targetEl.getAttribute(attribute) === valueToMatch ||
-      (!attribute && !valueToMatch);
+  if (interactionSelector) {
+    const interactionTarget = typeof interactionSelector === "string" ? await page.find(interactionSelector) : targetEl;
+    const handle = await toElementHandle(interactionTarget);
 
-    if (!matched) {
-      throw new Error(
-        `[${token}] context target (${attribute}="${valueToMatch}") not found, make sure test HTML renders the component and expected shadow DOM elements`,
-      );
+    if (typeof interactionSelector !== "string") {
+      const { attribute, value: valueToMatch } = interactionSelector;
+      const matched =
+        (attribute === "class" &&
+          (await handle.evaluate((el, valueToMatch) => el.classList.contains(valueToMatch), valueToMatch))) ||
+        targetEl.getAttribute(attribute) === valueToMatch ||
+        (!attribute && !valueToMatch);
+      if (!matched) {
+        throw new Error(
+          `[${token}] interaction target with (${attribute}="${valueToMatch}") was not found, make sure test HTML renders the component and expected shadow DOM elements`,
+        );
+      }
     }
 
     const rect = await handle.boundingBox();
