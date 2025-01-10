@@ -1930,9 +1930,9 @@ describe("calcite-list", () => {
       const group3 = await page.find("#beaches");
       const group4 = await page.find("#underwater");
 
-      await page.keyboard.type("Bui");
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      let calciteListFilterEvent = page.waitForEvent("calciteListFilter");
+      await filter.type("Bui");
+      await calciteListFilterEvent;
       expect(await list.getProperty("filterText")).toBe("Bui");
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
 
@@ -1945,9 +1945,9 @@ describe("calcite-list", () => {
       expect(await group4.isVisible()).toBe(false);
       await assertDescendantItems(page, `#underwater`, false);
 
-      await page.keyboard.press("Escape");
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      calciteListFilterEvent = page.waitForEvent("calciteListFilter");
+      await filter.press("Escape");
+      await calciteListFilterEvent;
       expect(await list.getProperty("filterText")).toBe("");
       expect(await list.getProperty("filteredItems")).toHaveLength(8);
 
@@ -1960,9 +1960,9 @@ describe("calcite-list", () => {
       expect(await group4.isVisible()).toBe(true);
       await assertDescendantItems(page, `#underwater`, true);
 
-      await page.keyboard.type("Bea");
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      calciteListFilterEvent = page.waitForEvent("calciteListFilter");
+      await filter.type("Bea");
+      await calciteListFilterEvent;
       expect(await list.getProperty("filterText")).toBe("Bea");
       expect(await list.getProperty("filteredItems")).toHaveLength(4);
 
@@ -1975,9 +1975,9 @@ describe("calcite-list", () => {
       expect(await group4.isVisible()).toBe(true);
       await assertDescendantItems(page, `#underwater`, true);
 
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      calciteListFilterEvent = page.waitForEvent("calciteListFilter");
+      await filter.press("Backspace");
+      await calciteListFilterEvent;
       expect(await list.getProperty("filterText")).toBe("Be");
       expect(await list.getProperty("filteredItems")).toHaveLength(4);
     });
