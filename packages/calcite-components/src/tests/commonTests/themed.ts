@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import type { RequireExactlyOne } from "type-fest";
-import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
 import { skipAnimations, toElementHandle } from "../utils";
@@ -273,69 +273,24 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   const pseudoElement = target.shadowSelector?.match(pseudoElementPattern)?.[0] ?? undefined;
 
   if (contextSelector) {
-    const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
-      const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
-        const { attribute, value: valueToMatch } = context as {
-          attribute: string;
-          value: string;
-        };
+    const handle = await toElementHandle(targetEl);
+    const { attribute, value: valueToMatch } = contextSelector;
+    const matched =
+      (attribute === "class" &&
+        (await handle.evaluate((el, valueToMatch) => el.classList.contains(valueToMatch), valueToMatch))) ||
+      targetEl.getAttribute(attribute) === valueToMatch ||
+      (!attribute && !valueToMatch);
 
-        if (node.nodeType === 1) {
-          const el = node as Element;
-          const attrValue = el.getAttribute(attribute);
-
-          if (
-            (attribute === "class" && el.classList.contains(valueToMatch)) ||
-            (attrValue === valueToMatch) ||
-            (!attribute && !valueToMatch)
-          ) {
-            return el;
-          }
-
-          if (el.shadowRoot) {
-            for (const child of el.shadowRoot.children) {
-              const result = searchInShadowDom(child);
-              if (result) {
-                return result;
-              }
-            }
-          }
-        }
-
-        for (const child of node.childNodes) {
-          const result = searchInShadowDom(child);
-          if (result) {
-            return result;
-          }
-        }
-      };
-
-      return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
-        requestAnimationFrame(() => {
-          const foundNode =
-            typeof context === "string"
-              ? document.querySelector(context)
-              : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
-
-          if (foundNode?.getBoundingClientRect) {
-            const { width, height, left, top } = foundNode.getBoundingClientRect();
-            resolve({ width, height, left, top });
-          } else {
-            resolve(undefined);
-          }
-        });
-      });
-    }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
-
-    if (!rect) {
+    if (!matched) {
       throw new Error(
-        `[${token}] context target (${contextSelector.attribute}="${contextSelector.value}") not found, make sure test HTML renders the component and expected shadow DOM elements`,
+        `[${token}] context target (${attribute}="${valueToMatch}") not found, make sure test HTML renders the component and expected shadow DOM elements`,
       );
     }
 
+    const rect = await handle.boundingBox();
     const box = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
+      x: rect.x + rect.width / 2,
+      y: rect.y + rect.height / 2,
     };
 
     // hover state
