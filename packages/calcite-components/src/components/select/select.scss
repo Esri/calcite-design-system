@@ -18,6 +18,7 @@
 
 .wrapper {
   @apply relative flex items-stretch;
+  inline-size: var(--select-width);
   block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
   &:focus-within,
   &:active,
