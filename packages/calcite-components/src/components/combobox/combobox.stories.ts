@@ -911,7 +911,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
       text-label="1ne"
       value="one"
     >
-      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
       <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
     </calcite-combobox-item>
     <calcite-combobox-item
@@ -921,7 +921,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
       text-label="2woo"
       value="two"
     >
-      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
       <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
     </calcite-combobox-item>
     <calcite-combobox-item
@@ -931,7 +931,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
       text-label="Thr333"
       value="three"
     >
-      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
       <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
     </calcite-combobox-item>
   </calcite-combobox>
