@@ -50,10 +50,6 @@ try {
   console.log("Project Item:", projectItem);
 
   if (projectItem) {
-    console.log(
-      `Issue #${issueNumber} is in design project: ${projectItem.project.title} (URL: ${projectItem.project.url})`,
-    );
-
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
@@ -62,7 +58,7 @@ try {
       );
       console.log("Issue archived in project.");
     } else {
-      console.log("No action taken, new label was not 'ready for dev'.");
+      console.log("No action taken, label added was not 'ready for dev'.");
     }
   } else {
     console.log("No associated project found for this issue.");
