@@ -713,7 +713,7 @@ describe("calcite-combobox", () => {
             description="description-5"
             value="value-5"
             short-heading="short-heading-5"
-            ></calcite-combobox-item>
+          ></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -728,7 +728,7 @@ describe("calcite-combobox", () => {
       const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
-    })
+    });
   });
 
   it("should control max items displayed", async () => {
