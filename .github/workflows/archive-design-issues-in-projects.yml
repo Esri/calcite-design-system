@@ -1,0 +1,27 @@
+name: Archive Issue in Project
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  process-labeled-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+
+      - name: Archive Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          LABEL_NAME: ${{ github.event.label.name }}
+        run: node .github/scripts/archiveIssuesInDesignProjects.js
