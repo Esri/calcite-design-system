@@ -389,7 +389,7 @@ export const longItemsAllSelectionModes = (): string => html`
       <calcite-combobox open selection-mode="single" style="margin-right: 20px;">
         <calcite-combobox-item text-label="Layers">
         <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
-        <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>ß</calcite-combobox-item>
+        <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item></calcite-combobox-item>
       </calcite-combobox>
 
       <calcite-combobox open selection-mode="single-persist">
