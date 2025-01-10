@@ -1685,8 +1685,9 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
-    page.keyboard.press("ControlRight");
+    await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
+    await page.keyboard.up("ControlRight");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
   });
