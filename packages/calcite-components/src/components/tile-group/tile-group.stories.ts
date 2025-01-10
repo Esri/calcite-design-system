@@ -104,16 +104,18 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
   const imageWidth = 275;
   const imageHeight = 100;
   const content = [
-    contentTop ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-top" />` : "",
-    contentBottom ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-bottom" />` : "",
+    contentTop
+      ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-top" />`
+      : "",
+    contentBottom
+      ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-bottom" />`
+      : "",
   ];
 
   return html`
     <calcite-tile
       ${heading ? 'heading="Tile heading"' : ""}
-      ${description
-        ? 'description="This is sort of a medium length description."'
-        : ""}
+      ${description ? 'description="This is sort of a medium length description."' : ""}
       ${link ? 'href="/"' : ""}
       ${icon ? 'icon="layers"' : ""}
       ${selected ? "selected" : ""}

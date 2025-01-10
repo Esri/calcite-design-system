@@ -286,7 +286,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
 
           if (
             (attribute === "class" && el.classList.contains(valueToMatch)) ||
-            (attrValue === valueToMatch) ||
+            attrValue === valueToMatch ||
             (!attribute && !valueToMatch)
           ) {
             return el;
