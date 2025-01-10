@@ -367,7 +367,7 @@ describe("calcite-pagination", () => {
     });
   });
 
-  describe.only("theme", () => {
+  describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
         "--calcite-pagination-spacing": {
