@@ -367,7 +367,7 @@ describe("calcite-pagination", () => {
     });
   });
 
-  describe("theme", () => {
+  describe.only("theme", () => {
     describe("default", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
         "--calcite-pagination-spacing": {
@@ -393,10 +393,10 @@ describe("calcite-pagination", () => {
             shadowSelector: `.${CSS.chevron}`,
             targetProp: "color",
           },
-          /*{
-          shadowSelector: `.${CSS.page}`,
-          targetProp: "color",
-          },*/
+          {
+            shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
+            targetProp: "color",
+          },
           {
             shadowSelector: `.${CSS.ellipsis}`,
             targetProp: "color",
@@ -407,51 +407,55 @@ describe("calcite-pagination", () => {
     describe("hover", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
         "--calcite-pagination-color-hover": [
-          /*{
-            shadowSelector: `.${CSS.chevron}`,
+          {
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
             targetProp: "color",
             state: "hover",
-          },*/
+          },
           {
             shadowSelector: `.${CSS.page}`,
             targetProp: "color",
             state: "hover",
           },
         ],
-        /*"--calcite-pagination-color-border-hover": {
-          shadowSelector: `.${CSS.page}`,
+        "--calcite-pagination-color-border-hover": {
+          shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
           targetProp: "borderBlockEndColor",
           state: "hover",
-        },*/
-        /*"--calcite-pagination-chevron-color-background-hover": {
-          shadowSelector: `.${CSS.chevron}`,
+        },
+        "--calcite-pagination-chevron-color-background-hover": {
+          shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
           targetProp: "backgroundColor",
           state: "hover",
-        },*/
+        },
       });
     });
     describe("active", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
         "--calcite-pagination-color-hover": [
-          /*{
-            shadowSelector: `.${CSS.chevron}`,
+          {
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
             targetProp: "color",
-          },*/
+            state: { press: { attribute: "class", value: `${CSS.chevron}` } },
+          },
           {
             shadowSelector: `.${CSS.page}`,
             targetProp: "color",
+            state: { press: { attribute: "class", value: `${CSS.page}` } },
           },
         ],
-        /*"--calcite-pagination-color-background": [
+        "--calcite-pagination-color-background": [
           {
-            shadowSelector: `.${CSS.page}`,
+            shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
             targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: `${CSS.page}` } },
           },
           {
-            shadowSelector: `.${CSS.chevron}`,
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
             targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: `${CSS.chevron}` } },
           },
-        ],*/
+        ],
       });
     });
     describe("selected", () => {
