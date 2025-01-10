@@ -1092,7 +1092,7 @@ export class InputTimePicker
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
-            oncalciteInternalTimePickerChange={this.timePickerChangeHandler}
+            oncalciteTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}

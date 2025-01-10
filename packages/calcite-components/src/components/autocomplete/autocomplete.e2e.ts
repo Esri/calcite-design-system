@@ -35,6 +35,21 @@ const simpleHTML = html`
   </calcite-autocomplete>
 `;
 
+const simpleHTMLDisabledItems = html`
+  <calcite-autocomplete label="Item list" id="myAutocomplete">
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item
+      disabled
+      label="Item three"
+      value="three"
+      heading="Item three"
+    ></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  </calcite-autocomplete>
+`;
+
 const scrollHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete">
   <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
   <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
@@ -428,6 +443,21 @@ describe("calcite-autocomplete", () => {
     focusable("calcite-autocomplete");
   });
 
+  it("should be able to remove icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    const input = await page.find("calcite-autocomplete >>> calcite-input");
+
+    expect(await input.getProperty("icon")).toBe(true);
+
+    autocomplete.setProperty("icon", false);
+    await page.waitForChanges();
+
+    expect(await input.getProperty("icon")).toBe(false);
+  });
+
   describe("keyboard navigation", () => {
     let page: E2EPage;
     beforeEach(async () => {
@@ -532,6 +562,44 @@ describe("calcite-autocomplete", () => {
       }
     });
 
+    it("should navigate with arrow keys and mostly disabled items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(simpleHTMLDisabledItems);
+
+      const autocomplete = await page.find("calcite-autocomplete");
+      autocomplete.callMethod("setFocus");
+      await page.waitForChanges();
+
+      expect(await autocomplete.getProperty("open")).toBe(true);
+
+      const items = await page.findAll("calcite-autocomplete-item");
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(false);
+      }
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(i === 0);
+      }
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
+      }
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(i === 0);
+      }
+    });
+
     it("should navigate with home/end keys", async () => {
       const page = await newE2EPage();
       await page.setContent(simpleHTML);
@@ -553,6 +621,37 @@ describe("calcite-autocomplete", () => {
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(i === items.length - 2);
+      }
+
+      await page.keyboard.press("Home");
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(i === 0);
+      }
+    });
+
+    it("should navigate with home/end key and mostly disabled items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(simpleHTMLDisabledItems);
+
+      const autocomplete = await page.find("calcite-autocomplete");
+      autocomplete.callMethod("setFocus");
+      await page.waitForChanges();
+
+      expect(await autocomplete.getProperty("open")).toBe(true);
+
+      const items = await page.findAll("calcite-autocomplete-item");
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(false);
+      }
+
+      await page.keyboard.press("End");
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
       }
 
       await page.keyboard.press("Home");
