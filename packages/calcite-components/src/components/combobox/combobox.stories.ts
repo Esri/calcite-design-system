@@ -901,7 +901,43 @@ export const filterHighlighting = (): string => html`
   </calcite-combobox>
 `;
 
-export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
+export const withDescriptionIconsAndContentSlots = (): string => html`
+  <calcite-combobox open>
+    <calcite-combobox-item
+      icon-start="layer"
+      description="the first installment in this thrilling series"
+      selected
+      short-heading="#1"
+      text-label="1ne"
+      value="one"
+    >
+      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+    <calcite-combobox-item
+      icon-start="layer"
+      description="the sequel to the smash hit 'one'"
+      short-heading="#2"
+      text-label="2woo"
+      value="two"
+    >
+      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+    <calcite-combobox-item
+      icon-start="layer"
+      description="the thrilling conclusion to the number series"
+      short-heading="#3"
+      text-label="Thr333"
+      value="three"
+    >
+      <calcite-icon icon="narrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const withDescriptionShortLabelAndContentSlots = (): string => html`
   <calcite-combobox-item
     description="the first installment in this thrilling series"
     selected
@@ -909,7 +945,8 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="1ne"
     value="one"
   >
-    <calcite-icon icon="number-circle-1" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-1" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-2" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
     description="the sequel to the smash hit 'one'"
@@ -917,7 +954,8 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="2woo"
     value="two"
   >
-    <calcite-icon icon="number-circle-2" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-3" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-4" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
     description="the thrilling conclusion to the number series"
@@ -925,13 +963,14 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="Thr333"
     value="three"
   >
-    <calcite-icon icon="number-circle-3" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-5" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-6" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
 `;
-withDescriptionShortLabelAndContentEndSlot.args = {
+withDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };
-withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder];
-withDescriptionShortLabelAndContentEndSlot.parameters = {
+withDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
+withDescriptionShortLabelAndContentSlots.parameters = {
   chromatic: { delay: 1000 },
 };
