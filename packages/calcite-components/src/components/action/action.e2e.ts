@@ -472,7 +472,7 @@ describe("calcite-action", () => {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
           expectedValue: "rgba(0, 0, 0, 0.08)",
-          state: { press: { attribute: "class", value: `${CSS.button}` } },
+          state: { press: { attribute: "class", value: CSS.button } },
         },
       });
     });
