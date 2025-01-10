@@ -904,7 +904,7 @@ export const filterHighlighting = (): string => html`
 export const withDescriptionIconsAndContentSlots = (): string => html`
   <calcite-combobox open>
     <calcite-combobox-item
-      icon-start="layer"
+      icon="layer"
       description="the first installment in this thrilling series"
       selected
       short-heading="#1"
@@ -915,7 +915,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
       <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
     </calcite-combobox-item>
     <calcite-combobox-item
-      icon-start="layer"
+      icon="layer"
       description="the sequel to the smash hit 'one'"
       short-heading="#2"
       text-label="2woo"
@@ -925,7 +925,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
       <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
     </calcite-combobox-item>
     <calcite-combobox-item
-      icon-start="layer"
+      icon="layer"
       description="the thrilling conclusion to the number series"
       short-heading="#3"
       text-label="Thr333"
