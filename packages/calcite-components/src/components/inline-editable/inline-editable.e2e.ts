@@ -219,8 +219,8 @@ describe("calcite-inline-editable", () => {
         const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
-      await input.type("typo");
-      expect(await input.getProperty("value")).toBe("John Doetypo");
+      await input.type("-typo");
+      expect(await input.getProperty("value")).toBe("John Doe-typo");
       const cancelEvent = page.waitForEvent("calciteInlineEditableEditCancel");
       await cancelEditingButton.click();
       await cancelEvent;
@@ -239,8 +239,8 @@ describe("calcite-inline-editable", () => {
         const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
-      await input.type("typo");
-      expect(await input.getProperty("value")).toBe("John Doetypo");
+      await input.type("-typo");
+      expect(await input.getProperty("value")).toBe("John Doe-typo");
       await page.keyboard.press("Escape");
       await calciteInlineEditableEditCancel;
       expect(await input.getProperty("value")).toBe("John Doe");
