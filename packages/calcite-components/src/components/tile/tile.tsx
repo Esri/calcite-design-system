@@ -322,29 +322,17 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
             [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
         >
-          <slot
-            name={SLOTS.contentTop}
-            onSlotChange={this.handleSlotChange}
-          />
+          <slot name={SLOTS.contentTop} onSlotChange={this.handleSlotChange} />
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
-            <slot
-              name={SLOTS.contentStart}
-              onSlotChange={this.handleSlotChange}
-            />
+            <slot name={SLOTS.contentStart} onSlotChange={this.handleSlotChange} />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot
-              name={SLOTS.contentEnd}
-              onSlotChange={this.handleSlotChange}
-            />
+            <slot name={SLOTS.contentEnd} onSlotChange={this.handleSlotChange} />
           </div>
-          <slot
-            name={SLOTS.contentBottom}
-            onSlotChange={this.handleSlotChange}
-          />
+          <slot name={SLOTS.contentBottom} onSlotChange={this.handleSlotChange} />
         </div>
       </div>
     );
