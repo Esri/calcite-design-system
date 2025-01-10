@@ -3,8 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-pagination-spacing: Specifies the amount of left and right margin spacing between each item.
- * @prop --calcite-pagination-size: Specifies the width of each item.
  * @prop --calcite-pagination-color: Specifies the component's item color.
  * @prop --calcite-pagination-color-hover: Specifies the component's item color when hovered or selected.
  * @prop --calcite-pagination-color-border-hover: Specifies the component's item bottom border color when hovered.
@@ -20,7 +18,7 @@
 
 .list {
   @apply flex list-none m-0 p-0;
-  column-gap: var(--calcite-pagination-spacing, var(--calcite-spacing-base));
+  column-gap: var(--calcite-spacing-base);
 }
 
 .list-item {
@@ -36,7 +34,7 @@
   & .page,
   & .ellipsis {
     @apply text-n2h h-6 px-1;
-    --calcite-internal-pagination-width: theme("width.6");
+    min-inline-size: theme("width.6");
   }
 }
 
@@ -45,7 +43,7 @@
   & .page,
   & .ellipsis {
     @apply text-n1h h-8 px-2;
-    --calcite-internal-pagination-width: theme("width.8");
+    min-inline-size: theme("width.8");
   }
 }
 
@@ -54,7 +52,7 @@
   & .page,
   & .ellipsis {
     @apply text-0h h-11;
-    --calcite-internal-pagination-width: theme("width.11");
+    min-inline-size: theme("width.11");
   }
 
   & .chevron {
@@ -91,7 +89,6 @@
     align-baseline
     bg-transparent;
 
-  min-inline-size: var(--calcite-pagination-size, var(--calcite-internal-pagination-width));
   color: var(--calcite-pagination-color, var(--calcite-color-text-3));
 }
 

@@ -1,8 +1,6 @@
 import { html } from "../../support/formatting";
 
 export const paginationTokens = {
-  calcitePaginationSpacing: "",
-  calcitePaginationSize: "",
   calcitePaginationColor: "",
   calcitePaginationColorHover: "",
   calcitePaginationColorBorderHover: "",

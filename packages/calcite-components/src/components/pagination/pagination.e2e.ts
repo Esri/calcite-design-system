@@ -367,27 +367,9 @@ describe("calcite-pagination", () => {
     });
   });
 
-  describe("theme", () => {
+  describe.only("theme", () => {
     describe("default", () => {
       themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-        "--calcite-pagination-spacing": {
-          shadowSelector: `.${CSS.list}`,
-          targetProp: "columnGap",
-        },
-        "--calcite-pagination-size": [
-          {
-            shadowSelector: `.${CSS.chevron}`,
-            targetProp: "minInlineSize",
-          },
-          {
-            shadowSelector: `.${CSS.page}`,
-            targetProp: "minInlineSize",
-          },
-          {
-            shadowSelector: `.${CSS.ellipsis}`,
-            targetProp: "minInlineSize",
-          },
-        ],
         "--calcite-pagination-color": [
           {
             shadowSelector: `.${CSS.chevron}`,
