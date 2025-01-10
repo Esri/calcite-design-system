@@ -50,7 +50,7 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  *     "--calcite-action-menu-trigger-background-color-active": {
  *        shadowSelector: "calcite-action",
  *        targetProp: "--calcite-action-background-color",
- *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *        state: { press: `calcite-action-menu >>> .${CSS.defaultTrigger}`,
  *      },
  *      "--calcite-action-menu-trigger-background-color-focus": {
  *        shadowSelector: "calcite-action",
