@@ -108,6 +108,21 @@ viewbox
 ## testing
 headful
 
+## time (meridiem)
+
+prijepodne
+popodne
+לפנה
+priešpiet
+popiet
+priekšpusdienā
+pēcpusdienā
+претпл
+попл
+manhã
+ก่อนเที
+หลังเที
+
 ## time zones
 
 Africa
