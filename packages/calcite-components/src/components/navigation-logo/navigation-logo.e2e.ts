@@ -113,7 +113,7 @@ describe("calcite-navigation-logo", () => {
           {
             shadowSelector: `calcite-icon`,
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.anchor } },
+            state: { press: `calcite-navigation-logo >>> .${CSS.anchor}` },
           },
         ],
         "--calcite-navigation-logo-heading-text-color": {
