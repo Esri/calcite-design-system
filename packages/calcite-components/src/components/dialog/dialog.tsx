@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
@@ -593,12 +594,12 @@ export class Dialog
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
             },
           }),
           interact.modifiers.restrict({

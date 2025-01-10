@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { toHaveNoViolations } from "jest-axe";
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";

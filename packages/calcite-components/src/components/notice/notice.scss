@@ -3,7 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-notice-width: The width of the component.
+ * @prop --calcite-notice-background-color: Specifies the component's background color.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the component's background color when focused.
+ * @prop --calcite-notice-close-background-color-press: Specifies the component's background color when active.
+ * @prop --calcite-notice-close-text-color-hover: Specifies the background color of the component's close button when hovered.
+ * @prop --calcite-notice-close-text-color: Specifies the text color of the component's close button.
+ * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
+ * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
  */
 
 // scale variables
@@ -71,13 +77,13 @@
 }
 
 .container {
-  @apply bg-foreground-1
-    pointer-events-none
+  @apply pointer-events-none
     my-0
     box-border
     flex
     w-full
     opacity-0;
+
   overflow: hidden;
   max-block-size: 0;
   transition-property: opacity, max-block-size;
@@ -85,6 +91,7 @@
   text-align: start;
   border-inline-start: var(--calcite-border-width-md) solid;
   box-shadow: 0 0 0 0 transparent;
+  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
 }
 
 // focus styles
@@ -109,12 +116,16 @@
 }
 
 @include slotted("title", "*", ".container") {
-  @apply text-color-1 m-0 font-medium;
+  @apply m-0 font-medium;
+
+  color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
 }
 
 @include slotted("message", "*", ".container") {
-  @apply text-color-2 m-0 inline font-normal;
+  @apply m-0 inline font-normal;
+
   margin-inline-end: var(--calcite-notice-spacing-token-small);
+  color: var(--calcite-notice-content-text-color, var(--calcite-color-text-2));
 }
 
 @mixin notice-element-base() {
@@ -146,17 +157,20 @@
 }
 
 .notice-close {
-  @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
+  @apply flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
   @include notice-element-base;
   -webkit-appearance: none;
 
+  color: var(--calcite-notice-close-text-color, var(--calcite-color-text-3));
+
   &:hover,
   &:focus {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-notice-close-background-color-focus, var(--calcite-color-foreground-2));
+    color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-notice-close-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 

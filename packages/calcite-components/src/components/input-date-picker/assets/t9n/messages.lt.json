@@ -1,4 +1,4 @@
 {
   "chooseDate": "Pasirinkite datą",
-  "dateFormat": "Datos formatas:"
+  "dateFormat": "Datos formatas: {format}"
 }

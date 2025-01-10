@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 export interface TransitionEventDispatcher {
   (element: HTMLElement, type: "transitionstart" | "transitionend", propertyName: string): void;
 }

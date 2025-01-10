@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";

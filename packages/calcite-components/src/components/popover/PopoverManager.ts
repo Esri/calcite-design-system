@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { isKeyboardTriggeredClick } from "../../utils/dom";

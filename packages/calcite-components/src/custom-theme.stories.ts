@@ -14,6 +14,7 @@ import { alertTokens, alert } from "./custom-theme/alert";
 import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
+import { block, blockTokens } from "./custom-theme/block";
 import { buttons } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
@@ -32,11 +33,12 @@ import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
 import { loader, loaderTokens } from "./custom-theme/loader";
-import { notices } from "./custom-theme/notice";
+import { notice, noticeTokens } from "./custom-theme/notice";
 import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
+import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
@@ -47,6 +49,7 @@ import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
+import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -112,7 +115,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${autocomplete} ${notices} ${segmentedControl}
+        ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
           ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
@@ -132,8 +135,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection}</div>
-      <div class="demo-column">${alert}</div>
+      <div class="demo-column">
+        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
+      </div>
+      <div class="demo-column"><div class="demo-column">${alert}</div></div>
+      <div class="demo-column">${menuItem}</div>
     </div>
   </div>`;
 
@@ -150,6 +156,7 @@ const componentTokens = {
   ...autocompleteTokens,
   ...avatarTokens,
   ...blockSectionTokens,
+  ...blockTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
@@ -162,14 +169,17 @@ const componentTokens = {
   ...navigationLogoTokens,
   ...navigationTokens,
   ...navigationUserTokens,
+  ...noticeTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...ratingTokens,
   ...sliderTokens,
   ...switchTokens,
   ...tabsTokens,
   ...textAreaTokens,
   ...tileTokens,
   ...tooltipTokens,
+  ...menuItemTokens,
 };
 
 export default {

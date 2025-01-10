@@ -26,7 +26,12 @@
   "packageRules": [
     {
       "groupName": "ArcGIS",
-      "matchPackageNames": ["@arcgis/**"]
+      "matchPackageNames": ["@arcgis/**"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "groupName": "Floating UI",
+      "matchPackageNames": ["@floating-ui/**"]
     },
     {
       "groupName": "ESLint",

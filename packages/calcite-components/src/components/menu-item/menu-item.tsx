@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -9,7 +10,7 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
-import { FlipContext } from "../interfaces";
+import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
@@ -31,8 +32,6 @@ declare global {
     "calcite-menu-item": MenuItem;
   }
 }
-
-type Layout = "horizontal" | "vertical";
 
 /** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
 export class MenuItem extends LitElement implements LoadableComponent {

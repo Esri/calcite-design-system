@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
@@ -111,7 +112,7 @@ describe("calcite-color-picker-hex-input", () => {
 
   it("commits shorthand hex on blur", async () => {
     const defaultHex = "#b33f33";
-    const editedHex = "#aabbcc";
+    const expandedHex = "#aabbcc";
     const page = await newE2EPage();
     await page.setContent(`<calcite-color-picker-hex-input value='${defaultHex}'></calcite-color-picker-hex-input>`);
 
@@ -128,19 +129,20 @@ describe("calcite-color-picker-hex-input", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(editedHex);
+    expect(await input.getProperty("value")).toBe(expandedHex);
 
     await selectText(input);
     await page.keyboard.type("abcd");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(editedHex);
+    expect(await input.getProperty("value")).toBe(expandedHex);
   });
 
-  it("commits shorthand hexa on blur", async () => {
+  it("commits shorthand hex and hexa on blur", async () => {
     const defaultHexa = "#b33f33ff";
-    const editedHexa = "#aabbccdd";
+    const expandedHexa = "#aabbccdd";
+    const expandedHex = "#aabbccff";
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-color-picker-hex-input alpha-channel value='${defaultHexa}'></calcite-color-picker-hex-input>`,
@@ -148,25 +150,32 @@ describe("calcite-color-picker-hex-input", () => {
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await selectText(input);
-    await page.keyboard.type("abc");
+    await page.keyboard.type("ab");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(defaultHexa);
 
     await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(expandedHex);
+
+    await selectText(input);
     await page.keyboard.type("abcd");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(editedHexa);
+    expect(await input.getProperty("value")).toBe(expandedHexa);
 
     await selectText(input);
     await page.keyboard.type("abcde");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe(editedHexa);
+    expect(await input.getProperty("value")).toBe(expandedHexa);
   });
 
   it("normalizes value when initialized", async () => {
