@@ -18,7 +18,7 @@ import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
   describe("renders", () => {
-    renders("calcite-text-area", { display: "inline-block" });
+    renders("calcite-text-area", { display: "block" });
   });
 
   describe("defaults", () => {
