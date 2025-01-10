@@ -323,14 +323,12 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
           }}
         >
           <slot
-            data-name="ContentTop"
             name={SLOTS.contentTop}
             onSlotChange={this.handleSlotChange}
           />
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <slot
-              data-name="ContentStart"
               name={SLOTS.contentStart}
               onSlotChange={this.handleSlotChange}
             />
@@ -339,13 +337,11 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
               {description && <div class={CSS.description}>{description}</div>}
             </div>
             <slot
-              data-name="ContentEnd"
               name={SLOTS.contentEnd}
               onSlotChange={this.handleSlotChange}
             />
           </div>
           <slot
-            data-name="ContentBottom"
             name={SLOTS.contentBottom}
             onSlotChange={this.handleSlotChange}
           />
