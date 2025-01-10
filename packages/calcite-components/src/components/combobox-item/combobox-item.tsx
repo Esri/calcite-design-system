@@ -284,8 +284,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}
-            {this.renderIcon(icon)}
             <slot name={SLOTS.contentStart} />
+            {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>
                 {highlightText({
