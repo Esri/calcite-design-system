@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.93...@esri/calcite-components@3.0.0-next.94) (2025-01-10)
+
+### Features
+
+- **combobox-item:** Add support for `content-start` slot ([#11250](https://github.com/Esri/calcite-design-system/issues/11250)) ([233a7fd](https://github.com/Esri/calcite-design-system/commit/233a7fdc0b843a0e4bdfb14feeab340f59ada0fa)), closes [#9322](https://github.com/Esri/calcite-design-system/issues/9322)
+
 ## [3.0.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.92...@esri/calcite-components@3.0.0-next.93) (2025-01-10)
 
 ### Features
