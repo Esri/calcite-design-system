@@ -164,8 +164,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #region Events
 
-  /** @private */
-  calciteInternalTimePickerChange = createEvent({ cancelable: false });
+  calciteTimePickerChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -853,7 +852,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteTimePickerChange.emit();
     }
   }
 

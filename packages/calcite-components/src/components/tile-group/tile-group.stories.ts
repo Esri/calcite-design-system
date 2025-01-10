@@ -101,17 +101,21 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
     selected = false,
   } = options;
 
+  const imageWidth = 275;
+  const imageHeight = 100;
   const content = [
-    contentTop ? html`<img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />` : "",
-    contentBottom ? html`<img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />` : "",
+    contentTop
+      ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-top" />`
+      : "",
+    contentBottom
+      ? html`<img src="${placeholderImage({ width: imageWidth, height: imageHeight })}" slot="content-bottom" />`
+      : "",
   ];
 
   return html`
     <calcite-tile
-      ${heading ? 'heading="Tile heading lorem ipsum"' : ""}
-      ${description
-        ? 'description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."'
-        : ""}
+      ${heading ? 'heading="Tile heading"' : ""}
+      ${description ? 'description="This is sort of a medium length description."' : ""}
       ${link ? 'href="/"' : ""}
       ${icon ? 'icon="layers"' : ""}
       ${selected ? "selected" : ""}
@@ -685,7 +689,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
     </div>
 
     <div class="parent">
-      <div class="child right-aligned-text">icon and heading (large visual) + single selection mode</div>
+      <div class="child right-aligned-text">icon and heading (large visual) + multiple selection mode</div>
       <div class="child">
         ${getTileGroupHtml(
           {
@@ -693,7 +697,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "s",
         )}
       </div>
@@ -704,7 +708,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "m",
         )}
       </div>
@@ -715,7 +719,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
             icon: true,
           },
           layout,
-          "single",
+          "multiple",
           "l",
         )}
       </div>

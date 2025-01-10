@@ -1,63 +1,41 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import cspellPluginRecommended from "@cspell/eslint-plugin/recommended";
-import { fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
-import jsPlugin from "@eslint/js";
+import cspellPlugin from "@cspell/eslint-plugin";
+import eslint from "@eslint/js";
 import calcitePlugin from "@esri/eslint-plugin-calcite-components";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import importPlugin from "eslint-plugin-import";
-import jestPlugin from "eslint-plugin-jest";
+import vitestPlugin from "@vitest/eslint-plugin";
+import prettierConfig from "eslint-config-prettier";
+import * as importPlugin from "eslint-plugin-import";
 import jsdocPlugin from "eslint-plugin-jsdoc";
-import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import unicornPlugin from "eslint-plugin-unicorn";
-import vitestPlugin from "@vitest/eslint-plugin";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: jsPlugin.configs.recommended,
-  allConfig: jsPlugin.configs.all,
-});
 
-export default [
+export default tseslint.config(
   {
     ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
   },
 
-  ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"),
-
-  vitestPlugin.configs.recommended,
-  cspellPluginRecommended,
-  jestPlugin.configs["flat/recommended"],
-  jsdocPlugin.configs["flat/recommended"],
+  prettierConfig,
 
   {
     files: ["**/*.{ts,tsx,mjs,cjs}"],
+    extends: [eslint.configs.recommended, tseslint.configs.recommended, jsdocPlugin.configs["flat/recommended"]],
     plugins: {
       "@esri/calcite-components": calcitePlugin,
-      "@typescript-eslint": tsPlugin,
-      import: fixupPluginRules(importPlugin),
-      react: reactPlugin,
-      jsdoc: jsdocPlugin,
-      jest: jestPlugin,
-      prettier: prettierPlugin,
+      "@cspell": cspellPlugin,
+      import: importPlugin,
       unicorn: unicornPlugin,
-      vitest: vitestPlugin,
     },
 
     languageOptions: {
-      globals: {
-        ...jestPlugin.environments.globals.globals,
-      },
-
-      parser: tsParser,
       ecmaVersion: 2021,
       sourceType: "module",
-
+      parser: tseslint.parser,
       parserOptions: {
         tsconfigRootDir: __dirname,
         project: ["tsconfig-eslint.json"],
@@ -65,10 +43,6 @@ export default [
     },
 
     settings: {
-      react: {
-        pragma: "h",
-      },
-
       jsdoc: {
         ignoreInternal: true,
         ignorePrivate: true,
@@ -76,6 +50,8 @@ export default [
     },
 
     rules: {
+      "@cspell/spellchecker": ["warn", {}],
+
       "@typescript-eslint/method-signature-style": ["error", "property"],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
@@ -110,9 +86,13 @@ export default [
         },
       ],
 
+      "jsdoc/check-param-names": "off",
       "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param-description": "off",
       "jsdoc/require-param-type": "off",
       "jsdoc/require-property-type": "off",
+      "jsdoc/require-returns": "off",
+      "jsdoc/require-returns-description": "off",
       "jsdoc/require-returns-type": "off",
       "jsdoc/check-tag-names": "off",
       "jsdoc/tag-lines": [
@@ -160,7 +140,7 @@ export default [
           ],
         },
       ],
-      "radix": ["error", "as-needed"],
+      radix: ["error", "as-needed"],
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
@@ -176,6 +156,39 @@ export default [
         },
       ],
 
+      "unicorn/prefer-ternary": "error",
+      "unicorn/prevent-abbreviations": [
+        "error",
+        {
+          allowList: {
+            e2ePage: true,
+          },
+
+          extendDefaultReplacements: false,
+
+          replacements: {
+            e: {
+              error: true,
+              event: true,
+            },
+          },
+
+          checkProperties: false,
+          checkFilenames: false,
+        },
+      ],
+    },
+  },
+
+  {
+    files: ["**/*.tsx"],
+    ...reactPlugin.configs.flat?.recommended,
+    settings: {
+      react: {
+        pragma: "h",
+      },
+    },
+    rules: {
       "react/jsx-props-no-spreading": "error",
       "react/jsx-sort-props": "error",
       "react/jsx-uses-react": "error",
@@ -211,37 +224,41 @@ export default [
           ],
         },
       ],
-
-      "unicorn/prefer-ternary": "error",
-      "unicorn/prevent-abbreviations": [
-        "error",
-        {
-          allowList: {
-            e2ePage: true,
-          },
-
-          extendDefaultReplacements: false,
-
-          replacements: {
-            e: {
-              error: true,
-              event: true,
-            },
-          },
-
-          checkProperties: false,
-          checkFilenames: false,
-        },
-      ],
-      "vitest/expect-expect": "off",
     },
   },
 
   {
-    files: ["**/*.cjs"],
+    files: ["**/*.{m,c,}js"],
+    extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      // turn off other type-aware rules
+      "other-plugin/typed-rule": "off",
+      // turn off rules that don't apply to JS code
+      "@typescript-eslint/explicit-function-return-type": "off",
+    },
     languageOptions: {
       globals: {
         module: "writable",
+      },
+    },
+  },
+
+  {
+    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    extends: [vitestPlugin.configs.recommended],
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
+    },
+    rules: {
+      "vitest/expect-expect": "off",
+    },
+    languageOptions: {
+      globals: {
+        ...globals.builtin,
+        ...globals.browser,
+        ...vitestPlugin.environments?.env.globals,
       },
     },
   },
@@ -252,9 +269,4 @@ export default [
       "@esri/calcite-components/no-dynamic-createelement": "off",
     },
   },
-
-  ...compat.extends("plugin:@typescript-eslint/disable-type-checked").map((config) => ({
-    ...config,
-    files: ["**/*.cjs"],
-  })),
-];
+);
