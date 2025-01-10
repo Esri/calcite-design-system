@@ -80,7 +80,7 @@ export const single = (): string => html`
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
       <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
       <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
-      <calcite-combobox-item icon="battery3" value="battery" text-label="Batterycharging"></calcite-combobox-item>
+      <calcite-combobox-item icon="battery3" value="battery" text-label="Battery Charging"></calcite-combobox-item>
       <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
       <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
       <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>
