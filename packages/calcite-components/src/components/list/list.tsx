@@ -38,7 +38,8 @@ import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
-import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
+import { DEBOUNCE } from "../../utils/resources";
+import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
@@ -148,7 +149,7 @@ export class List
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
-  }, debounceTimeout);
+  }, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
 
