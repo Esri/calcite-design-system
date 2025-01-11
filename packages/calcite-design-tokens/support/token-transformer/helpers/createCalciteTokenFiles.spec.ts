@@ -1,7 +1,7 @@
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import { createCalciteTokenFiles } from "./createCalciteTokenFiles.js";
 import { ConfigOptions } from "../../types/config.js";
+import { createCalciteTokenFiles } from "./createCalciteTokenFiles.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

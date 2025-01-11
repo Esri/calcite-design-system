@@ -134,7 +134,11 @@ export class Combobox
       item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text, this.effectiveFilterProps);
+      const filteredData = filter(
+        [...this.data, ...this.groupData],
+        text,
+        this.effectiveFilterProps,
+      );
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";

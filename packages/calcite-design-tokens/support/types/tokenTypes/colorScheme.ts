@@ -12,7 +12,6 @@ export type TokenColorSchemes = TokenColorSchemeUnion[];
 export type TokenColorSchemeValue = {
   light?: string;
   dark?: string;
-  // eslint-disable-next-line @cspell/spellchecker
   greyscale?: string;
 };
 
