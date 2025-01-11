@@ -166,9 +166,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
-      changes.has("textLabel")
+      (changes.has("disabled") && this.hasUpdated) ||
+      (changes.has("selected") && this.hasUpdated) ||
+      (changes.has("textLabel") && this.hasUpdated)
     ) {
       this.calciteInternalComboboxItemChange.emit();
     }
