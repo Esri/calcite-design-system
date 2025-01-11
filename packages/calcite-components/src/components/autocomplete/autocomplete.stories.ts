@@ -134,6 +134,21 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
   </div>
 `;
 
+export const customIcon = (): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete icon="banana"></calcite-autocomplete>
+  </div>
+`;
+
+export const noIcon = (): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete id="autocomplete"></calcite-autocomplete>
+  </div>
+  <script>
+    document.getElementById("autocomplete").icon = false;
+  </script>
+`;
+
 export const matchResults = (): string =>
   html`<div style="width:350px; height: 600px;">
     <calcite-autocomplete label="Item list" id="myAutocomplete" input-value="item" open>

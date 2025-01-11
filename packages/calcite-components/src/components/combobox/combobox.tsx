@@ -134,7 +134,11 @@ export class Combobox
       item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text, this.effectiveFilterProps);
+      const filteredData = filter(
+        [...this.data, ...this.groupData],
+        text,
+        this.effectiveFilterProps,
+      );
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -551,7 +555,6 @@ export class Combobox
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
-    this.updateItems();
     this.setFilteredPlacements();
 
     if (this.open) {
@@ -564,7 +567,6 @@ export class Combobox
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
 
@@ -592,10 +594,7 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
-    ) {
+    if (changes.has("selectionMode") || changes.has("scale")) {
       this.updateItems();
     }
 
@@ -1233,7 +1232,7 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems(): void {
+  private updateItems = debounce((): void => {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
@@ -1264,7 +1263,7 @@ export class Combobox
         nextGroupItem.afterEmptyGroup = groupItem.children.length === 0;
       }
     });
-  }
+  }, DEBOUNCE.nextTick);
 
   private getData(): ItemData[] {
     return this.items.map((item) => ({

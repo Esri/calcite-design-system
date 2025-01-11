@@ -60,7 +60,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -617,7 +617,12 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant: string = null;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
+      item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
+    });
+
+    this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
       if (isActive) {
@@ -625,8 +630,6 @@ export class Autocomplete
       }
 
       item.active = isActive;
-      item.scale = this.scale;
-      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;
@@ -652,12 +655,6 @@ export class Autocomplete
     this.items = Array.from(el.querySelectorAll(itemSelector));
     this.updateItems();
     this.updateGroups();
-  }
-
-  private getIcon(): IconNameOrString {
-    const { icon } = this;
-
-    return icon === true ? ICONS.search : icon || ICONS.search;
   }
 
   private setReferenceEl(el: Input["el"]): void {
@@ -804,7 +801,7 @@ export class Autocomplete
             disabled={disabled}
             enterKeyHint={enterKeyHint}
             form={this.form}
-            icon={this.getIcon()}
+            icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
             inputMode={inputMode}

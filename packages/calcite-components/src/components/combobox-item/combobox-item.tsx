@@ -26,6 +26,7 @@ declare global {
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
+ * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
 export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region Static Members
@@ -165,9 +166,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
-      changes.has("textLabel")
+      (changes.has("disabled") && this.hasUpdated) ||
+      (changes.has("selected") && this.hasUpdated) ||
+      (changes.has("textLabel") && this.hasUpdated)
     ) {
       this.calciteInternalComboboxItemChange.emit();
     }
@@ -283,6 +284,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}
+            <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>
