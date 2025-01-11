@@ -38,6 +38,8 @@ import { pagination } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl } from "./custom-theme/segmented-control";
+import { select, selectTokens } from "./custom-theme/select";
+import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
@@ -48,6 +50,7 @@ import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
+import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -119,7 +122,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${input} ${inputNumber} ${inputText}
+        ${input} ${inputNumber} ${inputText} ${select}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -133,8 +136,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
-      <div class="demo-column">${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block}</div>
+      <div class="demo-column">
+        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
+      </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
+      <div class="demo-column">${menuItem}</div>
     </div>
   </div>`;
 
@@ -167,12 +173,15 @@ const componentTokens = {
   ...noticeTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...ratingTokens,
+  ...selectTokens,
   ...sliderTokens,
   ...switchTokens,
   ...tabsTokens,
   ...textAreaTokens,
   ...tileTokens,
   ...tooltipTokens,
+  ...menuItemTokens,
 };
 
 export default {

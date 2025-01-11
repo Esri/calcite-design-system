@@ -30,6 +30,14 @@
       "rangeStrategy": "bump"
     },
     {
+      "groupName": "CSpell",
+      "matchPackageNames": ["@cspell/**"]
+    },
+    {
+      "groupName": "Floating UI",
+      "matchPackageNames": ["@floating-ui/**"]
+    },
+    {
       "groupName": "ESLint",
       "matchPackageNames": ["/eslint/"]
     },

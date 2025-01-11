@@ -1,43 +1,36 @@
-import cspellPluginRecommended from "@cspell/eslint-plugin/recommended";
-import { fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
-import jsPlugin from "@eslint/js";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import importPlugin from "eslint-plugin-import";
+import cspellPlugin from "@cspell/eslint-plugin";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import * as importPlugin from "eslint-plugin-import";
+import prettierConfig from "eslint-config-prettier";
 import jestPlugin from "eslint-plugin-jest";
 import jsdocPlugin from "eslint-plugin-jsdoc";
-import prettierPlugin from "eslint-plugin-prettier";
 import unicornPlugin from "eslint-plugin-unicorn";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: jsPlugin.configs.recommended,
-  allConfig: jsPlugin.configs.all,
-});
 
-export default [
+export default tseslint.config(
   {
     ignores: ["**/dist"],
   },
 
-  ...compat.extends("plugin:@typescript-eslint/recommended", "prettier"),
-  cspellPluginRecommended,
-  jestPlugin.configs["flat/recommended"],
-  jsdocPlugin.configs["flat/recommended"],
+  prettierConfig,
 
   {
     files: ["**/*.{ts,tsx,mjs,cjs}"],
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.recommended,
+      jsdocPlugin.configs["flat/recommended"],
+      jestPlugin.configs["flat/recommended"],
+    ],
+
     plugins: {
-      "@typescript-eslint": tsPlugin,
-      import: fixupPluginRules(importPlugin),
-      jest: jestPlugin,
-      jsdoc: jsdocPlugin,
-      prettier: prettierPlugin,
+      "@cspell": cspellPlugin,
+      import: importPlugin,
       unicorn: unicornPlugin,
     },
 
@@ -46,7 +39,7 @@ export default [
         ...jestPlugin.environments.globals.globals,
       },
 
-      parser: tsParser,
+      parser: tseslint.parser,
       ecmaVersion: 2021,
       sourceType: "module",
 
@@ -64,6 +57,8 @@ export default [
     },
 
     rules: {
+      "@cspell/spellchecker": ["warn", {}],
+
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "error",
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
@@ -130,4 +125,20 @@ export default [
       ],
     },
   },
-];
+
+  {
+    files: ["**/*.{m,c,}js"],
+    extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      // turn off other type-aware rules
+      "other-plugin/typed-rule": "off",
+      // turn off rules that don't apply to JS code
+      "@typescript-eslint/explicit-function-return-type": "off",
+    },
+    languageOptions: {
+      globals: {
+        module: "writable",
+      },
+    },
+  },
+);

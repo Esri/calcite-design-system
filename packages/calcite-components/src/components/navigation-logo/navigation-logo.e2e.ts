@@ -72,7 +72,7 @@ describe("calcite-navigation-logo", () => {
   });
 
   describe("theme", () => {
-    const navigationLogoHtml = (props: Partial<{ active: boolean, link: boolean}> = {}): string => {
+    const navigationLogoHtml = (props: Partial<{ active: boolean; link: boolean }> = {}): string => {
       const { active = false, link = false } = props;
 
       return html`<calcite-navigation-logo
@@ -82,8 +82,8 @@ describe("calcite-navigation-logo", () => {
         ${active ? "active" : ""}
         ${link ? "href=https://github.com/Esri/calcite-design-system" : ""}
       >
-      </calcite-navigation-logo>
-    `};
+      </calcite-navigation-logo> `;
+    };
 
     describe("default", () => {
       const tokens: ComponentTestTokens = {
@@ -124,10 +124,13 @@ describe("calcite-navigation-logo", () => {
         },
       };
 
-      themed(navigationLogoHtml({
-        active: true,
-      }), tokens);
-    })
+      themed(
+        navigationLogoHtml({
+          active: true,
+        }),
+        tokens,
+      );
+    });
 
     describe("with link", () => {
       const tokens: ComponentTestTokens = {
@@ -159,7 +162,7 @@ describe("calcite-navigation-logo", () => {
           {
             shadowSelector: `calcite-icon`,
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.container } },
+            state: { press: `calcite-navigation-logo >>> .${CSS.container}` },
           },
         ],
         "--calcite-navigation-logo-heading-text-color": {
@@ -183,10 +186,13 @@ describe("calcite-navigation-logo", () => {
         },
       };
 
-      themed(navigationLogoHtml({
-        active: true,
-        link: true
-      }), tokens);
-    })
+      themed(
+        navigationLogoHtml({
+          active: true,
+          link: true,
+        }),
+        tokens,
+      );
+    });
   });
 });
