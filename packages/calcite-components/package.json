@@ -49,7 +49,7 @@
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "prepublish": "./support/cleanupDistFiles.sh",
-    "screenshot-tests": "npm run build-storybook",
+    "screenshot-tests": "npm run build-storybook --mode=dev",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",

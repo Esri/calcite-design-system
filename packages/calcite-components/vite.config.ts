@@ -6,7 +6,6 @@ import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
-import replace from "@rollup/plugin-replace";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
@@ -53,16 +52,6 @@ export default defineConfig({
         },
       },
     }),
-    process.env.NODE_ENV !== "test" &&
-      replace({
-        values: {
-          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
-          __CALCITE_REVISION__: execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim(),
-          __CALCITE_VERSION__: version,
-        },
-        include: ["src/utils/config.ts"],
-        preventAssignment: true,
-      }),
   ],
 
   css: {
@@ -95,6 +84,14 @@ export default defineConfig({
       ],
     },
   },
+
+  define: {
+    __CALCITE_BUILD_DATE__: JSON.stringify(new Date().toISOString().split("T")[0]),
+    __CALCITE_REVISION__: JSON.stringify(execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim()),
+    __CALCITE_VERSION__: JSON.stringify(version),
+    __STORYBOOK_SCREENSHOT_TEST_BUILD__: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD,
+  },
+
   test: {
     setupFiles: ["src/tests/setupTests.ts"],
     include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
