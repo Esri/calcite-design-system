@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.96](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.95...@esri/calcite-components@3.0.0-next.96) (2025-01-11)
+
+### Features
+
+- **navigation-logo:** enable interactive states only when href is specified ([#11202](https://github.com/Esri/calcite-design-system/issues/11202)) ([249a5fc](https://github.com/Esri/calcite-design-system/commit/249a5fcd543606c7d8d5c9100cf043d805ccfbb2))
+
+### Bug Fixes
+
+- **input:** update files property on input event when type="file" ([#11262](https://github.com/Esri/calcite-design-system/issues/11262)) ([eddf102](https://github.com/Esri/calcite-design-system/commit/eddf1024656b469ac725e05be800756daf9a7b83)), closes [#9581](https://github.com/Esri/calcite-design-system/issues/9581)
+
 ## [3.0.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.94...@esri/calcite-components@3.0.0-next.95) (2025-01-10)
 
 ### Features
