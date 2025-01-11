@@ -669,16 +669,15 @@ export class Input
     this.calciteInternalInputFocus.emit();
   }
 
-  private inputChangeHandler(): void {
-    if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
-    }
-  }
-
   private inputInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
+
     this.setValue({
       nativeEvent,
       origin: "user",
@@ -1121,7 +1120,6 @@ export class Input
           multiple={this.multiple}
           name={this.name}
           onBlur={this.inputBlurHandler}
-          onChange={this.inputChangeHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
           onKeyDown={this.inputKeyDownHandler}
