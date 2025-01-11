@@ -77,7 +77,7 @@ export class Icon extends LitElement {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    if (this.preload) {
+    if (this.preload || (import.meta.env.DEV && __STORYBOOK_SCREENSHOT_TEST_BUILD__)) {
       this.visible = true;
       this.loadIconPathData();
       return;

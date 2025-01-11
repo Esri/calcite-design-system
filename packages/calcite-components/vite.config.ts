@@ -89,6 +89,7 @@ export default defineConfig({
     __CALCITE_BUILD_DATE__: JSON.stringify(new Date().toISOString().split("T")[0]),
     __CALCITE_REVISION__: JSON.stringify(execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim()),
     __CALCITE_VERSION__: JSON.stringify(version),
+    __STORYBOOK_SCREENSHOT_TEST_BUILD__: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD,
   },
 
   test: {
