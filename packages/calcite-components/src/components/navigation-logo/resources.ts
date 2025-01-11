@@ -1,8 +1,9 @@
 export const CSS = {
   container: "container",
+  containerLink: "container--link",
+  textContainer: "text-container",
   heading: "heading",
   description: "description",
-  anchor: "anchor",
   image: "image",
   standalone: "standalone",
   icon: "icon",
