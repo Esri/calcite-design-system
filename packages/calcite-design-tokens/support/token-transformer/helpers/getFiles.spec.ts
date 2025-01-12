@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { getFiles } from "./getFiles.js";

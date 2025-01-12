@@ -258,7 +258,7 @@ export default tseslint.config(
       globals: {
         ...globals.builtin,
         ...globals.browser,
-        ...vitestPlugin.environments?.env.globals,
+        ...vitestPlugin.environments.env.globals,
       },
     },
   },

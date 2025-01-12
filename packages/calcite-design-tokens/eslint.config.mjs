@@ -3,7 +3,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import * as importPlugin from "eslint-plugin-import";
 import prettierConfig from "eslint-config-prettier";
-import jestPlugin from "eslint-plugin-jest";
+import vitestPlugin from "@vitest/eslint-plugin";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import unicornPlugin from "eslint-plugin-unicorn";
 import path from "node:path";
@@ -25,7 +25,7 @@ export default tseslint.config(
       eslint.configs.recommended,
       tseslint.configs.recommended,
       jsdocPlugin.configs["flat/recommended"],
-      jestPlugin.configs["flat/recommended"],
+      vitestPlugin.configs.recommended,
     ],
 
     plugins: {
@@ -36,7 +36,7 @@ export default tseslint.config(
 
     languageOptions: {
       globals: {
-        ...jestPlugin.environments.globals.globals,
+        ...vitestPlugin.environments.env.globals,
       },
 
       parser: tseslint.parser,
@@ -88,8 +88,7 @@ export default tseslint.config(
         },
       ],
 
-      "jest/expect-expect": "off",
-      "jest/no-export": "warn",
+      "vitest/expect-expect": "off",
 
       curly: "error",
       "lines-between-class-members": ["error", "always"],
