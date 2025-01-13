@@ -2,7 +2,6 @@ import { Reorder } from "./interfaces";
 
 export const CSS = {
   handle: "handle",
-  trigger: "trigger",
   dropdown: "dropdown",
 } as const;
 

@@ -23,8 +23,12 @@
   @apply flex bg-transparent cursor-pointer;
 }
 
+:host([drag-handle]) {
+  @apply cursor-move;
+}
+
 :host,
-button {
+.button {
   border-radius: var(
     --calcite-action-corner-radius,
     var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))

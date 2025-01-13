@@ -46,7 +46,7 @@ describe("calcite-sort-handle", () => {
     );
   });
 
-  it("disables pointer events on handle", async () => {
+  it("sets dragHandle on action", async () => {
     const page = await newE2EPage();
     const label = "Hello World";
     await page.setContent(
@@ -55,8 +55,7 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
 
     const handle = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
-    const handleStyle = await handle.getComputedStyle();
-    expect(handleStyle.getPropertyValue("pointer-events")).toEqual("none");
+    expect(await handle.getProperty("dragHandle")).toBe(true);
   });
 
   it("fires calciteSortHandleReorder event", async () => {

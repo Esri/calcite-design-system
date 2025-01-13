@@ -2,12 +2,7 @@
   @apply flex;
 }
 
-.trigger {
-  @apply flex cursor-move;
-}
-
 .handle {
-  @apply pointer-events-none;
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
   --calcite-action-text-color: var(--calcite-color-border-input);
 }

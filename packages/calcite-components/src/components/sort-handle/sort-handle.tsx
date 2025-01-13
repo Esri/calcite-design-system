@@ -271,18 +271,18 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
           scale={scale}
           widthScale={widthScale}
         >
-          <div class={CSS.trigger} slot="trigger">
-            <calcite-action
-              active={open}
-              appearance="transparent"
-              class={CSS.handle}
-              icon={disabled ? ICONS.blank : ICONS.drag}
-              label={text}
-              scale={scale}
-              text={text}
-              title={text}
-            />
-          </div>
+          <calcite-action
+            active={open}
+            appearance="transparent"
+            class={CSS.handle}
+            dragHandle
+            icon={disabled ? ICONS.blank : ICONS.drag}
+            label={text}
+            scale={scale}
+            slot="trigger"
+            text={text}
+            title={text}
+          />
           <calcite-dropdown-group
             groupTitle={messages.reorder}
             key="reorder"
