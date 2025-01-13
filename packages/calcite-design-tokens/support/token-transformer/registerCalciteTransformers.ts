@@ -1,6 +1,5 @@
 import { Core as StyleDictionary } from "style-dictionary";
 import { registerTransforms } from "@tokens-studio/sd-transforms";
-
 import { registerAttributePlatformNames } from "./styleDictionary/transformer/attributes/attributePlatformName.js";
 import { registerCustomJSONParser } from "./styleDictionary/parser/calcite/index.js";
 import { registerFilterSource } from "./styleDictionary/filter/filterSource.js";

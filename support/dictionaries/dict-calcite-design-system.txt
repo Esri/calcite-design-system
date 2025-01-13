@@ -19,6 +19,12 @@ t9nmanifest
 unslotted
 VDOM
 
+## eslint-plugin-import
+esmodule
+
+## eslint-plugin-calcite-components
+createelement
+
 ## events
 formdata
 
@@ -31,6 +37,7 @@ autofilled
 Bézier
 camelcase
 greeking
+greyscale
 lowercased
 Steffen
 signifiers
@@ -38,10 +45,19 @@ stringifying
 uppercased
 
 ## GIS
+ArcGIS
 ArcGISOnline
 basemap
 basemaps
 wkid
+
+## iso 8601
+YYYY
+MM
+DDTHH
+MM
+SS
+SSSZ
 
 # lorem-ipsum
 potenti
@@ -76,15 +92,20 @@ xsmall
 xxsmall
 
 ## style dictionary transforms for tokens studio
+Expandables
+buch
 demi
 dreiviertelfett
+letterspacing
 extrafett
 extraleicht
 extralight
 fett
 halbfett
+kraeftig
 kräftig
 leicht
+ultabold
 
 ## svg
 svgs
@@ -92,6 +113,21 @@ viewbox
 
 ## testing
 headful
+
+## time (meridiem)
+
+prijepodne
+popodne
+לפנה
+priešpiet
+popiet
+priekšpusdienā
+pēcpusdienā
+претпл
+попл
+manhã
+ก่อนเที
+หลังเที
 
 ## time zones
 
@@ -242,6 +278,7 @@ Jujuy
 Juneau
 Kentucky
 Monticello
+Kolkata
 Kralendijk
 La_Paz
 Lima
@@ -555,6 +592,7 @@ CLDR
 ### color
 hexa
 saturationv
+interactjs
 
 ### stylelint
 stylelintrc
