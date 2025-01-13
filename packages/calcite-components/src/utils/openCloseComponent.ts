@@ -9,21 +9,15 @@ export interface OpenCloseComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
-  /** When true, the component opens. */
-  open?: boolean;
-
-  /** When true, the component is open. */
-  opened?: boolean;
-
-  /** Specifies the name of transitionProp. */
-  transitionProp?: Extract<keyof CSSStyleDeclaration, string>;
-
   /**
    * Specifies property on which active transition is watched for.
    *
    * This should be used if the component uses a property other than `open` to trigger a transition.
    */
-  openTransitionProp?: string;
+  openProp?: string;
+
+  /** Specifies the name of transitionProp. */
+  transitionProp?: Extract<keyof CSSStyleDeclaration, string>;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
@@ -42,8 +36,7 @@ export interface OpenCloseComponent {
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
-  const openProp = component.openTransitionProp ? component[component.openTransitionProp] : "open";
-  return component[openProp];
+  return component[component.openProp || "open"];
 }
 
 /**
