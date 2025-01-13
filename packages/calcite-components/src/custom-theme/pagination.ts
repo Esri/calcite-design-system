@@ -5,8 +5,8 @@ export const paginationTokens = {
   calcitePaginationColorHover: "",
   calcitePaginationColorBorderHover: "",
   calcitePaginationColorBorderActive: "",
-  calcitePaginationColorBackground: "",
-  calcitePaginationChevronColorBackgroundHover: "",
+  calcitePaginationBackgroundColor: "",
+  calcitePaginationIconColorBackgroundHover: "",
 };
 
 export const pagination = html`<calcite-pagination
