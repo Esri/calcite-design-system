@@ -405,7 +405,7 @@ describe("calcite-pagination", () => {
           targetProp: "borderBlockEndColor",
           state: "hover",
         },
-        "--calcite-pagination-chevron-color-background-hover": {
+        "--calcite-pagination-icon-color-background-hover": {
           shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
           targetProp: "backgroundColor",
           state: "hover",
@@ -426,7 +426,7 @@ describe("calcite-pagination", () => {
             state: { press: { attribute: "class", value: `${CSS.page}` } },
           },
         ],
-        "--calcite-pagination-color-background": [
+        "--calcite-pagination-background-color": [
           {
             shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
             targetProp: "backgroundColor",

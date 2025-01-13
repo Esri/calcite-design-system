@@ -7,8 +7,8 @@
  * @prop --calcite-pagination-color-hover: Specifies the component's item color when hovered or selected.
  * @prop --calcite-pagination-color-border-hover: Specifies the component's item bottom border color when hovered.
  * @prop --calcite-pagination-color-border-active: Specifies the component's item bottom border color when selected.
- * @prop --calcite-pagination-color-background: Specifies the component's item background color when active.
- * @prop --calcite-pagination-chevron-color-background-hover: Specifies the component's chevron item background color when hovered.
+ * @prop --calcite-pagination-background-color: Specifies the component's item background color when active.
+ * @prop --calcite-pagination-icon-color-background-hover: Specifies the component's chevron item background color when hovered.
  */
 
 :host {
@@ -112,7 +112,7 @@
     border-block-end-color: var(--calcite-pagination-color-border-hover, var(--calcite-color-border-2));
   }
   &:active {
-    background-color: var(--calcite-pagination-color-background, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
   }
   &.selected {
     @apply font-medium;
@@ -129,10 +129,10 @@
 
 .chevron {
   &:hover {
-    background-color: var(--calcite-pagination-chevron-color-background-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-pagination-icon-color-background-hover, var(--calcite-color-foreground-2));
   }
   &:active {
-    background-color: var(--calcite-pagination-color-background, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
   }
   &.disabled {
     @apply pointer-events-none bg-transparent;
