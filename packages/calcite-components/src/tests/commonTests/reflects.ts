@@ -1,10 +1,7 @@
-import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
 import { skipAnimations } from "../utils";
 import { getTagAndPage, propToAttr } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper for asserting that a component reflects
