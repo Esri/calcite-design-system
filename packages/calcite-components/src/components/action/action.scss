@@ -21,10 +21,13 @@
 :host {
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
+  --calcite-internal-action-text-color: var(--calcite-color-text-3);
 }
 
 :host([drag-handle]) {
   @apply cursor-move;
+  --calcite-internal-action-text-color: var(--calcite-color-border-input);
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
 :host,
@@ -66,7 +69,7 @@
     font-sans;
 
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
   text-align: unset;
   flex: 1 0 auto;
   cursor: inherit;
