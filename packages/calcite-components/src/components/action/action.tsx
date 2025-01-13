@@ -76,7 +76,7 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property() icon: IconNameOrString;
+  @property({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
