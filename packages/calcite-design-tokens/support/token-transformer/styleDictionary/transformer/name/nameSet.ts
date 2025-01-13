@@ -1,11 +1,11 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
-
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
+import { createTokenReference } from "../../formatter/utils/createTokenReference.js";
+import { Platform } from "../../../../types/platform.js";
 import { transformNamesKebabCase } from "./nameKebabCase.js";
 import { transformNamesCamelCase } from "./nameCamelCase.js";
 import { transformNamesJoinPath } from "./nameJoinPath.js";
-import { createTokenReference } from "../../formatter/utils/createTokenReference.js";
-import { Platform } from "../../../../types/platform.js";
 
 export const transformNamesSet: CalledTransformerFunction<string> = (token, args) => {
   const {

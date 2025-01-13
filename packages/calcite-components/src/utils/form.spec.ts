@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, vi } from "vitest";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "./form";
 
@@ -57,7 +58,7 @@ describe("form", () => {
       formEl.id = formId;
       const form = formId;
       const el = document.createElement("div");
-      document.append(formEl, el);
+      document.body.append(formEl, el);
       const formOwner: FormOwner = { formEl, form, el };
 
       expect(findAssociatedForm(formOwner)).toBe(formEl);

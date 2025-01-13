@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
@@ -57,15 +58,23 @@ describe("dom", () => {
   }
 
   describe("setRequestedIcon()", () => {
-    it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
-        "myCustomValue",
-      ));
+    const iconObject = { exampleValue: "exampleReturnedValue" };
+    const matchedValue = "exampleValue";
 
-    it("returns the pre-defined icon name if custom value is not passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
-        "exampleReturnedValue",
-      ));
+    it("returns the custom icon name if custom value is passed", () =>
+      expect(setRequestedIcon(iconObject, "myCustomValue", matchedValue)).toBe("myCustomValue"));
+
+    it("returns the pre-defined icon name if custom value is true", () =>
+      expect(setRequestedIcon(iconObject, true, matchedValue)).toBe(iconObject[matchedValue]));
+
+    it("returns the pre-defined icon name if is an empty string", () =>
+      expect(setRequestedIcon(iconObject, "", matchedValue)).toBe(iconObject[matchedValue]));
+
+    it("returns undefined if custom value is undefined", () =>
+      expect(setRequestedIcon(iconObject, undefined, matchedValue)).toBe(undefined));
+
+    it("returns undefined if custom value is false", () =>
+      expect(setRequestedIcon(iconObject, false, matchedValue)).toBe(undefined));
   });
 
   describe("uniqueId", () => {
@@ -332,12 +341,8 @@ describe("dom", () => {
       const element = document.createElement("div");
       document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
-    });
 
-    it("should return false if element has no visible content", () => {
-      const element = document.createElement("div");
       element.innerHTML = "\n<!-- some comment -->\n";
-      document.body.append(element);
       expect(hasVisibleContent(element)).toBe(false);
     });
   });

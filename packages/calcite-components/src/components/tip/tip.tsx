@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";

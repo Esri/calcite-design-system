@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Color from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
@@ -37,7 +38,7 @@ export class ColorPickerSwatch extends LitElement {
   /**
    * The color value.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+   * @see [Color CSS data type](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).
    */
   @property() color: string | null;
 
@@ -188,7 +189,7 @@ export class ColorPickerSwatch extends LitElement {
     rx: string;
 
     // note: stroke-width and clip-path are needed to hide overflowing portion of stroke
-    // see https://stackoverflow.com/a/7273346/194216
+    // @see https://stackoverflow.com/a/7273346/194216
     stroke?: string;
     strokeWidth?: string;
 

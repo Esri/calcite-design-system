@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Platform } from "../../../../types/platform.js";
 import { PlatformOptions } from "../../../../types/styleDictionary/platform.js";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";

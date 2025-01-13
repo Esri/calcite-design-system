@@ -134,6 +134,41 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
   </div>
 `;
 
+export const customIcon = (): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete icon="banana"></calcite-autocomplete>
+  </div>
+`;
+
+export const noIcon = (): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete id="autocomplete"></calcite-autocomplete>
+  </div>
+  <script>
+    document.getElementById("autocomplete").icon = false;
+  </script>
+`;
+
+export const matchResults = (): string =>
+  html`<div style="width:350px; height: 600px;">
+    <calcite-autocomplete label="Item list" id="myAutocomplete" input-value="item" open>
+      <calcite-autocomplete-item-group heading="items">
+        <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+        <calcite-autocomplete-item
+          disabled
+          label="Item five"
+          value="five"
+          heading="Item five"
+        ></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Item six" value="six" heading="Item six"></calcite-autocomplete-item>
+        <calcite-autocomplete-item label="Item seven" value="seven" heading="Item seven"></calcite-autocomplete-item>
+      </calcite-autocomplete-item-group>
+    </calcite-autocomplete>
+  </div>`;
+
 const kitchenSinkHTML = html`
   <style>
     .container {

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, beforeEach } from "vitest";
 import {
   dateTimeFormatCache,

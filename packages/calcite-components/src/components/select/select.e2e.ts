@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -10,6 +11,7 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -435,6 +437,47 @@ describe("calcite-select", () => {
         // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
         // due to the context menu not being accessible in puppeteer
         changeValueKeys: ["t"],
+      },
+    );
+  });
+
+  describe("theme", () => {
+    themed(
+      html`
+        <calcite-select label="calcite select">
+          <calcite-option value="high">uno</calcite-option>
+          <calcite-option value="medium">dos</calcite-option>
+          <calcite-option value="low">tres</calcite-option>
+        </calcite-select>
+      `,
+      {
+        "--calcite-select-font-size": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "fontSize",
+        },
+        "--calcite-select-text-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "color",
+        },
+        "--calcite-select-border-color": [
+          {
+            shadowSelector: `.${CSS.select}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.iconContainer}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-select-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-select-icon-color-hover": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+          state: "hover",
+        },
       },
     );
   });

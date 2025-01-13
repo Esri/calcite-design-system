@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   calciteSpacingBase,
   calciteSpacingXxs,
@@ -86,7 +87,6 @@ export class DatePickerMonthHeader extends LitElement {
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages: DatePicker["messages"]["_overrides"];
 

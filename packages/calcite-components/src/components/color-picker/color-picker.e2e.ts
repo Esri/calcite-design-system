@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, afterAll, afterEach, beforeAll, beforeEach, vi, MockInstance } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
@@ -1646,6 +1647,7 @@ describe("calcite-color-picker", () => {
 
             it("allows modifying color via hex input", async () => {
               const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
+              // eslint-disable-next-line @cspell/spellchecker -- testing hex code
               await clearAndEnterHexOrChannelValue(page, hexInput, "abcf");
 
               expect(await picker.getProperty("value")).toBe("#aabbccff");

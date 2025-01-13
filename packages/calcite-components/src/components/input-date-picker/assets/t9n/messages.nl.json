@@ -1,4 +1,4 @@
 {
   "chooseDate": "Datum kiezen",
-  "dateFormat": "Datumindeling:"
+  "dateFormat": "Datumindeling: {format}"
 }

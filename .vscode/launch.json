@@ -59,10 +59,7 @@
       "name": "Design Tokens Spec Test {currentFile}",
       "cwd": "${workspaceFolder}/packages/calcite-design-tokens",
       "sourceMaps": true,
-      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand", "${file}"],
-      "env": {
-        "NODE_OPTIONS": "--experimental-vm-modules"
-      },
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/vitest/vitest.mjs", "${file}"],
       "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"

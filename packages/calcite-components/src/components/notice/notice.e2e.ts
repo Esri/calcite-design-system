@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
@@ -128,5 +128,58 @@ describe("calcite-notice", () => {
 
   describe("translation support", () => {
     t9n("calcite-notice");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-notice kind="danger" open closable>
+            <div slot="title">Title</div>
+            <div slot="message">Message</div>
+            <calcite-link slot="link" title="my action">Retry</calcite-link>
+          </calcite-notice>
+        `,
+        {
+          "--calcite-notice-background-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-notice-close-text-color": {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "color",
+          },
+          "--calcite-notice-close-text-color-hover": [
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "color",
+              state: "focus",
+            },
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "color",
+              state: "hover",
+            },
+          ],
+          "--calcite-notice-close-background-color-focus": [
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "backgroundColor",
+              state: "focus",
+            },
+            {
+              shadowSelector: `.${CSS.close}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+          ],
+          "--calcite-notice-close-background-color-press": {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.close } },
+          },
+        },
+      );
+    });
   });
 });

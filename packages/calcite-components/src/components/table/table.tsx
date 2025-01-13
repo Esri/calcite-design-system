@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
@@ -171,7 +172,8 @@ export class Table extends LitElement implements LoadableComponent {
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteChipSelectListener);
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
@@ -212,9 +214,15 @@ export class Table extends LitElement implements LoadableComponent {
     this.updateRows();
   }
 
-  private calciteChipSelectListener(event: CustomEvent): void {
+  private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
+    }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.updateSelectedItems(false);
     }
   }
 
