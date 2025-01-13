@@ -236,7 +236,7 @@ export class Combobox
     this.setFocus();
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 

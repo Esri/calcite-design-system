@@ -39,7 +39,8 @@ describe("openCloseComponent", () => {
       const fakeOpenCloseComponent = {
         el: document.createElement("div"),
         open: true,
-        openTransitionProp: "opacity",
+        transitionProp: "opacity" as const,
+        openTransitionProp: "open",
         transitionEl,
         onBeforeOpen: vi.fn(() => emittedEvents.push("beforeOpen")),
         onOpen: vi.fn(() => emittedEvents.push("open")),
@@ -50,10 +51,10 @@ describe("openCloseComponent", () => {
       onToggleOpenCloseComponent(fakeOpenCloseComponent);
       expect(emittedEvents).toEqual([]);
 
-      dispatchTransitionEvent(transitionEl, "transitionstart", fakeOpenCloseComponent.openTransitionProp);
+      dispatchTransitionEvent(transitionEl, "transitionstart", fakeOpenCloseComponent.transitionProp);
       expect(emittedEvents).toEqual(["beforeOpen"]);
 
-      dispatchTransitionEvent(transitionEl, "transitionend", fakeOpenCloseComponent.openTransitionProp);
+      dispatchTransitionEvent(transitionEl, "transitionend", fakeOpenCloseComponent.transitionProp);
       expect(emittedEvents).toEqual(["beforeOpen", "open"]);
 
       fakeOpenCloseComponent.open = false;
@@ -61,10 +62,10 @@ describe("openCloseComponent", () => {
       onToggleOpenCloseComponent(fakeOpenCloseComponent);
       expect(emittedEvents).toEqual(["beforeOpen", "open"]);
 
-      dispatchTransitionEvent(transitionEl, "transitionstart", fakeOpenCloseComponent.openTransitionProp);
+      dispatchTransitionEvent(transitionEl, "transitionstart", fakeOpenCloseComponent.transitionProp);
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
 
-      dispatchTransitionEvent(transitionEl, "transitionend", fakeOpenCloseComponent.openTransitionProp);
+      dispatchTransitionEvent(transitionEl, "transitionend", fakeOpenCloseComponent.transitionProp);
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
     });
   });

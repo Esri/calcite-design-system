@@ -55,7 +55,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private guid = `calcite-tooltip-${guid()}`;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
