@@ -34,7 +34,7 @@ module.exports = async ({ github, context, core }) => {
       };
 
       const issues = await github.paginate(github.rest.issues.listForRepo, {
-        // @ts-ignore milestone.number is valid: https://docs.github.com/en/rest/issues/issues#list-repository-issues--parameters
+        // @ts-expect-error milestone.number is valid: https://docs.github.com/en/rest/issues/issues#list-repository-issues--parameters
         milestone: milestone.number,
         owner: owner,
         repo: repo,
