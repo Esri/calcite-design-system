@@ -1,4 +1,6 @@
+import calciteCoreConfig from "@esri/eslint-config-calcite/core.js";
 import vitestPlugin from "@vitest/eslint-plugin";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -7,7 +9,7 @@ export default tseslint.config(
   },
 
   {
-    extends: [vitestPlugin.configs.recommended],
+    extends: [calciteCoreConfig, vitestPlugin.configs.recommended],
 
     languageOptions: {
       parserOptions: {
@@ -15,7 +17,9 @@ export default tseslint.config(
         project: ["tsconfig-eslint.json"],
       },
       globals: {
-        ...vitestPlugin.environments.env.globals,
+        ...globals.builtin,
+        ...globals.browser,
+        ...vitestPlugin.environments?.env.globals,
       },
     },
 
