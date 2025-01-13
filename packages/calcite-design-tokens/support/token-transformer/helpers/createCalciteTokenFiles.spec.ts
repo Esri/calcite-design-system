@@ -1,5 +1,6 @@
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
+import { describe, it, expect } from "vitest";
 import { ConfigOptions } from "../../types/config.js";
 import { createCalciteTokenFiles } from "./createCalciteTokenFiles.js";
 
