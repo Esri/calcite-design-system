@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import type { RequireExactlyOne } from "type-fest";
 import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -7,8 +7,6 @@ import { getTokenValue } from "../utils/cssTokenValues";
 import { skipAnimations, toElementHandle } from "../utils";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
-
-expect.extend(toHaveNoViolations);
 
 interface TargetInfo {
   el: E2EElement;
