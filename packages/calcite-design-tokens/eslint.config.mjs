@@ -1,6 +1,6 @@
 import calciteCoreConfig from "@esri/eslint-config-calcite/core.js";
-import prettierConfig from "eslint-config-prettier";
-import jestPlugin from "eslint-plugin-jest";
+import vitestPlugin from "@vitest/eslint-plugin";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -8,10 +8,8 @@ export default tseslint.config(
     ignores: ["**/dist"],
   },
 
-  prettierConfig,
-
   {
-    extends: [calciteCoreConfig, jestPlugin.configs["flat/recommended"]],
+    extends: [calciteCoreConfig, vitestPlugin.configs.recommended],
 
     languageOptions: {
       parserOptions: {
@@ -19,13 +17,20 @@ export default tseslint.config(
         project: ["tsconfig-eslint.json"],
       },
       globals: {
-        ...jestPlugin.environments.globals.globals,
+        ...globals.builtin,
+        ...globals.browser,
+        ...vitestPlugin.environments?.env.globals,
+      },
+    },
+
+    settings: {
+      vitest: {
+        typecheck: true,
       },
     },
 
     rules: {
-      "jest/expect-expect": "off",
-      "jest/no-export": "warn",
+      "vitest/expect-expect": "off",
       "lines-between-class-members": ["error", "always"],
     },
   },
