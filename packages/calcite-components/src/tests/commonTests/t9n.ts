@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import { LitElement, PublicLitElement } from "@arcgis/lumina";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
@@ -7,8 +7,6 @@ import { MessageBundle } from "../../utils/t9n";
 import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper to test t9n component setup.
