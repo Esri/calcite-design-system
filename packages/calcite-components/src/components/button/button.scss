@@ -9,7 +9,6 @@
  * @prop --calcite-button-loader-color: Specifies the component's loader color.
  * @prop --calcite-button-shadow-color: Specifies the component's box-shadow color.
  * @prop --calcite-button-text-color: Specifies the component's text color.
- * @prop --calcite-button-border-width: Specifies the component's border width.
  */
 
 :host {
@@ -553,13 +552,13 @@
 :host([appearance="transparent"]:not(.enable-editing-button)) {
   button,
   a {
-    --calcite-internal-button-background-color: var(--calcite-color-transparent);
+    background-color: var(--calcite-color-transparent);
     &:hover,
     &:focus {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
+      background-color: var(--calcite-color-transparent-hover);
     }
     &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-press);
+      background-color: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -611,6 +610,7 @@
 
 :host([appearance="transparent"][kind="neutral"].cancel-editing-button) {
   button {
+    --calcite-internal-button-text-color: var(--calcite-color-text-3);
     @apply text-color-3
       border-t-color-input
       border-b-color-input
@@ -623,7 +623,7 @@
     }
 
     &:hover {
-      @apply text-color-1;
+      --calcite-internal-button-text-color: var(--calcite-color-text-1);
     }
   }
 }
@@ -648,7 +648,7 @@
   button,
   a,
   calcite-loader {
-    @apply text-color-inverse;
+    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
   }
 }
 
