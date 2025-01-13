@@ -132,16 +132,19 @@ describe("calcite-menu-item", () => {
     describe("slotted submenu", () => {
       const tokens = (layout: Layout): ComponentTestTokens => {
         return {
-          "--calcite-menu-background-color": [{
-            selector: "calcite-menu-item",
-            shadowSelector: `calcite-action`,
-            targetProp: "--calcite-action-background-color-press",
-            state: { press: { attribute: "class", value: "dropdown-action" } },
-          }, {
-            selector: "calcite-menu-item",
-            shadowSelector: `calcite-action`,
-            targetProp: "--calcite-action-background-color",
-          }],
+          "--calcite-menu-background-color": [
+            {
+              selector: "calcite-menu-item",
+              shadowSelector: `calcite-action`,
+              targetProp: "--calcite-action-background-color-press",
+              state: { press: { attribute: "class", value: CSS.dropdownAction } },
+            },
+            {
+              selector: "calcite-menu-item",
+              shadowSelector: `calcite-action`,
+              targetProp: "--calcite-action-background-color",
+            },
+          ],
           "--calcite-menu-text-color": {
             selector: "calcite-menu-item",
             shadowSelector: `calcite-action`,
@@ -156,9 +159,9 @@ describe("calcite-menu-item", () => {
             selector: "calcite-menu-item",
             shadowSelector: `.${CSS.dropdownMenuItems}`,
             targetProp: layout === "horizontal" ? "borderColor" : "borderBlockColor",
-          }
+          },
         };
-      }
+      };
 
       describe("horizontal layout", () => {
         themed(menuWithSlottedSubmenuHTML("horizontal"), tokens("horizontal"));
@@ -187,7 +190,7 @@ describe("calcite-menu-item", () => {
             shadowSelector: ` .${CSS.content} `,
             targetProp: "color",
             state: { press: { attribute: "role", value: `menuitem` } },
-          }
+          },
         ],
         "--calcite-menu-background-color": [
           {
@@ -200,24 +203,26 @@ describe("calcite-menu-item", () => {
             shadowSelector: `.${CSS.content}`,
             targetProp: "backgroundColor",
             state: { press: { attribute: "role", value: `menuitem` } },
-          }],
-      }
+          },
+        ],
+      };
 
       describe("horizontal layout", () => {
         themed(menuHTML("horizontal"), {
-          ...tokens, "--calcite-menu-item-accent-color": {
+          ...tokens,
+          "--calcite-menu-item-accent-color": {
             selector: "calcite-menu-item",
             shadowSelector: `.${CSS.content}`,
             targetProp: "borderBlockEndColor",
             state: "hover",
           },
         });
-      })
+      });
 
       describe("vertical layout", () => {
         themed(menuHTML("vertical"), tokens);
       });
-    })
+    });
 
     describe("active", () => {
       const activeMenuItemHTML = (layout: Layout): string => html`
@@ -228,26 +233,28 @@ describe("calcite-menu-item", () => {
       const tokens = (layout: Layout): ComponentTestTokens => {
         const targetBorderProp = layout === "horizontal" ? "borderBlockEndColor" : "borderInlineEndColor";
         return {
-          "--calcite-menu-item-accent-color": [{
-            selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.content}`,
-            targetProp: targetBorderProp
-          },
-          {
-            selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.content}`,
-            targetProp: targetBorderProp,
-            state: "hover",
-          },]
-        }
+          "--calcite-menu-item-accent-color": [
+            {
+              selector: "calcite-menu-item",
+              shadowSelector: `.${CSS.content}`,
+              targetProp: targetBorderProp,
+            },
+            {
+              selector: "calcite-menu-item",
+              shadowSelector: `.${CSS.content}`,
+              targetProp: targetBorderProp,
+              state: "hover",
+            },
+          ],
+        };
       };
       describe("horizontal layout", () => {
         themed(activeMenuItemHTML("horizontal"), tokens("horizontal"));
-      })
+      });
 
       describe("vertical layout", () => {
         themed(activeMenuItemHTML("vertical"), tokens("vertical"));
-      })
+      });
     });
 
     describe("icons", () => {

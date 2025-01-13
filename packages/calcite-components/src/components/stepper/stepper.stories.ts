@@ -137,7 +137,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         heading="Set member properties"
         selected
       >
-        <calcite-notice open width="full"><div slot="message">Step 3 Constent Goes Here</div></calcite-notice>
+        <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
       <calcite-stepper-item
         heading="Confirm and complete"
