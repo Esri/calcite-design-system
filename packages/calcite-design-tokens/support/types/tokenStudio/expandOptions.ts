@@ -1,7 +1,7 @@
 import { SingleBorderToken, SingleBoxShadowToken, SingleCompositionToken } from "@tokens-studio/types";
 import { SingleColorSchemeToken } from "../tokenTypes/colorScheme.js";
-import { ExpandableTokenTypes, SingleToken } from "./designTokenTypes.js";
 import { SingleTypographyToken } from "../tokenTypes/typography.js";
+import { ExpandableTokenTypes, SingleToken } from "./designTokenTypes.js";
 
 export type ExpandOptions = {
   [ExpandableTokenTypes.TYPOGRAPHY]?: boolean | SingleTypographyToken;
@@ -22,8 +22,6 @@ export const expand: ExpandOptions = {
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;
 
-// This name comes from @token-studio/sd-transforms
-// eslint-disable-next-line @cspell/spellchecker
 export type Expandables =
   | SingleCompositionToken
   | SingleTypographyToken
@@ -31,12 +29,8 @@ export type Expandables =
   | SingleBoxShadowToken
   | SingleColorSchemeToken;
 
-// This name comes from @token-studio/sd-transforms
-// eslint-disable-next-line @cspell/spellchecker
 export declare const expandablesAsStringsArr: string[];
 
-// This name comes from @token-studio/sd-transforms
-// eslint-disable-next-line @cspell/spellchecker
 export type ExpandablesAsStrings = (typeof expandablesAsStringsArr)[number];
 export interface TransformOptions {
   expand?: ExpandOptions | false;

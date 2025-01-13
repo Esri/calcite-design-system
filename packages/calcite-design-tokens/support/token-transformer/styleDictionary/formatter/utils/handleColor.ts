@@ -28,6 +28,7 @@ export function handleColor(
             case "sass":
             case "es6":
               acc[contextKey] = handleStringValueTokens(alteredToken, dictionary, args);
+              break;
             default:
               break;
           }

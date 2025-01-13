@@ -24,6 +24,7 @@ module.exports = async ({ github, context }) => {
       github,
       context,
       label: package,
+      // eslint-disable-next-line @cspell/spellchecker -- hex color
       color: "BFBEAF",
       description: `Issues specific to the @esri/${package} package.`,
     });

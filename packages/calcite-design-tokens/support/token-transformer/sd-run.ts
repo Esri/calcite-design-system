@@ -1,17 +1,15 @@
+import { normalize, sep } from "path";
 import { default as StyleDictionary } from "style-dictionary";
-
-import { registerCalciteTransformers } from "./registerCalciteTransformers.js";
-import { filterSource } from "./styleDictionary/filter/filterSource.js";
 import { fileExtension } from "../types/fileExtensions.js";
 import { Platform, PlatformFormats, PlatformUnion, TypescriptPlatform } from "../types/platform.js";
-
 import { CalciteConfigStyleDictionaryRunner } from "../types/config.js";
 import { Options } from "../types/styleDictionary/options.js";
 import { PlatformOptions } from "../types/styleDictionary/platform.js";
 import { File } from "../types/styleDictionary/file.js";
+import { registerCalciteTransformers } from "./registerCalciteTransformers.js";
+import { filterSource } from "./styleDictionary/filter/filterSource.js";
 import { transformations } from "./styleDictionary/transformer/utils.js";
 import { format } from "./styleDictionary/formatter/utils.js";
-import { normalize, sep } from "path";
 
 const destination = (name: string, format: PlatformFormats) => `${name}${fileExtension[format]}`;
 
