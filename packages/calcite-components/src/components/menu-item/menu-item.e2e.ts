@@ -137,7 +137,7 @@ describe("calcite-menu-item", () => {
               selector: "calcite-menu-item",
               shadowSelector: `calcite-action`,
               targetProp: "--calcite-action-background-color-press",
-              state: { press: { attribute: "class", value: "dropdown-action" } },
+              state: { press: { attribute: "class", value: CSS.dropdownAction } },
             },
             {
               selector: "calcite-menu-item",

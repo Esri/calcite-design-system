@@ -174,7 +174,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 }
 
 /**
- * @deprecatd use FindSelector instead
+ * @deprecated use FindSelector instead
  */
 type ElementMatcher = { attribute: string; value: string };
 

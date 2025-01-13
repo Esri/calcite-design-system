@@ -17,7 +17,7 @@ export const parseTokenPath = (path: string[]): string[] => {
       case "default":
       case "semantic":
         continue;
-      default:
+      default: {
         const priorPathSection = parsedPath.pop();
 
         if (p.length > 0) {
@@ -40,6 +40,7 @@ export const parseTokenPath = (path: string[]): string[] => {
         }
 
         break;
+      }
     }
   }
   return parsedPath;
