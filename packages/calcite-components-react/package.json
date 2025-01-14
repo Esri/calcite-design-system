@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@esri/calcite-components": "3.0.0-next.100",
-    "@lit/react": "1.0.6"
+    "@lit/react": "1.0.7"
   },
   "peerDependencies": {
     "react": ">=18.3",
