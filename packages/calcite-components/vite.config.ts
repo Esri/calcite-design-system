@@ -48,7 +48,7 @@ export default defineConfig({
         waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
-          headless: process.env.HEADLESS === "false" ? false : undefined,
+          headless: process.env.HEADLESS === "true",
         },
       },
     }),
