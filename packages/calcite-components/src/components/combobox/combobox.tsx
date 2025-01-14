@@ -1679,6 +1679,7 @@ export class Combobox
   private renderListBoxOptions(): JsxNode {
     return this.filteredItems.map((item) => (
       <li
+        ariaLabel={item.label}
         ariaSelected={item.selected}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
