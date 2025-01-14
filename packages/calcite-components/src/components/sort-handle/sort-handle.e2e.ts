@@ -48,9 +48,8 @@ describe("calcite-sort-handle", () => {
 
   it("sets dragHandle on action", async () => {
     const page = await newE2EPage();
-    const label = "Hello World";
     await page.setContent(
-      `<calcite-sort-handle lang="en" label="${label}" set-position="4" set-size="10"></calcite-sort-handle>`,
+      `<calcite-sort-handle lang="en" label="Hello World" set-position="4" set-size="10"></calcite-sort-handle>`,
     );
     await page.waitForChanges();
 
