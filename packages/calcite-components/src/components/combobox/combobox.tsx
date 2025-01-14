@@ -1679,6 +1679,7 @@ export class Combobox
   private renderListBoxOptions(): JsxNode {
     return this.filteredItems.map((item) => (
       <li
+        ariaLabel={item.label}
         ariaSelected={item.selected}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
@@ -1784,7 +1785,7 @@ export class Combobox
                 this.renderAllSelectedIndicatorChipCompact(),
               ]}
             <label
-              class="screen-readers-only"
+              class={CSS.screenReadersOnly}
               htmlFor={`${inputUidPrefix}${guid}`}
               id={`${labelUidPrefix}${guid}`}
             >
@@ -1805,7 +1806,7 @@ export class Combobox
         <ul
           aria-labelledby={`${labelUidPrefix}${guid}`}
           ariaMultiSelectable="true"
-          class="screen-readers-only"
+          class={CSS.screenReadersOnly}
           id={`${listboxUidPrefix}${guid}`}
           role="listbox"
           tabIndex={-1}
