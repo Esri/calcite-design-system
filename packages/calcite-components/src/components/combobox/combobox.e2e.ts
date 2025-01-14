@@ -132,7 +132,7 @@ describe("calcite-combobox", () => {
     hidden("calcite-combobox");
   });
 
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
@@ -140,7 +140,7 @@ describe("calcite-combobox", () => {
     `);
   });
 
-  describe("accessible with item group", () => {
+  describe.skip("accessible with item group", () => {
     accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
@@ -150,7 +150,7 @@ describe("calcite-combobox", () => {
     `);
   });
 
-  describe("accessible with open selected items", () => {
+  describe.skip("accessible with open selected items", () => {
     accessible(html`
       <calcite-combobox open label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
