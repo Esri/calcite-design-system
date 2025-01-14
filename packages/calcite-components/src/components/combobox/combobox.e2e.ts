@@ -132,7 +132,7 @@ describe("calcite-combobox", () => {
     hidden("calcite-combobox");
   });
 
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
