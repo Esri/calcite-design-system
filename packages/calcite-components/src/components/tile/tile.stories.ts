@@ -957,6 +957,58 @@ export const contentTopButton_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
+export const contentTopFullWidth_TestOnly = (): string => html`
+  <style>
+    .slotted {
+      display: inline-flex;
+      justify-content: space-between;
+    }
+    .full-width {
+      inline-size: 100%;
+    }
+  </style>
+  <calcite-tile
+    icon="rangefinder"
+    heading="Field operator"
+    description="This role allows users in the field to create new Reports, and view and edit existing Reports and Attachments"
+  >
+    <div slot="content-top" class="slotted full-width">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+    <div slot="content-bottom" class="slotted">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+  </calcite-tile>
+`;
+
+export const contentBottomFullWidth_TestOnly = (): string => html`
+  <style>
+    .slotted {
+      display: inline-flex;
+      justify-content: space-between;
+    }
+    .full-width {
+      inline-size: 100%;
+    }
+  </style>
+  <calcite-tile
+    icon="rangefinder"
+    heading="Field operator"
+    description="This role allows users in the field to create new Reports, and view and edit existing Reports and Attachments"
+  >
+    <div slot="content-top" class="slotted">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+    <div slot="content-bottom" class="slotted full-width">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+  </calcite-tile>
+`;
+
 export const contentStartRTL_TestOnly = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-start" icon="polygon"></calcite-icon>
