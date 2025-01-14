@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.97...@esri/calcite-components@3.0.0-next.98) (2025-01-14)
+
+### Bug Fixes
+
+- **action:** reflect the icon property ([#11282](https://github.com/Esri/calcite-design-system/issues/11282)) ([42a4808](https://github.com/Esri/calcite-design-system/commit/42a4808fb267251a9d5c8ae64cf682e2503a9b5d)), closes [#11092](https://github.com/Esri/calcite-design-system/issues/11092)
+- **sort-handle:** Fix dragging in Firefox ([#11279](https://github.com/Esri/calcite-design-system/issues/11279)) ([d4c47d8](https://github.com/Esri/calcite-design-system/commit/d4c47d8c1fb50f006d1a4a7966161a2bda54b5d5)), closes [#11220](https://github.com/Esri/calcite-design-system/issues/11220)
+
 ## [3.0.0-next.97](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.96...@esri/calcite-components@3.0.0-next.97) (2025-01-14)
 
 ### Features
