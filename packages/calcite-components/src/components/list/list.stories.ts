@@ -4343,7 +4343,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-list-item>
   </calcite-list>
 
-  <h1>selection-mode="none" + selection-appearance="icon"</h1>
+  <h1>selection-mode="single-persist" + selection-appearance="border" + dir="rtl"</h1>
   <calcite-list
     class="calcite-mode-dark"
     label="RTL list"
