@@ -64,6 +64,10 @@
 
 :host([layout="vertical"]) {
   transform: rotate(-90deg);
+
+  .thumb .handle__label.hyphen::after {
+    margin-inline-start: 8px;
+  }
 }
 
 .container {
@@ -142,7 +146,7 @@
       content: "\2014";
       display: inline-block;
       inline-size: 1em;
-      margin-inline-start: 0.1875rem;
+      margin-inline-start: 3px;
     }
     &.hyphen--wrap {
       display: flex;

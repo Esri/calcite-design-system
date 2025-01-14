@@ -43,6 +43,7 @@ import { BigDecimal } from "../../utils/number";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { getTextWidth } from "../../utils/dom";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -322,7 +323,7 @@ export class Slider
   /** The component's value. */
   @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
-  /** The orientation of the slider */
+  /** Defines the layout of the component */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   // #endregion
@@ -969,10 +970,9 @@ export class Slider
   }
 
   private hyphenateVerticalCollidingRangeHandleLabels(): void {
-    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(
-      `.${CSS.thumbMinValue}`,
-    );
-    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(`.${CSS.thumbValue}`);
+    const { shadowRoot } = this.el;
+    const minHandle: HTMLDivElement | null = shadowRoot.querySelector(`.${CSS.thumbMinValue}`);
+    const maxHandle: HTMLDivElement | null = shadowRoot.querySelector(`.${CSS.thumbValue}`);
 
     if (!minHandle || !maxHandle) {
       return;
@@ -980,16 +980,14 @@ export class Slider
 
     const minHandleBounds = minHandle.getBoundingClientRect();
     const maxHandleBounds = maxHandle.getBoundingClientRect();
-    const { shadowRoot } = this.el;
-    const mirror = this.shouldMirror();
-    const leftModifier = mirror ? "value" : "minValue";
+    const leftModifier = this.shouldMirror() ? "value" : "minValue";
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${leftModifier}`,
     );
 
     if (intersects(minHandleBounds, maxHandleBounds)) {
       leftValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
-      const width = this.getStringWidth(
+      const width = getTextWidth(
         leftValueLabel.textContent,
         window.getComputedStyle(leftValueLabel)["font"],
       );
@@ -997,14 +995,6 @@ export class Slider
     } else {
       leftValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
     }
-  }
-
-  private getStringWidth(text: string, font: string): number {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context.font = font;
-    const metrics = context.measureText(text);
-    return metrics.width;
   }
 
   /** Hides bounding tick labels that are obscured by either handle. */
