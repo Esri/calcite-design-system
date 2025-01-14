@@ -1,4 +1,5 @@
-import { describe } from "vitest";
+import { describe, it, expect } from "vitest";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
@@ -45,5 +46,44 @@ describe("calcite-combobox-item", () => {
 
   describe("disabled", () => {
     disabled("calcite-combobox-item", { focusTarget: "none" });
+  });
+
+  it("should emit calciteInternalComboboxItemChange", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-combobox-item></calcite-combobox-item>");
+
+    const element = await page.find("calcite-combobox-item");
+
+    const eventSpy = await element.spyOnEvent("calciteInternalComboboxItemChange");
+
+    await page.waitForChanges();
+
+    expect(eventSpy).not.toHaveReceivedEvent();
+
+    element.setProperty("selected", true);
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    element.setProperty("textLabel", "hello");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    element.setProperty("heading", "hello");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(3);
+
+    element.setProperty("label", "hello");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(4);
+
+    element.setProperty("disabled", true);
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(5);
   });
 });
