@@ -577,6 +577,10 @@ export class ListItem
     }
 
     this.toggleSelected(event.shiftKey);
+
+    if (this.active && event.currentTarget === this.contentEl.value) {
+      this.containerEl.value.focus();
+    }
   }
 
   private async toggleSelected(shiftKey: boolean): Promise<void> {
@@ -970,7 +974,7 @@ export class ListItem
       <div
         ariaLabel={label}
         class={{
-          [CSS.gridCell]: true,
+          [CSS.gridCell]: this.el.shadowRoot.activeElement === this.contentEl.value && true,
           [CSS.contentContainer]: true,
           [CSS.contentContainerUnavailable]: unavailable,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
