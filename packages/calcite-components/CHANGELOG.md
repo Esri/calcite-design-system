@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.99](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.98...@esri/calcite-components@3.0.0-next.99) (2025-01-14)
+
+### Bug Fixes
+
+- **list-item:** fix selection indicator placement in RTL ([#11288](https://github.com/Esri/calcite-design-system/issues/11288)) ([5bed510](https://github.com/Esri/calcite-design-system/commit/5bed51027d6a7d9e5107303f5cd7604b973eb3af)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.97...@esri/calcite-components@3.0.0-next.98) (2025-01-14)
 
 ### Bug Fixes
