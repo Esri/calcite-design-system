@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.97](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.96...@esri/calcite-components@3.0.0-next.97) (2025-01-14)
+
+### Features
+
+- **pagination:** add component tokens ([#11157](https://github.com/Esri/calcite-design-system/issues/11157)) ([f3973c8](https://github.com/Esri/calcite-design-system/commit/f3973c84751a308cca184fce3b353118073d4684)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **tile:** allow percentage inline-size on slotted content to be based on host ([#11283](https://github.com/Esri/calcite-design-system/issues/11283)) ([94ab2a5](https://github.com/Esri/calcite-design-system/commit/94ab2a59c6312e68323ee9cee5514c6b009a7108)), closes [#11199](https://github.com/Esri/calcite-design-system/issues/11199) [/github.com/Esri/calcite-design-system/issues/11199#issuecomment-2587924216](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/11199/issues/issuecomment-2587924216)
+
+### Performance Improvements
+
+- **combobox:** fix initialization performance regression ([#11265](https://github.com/Esri/calcite-design-system/issues/11265)) ([a255c5a](https://github.com/Esri/calcite-design-system/commit/a255c5ad87b9fae9f0d9db463121ab5a0516a1a6)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.96](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.95...@esri/calcite-components@3.0.0-next.96) (2025-01-11)
 
 ### Features
