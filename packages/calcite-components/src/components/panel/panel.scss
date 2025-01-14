@@ -26,6 +26,15 @@
  * @prop --calcite-panel-content-space: [Deprecated] Use `--calcite-panel-space` instead. Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: [Deprecated] Use `--calcite-panel-footer-space` instead. Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] Use `--calcite-panel-border-color` instead. Specifies the component header's block end border.
+
+ * @prop --calcite-panel-header-action-menu-items-space: Specifies the space between actions in the header's action menu.
+ * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of the component's `calcite-action` items  in the panel header when hovered.
+ * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of the component's `calcite-action` items  in the panel header when pressed.
+ * @prop --calcite-panel-header-action-background-color: Specifies the background color of the component's `calcite-action` items  in the panel header.
+ * @prop --calcite-panel-header-action-corner-radius: Specifies the corner radius of the component's `calcite-action` items  in the panel header.
+ * @prop --calcite-panel-header-action-indicator-color: Specifies the color of the component's `calcite-action` items' indicator in the panel header.
+ * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of the component's `calcite-action` items in the panel header when pressed.
+ * @prop --calcite-panel-header-action-text-color: Specifies the text color of the component's `calcite-action` items in the panel header.
  */
 
 :host {
@@ -146,6 +155,26 @@
 
   margin-inline-end: auto;
   justify-content: center;
+
+  .header-actions {
+    --calcite-action-menu-items-space: var(--calcite-panel-header-action-menu-items-space, 0);
+    --calcite-action-background-color-hover: var(
+      --calcite-panel-header-action-background-color-hover,
+      var(--calcite-color-foreground-2)
+    );
+    --calcite-action-background-color-press: var(
+      --calcite-panel-header-action-background-color-press,
+      var(--calcite-color-foreground-3)
+    );
+    --calcite-action-background-color: var(
+      --calcite-panel-header-action-background-color,
+      var(--calcite-color-foreground-1)
+    );
+    --calcite-action-corner-radius: var(--calcite-panel-header-action-corner-radius, var(--calcite-corner-radius));
+    --calcite-action-indicator-color: var(--calcite-panel-header-action-indicator-color, var(--calcite-color-brand));
+    --calcite-action-text-color-press: var(--calcite-panel-header-action-text-color-press, var(--calcite-color-text-1))
+      --calcite-action-text-color: var(--calcite-panel-header-action-text-color, var(--calcite-color-text-3));
+  }
 
   .heading,
   .description {
