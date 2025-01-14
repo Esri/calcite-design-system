@@ -60,7 +60,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -617,7 +617,12 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant: string = null;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
+      item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
+    });
+
+    this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
       if (isActive) {
@@ -625,8 +630,6 @@ export class Autocomplete
       }
 
       item.active = isActive;
-      item.scale = this.scale;
-      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;
@@ -654,12 +657,6 @@ export class Autocomplete
     this.updateGroups();
   }
 
-  private getIcon(): IconNameOrString {
-    const { icon } = this;
-
-    return icon === true ? ICONS.search : icon || ICONS.search;
-  }
-
   private setReferenceEl(el: Input["el"]): void {
     this.referenceEl = el;
 
@@ -681,6 +678,8 @@ export class Autocomplete
 
     const { open, activeIndex, enabledItems } = this;
 
+    const activeItem = enabledItems.length && activeIndex > -1 ? enabledItems[activeIndex] : null;
+
     switch (key) {
       case "Escape":
         if (open) {
@@ -692,8 +691,8 @@ export class Autocomplete
         this.open = false;
         break;
       case "Enter":
-        if (open && activeIndex > -1) {
-          this.value = enabledItems[activeIndex].value;
+        if (open && activeItem) {
+          this.value = activeItem.value;
           this.emitChange();
           this.open = false;
           event.preventDefault();
@@ -704,30 +703,38 @@ export class Autocomplete
         }
         break;
       case "ArrowDown":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "Home":
-        this.open = true;
-        this.activeIndex = 0;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "End":
-        this.open = true;
-        this.activeIndex = enabledItems.length - 1;
-        this.scrollToActiveItem();
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
     }
   }
@@ -794,7 +801,7 @@ export class Autocomplete
             disabled={disabled}
             enterKeyHint={enterKeyHint}
             form={this.form}
-            icon={this.getIcon()}
+            icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
             inputMode={inputMode}

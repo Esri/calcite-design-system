@@ -8,18 +8,14 @@
   "schedule": ["before 5am every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
-    "@types/jest",
     "@types/node",
     "@types/react",
     "@types/react-dom",
-    "jest",
-    "jest-cli",
     "node",
     "npm",
     "puppeteer",
     "react",
     "react-dom",
-    "ts-jest",
     "typescript"
   ],
   "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
@@ -27,7 +23,15 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "followTag": "next"
+      "rangeStrategy": "bump"
+    },
+    {
+      "groupName": "CSpell",
+      "matchPackageNames": ["@cspell/**"]
+    },
+    {
+      "groupName": "Floating UI",
+      "matchPackageNames": ["@floating-ui/**"]
     },
     {
       "groupName": "ESLint",

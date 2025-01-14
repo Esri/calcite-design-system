@@ -493,7 +493,7 @@ describe("calcite-list-item", () => {
           "--calcite-list-background-color-press": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: CSS.content } },
+            state: { press: `calcite-list-item >>> .${CSS.content}` },
           },
           "--calcite-list-border-color": {
             shadowSelector: `.${CSS.contentContainerWrapper}`,

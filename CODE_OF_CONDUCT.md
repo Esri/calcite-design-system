@@ -27,7 +27,7 @@ Inappropriate/unacceptable behavior is anything hurtful that interferes with oth
 - Foul or obscene language
 - Stalking
 - Sharing graphic or derogatory pictures, drawings, or cartoons
-- _Ad hominem_ or personal attacks and insults
+- *Ad hominem* or personal attacks and insults
 - Unwanted or offensive letters or poems
 - Offensive email, voicemail messages, or social media postings
 - Personal threats

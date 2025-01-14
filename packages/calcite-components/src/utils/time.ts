@@ -310,6 +310,7 @@ interface LocalizeTimePartParameters {
   part: TimePart;
   locale: SupportedLocale;
   numberingSystem?: NumberingSystem;
+  hour12?: boolean;
 }
 
 export function localizeTimePart({
@@ -317,6 +318,7 @@ export function localizeTimePart({
   part,
   locale,
   numberingSystem = "latn",
+  hour12,
 }: LocalizeTimePartParameters): string {
   if (part === "fractionalSecond") {
     const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
@@ -358,7 +360,7 @@ export function localizeTimePart({
   if (!date) {
     return;
   }
-  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
+  const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
   const parts = formatter.formatToParts(date);
   return getLocalizedTimePart(part, parts);
 }
