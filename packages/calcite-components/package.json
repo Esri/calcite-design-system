@@ -52,7 +52,7 @@
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
-    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"if [ $(uname) = 'Darwin' ] || [ $(uname) = 'Linux' ]; then trap 'npm run util:clean-js-files' INT TERM EXIT; fi; tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
+    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
