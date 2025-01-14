@@ -731,6 +731,62 @@ describe("calcite-combobox", () => {
     });
   });
 
+  it("should update screen reader list items", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-combobox>
+        <calcite-combobox-item id="item-0" value="item-0"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+
+    const item = await page.find("calcite-combobox-item");
+    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(a11yItem).not.toBeNull();
+    expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
+    expect(await a11yItem.getProperty("ariaLabel")).toBe(null);
+    expect(await a11yItem.getProperty("textContent")).toBe("");
+
+    item.setProperty("selected", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
+
+    const label = "label";
+    item.setProperty("label", label);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
+
+    const textLabel = "textLabel";
+    item.setProperty("textLabel", textLabel);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(await a11yItem.getProperty("textContent")).toBe(textLabel);
+
+    const heading = "heading";
+    item.setProperty("heading", heading);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(await a11yItem.getProperty("textContent")).toBe(heading);
+
+    item.setProperty("disabled", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+
+    expect(a11yItem).toBeNull();
+  });
+
   it("should control max items displayed", async () => {
     const maxItems = 7;
     const page = await newE2EPage();
