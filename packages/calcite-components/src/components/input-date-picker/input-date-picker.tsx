@@ -435,10 +435,6 @@ export class InputDatePicker
       useGrouping: false,
     };
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
