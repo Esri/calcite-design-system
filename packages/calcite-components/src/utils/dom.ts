@@ -618,19 +618,12 @@ export async function whenTransitionDone(
 type TransitionOrAnimation = "transition" | "animation";
 type TransitionOrAnimationInstance = CSSTransition | Animation;
 
-const activeAnimationsFinishPromises = new WeakMap<Animation, Promise<void>>();
-
 async function triggerFallbackStartEnd(start: () => void, end: () => void): Promise<void> {
   // offset callbacks by a frame to simulate event counterparts
   await nextFrame();
   start?.();
 
   await nextFrame();
-  end?.();
-}
-
-function triggerEndActionAndClearAnim(animation: Animation, end: () => void): void {
-  activeAnimationsFinishPromises.delete(animation);
   end?.();
 }
 
@@ -673,20 +666,15 @@ export async function whenTransitionOrAnimationDone(
     return triggerFallbackStartEnd(onStart, onEnd);
   }
 
-  if (activeAnimationsFinishPromises.has(anim)) {
-    return activeAnimationsFinishPromises.get(anim);
-  }
-
   onStart?.();
-  activeAnimationsFinishPromises.set(
-    anim,
-    anim.finished
-      .then(() => {})
-      .catch(() => {
-        // swallow error if canceled
-      })
-      .finally(() => triggerEndActionAndClearAnim(anim, onEnd)),
-  );
+
+  try {
+    await anim.finished;
+  } catch {
+    // swallow error if canceled
+  } finally {
+    onEnd?.();
+  }
 }
 
 function nextFrame(): Promise<void> {
