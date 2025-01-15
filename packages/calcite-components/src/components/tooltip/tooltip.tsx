@@ -174,15 +174,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   override connectedCallback(): void {
     this.setUpReferenceElement(true);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  load(): void {
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
