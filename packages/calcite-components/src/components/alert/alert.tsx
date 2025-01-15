@@ -219,9 +219,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
