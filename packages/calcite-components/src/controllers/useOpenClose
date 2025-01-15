@@ -1,0 +1,14 @@
+import { makeGenericController } from "@arcgis/components-controllers";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../utils/openCloseComponent";
+
+export interface UseOpenClose {
+  afterToggle: () => void;
+}
+
+export const useOpenClose = makeGenericController<UseOpenClose, OpenCloseComponent>((component, controller) => {
+  return {
+    afterToggle: () => {
+      onToggleOpenCloseComponent(component);
+    },
+  };
+});

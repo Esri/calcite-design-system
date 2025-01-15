@@ -341,9 +341,6 @@ export class Popover
       this.setUpReferenceElement();
     }
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
     this.hasLoaded = true;
   }
 

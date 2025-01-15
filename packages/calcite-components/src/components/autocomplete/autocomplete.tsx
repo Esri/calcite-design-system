@@ -421,24 +421,13 @@ export class Autocomplete
     connectLabel(this);
     connectForm(this);
     this.defaultInputValue = this.inputValue || "";
-
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

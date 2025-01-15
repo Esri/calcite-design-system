@@ -195,10 +195,6 @@ export class Block
   load(): void {
     setUpLoadableComponent(this);
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-
     if (!this.heading && !this.label) {
       logger.warn(
         `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,

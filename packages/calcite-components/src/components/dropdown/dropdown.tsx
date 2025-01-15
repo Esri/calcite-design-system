@@ -236,10 +236,6 @@ export class Dropdown
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
     this.updateItems();
     connectFloatingUI(this);
   }
