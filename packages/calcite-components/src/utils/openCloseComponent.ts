@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { KebabCase } from "type-fest";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -9,17 +10,15 @@ export interface OpenCloseComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
-  /** When true, the component opens. */
-  open?: boolean;
+  /**
+   * Specifies property on which active transition is watched for.
+   *
+   * This should be used if the component uses a property other than `open` to trigger a transition.
+   */
+  openProp?: string;
 
-  /** When true, the component is open. */
-  opened?: boolean;
-
-  /** Specifies the name of transitionProp. */
-  transitionProp?: string;
-
-  /** Specifies property on which active transition is watched for. */
-  openTransitionProp: string;
+  /** Specifies the name of CSS transition property. */
+  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
@@ -38,7 +37,7 @@ export interface OpenCloseComponent {
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
-  return "opened" in component ? component.opened : component.open;
+  return component[component.openProp || "open"];
 }
 
 /**
@@ -67,7 +66,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
 
     whenTransitionDone(
       component.transitionEl,
-      component.openTransitionProp,
+      component.transitionProp,
       () => {
         if (isOpen(component)) {
           component.onBeforeOpen();
