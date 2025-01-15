@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { KebabCase } from "type-fest";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -17,7 +18,7 @@ export interface OpenCloseComponent {
   openProp?: string;
 
   /** Specifies the name of transitionProp. */
-  transitionProp?: Extract<keyof CSSStyleDeclaration, string>;
+  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
