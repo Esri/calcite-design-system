@@ -1,3 +1,5 @@
+// @ts-check
+
 // If the "calcite-ui-icons" label is added to an issue, generates a notification to the Icons team leads to review
 // The secret is formatted like so: icon-team-member-1, icon-team-member-2, icon-team-member-3
 // Note the script automatically adds the "@" character in to notify the icon team lead(s)
@@ -11,10 +13,10 @@ module.exports = async ({ github, context }) => {
     issue: { number },
   } = payload;
 
-  const { ICON_LEADS } = process.env;
+  const { ICONS_TEAM } = process.env;
 
   // Add a "@" character to notify the user
-  const icon_leads = ICON_LEADS?.split(",").map((v) => " @" + v.trim());
+  const icon_leads = ICONS_TEAM?.split(",").map((v) => " @" + v.trim());
 
   if (!icon_leads?.length) {
     console.error("unable to determine icon leads");
