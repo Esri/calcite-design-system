@@ -987,10 +987,10 @@ export class Slider
 
     if (intersects(minHandleBounds, maxHandleBounds)) {
       leftValueLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
-      const width = getTextWidth(
-        leftValueLabel.textContent,
-        window.getComputedStyle(leftValueLabel)["font"],
-      );
+      const computedStyle = getComputedStyle(leftValueLabel);
+      // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
+      const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
+      const width = getTextWidth(leftValueLabel.textContent, shorthandFont);
       leftValueLabel.style.transform = `translateY(-${width / 2 - 4}px) rotate(90deg)`;
     } else {
       leftValueLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
