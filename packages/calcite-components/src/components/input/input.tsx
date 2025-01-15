@@ -297,7 +297,8 @@ export class Input
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -669,16 +670,15 @@ export class Input
     this.calciteInternalInputFocus.emit();
   }
 
-  private inputChangeHandler(): void {
-    if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
-    }
-  }
-
   private inputInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
+
     this.setValue({
       nativeEvent,
       origin: "user",
@@ -1082,6 +1082,7 @@ export class Input
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
+          // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
@@ -1120,10 +1121,10 @@ export class Input
           multiple={this.multiple}
           name={this.name}
           onBlur={this.inputBlurHandler}
-          onChange={this.inputChangeHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
           onKeyDown={this.inputKeyDownHandler}
+          // eslint-disable-next-line react/forbid-component-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}

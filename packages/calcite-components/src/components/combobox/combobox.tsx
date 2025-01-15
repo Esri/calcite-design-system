@@ -134,7 +134,11 @@ export class Combobox
       item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text, this.effectiveFilterProps);
+      const filteredData = filter(
+        [...this.data, ...this.groupData],
+        text,
+        this.effectiveFilterProps,
+      );
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
@@ -232,7 +236,7 @@ export class Combobox
     this.setFocus();
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -551,7 +555,6 @@ export class Combobox
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
-    this.updateItems();
     this.setFilteredPlacements();
 
     if (this.open) {
@@ -564,7 +567,6 @@ export class Combobox
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
 
@@ -592,10 +594,7 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
-    ) {
+    if (changes.has("selectionMode") || changes.has("scale")) {
       this.updateItems();
     }
 
@@ -1233,7 +1232,7 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems(): void {
+  private updateItems = debounce((): void => {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
@@ -1264,7 +1263,7 @@ export class Combobox
         nextGroupItem.afterEmptyGroup = groupItem.children.length === 0;
       }
     });
-  }
+  }, DEBOUNCE.nextTick);
 
   private getData(): ItemData[] {
     return this.items.map((item) => ({
@@ -1680,6 +1679,7 @@ export class Combobox
   private renderListBoxOptions(): JsxNode {
     return this.filteredItems.map((item) => (
       <li
+        ariaLabel={item.label}
         ariaSelected={item.selected}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
@@ -1785,7 +1785,7 @@ export class Combobox
                 this.renderAllSelectedIndicatorChipCompact(),
               ]}
             <label
-              class="screen-readers-only"
+              class={CSS.screenReadersOnly}
               htmlFor={`${inputUidPrefix}${guid}`}
               id={`${labelUidPrefix}${guid}`}
             >
@@ -1806,7 +1806,7 @@ export class Combobox
         <ul
           aria-labelledby={`${labelUidPrefix}${guid}`}
           ariaMultiSelectable="true"
-          class="screen-readers-only"
+          class={CSS.screenReadersOnly}
           id={`${listboxUidPrefix}${guid}`}
           role="listbox"
           tabIndex={-1}

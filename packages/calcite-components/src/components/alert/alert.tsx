@@ -69,7 +69,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private lastMouseOverBegin: number;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private totalHoverTime = 0;
 

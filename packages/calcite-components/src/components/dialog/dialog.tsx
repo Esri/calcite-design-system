@@ -99,7 +99,9 @@ export class Dialog
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private panelEl = createRef<Panel["el"]>();
 

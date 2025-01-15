@@ -993,6 +993,7 @@ export class InputNumber
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
+        // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}

@@ -86,7 +86,7 @@ export default {
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
-const listHTML = (): string => html` selection-mode="none" selection-appearance="icon" label="My List" `;
+const listAttributes = (): string => html` selection-mode="none" selection-appearance="icon" label="My List" `;
 
 export const simple = (args: ListStoryArgs): string => html`
   <calcite-list
@@ -3965,7 +3965,7 @@ export const scales = (): string => html`
 `;
 
 export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
-  <calcite-list ${listHTML()}>
+  <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
   <calcite-list>
@@ -3974,7 +3974,7 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
 `;
 
 export const stretchSlottedContent = (): string => html`
-  <calcite-list ${listHTML()}>
+  <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description.">
       <calcite-handle slot="actions-start"></calcite-handle>
       <calcite-action
@@ -4002,7 +4002,7 @@ export const stretchSlottedContent = (): string => html`
 `;
 
 export const nestedItems = (): string => html`
-  <calcite-list display-mode="nested" ${listHTML()}>
+  <calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item
       open
       label="Level 1 item 1"
@@ -4080,7 +4080,7 @@ nestedItems.parameters = {
 };
 
 export const groupedItems = (): string => html`
-  <calcite-list display-mode="nested" ${listHTML()}>
+  <calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item-group heading="Nested">
       <calcite-list-item
         open
@@ -4131,7 +4131,7 @@ groupedItems.parameters = {
 };
 
 export const startAndEndContentSlots = (): string =>
-  html`<calcite-list ${listHTML()}>
+  html`<calcite-list ${listAttributes()}>
     <calcite-list-item>
       <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
       <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
@@ -4168,7 +4168,7 @@ export const startAndEndContentSlots = (): string =>
   </calcite-list> `;
 
 export const contentBottomSlots = (): string =>
-  html`<calcite-list ${listHTML()}>
+  html`<calcite-list ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
     </calcite-list-item>
@@ -4184,7 +4184,7 @@ export const contentBottomSlots = (): string =>
   </calcite-list> `;
 
 export const contentBottomSlotsNested = (): string =>
-  html`<calcite-list display-mode="nested" ${listHTML()}>
+  html`<calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
       <calcite-list display-mode="nested"
@@ -4201,7 +4201,7 @@ export const contentBottomSlotsNested = (): string =>
   </calcite-list> `;
 
 export const richContent = (): string => html`
-  <calcite-list ${listHTML()}>
+  <calcite-list ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -4300,7 +4300,8 @@ export const filterEnabledWithHiddenItems = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-list class="calcite-mode-dark" dir="rtl" ${listHTML()}>
+  <h1>selection-mode="none" + selection-appearance="icon"</h1>
+  <calcite-list class="calcite-mode-dark" dir="rtl" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -4340,6 +4341,18 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
+  </calcite-list>
+
+  <h1>selection-mode="single-persist" + selection-appearance="border" + dir="rtl"</h1>
+  <calcite-list
+    class="calcite-mode-dark"
+    label="RTL list"
+    selection-appearance="border"
+    selection-mode="single-persist"
+    dir="rtl"
+  >
+    <calcite-list-item label="My first list item" selected>First </calcite-list-item>
+    <calcite-list-item label="My second list item">Second </calcite-list-item>
   </calcite-list>
 `;
 

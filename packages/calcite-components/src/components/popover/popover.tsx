@@ -95,7 +95,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 

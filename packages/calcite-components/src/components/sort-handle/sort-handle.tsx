@@ -63,7 +63,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -276,6 +275,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             active={open}
             appearance="transparent"
             class={CSS.handle}
+            dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale={scale}

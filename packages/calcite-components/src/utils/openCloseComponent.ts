@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { KebabCase } from "type-fest";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -18,14 +19,15 @@ export interface OpenCloseComponent {
   /** When true, the component is expanded. */
   expanded?: boolean;
 
-  /** When true, the component opens. */
-  open?: boolean;
+  /**
+   * Specifies property on which active transition is watched for.
+   *
+   * This should be used if the component uses a property other than `open` to trigger a transition.
+   */
+  openProp?: string;
 
-  /** When true, the component is open. */
-  opened?: boolean;
-
-  /** The name of the transition to watch for completion. */
-  transitionProp?: string;
+  /** Specifies the name of CSS transition property. */
+  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
@@ -55,19 +57,8 @@ export interface OpenCloseComponent {
   onCollapsed?: () => void;
 }
 
-function isOpenOrExpanded(component: OpenCloseComponent): boolean {
-  switch (true) {
-    case "expanded" in component:
-      return component.expanded;
-    case "opened" in component || "open" in component:
-      return component.open;
-    case "collapsed" in component:
-      return component.collapsed;
-    case "closed" in component:
-      return component.closed;
-    default:
-      return false;
-  }
+function isOpen(component: OpenCloseComponent): boolean {
+  return component[component.openProp || "open"];
 }
 
 /**
@@ -98,39 +89,17 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
       component.transitionEl,
       component.transitionProp,
       () => {
-        if (isOpenOrExpanded(component)) {
-          switch (true) {
-            case component.expanded:
-              component.onBeforeExpanded();
-              break;
-            case component.open:
-              component.onBeforeOpen();
-              break;
-            case component.collapsed || (component.expanded !== undefined && !component.expanded):
-              component.onBeforeCollapsed();
-              break;
-            case component.closed || (component.open !== undefined && !component.open):
-              component.onBeforeClose();
-              break;
-          }
+        if (isOpen(component)) {
+          component.onBeforeOpen();
+        } else {
+          component.onBeforeClose();
         }
       },
       () => {
-        if (isOpenOrExpanded(component)) {
-          switch (true) {
-            case component.expanded:
-              component.onExpanded();
-              break;
-            case component.open:
-              component.onOpen();
-              break;
-            case component.collapsed || (component.expanded !== undefined && !component.expanded):
-              component.onCollapsed();
-              break;
-            case component.closed || (component.open !== undefined && !component.open):
-              component.onClose();
-              break;
-          }
+        if (isOpen(component)) {
+          component.onOpen();
+        } else {
+          component.onClose();
         }
       },
     );
