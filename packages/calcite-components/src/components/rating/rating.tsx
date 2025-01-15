@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -34,7 +35,7 @@ import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/rating.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
 import { IDS } from "./resources";
@@ -350,7 +351,7 @@ export class Rating
   }
 
   private handleLabelClick(event: Event) {
-    //preventing pointerdown event will supress any compatability mouse events except for click event.
+    //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
 

@@ -1,4 +1,4 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -67,6 +67,10 @@ describe("calcite-list", () => {
       {
         propertyName: "filterEnabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "filterPredicate",
+        defaultValue: undefined,
       },
       {
         propertyName: "filteredData",
@@ -642,6 +646,84 @@ describe("calcite-list", () => {
       }
     });
 
+    it("updating items after filtering with filterPredicate property", async () => {
+      const allValue = "all";
+      const matchingFont = "Courier";
+
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="">
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+
+      const list = await page.find("calcite-list");
+
+      await page.$eval(
+        "calcite-list",
+        (list: List["el"], allValue) => {
+          list.filterPredicate = (item) => {
+            if (list.filterText === allValue) {
+              return true;
+            }
+
+            return item.value === "item2";
+          };
+        },
+        allValue,
+      );
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems).toHaveLength(1);
+      expect(await visibleItems[0].getProperty("value")).toBe("item2");
+
+      list.setProperty("filterText", allValue);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      expect(visibleItems).toHaveLength(3);
+
+      for (const item of visibleItems) {
+        expect(await item.getProperty("description")).toBe("list1");
+      }
+    });
+
+    it("filterPredicate will work without filterEnabled", async () => {
+      const matchingFont = "Courier";
+
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list>
+          <calcite-list-item value="item1" label="${matchingFont}" description="list1"></calcite-list-item>
+          <calcite-list-item value="item2" label="${matchingFont} 2" description="list1"></calcite-list-item>
+          <calcite-list-item value="item3" label="Other Font" description="list1"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+
+      await page.$eval("calcite-list", (list: List["el"]) => {
+        list.filterPredicate = (item) => {
+          return item.value === "item2";
+        };
+      });
+
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+
+      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+      expect(visibleItems).toHaveLength(1);
+      expect(await visibleItems[0].getProperty("value")).toBe("item2");
+    });
+
     it("filters initially", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
@@ -685,7 +767,7 @@ describe("calcite-list", () => {
       expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
     });
 
-    it("filters initially with filterProps", async () => {
+    it("supports filterProps", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-list filter-enabled filter-text="match">
@@ -1231,8 +1313,26 @@ describe("calcite-list", () => {
                   slot="actions-end"
                 ></calcite-action
               ></calcite-list-item>
+              <calcite-list-item id="three" value="three" label="Three" description="hello world">
+                <calcite-action
+                  appearance="transparent"
+                  icon="ellipsis"
+                  text="menu"
+                  label="menu"
+                  slot="actions-end"
+                ></calcite-action
+              ></calcite-list-item>
             </calcite-list>
           </calcite-list-item>
+          <calcite-list-item id="four" value="four" label="Four" description="hello world">
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="actions-end"
+            ></calcite-action
+          ></calcite-list-item>
         </calcite-list>
       `);
       await page.waitForChanges();
@@ -1775,6 +1875,114 @@ describe("calcite-list", () => {
     });
   });
 
+  describe("group filtering", () => {
+    it.skip("should include groups while filtering", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-placeholder="typing 'recreation' should show 1st group with all items">
+          <calcite-list-item-group heading="Outdoor recreation" id="recreation">
+            <calcite-list-item
+              label="Hiking trails"
+              description="Designated routes for hikers to use."
+              value="hiking-trails"
+            ></calcite-list-item>
+            <calcite-list-item
+              label="Waterfalls"
+              description="Vertical drops from a river."
+              value="waterfalls"
+            ></calcite-list-item>
+            <calcite-list-item-group heading="Beaches" id="beaches">
+              <calcite-list-item label="Surfing" description="Surfing" value="Surfing"></calcite-list-item>
+              <calcite-list-item label="Paragliding" description="Paragliding" value="Paragliding"></calcite-list-item>
+              <calcite-list-item-group heading="Underwater" id="underwater">
+                <calcite-list-item label="Snorkeling" description="Snorkeling" value="Snorkeling"></calcite-list-item>
+                <calcite-list-item
+                  label="Scuba diving"
+                  description="Scuba diving"
+                  value="Scuba diving"
+                ></calcite-list-item>
+              </calcite-list-item-group>
+            </calcite-list-item-group>
+          </calcite-list-item-group>
+          <calcite-list-item-group heading="Buildings" id="buildings">
+            <calcite-list-item
+              label="Park offices"
+              description="Home base for park staff to converse with visitors."
+              value="offices"
+            ></calcite-list-item>
+            <calcite-list-item
+              label="Guest lodges"
+              description="Small houses available for visitors to book for stays."
+              value="lodges"
+            ></calcite-list-item>
+          </calcite-list-item-group>
+        </calcite-list>
+      `);
+
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      const list = await page.find("calcite-list");
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+      expect(await list.getProperty("filteredItems")).toHaveLength(8);
+
+      const group1 = await page.find("#recreation");
+      const group2 = await page.find("#buildings");
+      const group3 = await page.find("#beaches");
+      const group4 = await page.find("#underwater");
+
+      await page.keyboard.type("Bui");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filterText")).toBe("Bui");
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+
+      expect(await group1.isVisible()).toBe(false);
+      await assertDescendantItems(page, "#recreation", false);
+      expect(await group2.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#buildings`, true);
+      expect(await group3.isVisible()).toBe(false);
+      await assertDescendantItems(page, `#beaches`, false);
+      expect(await group4.isVisible()).toBe(false);
+      await assertDescendantItems(page, `#underwater`, false);
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filterText")).toBe("");
+      expect(await list.getProperty("filteredItems")).toHaveLength(8);
+
+      expect(await group1.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#recreation", true);
+      expect(await group2.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#buildings", true);
+      expect(await group3.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#beaches", true);
+      expect(await group4.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#underwater`, true);
+
+      await page.keyboard.type("Bea");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filterText")).toBe("Bea");
+      expect(await list.getProperty("filteredItems")).toHaveLength(4);
+
+      expect(await group1.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#recreation", false);
+      expect(await group2.isVisible()).toBe(false);
+      await assertDescendantItems(page, "#buildings", false);
+      expect(await group3.isVisible()).toBe(true);
+      await assertDescendantItems(page, "#beaches", true);
+      expect(await group4.isVisible()).toBe(true);
+      await assertDescendantItems(page, `#underwater`, true);
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.filter);
+      expect(await list.getProperty("filterText")).toBe("Be");
+      expect(await list.getProperty("filteredItems")).toHaveLength(4);
+    });
+  });
+
   describe("themed", () => {
     describe("default", () => {
       themed(html`calcite-list`, {
@@ -1785,4 +1993,9 @@ describe("calcite-list", () => {
       });
     });
   });
+
+  async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
+    const items = await page.findAll(`calcite-list-item-group${groupSelector} > calcite-list-item`);
+    items.forEach(async (item: E2EElement) => expect(await item.isVisible()).toBe(visibility));
+  }
 });

@@ -32,6 +32,8 @@ calcite-link {
   color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
+  padding: var(--calcite-internal-tile-spacing);
+  position: relative;
   user-select: none;
 
   .selection-icon {
@@ -45,17 +47,15 @@ calcite-link {
     &:focus,
     &.selected {
       outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
-      position: relative;
+      z-index: var(--calcite-z-index);
+
       .selection-icon {
         color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       }
     }
-    &.selected {
-      z-index: var(--calcite-z-index);
-    }
     &:focus {
       box-shadow: inset 0 0 0 1px var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
-      z-index: var(--calcite-z-index-sticky);
+      z-index: calc(var(--calcite-z-index) + 1);
     }
   }
 }
@@ -68,6 +68,8 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
+  @include word-break();
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .text-content-container {
@@ -100,11 +102,19 @@ calcite-link {
   min-block-size: 12rem;
   text-align: center;
 
-  calcite-icon {
+  .icon {
     align-self: center;
     block-size: 64px;
     inline-size: 64px;
   }
+
+  .selection-icon {
+    position: absolute;
+    inset-inline-start: var(--calcite-internal-tile-spacing);
+    inset-block-start: var(--calcite-internal-tile-spacing);
+    z-index: var(--calcite-z-index);
+  }
+
   .text-content-container {
     justify-content: center;
   }
@@ -124,15 +134,10 @@ calcite-link {
 }
 
 :host([scale="s"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-sm);
+
   max-inline-size: 400px;
   min-inline-size: 100px;
-  .container {
-    padding: var(--calcite-spacing-sm);
-  }
-  .content-container--has-content,
-  .row {
-    gap: var(--calcite-spacing-sm);
-  }
   .heading {
     font-size: var(--calcite-font-size--2);
     line-height: 1.03125rem;
@@ -141,21 +146,13 @@ calcite-link {
     font-size: var(--calcite-font-size--3);
     line-height: 0.85938rem;
   }
-  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-sm);
-  }
 }
 
 :host([scale="m"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-md);
+
   max-inline-size: 460px;
   min-inline-size: 140px;
-  .container {
-    padding: var(--calcite-spacing-md);
-  }
-  .content-container--has-content,
-  .row {
-    gap: var(--calcite-spacing-md);
-  }
   .heading {
     font-size: var(--calcite-font-size--1);
     line-height: 1.20313rem;
@@ -164,21 +161,14 @@ calcite-link {
     font-size: var(--calcite-font-size--2);
     line-height: 1.03125rem;
   }
-  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-md);
-  }
 }
 
 :host([scale="l"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-lg);
+
   max-inline-size: 520px;
   min-inline-size: 160px;
-  .container {
-    padding: var(--calcite-spacing-lg);
-  }
-  .content-container--has-content,
-  .row {
-    gap: var(--calcite-spacing-lg);
-  }
+
   .heading {
     font-size: var(--calcite-font-size-0);
     line-height: 1.375rem;
@@ -187,9 +177,15 @@ calcite-link {
     font-size: var(--calcite-font-size--1);
     line-height: 1.20313rem;
   }
-  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
-    margin-block-end: var(--calcite-spacing-lg);
-  }
+}
+
+.content-container--has-content,
+.row {
+  gap: var(--calcite-internal-tile-spacing);
+}
+
+.content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+  margin-block-end: var(--calcite-internal-tile-spacing);
 }
 
 :host([selection-appearance="border"][layout="horizontal"]),
@@ -232,7 +228,6 @@ calcite-link {
 :host([href]:hover:not([disabled])) {
   .container {
     outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
-    position: relative;
     z-index: var(--calcite-z-index);
   }
   .icon {

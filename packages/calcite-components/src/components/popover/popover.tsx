@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -51,7 +52,7 @@ import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import PopoverManager from "./PopoverManager";
-import T9nStrings from "./assets/t9n/popover.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 
@@ -78,20 +79,6 @@ export class Popover
 
   private arrowEl: SVGSVGElement;
 
-  private clickOutsideDeactivates = (event: MouseEvent): boolean => {
-    const path = event.composedPath();
-    const isReferenceElementInPath =
-      this.referenceEl instanceof EventTarget && path.includes(this.referenceEl);
-
-    const outsideClick = !path.includes(this.el);
-    const shouldCloseOnOutsideClick = this.autoClose && outsideClick;
-
-    return (
-      shouldCloseOnOutsideClick &&
-      (this.triggerDisabled || (isReferenceElementInPath && !this.autoClose))
-    );
-  };
-
   private closeButtonEl = createRef<Action["el"]>();
 
   private filteredFlipPlacements: FlipPlacement[];
@@ -99,10 +86,6 @@ export class Popover
   floatingEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private guid = `calcite-popover-${guid()}`;
 
@@ -112,7 +95,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -298,9 +281,15 @@ export class Popover
       focusTrapEl: this.el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        clickOutsideDeactivates: this.clickOutsideDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
         initialFocus: this.initialFocusTrapFocus,
-        onDeactivate: this.focusTrapDeactivates,
       },
     });
 
@@ -399,7 +388,10 @@ export class Popover
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    requestAnimationFrame(() => this.setUpReferenceElement());
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
   }
 
   private setTransitionEl(el: HTMLDivElement): void {

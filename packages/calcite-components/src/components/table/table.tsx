@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
@@ -20,7 +21,7 @@ import {
   TableSelectionDisplay,
 } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/table.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
 declare global {
@@ -170,7 +171,8 @@ export class Table extends LitElement implements LoadableComponent {
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteChipSelectListener);
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
@@ -211,9 +213,15 @@ export class Table extends LitElement implements LoadableComponent {
     this.updateRows();
   }
 
-  private calciteChipSelectListener(event: CustomEvent): void {
+  private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
+    }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.updateSelectedItems(false);
     }
   }
 

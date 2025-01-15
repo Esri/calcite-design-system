@@ -112,7 +112,7 @@ We also recommend installing the following extensions in your editor of choice: 
 
 - <https://tailwindcss.com/docs/intellisense>
 - <https://eslint.org/docs/latest/user-guide/integrations>
-- <https://stylelint.io/user-guide/integrations/editor>
+- <https://stylelint.io/awesome-stylelint/#editor-integrations>
 - <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
@@ -214,19 +214,19 @@ johndoe/feature/add-something-to-modal
 
 ## Commit message format
 
-Calcite follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to generate the changelog automatically.
+Calcite follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), using the [Angular style](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular#commit-message-format), to automate changelog generation. Commit messages should be clear and detailed to ensure accurate changelogs.
 
 Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
 
-- [Convention type](#convention-type)
-- [Scope of change](#scope-of-change), *optional*
+- [Commit type](#commit-type)
+- [Scope of change](#scope-of-change), _optional_
 - [Descriptive commit subject](#descriptive-commit-subject)
 
 Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
 
-### Convention type
+### Commit type
 
-Contributions must adhere to **one** of the following conventions:
+Contributions must adhere to **one** of the following types:
 
 - **`chore`**: Adds a new build process, or auxiliary tool and libraries (e.g., documentation generation) 🤖
 - **`docs`**: Documentation only changes 📚
@@ -240,7 +240,7 @@ Contributions must adhere to **one** of the following conventions:
 
 ### Scope of change
 
-*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+_Optional_. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
 
 - `text-area`
 - `dropdown, dropdown-group, dropdown-item`
@@ -254,7 +254,7 @@ The subject should contain a concise description of the proposed change, where c
 
 - **Be succinct, yet informative** to ensure the change's purpose is conveyed once added to the changelog
 - Describe the commit's purpose, not a related issue or how the change was mitigated
-- Use present tense, such as "update" instead of "updated" or "updates"
+- Use the imperative, present tense, such as "update" instead of "updated" or "updates"
 - Not capitalize the first letter
 - Not insert a period `.` at the end
 
@@ -275,7 +275,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For more information, explore [Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format). Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
+For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
 
 ## Breaking changes
 
@@ -328,6 +328,12 @@ By default, the PR body will be used for the commit message when squash merging,
 
 ### Visual snapshots
 
-If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
+If the PR's linked issue contains the `visual changes` label **or** the PR contains [visual changes](#visual-changes), once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
 
 If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
+
+#### Visual changes
+
+Visual changes include issues and/or PR's that introduce a visual alteration that is not backwards compatible. If the change could prevent a visual test from passing, the change should be considered a visual change. Visual changes should be coordinated with designers and have consistency across the design system in mind.
+
+Visual changes can be a standalone change, or be introduced with breaking changes. For instance, [Split button consistent divider across appearances](https://github.com/Esri/calcite-design-system/issues/8142) and [List scales, padding, spacing, and font sizes](https://github.com/Esri/calcite-design-system/issues/7100).

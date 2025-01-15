@@ -71,6 +71,26 @@ export const resizable = (): string =>
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
 
+export const resizableFloatInlineStart = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatInlineEnd = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-end"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatBlockStart = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableFloatBlockEnd = (): string =>
+  html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-end"
+    >${panelHTML}</calcite-sheet
+  >`;
+
 export const resizableLoremIpsum = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-end"
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel viverra purus. Vestibulum fringilla fringilla orci
@@ -90,12 +110,12 @@ export const resizableLoremIpsum = (): string =>
     Cras volutpat eros in velit euismod, at accumsan velit pulvinar.
   </calcite-sheet>`;
 
-export const inlineStartfloat_TestOnly = (): string =>
+export const inlineStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const blockStartfloat_TestOnly = (): string =>
+export const blockStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;

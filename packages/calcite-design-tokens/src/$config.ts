@@ -1,6 +1,5 @@
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-
 import { CalciteTokenTransformConfig } from "../support/types/config.js";
 import { Platform } from "../support/types/platform.js";
 import { globalTokens, coreTokens } from "./index.js";

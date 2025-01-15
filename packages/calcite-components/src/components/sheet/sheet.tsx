@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
@@ -35,7 +36,7 @@ import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
-import T9nStrings from "./assets/t9n/sheet.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
 declare global {
@@ -60,19 +61,7 @@ export class Sheet
 
   private contentId: string;
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
   focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
 
   private ignoreOpenChange = false;
 
@@ -96,7 +85,9 @@ export class Sheet
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -254,10 +245,16 @@ export class Sheet
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectFocusTrap(this, {
       focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
+        // scrim closes on click, so we let it take over
         clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
+        escapeDeactivates: (event) => {
+          if (!event.defaultPrevented && !this.escapeDisabled) {
+            this.open = false;
+            event.preventDefault();
+          }
+
+          return false;
+        },
       },
     });
     this.setupInteractions();
@@ -481,12 +478,12 @@ export class Sheet
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize, 10) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize, 10) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
+      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
+      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
     };
 
     this.resizeValues = values;
@@ -641,7 +638,9 @@ export class Sheet
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} ref={this.setContentEl}>
-          <slot />
+          <div class={CSS.contentContainer}>
+            <slot />
+          </div>
           {resizable ? (
             <div
               ariaLabel={this.messages.resizeEnabled}

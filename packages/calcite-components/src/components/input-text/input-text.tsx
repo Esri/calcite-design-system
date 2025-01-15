@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -45,7 +46,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { CSS, IDS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/input-text.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
 
 declare global {
@@ -75,7 +76,7 @@ export class InputText
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -137,9 +138,9 @@ export class InputText
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
@@ -211,7 +212,8 @@ export class InputText
   @property({ reflect: true }) name: string;
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -585,24 +587,16 @@ export class InputText
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
-        autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-        autofocus={this.el.autofocus ? true : null}
+        autocomplete={this.autocomplete}
+        autofocus={this.el.autofocus}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={
-          (this.el.enterKeyHint ||
-            this.el.getAttribute(
-              "enterkeyhint",
-            )) as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
-        }
-        inputMode={
-          (this.el.inputMode ||
-            this.el.getAttribute("inputmode")) as LuminaJsx.HTMLElementTags["input"]["inputMode"]
-        }
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}

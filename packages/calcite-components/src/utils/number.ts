@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 
@@ -16,7 +17,7 @@ export class BigDecimal {
 
   static ROUNDED = true; // numbers are truncated (false) or rounded (true)
 
-  static SHIFT = BigInt("1" + "0".repeat(BigDecimal.DECIMALS)); // derived constant
+  static SHIFT = BigInt("1" + "0".repeat(this.DECIMALS)); // derived constant
 
   constructor(input: string | BigDecimal) {
     if (input instanceof BigDecimal) {

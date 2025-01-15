@@ -250,7 +250,7 @@ scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
 
 export const toggleDisplayWithLongText_TestOnly = (): string =>
   html`<calcite-block open heading="Calcite block" style="width:150px">
-    <calcite-block-section id="block-section" open text="Calcite block superlongggggtext" toggle-display="switch">
+    <calcite-block-section id="block-section" open text="Calcite block's super long text" toggle-display="switch">
       <calcite-notice open>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>

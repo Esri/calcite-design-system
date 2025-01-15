@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
@@ -103,6 +104,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTableRowSelect = createEvent({ cancelable: false });
+
   /** Fires when the selected state of the component changes. */
   calciteTableRowSelect = createEvent({ cancelable: false });
 
@@ -144,6 +148,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none"))
     ) {
       this.handleDelayedCellChanges();
+    }
+
+    if (changes.has("selected")) {
+      this.calciteInternalTableRowSelect.emit();
     }
   }
 

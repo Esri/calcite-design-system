@@ -1,4 +1,0 @@
-{
-  "invalid": "无效",
-  "tooLong": "当前字符长度为 {currentLength}，超过了最大字符长度 {maxLength}。"
-}

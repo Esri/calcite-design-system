@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
@@ -84,7 +85,7 @@ export class Dropdown
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: HTMLDivElement;
 
@@ -481,10 +482,9 @@ export class Dropdown
 
     this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
-
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
     if (el) {
       this.resizeObserver?.observe(el);
@@ -589,7 +589,7 @@ export class Dropdown
       }
     });
 
-    return items.length > maxItems ? maxScrollerHeight : 0;
+    return items.length >= maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {

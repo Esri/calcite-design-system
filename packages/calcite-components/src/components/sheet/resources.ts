@@ -4,6 +4,7 @@ export const CSS = {
   container: "container",
   containerOpen: "container--open",
   content: "content",
+  contentContainer: "content-container",
   containerEmbedded: "container--embedded",
   resizeHandle: "resize-handle",
   resizeHandleBar: "resize-handle-bar",

@@ -1,6 +1,6 @@
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
 export const ComboboxItemGroupSelector = "CALCITE-COMBOBOX-ITEM-GROUP";
-export const ComboboxChildSelector = `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`;
+export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`;
 
 export const CSS = {
   input: "input",
@@ -13,6 +13,7 @@ export const CSS = {
   placeholderIcon: "placeholder-icon",
   selectedIcon: "selected-icon",
   floatingUIContainer: "floating-ui-container",
+  screenReadersOnly: "screen-readers-only",
 };
 
 export const IDS = {

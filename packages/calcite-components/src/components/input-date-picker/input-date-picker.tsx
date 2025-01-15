@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { FocusTrap } from "focus-trap";
 import { PropertyValues } from "lit";
 import {
@@ -83,7 +84,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
-import T9nStrings from "./assets/t9n/input-date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 declare global {
@@ -145,7 +146,7 @@ export class InputDatePicker
 
   labelEl: Label["el"];
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
@@ -630,7 +631,7 @@ export class InputDatePicker
   private handleDateTimeFormatChange(): void {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      // @see [Arabic numbering system support context](https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195) for more info.
       numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 
@@ -696,7 +697,7 @@ export class InputDatePicker
     activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
-          this.datePickerEl.setFocus();
+          this.datePickerEl?.setFocus();
           this.focusOnOpen = false;
         }
       },
@@ -713,7 +714,7 @@ export class InputDatePicker
     hideFloatingUI(this);
     deactivateFocusTrap(this);
     this.focusOnOpen = false;
-    this.datePickerEl.reset();
+    this.datePickerEl?.reset();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -782,7 +783,7 @@ export class InputDatePicker
       return;
     }
 
-    const targeHasSelect = event
+    const targetHasSelect = event
       .composedPath()
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
@@ -799,7 +800,7 @@ export class InputDatePicker
       if (submitForm(this)) {
         this.restoreInputFocus(true);
       }
-    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targeHasSelect) {
+    } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();

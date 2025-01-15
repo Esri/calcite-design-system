@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -23,7 +24,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/notice.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
 
@@ -56,7 +57,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** The close button element. */
   private closeButton = createRef<HTMLButtonElement>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
   private requestedIcon?: IconNameOrString;
