@@ -17,7 +17,7 @@ export interface OpenCloseComponent {
    */
   openProp?: string;
 
-  /** Specifies the name of transitionProp. */
+  /** Specifies the name of CSS transition property. */
   transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
