@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.101...@esri/calcite-components@3.0.0-next.102) (2025-01-15)
+
+### Bug Fixes
+
+- fix open/close event emitting of initially open components ([#11306](https://github.com/Esri/calcite-design-system/issues/11306)) ([cb1d0e9](https://github.com/Esri/calcite-design-system/commit/cb1d0e9536a53e8dcf9df2c35431b4410f5bda42)), closes [#10703](https://github.com/Esri/calcite-design-system/issues/10703)
+
 ## [3.0.0-next.101](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.100...@esri/calcite-components@3.0.0-next.101) (2025-01-15)
 
 ### Bug Fixes
