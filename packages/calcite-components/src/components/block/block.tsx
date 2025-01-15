@@ -55,7 +55,7 @@ export class Block
 
   // #region Private Properties
 
-  openTransitionProp = "margin-top";
+  transitionProp = "margin-top" as const;
 
   transitionEl: HTMLElement;
 

@@ -125,7 +125,7 @@ export class Autocomplete
    */
   messages = useT9n<typeof T9nStrings>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: Input["el"];
 
