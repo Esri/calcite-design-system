@@ -745,21 +745,21 @@ export class Slider
   /**
    * Translate a pixel position to value along the range
    *
-   * @param pixel
+   * @param value
    * @private
    */
-  private mapToRange(pixel: number): number {
+  private mapToRange(value: number): number {
     const range = this.max - this.min;
     const rect = this.trackEl.getBoundingClientRect();
     const percent =
       this.layout === "horizontal"
-        ? (pixel - rect.left) / rect.width
-        : (rect.bottom - pixel) / rect.height;
+        ? (value - rect.left) / rect.width
+        : (rect.bottom - value) / rect.height;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
-    const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
+    const mappedValue = Number(clampedValue.toFixed(decimalPlaces(this.step)));
 
-    return !(this.snap && this.step) ? value : this.getClosestStep(value);
+    return !(this.snap && this.step) ? mappedValue : this.getClosestStep(mappedValue);
   }
 
   /**
