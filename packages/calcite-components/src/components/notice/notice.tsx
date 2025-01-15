@@ -57,7 +57,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** The close button element. */
   private closeButton = createRef<HTMLButtonElement>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
   private requestedIcon?: IconNameOrString;

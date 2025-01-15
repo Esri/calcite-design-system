@@ -146,7 +146,7 @@ export class InputDatePicker
 
   labelEl: Label["el"];
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
