@@ -484,9 +484,9 @@ export class Slider
       return;
     }
 
-    const pointerPos =
+    const coordinate =
       this.layout === "horizontal" ? event.clientX || event.pageX : event.clientY || event.pageY;
-    const position = this.mapToRange(pointerPos);
+    const position = this.mapToRange(coordinate);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
@@ -503,7 +503,7 @@ export class Slider
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
-    this.focusActiveHandle(pointerPos);
+    this.focusActiveHandle(coordinate);
   }
 
   private handleTouchStart(event: TouchEvent): void {
