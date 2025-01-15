@@ -517,10 +517,6 @@ export const WithLargeFontSize_TestOnly = (): string =>
         calcite-label {
           padding: 10px;
         }
-        calcite-slider[layout="vertical"] {
-          height: 100px;
-          margin-top: 90px;
-        }
         div.container {
           display: flex;
         }
