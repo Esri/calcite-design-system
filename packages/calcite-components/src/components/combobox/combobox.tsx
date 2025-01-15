@@ -356,6 +356,11 @@ export class Combobox
   messages = useT9n<typeof T9nStrings>();
 
   /**
+   * Specifies the minimum number of selected items when selection-mode is multiple.
+   */
+  @property({ reflect: true }) minSelection: number = 0;
+
+  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -540,6 +545,7 @@ export class Combobox
 
   constructor() {
     super();
+    this.listen("blur", this.hostBlurHandler);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteComboboxItemChange", this.calciteComboboxItemChangeHandler);
     this.listen("calciteInternalComboboxItemChange", this.calciteInternalComboboxItemChangeHandler);
@@ -1427,6 +1433,24 @@ export class Combobox
     }
 
     this.textInput.value?.focus();
+  }
+
+  private validateMinSelection() {
+    if (!this.isMulti()) {
+      return;
+    }
+    if (this.minSelection > 0 && this.selectedItems.length < this.minSelection) {
+      this.status = "invalid";
+      // TODO: use translated messages here
+      this.validationMessage = `This field requires at least ${this.minSelection} item${this.minSelection > 1 ? "s" : ""} to be selected.`;
+    } else {
+      this.status = "valid";
+      this.validationMessage = "";
+    }
+  }
+
+  private hostBlurHandler() {
+    this.validateMinSelection();
   }
 
   // #endregion
