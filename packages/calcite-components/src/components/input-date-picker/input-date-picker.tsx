@@ -204,7 +204,7 @@ export class InputDatePicker
 
   /**
    * When the component resides in a form,
-   *  specifies the latest allowed date ("yyyy-mm-dd").
+   * specifies the latest allowed date ("yyyy-mm-dd").
    */
   @property({ reflect: true }) max: string;
 
@@ -223,7 +223,7 @@ export class InputDatePicker
 
   /**
    * When the component resides in a form,
-   *  specifies the earliest allowed date ("yyyy-mm-dd").
+   * specifies the earliest allowed date ("yyyy-mm-dd").
    */
   @property({ reflect: true }) min: string;
 
@@ -280,7 +280,7 @@ export class InputDatePicker
 
   /**
    * When `true` and the component resides in a form,
-   *  the component must have a value in order for the form to submit.
+   * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 

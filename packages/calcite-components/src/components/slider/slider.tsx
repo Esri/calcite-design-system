@@ -273,7 +273,7 @@ export class Slider
 
   /**
    * When `true` and the component resides in a form,
-   *  the component must have a value in order for the form to submit.
+   * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 

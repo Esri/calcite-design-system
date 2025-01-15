@@ -100,7 +100,7 @@ export class DatePicker extends LitElement implements LoadableComponent {
 
   /**
    * When the component resides in a form,
-   *  specifies the latest allowed date (`"yyyy-mm-dd"`).
+   * specifies the latest allowed date (`"yyyy-mm-dd"`).
    */
   @property({ reflect: true }) max: string;
 
@@ -119,7 +119,7 @@ export class DatePicker extends LitElement implements LoadableComponent {
 
   /**
    * When the component resides in a form,
-   *  specifies the earliest allowed date (`"yyyy-mm-dd"`).
+   * specifies the earliest allowed date (`"yyyy-mm-dd"`).
    */
   @property({ reflect: true }) min: string;
 
