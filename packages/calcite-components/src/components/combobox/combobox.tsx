@@ -236,7 +236,7 @@ export class Combobox
     this.setFocus();
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -386,7 +386,10 @@ export class Combobox
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -556,12 +559,6 @@ export class Combobox
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
-
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
@@ -1679,6 +1676,7 @@ export class Combobox
   private renderListBoxOptions(): JsxNode {
     return this.filteredItems.map((item) => (
       <li
+        ariaLabel={item.label}
         ariaSelected={item.selected}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
@@ -1784,7 +1782,7 @@ export class Combobox
                 this.renderAllSelectedIndicatorChipCompact(),
               ]}
             <label
-              class="screen-readers-only"
+              class={CSS.screenReadersOnly}
               htmlFor={`${inputUidPrefix}${guid}`}
               id={`${labelUidPrefix}${guid}`}
             >
@@ -1805,7 +1803,7 @@ export class Combobox
         <ul
           aria-labelledby={`${labelUidPrefix}${guid}`}
           ariaMultiSelectable="true"
-          class="screen-readers-only"
+          class={CSS.screenReadersOnly}
           id={`${listboxUidPrefix}${guid}`}
           role="listbox"
           tabIndex={-1}

@@ -534,8 +534,8 @@ describe("calcite-list-item", () => {
         ></calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "boxShadow",
+            shadowSelector: `.${CSS.container}::before`,
+            targetProp: "backgroundColor",
           },
         },
       );

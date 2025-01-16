@@ -95,7 +95,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -341,9 +341,6 @@ export class Popover
       this.setUpReferenceElement();
     }
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
     this.hasLoaded = true;
   }
 
