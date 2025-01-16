@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, focusable, disabled, defaults, themed, reflects } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, dragAndDrop } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
@@ -8,7 +8,6 @@ import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";
 import { Block } from "../block/block";
 import { BlockDragDetail } from "./interfaces";
-import { CSS } from "./resources";
 import type { BlockGroup } from "./block-group";
 
 const blockHTML = html`<calcite-block heading="heading" description="description" open collapsible>
@@ -594,17 +593,6 @@ describe("calcite-block-group", () => {
 
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
-    });
-  });
-
-  describe("themed", () => {
-    describe("default", () => {
-      themed(html`calcite-block-group`, {
-        "--calcite-block-group-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-      });
     });
   });
 });

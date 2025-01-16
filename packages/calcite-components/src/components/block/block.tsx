@@ -172,7 +172,7 @@ export class Block
   @property() setSize: number = null;
 
   /** When `true`, displays and positions the sort handle. */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /**
    * Displays a status-related indicator icon.
