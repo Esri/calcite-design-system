@@ -533,8 +533,6 @@ export class Block
       </div>
     );
 
-    const isOpen = open && collapsible;
-
     return (
       <InteractiveContainer disabled={this.disabled}>
         <article
@@ -545,12 +543,7 @@ export class Block
           }}
         >
           {headerNode}
-          <section
-            aria-labelledby={IDS.toggle}
-            class={CSS.content}
-            hidden={!isOpen}
-            id={IDS.content}
-          >
+          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
             {this.renderScrim()}
           </section>
         </article>

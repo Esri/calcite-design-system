@@ -281,7 +281,7 @@ export class BlockGroup
   }
 
   onDragMove({ relatedEl }: BlockMoveDetail): void {
-    if (relatedEl.collapsible) {
+    if (!relatedEl.open) {
       relatedEl.open = true;
     }
   }

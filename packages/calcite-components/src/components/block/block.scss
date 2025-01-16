@@ -204,7 +204,7 @@ calcite-action-menu {
   @apply flex items-stretch;
 }
 
-:host([open][collapsible]) {
+:host([open]) {
   @apply my-2;
 
   .header .title .heading {
