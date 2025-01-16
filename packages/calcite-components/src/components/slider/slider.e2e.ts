@@ -243,11 +243,9 @@ describe("calcite-slider", () => {
 
         await page.mouse.move(trackRect.x, trackRect.y);
         await page.mouse.down();
-        if (layout === "horizontal") {
-          await page.mouse.move(trackRect.x + 5, trackRect.y);
-        } else {
-          await page.mouse.move(trackRect.x, trackRect.y + 95);
-        }
+        await (layout === "horizontal"
+          ? page.mouse.move(trackRect.x + 5, trackRect.y)
+          : page.mouse.move(trackRect.x, trackRect.y + 95));
         await page.mouse.up();
         await page.waitForChanges();
 
@@ -372,9 +370,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 50, trackY)
-          : await page.mouse.move(trackX, trackY + 50);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 50, trackY) : page.mouse.move(trackX, trackY + 50));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -386,9 +382,7 @@ describe("calcite-slider", () => {
         expect(isThumbFocused).toBe(true);
         expect(await slider.getProperty("value")).toBe(50);
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 40, trackY)
-          : await page.mouse.move(trackX, trackY + 60);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 40, trackY) : page.mouse.move(trackX, trackY + 60));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -400,9 +394,7 @@ describe("calcite-slider", () => {
         expect(isThumbFocused).toBe(true);
         expect(await slider.getProperty("value")).toBe(40);
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 60, trackY)
-          : await page.mouse.move(trackX, trackY + 40);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 60, trackY) : page.mouse.move(trackX, trackY + 40));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -435,9 +427,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 30, trackY)
-          : await page.mouse.move(trackX, trackY + 95);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 30, trackY) : page.mouse.move(trackX, trackY + 95));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -459,9 +449,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 60, trackY)
-          : await page.mouse.move(trackX, trackY + 40);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 60, trackY) : page.mouse.move(trackX, trackY + 40));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -483,9 +471,7 @@ describe("calcite-slider", () => {
         const slider = await page.find("calcite-slider");
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 50, trackY)
-          : await page.mouse.move(trackX, trackY + 50);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 50, trackY) : page.mouse.move(trackX, trackY + 50));
         await page.mouse.down();
         await page.mouse.up();
         await page.waitForChanges();
@@ -513,9 +499,7 @@ describe("calcite-slider", () => {
 
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 50, trackY)
-          : await page.mouse.move(trackX, trackY + 50);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 50, trackY) : page.mouse.move(trackX, trackY + 50));
         await page.mouse.down();
         await page.waitForChanges();
         await page.mouse.up();
@@ -573,9 +557,7 @@ describe("calcite-slider", () => {
 
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 25, trackY)
-          : await page.mouse.move(trackX, trackY + 75);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 25, trackY) : page.mouse.move(trackX, trackY + 75));
         await page.mouse.down();
         await page.waitForChanges();
 
@@ -643,9 +625,7 @@ describe("calcite-slider", () => {
 
         const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackX + 75, trackY)
-          : await page.mouse.move(trackX, trackY + 25);
+        await (layout === "horizontal" ? page.mouse.move(trackX + 75, trackY) : page.mouse.move(trackX, trackY + 25));
         await page.mouse.down();
         await page.waitForChanges();
         await page.mouse.up();
@@ -819,6 +799,8 @@ describe("calcite-slider", () => {
       let inputEvent: EventSpy;
       let element: E2EElement;
       let trackRect: DOMRect;
+      let trackRectX: number;
+      let trackRectY: number;
 
       const commonSliderAttrs = `
         min="5"
@@ -843,6 +825,8 @@ describe("calcite-slider", () => {
 
         element = await page.find("calcite-slider");
         trackRect = await getElementRect(page, "calcite-slider", `.${CSS.track}`);
+        trackRectX = trackRect.x + trackRect.width;
+        trackRectY = trackRect.y + trackRect.height;
         changeEvent = await element.spyOnEvent("calciteSliderChange");
         inputEvent = await element.spyOnEvent("calciteSliderInput");
       }
@@ -857,9 +841,9 @@ describe("calcite-slider", () => {
 
           await assertValuesUnchanged(5);
 
-          layout === "horizontal"
-            ? await page.mouse.click(trackRect.x, trackRect.y)
-            : await page.mouse.click(trackRect.x, trackRect.y + trackRect.height);
+          await (layout === "horizontal"
+            ? page.mouse.click(trackRect.x, trackRect.y)
+            : page.mouse.click(trackRect.x, trackRectY));
           await page.waitForChanges();
 
           const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
@@ -875,9 +859,9 @@ describe("calcite-slider", () => {
 
           await assertValuesUnchanged(5);
 
-          layout === "horizontal"
-            ? await page.mouse.click(trackRect.x + trackRect.width, trackRect.y)
-            : await page.mouse.click(trackRect.x, trackRect.y);
+          await (layout === "horizontal"
+            ? page.mouse.click(trackRectX, trackRect.y)
+            : page.mouse.click(trackRect.x, trackRect.y));
           await page.waitForChanges();
 
           const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
@@ -895,9 +879,9 @@ describe("calcite-slider", () => {
             `${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" layout=${layout}`,
           );
 
-          layout === "horizontal"
-            ? await page.mouse.click(trackRect.x + trackRect.width, trackRect.y)
-            : await page.mouse.click(trackRect.x, trackRect.y);
+          await (layout === "horizontal"
+            ? page.mouse.click(trackRectX, trackRect.y)
+            : page.mouse.click(trackRect.x, trackRect.y));
           await page.waitForChanges();
 
           const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
@@ -913,9 +897,9 @@ describe("calcite-slider", () => {
 
           await assertValuesUnchanged(expectedValue);
 
-          layout === "horizontal"
-            ? await page.mouse.click(trackRect.x, trackRect.y)
-            : await page.mouse.click(trackRect.x, trackRect.y + trackRect.height);
+          await (layout === "horizontal"
+            ? page.mouse.click(trackRect.x, trackRect.y)
+            : page.mouse.click(trackRect.x, trackRectY));
           await page.waitForChanges();
 
           const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
@@ -932,12 +916,12 @@ describe("calcite-slider", () => {
         max="1"
         min-value="0"
         max-value="0"
-        layout={layout}`;
+        layout=${layout}`;
       const nonMirroredSlider = `<div style="width: 300px; margin: 1rem;">${slider}></calcite-slider></div>`;
       const mirroredSlider = `<div style="width: 300px; margin: 1rem;">${slider} mirrored></calcite-slider></div>`;
 
       it("should position the minValue thumb beside the maxValue thumb", async () => {
-        const page = await newE2EPage({ html: nonMirroredSlider.replace("{layout}", layout) });
+        const page = await newE2EPage({ html: nonMirroredSlider });
         const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
         const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
         const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
@@ -947,7 +931,7 @@ describe("calcite-slider", () => {
       });
 
       it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
-        const page = await newE2EPage({ html: mirroredSlider.replace("{layout}", layout) });
+        const page = await newE2EPage({ html: mirroredSlider });
         const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
         const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
         const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
@@ -1093,13 +1077,13 @@ describe("calcite-slider", () => {
         const trackWidth = layout === "horizontal" ? trackRect.width : trackRect.height;
         const dragDistance = trackWidth - thumbWidth;
 
-        layout === "horizontal"
-          ? await page.mouse.move(trackRect.x, trackRect.y)
-          : await page.mouse.move(trackRect.x, trackRect.y + dragDistance);
+        await (layout === "horizontal"
+          ? page.mouse.move(trackRect.x, trackRect.y)
+          : page.mouse.move(trackRect.x, trackRect.y + dragDistance));
         await page.mouse.down();
-        layout === "horizontal"
-          ? await page.mouse.move(trackRect.x + dragDistance, trackRect.y)
-          : await page.mouse.move(trackRect.x, trackRect.y - dragDistance);
+        await (layout === "horizontal"
+          ? page.mouse.move(trackRect.x + dragDistance, trackRect.y)
+          : page.mouse.move(trackRect.x, trackRect.y - dragDistance));
         await page.mouse.up();
         await page.waitForChanges();
       }
