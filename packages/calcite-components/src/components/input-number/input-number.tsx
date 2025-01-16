@@ -214,14 +214,16 @@ export class InputNumber
   @property() localeFormat = false;
 
   /**
-   * Specifies the maximum value.
+   * When the component resides in a form,
+   * specifies the maximum value.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max: number;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    * @deprecated This property has no effect on the component.
@@ -239,14 +241,16 @@ export class InputNumber
   messages = useT9n<typeof T9nStrings>();
 
   /**
-   * Specifies the minimum value.
+   * When the component resides in a form,
+   * specifies the minimum value.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min: number;
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    * @deprecated This property has no effect on the component.
@@ -285,7 +289,10 @@ export class InputNumber
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
