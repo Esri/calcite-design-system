@@ -69,7 +69,7 @@ describe("calcite-block-group", () => {
 
   describe("is focusable", () => {
     focusable(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`, {
-      focusTargetSelector: "calcite-block-group",
+      focusTargetSelector: "calcite-block",
     });
   });
 
@@ -85,113 +85,65 @@ describe("calcite-block-group", () => {
     disabled(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`, { focusTarget: "child" });
   });
 
-  // todo
   it("should set the dragHandle property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-block-group id="root" drag-enabled group="my-block-group"> ${blockHTML} </calcite-block-group>`,
-
-      // `<calcite-block-group id="root" drag-enabled group="my-list">
-      //   <calcite-block open label="Depth 1" description="Item 1">
-      //     <calcite-block-group group="my-list">
-      //       <calcite-block open label="Depth 2" description="Item 2">
-      //         <calcite-block-group drag-enabled group="my-list">
-      //           <calcite-block label="Depth 3" description="Item 3">
-      //             <calcite-block-group drag-enabled group="my-list"></calcite-block-group>
-      //           </calcite-block>
-      //           <calcite-block label="Depth 3" description="Item 4"></calcite-block>
-      //         </calcite-block-group>
-      //       </calcite-block>
-      //       <calcite-block label="Depth 2" description="Item 5"></calcite-block>
-      //     </calcite-block-group>
-      //   </calcite-block>
-      //   <calcite-block label="Depth 1" description="Item 6"></calcite-block>
-      //   <calcite-block drag-disabled label="Depth 1" description="Item 7"></calcite-block>
-      // </calcite-block-group>`
-    );
-
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    let dragHandleValues = [true, false, true, true, false, true, true];
-
-    const items = await page.findAll("calcite-block");
-
-    expect(items.length).toBe(dragHandleValues.length);
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-    }
-
-    const rootList = await page.find("#root");
-
-    rootList.setProperty("dragEnabled", false);
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    dragHandleValues = [false, false, true, true, false, false, false];
-
-    expect(items.length).toBe(dragHandleValues.length);
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-    }
-  });
-
-  // todo
-  it("should set the dragHandle property on items which are not direct children", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-block-group id="root" drag-enabled group="my-list">
-        <div>
-          <calcite-block open label="Depth 1" description="Item 1">
-            <calcite-block-group group="my-list">
-              <div>
-                <calcite-block open label="Depth 2" description="Item 2">
-                  <calcite-block-group drag-enabled group="my-list">
-                    <div>
-                      <calcite-block label="Depth 3" description="Item 3">
-                        <calcite-block-group drag-enabled group="my-list"></calcite-block-group>
-                      </calcite-block>
-                    </div>
-                    <div><calcite-block label="Depth 3" description="Item 4"></calcite-block></div>
-                  </calcite-block-group>
-                </calcite-block>
-              </div>
-              <div><calcite-block label="Depth 2" description="Item 5"></calcite-block></div>
-            </calcite-block-group>
-          </calcite-block>
-        </div>
-        <div><calcite-block label="Depth 1" description="Item 6"></calcite-block></div>
-        <div><calcite-block drag-disabled label="Depth 1" description="Item 7"></calcite-block></div>
+      html`<calcite-block-group id="root" drag-enabled group="my-block-group">
+        <calcite-block id="one" heading="one" label="One"></calcite-block>
+        <calcite-block id="two" heading="two" label="Two"></calcite-block>
+        <calcite-block id="three" heading="three" label="Three"></calcite-block>
       </calcite-block-group>`,
     );
 
     await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    let dragHandleValues = [true, false, true, true, false, true, true];
+    await page.waitForTimeout(DEBOUNCE.nextTick);
 
     const items = await page.findAll("calcite-block");
 
-    expect(items.length).toBe(dragHandleValues.length);
-
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      expect(await items[i].getProperty("dragHandle")).toBe(true);
     }
 
-    const rootList = await page.find("#root");
+    const root = await page.find("#root");
 
-    rootList.setProperty("dragEnabled", false);
+    root.setProperty("dragEnabled", false);
     await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.filter);
-
-    dragHandleValues = [false, false, true, true, false, false, false];
-
-    expect(items.length).toBe(dragHandleValues.length);
+    await page.waitForTimeout(DEBOUNCE.nextTick);
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      expect(await items[i].getProperty("dragHandle")).toBe(false);
+    }
+  });
+
+  it("should set the dragHandle property on items which are not direct children", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-block-group id="root" drag-enabled group="my-block-group">
+        <div>
+          <calcite-block id="one" heading="one" label="One"></calcite-block>
+          <calcite-block id="two" heading="two" label="Two"></calcite-block>
+          <calcite-block id="three" heading="three" label="Three"></calcite-block>
+        </div>
+      </calcite-block-group>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    const items = await page.findAll("calcite-block");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(true);
+    }
+
+    const root = await page.find("#root");
+
+    root.setProperty("dragEnabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("dragHandle")).toBe(false);
     }
   });
 
@@ -199,14 +151,14 @@ describe("calcite-block-group", () => {
     async function createSimpleBlockGroup(): Promise<E2EPage> {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-block-group drag-enabled id="group1">
-          <calcite-block id="one" value="one" label="One"></calcite-block>
-          <calcite-block id="two" value="two" label="Two"></calcite-block>
-          <calcite-block id="three" value="three" label="Three"></calcite-block>
+        html`<calcite-block-group drag-enabled id="component1">
+          <calcite-block id="one" heading="one" label="One"></calcite-block>
+          <calcite-block id="two" heading="two" label="Two"></calcite-block>
+          <calcite-block id="three" heading="three" label="Three"></calcite-block>
         </calcite-block-group>`,
       );
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForTimeout(DEBOUNCE.nextTick);
       return page;
     }
 
@@ -258,18 +210,18 @@ describe("calcite-block-group", () => {
       await dragAndDrop(
         page,
         {
-          element: `calcite-block[value="one"]`,
+          element: `calcite-block[heading="one"]`,
           shadow: "calcite-sort-handle",
         },
         {
-          element: `calcite-block[value="two"]`,
+          element: `calcite-block[heading="two"]`,
           shadow: "calcite-sort-handle",
         },
       );
 
       const [first, second] = await page.findAll("calcite-block");
-      expect(await first.getProperty("value")).toBe("two");
-      expect(await second.getProperty("value")).toBe("one");
+      expect(await first.getProperty("heading")).toBe("two");
+      expect(await second.getProperty("heading")).toBe("one");
       await page.waitForChanges();
 
       const results = await page.evaluate(() => {
@@ -303,24 +255,24 @@ describe("calcite-block-group", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-block-group id="first-letters" drag-enabled group="letters">
-          <calcite-block value="a" label="A"></calcite-block>
-          <calcite-block value="b" label="B"></calcite-block>
+          <calcite-block heading="a" label="A"></calcite-block>
+          <calcite-block heading="b" label="B"></calcite-block>
         </calcite-block-group>
 
         <calcite-block-group id="numbers" drag-enabled group="numbers">
-          <calcite-block value="1" label="One"></calcite-block>
-          <calcite-block value="2" label="Two"></calcite-block>
+          <calcite-block heading="1" label="One"></calcite-block>
+          <calcite-block heading="2" label="Two"></calcite-block>
         </calcite-block-group>
 
         <calcite-block-group id="no-group" drag-enabled>
-          <calcite-block value="no-group" label="No group"></calcite-block>
+          <calcite-block heading="no-group" label="No group"></calcite-block>
         </calcite-block-group>
 
         <calcite-block-group id="second-letters" drag-enabled group="letters">
-          <calcite-block value="c" label="C"></calcite-block>
-          <calcite-block value="d" label="D"></calcite-block>
-          <calcite-block value="e" label="E"></calcite-block>
-          <calcite-block value="f" label="F"></calcite-block>
+          <calcite-block heading="c" label="C"></calcite-block>
+          <calcite-block heading="d" label="D"></calcite-block>
+          <calcite-block heading="e" label="E"></calcite-block>
+          <calcite-block heading="f" label="F"></calcite-block>
         </calcite-block-group>
       `);
 
@@ -341,7 +293,7 @@ describe("calcite-block-group", () => {
       await dragAndDrop(
         page,
         {
-          element: `calcite-block[value="d"]`,
+          element: `calcite-block[heading="d"]`,
           shadow: "calcite-sort-handle",
         },
         {
@@ -355,7 +307,7 @@ describe("calcite-block-group", () => {
       await dragAndDrop(
         page,
         {
-          element: `calcite-block[value="e"]`,
+          element: `calcite-block[heading="e"]`,
           shadow: "calcite-sort-handle",
         },
         {
@@ -369,7 +321,7 @@ describe("calcite-block-group", () => {
       await dragAndDrop(
         page,
         {
-          element: `calcite-block[value="e"]`,
+          element: `calcite-block[heading="e"]`,
           shadow: "calcite-sort-handle",
         },
         {
@@ -381,15 +333,15 @@ describe("calcite-block-group", () => {
       );
 
       const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll("calcite-block");
-      expect(await first.getProperty("value")).toBe("a");
-      expect(await second.getProperty("value")).toBe("b");
-      expect(await third.getProperty("value")).toBe("d");
-      expect(await fourth.getProperty("value")).toBe("1");
-      expect(await fifth.getProperty("value")).toBe("2");
-      expect(await sixth.getProperty("value")).toBe("no-group");
-      expect(await seventh.getProperty("value")).toBe("c");
-      expect(await eight.getProperty("value")).toBe("e");
-      expect(await ninth.getProperty("value")).toBe("f");
+      expect(await first.getProperty("heading")).toBe("a");
+      expect(await second.getProperty("heading")).toBe("b");
+      expect(await third.getProperty("heading")).toBe("d");
+      expect(await fourth.getProperty("heading")).toBe("1");
+      expect(await fifth.getProperty("heading")).toBe("2");
+      expect(await sixth.getProperty("heading")).toBe("no-group");
+      expect(await seventh.getProperty("heading")).toBe("c");
+      expect(await eight.getProperty("heading")).toBe("e");
+      expect(await ninth.getProperty("heading")).toBe("f");
 
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
@@ -415,14 +367,14 @@ describe("calcite-block-group", () => {
 
       async function assertReorder(
         reorder: Reorder,
-        expectedValueOrder: string[],
+        expectedOrder: string[],
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
         const eventName = `calciteSortHandleReorder`;
         const event = page.waitForEvent(eventName);
         await page.$eval(
-          `calcite-block[value="one"]`,
+          `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
             item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
           },
@@ -435,7 +387,7 @@ describe("calcite-block-group", () => {
         expect(itemsAfter.length).toBe(3);
 
         for (let i = 0; i < itemsAfter.length; i++) {
-          expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
+          expect(await itemsAfter[i].getProperty("heading")).toBe(expectedOrder[i]);
         }
 
         const results = await page.evaluate(() => {
@@ -451,13 +403,13 @@ describe("calcite-block-group", () => {
           };
         });
 
-        const listId = "list1";
+        const id = "component1";
 
         expect(results.calledTimes).toBe(++totalMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
-        expect(results.fromEl).toBe(listId);
-        expect(results.toEl).toBe(listId);
+        expect(results.fromEl).toBe(id);
+        expect(results.toEl).toBe(id);
         expect(results.el).toBe("one");
       }
 
@@ -477,22 +429,22 @@ describe("calcite-block-group", () => {
       const page = await newE2EPage();
       const group = "my-group";
       await page.setContent(
-        html`<calcite-block-group id="list1" group="${group}" drag-enabled>
-            <calcite-block id="one" value="one" label="One"></calcite-block>
-            <calcite-block id="two" value="two" label="Two"></calcite-block>
+        html`<calcite-block-group id="component1" group="${group}" drag-enabled>
+            <calcite-block id="one" heading="one" label="One"></calcite-block>
+            <calcite-block id="two" heading="two" label="Two"></calcite-block>
           </calcite-block-group>
-          <calcite-block-group id="list2" group="${group}" drag-enabled>
-            <calcite-block id="three" value="three" label="Three"></calcite-block>
+          <calcite-block-group id="component2" group="${group}" drag-enabled>
+            <calcite-block id="three" heading="three" label="Three"></calcite-block>
           </calcite-block-group>`,
       );
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await page.waitForTimeout(DEBOUNCE.nextTick);
 
-      let list1Moves = 0;
-      let list2Moves = 0;
+      let component1Moves = 0;
+      let component2Moves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("#list1", (blockGroup: BlockGroup["el"]) => {
+      await page.$eval("#component1", (blockGroup: BlockGroup["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.component1CalledTimes = 0;
         blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
@@ -506,7 +458,7 @@ describe("calcite-block-group", () => {
       });
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-      await page.$eval("#list2", (blockGroup: BlockGroup["el"]) => {
+      await page.$eval("#component2", (blockGroup: BlockGroup["el"]) => {
         const testWindow = window as TestWindow;
         testWindow.component2CalledTimes = 0;
         blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
@@ -520,20 +472,20 @@ describe("calcite-block-group", () => {
       });
 
       async function assertMove(
-        listItemId: string,
-        moveFromListId: string,
-        moveToListId: string,
-        list1Order: string[],
-        list2Order: string[],
+        componentItemId: string,
+        moveFromId: string,
+        moveToId: string,
+        component1Order: string[],
+        component2Order: string[],
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
         const eventName = `calciteSortHandleMove`;
         const event = page.waitForEvent(eventName);
         await page.$eval(
-          `#${listItemId}`,
-          (item: Block["el"], moveToListId, eventName) => {
-            const element = document.querySelector<BlockGroup["el"]>(`#${moveToListId}`);
+          `#${componentItemId}`,
+          (item: Block["el"], moveToId, eventName) => {
+            const element = document.querySelector<BlockGroup["el"]>(`#${moveToId}`);
             item.dispatchEvent(
               new CustomEvent(eventName, {
                 detail: {
@@ -547,25 +499,25 @@ describe("calcite-block-group", () => {
               }),
             );
           },
-          moveToListId,
+          moveToId,
           eventName,
         );
         await event;
         await page.waitForChanges();
-        const list1Id = "list1";
-        const list2Id = "list2";
-        const list1After = await page.findAll(`#${list1Id} calcite-block`);
-        expect(list1After.length).toBe(list1Order.length);
+        const component1Id = "component1";
+        const component2Id = "component2";
+        const component1After = await page.findAll(`#${component1Id} calcite-block`);
+        expect(component1After.length).toBe(component1Order.length);
 
-        for (let i = 0; i < list1After.length; i++) {
-          expect(await list1After[i].getProperty("value")).toBe(list1Order[i]);
+        for (let i = 0; i < component1After.length; i++) {
+          expect(await component1After[i].getProperty("heading")).toBe(component1Order[i]);
         }
 
-        const list2After = await page.findAll(`#${list2Id} calcite-block`);
-        expect(list2After.length).toBe(list2Order.length);
+        const component2After = await page.findAll(`#${component2Id} calcite-block`);
+        expect(component2After.length).toBe(component2Order.length);
 
-        for (let i = 0; i < list2After.length; i++) {
-          expect(await list2After[i].getProperty("value")).toBe(list2Order[i]);
+        for (let i = 0; i < component2After.length; i++) {
+          expect(await component2After[i].getProperty("heading")).toBe(component2Order[i]);
         }
 
         const results = await page.evaluate(() => {
@@ -582,17 +534,17 @@ describe("calcite-block-group", () => {
           };
         });
 
-        expect(results.component1CalledTimes).toBe(moveFromListId === list1Id ? ++list1Moves : list1Moves);
-        expect(results.component2CalledTimes).toBe(moveFromListId === list2Id ? ++list2Moves : list2Moves);
+        expect(results.component1CalledTimes).toBe(moveFromId === component1Id ? ++component1Moves : component1Moves);
+        expect(results.component2CalledTimes).toBe(moveFromId === component2Id ? ++component2Moves : component2Moves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
-        expect(results.fromEl).toBe(moveFromListId);
-        expect(results.toEl).toBe(moveToListId);
-        expect(results.el).toBe(listItemId);
+        expect(results.fromEl).toBe(moveFromId);
+        expect(results.toEl).toBe(moveToId);
+        expect(results.el).toBe(componentItemId);
       }
 
-      await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
-      await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+      await assertMove("one", "component1", "component2", ["two"], ["one", "three"], 0, 0);
+      await assertMove("three", "component2", "component1", ["three", "two"], ["one"], 0, 1);
     });
   });
 });
