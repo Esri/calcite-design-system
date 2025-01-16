@@ -54,7 +54,7 @@ try {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
       createComment(
-        `This issue has been archived in the [${projectItem.project.title}](${projectItem.project.url}/archive) project.`,
+        `The design work for this issue has been completed and it is now ready for development.\n\nThe issue has been archived in the [${projectItem.project.title}](${projectItem.project.url}/archive) project.`,
       );
       console.log("Issue archived in project.");
     } else {
