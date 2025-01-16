@@ -26,6 +26,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { MoveTo } from "../sort-handle/interfaces";
+import { SortHandle } from "../sort-handle/sort-handle";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -60,6 +61,8 @@ export class Block
 
   transitionEl: HTMLElement;
 
+  private sortHandleEl: SortHandle["el"];
+
   // #endregion
 
   // #region State Properties
@@ -86,6 +89,9 @@ export class Block
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
+
+  /** When `true`, the component is not draggable. */
+  @property({ reflect: true }) dragDisabled = false;
 
   /** When `true`, displays a drag handle in the header. */
   @property({ reflect: true }) dragHandle = false;
@@ -202,6 +208,18 @@ export class Block
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
 
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteBlockSortHandleBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  calciteBlockSortHandleClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is open and animation is complete. */
+  calciteBlockSortHandleOpen = createEvent({ cancelable: false });
+
   /**
    * Fires when the component's header is clicked.
    *
@@ -235,6 +253,10 @@ export class Block
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       onToggleOpenCloseComponent(this);
     }
+
+    if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
+      this.sortHandleOpenHandler();
+    }
   }
 
   override updated(): void {
@@ -262,6 +284,42 @@ export class Block
 
   onClose(): void {
     this.calciteBlockClose.emit();
+  }
+
+  private sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
+  }
+
+  private setSortHandleEl(el: SortHandle["el"]): void {
+    this.sortHandleEl = el;
+    this.sortHandleOpenHandler();
+  }
+
+  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeOpen.emit();
+  }
+
+  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeClose.emit();
+  }
+
+  private handleSortHandleClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = false;
+    this.calciteBlockSortHandleClose.emit();
+  }
+
+  private handleSortHandleOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = true;
+    this.calciteBlockSortHandleOpen.emit();
   }
 
   private onHeaderClick(): void {
@@ -392,6 +450,10 @@ export class Block
       description,
       menuFlipPlacements,
       menuPlacement,
+      moveToItems,
+      setPosition,
+      setSize,
+      dragDisabled,
     } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
@@ -412,7 +474,21 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle label={heading || label} /> : null}
+        {this.dragHandle ? (
+          <calcite-sort-handle
+            disabled={dragDisabled}
+            label={heading || label}
+            moveToItems={moveToItems}
+            oncalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+            oncalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+            oncalciteSortHandleClose={this.handleSortHandleClose}
+            oncalciteSortHandleOpen={this.handleSortHandleOpen}
+            overlayPositioning="fixed"
+            ref={this.setSortHandleEl}
+            setPosition={setPosition}
+            setSize={setSize}
+          />
+        ) : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}
