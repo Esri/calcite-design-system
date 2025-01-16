@@ -9,6 +9,7 @@ export default {
   args: {
     disabled: false,
     dragEnabled: false,
+    group: "",
     label: "My Group",
     loading: false,
   },
@@ -26,6 +27,7 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
     ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("loading", args.loading)}
     label="${args.label}"
+    group="${args.group}"
   >
     <calcite-block
       heading="A rubber chicken"
