@@ -1,4 +1,4 @@
-name: Archive Issue in Project
+name: Remove Issue From Project
 
 on:
   issues:
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version-file: package.json
 
-      - name: Archive Issue
+      - name: Remove Issue
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           OWNER: ${{ github.repository_owner }}
