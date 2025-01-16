@@ -25,7 +25,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding sortable items. */
+/**
+ * @deprecated Use the `calcite-block-group` component instead.
+ * @slot - A slot for adding sortable items.
+ */
 export class SortableList extends LitElement implements InteractiveComponent, SortableComponent {
   // #region Static Members
 

@@ -25,6 +25,9 @@ declare global {
   }
 }
 
+/**
+ * @deprecated Use the `calcite-sort-handle` component instead.
+ */
 export class Handle extends LitElement implements LoadableComponent, InteractiveComponent {
   // #region Static Members
 
