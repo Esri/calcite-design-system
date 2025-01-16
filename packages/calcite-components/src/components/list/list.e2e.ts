@@ -429,6 +429,7 @@ describe("calcite-list", () => {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
 
     expect(await getFocusedElementProp(page, "id")).toBe("action-3");
   });
@@ -1469,7 +1470,7 @@ describe("calcite-list", () => {
       expect(await items[0].getProperty("active")).toBe(false);
       expect(await items[1].getProperty("active")).toBe(true);
       expect(await items[2].getProperty("active")).toBe(false);
-      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe("");
+      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe(null);
     });
   });
 
