@@ -93,7 +93,11 @@ export class Block
   /** When `true`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
-  /** When `true`, displays a drag handle in the header. */
+  /**
+   * When `true`, the component displays a draggable button.
+   *
+   * @private
+   */
   @property({ reflect: true }) dragHandle = false;
 
   /**
@@ -529,6 +533,8 @@ export class Block
       </div>
     );
 
+    const isOpen = open && collapsible;
+
     return (
       <InteractiveContainer disabled={this.disabled}>
         <article
@@ -539,7 +545,12 @@ export class Block
           }}
         >
           {headerNode}
-          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+          <section
+            aria-labelledby={IDS.toggle}
+            class={CSS.content}
+            hidden={!isOpen}
+            id={IDS.content}
+          >
             {this.renderScrim()}
           </section>
         </article>

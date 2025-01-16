@@ -23,7 +23,8 @@ import {
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { focusFirstTabbable } from "../../utils/dom";
+import { focusFirstTabbable, getRootNode } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail, BlockMoveDetail } from "./interfaces";
@@ -65,6 +66,7 @@ export class BlockGroup
   sortable: Sortable;
 
   private updateBlockItems = debounce((): void => {
+    this.updateGroupItems();
     const { dragEnabled, el, moveToItems } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
@@ -219,6 +221,24 @@ export class BlockGroup
 
   // #region Private Methods
 
+  private updateGroupItems(): void {
+    const { el, group } = this;
+
+    const rootNode = getRootNode(el);
+
+    const blockGroups = group
+      ? Array.from(
+          rootNode.querySelectorAll<BlockGroup["el"]>(`${blockGroupSelector}[group="${group}"]`),
+        ).filter((blockGroup) => !blockGroup.disabled && blockGroup.dragEnabled)
+      : [];
+
+    this.moveToItems = blockGroups.map((element) => ({
+      element,
+      label: element.label ?? element.id,
+      id: el.id || guid(),
+    }));
+  }
+
   private handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
@@ -271,7 +291,9 @@ export class BlockGroup
   }
 
   onDragMove({ relatedEl }: BlockMoveDetail): void {
-    relatedEl.open = true;
+    if (relatedEl.collapsible) {
+      relatedEl.open = true;
+    }
   }
 
   onDragStart(detail: BlockDragDetail): void {
