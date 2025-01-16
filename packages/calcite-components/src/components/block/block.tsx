@@ -25,6 +25,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { MoveTo } from "../sort-handle/interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -131,6 +132,13 @@ export class Block
    */
   messages = useT9n<typeof T9nStrings>();
 
+  /**
+   * Sets the item to display a border.
+   *
+   * @private
+   */
+  @property() moveToItems: MoveTo[] = [];
+
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) open = false;
 
@@ -142,6 +150,23 @@ export class Block
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setPosition: number = null;
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setSize: number = null;
+
+  /** When `true`, displays and positions the sort handle. */
+  @property() sortHandleOpen = false;
 
   /**
    * Displays a status-related indicator icon.

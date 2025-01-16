@@ -1,0 +1,24 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-group-background-color: Specifies the component's background color.
+ */
+
+:host {
+  @apply block;
+}
+
+@include disabled();
+
+.container {
+  position: relative;
+  background-color: var(--calcite-block-group-background-color, var(--calcite-color-foreground-1));
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();
