@@ -219,7 +219,7 @@ Calcite follows [Conventional Commits](https://www.conventionalcommits.org/en/v1
 Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
 
 - [Commit type](#commit-type)
-- [Scope of change](#scope-of-change), *optional*
+- [Scope of change](#scope-of-change), _optional_
 - [Descriptive commit subject](#descriptive-commit-subject)
 
 Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
@@ -240,7 +240,7 @@ Contributions must adhere to **one** of the following types:
 
 ### Scope of change
 
-*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+_Optional_. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
 
 - `text-area`
 - `dropdown, dropdown-group, dropdown-item`
@@ -328,6 +328,12 @@ By default, the PR body will be used for the commit message when squash merging,
 
 ### Visual snapshots
 
-If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
+If the PR's linked issue contains the `visual changes` label **or** the PR contains [visual changes](#visual-changes), once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
 
 If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
+
+#### Visual changes
+
+Visual changes include issues and/or PR's that introduce a visual alteration that is not backwards compatible. If the change could prevent a visual test from passing, the change should be considered a visual change. Visual changes should be coordinated with designers and have consistency across the design system in mind.
+
+Visual changes can be a standalone change, or be introduced with breaking changes. For instance, [Split button consistent divider across appearances](https://github.com/Esri/calcite-design-system/issues/8142) and [List scales, padding, spacing, and font sizes](https://github.com/Esri/calcite-design-system/issues/7100).

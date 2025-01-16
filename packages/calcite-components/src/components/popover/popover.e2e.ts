@@ -368,6 +368,35 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
+  it("should not open popovers if event is prevented", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-popover reference-element="ref">Content</calcite-popover>
+      <div id="ref">Button</div>
+    `);
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    await page.$eval("#ref", (ref) => {
+      ref.addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+    });
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
   it("should not be visible if reference is hidden", async () => {
     const page = await newE2EPage();
 

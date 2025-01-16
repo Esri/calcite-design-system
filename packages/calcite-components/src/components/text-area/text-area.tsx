@@ -162,7 +162,8 @@ export class TextArea
   @property() label: string;
 
   /**
-   * Specifies the maximum number of characters allowed.
+   * When the component resides in a form,
+   * specifies the maximum number of characters allowed.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
@@ -179,7 +180,8 @@ export class TextArea
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
-   * Specifies the minimum number of characters allowed.
+   * When the component resides in a form,
+   * specifies the minimum number of characters allowed.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
@@ -210,7 +212,8 @@ export class TextArea
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
    */

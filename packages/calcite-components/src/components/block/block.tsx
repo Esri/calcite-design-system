@@ -55,7 +55,7 @@ export class Block
 
   // #region Private Properties
 
-  openTransitionProp = "margin-top";
+  transitionProp = "margin-top" as const;
 
   transitionEl: HTMLElement;
 
@@ -194,10 +194,6 @@ export class Block
 
   load(): void {
     setUpLoadableComponent(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
 
     if (!this.heading && !this.label) {
       logger.warn(

@@ -1,13 +1,11 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { IntrinsicElementsWithProp, skipAnimations } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper to test the disabled prop disabling user interaction.
