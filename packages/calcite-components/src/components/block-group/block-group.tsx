@@ -36,8 +36,6 @@ declare global {
 }
 
 /**
- * TODO
- *
  * @slot - A slot for adding `calcite-block` elements.
  */
 export class BlockGroup
