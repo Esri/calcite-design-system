@@ -475,17 +475,24 @@ describe("calcite-block", () => {
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
             { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
           ],
-          "--calcite-block-text-color-hover": {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-            state: "hover",
-          },
+          "--calcite-block-heading-text-color-press": [
+            {
+              shadowSelector: `.${CSS.toggleIcon}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+              state: { press: { attribute: "class", value: CSS.heading } },
+            },
+          ],
         },
       );
     });
     describe("closed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
-        "--calcite-block-header-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
+        "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });
     });
   });
