@@ -168,7 +168,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     if (
       (changes.has("disabled") && this.hasUpdated) ||
       (changes.has("selected") && this.hasUpdated) ||
-      (changes.has("textLabel") && this.hasUpdated)
+      (changes.has("textLabel") && this.hasUpdated) ||
+      (changes.has("heading") && this.hasUpdated) ||
+      (changes.has("label") && this.hasUpdated)
     ) {
       this.calciteInternalComboboxItemChange.emit();
     }
