@@ -27,7 +27,7 @@ import { focusFirstTabbable, getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
-import { BlockDragDetail, BlockMoveDetail } from "./interfaces";
+import { BlockDragDetail } from "./interfaces";
 import { updateBlockChildren } from "./utils";
 
 declare global {
@@ -278,12 +278,6 @@ export class BlockGroup
 
   onDragEnd(detail: BlockDragDetail): void {
     this.calciteBlockGroupDragEnd.emit(detail);
-  }
-
-  onDragMove({ relatedEl }: BlockMoveDetail): void {
-    if (!relatedEl.open) {
-      relatedEl.open = true;
-    }
   }
 
   onDragStart(detail: BlockDragDetail): void {
