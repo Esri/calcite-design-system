@@ -921,17 +921,17 @@ describe("calcite-combobox", () => {
 
   it("should show correct number of items when child hidden", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-      <calcite-combobox-item value="Trees" text-label="Trees" selected>
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+    await page.setContent(html`
+      <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+        <calcite-combobox-item value="Trees" text-label="Trees" selected>
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-    </calcite-combobox>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      </calcite-combobox>
     `);
     await page.waitForChanges();
 
@@ -946,17 +946,17 @@ describe("calcite-combobox", () => {
 
   it("should show correct number of items when parent hidden", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-      <calcite-combobox-item value="Trees" text-label="Trees" hidden>
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+    await page.setContent(html`
+      <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+        <calcite-combobox-item value="Trees" text-label="Trees" hidden>
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-    </calcite-combobox>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      </calcite-combobox>
     `);
     await page.waitForChanges();
 
