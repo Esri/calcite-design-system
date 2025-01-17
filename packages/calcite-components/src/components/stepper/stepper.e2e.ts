@@ -771,12 +771,13 @@ describe("calcite-stepper", () => {
     expect(await stepperItem3.getProperty("selected")).not.toBe(true);
   });
 
-  it("should select the next enabled stepper-item if first stepper-item is disabled or hidden", async () => {
-    for (const n of ["disabled", "hidden"]) {
+  it.each(["disabled", "hidden"])(
+    "should select the next enabled stepper-item if first stepper-item is %s",
+    async (accessibility) => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-stepper>
-          <calcite-stepper-item heading="Step 1" id="step-1" ${n}>
+          <calcite-stepper-item heading="Step 1" id="step-1" ${accessibility}>
             <div>Step 1 content</div>
           </calcite-stepper-item>
           <calcite-stepper-item heading="Step 2" id="step-2">
@@ -788,8 +789,8 @@ describe("calcite-stepper", () => {
       const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
       expect(await stepperItem1.getProperty("selected")).toBe(false);
       expect(await stepperItem2.getProperty("selected")).toBe(true);
-    }
-  });
+    },
+  );
 
   describe("horizontal-single layout", () => {
     it("should display action buttons when layout is horizontal-single.", async () => {
