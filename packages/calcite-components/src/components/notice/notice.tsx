@@ -152,9 +152,6 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

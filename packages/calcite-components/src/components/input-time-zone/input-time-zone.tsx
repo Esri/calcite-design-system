@@ -174,7 +174,8 @@ export class InputTimeZone
   @property() referenceDate: Date | string;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
