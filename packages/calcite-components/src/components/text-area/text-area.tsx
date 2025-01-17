@@ -1,5 +1,3 @@
-// @ts-strict-ignore
-import { throttle } from "lodash-es";
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -44,7 +42,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
 declare global {
@@ -94,31 +92,15 @@ export class TextArea
 
   private resizeObserver = createObserver("resize", async () => {
     await componentLoaded(this);
-    const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightAndWidthOfElements();
-    if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerEl.value.style.width = `${textAreaWidth}px`;
-    }
-    if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
-      this.setHeightAndWidthToAuto();
+    const isFooterHidden = this.footerEl.value.classList.contains(CSS.hide);
+
+    if (!isFooterHidden) {
+      const { textAreaWidth, footerWidth } = this.getWidthOfTextareaAndFooter();
+      if (footerWidth > 0 && footerWidth !== textAreaWidth) {
+        this.footerEl.value.style.width = `${textAreaWidth}px`;
+      }
     }
   });
-
-  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-
-  // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
-    },
-    RESIZE_TIMEOUT,
-    { leading: false },
-  );
 
   private textAreaEl: HTMLTextAreaElement;
 
@@ -316,7 +298,6 @@ export class TextArea
 
   override updated(): void {
     updateHostInteraction(this);
-    this.setTextAreaHeight();
   }
 
   loaded(): void {
@@ -397,34 +378,15 @@ export class TextArea
     this.resizeObserver?.observe(el);
   }
 
-  private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
-      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
-    }
-  }
-
-  private getHeightAndWidthOfElements(): {
-    textAreaHeight: number;
+  private getWidthOfTextareaAndFooter(): {
     textAreaWidth: number;
-    elHeight: number;
-    elWidth: number;
-    footerHeight: number;
     footerWidth: number;
   } {
-    const { height: textAreaHeight, width: textAreaWidth } =
-      this.textAreaEl.getBoundingClientRect();
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl.value
-      ? this.footerEl.value.getBoundingClientRect()
-      : { height: 0, width: 0 };
+    const textAreaWidth = this.textAreaEl.getBoundingClientRect().width;
+    const footerWidth = this.footerEl.value.getBoundingClientRect().width;
 
     return {
-      textAreaHeight,
       textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
       footerWidth,
     };
   }
