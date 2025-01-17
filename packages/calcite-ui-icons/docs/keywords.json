@@ -9474,7 +9474,7 @@
     "release": "4.0.0"
   },
   "crosshair": {
-    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target"],
+    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target", "aim", "marker", "goal", "point"],
     "category": "GIS",
     "release": "4.0.0"
   }
