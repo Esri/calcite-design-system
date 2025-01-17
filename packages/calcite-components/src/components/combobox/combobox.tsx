@@ -589,7 +589,7 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (this.hasUpdated && (changes.has("selectionMode") || changes.has("scale"))) {
       this.updateItems();
     }
 
@@ -619,6 +619,7 @@ export class Combobox
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     setComponentLoaded(this);
+    this.updateItems();
   }
 
   override disconnectedCallback(): void {
