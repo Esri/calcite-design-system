@@ -518,7 +518,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const allVisibleItemAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([hidden]):not([hidden-item]), calcite-combobox-item-group:not([hidden]):not([hidden-item])",
       );
       const allVisibleItemAndGroupIds = await Promise.all(
         allVisibleItemAndGroups.map((item) => item.getProperty("id")),
