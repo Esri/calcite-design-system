@@ -120,7 +120,7 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
         {this.customSlotTableEl ? (
           <span>{this.customSlotTableEl}</span>
         ) : (
-          <div class={CSS.tableContainer} ref={this.setTableElRef} />
+          <div ref={this.setTableElRef} />
         )}
       </div>
     );

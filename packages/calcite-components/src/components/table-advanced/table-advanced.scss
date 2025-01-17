@@ -1,32 +1,62 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-table-advanced-border-color: Specifies the component's border color.
+ * @prop --calcite-table-advanced-text-color: Specifies the component's text color.
+ * @prop --calcite-table-advanced-header-background-color: Specifies the component's header background color.
+ * @prop --calcite-table-advanced-row-background-color: Specifies the component's row background color.
+ * @prop --calcite-table-advanced-font-size: Specifies the component's font size.
+ */
+
 :host {
   @apply flex;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-table-advanced-font-size: var(--calcite-font-size-md);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-table-advanced-font-size: var(--calcite-font-size-md);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-table-advanced-font-size: var(--calcite-font-size-lg);
 }
 
 .container {
   @apply flex flex-col w-full h-full;
 }
 
-table {
-  @apply w-full border-collapse;
-  overflow-x: scroll;
-}
-
 .tabulator {
+  border: 1px solid var(--calcite-table-advanced-border-color, var(--calcite-color-border-1));
+  font-size: var(--calcite-table-advanced-font-size, var(--calcite-internal-table-advanced-font-size));
+  font-weight: var(--calcite-font-weight-medium);
+
   .tabulator-header {
-    border-color: var(--calcite-color-border-1);
+    border-block-end: 1px solid var(--calcite-table-advanced-border-color, var(--calcite-color-border-1));
+    font-weight: var(--calcite-font-weight-medium);
+    color: var(--calcite-table-advanced-text-color, var(--calcite-color-text-1));
 
-    .tabulator-col-content {
-      background-color: var(--calcite-color-background);
-
-      .tabulator-col-title {
-        color: gray;
-      }
+    .tabulator-col {
+      background: var(--calcite-table-advanced-header-background-color, var(--calcite-color-foreground-2));
+      border-inline-end: 1px solid var(--calcite-table-advanced-border-color, var(--calcite-color-border-1));
     }
   }
 
-  .tabulator-row {
-    .tabulator-cell {
-      padding: 0.6rem;
+  .tabulator-tableholder {
+    .tabulator-table {
+      color: var(--calcite-table-advanced-text-color, var(--calcite-color-text-1));
+
+      .tabulator-row {
+        background-color: var(--calcite-table-advanced-row-background-color, #ffff);
+
+        .tabulator-cell {
+          border-inline-end: 1px solid var(--calcite-table-advanced-border-color, var(--calcite-color-border-1));
+        }
+      }
     }
   }
 }
