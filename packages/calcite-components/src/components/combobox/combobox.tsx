@@ -657,11 +657,7 @@ export class Combobox
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
       this.getItems().forEach((item) => {
-        item.selected = Array.isArray(value)
-          ? value.includes(item.value)
-          : value
-            ? value === item.value
-            : false;
+        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
       });
 
       this.updateItems();
