@@ -59,7 +59,7 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
 `;
 
 export const dragEnabled = (): string => html`
-  <calcite-block-group dragEnabled label="My Group"> ${blockHTML} </calcite-block-group>
+  <calcite-block-group drag-enabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
 export const loading = (): string => html`
