@@ -878,11 +878,11 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 2" id="step-2" disabled>
             <div>Step 2 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 2.1" id="step-2.1" hidden>
-            <div>Step 2.1 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-2">
+          <calcite-stepper-item heading="Step 3" id="step-3" hidden>
             <div>Step 3 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 4" id="step-4">
+            <div>Step 4 content</div>
           </calcite-stepper-item>
         </calcite-stepper>`,
       );
