@@ -33,7 +33,7 @@ const blockHTML = html`<calcite-block
   <calcite-block collapsible heading="Fake mustache" description="Incognito mode activated!"
     >My block content!</calcite-block
   >
-  <calcite-block sort-handle-open collapsible heading="Giant foam finger" description="We're number one!"
+  <calcite-block collapsible heading="Giant foam finger" description="We're number one!"
     >My block content!</calcite-block
   >
   <calcite-block drag-disabled collapsible heading="Clown nose" description="Honk if you love clowns!"
@@ -60,6 +60,15 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
 
 export const dragEnabled = (): string => html`
   <calcite-block-group drag-enabled label="My Group"> ${blockHTML} </calcite-block-group>
+`;
+
+export const sortHandleOpen = (): string => html`
+  <calcite-block-group drag-enabled label="My Group">
+    <calcite-block sort-handle-open collapsible heading="Invisible ink" description="You can't see me!"
+      >My block content!</calcite-block
+    >
+    ${blockHTML}
+  </calcite-block-group>
 `;
 
 export const loading = (): string => html`
