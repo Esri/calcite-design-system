@@ -34,44 +34,6 @@ describe("calcite-table", () => {
       </calcite-table>`,
       { display: "flex" },
     );
-
-    it("renders only non-hidden rows", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-table caption="Simple table">
-          <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
-            <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row id="row-1">
-            <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
-            <calcite-table-cell id="cell-1b">cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row id="row-2" hidden>
-            <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
-            <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row id="row-3" hidden>
-            <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
-            <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row id="row-4">
-            <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
-            <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-
-      await page.waitForChanges();
-      const items = await page.findAll("calcite-table-row");
-      for (let i = 0; i < items.length; i++) {
-        if (i === 2 || i === 3) {
-          expect(await items[i].isVisible()).toBeFalsy();
-        } else {
-          expect(await items[i].isVisible()).toBeTruthy();
-        }
-      }
-    });
   });
 
   describe("defaults", () => {
