@@ -613,7 +613,7 @@ export class Combobox
     }
 
     if (changes.has("selectionMode") || changes.has("scale")) {
-      this.updateItems(["items", "item-props"]);
+      this.updateItems(["items", "props"]);
     }
   }
 
@@ -1230,7 +1230,7 @@ export class Combobox
   }
 
   private updateItems(
-    scope: "all" | ("items" | "data" | "selection" | "item-props")[] = "all",
+    scope: "all" | ("items" | "data" | "selection" | "itemprops")[] = "all",
   ): void {
     if (scope === "all" || scope.includes("items")) {
       this.items = this.getItems();
@@ -1242,7 +1242,7 @@ export class Combobox
       this.groupData = this.getGroupData();
     }
 
-    if (scope === "all" || scope.includes("item-props")) {
+    if (scope === "all" || scope.includes("props")) {
       this.updateItemProps();
     }
 
