@@ -259,10 +259,10 @@ describe("calcite-stepper", () => {
           <calcite-stepper-item heading="Step 2" id="step-2" disabled>
             <div>Step 2 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 3" id="step-3">
+          <calcite-stepper-item heading="Step 3" id="step-3" hidden>
             <div>Step 3 content</div>
           </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 4" id="step-4" hidden>
+          <calcite-stepper-item heading="Step 4" id="step-4">
             <div>Step 4 content</div>
           </calcite-stepper-item>
         </calcite-stepper>`,
@@ -288,12 +288,12 @@ describe("calcite-stepper", () => {
       await page.waitForChanges();
       expect(step1).not.toHaveAttribute("selected");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("selected");
+      expect(step3).not.toHaveAttribute("selected");
+      expect(step4).toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
-      expect(await step3Content.isVisible()).toBe(true);
-      expect(await step4Content.isVisible()).toBe(false);
+      expect(await step3Content.isVisible()).toBe(false);
+      expect(await step4Content.isVisible()).toBe(true);
       await element.callMethod("prevStep");
       await page.waitForChanges();
       expect(step1).toHaveAttribute("selected");
