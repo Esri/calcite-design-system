@@ -1229,9 +1229,7 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems(
-    scope: "all" | ("items" | "data" | "selection" | "itemprops")[] = "all",
-  ): void {
+  private updateItems(scope: "all" | ("items" | "data" | "selection" | "props")[] = "all"): void {
     if (scope === "all" || scope.includes("items")) {
       this.items = this.getItems();
       this.groupItems = this.getGroupItems();
