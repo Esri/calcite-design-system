@@ -65,8 +65,11 @@ describe("calcite-table", () => {
       await page.waitForChanges();
       const items = await page.findAll("calcite-table-row");
       for (let i = 0; i < items.length; i++) {
-        const style = await items[i].getComputedStyle();
-        expect(style["display"]).toBe(i === 2 || i === 3 ? "none" : "contents");
+        if (i === 2 || i === 3) {
+          expect(await items[i].isVisible()).toBeFalsy();
+        } else {
+          expect(await items[i].isVisible()).toBeTruthy();
+        }
       }
     });
   });
