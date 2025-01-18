@@ -214,6 +214,8 @@ export class Combobox
 
   private groupData: GroupData[];
 
+  private groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
+
   private guid = guid();
 
   private ignoreSelectedEventsFlag = false;
@@ -221,6 +223,8 @@ export class Combobox
   private inputHeight = 0;
 
   private internalValueChangeFlag = false;
+
+  private items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   labelEl: Label["el"];
 
@@ -275,10 +279,6 @@ export class Combobox
   @state() activeItemIndex = -1;
 
   @state() compactSelectionDisplay = false;
-
-  groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
-
-  items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() selectedHiddenChipsCount = 0;
 
