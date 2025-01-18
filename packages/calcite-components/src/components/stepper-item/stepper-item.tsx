@@ -32,6 +32,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
+import { isHidden } from "../../utils/component";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -281,8 +282,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   private handleItemClick(event: MouseEvent): void {
     if (
       this.disabled ||
-      this.hiddenItem ||
-      this.el.hidden ||
+      isHidden(this.el) ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
