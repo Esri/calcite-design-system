@@ -280,8 +280,6 @@ export class Combobox
 
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
-  @state() needsIcon: boolean;
-
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
@@ -1235,7 +1233,6 @@ export class Combobox
     this.updateItemProps();
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
-    this.needsIcon = this.getNeedsIcon();
   }
 
   private updateItemProps(): void {
@@ -1280,10 +1277,6 @@ export class Combobox
       label: groupItem.label,
       el: groupItem,
     }));
-  }
-
-  private getNeedsIcon(): boolean {
-    return isSingleLike(this.selectionMode) && this.items.some((item) => item.icon);
   }
 
   private resetText(): void {
