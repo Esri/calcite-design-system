@@ -930,6 +930,7 @@ export class Combobox
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
+
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
