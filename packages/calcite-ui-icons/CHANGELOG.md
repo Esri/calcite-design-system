@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.8...@esri/calcite-ui-icons@4.0.0-next.9) (2025-01-17)
+
+### Features
+
+- add crosshair ([#11331](https://github.com/Esri/calcite-design-system/issues/11331)) ([f452298](https://github.com/Esri/calcite-design-system/commit/f45229897bda674fff1c2f76116ed894f36a5267))
+
 ## [4.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.7...@esri/calcite-ui-icons@4.0.0-next.8) (2025-01-14)
 
 ### Features
