@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, state } from "@arcgis/lumina";
+import { dragAndDrop } from "@formkit/drag-and-drop";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -8,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup, getRootNode } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import type { Tile } from "../tile/tile";
 import { CSS } from "./resources";
@@ -34,6 +35,8 @@ export class TileGroup
   // #region Private Properties
 
   private items: Tile["el"][] = [];
+
+  @state() private values: string[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
@@ -135,8 +138,33 @@ export class TileGroup
     updateHostInteraction(this);
   }
 
-  loaded(): void {
+  async loaded(): Promise<void> {
+    await this.componentOnReady();
     this.updateSelectedItems();
+    dragAndDrop({
+      parent: this.el,
+
+      getValues: () => {
+        console.log("get values", this.values);
+        return this.values;
+      },
+
+      setValues: (newValues) => {
+        console.log("new values", newValues);
+        this.values = newValues;
+      },
+
+      config: {
+        root: getRootNode(this.el),
+        onSort: (event) => {
+          console.log(event);
+          const values = event.values as string[];
+          const items = Array.from(this.el.children) as Tile["el"][];
+          items.sort((a, b) => (values.indexOf(a.value) > values.indexOf(b.value) ? 1 : -1));
+          items.forEach((item) => this.el.appendChild(item));
+        },
+      },
+    });
   }
 
   override disconnectedCallback(): void {
@@ -199,8 +227,11 @@ export class TileGroup
     }
   }
 
-  private updateTiles(): void {
+  private async updateTiles(): Promise<void> {
+    await this.componentOnReady();
     this.items = this.getSlottedTiles();
+    this.values = this.items?.map((el) => el.value) ?? [];
+    console.log(this.values);
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
