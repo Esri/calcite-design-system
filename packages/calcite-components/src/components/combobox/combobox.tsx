@@ -608,13 +608,11 @@ export class Combobox
 
     updateHostInteraction(this);
 
-    if (!this.hasUpdated) {
-      this.refreshSelectionDisplay();
-    }
-
     if (changes.has("selectionMode") || changes.has("scale")) {
       this.updateItems(["items", "props"]);
     }
+
+    this.refreshSelectionDisplay();
   }
 
   loaded(): void {
