@@ -78,6 +78,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
+        this.direction = "forward";
         this.nextItem(false);
       } else {
         time = time - 0.01;
@@ -587,7 +588,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
           <calcite-progress
             class={CSS.autoplayProgress}
             label={this.messages.carouselItemProgress}
-            value={this.slideDurationRemaining}
+            value={this.slideDurationRemaining * 100}
           />
         )}
       </button>
