@@ -600,7 +600,7 @@ export class Combobox
     }
   }
 
-  override updated(): void {
+  override updated(changes: PropertyValues<void>): void {
     if (this.el.offsetHeight !== this.inputHeight) {
       this.reposition(true);
       this.inputHeight = this.el.offsetHeight;
@@ -610,6 +610,10 @@ export class Combobox
 
     if (!this.hasUpdated) {
       this.refreshSelectionDisplay();
+    }
+
+    if (changes.has("selectionMode") || changes.has("scale")) {
+      this.updateItems(["items", "item-props"]);
     }
   }
 
@@ -1224,15 +1228,27 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems(): void {
-    this.items = this.getItems();
-    this.groupItems = this.getGroupItems();
-    this.data = this.getData();
-    this.groupData = this.getGroupData();
+  private updateItems(
+    scope: "all" | ("items" | "data" | "selection" | "item-props")[] = "all",
+  ): void {
+    if (scope === "all" || scope.includes("items")) {
+      this.items = this.getItems();
+      this.groupItems = this.getGroupItems();
+    }
 
-    this.updateItemProps();
-    this.selectedItems = this.getSelectedItems();
-    this.filteredItems = this.getFilteredItems();
+    if (scope === "all" || scope.includes("data")) {
+      this.data = this.getData();
+      this.groupData = this.getGroupData();
+    }
+
+    if (scope === "all" || scope.includes("item-props")) {
+      this.updateItemProps();
+    }
+
+    if (scope === "all" || scope.includes("selection")) {
+      this.selectedItems = this.getSelectedItems();
+      this.filteredItems = this.getFilteredItems();
+    }
   }
 
   private updateItemProps(): void {
