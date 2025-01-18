@@ -276,9 +276,9 @@ export class Combobox
 
   @state() compactSelectionDisplay = false;
 
-  @state() groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
+  groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
 
-  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
+  items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() selectedHiddenChipsCount = 0;
 
