@@ -1622,17 +1622,21 @@ describe("calcite-combobox", () => {
     });
 
     it("should not throw when typing custom value and pressing ArrowDown", async () => {
-      const combobox = await page.find("calcite-combobox");
-      combobox.setProperty("allowCustomValues", true);
-      await page.waitForChanges();
-      const inputEl = await page.find(`#myCombobox >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-      await page.keyboard.type("asdf");
-      await page.waitForChanges();
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
+      async function runTest(): Promise<void> {
+        const combobox = await page.find("calcite-combobox");
+        combobox.setProperty("allowCustomValues", true);
+        await page.waitForChanges();
+        const inputEl = await page.find(`#myCombobox >>> input`);
+        await inputEl.focus();
+        await page.waitForChanges();
+        expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+        await page.keyboard.type("asdf");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+      }
+
+      await expect(runTest()).resolves.toBeUndefined();
     });
 
     it(`ArrowDown opens the item group for combobox in focus and jumps to the first item`, async () => {
