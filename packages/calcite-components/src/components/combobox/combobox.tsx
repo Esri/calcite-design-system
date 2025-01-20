@@ -560,7 +560,6 @@ export class Combobox
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.filterItems(this.filterText, false, false);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -587,7 +586,7 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (this.hasUpdated && (changes.has("selectionMode") || changes.has("scale"))) {
+    if (changes.has("selectionMode") || changes.has("scale")) {
       this.updateItems();
     }
 
@@ -600,18 +599,13 @@ export class Combobox
     }
   }
 
-  override updated(changes: PropertyValues<void>): void {
+  override updated(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
       this.reposition(true);
       this.inputHeight = this.el.offsetHeight;
     }
 
     updateHostInteraction(this);
-
-    if (changes.has("selectionMode") || changes.has("scale")) {
-      this.updateItems(["items", "props"]);
-    }
-
     this.refreshSelectionDisplay();
   }
 
@@ -620,6 +614,7 @@ export class Combobox
     connectFloatingUI(this);
     setComponentLoaded(this);
     this.updateItems();
+    this.filterItems(this.filterText, false, false);
   }
 
   override disconnectedCallback(): void {
@@ -1227,25 +1222,17 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems(scope: "all" | ("items" | "data" | "selection" | "props")[] = "all"): void {
-    if (scope === "all" || scope.includes("items")) {
-      this.items = this.getItems();
-      this.groupItems = this.getGroupItems();
-    }
+  private updateItems(): void {
+    this.items = this.getItems();
+    this.groupItems = this.getGroupItems();
 
-    if (scope === "all" || scope.includes("data")) {
-      this.data = this.getData();
-      this.groupData = this.getGroupData();
-    }
+    this.data = this.getData();
+    this.groupData = this.getGroupData();
 
-    if (scope === "all" || scope.includes("props")) {
-      this.updateItemProps();
-    }
+    this.updateItemProps();
 
-    if (scope === "all" || scope.includes("selection")) {
-      this.selectedItems = this.getSelectedItems();
-      this.filteredItems = this.getFilteredItems();
-    }
+    this.selectedItems = this.getSelectedItems();
+    this.filteredItems = this.getFilteredItems();
   }
 
   private updateItemProps(): void {
