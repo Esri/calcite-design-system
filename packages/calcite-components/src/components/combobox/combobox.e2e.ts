@@ -725,7 +725,7 @@ describe("calcite-combobox", () => {
 
       expect(await combobox.getProperty("filteredItems")).toHaveLength(2);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden]):not([hidden-item])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
     });
