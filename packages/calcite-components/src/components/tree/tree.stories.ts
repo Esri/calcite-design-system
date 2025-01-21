@@ -148,6 +148,9 @@ export const selectionModeNone = (): string => html`${treeItems()}`;
 selectionModeNone.decorators = [allScaleTreeBuilder];
 selectionModeNone.args = { selectionMode: "none" };
 
+export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
+linesRTL.args = { lines: true };
+
 export const multipleSelectionModeWithLines_TestOnly = (): string => html` ${treeItems()} `;
 
 multipleSelectionModeWithLines_TestOnly.decorators = [allScaleTreeBuilder];
@@ -207,7 +210,7 @@ export const treeItemContentIsNotClipped_TestOnly = (): string => html`
   </calcite-tree>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html` ${treeItems()} `;
+export const darkModeRTL_TestOnly = (): string => html`<div dir="rtl">${treeItems()}</div> `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 darkModeRTL_TestOnly.decorators = [allScaleTreeBuilder];
 
