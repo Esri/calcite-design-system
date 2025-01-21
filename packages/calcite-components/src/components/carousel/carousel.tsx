@@ -573,6 +573,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private renderRotationControl(): JsxNode {
     const text = this.playing ? this.messages.pause : this.messages.play;
+    const formattedValue = this.slideDurationRemaining * 100;
     return (
       <button
         ariaLabel={text}
@@ -588,7 +589,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
           <calcite-progress
             class={CSS.autoplayProgress}
             label={this.messages.carouselItemProgress}
-            value={this.slideDurationRemaining * 100}
+            value={formattedValue}
           />
         )}
       </button>
