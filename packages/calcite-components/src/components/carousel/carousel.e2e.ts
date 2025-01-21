@@ -500,7 +500,7 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-carousel label="Carousel example" autoplay autoplay-duration="${slideDuration}">
+        `<calcite-carousel label="Carousel example" autoplay>
           <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
           <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
