@@ -135,10 +135,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() value: any;
 
   /**
-   * Specifies whether the user set the hidden attribute in the HTML
+   * When `true`, the item will be hidden
    *
    * @private
-   */
+   *  */
   @property({ reflect: true }) hiddenItem = false;
 
   // #endregion

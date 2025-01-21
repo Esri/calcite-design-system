@@ -773,11 +773,11 @@ describe("calcite-stepper", () => {
 
   it.each(["disabled", "hidden"])(
     "should select the next enabled stepper-item if first stepper-item is %s",
-    async (accessibility) => {
+    async (stateProp) => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-stepper>
-          <calcite-stepper-item heading="Step 1" id="step-1" ${accessibility}>
+          <calcite-stepper-item heading="Step 1" id="step-1" ${stateProp}>
             <div>Step 1 content</div>
           </calcite-stepper-item>
           <calcite-stepper-item heading="Step 2" id="step-2">
