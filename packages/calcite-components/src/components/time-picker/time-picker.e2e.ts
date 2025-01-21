@@ -315,6 +315,7 @@ describe("calcite-time-picker", () => {
     const page = await newE2EPage({
       html: `<calcite-time-picker step="1" value="${originalValue}"></calcite-time-picker>`,
     });
+    const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
 
     const timePicker = await page.find("calcite-time-picker");
     const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -336,6 +337,8 @@ describe("calcite-time-picker", () => {
     expect(minuteEl.textContent).toBe("30");
     expect(secondEl.textContent).toBe("40");
     expect(meridiemEl.textContent).toBe("PM");
+
+    expect(changeEventSpy).toHaveReceivedEventTimes(0);
   });
 
   describe("keyboard accessibility", () => {
@@ -835,6 +838,7 @@ describe("calcite-time-picker", () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker value="00:00:00"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
 
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
@@ -853,12 +857,15 @@ describe("calcite-time-picker", () => {
 
       expect(hour.textContent).toBe("12");
       expect(meridiem.textContent).toBe("AM");
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(2);
     });
 
     it("changing AM/PM updates value property correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker value="00:00:00" step="1"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
 
       const timePicker = await page.find(`calcite-time-picker`);
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -880,12 +887,15 @@ describe("calcite-time-picker", () => {
       expect(hour.textContent).toBe("12");
       expect(meridiem.textContent).toBe("AM");
       expect(await timePicker.getProperty("value")).toBe("00:00:00");
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(2);
     });
 
     it("hour-up button increments hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker lang="fr"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourUp = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
 
@@ -900,12 +910,14 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(hour.textContent).toBe("00");
+      expect(changeEventSpy).toHaveReceivedEventTimes(24);
     });
 
     it("hour-down button decrements hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker lang="fr"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourDown = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
 
@@ -920,12 +932,15 @@ describe("calcite-time-picker", () => {
 
         expect(hour.textContent).toBe(formatTimePart(i));
       }
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(24);
     });
 
     it("hour-up button increments hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourUp = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
 
@@ -935,12 +950,15 @@ describe("calcite-time-picker", () => {
 
         expect(hour.textContent).toBe(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
       }
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(24);
     });
 
     it("hour-down button decrements hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourDown = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
 
@@ -955,12 +973,15 @@ describe("calcite-time-picker", () => {
 
         expect(hour.textContent).toBe(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
       }
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(24);
     });
 
     it("minute-up button increments minute property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
       const minuteUp = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteUp}`);
 
@@ -975,12 +996,14 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(minute.textContent).toBe("00");
+      expect(changeEventSpy).toHaveReceivedEventTimes(61);
     });
 
     it("minute-down button decrements minute property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
       const minuteDown = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteDown}`);
 
@@ -995,12 +1018,14 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(minute.textContent).toBe("59");
+      expect(changeEventSpy).toHaveReceivedEventTimes(61);
     });
 
     it("second-up button increments second property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker step="1"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
       const secondUp = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondUp}`);
 
@@ -1015,12 +1040,14 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(second.textContent).toBe("00");
+      expect(changeEventSpy).toHaveReceivedEventTimes(61);
     });
 
     it("second-down button decrements second property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker step="1"></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
       const secondDown = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondDown}`);
 
@@ -1035,12 +1062,14 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(second.textContent).toBe("59");
+      expect(changeEventSpy).toHaveReceivedEventTimes(61);
     });
 
     it("meridiem-up button increments meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
       const meridiemUp = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
 
@@ -1058,12 +1087,15 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(meridiem.textContent).toBe("AM");
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(3);
     });
 
     it("meridiem-down button decrements meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`,
       });
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
       const meridiemDown = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
 
@@ -1081,6 +1113,8 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(meridiem.textContent).toBe("PM");
+
+      expect(changeEventSpy).toHaveReceivedEventTimes(3);
     });
 
     it("time picker container direction is ltr when set to rtl on host", async () => {
@@ -1152,6 +1186,7 @@ describe("calcite-time-picker", () => {
     it("upward nudge of empty fractional second sets to 00 for step=0.01", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step="0.01"></calcite-time-picker>`);
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
@@ -1161,11 +1196,13 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
       expect(fractionalSecondEl.textContent).toEqual("00");
+      expect(changeEventSpy).toHaveReceivedEventTimes(1);
     });
 
     it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
+      const changeEventSpy = await page.spyOnEvent("calciteTimePickerChange");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
@@ -1175,6 +1212,7 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
       expect(fractionalSecondEl.textContent).toEqual("000");
+      expect(changeEventSpy).toHaveReceivedEventTimes(1);
     });
   });
 

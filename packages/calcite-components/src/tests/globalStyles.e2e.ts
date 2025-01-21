@@ -6,7 +6,7 @@ describe("global styles", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
       <div slot="title">Hello world</div>
       <div slot="message">
-        Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
         <pre></pre>
       </div>
     </calcite-notice>`;

@@ -9,8 +9,10 @@ const CSS = {
  *
  * Items using this in their rendering should include the `text-highlight-item` mixin from `includes.scss` in their styles.
  *
+ * @param text.text
  * @param text
  * @param pattern
+ * @param text.pattern
  */
 export function highlightText({
   text,
