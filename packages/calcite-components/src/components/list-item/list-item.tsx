@@ -222,7 +222,7 @@ export class ListItem
   @property() setSize: number = null;
 
   /** When `true`, displays and positions the sort handle. */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /** When `true`, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
