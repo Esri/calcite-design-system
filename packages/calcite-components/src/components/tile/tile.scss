@@ -68,7 +68,8 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
-@include word-break();
+  @include word-break();
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .text-content-container {

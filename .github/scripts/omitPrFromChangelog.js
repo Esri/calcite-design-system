@@ -40,6 +40,6 @@ module.exports = async ({ github, context }) => {
       body: newPullRequestBody,
     });
   } else {
-    console.log(`The \`no changleog entry\` label is not present on this PR.`);
+    console.log(`The \`no changelog entry\` label is not present on this PR.`);
   }
 };

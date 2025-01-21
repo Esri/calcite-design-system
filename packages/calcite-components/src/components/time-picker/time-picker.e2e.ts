@@ -1058,7 +1058,6 @@ describe("calcite-time-picker", () => {
         expect(second.textContent).toBe(`${formatTimePart(i)}`);
       }
 
-
       await secondDown.click();
       await page.waitForChanges();
 

@@ -9456,5 +9456,26 @@
     "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter", "service"],
     "category": "Objects",
     "release": "4.0.0"
+  },
+  "utility-network-layer": {
+    "alias": [
+      "4.0.0",
+      "layers",
+      "networking",
+      "lines",
+      "circles",
+      "points",
+      "dots",
+      "connection",
+      "connected",
+      "running-analysis"
+    ],
+    "category": "Layers",
+    "release": "4.0.0"
+  },
+  "crosshair": {
+    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target", "aim", "marker", "goal", "point"],
+    "category": "GIS",
+    "release": "4.0.0"
   }
 }

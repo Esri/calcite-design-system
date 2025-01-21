@@ -125,7 +125,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -134,7 +134,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -143,7 +143,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -158,7 +158,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -168,7 +168,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -178,7 +178,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -224,7 +224,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -234,7 +234,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -244,7 +244,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -260,7 +260,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -270,7 +270,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -280,7 +280,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -296,7 +296,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -307,7 +307,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -318,7 +318,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -335,7 +335,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -346,7 +346,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -357,7 +357,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -440,7 +440,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -450,7 +450,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -460,7 +460,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -476,7 +476,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -487,7 +487,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -498,7 +498,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -515,7 +515,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -525,7 +525,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -535,7 +535,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -551,7 +551,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -562,7 +562,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -573,7 +573,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -590,7 +590,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -601,7 +601,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -612,7 +612,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -629,7 +629,7 @@ export const allVariants = (): string => html`
 
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -641,7 +641,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -653,7 +653,7 @@ export const allVariants = (): string => html`
     </div>
     <div class="child">
       <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -705,7 +705,7 @@ export const allVariants = (): string => html`
       <calcite-tile
         alignment="center"
         mode="dark"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -715,7 +715,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -725,7 +725,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -741,7 +741,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -752,7 +752,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -763,7 +763,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -780,7 +780,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -791,7 +791,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -802,7 +802,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -819,7 +819,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -830,7 +830,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -841,7 +841,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -858,7 +858,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="s"
@@ -870,7 +870,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="m"
@@ -881,7 +881,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         icon="layers"
         scale="l"
@@ -899,7 +899,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -912,7 +912,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -924,7 +924,7 @@ export const allVariants = (): string => html`
     <div class="child">
       <calcite-tile
         alignment="center"
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
         heading="Tile title lorem ipsum"
         href="/"
         icon="layers"
@@ -950,10 +950,62 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const contentTopBotton_TestOnly = (): string => html`
+export const contentTopButton_TestOnly = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
     <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
+  </calcite-tile>
+`;
+
+export const contentTopFullWidth_TestOnly = (): string => html`
+  <style>
+    .slotted {
+      display: inline-flex;
+      justify-content: space-between;
+    }
+    .full-width {
+      inline-size: 100%;
+    }
+  </style>
+  <calcite-tile
+    icon="rangefinder"
+    heading="Field operator"
+    description="This role allows users in the field to create new Reports, and view and edit existing Reports and Attachments"
+  >
+    <div slot="content-top" class="slotted full-width">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+    <div slot="content-bottom" class="slotted">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+  </calcite-tile>
+`;
+
+export const contentBottomFullWidth_TestOnly = (): string => html`
+  <style>
+    .slotted {
+      display: inline-flex;
+      justify-content: space-between;
+    }
+    .full-width {
+      inline-size: 100%;
+    }
+  </style>
+  <calcite-tile
+    icon="rangefinder"
+    heading="Field operator"
+    description="This role allows users in the field to create new Reports, and view and edit existing Reports and Attachments"
+  >
+    <div slot="content-top" class="slotted">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
+    <div slot="content-bottom" class="slotted full-width">
+      <div>left side</div>
+      <div>right side</div>
+    </div>
   </calcite-tile>
 `;
 
@@ -967,8 +1019,8 @@ export const contentStartRTL_TestOnly = (): string => html`
 export const overflowingContent_TestOnly = (): string => html`
   <calcite-tile
     icon="2d-explore"
-    heading="Example tile headinghfjkdlsahfjklsdahfjklsadhfjkldsahfjldkashfjdkalshfds;ahfjkldshafljkdsahfljksdahfdlsajkfhsadkljfhsdajklfhsdalkjfhdsalkjfhdsalf"
-    description="Example tile description contenthfjdkslahfjkdsalhf sdajklfh ksdjahfljksadhfljkdsahfjklsdahfjlkdsahflkjdsahfjkdsahflkdjsahfldksajhfdsklajhfdsljkahfdsajkfhsadlkjfsadhfdsa"
+    heading="Example long tile heading........................................................................................................................"
+    description="Example tile description content........................................................................................................................................"
     style="width:200px"
   ></calcite-tile>
 `;
@@ -986,7 +1038,7 @@ export const disabled_TestOnly = (): string => html`
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
     html` <calcite-tile
-      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
       heading="Tile title lorem ipsum"
       icon="layers"
       scale="{scale}"

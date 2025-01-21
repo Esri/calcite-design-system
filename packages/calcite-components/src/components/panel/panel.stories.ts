@@ -568,7 +568,7 @@ export const scalesFontAndPadding = (): string => html`
     style="height: 220px; margin: 50px;"
   >
     <div slot="content-top">Content Top</div>
-    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div>Instead of the mahi-mahi, may I just get the one mahi because I’m not that hungry?</div>
     <div slot="content-bottom">Content Bottom</div>
     ${footerHTML}
   </calcite-panel>
@@ -579,7 +579,7 @@ export const scalesFontAndPadding = (): string => html`
     style="height: 250px; margin: 50px;"
   >
     <div slot="content-top">Content Top</div>
-    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div>Instead of the mahi-mahi, may I just get the one mahi because I’m not that hungry?</div>
     <div slot="content-bottom">Content Bottom</div>
     ${footerHTML}
   </calcite-panel>
@@ -590,7 +590,7 @@ export const scalesFontAndPadding = (): string => html`
     style="height: 260px; margin: 50px;"
   >
     <div slot="content-top">Content Top</div>
-    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div>Instead of the mahi-mahi, may I just get the one mahi because I’m not that hungry?</div>
     <div slot="content-bottom">Content Bottom</div>
     ${footerHTML}
   </calcite-panel>

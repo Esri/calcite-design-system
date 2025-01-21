@@ -1,9 +1,9 @@
 // @ts-strict-ignore
 import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
-import { getReferencesFromValue } from "./getReferenceFromValue.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { FormattingRules } from "../utils.js";
+import { getReferencesFromValue } from "./getReferenceFromValue.js";
 
 export function handleStringValueTokens(
   token: TransformedToken,
