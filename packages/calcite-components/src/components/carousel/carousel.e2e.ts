@@ -1057,7 +1057,59 @@ describe("calcite-carousel", () => {
     expect(animationStartSpy).toHaveReceivedEventTimes(8);
     expect(animationEndSpy).toHaveReceivedEventTimes(8);
   });
+
+  it("item slide animation finishes between paging/selection with autoplay", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel" autoplay>
+        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+    const animationStartSpy = await container.spyOnEvent("animationstart");
+    const animationEndSpy = await container.spyOnEvent("animationend");
+    const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+
+    await nextButton.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+    await nextButton.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(2);
+    expect(animationEndSpy).toHaveReceivedEventTimes(2);
+
+    const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+    await previousButton.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+    await previousButton.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(4);
+    expect(animationEndSpy).toHaveReceivedEventTimes(4);
+
+    const [item1, item2, item3] = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemIndividual}`);
+
+    await item2.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+    await item3.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(6);
+    expect(animationEndSpy).toHaveReceivedEventTimes(6);
+
+    await item2.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+    await item1.click();
+    await page.waitForTimeout(slideDurationWaitTimer);
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(8);
+    expect(animationEndSpy).toHaveReceivedEventTimes(8);
+  });
 });
+
 describe("renders the expected number of pagination items when overflowing", () => {
   it("correctly limits the number of slide pagination items shown when overflowing xxsmall first selected", async () => {
     const page = await newE2EPage();
