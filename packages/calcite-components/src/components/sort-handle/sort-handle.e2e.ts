@@ -46,6 +46,17 @@ describe("calcite-sort-handle", () => {
     );
   });
 
+  it("sets dragHandle on action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-sort-handle lang="en" label="Hello World" set-position="4" set-size="10"></calcite-sort-handle>`,
+    );
+    await page.waitForChanges();
+
+    const handle = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+    expect(await handle.getProperty("dragHandle")).toBe(true);
+  });
+
   it("fires calciteSortHandleReorder event", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
