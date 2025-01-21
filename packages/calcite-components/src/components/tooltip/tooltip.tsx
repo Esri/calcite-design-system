@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -9,7 +10,6 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -55,7 +55,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private guid = `calcite-tooltip-${guid()}`;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -174,15 +174,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   override connectedCallback(): void {
     this.setUpReferenceElement(true);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  load(): void {
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -248,7 +239,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    requestAnimationFrame(() => this.setUpReferenceElement());
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -313,7 +307,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     const displayed = referenceEl && open;
     const hidden = !displayed;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

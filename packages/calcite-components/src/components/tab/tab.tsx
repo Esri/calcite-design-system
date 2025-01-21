@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, method, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";

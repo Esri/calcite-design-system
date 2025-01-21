@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -21,7 +22,7 @@ import type { Label } from "../label/label";
 import type { Button } from "../button/button";
 import { styles } from "./inline-editable.scss";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/inline-editable.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -234,7 +235,7 @@ export class InlineEditable
       this.inputElement.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.value.setFocus();
+    this.enableEditingButton.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
@@ -270,8 +271,7 @@ export class InlineEditable
   private async enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      event.target === this.cancelEditingButton.value ||
-      event.target === this.confirmEditingButton.value
+      (event.target !== this.enableEditingButton.value && event.target !== this.inputElement)
     ) {
       return;
     }

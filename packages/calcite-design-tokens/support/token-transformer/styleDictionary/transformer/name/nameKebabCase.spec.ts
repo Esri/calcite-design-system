@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { registerStyleDictionaryTransform } from "../../../../test/utils/registerStyleDictionaryFunction";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken";
 import { registerNameKebabCase, transformNamesKebabCase } from "./nameKebabCase";

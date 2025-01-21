@@ -1,6 +1,7 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
-import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { Matcher } from "style-dictionary/types/Matcher.js";
+import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 
 export const matcher: Matcher = (token) => {
   const matchingRegex = /lineHeight/g;

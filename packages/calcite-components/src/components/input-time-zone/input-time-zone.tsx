@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -43,7 +44,7 @@ import {
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { styles } from "./input-time-zone.scss";
 
@@ -168,12 +169,13 @@ export class InputTimeZone
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
-   * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+   * @see [Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
   @property() referenceDate: Date | string;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -218,7 +220,7 @@ export class InputTimeZone
    *
    * If no value is provided, the user's time zone offset will be selected by default.
    *
-   * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
+   * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
   get value(): string {
@@ -233,6 +235,7 @@ export class InputTimeZone
 
   // #region Public Methods
 
+  /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -275,8 +278,7 @@ export class InputTimeZone
     const initialValue = this.value;
     const normalized = this.normalizeValue(initialValue);
     this.value = normalized || (initialValue === "" ? normalized : undefined);
-
-    await this.updateTimeZoneSelection();
+    this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
     afterConnectDefaultValueSet(this, selectedValue);
@@ -288,6 +290,10 @@ export class InputTimeZone
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && this.hasUpdated) {
+      this.handleValueChange(this.value, changes.get("value"));
+    }
+
     if (
       changes.has("messages") ||
       (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
@@ -298,10 +304,6 @@ export class InputTimeZone
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
-    }
-
-    if (changes.has("value") && this.hasUpdated && this.value !== changes.get("value")) {
-      this.handleValueChange(this.value, changes.get("value"));
     }
   }
 
@@ -324,12 +326,12 @@ export class InputTimeZone
 
   // #region Private Methods
 
-  private handleTimeZoneItemPropsChange(): void {
+  private async handleTimeZoneItemPropsChange(): Promise<void> {
     if (!this.timeZoneItems || !this.hasUpdated) {
       return;
     }
 
-    this.updateTimeZoneItems();
+    await this.updateTimeZoneItems();
     this.updateTimeZoneSelection();
   }
 
@@ -340,12 +342,12 @@ export class InputTimeZone
     }
   }
 
-  private handleValueChange(value: string, oldValue: string): void {
-    value = this.normalizeValue(value);
+  private async handleValueChange(value: string, oldValue: string): Promise<void> {
+    const normalized = this.normalizeValue(value);
 
-    if (!value) {
+    if (!normalized) {
       if (this.clearable) {
-        this._value = value;
+        this._value = normalized;
         this.selectedTimeZoneItem = null;
         return;
       }
@@ -355,14 +357,20 @@ export class InputTimeZone
       return;
     }
 
-    const timeZoneItem = this.findTimeZoneItem(value);
+    const timeZoneItem = this.findTimeZoneItem(normalized);
 
     if (!timeZoneItem) {
       this._value = oldValue;
       return;
     }
 
+    this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
+
+    if (normalized !== value) {
+      await this.updateComplete;
+      this.overrideSelectedLabelForRegion(this.open);
+    }
   }
 
   onLabelClick(): void {
@@ -452,7 +460,7 @@ export class InputTimeZone
     this.timeZoneItems = await this.createTimeZoneItems();
   }
 
-  private async updateTimeZoneSelection(): Promise<void> {
+  private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;

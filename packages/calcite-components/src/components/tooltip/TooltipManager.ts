@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
@@ -96,6 +97,10 @@ export default class TooltipManager {
   };
 
   private pointerMoveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const composedPath = event.composedPath();
     const { activeTooltip } = this;
 
@@ -128,6 +133,10 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.clickedTooltip = null;
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
@@ -159,6 +168,10 @@ export default class TooltipManager {
   };
 
   private focusInHandler = (event: FocusEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
@@ -14,7 +15,7 @@ function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
       .replace(":30", ".5")
       .replace(":45", ".75")
 
-      // ensures decimal string representation is parseable
+      // ensures decimal string representation is parsable
       .replace(minusSign, hyphen)
   );
 }
@@ -251,6 +252,12 @@ function getTimeZoneShortOffset(
   locale: SupportedLocale,
   referenceDateInMs: number = Date.now(),
 ): string {
+  // workaround for https://issues.chromium.org/issues/381620359
+  // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
+  if (timeZone === "Factory") {
+    timeZone = "Etc/GMT";
+  }
+
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName").value;

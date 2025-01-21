@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
@@ -20,7 +21,7 @@ import {
   TableSelectionDisplay,
 } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/table.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
 declare global {
@@ -68,9 +69,6 @@ export class Table extends LitElement implements LoadableComponent {
 
   @state() pageStartRow = 1;
 
-  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-
-  // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
   @state() readCellContentsToAT: boolean;
 
   @state() selectedCount = 0;
@@ -170,13 +168,18 @@ export class Table extends LitElement implements LoadableComponent {
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteChipSelectListener);
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+
+    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
@@ -211,9 +214,15 @@ export class Table extends LitElement implements LoadableComponent {
     this.updateRows();
   }
 
-  private calciteChipSelectListener(event: CustomEvent): void {
+  private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
+    }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.updateSelectedItems(false);
     }
   }
 

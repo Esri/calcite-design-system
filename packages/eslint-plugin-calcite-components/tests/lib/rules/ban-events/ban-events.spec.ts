@@ -1,3 +1,4 @@
+import { describe } from "vitest";
 import rule from "../../../../src/rules/ban-events";
 import * as path from "path";
 import * as fs from "fs";

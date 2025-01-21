@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -23,8 +24,9 @@ import {
 } from "../../utils/floating-ui";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/block.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 
 declare global {
@@ -53,7 +55,7 @@ export class Block
 
   // #region Private Properties
 
-  openTransitionProp = "margin-top";
+  transitionProp = "margin-top" as const;
 
   transitionEl: HTMLElement;
 
@@ -190,11 +192,13 @@ export class Block
     this.transitionEl = this.el;
   }
 
-  async load(): Promise<void> {
+  load(): void {
     setUpLoadableComponent(this);
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
+    if (!this.heading && !this.label) {
+      logger.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
     }
   }
 

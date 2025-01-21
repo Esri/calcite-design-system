@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -32,7 +33,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { isBrowser } from "../../utils/browser";
 import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
@@ -97,7 +98,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * When the component resides in a form,
+   * specifies the latest allowed date (`"yyyy-mm-dd"`).
+   */
   @property({ reflect: true }) max: string;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
@@ -113,7 +117,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * When the component resides in a form,
+   * specifies the earliest allowed date (`"yyyy-mm-dd"`).
+   */
   @property({ reflect: true }) min: string;
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */

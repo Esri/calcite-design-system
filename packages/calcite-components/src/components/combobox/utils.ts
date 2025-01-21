@@ -1,13 +1,14 @@
+// @ts-strict-ignore
 import { nodeListToArray } from "../../utils/dom";
 import { isBrowser } from "../../utils/browser";
-import type { ComboboxItem } from "../combobox-item/combobox-item";
+import { ComboboxItem } from "../combobox-item/combobox-item";
 import { ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
 import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
-  const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
-  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(ComboboxChildSelector);
+  const parent: ComboboxChildElement = element.parentElement?.closest(AllComboboxChildrenSelector);
+  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(AllComboboxChildrenSelector);
   return [parent, grandparent].filter((el) => el);
 }
 
@@ -24,7 +25,7 @@ export function hasActiveChildren(node: ComboboxItem["el"]): boolean {
   return items.filter((item) => item.selected).length > 0;
 }
 
-export function getDepth(element: HTMLElement): number {
+export function getDepth(element: ComboboxChildElement): number {
   if (!isBrowser()) {
     return 0;
   }
@@ -37,7 +38,20 @@ export function getDepth(element: HTMLElement): number {
     null,
   );
 
-  return result.snapshotLength;
+  const depth = result.snapshotLength;
+
+  if (depth > 0 && element.nodeName === ComboboxItemSelector) {
+    for (let i = 0; i < depth; i++) {
+      const parent = result.snapshotItem(i);
+      if (parent.nodeName === ComboboxItemGroupSelector) {
+        return depth;
+      }
+    }
+  } else if (element.nodeName === ComboboxItemGroupSelector) {
+    return depth;
+  }
+
+  return depth + 1;
 }
 
 export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean {

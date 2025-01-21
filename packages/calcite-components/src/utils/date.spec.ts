@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import { DateLocaleData } from "../components/date-picker/utils";
 import arabic from "../components/date-picker/assets/nls/ar.json";
@@ -39,7 +40,7 @@ describe("inRange", () => {
 
 describe("dateFromRange", () => {
   it("returns null from bad input", () => {
-    expect(dateFromRange("sdafasdfasdf" as any)).toEqual(null);
+    expect(dateFromRange("abcdefghijkl" as any)).toEqual(null);
   });
   it("returns date with no min/max", () => {
     const date = new Date();
@@ -59,7 +60,7 @@ describe("dateFromISO", () => {
   it("returns null from bad input", () => {
     expect(dateFromISO("")).toBeNull();
     expect(() => {
-      dateFromISO("asdflkjasdhoui");
+      dateFromISO("abcdefghijklmn");
     }).toThrow();
   });
   it("correctly parses ISO format", () => {
@@ -82,7 +83,7 @@ describe("dateFromISO", () => {
 describe("dateToISO", () => {
   it("returns empty string from bad input", () => {
     expect(dateToISO("" as any)).toEqual("");
-    expect(dateToISO("asdflkjasdhoui" as any)).toEqual("");
+    expect(dateToISO("abcdefghijklmn" as any)).toEqual("");
   });
   it("correctly returns string in simplified ISO format (YYYY-MM-DD)", () => {
     const date = new Date(2011, 10, 29);

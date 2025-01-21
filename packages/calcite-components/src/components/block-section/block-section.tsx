@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
@@ -10,7 +11,7 @@ import {
 } from "../../utils/loadable";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/block-section.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";

@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 import { describe, expect, it } from "vitest";
 import { minMaxLengthTypes, minMaxStepTypes, patternTypes, syncHiddenFormInput } from "./input";
 

@@ -5,31 +5,36 @@
 * @prop --calcite-navigation-background-color: Specifies the component's background color.
 * @prop --calcite-navigation-logo-heading-text-color: Specifies the component's default color for heading text.
 * @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icon and description text.
-*
 */
 
 :host {
-  @apply inline-flex outline-none focus-base;
+  @apply inline-flex;
 }
 
-.anchor {
+.container {
   @apply flex
     m-0
     items-center
     justify-center
-    cursor-pointer
-    transition-default
-    no-underline 
     text-0h;
-  border-block-end: 2px solid var(--calcite-color-transparent);
   background-color: var(
     --calcite-navigation-background-color,
     var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
   );
+  border-block-end: 2px solid var(--calcite-color-transparent);
+  @include transition-default($target-props: "background-color");
+}
+
+.container--link {
+  @apply focus-base
+  cursor-pointer
+  no-underline;
 }
 
 :host(:focus) {
-  @apply focus-inset;
+  .container--link {
+    @apply focus-inset;
+  }
 }
 
 .image,
@@ -45,34 +50,30 @@
   @apply ps-0;
 }
 
-.image ~ .container,
-.icon ~ .container {
+.image ~ .text-container,
+.icon ~ .text-container {
   @apply ps-0;
 }
 
-:host(:hover),
-:host(:focus) {
-  .anchor {
-    --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
-  }
+:host([href]:hover),
+:host([href]:focus) {
+  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
 }
 
-:host(:active) .anchor {
+:host([href]:active) {
   --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-3);
 }
 
-:host([active]) .anchor {
+:host([active]) .container {
   border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
 :host([active]),
-:host(:active) {
-  .icon {
-    --calcite-internal-navigation-logo-text-color: var(--calcite-color-brand);
-  }
+:host([href]:active) {
+  --calcite-internal-navigation-logo-text-color: var(--calcite-color-brand);
 }
 
-.container {
+.text-container {
   @apply flex
   flex-col
   truncate

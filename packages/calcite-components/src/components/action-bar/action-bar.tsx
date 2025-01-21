@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import {
@@ -29,7 +30,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
-import T9nStrings from "./assets/t9n/action-bar.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";

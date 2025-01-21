@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
@@ -65,6 +66,15 @@ describe("calcite-filter", () => {
 
     const input = await page.find(`calcite-filter >>> calcite-input`);
     expect(await input.getProperty("scale")).toBe(scale);
+  });
+
+  it("honors label property", async () => {
+    const page = await newE2EPage();
+    const label = "hello world";
+    await page.setContent(`<calcite-filter label="${label}"></calcite-filter>`);
+
+    const input = await page.find(`calcite-filter >>> calcite-input`);
+    expect(await input.getProperty("label")).toBe(label);
   });
 
   describe("strings", () => {

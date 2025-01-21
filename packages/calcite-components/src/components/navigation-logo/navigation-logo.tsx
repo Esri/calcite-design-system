@@ -1,7 +1,8 @@
-import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
+// @ts-strict-ignore
+import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import {
-  LoadableComponent,
   componentFocusable,
+  LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
@@ -12,11 +13,11 @@ import { styles } from "./navigation-logo.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-navigation-logo": CalciteNavigationLogo;
+    "calcite-navigation-logo": NavigationLogo;
   }
 }
 
-export class CalciteNavigationLogo extends LitElement implements LoadableComponent {
+export class NavigationLogo extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -124,7 +125,7 @@ export class CalciteNavigationLogo extends LitElement implements LoadableCompone
     ) : null;
 
     return headingNode || descriptionNode ? (
-      <div class={CSS.container} key={CSS.container}>
+      <div class={CSS.textContainer} key={CSS.textContainer}>
         {headingNode}
         {descriptionNode}
       </div>
@@ -132,13 +133,29 @@ export class CalciteNavigationLogo extends LitElement implements LoadableCompone
   }
 
   override render(): JsxNode {
-    const { thumbnail } = this;
-    return (
-      <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
-        {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
-        {this.icon && this.renderIcon()}
+    const { icon, href, label, rel, target, thumbnail } = this;
+    const content = (
+      <>
+        {thumbnail && <img alt={label || ""} class={CSS.image} src={thumbnail} />}
+        {icon && this.renderIcon()}
         {this.renderHeaderContent()}
+      </>
+    );
+
+    return href ? (
+      <a
+        class={{
+          [CSS.container]: true,
+          [CSS.containerLink]: true,
+        }}
+        href={href}
+        rel={rel}
+        target={target}
+      >
+        {content}
       </a>
+    ) : (
+      <div class={CSS.container}>{content}</div>
     );
   }
 

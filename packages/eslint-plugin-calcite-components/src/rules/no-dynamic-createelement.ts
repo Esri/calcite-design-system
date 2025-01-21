@@ -2,16 +2,18 @@ import { ESLintUtils, TSESTree } from "@typescript-eslint/utils";
 
 const createRule = ESLintUtils.RuleCreator((name) => name);
 
-function isCreateElement(node) {
+function isCreateElement(node: TSESTree.CallExpression) {
   return (
-    node?.callee?.type === "MemberExpression" &&
-    node?.callee?.object?.name === "document" &&
-    node?.callee?.property?.name === "createElement" &&
+    node.callee?.type === "MemberExpression" &&
+    node.callee?.object?.type === "Identifier" &&
+    node.callee?.object?.name === "document" &&
+    node.callee?.property?.type === "Identifier" &&
+    node.callee?.property?.name === "createElement" &&
     node.arguments.length >= 1
   );
 }
 
-function isStaticValue(arg) {
+function isStaticValue(arg: TSESTree.Node) {
   return arg.type === "Literal" || (arg.type === "TemplateLiteral" && arg.expressions.length === 0);
 }
 

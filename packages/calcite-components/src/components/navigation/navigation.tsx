@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -22,7 +23,7 @@ import { styles } from "./navigation.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-navigation": CalciteNavigation;
+    "calcite-navigation": Navigation;
   }
 }
 
@@ -37,7 +38,7 @@ declare global {
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
-export class CalciteNavigation extends LitElement implements LoadableComponent {
+export class Navigation extends LitElement implements LoadableComponent {
   // #region Static Members
 
   static override styles = styles;
