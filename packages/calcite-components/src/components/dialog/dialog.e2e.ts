@@ -1160,4 +1160,37 @@ describe("calcite-dialog", () => {
       expect(await dialog.getProperty("open")).toBe(true);
     });
   });
+
+  describe("focusTrap", () => {
+    it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-dialog focus-trap-disabled open closable></calcite-dialog> `);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const dialog = await page.find("calcite-dialog");
+      const button = await page.find("calcite-dialog >>> calcite-action");
+
+      expect(await dialog.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+
+      expect(await dialog.isVisible()).toBe(true);
+
+      dialog.setAttribute("modal", "true");
+      button.callMethod("setFocus");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+
+      expect(await dialog.isVisible()).toBe(false);
+    });
+  });
 });

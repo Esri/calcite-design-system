@@ -187,6 +187,9 @@ export class Dialog
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
+
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
@@ -330,6 +333,14 @@ export class Dialog
     }
 
     if (
+      changes.has("focusTrapDisabled") &&
+      !this.modal &&
+      (this.hasUpdated || this.focusTrapDisabled !== false)
+    ) {
+      this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    }
+
+    if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("placement") && (this.hasUpdated || this.placement !== "center")) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
@@ -366,6 +377,19 @@ export class Dialog
   // #endregion
 
   // #region Private Methods
+
+  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    if (focusTrapDisabled && !this.modal) {
+      deactivateFocusTrap(this);
+    } else {
+      activateFocusTrap(this);
+    }
+  }
+
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =
