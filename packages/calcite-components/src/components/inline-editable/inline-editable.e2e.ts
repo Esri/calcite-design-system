@@ -412,5 +412,58 @@ describe("calcite-inline-editable", () => {
         targetProp: "backgroundColor",
       },
     });
+    themed(
+      html`<calcite-inline-editable controls editing-enabled>
+        <calcite-input />
+      </calcite-inline-editable>`,
+      {
+        "--calcite-inline-editable-button-corner-radius": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+        ],
+        "--calcite-inline-editable-button-loader-color": {
+          shadowSelector: `.${CSS.confirmChangesButton}`,
+          targetProp: "--calcite-button-loader-color",
+        },
+        "--calcite-inline-editable-button-shadow-color": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+        ],
+        "--calcite-inline-editable-button-text-color": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+        ],
+      },
+    );
   });
 });
