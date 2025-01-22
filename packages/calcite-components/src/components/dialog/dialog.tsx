@@ -333,14 +333,6 @@ export class Dialog
     }
 
     if (
-      changes.has("focusTrapDisabled") &&
-      !this.modal &&
-      (this.hasUpdated || this.focusTrapDisabled !== false)
-    ) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
-    if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("placement") && (this.hasUpdated || this.placement !== "center")) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
@@ -383,7 +375,7 @@ export class Dialog
       return;
     }
 
-    if (focusTrapDisabled && !this.modal) {
+    if (focusTrapDisabled) {
       deactivateFocusTrap(this);
     } else {
       activateFocusTrap(this);
@@ -404,7 +396,9 @@ export class Dialog
 
   onOpen(): void {
     this.calciteDialogOpen.emit();
-    activateFocusTrap(this);
+    if (this.modal || (this.modal === false && this.focusTrapDisabled === false)) {
+      activateFocusTrap(this);
+    }
   }
 
   onBeforeClose(): void {
