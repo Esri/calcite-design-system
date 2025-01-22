@@ -107,10 +107,6 @@ export class Combobox
 
   // #region Private Properties
 
-  private internalComboboxChangeEvent = (): void => {
-    this.calciteComboboxChange.emit();
-  };
-
   private allSelectedIndicatorChipEl: Chip["el"];
 
   private chipContainerEl: HTMLDivElement;
@@ -119,7 +115,9 @@ export class Combobox
 
   defaultValue: Combobox["value"];
 
-  private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
+  private emitComboboxChange(): void {
+    this.calciteComboboxChange.emit();
+  }
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
@@ -216,6 +214,8 @@ export class Combobox
 
   private groupData: GroupData[];
 
+  private groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
+
   private guid = guid();
 
   private ignoreSelectedEventsFlag = false;
@@ -223,6 +223,8 @@ export class Combobox
   private inputHeight = 0;
 
   private internalValueChangeFlag = false;
+
+  private items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   labelEl: Label["el"];
 
@@ -277,12 +279,6 @@ export class Combobox
   @state() activeItemIndex = -1;
 
   @state() compactSelectionDisplay = false;
-
-  @state() groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
-
-  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
-
-  @state() needsIcon: boolean;
 
   @state() selectedHiddenChipsCount = 0;
 
@@ -564,7 +560,6 @@ export class Combobox
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    this.filterItems(this.filterText, false, false);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -611,16 +606,15 @@ export class Combobox
     }
 
     updateHostInteraction(this);
-
-    if (!this.hasUpdated) {
-      this.refreshSelectionDisplay();
-    }
+    this.refreshSelectionDisplay();
   }
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     setComponentLoaded(this);
+    this.updateItems();
+    this.filterItems(this.filterText, false, false);
   }
 
   override disconnectedCallback(): void {
@@ -658,14 +652,10 @@ export class Combobox
 
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
-      const items = this.getItems();
-      if (Array.isArray(value)) {
-        items.forEach((item) => (item.selected = value.includes(item.value)));
-      } else if (value) {
-        items.forEach((item) => (item.selected = value === item.value));
-      } else {
-        items.forEach((item) => (item.selected = false));
-      }
+      this.getItems().forEach((item) => {
+        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+      });
+
       this.updateItems();
     }
   }
@@ -718,7 +708,9 @@ export class Combobox
     event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
   ): void {
     event.stopPropagation();
-    this.updateItems();
+    if (this.hasUpdated) {
+      this.updateItems();
+    }
   }
 
   private clearValue(): void {
@@ -931,6 +923,7 @@ export class Combobox
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
+
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
@@ -1229,15 +1222,20 @@ export class Combobox
     return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
-  private updateItems = debounce((): void => {
+  private updateItems(): void {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
+
     this.data = this.getData();
     this.groupData = this.getGroupData();
+
+    this.updateItemProps();
+
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
-    this.needsIcon = this.getNeedsIcon();
+  }
 
+  private updateItemProps(): void {
     this.items.forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
@@ -1260,7 +1258,7 @@ export class Combobox
         nextGroupItem.afterEmptyGroup = groupItem.children.length === 0;
       }
     });
-  }, DEBOUNCE.nextTick);
+  }
 
   private getData(): ItemData[] {
     return this.items.map((item) => ({
@@ -1279,10 +1277,6 @@ export class Combobox
       label: groupItem.label,
       el: groupItem,
     }));
-  }
-
-  private getNeedsIcon(): boolean {
-    return isSingleLike(this.selectionMode) && this.items.some((item) => item.icon);
   }
 
   private resetText(): void {
@@ -1308,9 +1302,6 @@ export class Combobox
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
-      if (!this.isMulti()) {
-        this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
-      }
       const item = document.createElement(
         // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
         "calcite-combobox-item",
@@ -1319,14 +1310,11 @@ export class Combobox
       item.heading = value;
       item.selected = true;
       this.el.prepend(item);
-      this.resetText();
+      this.toggleSelection(item, true);
+      this.open = true;
       if (focus) {
         this.setFocus();
       }
-      this.updateItems();
-      this.filterItems("");
-      this.open = true;
-      this.emitComboboxChange();
     }
   }
 

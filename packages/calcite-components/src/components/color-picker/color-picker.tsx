@@ -549,7 +549,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     if (modeChanged || colorChanged) {
       this.internalColorSet(
         color,
-        this.alphaChannel && !(this.mode.endsWith("a") || this.mode.endsWith("a-css")),
+        (this.alphaChannel && !(this.mode.endsWith("a") || this.mode.endsWith("a-css"))) ||
+          this.internalColorUpdateContext === "internal",
         "internal",
       );
     }
