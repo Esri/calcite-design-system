@@ -432,34 +432,44 @@ describe("calcite-carousel", () => {
       await page.waitForChanges();
       expect(changeSpy).toHaveReceivedEventTimes(2);
       expect(playSpy).toHaveReceivedEventTimes(1);
-      expect(stopSpy).toHaveReceivedEventTimes(1);
-      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
-      expect(selectedItem.id).toEqual("one");
+      expect(stopSpy).toHaveReceivedEventTimes(2);
       expect(await carousel.getProperty("paused")).toBe(true);
 
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("one");
+
       await autoplayControl.click();
+      await page.waitForTimeout(customDuration);
       await page.waitForChanges();
       expect(changeSpy).toHaveReceivedEventTimes(2);
       expect(playSpy).toHaveReceivedEventTimes(2);
-      expect(stopSpy).toHaveReceivedEventTimes(1);
+      expect(stopSpy).toHaveReceivedEventTimes(2);
       expect(await carousel.getProperty("paused")).toBe(false);
 
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+
       await prevButton.click();
+      await page.waitForTimeout(customDuration);
       await page.waitForChanges();
       expect(changeSpy).toHaveReceivedEventTimes(3);
       expect(playSpy).toHaveReceivedEventTimes(2);
-      expect(stopSpy).toHaveReceivedEventTimes(1);
+      expect(stopSpy).toHaveReceivedEventTimes(3);
       expect(await carousel.getProperty("paused")).toBe(true);
 
       selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
-      expect(selectedItem.id).toEqual("three");
+      expect(selectedItem.id).toEqual("one");
 
       await autoplayControl.click();
+      await page.waitForTimeout(customDuration);
       await page.waitForChanges();
       expect(changeSpy).toHaveReceivedEventTimes(3);
       expect(playSpy).toHaveReceivedEventTimes(3);
-      expect(stopSpy).toHaveReceivedEventTimes(1);
+      expect(stopSpy).toHaveReceivedEventTimes(3);
       expect(await carousel.getProperty("paused")).toBe(false);
+
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
     });
 
     it("correctly rotates to a new carousel item after duration elapses", async () => {
@@ -1139,7 +1149,7 @@ describe("renders the expected number of pagination items when overflowing", () 
   it("correctly limits the number of slide pagination items shown when overflowing xxsmall first selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-carousel label="carousel" style="width:200px")">
+      html`<calcite-carousel label="carousel" style="width:12.5rem")">
         <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
         <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
         <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>

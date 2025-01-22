@@ -406,6 +406,11 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private handleArrowClick(event: MouseEvent): void {
     const direction = (event.target as HTMLDivElement).dataset.direction;
+
+    if (this.playing) {
+      this.handlePause(true);
+    }
+
     if (direction === "next") {
       this.direction = "forward";
       this.nextItem(true);
