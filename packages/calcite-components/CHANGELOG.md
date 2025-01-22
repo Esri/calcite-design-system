@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.107](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.106...@esri/calcite-components@3.0.0-next.107) (2025-01-22)
+
+### Bug Fixes
+
+- **combobox, stepper, table:** respect user hidden attribute ([#10983](https://github.com/Esri/calcite-design-system/issues/10983)) ([42fd9c5](https://github.com/Esri/calcite-design-system/commit/42fd9c5f244cab521a802a20e7f3635183dd2139)), closes [#8623](https://github.com/Esri/calcite-design-system/issues/8623)
+
 ## [3.0.0-next.106](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.105...@esri/calcite-components@3.0.0-next.106) (2025-01-22)
 
 ### Features
