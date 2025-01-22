@@ -134,6 +134,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   @property() value: any;
 
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
+
   // #endregion
 
   // #region Events
