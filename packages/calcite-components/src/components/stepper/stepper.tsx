@@ -320,7 +320,7 @@ export class Stepper extends LitElement {
 
     this.multipleViewMode = layout !== "horizontal-single";
     items.forEach((item, index) => {
-      item.hiddenItem = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+      item.calciteHidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
     });
   }
 

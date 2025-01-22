@@ -469,7 +469,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden-item]), calcite-combobox-item-group:not([hidden-item])",
+        "calcite-combobox-item:not([calcite-hidden]), calcite-combobox-item-group:not([calcite-hidden])",
       );
       const visibleItemAndGroupIds = await Promise.all(visibleItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -497,7 +497,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const filteredItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden-item]), calcite-combobox-item-group:not([hidden-item])",
+        "calcite-combobox-item:not([calcite-hidden]), calcite-combobox-item-group:not([calcite-hidden])",
       );
       const filteredItemAndGroupIds = await Promise.all(filteredItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -518,7 +518,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const allVisibleItemAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]):not([hidden-item]), calcite-combobox-item-group:not([hidden]):not([hidden-item])",
+        "calcite-combobox-item:not([hidden]):not([calcite-hidden]), calcite-combobox-item-group:not([hidden]):not([calcite-hidden])",
       );
       const allVisibleItemAndGroupIds = await Promise.all(
         allVisibleItemAndGroups.map((item) => item.getProperty("id")),
@@ -570,7 +570,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden-item])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([calcite-hidden])");
 
       expect(visibleItems.length).toBe(1);
       expect(await visibleItems[0].getProperty("value")).toBe("1");
@@ -725,7 +725,7 @@ describe("calcite-combobox", () => {
 
       expect(await combobox.getProperty("filteredItems")).toHaveLength(2);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden]):not([hidden-item])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden]):not([calcite-hidden])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
     });

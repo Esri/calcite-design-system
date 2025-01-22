@@ -347,7 +347,7 @@ export class Table extends LitElement implements LoadableComponent {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.hiddenItem = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.calciteHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });

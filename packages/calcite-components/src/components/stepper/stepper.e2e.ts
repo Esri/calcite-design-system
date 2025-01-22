@@ -936,7 +936,7 @@ describe("calcite-stepper", () => {
       await stepper.setProperty("layout", "horizontal-single");
       await page.waitForChanges();
 
-      const displayedItems = await page.findAll("calcite-stepper-item:not([hidden]):not([hidden-item])");
+      const displayedItems = await page.findAll("calcite-stepper-item:not([hidden]):not([calcite-hidden])");
       expect(displayedItems.length).toBe(1);
     });
   });

@@ -54,7 +54,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
    *
    * @private
    *  */
-  @property({ reflect: true }) hiddenItem = false;
+  @property({ reflect: true }) calciteHidden = false;
 
   /** @private */
   @property() bodyRowCount: number;
