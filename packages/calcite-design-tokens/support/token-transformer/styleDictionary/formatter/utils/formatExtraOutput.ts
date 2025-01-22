@@ -2,7 +2,6 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import prettierSync from "@prettier/sync";
-
 import { Platform } from "../../../../types/platform.js";
 import { Options } from "../../../../types/styleDictionary/options.js";
 import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes.js";
@@ -17,12 +16,12 @@ export function formatExtraOutput(
     const ensureIfArray = (x: any) => (Array.isArray(x) ? x : x);
 
     if (index) {
-      let parser;
+      let parser: string;
       // Set output
       switch (args.platform) {
         case "css":
         case "scss":
-        case "sass":
+        case "sass": {
           const imports = index.import
             ? index.import.map((imp) =>
                 typeof imp === "string"
@@ -67,14 +66,16 @@ export function formatExtraOutput(
             ...(mixins || []),
           ].filter((t) => t);
           break;
+        }
         case "docs":
         case "js":
-        case "es6":
+        case "es6": {
           const exports = index.export?.map((exp) =>
             typeof exp === "string" ? `export * from "${exp}";` : `export * as ${exp[1]} from "${exp[0]}";`,
           );
           outputFiles[index.name] = [...exports].filter((t) => t);
           break;
+        }
         default:
           break;
       }
@@ -87,12 +88,14 @@ export function formatExtraOutput(
           break;
         case "sass":
           parser = "scss";
+          break;
         case "es6":
         case "js":
           parser = "babel";
           break;
         case "docs":
           parser = "json";
+          break;
         default:
           break;
       }
@@ -105,8 +108,8 @@ export function formatExtraOutput(
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
       const absoluteFilePath = resolve(args.buildPath, fileName);
-      let format;
-      let parser;
+      let format: string;
+      let parser: string;
 
       switch (args.platform) {
         case Platform.CSS:

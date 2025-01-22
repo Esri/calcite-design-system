@@ -49,17 +49,30 @@
   background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-1));
 }
 
-.container--border-selected {
-  box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+.container--border {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    inline-size: var(--calcite-border-width-lg);
+    inset-block: 0;
+    inset-inline-start: 0;
+    background-color: transparent;
+    content: "";
+  }
 }
 
-.container--border-unselected {
-  box-shadow: inset 4px 0 0 0 transparent;
+.container--border-selected {
+  &::before {
+    background-color: var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+  }
 }
 
 .container:hover {
   &.container--border-unselected {
-    box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
+    &::before {
+      background-color: var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
+    }
   }
 }
 

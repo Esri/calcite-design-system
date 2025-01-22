@@ -1,9 +1,6 @@
-import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper for asserting that a component is not visible when hidden

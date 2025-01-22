@@ -37,6 +37,7 @@ autofilled
 Bézier
 camelcase
 greeking
+greyscale
 lowercased
 Steffen
 signifiers
@@ -91,15 +92,20 @@ xsmall
 xxsmall
 
 ## style dictionary transforms for tokens studio
+Expandables
+buch
 demi
 dreiviertelfett
+letterspacing
 extrafett
 extraleicht
 extralight
 fett
 halbfett
+kraeftig
 kräftig
 leicht
+ultabold
 
 ## svg
 svgs

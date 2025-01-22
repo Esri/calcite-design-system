@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import { KeyInput } from "puppeteer";
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -15,8 +15,6 @@ import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */

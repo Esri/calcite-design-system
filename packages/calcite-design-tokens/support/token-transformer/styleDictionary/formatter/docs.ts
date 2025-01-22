@@ -1,10 +1,9 @@
 // @ts-strict-ignore
-import { Core as StyleDictionary } from "style-dictionary";
-import prettierSync from "@prettier/sync";
-
-import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 import { dirname, relative, resolve } from "path";
 import { fileURLToPath } from "url";
+import { Core as StyleDictionary } from "style-dictionary";
+import prettierSync from "@prettier/sync";
+import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
