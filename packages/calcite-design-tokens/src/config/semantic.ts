@@ -25,6 +25,11 @@ export default {
           filter: filter.FilterGlobalTokens,
         },
         {
+          destination: "semantic.scss",
+          format: formats.scssVariables,
+          filter: filter.FilterGlobalTokens,
+        },
+        {
           destination: "core.scss",
           format: formats.scssVariables,
           filter: filter.FilterCoreTokens,
@@ -46,6 +51,11 @@ export default {
       prefix: "calcite",
       files: [
         {
+          destination: "global.css",
+          format: formats.cssVariables,
+          filter: filter.FilterGlobalTokens,
+        },
+        {
           destination: "semantic.css",
           format: formats.cssVariables,
           filter: filter.FilterGlobalTokens,
@@ -65,6 +75,38 @@ export default {
         fileExtension: ".css",
         fileHeader: HeaderCalciteDefault,
       },
+    },
+    es6: {
+      transformGroup: CalciteTransformGroup,
+      transforms: ["name/camel"],
+      buildPath: "dist/es6/",
+      prefix: "calcite",
+      options: {
+        fileExtension: ".ts",
+        fileHeader: HeaderCalciteDefault,
+      },
+      files: [
+        {
+          destination: "global.ts",
+          format: formats.javascriptEs6,
+          filter: filter.FilterGlobalTokens,
+        },
+        {
+          destination: "semantic.ts",
+          format: formats.javascriptEs6,
+          filter: filter.FilterGlobalTokens,
+        },
+        {
+          destination: "core.ts",
+          format: formats.javascriptEs6,
+          filter: filter.FilterCoreTokens,
+        },
+        {
+          destination: "breakpoints.ts",
+          format: formats.javascriptEs6,
+          filter: filter.FilterBreakpointTokens,
+        },
+      ],
     },
   },
   log: {
