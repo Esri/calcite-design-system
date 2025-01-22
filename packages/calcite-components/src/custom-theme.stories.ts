@@ -37,7 +37,7 @@ import { notice, noticeTokens } from "./custom-theme/notice";
 import { pagination, paginationTokens } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
-import { segmentedControl } from "./custom-theme/segmented-control";
+import { segmentedControl, segmentedControlTokens } from "./custom-theme/segmented-control";
 import { select, selectTokens } from "./custom-theme/select";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
@@ -174,6 +174,7 @@ const componentTokens = {
   ...paginationTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...segmentedControlTokens,
   ...ratingTokens,
   ...selectTokens,
   ...sliderTokens,
