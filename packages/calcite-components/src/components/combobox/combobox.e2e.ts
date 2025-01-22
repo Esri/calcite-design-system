@@ -1948,6 +1948,27 @@ describe("calcite-combobox", () => {
       expect(eventSpy).toHaveReceivedEventTimes(1);
       expect((await element.getProperty("selectedItems")).length).toBe(2);
     });
+
+    it("should not emit calciteComboboxChange event when value attribute is updated", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="single">
+          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const combobox = await page.find("calcite-combobox");
+      expect(await combobox.getProperty("value")).toBe("one");
+
+      combobox.setProperty("value", "two");
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await combobox.getProperty("value")).toBe("two");
+    });
   });
 
   describe("calciteComboboxItemChange event correctly updates active item index", () => {
@@ -2742,5 +2763,26 @@ describe("calcite-combobox", () => {
     await item3.click();
 
     expect(await combobox.getProperty("value")).toBe("three");
+  });
+
+  it("should not emit calciteComboboxItemChange event when selected attribute is toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+    await page.waitForChanges();
+
+    const eventSpy = await page.spyOnEvent("calciteComboboxItemChange");
+    const two = await page.find("#two");
+    two.setProperty("selected", "true");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    const combobox = await page.find("calcite-combobox");
+    expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 });

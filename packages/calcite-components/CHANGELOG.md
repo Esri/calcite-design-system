@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.106](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.105...@esri/calcite-components@3.0.0-next.106) (2025-01-22)
+
+### Features
+
+- **button:** add component tokens ([#10358](https://github.com/Esri/calcite-design-system/issues/10358)) ([a7dc494](https://github.com/Esri/calcite-design-system/commit/a7dc4945bbf9cfabc54a81e8321ac128124ceb8b)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#11210](https://github.com/Esri/calcite-design-system/issues/11210)
+- **panel:** control panel header action tokens ([#11300](https://github.com/Esri/calcite-design-system/issues/11300)) ([45f573f](https://github.com/Esri/calcite-design-system/commit/45f573f29d3ed5ffa6eef8420dde3905d16b1c83))
+
+### Bug Fixes
+
+- **color-picker:** fix error caused by initial value with a different format ([#11351](https://github.com/Esri/calcite-design-system/issues/11351)) ([1d187da](https://github.com/Esri/calcite-design-system/commit/1d187daf65e5f0e4f062283e9df10a310e52d3d6)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+- **combobox, input-time-zone:** fix initial item selection delay ([#11326](https://github.com/Esri/calcite-design-system/issues/11326)) ([59ab243](https://github.com/Esri/calcite-design-system/commit/59ab24368455cc968e990ea2d35f44a6949e4726)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+- **tree:** render lines correctly in RTL direction ([#11346](https://github.com/Esri/calcite-design-system/issues/11346)) ([7df1b15](https://github.com/Esri/calcite-design-system/commit/7df1b1555a85eda52e52f6b64457bfbdd25825c7)), closes [#11334](https://github.com/Esri/calcite-design-system/issues/11334)
+
 ## [3.0.0-next.105](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.104...@esri/calcite-components@3.0.0-next.105) (2025-01-17)
 
 **Note:** Version bump only for package @esri/calcite-components
