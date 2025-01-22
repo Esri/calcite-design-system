@@ -211,6 +211,12 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   transition-timing-function: ease-in-out;
 }
 
+@mixin item-hidden() {
+  :host([item-hidden]) {
+    @apply hidden;
+  }
+}
+
 // Mixin for text highlighting styles.
 // - this should be used in conjunction with the `text.tsx` util.
 @mixin text-highlight-item() {
