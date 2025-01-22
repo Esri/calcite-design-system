@@ -211,8 +211,8 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   transition-timing-function: ease-in-out;
 }
 
-@mixin calcite-hidden() {
-  :host([calcite-hidden]) {
+@mixin item-hidden() {
+  :host([item-hidden]) {
     @apply hidden;
   }
 }

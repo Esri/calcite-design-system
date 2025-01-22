@@ -58,7 +58,7 @@ export class ComboboxItemGroup extends LitElement {
    *
    * @private
    *  */
-  @property({ reflect: true }) calciteHidden = false;
+  @property({ reflect: true }) itemHidden = false;
 
   // #endregion
 

@@ -98,7 +98,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
    *
    * @private
    *  */
-  @property({ reflect: true }) calciteHidden = false;
+  @property({ reflect: true }) itemHidden = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
@@ -314,7 +314,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   private getItemPosition(): number {
     return Array.from(
       this.parentStepperEl?.querySelectorAll(
-        "calcite-stepper-item:not([hidden]):not([calcite-hidden])",
+        "calcite-stepper-item:not([hidden]):not([item-hidden])",
       ),
     ).indexOf(this.el);
   }

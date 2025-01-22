@@ -225,7 +225,7 @@ describe("calcite-input-time-zone", () => {
         }
 
         let matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
         expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
 
@@ -235,7 +235,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
 
         expect(matchedTimeZoneItems).toHaveLength(1);
@@ -246,7 +246,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
 
         expect(matchedTimeZoneItems).toHaveLength(1);
@@ -257,7 +257,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
 
         expect(matchedTimeZoneItems).toHaveLength(2);
@@ -267,7 +267,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
 
         expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
@@ -553,7 +553,7 @@ describe("calcite-input-time-zone", () => {
         await page.waitForTimeout(DEBOUNCE.filter);
 
         const sharedOffsetTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([calcite-hidden])",
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
         expect(sharedOffsetTimeZoneItems).toHaveLength(2);
 

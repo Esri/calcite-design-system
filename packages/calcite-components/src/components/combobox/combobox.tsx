@@ -146,20 +146,20 @@ export class Combobox
 
       itemsAndGroups.forEach((item) => {
         if (matchAll) {
-          item.calciteHidden = false;
+          item.itemHidden = false;
           return;
         }
 
         const hidden = !find(item, filteredData);
-        item.calciteHidden = hidden;
+        item.itemHidden = hidden;
         const [parent, grandparent] = item.ancestors;
 
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
-          item.calciteHidden = false;
+          item.itemHidden = false;
         }
 
         if (!hidden) {
-          item.ancestors.forEach((ancestor) => (ancestor.calciteHidden = false));
+          item.ancestors.forEach((ancestor) => (ancestor.itemHidden = false));
         }
       });
 

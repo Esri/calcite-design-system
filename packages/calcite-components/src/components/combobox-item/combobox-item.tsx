@@ -139,7 +139,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    *
    * @private
    *  */
-  @property({ reflect: true }) calciteHidden = false;
+  @property({ reflect: true }) itemHidden = false;
 
   // #endregion
 
