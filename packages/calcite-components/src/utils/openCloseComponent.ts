@@ -44,6 +44,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * Note: this should be called whenever the component's toggling property changes and would trigger a transition.
  *
  * @example
+ * @param override
  * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
  *
  * override willUpdate(changes: PropertyValues<this>): void {
@@ -54,24 +55,26 @@ function isOpen(component: OpenCloseComponent): boolean {
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+export function onToggleOpenCloseComponent(component: OpenCloseComponent, override?: any): void {
   requestAnimationFrame((): void => {
     if (!component.transitionEl) {
       return;
     }
 
+    const c = override || component;
+
     whenTransitionDone(
       "tagName" in component.transitionEl ? component.transitionEl : component.transitionEl.value,
       component.transitionProp,
       () => {
-        if (isOpen(component)) {
+        if (isOpen(c)) {
           component.onBeforeOpen();
         } else {
           component.onBeforeClose();
         }
       },
       () => {
-        if (isOpen(component)) {
+        if (isOpen(c)) {
           component.onOpen();
         } else {
           component.onClose();

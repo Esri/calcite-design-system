@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -15,7 +16,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -25,6 +25,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -43,10 +44,7 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
-{
+export class Block extends LitElement implements InteractiveComponent, LoadableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -55,9 +53,30 @@ export class Block
 
   // #region Private Properties
 
-  transitionProp = "margin-top" as const;
+  transitionEl = createRef<HTMLElement>();
 
-  transitionEl: HTMLElement;
+  openCloseController = useOpenClose({
+    transitionEl: this.transitionEl,
+    transitionProp: "margin-top" as const,
+    openProp: {
+      name: "open",
+      value: true,
+    },
+    events: {
+      onBeforeOpen: (): void => {
+        this.calciteBlockBeforeOpen.emit();
+      },
+      onOpen: (): void => {
+        this.calciteBlockOpen.emit();
+      },
+      onBeforeClose: (): void => {
+        this.calciteBlockBeforeClose.emit();
+      },
+      onClose: (): void => {
+        this.calciteBlockClose.emit();
+      },
+    },
+  });
 
   // #endregion
 
@@ -188,11 +207,8 @@ export class Block
 
   // #region Lifecycle
 
-  override connectedCallback(): void {
-    this.transitionEl = this.el;
-  }
-
   load(): void {
+    (this.transitionEl as any).value = this.el;
     setUpLoadableComponent(this);
 
     if (!this.heading && !this.label) {
@@ -208,7 +224,7 @@ export class Block
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      onToggleOpenCloseComponent(this);
+      this.openCloseController.afterToggle(this);
     }
   }
 
@@ -223,21 +239,6 @@ export class Block
   // #endregion
 
   // #region Private Methods
-  onBeforeOpen(): void {
-    this.calciteBlockBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.calciteBlockOpen.emit();
-  }
-
-  onBeforeClose(): void {
-    this.calciteBlockBeforeClose.emit();
-  }
-
-  onClose(): void {
-    this.calciteBlockClose.emit();
-  }
 
   private onHeaderClick(): void {
     this.open = !this.open;
