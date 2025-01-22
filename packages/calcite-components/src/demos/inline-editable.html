@@ -43,6 +43,7 @@
       };
     </script>
   </head>
+
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Inline Editable</h1>
@@ -135,6 +136,44 @@
           <calcite-label scale="l">
             Access denied
             <calcite-inline-editable controls disabled>
+              <calcite-input placeholder="Day of the week" scale="l" />
+            </calcite-inline-editable>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- themed -->
+      <div
+        class="parent"
+        style="
+          --calcite-inline-editable-background-color-hover: red;
+          --calcite-inline-editable-background-color: purple;
+        "
+      >
+        <div class="child right-aligned-text">themed</div>
+
+        <div class="child">
+          <calcite-label scale="s">
+            Access denied
+            <calcite-inline-editable controls>
+              <calcite-input placeholder="Day of the week" scale="s" />
+            </calcite-inline-editable>
+          </calcite-label>
+        </div>
+
+        <div class="child">
+          <calcite-label scale="m">
+            Access denied
+            <calcite-inline-editable controls>
+              <calcite-input placeholder="Day of the week" scale="m" />
+            </calcite-inline-editable>
+          </calcite-label>
+        </div>
+
+        <div class="child">
+          <calcite-label scale="l">
+            Access denied
+            <calcite-inline-editable controls>
               <calcite-input placeholder="Day of the week" scale="l" />
             </calcite-inline-editable>
           </calcite-label>

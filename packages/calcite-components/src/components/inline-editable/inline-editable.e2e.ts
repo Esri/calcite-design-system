@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders, hidden, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { CSS } from "./resources";
@@ -398,5 +398,19 @@ describe("calcite-inline-editable", () => {
 
   describe("translation support", () => {
     t9n("calcite-inline-editable");
+  });
+
+  describe("theme", () => {
+    themed("calcite-inline-editable", {
+      "--calcite-inline-editable-background-color-hover": {
+        shadowSelector: `.${CSS.wrapper}`,
+        state: "hover",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-inline-editable-background-color": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });

@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-inline-editable-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-inline-editable-background-color: Specifies the component's background color.
+ */
+
 :host {
   @apply block;
 }
@@ -20,14 +29,6 @@
   }
 }
 
-:host(:not([editing-enabled]):not([disabled])) {
-  .wrapper {
-    &:hover {
-      @apply bg-foreground-2;
-    }
-  }
-}
-
 .wrapper {
   @apply bg-foreground-1
     transition-default
@@ -35,8 +36,18 @@
     flex
     justify-between;
 
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
+
   .input-wrapper {
     @apply flex-1;
+  }
+}
+
+:host(:not([editing-enabled]):not([disabled])) {
+  .wrapper {
+    &:hover {
+      background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
+    }
   }
 }
 
@@ -44,10 +55,6 @@
   @apply flex;
 }
 
-@include disabled() {
-  .cancel-editing-button-wrapper {
-    @apply border-color-2;
-  }
-}
+@include disabled();
 
 @include base-component();
