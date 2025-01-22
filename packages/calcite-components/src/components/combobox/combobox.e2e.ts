@@ -1264,7 +1264,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>`,
       );
 
-      const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChipClose");
 
       const chip = await page.find("calcite-combobox >>> calcite-chip");
 
@@ -1285,6 +1285,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `);
       const input = await page.find("calcite-combobox >>> input");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
 
       await input.click();
       await input.press("K");
@@ -1298,6 +1299,7 @@ describe("calcite-combobox", () => {
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await item.getProperty("selected")).toBe(true);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
     it("should replace current value to new custom value in single selection mode", async () => {
@@ -1312,6 +1314,7 @@ describe("calcite-combobox", () => {
       await skipAnimations(page);
       const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
 
       await input.click();
       await input.press("K");
@@ -1326,6 +1329,7 @@ describe("calcite-combobox", () => {
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(false);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
     it("should auto-select new custom values in multiple selection mode", async () => {
@@ -1339,6 +1343,7 @@ describe("calcite-combobox", () => {
       `);
       const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
 
       await input.click();
       await input.press("K");
@@ -1356,6 +1361,7 @@ describe("calcite-combobox", () => {
       expect(await customValue.getProperty("selected")).toBe(true);
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
   });
 
@@ -1666,17 +1672,21 @@ describe("calcite-combobox", () => {
     });
 
     it("should not throw when typing custom value and pressing ArrowDown", async () => {
-      const combobox = await page.find("calcite-combobox");
-      combobox.setProperty("allowCustomValues", true);
-      await page.waitForChanges();
-      const inputEl = await page.find(`#myCombobox >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-      await page.keyboard.type("asdf");
-      await page.waitForChanges();
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
+      async function runTest(): Promise<void> {
+        const combobox = await page.find("calcite-combobox");
+        combobox.setProperty("allowCustomValues", true);
+        await page.waitForChanges();
+        const inputEl = await page.find(`#myCombobox >>> input`);
+        await inputEl.focus();
+        await page.waitForChanges();
+        expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+        await page.keyboard.type("asdf");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+      }
+
+      await expect(runTest()).resolves.toBeUndefined();
     });
 
     it(`ArrowDown opens the item group for combobox in focus and jumps to the first item`, async () => {
@@ -1766,7 +1776,7 @@ describe("calcite-combobox", () => {
     });
 
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
-      const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
       const item3 = await page.find("calcite-combobox-item#three");
@@ -1988,6 +1998,27 @@ describe("calcite-combobox", () => {
       expect(eventSpy).toHaveReceivedEventTimes(1);
       expect((await element.getProperty("selectedItems")).length).toBe(2);
     });
+
+    it("should not emit calciteComboboxChange event when value attribute is updated", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="single">
+          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const combobox = await page.find("calcite-combobox");
+      expect(await combobox.getProperty("value")).toBe("one");
+
+      combobox.setProperty("value", "two");
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await combobox.getProperty("value")).toBe("two");
+    });
   });
 
   describe("calciteComboboxItemChange event correctly updates active item index", () => {
@@ -2063,6 +2094,7 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
 
@@ -2071,6 +2103,7 @@ describe("calcite-combobox", () => {
 
       await element.press("K");
       await element.press("Enter");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
 
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeDefined();
@@ -2082,6 +2115,7 @@ describe("calcite-combobox", () => {
       await element.press("Enter");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
     });
 
     it("should fire calciteComboboxChange when entering new unknown tag", async () => {
@@ -2099,6 +2133,7 @@ describe("calcite-combobox", () => {
 
       await input.press("K");
       await input.press("Enter");
+      await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
@@ -2113,6 +2148,7 @@ describe("calcite-combobox", () => {
         <button>OK</button>
       `);
       const chip = await page.find("calcite-combobox >>> calcite-chip");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       expect(chip).toBeNull();
 
       const input = await page.find("calcite-combobox >>> input");
@@ -2130,6 +2166,7 @@ describe("calcite-combobox", () => {
 
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
       await input.press("j");
 
       await page.waitForChanges();
@@ -2142,6 +2179,7 @@ describe("calcite-combobox", () => {
 
       chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(2);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
     });
 
     it("should select known tag when input", async () => {
@@ -2154,6 +2192,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `);
       let chip = await page.find("calcite-combobox >>> calcite-chip");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       expect(chip).toBeNull();
 
       const input = await page.find("calcite-combobox >>> input");
@@ -2169,6 +2208,7 @@ describe("calcite-combobox", () => {
       expect(await chip.getProperty("value")).toBe("one");
       const item1 = await page.find("calcite-combobox-item#one");
       expect(await item1.getProperty("selected")).toBe(true);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
   });
 
@@ -2448,8 +2488,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html);
       await skipAnimations(page);
+      const openEvent = page.waitForEvent("calciteComboboxOpen");
       await page.click("calcite-combobox");
-      await page.waitForChanges();
+      await openEvent;
 
       const activeItem = await page.find("calcite-combobox-item[active]");
       expect(await activeItem.getProperty("value")).toBe(expectedActiveItemValue);
@@ -2557,12 +2598,12 @@ describe("calcite-combobox", () => {
 
     async function assertClickOutside(selectionMode = "multiple", allowCustomValues = false): Promise<void> {
       const combobox = await page.find("calcite-combobox");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       combobox.setProperty("selectionMode", selectionMode);
       combobox.setProperty("allowCustomValues", allowCustomValues);
-      const inputEl = await page.find(`#myCombobox >>> input`);
-
-      await inputEl.focus();
       await page.waitForChanges();
+      const inputEl = await page.find(`#myCombobox >>> input`);
+      await inputEl.focus();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
       const comboboxRect = await page.evaluate(() => {
@@ -2580,6 +2621,7 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("myCombobox");
       expect(await inputEl.getProperty("value")).toBe("");
       expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "three" : "");
+      expect(eventSpy).toHaveReceivedEventTimes(allowCustomValues ? 1 : 0);
     }
 
     selectionModes.forEach((mode) => {
@@ -2608,6 +2650,7 @@ describe("calcite-combobox", () => {
 
     async function clearInputValueOnBlur(selectionMode = "multiple", allowCustomValues = false): Promise<void> {
       const combobox = await page.find("calcite-combobox");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       combobox.setProperty("selectionMode", selectionMode);
       combobox.setProperty("allowCustomValues", allowCustomValues);
       const inputEl = await page.find(`#myCombobox >>> input`);
@@ -2622,6 +2665,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await inputEl.getProperty("value")).toBe("");
       expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "three" : "");
+      expect(eventSpy).toHaveReceivedEventTimes(allowCustomValues ? 1 : 0);
     }
 
     selectionModes.forEach((mode) => {
@@ -2769,5 +2813,26 @@ describe("calcite-combobox", () => {
     await item3.click();
 
     expect(await combobox.getProperty("value")).toBe("three");
+  });
+
+  it("should not emit calciteComboboxItemChange event when selected attribute is toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+    await page.waitForChanges();
+
+    const eventSpy = await page.spyOnEvent("calciteComboboxItemChange");
+    const two = await page.find("#two");
+    two.setProperty("selected", "true");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    const combobox = await page.find("calcite-combobox");
+    expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 });

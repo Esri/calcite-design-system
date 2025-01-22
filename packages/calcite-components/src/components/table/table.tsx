@@ -70,9 +70,6 @@ export class Table extends LitElement implements LoadableComponent {
 
   @state() pageStartRow = 1;
 
-  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-
-  // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
   @state() readCellContentsToAT: boolean;
 
   @state() selectedCount = 0;
@@ -179,7 +176,11 @@ export class Table extends LitElement implements LoadableComponent {
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+
+    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
