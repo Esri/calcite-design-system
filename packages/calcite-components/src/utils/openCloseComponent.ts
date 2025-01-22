@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { KebabCase } from "type-fest";
+import type { Ref } from "lit/directives/ref.js";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -18,7 +19,7 @@ export interface OpenCloseComponent {
   transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
-  transitionEl: HTMLElement;
+  transitionEl: HTMLElement | Ref<HTMLElement>;
 
   /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;
@@ -60,7 +61,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
     }
 
     whenTransitionDone(
-      component.transitionEl,
+      "tagName" in component.transitionEl ? component.transitionEl : component.transitionEl.value,
       component.transitionProp,
       () => {
         if (isOpen(component)) {

@@ -5,10 +5,35 @@ export interface UseOpenClose {
   afterToggle: () => void;
 }
 
-export const useOpenClose = makeGenericController<UseOpenClose, OpenCloseComponent>((component, controller) => {
+interface UseOpenCloseOptions {
+  transitionEl: OpenCloseComponent["transitionEl"];
+  transitionProp: OpenCloseComponent["transitionProp"];
+  openProp?: {
+    name: string;
+    value: boolean;
+  };
+  events: {
+    onBeforeOpen: OpenCloseComponent["onBeforeOpen"];
+    onOpen: OpenCloseComponent["onOpen"];
+    onBeforeClose: OpenCloseComponent["onBeforeClose"];
+    onClose: OpenCloseComponent["onClose"];
+  }
+}
+
+export const useOpenClose = (options: UseOpenCloseOptions) => makeGenericController<UseOpenClose>((component, controller) => {
+  const opts = {
+    transitionEl: options.transitionEl,
+    transitionProp: options.transitionProp,
+    openProp: options.openProp.name,
+    onBeforeOpen: options.events.onBeforeOpen,
+    onOpen: options.events.onOpen,
+    onBeforeClose: options.events.onBeforeClose,
+    onClose: options.events.onClose,
+  } as const;
+
   return {
     afterToggle: () => {
-      onToggleOpenCloseComponent(component);
+      onToggleOpenCloseComponent(opts);
     },
   };
 });
