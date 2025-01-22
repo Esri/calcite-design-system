@@ -322,7 +322,7 @@ export class DatePickerMonthHeader extends LitElement {
     });
   }
 
-  private isValidMonth(index: number): boolean {
+  private isMonthInRange(index: number): boolean {
     const newActiveDate = getDateInMonth(this.activeDate, index);
 
     if ((!this.min && !this.max) || inRange(newActiveDate, this.min, this.max)) {
@@ -458,7 +458,7 @@ export class DatePickerMonthHeader extends LitElement {
         {monthData.map((month: string, index: number) => {
           return (
             <calcite-option
-              disabled={!this.isValidMonth(index)}
+              disabled={!this.isMonthInRange(index)}
               selected={index === activeMonth}
               value={month}
             >
