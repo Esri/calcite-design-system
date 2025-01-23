@@ -331,7 +331,7 @@ export class Dialog
     if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
       this.updateOverflowHiddenClass();
     }
-    if (changes.has("modal") || changes.has("focusTrapDisabled")) {
+    if (changes.has("modal") || (changes.has("focusTrapDisabled") && this.hasUpdated)) {
       this.handleFocusTrapDisabled();
     }
 
@@ -375,7 +375,7 @@ export class Dialog
 
   private handleFocusTrapDisabled(): void {
     if (!this.open) {
-      deactivateFocusTrap(this);
+      return;
     }
 
     if (this.modal || (!this.modal && !this.focusTrapDisabled)) {
