@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.110](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.109...@esri/calcite-components@3.0.0-next.110) (2025-01-23)
+
+### Bug Fixes
+
+- **date-picker:** no longer disable min/max value month in select menu ([#11350](https://github.com/Esri/calcite-design-system/issues/11350)) ([18767bb](https://github.com/Esri/calcite-design-system/commit/18767bb8d6a66649b349c78e96662db0c9c2b87c)), closes [#11321](https://github.com/Esri/calcite-design-system/issues/11321)
+- **date-picker:** remove outline for header actions ([#11369](https://github.com/Esri/calcite-design-system/issues/11369)) ([b39b8ae](https://github.com/Esri/calcite-design-system/commit/b39b8ae4d50907946aa3580e685e472e488519d6)), closes [#11371](https://github.com/Esri/calcite-design-system/issues/11371)
+
 ## [3.0.0-next.109](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.108...@esri/calcite-components@3.0.0-next.109) (2025-01-23)
 
 ### Bug Fixes
