@@ -1164,7 +1164,10 @@ describe("calcite-dialog", () => {
   describe("focusTrap", () => {
     it("can tab out of non-modal dialog when focusTrapDisabled=true", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-dialog focus-trap-disabled open closable></calcite-dialog> `);
+      await page.setContent(html`
+        <calcite-dialog width-scale="s" focus-trap-disabled open closable><button>inside</button></calcite-dialog>
+        <button>outside</button>
+      `);
       await skipAnimations(page);
       await page.waitForChanges();
 
@@ -1173,8 +1176,13 @@ describe("calcite-dialog", () => {
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       await page.keyboard.press("Escape");
+      await page.waitForTimeout(200);
       await page.waitForChanges();
 
       expect(await dialog.isVisible()).toBe(true);
@@ -1182,7 +1190,10 @@ describe("calcite-dialog", () => {
 
     it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-dialog modal focus-trap-disabled open closable></calcite-dialog> `);
+      await page.setContent(html`
+        <calcite-dialog width-scale="s" modal focus-trap-disabled open closable><button>inside</button></calcite-dialog>
+        <button>outside</button>
+      `);
       await skipAnimations(page);
       await page.waitForChanges();
 
@@ -1191,10 +1202,16 @@ describe("calcite-dialog", () => {
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-
-      await page.keyboard.press("Escape");
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
       await page.waitForChanges();
 
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(200);
+      await page.waitForChanges();
+
+      // expect(await dialog.getAttribute("open")).toBe(false);
       expect(await dialog.isVisible()).toBe(false);
     });
   });
