@@ -78,6 +78,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
+        this.direction = "forward";
         this.nextItem(false);
       } else {
         time = time - 0.01;
@@ -405,6 +406,11 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private handleArrowClick(event: MouseEvent): void {
     const direction = (event.target as HTMLDivElement).dataset.direction;
+
+    if (this.playing) {
+      this.handlePause(true);
+    }
+
     if (direction === "next") {
       this.direction = "forward";
       this.nextItem(true);
@@ -572,6 +578,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private renderRotationControl(): JsxNode {
     const text = this.playing ? this.messages.pause : this.messages.play;
+    const formattedValue = this.slideDurationRemaining * 100;
     return (
       <button
         ariaLabel={text}
@@ -587,7 +594,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
           <calcite-progress
             class={CSS.autoplayProgress}
             label={this.messages.carouselItemProgress}
-            value={this.slideDurationRemaining}
+            value={formattedValue}
           />
         )}
       </button>
