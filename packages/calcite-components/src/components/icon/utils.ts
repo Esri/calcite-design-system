@@ -52,7 +52,7 @@ export async function fetchIcon(props: FetchIconProps): Promise<CalciteIconPath>
     requestCache[cachedIconKey] = fetch(getAssetPath(`./assets/icon/${cachedIconKey}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        logger.error(`could not load "${props.icon}" (${props.scale}) icon`);
+        logger.error(`${props.icon} (${props.scale}) icon failed to load.`);
         return "";
       });
   }
