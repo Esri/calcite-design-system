@@ -1,5 +1,7 @@
 # Styling
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 Be sure to set `shadow: true` in Stencil's `@Component` options to make sure styles are encapsulated in our Calcite design system. This helps keep our components consistent across applications.
 
 ## Avoid complex CSS selectors

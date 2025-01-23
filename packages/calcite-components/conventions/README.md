@@ -303,6 +303,8 @@ my-component/
   ...
 ```
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
 
 ```tsx
@@ -327,6 +329,8 @@ const assetPath = getAssetPath(`./assets/my-component/asset.json`);
 This is required in order to have a unified assets folder in the distributable.
 
 ## Bundling and Loading
+
+<!-- TODO: Get suggestions for what this should be replaced with -->
 
 Stencil has the capability to build and distribute a large variety of outputs based on our needs. You can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
 
@@ -365,6 +369,8 @@ export class Example {
 This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id` this will respect the users `id`.
 
 ## Prerendering and SSR
+
+<!-- TODO: Get suggestions for what this should be replaced with -->
 
 Stencil provide the capability to render web components on the server and seamlessly hydrate them on the client. This is handled by the `dist-hydrate-script` output target in `stencil.config.ts`.
 
@@ -418,6 +424,8 @@ Avoid setting z-index ad hoc and instead use a contextual z-index layer from the
 There are utilities for common workflows in [`src/utils`](../src/utils).
 
 ### Global attributes
+
+<!-- TODO: Get suggestions for what this should be replaced with -->
 
 Watching global attributes on components is now possible with Stencil v4. Please refer to the [documentation page](https://stenciljs.com/docs/reactive-data#watching-native-html-attributes) for more information.
 

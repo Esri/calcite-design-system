@@ -1,4 +1,4 @@
-[![Built With Stencil](https://img.shields.io/badge/-Built%20With%20Stencil-16161d.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI%2BCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI%2BCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU%2BCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MjQuNywzNzMuOWMwLDM3LjYtNTUuMSw2OC42LTkyLjcsNjguNkgxODAuNGMtMzcuOSwwLTkyLjctMzAuNy05Mi43LTY4LjZ2LTMuNmgzMzYuOVYzNzMuOXoiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQyNC43LDI5Mi4xSDE4MC40Yy0zNy42LDAtOTIuNy0zMS05Mi43LTY4LjZ2LTMuNkgzMzJjMzcuNiwwLDkyLjcsMzEsOTIuNyw2OC42VjI5Mi4xeiIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDI0LjcsMTQxLjdIODcuN3YtMy42YzAtMzcuNiw1NC44LTY4LjYsOTIuNy02OC42SDMzMmMzNy45LDAsOTIuNywzMC43LDkyLjcsNjguNlYxNDEuN3oiLz4KPC9zdmc%2BCg%3D%3D&colorA=16161d&style=flat-square)](https://stenciljs.com/)
+[![Built With Lit](https://img.shields.io/badge/Built%20Wit%20Lit-black?style=flat-square&logo=lit&link=https%3A%2F%2Flit.dev%2F)](https://lit.dev/)
 [![npm package](https://img.shields.io/npm/v/@esri/calcite-components?style=flat-square&color=007AC2)](https://www.npmjs.com/package/@esri/calcite-components)
 [![minified size](https://img.shields.io/bundlephobia/min/@esri/calcite-components?style=flat-square&color=D83020)](https://bundlephobia.com/package/@esri/calcite-components)
 [![downloads per month](https://img.shields.io/npm/dm/@esri/calcite-components?style=flat-square&color=35AC46)](https://www.npmjs.com/package/@esri/calcite-components)
@@ -44,6 +44,8 @@ Choose one of the two builds provided by Calcite Components.
 
 #### Custom Elements
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 [Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when leveraging a frontend framework. To use this build, you will need to set the path to Calcite Components' assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on the CDN.
 
 ```jsx
@@ -64,6 +66,8 @@ import "@esri/calcite-components/dist/components/calcite-slider";
 ```
 
 #### Distribution
+
+<!-- TODO: Get suggestions for what this should be replaced with -->
 
 When using the [Distribution](https://stenciljs.com/docs/distribution) build, you'll need to define the custom elements on the window. You can also choose between local and CDN hosted assets.
 
@@ -102,7 +106,7 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 
 ## TypeScript
 
-Stencil provides a full set of typings for all the components in this repo. To make TypeScript aware of these components, just import the library:
+Lit provides a full set of typings for all the components in this repo. To make TypeScript aware of these components, just import the library:
 
 ```ts
 import "@esri/calcite-components";
@@ -120,14 +124,6 @@ loader.active = true;
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
 const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
 loader.active = true;
-```
-
-## `@stencil/core` Version
-
-When using Stencil, make sure the `@stencil/core` version in your project matches the one used by Calcite Components. You may run into type errors if the `@stencil/core` versions are different. You can install the same Stencil version used by `@esri/calcite-components`:
-
-```bash
-npm install @stencil/core@$(npm view @esri/calcite-components dependencies["@stencil/core"])
 ```
 
 ## Browser Support

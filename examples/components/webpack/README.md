@@ -47,6 +47,8 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 
 ### Configure Webpack
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 Calcite components need to be copied to your output directory so Stencil can load them from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
 ```sh

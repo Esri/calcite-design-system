@@ -1,5 +1,7 @@
 # strict-boolean-attributes
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 This rule will catch any Stencil Props that would produce boolean attributes that are not [HTML5-compliant](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes).
 
 ## Config

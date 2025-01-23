@@ -29,4 +29,6 @@ For comprehensive guidance on using and implementing `calcite-accordion`, refer 
 
 ---
 
+<!-- TODO: How do I change these auto generated stencil links? -->
+
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -1,5 +1,7 @@
 # @esri/eslint-plugin-calcite-components
 
+<!-- TODO: Get suggestions for what this should be replaced with -->
+
 ESLint rules specific to Stencil JS projects.
 
 ## Installation
