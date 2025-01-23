@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { isElementFocused } from "../../tests/utils";
 import type { Action } from "../action/action";
@@ -557,5 +557,14 @@ describe("calcite-flow", () => {
     displayedItem = await page.find(displayedItemSelector);
     expect(await flow.getProperty("childElementCount")).toBe(3);
     expect(displayedItem.id).toBe("first");
+  });
+
+  describe("theme", () => {
+    themed("calcite-flow", {
+      "--calcite-flow-background-color": {
+        shadowSelector: `.${CSS.frame}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });
