@@ -331,7 +331,7 @@ export class Dialog
     if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
       this.updateOverflowHiddenClass();
     }
-    if (changes.has("modal") || (changes.has("focusTrapDisabled") && this.hasUpdated)) {
+    if ((changes.has("modal") || changes.has("focusTrapDisabled")) && this.hasUpdated) {
       this.handleFocusTrapDisabled();
     }
 
