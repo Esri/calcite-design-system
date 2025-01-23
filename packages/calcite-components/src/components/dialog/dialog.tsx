@@ -331,8 +331,8 @@ export class Dialog
     if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
       this.updateOverflowHiddenClass();
     }
-    if (changes.has("modal") || this.focusTrapDisabled) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    if (changes.has("modal") || changes.has("focusTrapDisabled")) {
+      this.handleFocusTrapDisabled();
     }
 
     if (
@@ -373,12 +373,12 @@ export class Dialog
 
   // #region Private Methods
 
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+  private handleFocusTrapDisabled(): void {
     if (!this.open) {
-      return;
+      deactivateFocusTrap(this);
     }
 
-    if (this.modal || (this.modal === false && focusTrapDisabled === false)) {
+    if (this.modal || (!this.modal && !this.focusTrapDisabled)) {
       activateFocusTrap(this);
     } else {
       deactivateFocusTrap(this);
@@ -399,7 +399,7 @@ export class Dialog
 
   onOpen(): void {
     this.calciteDialogOpen.emit();
-    this.handleFocusTrapDisabled(this.focusTrapDisabled);
+    this.handleFocusTrapDisabled();
   }
 
   onBeforeClose(): void {
