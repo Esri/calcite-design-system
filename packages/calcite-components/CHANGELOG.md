@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.111](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.110...@esri/calcite-components@3.0.0-next.111) (2025-01-23)
+
+### Bug Fixes
+
+- **popover, tooltip:** drop relative-positioning to reduce risk of clipping ([#11373](https://github.com/Esri/calcite-design-system/issues/11373)) ([3bac85b](https://github.com/Esri/calcite-design-system/commit/3bac85b2df8cb568d5dc0e0ad05eb0a5e76fb176)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.110](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.109...@esri/calcite-components@3.0.0-next.110) (2025-01-23)
 
 ### Bug Fixes
