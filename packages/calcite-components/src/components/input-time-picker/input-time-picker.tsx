@@ -59,6 +59,11 @@ import {
   localizeTimeString,
   toISOTimeString,
   HourFormat,
+  TimePart,
+  Meridiem,
+  localizeTimePart,
+  localizeTimeStringToParts,
+  MinuteOrSecond,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
@@ -72,9 +77,10 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
+import { isValidNumber } from "../../utils/number";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, TEXT } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -156,6 +162,10 @@ interface GetLocalizedTimeStringParameters {
   numberingSystem?: NumberingSystem;
 }
 
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
@@ -170,11 +180,67 @@ export class InputTimePicker
 
   // #region Private Properties
 
+  private activeEl: HTMLSpanElement;
+
   private calciteTimePickerEl: TimePicker["el"];
 
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
+
+  private hourEl: HTMLSpanElement;
+
+  private hourKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+    const key = event.key;
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
+      let newHour;
+      if (isValidNumber(this.hour)) {
+        switch (this.hourFormat) {
+          case "12":
+            newHour =
+              this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
+                ? `1${keyAsNumber}`
+                : keyAsNumber;
+            break;
+          case "24":
+            if (this.hour === "01") {
+              newHour = `1${keyAsNumber}`;
+            } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
+              newHour = `2${keyAsNumber}`;
+            } else {
+              newHour = keyAsNumber;
+            }
+            break;
+        }
+      } else {
+        newHour = keyAsNumber;
+      }
+      this.setValuePart("hour", newHour);
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("hour", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.decrementHour();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.incrementHour();
+          break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
 
   labelEl: Label["el"];
 
@@ -185,6 +251,70 @@ export class InputTimePicker
   private localeDefaultLTSFormat: string;
 
   private popoverEl: Popover["el"];
+
+  private setValuePart = (key: TimePart, value: number | string | Meridiem): void => {
+    const {
+      messages: { _lang: locale },
+      numberingSystem,
+    } = this;
+    if (key === "meridiem") {
+      this.meridiem = value as Meridiem;
+      if (isValidNumber(this.hour)) {
+        const hourAsNumber = parseInt(this.hour);
+        switch (value) {
+          case "AM":
+            if (hourAsNumber >= 12) {
+              this.hour = formatTimePart(hourAsNumber - 12);
+            }
+            break;
+          case "PM":
+            if (hourAsNumber < 12) {
+              this.hour = formatTimePart(hourAsNumber + 12);
+            }
+            break;
+        }
+        this.localizedHour = localizeTimePart({
+          value: this.hour,
+          part: "hour",
+          locale,
+          numberingSystem,
+        });
+      }
+    } else {
+      this[key] = typeof value === "number" ? formatTimePart(value) : value;
+      this[`localized${capitalize(key)}`] = localizeTimePart({
+        value: this[key],
+        part: key,
+        locale,
+        numberingSystem,
+      });
+    }
+
+    let emit = false;
+    let newValue;
+    if (this.hour && this.minute) {
+      newValue = `${this.hour}:${this.minute}`;
+      if (this.showSecond) {
+        newValue = `${newValue}:${this.second ?? "00"}`;
+        if (this.showFractionalSecond && this.fractionalSecond) {
+          newValue = `${newValue}.${this.fractionalSecond}`;
+        }
+      }
+    } else {
+      newValue = "";
+    }
+    if (this.value !== newValue) {
+      emit = true;
+    }
+    this.value = newValue;
+    this.localizedMeridiem = this.value
+      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
+          ?.localizedMeridiem || null
+      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+    if (emit) {
+      this.calciteInputTimePickerChange.emit();
+    }
+  };
 
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
@@ -198,6 +328,38 @@ export class InputTimePicker
   @state() calciteInputEl: InputText["el"];
 
   @state() effectiveHourFormat: EffectiveHourFormat;
+
+  @state() fractionalSecond: string;
+
+  @state() hour: string;
+
+  @state() localizedDecimalSeparator = ".";
+
+  @state() localizedFractionalSecond: string;
+
+  @state() localizedHour: string;
+
+  @state() localizedHourSuffix: string;
+
+  @state() localizedMeridiem: string;
+
+  @state() localizedMinute: string;
+
+  @state() localizedMinuteSuffix: string;
+
+  @state() localizedSecond: string;
+
+  @state() localizedSecondSuffix: string;
+
+  @state() meridiem: Meridiem;
+
+  @state() minute: string;
+
+  @state() second: string;
+
+  @state() showFractionalSecond: boolean;
+
+  @state() showSecond: boolean;
 
   // #endregion
 
@@ -226,6 +388,37 @@ export class InputTimePicker
    * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
+
+  /** When `true`, the clock icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * aria-label for the hour input
+   *
+   * @default "Hour"
+   */
+  @property() intlHour = TEXT.hour;
+
+  /**
+   * aria-label for the meridiem (am/pm) input
+   *
+   * @default "AM/PM"
+   */
+  @property() intlMeridiem = TEXT.meridiem;
+
+  /**
+   * aria-label for the minute input
+   *
+   * @default "Minute"
+   */
+  @property() intlMinute = TEXT.minute;
+
+  /**
+   * aria-label for the second input
+   *
+   * @default "Second"
+   */
+  @property() intlSecond = TEXT.second;
 
   /**
    * When the component resides in a form,
@@ -397,6 +590,8 @@ export class InputTimePicker
 
     connectLabel(this);
     connectForm(this);
+
+    this.showSecond = this.step < 60;
   }
 
   async load(): Promise<void> {
@@ -542,6 +737,66 @@ export class InputTimePicker
       this.setInputValue(valueInNumberingSystem);
     }
   }
+
+  private decrementHour = (): void => {
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    this.setValuePart("hour", newHour);
+  };
+
+  private decrementMeridiem = (): void => {
+    const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
+    this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private decrementMinute = (): void => {
+    this.decrementMinuteOrSecond("minute");
+  };
+
+  private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+    let newValue;
+    if (isValidNumber(this[key])) {
+      const valueAsNumber = parseInt(this[key]);
+      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
+    } else {
+      newValue = 59;
+    }
+    this.setValuePart(key, newValue);
+  };
+
+  private decrementSecond = (): void => {
+    this.decrementMinuteOrSecond("second");
+  };
+
+  private incrementHour = (): void => {
+    const newHour = isValidNumber(this.hour)
+      ? this.hour === "23"
+        ? 0
+        : parseInt(this.hour) + 1
+      : 1;
+    this.setValuePart("hour", newHour);
+  };
+
+  private incrementMeridiem = (): void => {
+    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private incrementMinute = (): void => {
+    this.incrementMinuteOrSecond("minute");
+  };
+
+  private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+    const newValue = isValidNumber(this[key])
+      ? this[key] === "59"
+        ? 0
+        : parseInt(this[key]) + 1
+      : 0;
+    this.setValuePart(key, newValue);
+  };
+
+  private incrementSecond = (): void => {
+    this.incrementMinuteOrSecond("second");
+  };
 
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
@@ -917,6 +1172,8 @@ export class InputTimePicker
     this.openHandler();
   }
 
+  private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
+
   private setInputEl(el: InputText["el"]): void {
     if (!el) {
       return;
@@ -1039,6 +1296,10 @@ export class InputTimePicker
     this.setLocalizedInputValue();
   }
 
+  private timePartFocusHandler = (event: FocusEvent): void => {
+    this.activeEl = event.currentTarget as HTMLSpanElement;
+  };
+
   private onInputWrapperClick() {
     this.open = !this.open;
   }
@@ -1053,8 +1314,39 @@ export class InputTimePicker
 
   override render(): JsxNode {
     const { disabled, messages, readOnly } = this;
+    const emptyValue = "--";
+    const hourIsNumber = isValidNumber(this.hour);
     return (
       <InteractiveContainer disabled={this.disabled}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.readOnly]: readOnly,
+          }}
+          dir="ltr"
+        >
+          <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
+          <span
+            aria-label={this.intlHour}
+            aria-valuemax="23"
+            aria-valuemin="1"
+            aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
+            aria-valuetext={this.hour}
+            class={{
+              [CSS.empty]: !this.localizedHour,
+              [CSS.input]: true,
+            }}
+            onFocus={this.timePartFocusHandler}
+            onKeyDown={this.hourKeyDownHandler}
+            ref={this.setHourEl}
+            role="spinbutton"
+            tabIndex={0}
+          >
+            {this.localizedHour || emptyValue}
+          </span>
+          <span>{this.localizedHourSuffix}</span>
+        </div>
+        <br />
         <div class="input-wrapper" onClick={this.onInputWrapperClick}>
           <calcite-input-text
             aria-errormessage={IDS.validationMessage}

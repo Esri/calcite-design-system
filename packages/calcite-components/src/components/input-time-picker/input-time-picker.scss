@@ -10,19 +10,77 @@
   @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
 }
 
+.container {
+  align-items: center;
+  display: flex;
+  color: var(--calcite-color-text-1);
+
+  &.read-only {
+    background-color: var(--calcite-color-background);
+  }
+}
+
+.input {
+  align-items: center;
+  display: flex;
+  block-size: 100%;
+  justify-content: center;
+  min-inline-size: max-content;
+  &.empty {
+    inline-size: var(--calcite-spacing-xl);
+  }
+  &:focus,
+  &:hover:focus {
+    // background-color: var(--calcite-ui-text-highlight);
+    background-color: #bbd5fa;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+}
+
 :host([scale="s"]) {
   --calcite-toggle-spacing: theme("spacing.2");
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
+
+  .container {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1rem /* 16px */;
+    padding-inline-start: var(--calcite-spacing-xxxl);
+    padding-inline-end: var(--calcite-spacing-sm);
+    .clock-icon {
+      inset-inline-start: var(--calcite-spacing-xxs);
+    }
+  }
 }
 
 :host([scale="m"]) {
   --calcite-toggle-spacing: theme("spacing.3");
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.6"))};
+
+  .container {
+    font-size: var(--calcite-font-size--1);
+    line-height: 1rem /* 16px */;
+    padding-inline-start: 2.5rem;
+    padding-inline-end: var(--calcite-spacing-md);
+    .clock-icon {
+      inset-inline-start: var(--calcite-spacing-md);
+    }
+  }
 }
 
 :host([scale="l"]) {
   --calcite-toggle-spacing: theme("spacing.4");
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
+
+  .container {
+    font-size: var(--calcite-font-size-0);
+    line-height: 1.25rem /* 20px */;
+    padding-inline-start: 3rem;
+    padding-inline-end: var(--calcite-spacing-xl);
+    .clock-icon {
+      inset-inline-start: var(--calcite-spacing-xl);
+    }
+  }
 }
 
 .input-wrapper {
