@@ -12,6 +12,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
@@ -390,5 +391,24 @@ describe("calcite-flow-item", () => {
 
     const flowItem = await page.find("calcite-flow-item");
     expect(await flowItem.getProperty("closed")).toBe(false);
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-flow-item show-back-button></calcite-flow-item>`, {
+      "--calcite-flow-border-color": [
+        {
+          shadowSelector: `.${CSS.backButton}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-border-color",
+        },
+      ],
+      "--calcite-flow-corner-radius": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-corner-radius",
+      },
+    });
   });
 });
