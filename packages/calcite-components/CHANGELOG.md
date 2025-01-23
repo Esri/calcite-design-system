@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.109](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.108...@esri/calcite-components@3.0.0-next.109) (2025-01-23)
+
+### Bug Fixes
+
+- **carousel:** Ensure correct `autoplay` display and animation ([#11338](https://github.com/Esri/calcite-design-system/issues/11338)) ([a5626fa](https://github.com/Esri/calcite-design-system/commit/a5626fae2eb802b1079522cec83ee280809e309d)), closes [#11317](https://github.com/Esri/calcite-design-system/issues/11317)
+
 ## [3.0.0-next.108](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.107...@esri/calcite-components@3.0.0-next.108) (2025-01-23)
 
 ### Bug Fixes
