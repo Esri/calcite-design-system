@@ -35,8 +35,7 @@
 }
 
 :host {
-  @apply relative
-  flex
+  @apply flex
   flex-grow
   flex-col
   self-start;

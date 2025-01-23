@@ -32,8 +32,7 @@
 }
 
 :host {
-  @apply relative
-    inline-flex
+  @apply inline-flex
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;

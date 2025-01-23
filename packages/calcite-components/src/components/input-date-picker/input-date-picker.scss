@@ -1,8 +1,7 @@
 :host {
   @extend %component-spacing;
   @include floating-ui-elem-anim(".menu-container");
-  @apply relative
-    inline-block
+  @apply inline-block
     w-full
     overflow-visible
     align-top

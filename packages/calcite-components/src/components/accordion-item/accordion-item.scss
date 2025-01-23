@@ -30,8 +30,7 @@
 }
 
 :host {
-  @apply relative
-    flex
+  @apply flex
     flex-col
     no-underline;
 

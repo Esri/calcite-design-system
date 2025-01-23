@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply relative block;
+  @apply block;
 }
 
 @include disabled();
