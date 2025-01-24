@@ -1,5 +1,5 @@
 :host {
-  @apply cursor-pointer flex relative text-color-3;
+  @apply cursor-pointer flex relative;
   outline: none;
 }
 
@@ -16,7 +16,6 @@
 
 .day {
   @apply text-n2h
-    text-color-3
     flex
     items-center
     justify-center
@@ -25,9 +24,10 @@
     w-full
     relative;
   line-height: var(--calcite-font-line-height-fixed-base);
-  background: none;
   block-size: var(--calcite-internal-day-size);
   outline-color: var(--calcite-color-transparent);
+  background: var(--calcite-date-picker-day-background-color, none);
+  color: var(--calcite-date-picker-day-text-color, var(--calcite-color-text-3));
 }
 
 .text {
@@ -63,13 +63,14 @@
 
 :host(:hover:not([disabled]):not([selected])) {
   & .day {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-date-picker-day-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-date-picker-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
 :host(:not([range]):not([selected]).current-day) {
   & .day {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-date-picker-current-day-text-color, var(--calcite-color-text-1));
     font-weight: var(--calcite-font-weight-medium);
   }
 }
@@ -85,14 +86,15 @@
 
 :host([selected]) .day {
   @apply font-medium;
-  background-color: var(--calcite-color-brand);
-  color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-date-picker-day-background-color-selected, var(--calcite-color-brand));
+  color: var(--calcite-date-picker-day-text-color-selected, var(--calcite-color-foreground-1));
 }
 
+//range tokens
 :host([range-hover]:not([selected])) {
   .day {
-    @apply bg-foreground-2;
-    @apply text-color-1;
+    background-color: var(--calcite-color-foreground-2);
+    color: var(--calcite-color-text-1);
   }
 }
 
