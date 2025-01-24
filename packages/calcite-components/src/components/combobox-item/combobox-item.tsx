@@ -41,6 +41,12 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   // #endregion
 
+  // #region Private Properties
+
+  private _selected = false;
+
+  // #endregion
+
   // #region Public Properties
 
   /** When `true`, the component is active. */
@@ -91,7 +97,18 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected: boolean = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      // we emit directly to avoid delays updating the parent combobox
+      this.emitItemChange();
+    }
+  }
 
   /**
    * Specifies the selection mode of the component, where:
@@ -173,10 +190,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       (changes.has("disabled") ||
         changes.has("heading") ||
         changes.has("label") ||
-        changes.has("selected") ||
         changes.has("textLabel"))
     ) {
-      this.calciteInternalComboboxItemChange.emit();
+      this.emitItemChange();
     }
   }
 
@@ -187,6 +203,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
+  private emitItemChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
