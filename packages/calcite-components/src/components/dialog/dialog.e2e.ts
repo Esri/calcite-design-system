@@ -1166,12 +1166,17 @@ describe("calcite-dialog", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dialog width-scale="s" focus-trap-disabled open closable><button>inside</button></calcite-dialog>
+        <button>outside</button>
       `);
       await skipAnimations(page);
       await page.waitForChanges();
 
-      const dialog = await page.find("calcite-dialog");
+      const dialog = await page.find("calcite-dialog >>> .container");
+      const action = await page.find("calcite-dialog >>> calcite-action");
       expect(await dialog.isVisible()).toBe(true);
+
+      await action.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
@@ -1184,7 +1189,7 @@ describe("calcite-dialog", () => {
       expect(await dialog.isVisible()).toBe(true);
     });
 
-    it.only("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
+    it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dialog width-scale="s" modal focus-trap-disabled open closable><button>inside</button></calcite-dialog>
@@ -1200,7 +1205,6 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      await page.keyboard.press("Tab");
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();

@@ -187,7 +187,7 @@ export class Dialog
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
-  /** When `true`, prevents focus trapping when modal is `true`. */
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, displays and positions the component. */
