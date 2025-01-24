@@ -56,6 +56,7 @@ export interface LoadableComponent {}
  *
  * @param _component
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- this method is deprecated, and we allow it to be empty for incremental migration
 export function setUpLoadableComponent(_component: LoadableComponent): void {
   // intentionally empty
 }
@@ -74,6 +75,7 @@ export function setUpLoadableComponent(_component: LoadableComponent): void {
  *
  * @param _component
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- this method is deprecated, and we allow it to be empty for incremental migration
 export function setComponentLoaded(_component: LoadableComponent): void {
   // intentionally empty
 }
