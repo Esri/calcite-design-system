@@ -749,8 +749,8 @@ export class Combobox
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item?.value?.toString());
-    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+    const items = this.selectedItems.map((item) => item.value?.toString());
+    return items.length ? (items.length > 1 ? items : items[0]) : "";
   }
 
   private comboboxInViewport(): boolean {
