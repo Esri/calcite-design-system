@@ -84,38 +84,28 @@
   @apply focus-inset;
 }
 
+:host(:hover:not([disabled]):not([selected])) .day {
+  @apply focus-inset;
+}
+
 :host([selected]) .day {
   @apply font-medium;
   background-color: var(--calcite-date-picker-day-background-color-selected, var(--calcite-color-brand));
   color: var(--calcite-date-picker-day-text-color-selected, var(--calcite-color-foreground-1));
 }
 
-//range tokens
 :host([range-hover]:not([selected])) {
   .day {
-    background-color: var(--calcite-color-foreground-2);
-    color: var(--calcite-color-text-1);
+    background-color: var(--calcite-date-picker-day-range-inverted-background-color, var(--calcite-color-foreground-2));
+    color: var(--calcite-date-picker-day-range-inverted-text-color, var(--calcite-color-text-1));
   }
 }
 
-:host([highlighted]:not([selected])) {
+:host([highlighted]:not([selected])),
+:host(:hover[highlighted]:not([selected])) {
   .day {
-    color: var(--calcite-color-brand);
-    background-color: var(--calcite-color-foreground-current);
-  }
-}
-
-:host(:hover[highlighted]:not([selected]).inside-range--hover) {
-  .day {
-    background-color: var(--calcite-color-foreground-current);
-    color: var(--calcite-color-brand);
-    @apply focus-inset;
-  }
-}
-
-:host(:hover:not([highlighted]):not([selected]).outside-range--hover) {
-  .day {
-    @apply focus-inset;
+    color: var(--calcite-date-picker-day-range-text-color, var(--calcite-color-brand));
+    background-color: var(--calcite-date-picker-day-range-background-color, var(--calcite-color-foreground-current));
   }
 }
 
