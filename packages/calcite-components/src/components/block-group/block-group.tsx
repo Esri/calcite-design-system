@@ -121,7 +121,7 @@ export class BlockGroup
   /**
    * Specifies an accessible name for the component.
    *
-   * When `dragEnabled` is `true` and multiple block-group sorting is enabled with `group`, specifies the component's name for dragging between block-groups.
+   * When `dragEnabled` is `true` and multiple group sorting is enabled with `group`, specifies the component's name for dragging between groups.
    *
    * @required
    */
