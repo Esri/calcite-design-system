@@ -141,27 +141,21 @@ export class TileGroup
   async loaded(): Promise<void> {
     await this.componentOnReady();
     this.updateSelectedItems();
+    const { el } = this;
+
     dragAndDrop({
-      parent: this.el,
-
-      getValues: () => {
-        console.log("get values", this.values);
-        return this.values;
-      },
-
-      setValues: (newValues) => {
-        console.log("new values", newValues);
-        this.values = newValues;
-      },
+      parent: el,
+      getValues: () => this.values,
+      setValues: (newValues) => (this.values = newValues),
 
       config: {
         root: getRootNode(this.el),
         onSort: (event) => {
-          console.log(event);
+          console.log({ onSort: event });
           const values = event.values as string[];
-          const items = Array.from(this.el.children) as Tile["el"][];
+          const items = event.nodes.map((node) => node.el) as unknown as Tile["el"][];
           items.sort((a, b) => (values.indexOf(a.value) > values.indexOf(b.value) ? 1 : -1));
-          items.forEach((item) => this.el.appendChild(item));
+          items.forEach((item) => el.appendChild(item));
         },
       },
     });
