@@ -67,10 +67,12 @@ const updateConfig = () => {
   writeFileSync(join(PACKAGE_ROOT, "fantasticonrc.json"), config);
 };
 
-module.exports = () => {
+const main = () => {
   clearAndPrepareDirs();
   createLinks(filterIcons());
   sizes.forEach(organizeIconsBySize);
   sizes.forEach(generateFonts);
   updateConfig();
 };
+
+main();
