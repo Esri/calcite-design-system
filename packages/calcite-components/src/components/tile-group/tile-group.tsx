@@ -36,7 +36,7 @@ export class TileGroup
 
   private items: Tile["el"][] = [];
 
-  @state() private values: string[] = [];
+  @state() private dragValues: string[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
@@ -141,24 +141,7 @@ export class TileGroup
   async loaded(): Promise<void> {
     await this.componentOnReady();
     this.updateSelectedItems();
-    const { el } = this;
-
-    dragAndDrop({
-      parent: el,
-      getValues: () => this.values,
-      setValues: (newValues) => (this.values = newValues),
-
-      config: {
-        root: getRootNode(this.el),
-        onSort: (event) => {
-          console.log({ onSort: event });
-          const values = event.values as string[];
-          const items = event.nodes.map((node) => node.el) as unknown as Tile["el"][];
-          items.sort((a, b) => (values.indexOf(a.value) > values.indexOf(b.value) ? 1 : -1));
-          items.forEach((item) => el.appendChild(item));
-        },
-      },
-    });
+    this.initDragAndDrop();
   }
 
   override disconnectedCallback(): void {
@@ -168,6 +151,31 @@ export class TileGroup
   // #endregion
 
   // #region Private Methods
+
+  private initDragAndDrop(): void {
+    const { el } = this;
+
+    dragAndDrop({
+      parent: el,
+      getValues: () => this.dragValues,
+      setValues: (newValues) => (this.dragValues = newValues),
+
+      config: {
+        root: getRootNode(el),
+        onSort: (event) => {
+          console.log({ onSort: event });
+          const values = event.values as string[];
+          const items = event.nodes.map((node) => node.el) as unknown as Tile["el"][];
+          items.sort((a, b) => (values.indexOf(a.guid) > values.indexOf(b.guid) ? 1 : -1));
+          items.forEach((item) => el.appendChild(item));
+        },
+        onTransfer: (event) => {
+          console.log({ onTransfer: event });
+        },
+      },
+    });
+  }
+
   private getSlottedTiles(): Tile["el"][] {
     return this.slotEl
       ?.assignedElements({ flatten: true })
@@ -224,8 +232,6 @@ export class TileGroup
   private async updateTiles(): Promise<void> {
     await this.componentOnReady();
     this.items = this.getSlottedTiles();
-    this.values = this.items?.map((el) => el.value) ?? [];
-    console.log(this.values);
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
@@ -235,6 +241,7 @@ export class TileGroup
       el.selectionMode = this.selectionMode;
     });
     this.updateSelectedItems();
+    this.dragValues = this.items?.map((el) => el.guid) ?? [];
   }
 
   private calciteInternalTileKeyEventListener(event: CustomEvent): void {
