@@ -1,6 +1,7 @@
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
 import { Scale } from "../interfaces";
 import { getAssetPath } from "../../runtime";
+import { logger } from "../../utils/logger";
 import { IconNameOrString } from "./interfaces";
 
 export interface FetchIconProps {
@@ -51,7 +52,7 @@ export async function fetchIcon(props: FetchIconProps): Promise<CalciteIconPath>
     requestCache[cachedIconKey] = fetch(getAssetPath(`./assets/icon/${cachedIconKey}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`"${cachedIconKey}" is not a valid calcite-ui-icon name`);
+        logger.error(`${props.icon} (${props.scale}) icon failed to load`);
         return "";
       });
   }
