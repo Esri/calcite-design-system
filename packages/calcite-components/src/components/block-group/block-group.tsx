@@ -114,7 +114,7 @@ export class BlockGroup
   /**
    * The block-group's group identifier.
    *
-   * To drag elements from one block-group into another, both block-groups must have the same group value.
+   * To drag elements from one group into another, both groups must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
