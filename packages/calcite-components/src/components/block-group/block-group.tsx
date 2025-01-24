@@ -99,7 +99,7 @@ export class BlockGroup
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can  move from the component. */
+  /** When provided, the method will be called to determine whether the element is sortable in the component. */
   @property() canPull: (detail: BlockDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
