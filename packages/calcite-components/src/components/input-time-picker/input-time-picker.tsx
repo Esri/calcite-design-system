@@ -1257,12 +1257,13 @@ export class InputTimePicker
     this.setFocus();
   }
 
-  private sanitizeFractionalSecond = (fractionalSecond: string): string =>
-    fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
+  private sanitizeFractionalSecond(fractionalSecond: string): string {
+    return fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
       ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
       : fractionalSecond;
+  }
 
-  private secondKeyDownHandler = (event: KeyboardEvent): void => {
+  private secondKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -1300,7 +1301,7 @@ export class InputTimePicker
           break;
       }
     }
-  };
+  }
 
   private shouldIncludeSeconds(): boolean {
     return this.step < 60;
