@@ -1182,6 +1182,8 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
