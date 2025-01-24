@@ -12,8 +12,15 @@
 
 .container {
   align-items: center;
+  background-color: var(--calcite-ui-foreground-1);
+  border: 1px solid var(--calcite-color-border-input);
+  box-sizing: border-box;
   display: flex;
   color: var(--calcite-color-text-1);
+  font-weight: var(--calcite-font-weight-normal);
+  max-block-size: 100%;
+  padding-block: var(--calcite-spacing-xxs);
+  inline-size: 100%;
 
   &.read-only {
     background-color: var(--calcite-color-background);
@@ -38,17 +45,20 @@
   }
 }
 
+.meridiem {
+  margin-inline-start: var(--calcite-spacing-xxs);
+}
+
 :host([scale="s"]) {
   --calcite-toggle-spacing: theme("spacing.2");
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
 
   .container {
     font-size: var(--calcite-font-size--2);
-    line-height: 1rem /* 16px */;
-    padding-inline-start: var(--calcite-spacing-xxxl);
-    padding-inline-end: var(--calcite-spacing-sm);
+    line-height: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-spacing-xs);
     .clock-icon {
-      inset-inline-start: var(--calcite-spacing-xxs);
+      margin-inline-end: var(--calcite-spacing-xs);
     }
   }
 }
@@ -59,11 +69,10 @@
 
   .container {
     font-size: var(--calcite-font-size--1);
-    line-height: 1rem /* 16px */;
-    padding-inline-start: 2.5rem;
-    padding-inline-end: var(--calcite-spacing-md);
+    line-height: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-spacing-sm);
     .clock-icon {
-      inset-inline-start: var(--calcite-spacing-md);
+      margin-inline-end: var(--calcite-spacing-xs);
     }
   }
 }
@@ -74,11 +83,10 @@
 
   .container {
     font-size: var(--calcite-font-size-0);
-    line-height: 1.25rem /* 20px */;
-    padding-inline-start: 3rem;
-    padding-inline-end: var(--calcite-spacing-xl);
+    line-height: var(--calcite-spacing-xxl);
+    padding-inline: var(--calcite-spacing-lg);
     .clock-icon {
-      inset-inline-start: var(--calcite-spacing-xl);
+      margin-inline-end: var(--calcite-spacing-lg);
     }
   }
 }

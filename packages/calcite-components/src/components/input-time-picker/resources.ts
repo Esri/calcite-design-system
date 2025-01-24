@@ -3,6 +3,7 @@ export const CSS = {
   container: "container",
   empty: "empty",
   input: "input",
+  meridiem: "meridiem",
   readOnly: "read-only",
   toggleIcon: "toggle-icon",
 };
