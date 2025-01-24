@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.111...@esri/calcite-components@3.0.0-next.112) (2025-01-24)
+
+### Features
+
+- **graph:** add component tokens ([#11355](https://github.com/Esri/calcite-design-system/issues/11355)) ([24ff411](https://github.com/Esri/calcite-design-system/commit/24ff4113cc4086f444583e9d8660051e7b674202)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.0.0-next.111](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.110...@esri/calcite-components@3.0.0-next.111) (2025-01-23)
 
 ### Bug Fixes
