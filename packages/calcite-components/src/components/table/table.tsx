@@ -14,6 +14,7 @@ import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import type { Pagination } from "../pagination/pagination";
+import { isHidden } from "../../utils/component";
 import {
   TableInteractionMode,
   TableLayout,
@@ -232,8 +233,8 @@ export class Table extends LitElement implements LoadableComponent {
     const destination = event.detail.destination;
     const lastCell = event.detail.lastCell;
 
-    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
-    const visibleAll = this.allRows?.filter((row) => !row.hidden);
+    const visibleBody = this.bodyRows?.filter((row) => !isHidden(row));
+    const visibleAll = this.allRows?.filter((row) => !isHidden(row));
 
     const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
     const firstBodyRow = visibleBody[0]?.positionAll;
@@ -347,7 +348,7 @@ export class Table extends LitElement implements LoadableComponent {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
@@ -400,7 +401,7 @@ export class Table extends LitElement implements LoadableComponent {
   // #region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => isHidden(el))?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
