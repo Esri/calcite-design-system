@@ -7,6 +7,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import type { Input } from "../input/input";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./table-advanced.scss";
@@ -50,6 +51,18 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   /** Specifies the table columns of the component. */
   @property() columns: ColumnDefinition[];
 
+  /** Specifies the field to be used as row index. Default is `id`. */
+  @property() rowIndexField: string;
+
+  /** Specifies the component's height. Default is `auto`. */
+  @property() height: string;
+
+  /** When true, the component shows scroll to row input. */
+  @property() showScrollToRow = false;
+
+  /** Scroll to row input value. */
+  @property() scrollToRowInputValue: string;
+
   // #endregion
 
   // #region Events
@@ -88,6 +101,8 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
       : new Tabulator(this.tableEl, {
           data: this.data || [],
           columns: this.columns || [],
+          index: this.rowIndexField || "id",
+          height: this.height || "auto",
         });
   }
 
@@ -110,6 +125,16 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
       this.tabulator.setColumns(columns);
     }
   }
+
+  private changeHandler(event: CustomEvent): void {
+    event.stopPropagation();
+    this.scrollToRowInputValue = (event.target as Input["el"]).value;
+  }
+
+  private inputHandler(event: CustomEvent): void {
+    event.stopPropagation();
+    this.scrollToRowInputValue = (event.target as Input["el"]).value;
+  }
   // #endregion
 
   // #region Rendering
@@ -117,6 +142,25 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
+        {this.showScrollToRow && (
+          <div>
+            <calcite-input
+              oncalciteInputChange={this.changeHandler}
+              oncalciteInputInput={this.inputHandler}
+              type="search"
+              value={this.scrollToRowInputValue}
+            />
+            <button
+              onClick={() => {
+                console.log("row", this.tabulator.getRow(this.scrollToRowInputValue).getData());
+                this.tabulator.scrollToRow(this.scrollToRowInputValue, "top", true);
+              }}
+            >
+              Scroll to row
+            </button>
+          </div>
+        )}
+
         {this.customSlotTableEl ? (
           <span>{this.customSlotTableEl}</span>
         ) : (
