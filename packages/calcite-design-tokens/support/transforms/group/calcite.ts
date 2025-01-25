@@ -6,9 +6,24 @@ import { transforms } from "style-dictionary/enums";
 import { nameRemoveTier } from "../name/removeTier.js";
 import { NameRemoveDefault } from "../name/removeDefault.js";
 import { nameRemoveColorMode } from "../name/removeColorMode.js";
-import { nameIncludePlus } from "../name/includePlus.js";
-import { nameIncludeMinus } from "../name/includeMinus.js";
+import { NameIncludePlusMinus } from "../name/includePlusMinus.js";
 import { ValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
+import { ValueMathSum } from "../value/mathSum.js";
+
+export const platformTransforms = {
+  css: [
+    "ts/color/css/hexrgba",
+    "ts/size/css/letterspacing",
+    ValueCSSShadow,
+    transforms.nameKebab,
+    nameRemoveTier,
+    NameRemoveDefault,
+    nameRemoveColorMode,
+    NameIncludePlusMinus,
+  ],
+  es6: [transforms.nameCamel, nameRemoveTier, NameRemoveDefault, nameRemoveColorMode, NameIncludePlusMinus],
+  compose: ["ts/typography/compose/shorthand"],
+};
 
 export function getTransforms(sd: typeof StyleDictionary, transformOpts?: TransformOptions): string[] {
   const agnosticTransforms = [
@@ -19,24 +34,10 @@ export function getTransforms(sd: typeof StyleDictionary, transformOpts?: Transf
     "ts/size/lineheight",
     "ts/typography/fontWeight",
     "ts/color/modifiers",
+    ValueSizePxToRem,
+    ValueSizeUnitlessToPx,
+    ValueMathSum,
   ];
-
-  const platformTransforms = {
-    css: [
-      "ts/color/css/hexrgba",
-      "ts/size/css/letterspacing",
-      ValueSizePxToRem,
-      ValueSizeUnitlessToPx,
-      ValueCSSShadow,
-      transforms.nameKebab,
-      nameRemoveTier,
-      NameRemoveDefault,
-      nameRemoveColorMode,
-      nameIncludePlus,
-      nameIncludeMinus,
-    ],
-    compose: ["ts/typography/compose/shorthand"],
-  };
 
   const platform = transformOpts?.platform ?? "css";
 

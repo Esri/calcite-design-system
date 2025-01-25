@@ -4,7 +4,7 @@
       "height": {
         "xxs": {
           "min": {
-            "value": "0",
+            "value": "{core.container-size.0}",
             "type": "breakpoint",
             "description": "Small handheld devices and mini-windows",
             "attributes": {

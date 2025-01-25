@@ -63,7 +63,9 @@ export function registerValueMathSum(sd: typeof StyleDictionary): void {
     transform: transformValueMathSum,
     transitive: true,
     type: "value",
-    filter: (token) => !!Number(token.value) || !!hasOperator(token.value),
+    filter: (token) => {
+      return Number(token.value) === 0 || !!Number(token.value) || !!hasOperator(token.value);
+    },
   });
 }
 

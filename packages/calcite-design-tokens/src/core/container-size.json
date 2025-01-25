@@ -3,7 +3,7 @@
     "container-size": {
       "0": {
         "value": "0",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -27,7 +27,7 @@
       },
       "154": {
         "value": "154",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -51,7 +51,7 @@
       },
       "320": {
         "value": "320",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -75,7 +75,7 @@
       },
       "328": {
         "value": "328",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -99,7 +99,7 @@
       },
       "476": {
         "value": "476",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -123,7 +123,7 @@
       },
       "504": {
         "value": "504",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -147,7 +147,7 @@
       },
       "678": {
         "value": "678",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -171,7 +171,7 @@
       },
       "768": {
         "value": "768",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -195,7 +195,7 @@
       },
       "854": {
         "value": "854",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -219,7 +219,7 @@
       },
       "1152": {
         "value": "1152",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -243,7 +243,7 @@
       },
       "1440": {
         "value": "1440",
-        "type": "sizing",
+        "type": "breakpoint",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",

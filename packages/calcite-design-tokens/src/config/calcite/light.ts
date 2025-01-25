@@ -2,7 +2,7 @@ import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "
 import { formats } from "style-dictionary/enums";
 import { expandTypesMap } from "@tokens-studio/sd-transforms";
 import { HeaderCalciteDefault } from "../../../support/header/calcite-default.js";
-import { CalciteTransformGroup } from "../../../support/transforms/group/calcite.js";
+import { CalciteTransformGroup, platformTransforms } from "../../../support/transforms/group/calcite.js";
 import * as filter from "../../../support/filter/index.js";
 import { Config } from "style-dictionary/types";
 
@@ -45,6 +45,23 @@ export default {
         fileExtension: ".css",
         fileHeader: HeaderCalciteDefault,
       },
+    },
+    es6: {
+      transformGroup: CalciteTransformGroup,
+      transforms: platformTransforms.es6,
+      buildPath: "dist/es6/",
+      prefix: "calcite",
+      options: {
+        fileExtension: ".ts",
+        fileHeader: HeaderCalciteDefault,
+      },
+      files: [
+        {
+          destination: "light.ts",
+          format: formats.javascriptEs6,
+          filter: filter.FilterCalciteTokens,
+        },
+      ],
     },
   },
   log: {

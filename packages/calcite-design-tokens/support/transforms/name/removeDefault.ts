@@ -1,15 +1,14 @@
 import StyleDictionary, { TransformedToken } from "style-dictionary";
 
 export function transformNameRemoveDefault(token: TransformedToken): string {
-  const idx = token.path.findIndex((path) => path === "default");
+  const regex = /(-?default$)|(default-?)/gi;
+  const findDefault = regex.exec(token.name);
 
-  if (idx === -1) {
-    return token.name;
-  } else if (idx === token.path.length - 1) {
-    return token.name.replace(/-default$/, "");
-  } else {
-    return token.name.replace(/default-/, "");
+  if (findDefault) {
+    return token.name.replace(findDefault[0], "");
   }
+
+  return token.name;
 }
 
 export function registerNameRemoveDefault(sd: typeof StyleDictionary): void {
