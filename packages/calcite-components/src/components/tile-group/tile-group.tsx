@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, state } from "@arcgis/lumina";
-import { dragAndDrop } from "@formkit/drag-and-drop";
+import { dragAndDrop, remapNodes } from "@formkit/drag-and-drop";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -241,6 +241,7 @@ export class TileGroup
       el.selectionMode = this.selectionMode;
     });
     this.updateSelectedItems();
+    remapNodes(this.el);
     this.dragValues = this.items?.map((el) => el.guid) ?? [];
   }
 
