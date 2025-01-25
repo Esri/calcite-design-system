@@ -91,9 +91,9 @@ describe("calcite-tooltip", () => {
   }
 
   describe("renders", () => {
-    renders(`calcite-tooltip`, { display: "block" });
+    renders(`calcite-tooltip`, { display: "contents" });
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
-      display: "block",
+      display: "contents",
     });
   });
 
