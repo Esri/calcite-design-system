@@ -482,12 +482,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     }
   };
 
-  private resizeCanvas(entries: ResizeObserverEntry[]): void {
+  private resizeCanvas = throttle((entries: ResizeObserverEntry[]): void => {
     const last = entries.pop();
     this.updateDynamicDimensions(last.contentRect.width);
     this.updateCanvasSize();
     this.drawColorControls();
-  }
+  }, throttleFor60FpsInMs);
 
   private handleAllowEmptyOrClearableChange(): void {
     this.isClearable = this.clearable || this.allowEmpty;
@@ -1092,7 +1092,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.drawOpacitySlider();
   }
 
-  private updateDynamicDimensions = throttle((width: number): void => {
+  private updateDynamicDimensions = (width: number): void => {
     const sliderDims = {
       width: getSliderWidth(width, this.staticDimensions, this.alphaChannel),
       height: this.staticDimensions.slider.height,
@@ -1102,7 +1102,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       colorField: getColorFieldDimensions(width),
       slider: sliderDims,
     };
-  }, throttleFor60FpsInMs);
+  };
 
   private updateCanvasSize(
     context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
