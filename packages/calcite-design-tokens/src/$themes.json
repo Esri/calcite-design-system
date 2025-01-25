@@ -4,8 +4,7 @@
     "name": "Brand Light",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/colors/calcite/light": "enabled"
+      "core/color": "source"
     },
     "$figmaVariableReferences": {
       "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
@@ -19,8 +18,7 @@
     "name": "Brand Dark",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/colors/calcite/dark": "enabled"
+      "core/color": "source"
     },
     "$figmaVariableReferences": {
       "color.background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
@@ -50,9 +48,7 @@
     "name": "Survey123 Light",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/colors/survey123/light": "enabled",
-      "semantic/colors/calcite/light": "source"
+      "core/color": "source"
     },
     "group": "color",
     "$figmaCollectionId": "VariableCollectionId:1814:1167",
@@ -66,9 +62,7 @@
     "name": "Survey123 Dark",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/colors/survey123/dark": "enabled",
-      "semantic/colors/calcite/dark": "source"
+      "core/color": "source"
     },
     "group": "color",
     "$figmaCollectionId": "VariableCollectionId:1814:1167",
@@ -82,8 +76,7 @@
     "name": "Dev Summit Light",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/colors/dev-summit/light": "enabled"
+      "core/color": "source"
     },
     "group": "color",
     "$figmaCollectionId": "VariableCollectionId:1814:1167",

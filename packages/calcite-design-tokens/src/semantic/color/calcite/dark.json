@@ -5,6 +5,12 @@
         "value": "{core.color.neutral.blk-190}",
         "type": "color"
       }
+    },
+    "foreground": {
+      "1": {
+        "value": "#ffffff",
+        "type": "color"
+      }
     }
   }
 }
