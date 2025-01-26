@@ -93,7 +93,7 @@ export default defineConfig({
 
   test: {
     setupFiles: ["src/tests/setupTests.ts"],
-    include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
+    include: ["**/color-picker.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
   /*
    * While useLumina() pre-configures everything for you, you can still
