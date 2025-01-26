@@ -91,6 +91,11 @@ export default defineConfig({
   },
 
   test: {
+    // workaround for lumina puppeteer testing issue
+    browser: {
+      name: "chromium",
+      enabled: false,
+    },
     setupFiles: ["src/tests/setupTests.ts"],
     include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
