@@ -469,7 +469,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const visibleItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([item-hidden]), calcite-combobox-item-group:not([item-hidden])",
       );
       const visibleItemAndGroupIds = await Promise.all(visibleItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -497,7 +497,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const filteredItemsAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([item-hidden]), calcite-combobox-item-group:not([item-hidden])",
       );
       const filteredItemAndGroupIds = await Promise.all(filteredItemsAndGroups.map((item) => item.getProperty("id")));
 
@@ -518,7 +518,7 @@ describe("calcite-combobox", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       const allVisibleItemAndGroups = await page.findAll(
-        "calcite-combobox-item:not([hidden]), calcite-combobox-item-group:not([hidden])",
+        "calcite-combobox-item:not([hidden]):not([item-hidden]), calcite-combobox-item-group:not([hidden]):not([item-hidden])",
       );
       const allVisibleItemAndGroupIds = await Promise.all(
         allVisibleItemAndGroups.map((item) => item.getProperty("id")),
@@ -570,7 +570,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([item-hidden])");
 
       expect(visibleItems.length).toBe(1);
       expect(await visibleItems[0].getProperty("value")).toBe("1");
@@ -725,7 +725,7 @@ describe("calcite-combobox", () => {
 
       expect(await combobox.getProperty("filteredItems")).toHaveLength(2);
 
-      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden])");
+      const visibleItems = await page.findAll("calcite-combobox-item:not([hidden]):not([item-hidden])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
     });
@@ -916,6 +916,56 @@ describe("calcite-combobox", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(true);
+    }
+  });
+
+  it("should show correct number of items when child hidden", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+        <calcite-combobox-item value="Trees" text-label="Trees" selected>
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i !== 3);
+    }
+  });
+
+  it("should show correct number of items when parent hidden", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+        <calcite-combobox-item value="Trees" text-label="Trees" hidden>
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i === 5);
     }
   });
 
@@ -1312,6 +1362,26 @@ describe("calcite-combobox", () => {
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("updates the value immediately after selecting an item programmatically", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item value="1" text-label="first"></calcite-combobox-item>
+          <calcite-combobox-item value="2" text-label="second"></calcite-combobox-item>
+          <calcite-combobox-item value="3" text-label="third"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+
+      const immediateValueAfterSelected = await page.evaluate(async () => {
+        const combobox = document.querySelector("calcite-combobox");
+        const firstItem = document.querySelector("calcite-combobox-item");
+        firstItem.selected = true;
+        return combobox.value;
+      });
+
+      expect(immediateValueAfterSelected).toBe("1");
     });
   });
 
@@ -1947,6 +2017,27 @@ describe("calcite-combobox", () => {
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
       expect((await element.getProperty("selectedItems")).length).toBe(2);
+    });
+
+    it("should not emit calciteComboboxChange event when value attribute is updated", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="single">
+          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const combobox = await page.find("calcite-combobox");
+      expect(await combobox.getProperty("value")).toBe("one");
+
+      combobox.setProperty("value", "two");
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(await combobox.getProperty("value")).toBe("two");
     });
   });
 
@@ -2742,5 +2833,26 @@ describe("calcite-combobox", () => {
     await item3.click();
 
     expect(await combobox.getProperty("value")).toBe("three");
+  });
+
+  it("should not emit calciteComboboxItemChange event when selected attribute is toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+    await page.waitForChanges();
+
+    const eventSpy = await page.spyOnEvent("calciteComboboxItemChange");
+    const two = await page.find("#two");
+    two.setProperty("selected", "true");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    const combobox = await page.find("calcite-combobox");
+    expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 });

@@ -24,6 +24,7 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { input, inputTokens } from "./custom-theme/input";
@@ -133,7 +134,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
-        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${textArea} ${popover} ${tile} ${tooltip}
+        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip}
         ${comboboxItem}
       </div>
       <div class="demo-column">
@@ -162,6 +163,7 @@ const componentTokens = {
   ...checkboxTokens,
   ...chipTokens,
   ...handleTokens,
+  ...graphTokens,
   ...inputTokens,
   ...labelTokens,
   ...linkTokens,
