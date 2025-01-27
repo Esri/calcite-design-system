@@ -73,6 +73,7 @@ export const STATIC_DIMENSIONS = {
     preview: {
       size: 20,
     },
+    minWidth: 200,
   },
   m: {
     gap: parseInt(calciteSpacingFixedMd),
@@ -85,6 +86,7 @@ export const STATIC_DIMENSIONS = {
     preview: {
       size: 24,
     },
+    minWidth: 240,
   },
   l: {
     gap: parseInt(calciteSpacingFixedXl),
@@ -97,6 +99,7 @@ export const STATIC_DIMENSIONS = {
     preview: {
       size: 32,
     },
+    minWidth: 304,
   },
 };
 

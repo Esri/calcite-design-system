@@ -84,13 +84,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     bounds: DOMRect;
   };
 
-  private dynamicDimensions: {
-    colorField: Dimensions;
-    slider: Dimensions;
-  } = {
-    colorField: { width: 0, height: 0 },
-    slider: { width: 0, height: 0 },
-  };
+  private dynamicDimensions:
+    | {
+        colorField: Dimensions;
+        slider: Dimensions;
+      }
+    | undefined;
 
   private get baseColorFieldColor(): Color {
     return this.color || this.previousColor || DEFAULT_COLOR;
@@ -296,7 +295,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   connectedCallback(): void {
-    this.resizeObserver?.observe(this.el);
+    if (this.hasUpdated) {
+      this.observeResize();
+    }
   }
 
   async load(): Promise<void> {
@@ -321,6 +322,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.internalColorSet(initialColor, false, "initial");
 
     this.updateStaticDimensions(this.scale);
+    this.updateDynamicDimensions(STATIC_DIMENSIONS[this.scale].minWidth);
 
     const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
@@ -365,6 +367,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     }
   }
 
+  override firstUpdated(): void {
+    this.observeResize();
+  }
+
   override updated(): void {
     updateHostInteraction(this);
   }
@@ -389,6 +395,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   // #endregion
 
   // #region Private Methods
+
+  private observeResize(): void {
+    this.resizeObserver?.observe(this.el, { box: "border-box" });
+  }
 
   private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
     const { width, height } = this.dynamicDimensions.colorField;
@@ -483,8 +493,14 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   };
 
   private resizeCanvas = throttle((entries: ResizeObserverEntry[]): void => {
-    const last = entries.pop();
-    this.updateDynamicDimensions(last.contentRect.width);
+    const [first] = entries;
+    const availableWidth = Math.floor(first.contentBoxSize[0].inlineSize);
+
+    if (this.dynamicDimensions.colorField.width === availableWidth) {
+      return;
+    }
+
+    this.updateDynamicDimensions(availableWidth);
     this.updateCanvasSize();
     this.drawColorControls();
   }, throttleFor60FpsInMs);
@@ -521,7 +537,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
 
   private handleScaleChange(scale: Scale = "m"): void {
     this.updateStaticDimensions(scale);
-    this.updateCanvasSize("all");
+    this.updateCanvasSize();
     this.drawColorControls();
   }
 
