@@ -8,8 +8,7 @@
 */
 
 :host {
-  @apply relative
-    block
+  @apply block
     max-w-full
     leading-6;
 }

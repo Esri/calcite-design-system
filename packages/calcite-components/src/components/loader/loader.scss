@@ -18,7 +18,7 @@
 @import "../../assets/styles/animation";
 
 :host {
-  @apply flex relative mx-auto items-center justify-center opacity-100;
+  @apply flex mx-auto items-center justify-center opacity-100;
   flex-direction: column;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);

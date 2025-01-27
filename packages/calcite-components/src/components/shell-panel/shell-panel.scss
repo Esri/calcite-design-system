@@ -14,8 +14,7 @@
  */
 
 :host {
-  @apply relative
-    pointer-events-none
+  @apply pointer-events-none
     flex
     flex-initial
     items-stretch;

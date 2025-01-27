@@ -3,7 +3,7 @@ $size-m: 24px;
 $size-l: 28px;
 
 :host {
-  @apply relative inline-flex;
+  @apply inline-flex;
 }
 
 :host([scale="s"]) {
