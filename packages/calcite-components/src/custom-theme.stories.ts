@@ -24,6 +24,7 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
+import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
@@ -129,6 +130,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div>${card}</div>
         ${cardThumbnail}
         <div>${dropdown} ${buttons}</div>
+        <div>${flow}</div>
         <div>${checkbox}</div>
         ${chips} ${pagination} ${slider}
       </div>
@@ -162,6 +164,7 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...flowTokens,
   ...handleTokens,
   ...graphTokens,
   ...inputTokens,
