@@ -105,7 +105,6 @@
 
 .year,
 .suffix {
-  background-color: var(--calcite-date-picker-year-background-color, var(--calcite-foreground-1));
   margin-inline: var(--calcite-spacing-xxs);
   font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-date-picker-year-text-color, var(--calcite-color-text-1));
@@ -120,7 +119,6 @@
   border-none
   inline-block
   text-center;
-  background-color: var(--calcite-date-picker-year-background-color, var(--calcite-color-transparent));
   inline-size: #{$calcite-size-44};
   &:hover {
     @apply duration-100 ease-in-out;
