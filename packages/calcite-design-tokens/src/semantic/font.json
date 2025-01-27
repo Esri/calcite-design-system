@@ -140,7 +140,7 @@
           "extensions": {
             "calcite": {
               "deprecated": {
-                "value": true,
+                "value": "true",
                 "type": "other"
               }
             }
