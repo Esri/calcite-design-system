@@ -397,7 +397,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   // #region Private Methods
 
   private observeResize(): void {
-    this.resizeObserver?.observe(this.el, { box: "border-box" });
+    this.resizeObserver?.observe(this.el);
   }
 
   private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {

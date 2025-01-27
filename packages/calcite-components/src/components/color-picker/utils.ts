@@ -261,19 +261,26 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
   return nonAlphaMode;
 }
 
+const borderWidthInPx = 1;
+const inlineSizeBorderTotalWidth = borderWidthInPx * 2;
+
 export function getSliderWidth(
   availableWidth: number,
   activeStaticDimensions: (typeof STATIC_DIMENSIONS)[Scale],
   hasAlpha: boolean,
 ): number {
   const previewWidth = hasAlpha ? STATIC_DIMENSIONS["l"].preview.size : activeStaticDimensions.preview.size;
-  return Math.max(availableWidth - activeStaticDimensions.gap * 3 - previewWidth, 0);
+  const effectiveWidth = availableWidth - inlineSizeBorderTotalWidth;
+
+  return Math.max(effectiveWidth - activeStaticDimensions.gap * 3 - previewWidth, 0);
 }
 
 export function getColorFieldDimensions(availableWidth: number): Dimensions {
   const colorFieldAspectRatio = 1.8;
+  const effectiveWidth = availableWidth - inlineSizeBorderTotalWidth;
+
   return {
-    width: Math.max(availableWidth, 0),
-    height: Math.max(Math.floor(availableWidth / colorFieldAspectRatio), 0),
+    width: Math.max(effectiveWidth, 0),
+    height: Math.max(Math.floor(effectiveWidth / colorFieldAspectRatio), 0),
   };
 }
