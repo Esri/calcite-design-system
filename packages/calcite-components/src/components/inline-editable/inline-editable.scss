@@ -35,8 +35,7 @@
 }
 
 .wrapper {
-  @apply bg-foreground-1
-    transition-default
+  @apply transition-default
     box-border
     flex
     justify-between;
