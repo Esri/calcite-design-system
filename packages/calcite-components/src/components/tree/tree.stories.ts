@@ -141,12 +141,16 @@ const iconStartLargeActionsEnd = (scale: string) => html`
 `;
 
 export const singleSelectionMode = (): string => html` ${treeItems()} `;
-
 singleSelectionMode.decorators = [allScaleTreeBuilder];
+singleSelectionMode.args = { selectionMode: "single" };
 
 export const selectionModeNone = (): string => html`${treeItems()}`;
 selectionModeNone.decorators = [allScaleTreeBuilder];
 selectionModeNone.args = { selectionMode: "none" };
+
+export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
+linesRTL.decorators = [allScaleTreeBuilder];
+linesRTL.args = { lines: true, selectionMode: "single" };
 
 export const multipleSelectionModeWithLines_TestOnly = (): string => html` ${treeItems()} `;
 
@@ -164,8 +168,8 @@ singlePersistSelectionModeWithLines_TestOnly.decorators = [allScaleTreeBuilder];
 singlePersistSelectionModeWithLines_TestOnly.args = { lines: true, selectionMode: "single-persist" };
 
 export const iconStartAndActionsEnd = (scale: string): string => html` ${iconStartLargeActionsEnd(scale)} `;
-
 iconStartAndActionsEnd.decorators = [allScaleTreeBuilder];
+iconStartAndActionsEnd.args = { selectionMode: "single" };
 
 export const treeItemTextContentWraps_TestOnly = (): string => html`
   <calcite-tree style="width: 300px">
@@ -207,8 +211,9 @@ export const treeItemContentIsNotClipped_TestOnly = (): string => html`
   </calcite-tree>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html` ${treeItems()} `;
+export const darkModeRTL_TestOnly = (): string => html`<div dir="rtl">${treeItems()}</div> `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL_TestOnly.args = { selectionMode: "single" };
 darkModeRTL_TestOnly.decorators = [allScaleTreeBuilder];
 
 export const OverflowingSubtree = (): string =>

@@ -29,3 +29,5 @@ tr {
 tr.last-visible-row {
   border-block-end: 0;
 }
+
+@include item-hidden();
