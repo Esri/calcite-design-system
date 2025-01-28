@@ -9,7 +9,6 @@ import {
   focusable,
   handlesActionMenuPlacements,
   hidden,
-  openClose,
   reflects,
   renders,
   slots,
@@ -17,6 +16,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";

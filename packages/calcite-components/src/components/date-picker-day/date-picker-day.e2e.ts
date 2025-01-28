@@ -1,5 +1,5 @@
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 import { disabled } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";

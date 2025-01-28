@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {

@@ -1,7 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, hidden, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-notice", () => {

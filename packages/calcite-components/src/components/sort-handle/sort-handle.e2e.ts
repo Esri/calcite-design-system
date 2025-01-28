@@ -1,11 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, openClose, renders, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
-import type { MoveEventDetail, ReorderEventDetail } from "./interfaces";
+import type { MoveEventDetail } from "./interfaces";
+import type { ReorderEventDetail } from "./interfaces";
 
 describe("calcite-sort-handle", () => {
   describe("renders", () => {

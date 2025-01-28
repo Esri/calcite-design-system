@@ -1,6 +1,6 @@
 // @ts-strict-ignore
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeEach, describe, expect, it } from "vitest";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
   getLocaleHourFormat,
   getLocalizedDecimalSeparator,
@@ -17,7 +17,6 @@ import {
   formAssociated,
   hidden,
   labelable,
-  openClose,
   reflects,
   renders,
   t9n,
@@ -30,6 +29,7 @@ import {
   waitForAnimationFrame,
 } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
 import { CSS as PopoverCSS } from "../popover/resources";
 

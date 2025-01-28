@@ -1,6 +1,6 @@
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeEach, describe, expect, it } from "vitest";
-import { disabled, hidden, HYDRATED_ATTR, renders, themed } from "../../tests/commonTests";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
+import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
 import { CSS } from "../card/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils";
 

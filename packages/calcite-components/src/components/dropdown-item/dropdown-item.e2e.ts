@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, focusable, hidden, renders } from "../../tests/commonTests";
+import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {

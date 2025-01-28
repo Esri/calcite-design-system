@@ -8,13 +8,13 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
   slots,
   t9n,
   themed,
+  handlesActionMenuPlacements,
 } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";

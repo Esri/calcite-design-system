@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";

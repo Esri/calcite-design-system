@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 

@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { accessible, defaults, disabled, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tile-select-group", () => {
