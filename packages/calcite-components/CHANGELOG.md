@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.118](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.117...@esri/calcite-components@3.0.0-next.118) (2025-01-28)
+
+### Bug Fixes
+
+- **tree:** fix has-children logic ([#11347](https://github.com/Esri/calcite-design-system/issues/11347)) ([5328ba7](https://github.com/Esri/calcite-design-system/commit/5328ba7c0754f074bba10ee54eb3d667a572e3b8)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.117](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.116...@esri/calcite-components@3.0.0-next.117) (2025-01-28)
 
 ### Features
