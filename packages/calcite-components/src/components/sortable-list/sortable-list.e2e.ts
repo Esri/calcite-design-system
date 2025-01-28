@@ -1,7 +1,7 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
-import { dragAndDrop } from "../../tests/utils";
+import { dragAndDrop, findAll } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {
@@ -31,7 +31,7 @@ describe("calcite-sortable-list", () => {
   const worksUsingMouse = async (page: E2EPage): Promise<void> => {
     await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);
 
-    const [first, second] = await page.findAll("div");
+    const [first, second] = await findAll(page, "div");
     expect(await first.getProperty("id")).toBe("two");
     expect(await second.getProperty("id")).toBe("one");
   };
@@ -41,7 +41,7 @@ describe("calcite-sortable-list", () => {
     await page.keyboard.press("Space");
     await page.waitForChanges();
     await page.keyboard.press("ArrowDown");
-    const itemsAfter = await page.findAll("div");
+    const itemsAfter = await findAll(page, "div");
     expect(await itemsAfter[0].getProperty("id")).toBe("two");
     expect(await itemsAfter[1].getProperty("id")).toBe("one");
   };

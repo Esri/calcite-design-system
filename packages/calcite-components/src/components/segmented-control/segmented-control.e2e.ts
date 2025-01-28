@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
@@ -12,7 +12,7 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils";
 import type { SegmentedControl } from "./segmented-control";
 
 describe("calcite-segmented-control", () => {
@@ -154,7 +154,7 @@ describe("calcite-segmented-control", () => {
     const selected = await element.getProperty("selectedItem");
     expect(selected).toBeDefined();
 
-    const selectedItems = await element.findAll("calcite-segmented-control-item[checked]");
+    const selectedItems = await findAll(element, "calcite-segmented-control-item[checked]");
     expect(selectedItems).toHaveLength(1);
 
     const selectedValue = await selectedItems[0].getProperty("value");
@@ -180,7 +180,7 @@ describe("calcite-segmented-control", () => {
     const element = await page.find("calcite-segmented-control");
     const eventSpy = await element.spyOnEvent("calciteSegmentedControlChange");
     expect(eventSpy).not.toHaveReceivedEvent();
-    const [first, second, third] = await page.findAll("calcite-segmented-control-item");
+    const [first, second, third] = await findAll(page, "calcite-segmented-control-item");
 
     type TestWindow = GlobalTestProps<{
       eventTimeValues: string[];
@@ -223,7 +223,7 @@ describe("calcite-segmented-control", () => {
     await page.waitForChanges();
     expect(await getSelectedItemValue(page)).toBe("1");
 
-    const [first, second] = await page.findAll("calcite-segmented-control-item");
+    const [first, second] = await findAll(page, "calcite-segmented-control-item");
     first.setProperty("checked", undefined);
     second.setProperty("checked", true);
     await page.waitForChanges();
@@ -421,7 +421,7 @@ describe("calcite-segmented-control", () => {
 
     const segmentedControl = await page.find("calcite-segmented-control");
 
-    let segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+    let segmentedControlItems = await findAll(page, "calcite-segmented-control-item");
     expect(segmentedControlItems).toHaveLength(3);
     await inheritsProps(segmentedControlItems);
 
@@ -431,7 +431,7 @@ describe("calcite-segmented-control", () => {
     `;
     await page.waitForChanges();
 
-    segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+    segmentedControlItems = await findAll(page, "calcite-segmented-control-item");
     expect(segmentedControlItems).toHaveLength(2);
     await inheritsProps(segmentedControlItems);
   });

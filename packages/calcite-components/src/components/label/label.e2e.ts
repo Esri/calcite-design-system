@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden, themed } from "../../tests/commonTests";
+import { hidden, renders, themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";

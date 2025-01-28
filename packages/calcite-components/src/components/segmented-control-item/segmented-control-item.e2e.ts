@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control-item", () => {

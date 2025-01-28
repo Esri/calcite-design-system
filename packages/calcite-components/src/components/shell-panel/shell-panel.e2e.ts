@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";

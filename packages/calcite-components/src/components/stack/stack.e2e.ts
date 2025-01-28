@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { hidden, renders, slots, defaults } from "../../tests/commonTests";
+import { defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
 describe("calcite-stack", () => {

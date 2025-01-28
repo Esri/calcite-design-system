@@ -1,6 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders, defaults } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
@@ -34,7 +35,7 @@ describe("calcite-fab", () => {
       html: "<calcite-fab></calcite-fab>",
     });
 
-    const buttons = await page.findAll("calcite-fab >>> calcite-button");
+    const buttons = await findAll(page, "calcite-fab >>> calcite-button");
 
     expect(buttons).toHaveLength(1);
 

@@ -6,14 +6,15 @@ import {
   disabled,
   focusable,
   formAssociated,
+  hidden,
   HYDRATED_ATTR,
   labelable,
-  hidden,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
@@ -132,7 +133,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const checkboxes = await page.findAll("calcite-checkbox");
+    const checkboxes = await findAll(page, "calcite-checkbox");
     expect(checkboxes.length).toEqual(1);
   });
 
@@ -142,7 +143,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const checkboxes = await page.findAll("calcite-checkbox");
+    const checkboxes = await findAll(page, "calcite-checkbox");
     expect(checkboxes.length).toEqual(1);
   });
 

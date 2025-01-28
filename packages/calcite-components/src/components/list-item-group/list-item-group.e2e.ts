@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { hidden, renders, disabled, defaults, themed } from "../../tests/commonTests";
+import { defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 

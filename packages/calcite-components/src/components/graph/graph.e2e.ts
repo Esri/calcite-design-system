@@ -1,5 +1,5 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Graph } from "./graph";
