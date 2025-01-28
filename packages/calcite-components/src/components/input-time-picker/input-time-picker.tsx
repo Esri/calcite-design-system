@@ -1422,11 +1422,13 @@ export class InputTimePicker
 
   private setValue(value: string): void {
     const {
+      hourFormat: effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
     } = this;
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
+      const hour12 = effectiveHourFormat === "12";
       const {
         localizedHour,
         localizedHourSuffix,
@@ -1437,7 +1439,7 @@ export class InputTimePicker
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      } = localizeTimeStringToParts({ hour12, value, locale, numberingSystem });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -1514,9 +1516,11 @@ export class InputTimePicker
 
   private setValuePart(key: TimePart, value: number | string | Meridiem): void {
     const {
+      effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
     } = this;
+    const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -1534,6 +1538,7 @@ export class InputTimePicker
             break;
         }
         this.localizedHour = localizeTimePart({
+          hour12,
           value: this.hour,
           part: "hour",
           locale,
@@ -1543,6 +1548,7 @@ export class InputTimePicker
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalize(key)}`] = localizeTimePart({
+        hour12,
         value: this[key],
         part: key,
         locale,
@@ -1568,9 +1574,15 @@ export class InputTimePicker
     }
     this.value = newValue;
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
+      ? localizeTimeStringToParts({ hour12, value: this.value, locale, numberingSystem })
           ?.localizedMeridiem || null
-      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      : localizeTimePart({
+          hour12,
+          value: this.meridiem,
+          part: "meridiem",
+          locale,
+          numberingSystem,
+        });
     if (emit) {
       this.calciteInputTimePickerChange.emit();
     }
