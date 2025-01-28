@@ -36,6 +36,13 @@ export default tseslint.config(
           ],
         },
       ],
+      "no-restricted-properties": [
+        "error",
+        {
+          property: "findAll",
+          message: "Use custom findAll test util for more predictable (non-empty) result usage.",
+        },
+      ],
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
