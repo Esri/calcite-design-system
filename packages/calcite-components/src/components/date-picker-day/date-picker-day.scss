@@ -96,8 +96,11 @@
 
 :host([range-hover]:not([selected])) {
   .day {
-    background-color: var(--calcite-date-picker-day-range-inverted-background-color, var(--calcite-color-foreground-2));
-    color: var(--calcite-date-picker-day-range-inverted-text-color, var(--calcite-color-text-1));
+    background-color: var(
+      --calcite-date-picker-day-outside-range-background-color-hover,
+      var(--calcite-color-foreground-2)
+    );
+    color: var(--calcite-date-picker-day-outside-range-text-color-hover, var(--calcite-color-text-1));
   }
 }
 

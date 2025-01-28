@@ -5,6 +5,7 @@
  *
  * @prop --calcite-date-picker-border-color: Specifies the component's border color.
  * @prop --calcite-date-picker-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-date-picker-range-calendar-divider-color: Specifies the divider color between calendar's when `range="true"`.
  * @prop --calcite-date-picker-week-header-text-color: Specifies the week header text color.
  * @prop --calcite-date-picker-header-action-background-color: Specifies the background color of header action's of the component.
  * @prop --calcite-date-picker-header-action-background-color-hover: Specifies the background color of header action's of the component when hovered.
@@ -26,8 +27,8 @@
  * @prop --calcite-date-picker-day-text-color-selected: Specifies the text color of selected day of the component.
  * @prop --calcite-date-picker-day-range-text-color: Specifies the text color of select day range of the component.
  * @prop --calcite-date-picker-day-range-background-color: Specifies the background color of select day range of the component.
- * @prop --calcite-date-picker-day-range-inverted-background-color: Specifies the background color of inverted select day range of the component.
- * @prop --calcite-date-picker-day-range-inverted-text-color: Specifies the text color of inverted select day range of the component.
+ * @prop --calcite-date-picker-day-outside-range-background-color-hover: Specifies the background color of day's outside curent range when hovered.
+ * @prop --calcite-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside curent range when hovered.
  * 
 */
 

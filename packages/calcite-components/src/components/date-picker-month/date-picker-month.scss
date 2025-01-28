@@ -92,7 +92,8 @@
 }
 
 .calendar--start {
-  @apply border-solid border-color-1 border-0;
+  @apply border-solid border-0;
+  border-color: var(--calcite-date-picker-range-calendar-divider-color, var(--calcite-color-border-1));
 }
 
 :host([range][layout="horizontal"]) .calendar--start {
