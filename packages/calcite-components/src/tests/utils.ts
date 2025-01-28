@@ -547,7 +547,7 @@ export async function findAll(
   const matches = await pageOrElement.findAll(selector);
   const effectiveOptions = { allowEmpty: false, ...options };
 
-  if (effectiveOptions.allowEmpty && matches.length === 0) {
+  if (!effectiveOptions.allowEmpty && matches.length === 0) {
     throw new Error(`No elements found for selector: ${selector}`);
   }
 
