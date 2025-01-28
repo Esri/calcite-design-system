@@ -62,6 +62,14 @@
   }
 }
 
+:host([layout="vertical"]) {
+  transform: rotate(-90deg);
+
+  .thumb .handle__label.hyphen::after {
+    margin-inline-start: 8px;
+  }
+}
+
 .container {
   @apply relative block break-normal;
   padding-inline: calc(var(--calcite-slider-handle-size) * 0.5);
@@ -138,6 +146,7 @@
       content: "\2014";
       display: inline-block;
       inline-size: 1em;
+      margin-inline-start: 3px;
     }
     &.hyphen--wrap {
       display: flex;
@@ -398,6 +407,10 @@
       );
     }
   }
+}
+
+.tick__label--vertical {
+  transform: rotate(90deg);
 }
 
 @include form-validation-message();

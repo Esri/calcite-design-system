@@ -13,6 +13,14 @@
         margin: 25px 0;
       }
 
+      .parent-vertical {
+        height: 25rem;
+
+        calcite-slider {
+          width: 25rem;
+        }
+      }
+
       .font,
       .header {
         color: var(--calcite-color-text-3);
@@ -1658,6 +1666,42 @@
             class="themed"
           >
           </calcite-slider>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="parent parent-vertical">
+        <div class="child right-aligned-text">vertical slider</div>
+
+        <div class="child">
+          <calcite-slider
+            layout="vertical"
+            scale="m"
+            min="0"
+            max="100"
+            min-value="10"
+            max-value="50"
+            label-handles
+            label-ticks
+            precise
+            ticks="10"
+          ></calcite-slider>
+        </div>
+        <div class="child">
+          <calcite-slider
+            layout="vertical"
+            scale="m"
+            mirrored
+            min="0"
+            max="100"
+            min-value="10"
+            max-value="50"
+            label-handles
+            label-ticks
+            precise
+            ticks="10"
+          ></calcite-slider>
         </div>
       </div>
 
