@@ -43,1118 +43,178 @@
       },
       "weight": {
         "light": {
-          "value": {
-            "value": "{core.font.weight.light}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "description": {
-            "value": "For Avenir Next World (secondary font family)",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "light",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.light}",
+          "type": "fontWeights",
+          "description": "For Avenir Next World (secondary font family)",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "light"
             }
           }
         },
         "normal": {
-          "value": {
-            "value": "{core.font.weight.regular}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "description": {
-            "value": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
-            "type": "other"
-          },
-          "extensions": {
-            "calcite": {
-              "deprecated": {
-                "value": "true",
-                "type": "other"
-              }
-            }
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "normal",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.regular}",
+          "type": "fontWeights",
+          "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "normal"
             }
           }
         },
         "regular": {
-          "value": {
-            "value": "{core.font.weight.regular}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "regular",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.regular}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "regular"
             }
           }
         },
         "medium": {
-          "value": {
-            "value": "{core.font.weight.medium}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "medium",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.medium}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "medium"
             }
           }
         },
         "semibold": {
-          "value": {
-            "value": "{core.font.weight.demi}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "semibold",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.demi}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "semibold"
             }
           }
         },
         "bold": {
-          "value": {
-            "value": "{core.font.weight.demi}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontWeights",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "weight",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "bold",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.weight.demi}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "bold"
             }
           }
         }
       },
       "size": {
         "xs": {
-          "value": {
-            "value": "{core.size.default.10}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "xs",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.10}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "xs"
             }
           }
         },
         "sm": {
-          "value": {
-            "value": "{core.size.default.12}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "sm",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.12}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "sm"
             }
           }
         },
         "default": {
-          "value": {
-            "value": "{core.size.default.14}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "default",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.14}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "default"
             }
           }
         },
         "md": {
-          "value": {
-            "value": "{core.size.default.16}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "md",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.16}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "default"
             }
           }
         },
         "lg": {
-          "value": {
-            "value": "{core.size.default.2} * 9",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "lg",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.2} * 9",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "lg"
             }
           }
         },
         "xl": {
-          "value": {
-            "value": "{core.size.default.20}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "xl",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.20}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "xl"
             }
           }
         },
         "xxl": {
-          "value": {
-            "value": "{core.size.default.24}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontSizes",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "size",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "xxl",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.24}",
+          "type": "fontSizes",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-size",
+              "scale": "xxl"
             }
           }
         }
       },
       "style": {
         "emphasis": {
-          "value": {
-            "value": "{core.font.style.italic}",
-            "type": "other"
-          },
-          "type": {
-            "value": "fontStyle",
-            "type": "other"
-          },
-          "description": {
-            "value": "used in ratings",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "style",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "emphasis",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.style.italic}",
+          "type": "fontStyle",
+          "description": "used in ratings",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-style",
+              "group": "emphasis"
             }
           }
         }
@@ -1162,808 +222,140 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": {
-              "value": "{core.size.default.12}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "fixed",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "sm",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.default.12}",
+            "type": "lineHeights",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "fixed",
+                "scale": "sm"
               }
             }
           },
           "base": {
-            "value": {
-              "value": "{core.size.default.16}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "fixed",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "base",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.default.16}",
+            "type": "lineHeights",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "fixed",
+                "scale": "base"
               }
             }
           },
           "lg": {
-            "value": {
-              "value": "{core.size.default.20}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "fixed",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "lg",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.default.20}",
+            "type": "lineHeights",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "fixed",
+                "scale": "lg"
               }
             }
           },
           "xl": {
-            "value": {
-              "value": "{core.size.default.24}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "fixed",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "xl",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.default.24}",
+            "type": "lineHeights",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "fixed",
+                "scale": "xl"
               }
             }
           }
         },
         "relative": {
           "default": {
-            "value": {
-              "value": "{core.size.relative.auto}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "1",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "default",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.auto}",
+            "type": "lineHeights",
+            "description": "1",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "default"
               }
             }
           },
           "tight": {
-            "value": {
-              "value": "{core.size.relative.125}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "1.25",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "tight",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.125}",
+            "type": "lineHeights",
+            "description": "1.25",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "tight"
               }
             }
           },
           "snug": {
-            "value": {
-              "value": "{core.size.relative.137}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "1.375",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "snug",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.137}",
+            "type": "lineHeights",
+            "description": "1.375",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "snug"
               }
             }
           },
           "normal": {
-            "value": {
-              "value": "{core.size.relative.150}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "1.5",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "normal",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.150}",
+            "type": "lineHeights",
+            "description": "1.5",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "normal"
               }
             }
           },
           "relaxed": {
-            "value": {
-              "value": "{core.size.relative.162}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "1.625",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "relaxed",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.162}",
+            "type": "lineHeights",
+            "description": "1.625",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "relaxed"
               }
             }
           },
           "loose": {
-            "value": {
-              "value": "{core.size.relative.200}",
-              "type": "other"
-            },
-            "type": {
-              "value": "lineHeights",
-              "type": "other"
-            },
-            "description": {
-              "value": "2",
-              "type": "other"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": {
-                  "value": "calcite",
-                  "type": "other"
-                },
-                "tier": {
-                  "value": "semantic",
-                  "type": "other"
-                },
-                "domain": {
-                  "value": "",
-                  "type": "other"
-                },
-                "component": {
-                  "value": "",
-                  "type": "other"
-                },
-                "pattern": {
-                  "value": "",
-                  "type": "other"
-                },
-                "element": {
-                  "value": "",
-                  "type": "other"
-                },
-                "category": {
-                  "value": "font",
-                  "type": "other"
-                },
-                "group": {
-                  "value": "line-height",
-                  "type": "other"
-                },
-                "kind": {
-                  "value": "",
-                  "type": "other"
-                },
-                "appearance": {
-                  "value": "",
-                  "type": "other"
-                },
-                "property": {
-                  "value": "",
-                  "type": "other"
-                },
-                "variant": {
-                  "value": "relative",
-                  "type": "other"
-                },
-                "state": {
-                  "value": "",
-                  "type": "other"
-                },
-                "scale": {
-                  "value": "loose",
-                  "type": "other"
-                },
-                "context": {
-                  "value": "",
-                  "type": "other"
-                },
-                "mode": {
-                  "value": "",
-                  "type": "other"
-                }
+            "value": "{core.size.relative.200}",
+            "type": "lineHeights",
+            "description": "2",
+            "$extensions": {
+              "org.esri.calcite.schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "type": "line-height",
+                "group": "relative",
+                "scale": "loose"
               }
             }
           }
@@ -1971,828 +363,148 @@
       },
       "letter-spacing": {
         "tight": {
-          "value": {
-            "value": "{core.size.default.none} - .4 ",
-            "type": "other"
-          },
-          "type": {
-            "value": "letterSpacing",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "letter-spacing",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "tight",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.none} - .4 ",
+          "type": "letterSpacing",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "letter-spacing",
+              "scale": "tight"
             }
           }
         },
         "normal": {
-          "value": {
-            "value": "{core.size.default.none}",
-            "type": "other"
-          },
-          "type": {
-            "value": "letterSpacing",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "letter-spacing",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "normal",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.none}",
+          "type": "letterSpacing",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "letter-spacing",
+              "scale": "normal"
             }
           }
         },
         "wide": {
-          "value": {
-            "value": "{core.size.default.none} + .4 ",
-            "type": "other"
-          },
-          "type": {
-            "value": "letterSpacing",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "letter-spacing",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "wide",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.none} + .4",
+          "type": "letterSpacing",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "letter-spacing",
+              "scale": "wide"
             }
           }
         }
       },
       "paragraph-spacing": {
         "normal": {
-          "value": {
-            "value": "{core.size.default.4}",
-            "type": "other"
-          },
-          "type": {
-            "value": "paragraphSpacing",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "paragraph-spacing",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "normal",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.size.default.4}",
+          "type": "paragraphSpacing",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "paragraph-spacing",
+              "scale": "normal"
             }
           }
         }
       },
       "text-decoration": {
         "none": {
-          "value": {
-            "value": "{core.font.text-decoration.none}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textDecoration",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-decoration",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "none",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-decoration.none}",
+          "type": "textDecoration",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-decoration",
+              "scale": "none"
             }
           }
         },
         "underline": {
-          "value": {
-            "value": "{core.font.text-decoration.underline}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textDecoration",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-decoration",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "underline",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-decoration.underline}",
+          "type": "textDecoration",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-decoration",
+              "scale": "underline"
             }
           }
         }
       },
       "text-case": {
         "none": {
-          "value": {
-            "value": "{core.font.text-case.none}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textCase",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-case",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "none",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-case.none}",
+          "type": "textCase",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-case",
+              "appearance": "none"
             }
           }
         },
         "uppercase": {
-          "value": {
-            "value": "{core.font.text-case.uppercase}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textCase",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-case",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "uppercase",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-case.uppercase}",
+          "type": "textCase",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-case",
+              "appearance": "uppercase"
             }
           }
         },
         "lowercase": {
-          "value": {
-            "value": "{core.font.text-case.lowercase}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textCase",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-case",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "lowercase",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-case.lowercase}",
+          "type": "textCase",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-case",
+              "appearance": "lowercase"
             }
           }
         },
         "capitalize": {
-          "value": {
-            "value": "{core.font.text-case.capitalize}",
-            "type": "other"
-          },
-          "type": {
-            "value": "textCase",
-            "type": "other"
-          },
-          "description": {
-            "value": "Deprecated",
-            "type": "other"
-          },
-          "attributes": {
-            "calcite-schema": {
-              "system": {
-                "value": "calcite",
-                "type": "other"
-              },
-              "tier": {
-                "value": "semantic",
-                "type": "other"
-              },
-              "domain": {
-                "value": "",
-                "type": "other"
-              },
-              "component": {
-                "value": "",
-                "type": "other"
-              },
-              "pattern": {
-                "value": "",
-                "type": "other"
-              },
-              "element": {
-                "value": "",
-                "type": "other"
-              },
-              "category": {
-                "value": "font",
-                "type": "other"
-              },
-              "group": {
-                "value": "text-case",
-                "type": "other"
-              },
-              "kind": {
-                "value": "",
-                "type": "other"
-              },
-              "appearance": {
-                "value": "",
-                "type": "other"
-              },
-              "property": {
-                "value": "",
-                "type": "other"
-              },
-              "variant": {
-                "value": "capitalize",
-                "type": "other"
-              },
-              "state": {
-                "value": "",
-                "type": "other"
-              },
-              "scale": {
-                "value": "",
-                "type": "other"
-              },
-              "context": {
-                "value": "",
-                "type": "other"
-              },
-              "mode": {
-                "value": "",
-                "type": "other"
-              }
+          "value": "{core.font.text-case.capitalize}",
+          "type": "textCase",
+          "description": "Deprecated",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "text-case",
+              "appearance": "capitalize"
             }
           }
         }
