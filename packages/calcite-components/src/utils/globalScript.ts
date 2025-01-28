@@ -9,10 +9,10 @@ import { isBrowser } from "./browser";
  */
 export default function (): void {
   if (isBrowser()) {
-    if (document.readyState === "interactive") {
+    if (document?.readyState === "interactive") {
       initModeChangeEvent();
     } else {
-      document.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
+      document?.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
     }
   }
 

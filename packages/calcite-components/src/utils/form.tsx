@@ -498,15 +498,15 @@ function syncHiddenFormInput(component: FormComponent): void {
     let input = extra.pop();
 
     if (!input) {
-      input = ownerDocument.createElement("input");
+      input = ownerDocument?.createElement("input");
       input.slot = hiddenFormInputSlotName;
     }
 
     if (!docFrag) {
-      docFrag = ownerDocument.createDocumentFragment();
+      docFrag = ownerDocument?.createDocumentFragment();
     }
 
-    docFrag.append(input);
+    docFrag?.append(input);
 
     // emits when hidden input is autofilled
     input.addEventListener("input", hiddenInputInputHandler);
@@ -519,7 +519,7 @@ function syncHiddenFormInput(component: FormComponent): void {
   }
   extra.forEach((input) => {
     removeHiddenInputChangeEventListener(input);
-    input.remove();
+    input?.remove();
   });
 }
 
