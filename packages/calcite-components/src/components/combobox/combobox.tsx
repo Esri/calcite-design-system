@@ -64,6 +64,7 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
+import { isHidden } from "../../utils/component";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -143,20 +144,20 @@ export class Combobox
 
       itemsAndGroups.forEach((item) => {
         if (matchAll) {
-          item.hidden = false;
+          item.itemHidden = false;
           return;
         }
 
         const hidden = !find(item, filteredData);
-        item.hidden = hidden;
+        item.itemHidden = hidden;
         const [parent, grandparent] = item.ancestors;
 
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
-          item.hidden = false;
+          item.itemHidden = false;
         }
 
         if (!hidden) {
-          item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
+          item.ancestors.forEach((ancestor) => (ancestor.itemHidden = false));
         }
       });
 
@@ -250,6 +251,8 @@ export class Combobox
   });
 
   private selectedIndicatorChipEl: Chip["el"];
+
+  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   private get showingInlineIcon(): boolean {
     const { placeholderIcon, selectionMode, selectedItems, open } = this;
@@ -396,7 +399,17 @@ export class Combobox
    *
    * @readonly
    */
-  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
+  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this._selectedItems;
+  }
+
+  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
+    const oldSelectedItems = this._selectedItems;
+    if (selectedItems !== oldSelectedItems) {
+      this._selectedItems = selectedItems;
+      this.selectedItemsHandler();
+    }
+  }
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -593,10 +606,6 @@ export class Combobox
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
-
-    if (changes.has("selectedItems") && (this.hasUpdated || this.selectedItems?.length > 0)) {
-      this.selectedItemsHandler();
-    }
   }
 
   override updated(): void {
@@ -740,8 +749,8 @@ export class Combobox
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item?.value?.toString());
-    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+    const items = this.selectedItems.map((item) => item.value?.toString());
+    return items.length ? (items.length > 1 ? items : items[0]) : "";
   }
 
   private comboboxInViewport(): boolean {
@@ -1119,7 +1128,7 @@ export class Combobox
 
   private getMaxScrollerHeight(): number {
     const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
-    const items = allItemsAndGroups.filter((item) => !item.hidden);
+    const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
 
@@ -1219,7 +1228,7 @@ export class Combobox
   }
 
   private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
+    return this.filterText === "" ? this.items : this.items.filter((item) => !isHidden(item));
   }
 
   private updateItems(): void {
