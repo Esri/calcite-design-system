@@ -1,6 +1,6 @@
-import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
+import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
