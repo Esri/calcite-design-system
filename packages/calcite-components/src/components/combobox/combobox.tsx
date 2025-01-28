@@ -1237,7 +1237,7 @@ export class Combobox
   }
 
   private updateItemProps(): void {
-    this.items.forEach((item) => {
+    this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
