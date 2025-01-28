@@ -45,6 +45,8 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private actionSlotWrapper = createRef<HTMLDivElement>();
 
+  private childTree: Tree["el"];
+
   private isSelectionMultiLike: boolean;
 
   private parentTreeItem?: TreeItem["el"];
@@ -56,8 +58,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() private hasEndActions = false;
-
-  @state() private childTree: Tree["el"];
 
   /**
    * Used to make sure initially expanded tree-item can properly
@@ -268,6 +268,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     )[0];
 
     this.childTree = childTree;
+    this.requestUpdate("hasChildren");
 
     this.updateChildTree();
   }
