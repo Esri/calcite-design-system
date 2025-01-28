@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.119](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.118...@esri/calcite-components@3.0.0-next.119) (2025-01-28)
+
+### Bug Fixes
+
+- **chip:** fix inverse close color ([#11363](https://github.com/Esri/calcite-design-system/issues/11363)) ([418359d](https://github.com/Esri/calcite-design-system/commit/418359d4c60466fbb56e4655b4e4ed7ce377de3b)), closes [#11353](https://github.com/Esri/calcite-design-system/issues/11353)
+
 ## [3.0.0-next.118](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.117...@esri/calcite-components@3.0.0-next.118) (2025-01-28)
 
 ### Bug Fixes
