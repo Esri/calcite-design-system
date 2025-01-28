@@ -458,7 +458,7 @@ describe("calcite-tree", () => {
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
         expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(0);
+        expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);

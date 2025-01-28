@@ -2198,7 +2198,9 @@ describe("calcite-color-picker", () => {
           await removeColor.click();
 
           expect(
-            await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`),
+            await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`, {
+              allowEmpty: true,
+            }),
           ).toHaveLength(--expectedSaved);
         }
       });
