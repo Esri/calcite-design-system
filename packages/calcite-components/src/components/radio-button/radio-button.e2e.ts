@@ -400,7 +400,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]", { allowEmpty: true });
     expect(checkedItems).toHaveLength(0);
   });
 

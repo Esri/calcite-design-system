@@ -98,8 +98,8 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating></calcite-rating>");
       const icons = await findAll(page, "calcite-rating >>> .icon");
       const labels = await findAll(page, "calcite-rating >>> .star");
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -146,8 +146,8 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating average=3.4></calcite-rating>");
       const icons = await findAll(page, "calcite-rating >>> .icon");
       const labels = await findAll(page, "calcite-rating >>> .star");
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -193,8 +193,8 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating value=4></calcite-rating>");
       const icons = await findAll(page, "calcite-rating >>> .icon");
       const labels = await findAll(page, "calcite-rating >>> .star");
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -239,7 +239,7 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating value=3 average=4.2></calcite-rating>");
       const icons = await findAll(page, "calcite-rating >>> .icon");
       const labels = await findAll(page, "calcite-rating >>> .star");
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
       const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
@@ -443,7 +443,7 @@ describe("calcite-rating", () => {
       await page.waitForChanges();
 
       const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
@@ -533,7 +533,7 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
       const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
@@ -554,7 +554,7 @@ describe("calcite-rating", () => {
       await page.waitForChanges();
 
       const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(await element.getProperty("value")).toBe(0);
@@ -595,7 +595,7 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
       const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
@@ -636,8 +636,8 @@ describe("calcite-rating", () => {
       await page.waitForChanges();
       await page.waitForTimeout(200);
 
-      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
-      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(hoveredElements.length).toBe(0);
       expect(selectedElements.length).toBe(0);

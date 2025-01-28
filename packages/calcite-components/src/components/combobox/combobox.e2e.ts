@@ -1217,7 +1217,7 @@ describe("calcite-combobox", () => {
       expect(chips.length).toBe(2);
       expect(parent).toHaveAttribute("selected");
       await parentItem.click();
-      chips = await findAll(page, "calcite-combobox >>> calcite-chip");
+      chips = await findAll(page, "calcite-combobox >>> calcite-chip", { allowEmpty: true });
       expect(chips.length).toBe(0);
       expect(parent).not.toHaveAttribute("selected");
       expect(item1).not.toHaveAttribute("selected");

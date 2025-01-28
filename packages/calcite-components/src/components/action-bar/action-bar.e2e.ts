@@ -414,7 +414,7 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(2);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(0);
+      expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
         element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
@@ -462,7 +462,7 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(0);
+      expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
       const actionBar = await page.find("calcite-action-bar");
       actionBar.setProperty("overflowActionsDisabled", false);

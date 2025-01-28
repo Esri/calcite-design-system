@@ -184,7 +184,7 @@ describe("calcite-select", () => {
         await options[i].callMethod("remove");
       }
 
-      expect(await findAll(internalSelect, "option")).toHaveLength(0);
+      expect(await findAll(internalSelect, "option", { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-select", (select) => {
         const number = document.createElement("calcite-option");
@@ -320,7 +320,7 @@ describe("calcite-select", () => {
         await optionsAndGroups[i].callMethod("remove");
       }
 
-      expect(await findAll(internalSelect, "option, optgroup")).toHaveLength(0);
+      expect(await findAll(internalSelect, "option, optgroup", { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-select", (select) => {
         const letters = document.createElement("calcite-option-group");

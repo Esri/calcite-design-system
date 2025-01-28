@@ -363,7 +363,7 @@ describe("calcite-pagination", () => {
       await page.setContent(
         `<div style="width: 100px;"><calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination></div>`,
       );
-      const hiddenChevrons = await findAll(page, `calcite-pagination >>> .${CSS.hiddenItem}`);
+      const hiddenChevrons = await findAll(page, `calcite-pagination >>> .${CSS.hiddenItem}`, { allowEmpty: true });
       expect(hiddenChevrons.length).toBe(0);
     });
   });

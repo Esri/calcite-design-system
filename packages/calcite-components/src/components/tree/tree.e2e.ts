@@ -463,7 +463,7 @@ describe("calcite-tree", () => {
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
         expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(0);
+        expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
       });
     });
 
