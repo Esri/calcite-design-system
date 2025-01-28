@@ -8,6 +8,8 @@ import { registerFilterCoreTokens } from "./core.js";
 import { registerFilterSurvey123Tokens } from "./survey123.js";
 import { registerFilterDevSummitTokens } from "./devSummit.js";
 import { registerFilterCalciteTokens } from "./calcite.js";
+import { registerFilterSourceTokens } from "./source.js";
+import { registerFilterIncludeTokens } from "./include.js";
 
 export async function registerCalciteFilters(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
@@ -20,5 +22,7 @@ export async function registerCalciteFilters(sd: typeof StyleDictionary): Promis
     registerFilterCalciteTokens(sd),
     registerFilterSurvey123Tokens(sd),
     registerFilterDevSummitTokens(sd),
+    registerFilterSourceTokens(sd),
+    registerFilterIncludeTokens(sd),
   ]);
 }

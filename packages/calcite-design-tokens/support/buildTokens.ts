@@ -11,11 +11,13 @@ import calciteDarkConfig from "../src/config/calcite/dark.js";
 import survey123LightConfig from "../src/config/survey123/light.js";
 import survey123DarkConfig from "../src/config/survey123/dark.js";
 import devSummitLightConfig from "../src/config/dev-summit/light.js";
+import { registerCalciteDeprecateFileHeader } from "./header/calcite-deprecate.js";
 
 await registerTokenStudioTransformers(StyleDictionary);
 await registerCalciteFormats(StyleDictionary);
 await registerCalciteFilters(StyleDictionary);
 await registerCalciteDefaultFileHeader(StyleDictionary);
+await registerCalciteDeprecateFileHeader(StyleDictionary);
 await registerCalciteTransformers(StyleDictionary);
 
 const sd = new StyleDictionary(config);
