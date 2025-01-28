@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.116](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.115...@esri/calcite-components@3.0.0-next.116) (2025-01-27)
+
+### Bug Fixes
+
+- **meter:** add fill style for high-contrast mode ([#11392](https://github.com/Esri/calcite-design-system/issues/11392)) ([93b0faf](https://github.com/Esri/calcite-design-system/commit/93b0faf2af11c46e5ea8ea8a6b2171e4b8362729)), closes [#10571](https://github.com/Esri/calcite-design-system/issues/10571)
+
+## [3.0.0-next.115](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.114...@esri/calcite-components@3.0.0-next.115) (2025-01-27)
+
+### Bug Fixes
+
+- **popover, tooltip:** change display to contents ([#11384](https://github.com/Esri/calcite-design-system/issues/11384)) ([1d57456](https://github.com/Esri/calcite-design-system/commit/1d57456e3db1e892331bba54d40168d2a3270fb8)), closes [#11378](https://github.com/Esri/calcite-design-system/issues/11378)
+
+## [3.0.0-next.114](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.113...@esri/calcite-components@3.0.0-next.114) (2025-01-27)
+
+### Features
+
+- **flow, flow-item:** add component tokens ([#11365](https://github.com/Esri/calcite-design-system/issues/11365)) ([6976ef6](https://github.com/Esri/calcite-design-system/commit/6976ef614a28e39ad9b33db7dd3202c1c057504e)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.0.0-next.113](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.112...@esri/calcite-components@3.0.0-next.113) (2025-01-25)
+
+### Bug Fixes
+
+- **combobox:** improve prop update times ([#11383](https://github.com/Esri/calcite-design-system/issues/11383)) ([d72375f](https://github.com/Esri/calcite-design-system/commit/d72375fea872b3a1cd0bd5c8356a87d315864387)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731) [#10310](https://github.com/Esri/calcite-design-system/issues/10310)
+
+## [3.0.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.111...@esri/calcite-components@3.0.0-next.112) (2025-01-24)
+
+### Features
+
+- **graph:** add component tokens ([#11355](https://github.com/Esri/calcite-design-system/issues/11355)) ([24ff411](https://github.com/Esri/calcite-design-system/commit/24ff4113cc4086f444583e9d8660051e7b674202)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.0.0-next.111](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.110...@esri/calcite-components@3.0.0-next.111) (2025-01-23)
+
+### Bug Fixes
+
+- **popover, tooltip:** drop relative-positioning to reduce risk of clipping ([#11373](https://github.com/Esri/calcite-design-system/issues/11373)) ([3bac85b](https://github.com/Esri/calcite-design-system/commit/3bac85b2df8cb568d5dc0e0ad05eb0a5e76fb176)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
+## [3.0.0-next.110](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.109...@esri/calcite-components@3.0.0-next.110) (2025-01-23)
+
+### Bug Fixes
+
+- **date-picker:** no longer disable min/max value month in select menu ([#11350](https://github.com/Esri/calcite-design-system/issues/11350)) ([18767bb](https://github.com/Esri/calcite-design-system/commit/18767bb8d6a66649b349c78e96662db0c9c2b87c)), closes [#11321](https://github.com/Esri/calcite-design-system/issues/11321)
+- **date-picker:** remove outline for header actions ([#11369](https://github.com/Esri/calcite-design-system/issues/11369)) ([b39b8ae](https://github.com/Esri/calcite-design-system/commit/b39b8ae4d50907946aa3580e685e472e488519d6)), closes [#11371](https://github.com/Esri/calcite-design-system/issues/11371)
+
 ## [3.0.0-next.109](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.108...@esri/calcite-components@3.0.0-next.109) (2025-01-23)
 
 ### Bug Fixes
