@@ -252,6 +252,8 @@ export class Combobox
 
   private selectedIndicatorChipEl: Chip["el"];
 
+  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
+
   private get showingInlineIcon(): boolean {
     const { placeholderIcon, selectionMode, selectedItems, open } = this;
     const selectedItem = selectedItems[0];
@@ -397,7 +399,17 @@ export class Combobox
    *
    * @readonly
    */
-  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
+  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this._selectedItems;
+  }
+
+  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
+    const oldSelectedItems = this._selectedItems;
+    if (selectedItems !== oldSelectedItems) {
+      this._selectedItems = selectedItems;
+      this.selectedItemsHandler();
+    }
+  }
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -594,10 +606,6 @@ export class Combobox
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
-
-    if (changes.has("selectedItems") && (this.hasUpdated || this.selectedItems?.length > 0)) {
-      this.selectedItemsHandler();
-    }
   }
 
   override updated(): void {
@@ -741,8 +749,8 @@ export class Combobox
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item?.value?.toString());
-    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+    const items = this.selectedItems.map((item) => item.value?.toString());
+    return items.length ? (items.length > 1 ? items : items[0]) : "";
   }
 
   private comboboxInViewport(): boolean {

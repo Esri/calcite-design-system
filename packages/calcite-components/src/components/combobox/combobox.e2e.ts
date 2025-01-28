@@ -1363,6 +1363,26 @@ describe("calcite-combobox", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
+
+    it("updates the value immediately after selecting an item programmatically", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item value="1" text-label="first"></calcite-combobox-item>
+          <calcite-combobox-item value="2" text-label="second"></calcite-combobox-item>
+          <calcite-combobox-item value="3" text-label="third"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+
+      const immediateValueAfterSelected = await page.evaluate(async () => {
+        const combobox = document.querySelector("calcite-combobox");
+        const firstItem = document.querySelector("calcite-combobox-item");
+        firstItem.selected = true;
+        return combobox.value;
+      });
+
+      expect(immediateValueAfterSelected).toBe("1");
+    });
   });
 
   describe("clearing values", () => {
