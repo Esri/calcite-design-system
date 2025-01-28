@@ -32,7 +32,7 @@
   }
 
   .close {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
   }
 
   &:host([kind="brand"]) .container {
@@ -100,7 +100,7 @@
   }
 
   .close {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
   }
 }
 
