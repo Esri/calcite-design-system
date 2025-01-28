@@ -90,7 +90,7 @@ export class Block
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is not draggable. */
+  /** When `true`,  and a parent Block Group is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
