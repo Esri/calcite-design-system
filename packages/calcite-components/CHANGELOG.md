@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.117](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.116...@esri/calcite-components@3.0.0-next.117) (2025-01-28)
+
+### Features
+
+- **dialog:** add 'custom-content' slot ([#11072](https://github.com/Esri/calcite-design-system/issues/11072)) ([a132d00](https://github.com/Esri/calcite-design-system/commit/a132d00c99424acde0dbae1c3a44cd853c081273)), closes [#10323](https://github.com/Esri/calcite-design-system/issues/10323)
+
 ## [3.0.0-next.116](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.115...@esri/calcite-components@3.0.0-next.116) (2025-01-27)
 
 ### Bug Fixes
