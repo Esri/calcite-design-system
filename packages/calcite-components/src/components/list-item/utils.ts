@@ -63,3 +63,11 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
 
   return result.snapshotLength;
 }
+
+function isListItem(element: Element): element is ListItem["el"] {
+  return element?.tagName === "CALCITE-LIST-ITEM";
+}
+
+export function isDraggableListItem(element: Element): boolean {
+  return isListItem(element) && !element.closed && !element.hidden && !element.filterHidden;
+}

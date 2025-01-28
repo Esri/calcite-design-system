@@ -135,8 +135,8 @@ export function connectSortableComponent(component: SortableComponent): void {
       onGlobalDragEnd();
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
-      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
+    onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
+      component.onDragSort({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
     },
   });
 }
