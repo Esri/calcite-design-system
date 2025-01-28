@@ -295,9 +295,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   connectedCallback(): void {
-    if (this.hasUpdated) {
-      this.observeResize();
-    }
+    this.observeResize();
   }
 
   async load(): Promise<void> {
@@ -365,10 +363,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.handleScaleChange(this.scale);
     }
-  }
-
-  override firstUpdated(): void {
-    this.observeResize();
   }
 
   override updated(): void {
@@ -493,6 +487,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   };
 
   private resizeCanvas = throttle((entries: ResizeObserverEntry[]): void => {
+    if (!this.hasUpdated) {
+      return;
+    }
+
     const [first] = entries;
     const availableWidth = Math.floor(first.contentBoxSize[0].inlineSize);
 

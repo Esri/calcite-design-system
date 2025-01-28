@@ -1,14 +1,15 @@
 :host {
   @apply text-n2h inline-block font-normal;
+
+  inline-size: var(--calcite-internal-color-picker-min-width);
+  min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
 @include disabled();
 
 :host([scale="s"]) {
+  --calcite-internal-color-picker-min-width: 200px;
   --calcite-color-picker-spacing: 8px;
-
-  inline-size: 200px;
-  min-inline-size: 200px;
 
   .saved-colors {
     @apply gap-1;
@@ -17,17 +18,13 @@
 }
 
 :host([scale="m"]) {
+  --calcite-internal-color-picker-min-width: 240px;
   --calcite-color-picker-spacing: 12px;
-
-  inline-size: 240px;
-  min-inline-size: 240px;
 }
 
 :host([scale="l"]) {
+  --calcite-internal-color-picker-min-width: 304px;
   --calcite-color-picker-spacing: 16px;
-
-  inline-size: 304px;
-  min-inline-size: 304px;
 
   @apply text-n1h;
 

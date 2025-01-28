@@ -271,8 +271,9 @@ export function getSliderWidth(
 ): number {
   const previewWidth = hasAlpha ? STATIC_DIMENSIONS["l"].preview.size : activeStaticDimensions.preview.size;
   const effectiveWidth = availableWidth - inlineSizeBorderTotalWidth;
+  const inlineSpaceAroundElements = activeStaticDimensions.gap * 3;
 
-  return Math.max(effectiveWidth - activeStaticDimensions.gap * 3 - previewWidth, 0);
+  return Math.max(effectiveWidth - inlineSpaceAroundElements - previewWidth, 0);
 }
 
 export function getColorFieldDimensions(availableWidth: number): Dimensions {
