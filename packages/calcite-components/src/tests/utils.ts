@@ -530,6 +530,35 @@ export async function toElementHandle(element: E2EElement): Promise<ElementHandl
  *
  * Note: values returned can only be serializable values.
  *
+ * @example
+ *
+ * it("props are updated on change emit", async () => {
+ *   const page = await newE2EPage();
+ *   await page.setContent(html`
+ *     <calcite-combobox>
+ *       <!-- ... -->
+ *     </calcite-combobox>
+ *   `);
+ *   const propValueAsserter = await createEventTimePropValuesAsserter<Combobox>(
+ *     page,
+ *     {
+ *       selector: "calcite-combobox",
+ *       eventName: "calciteComboboxChange",
+ *       props: ["value", "selectedItems"],
+ *     },
+ *     async (propValues) => {
+ *       expect(propValues.value).toBe("K");
+ *       expect(propValues.selectedItems).toHaveLength(1);
+ *     },
+ *   );
+ *   const combobox = await page.find("calcite-combobox");
+ *   await combobox.callMethod("setFocus");
+ *   await combobox.press("K");
+ *   await combobox.press("Enter");
+ *
+ *   await expect(propValueAsserter()).resolves.toBe(undefined);
+ * });
+ *
  * @param page
  * @param propValuesTarget
  * @param propValuesTarget.selector
