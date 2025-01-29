@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 
 export function sortByReference(dictionary: Dictionary): (a, b) => 1 | -1 {

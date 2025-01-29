@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
@@ -50,7 +51,8 @@ let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot - A slot for adding content.
- * @slot content - A slot for adding custom content.
+ * @slot content - [Deprecated] Use `custom-content` slot instead.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -98,7 +100,9 @@ export class Dialog
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private panelEl = createRef<Panel["el"]>();
 
@@ -149,7 +153,7 @@ export class Dialog
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
 
@@ -593,12 +597,12 @@ export class Dialog
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
@@ -802,39 +806,41 @@ export class Dialog
               {assistiveText}
             </div>
           ) : null}
-          <slot name={SLOTS.content}>
-            <calcite-panel
-              beforeClose={this.beforeClose}
-              class={CSS.panel}
-              closable={!this.closeDisabled}
-              closed={!opened}
-              description={description}
-              heading={heading}
-              headingLevel={this.headingLevel}
-              loading={this.loading}
-              menuOpen={this.menuOpen}
-              messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
-              oncalcitePanelClose={this.handleInternalPanelCloseClick}
-              oncalcitePanelScroll={this.handleInternalPanelScroll}
-              overlayPositioning={this.overlayPositioning}
-              ref={this.panelEl}
-              scale={this.scale}
-            >
-              <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-              <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
-              <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-              <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-              <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-              <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-              <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-              <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
-              <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-              <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-              <slot />
-            </calcite-panel>
+          <slot name={SLOTS.customContent}>
+            <slot name={SLOTS.content}>
+              <calcite-panel
+                beforeClose={this.beforeClose}
+                class={CSS.panel}
+                closable={!this.closeDisabled}
+                closed={!opened}
+                description={description}
+                heading={heading}
+                headingLevel={this.headingLevel}
+                loading={this.loading}
+                menuOpen={this.menuOpen}
+                messageOverrides={this.messageOverrides}
+                onKeyDown={this.handlePanelKeyDown}
+                oncalcitePanelClose={this.handleInternalPanelCloseClick}
+                oncalcitePanelScroll={this.handleInternalPanelScroll}
+                overlayPositioning={this.overlayPositioning}
+                ref={this.panelEl}
+                scale={this.scale}
+              >
+                <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+                <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
+                <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+                <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+                <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+                <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+                <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+                <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+                <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+                <slot />
+              </calcite-panel>
+            </slot>
           </slot>
         </div>
       </div>

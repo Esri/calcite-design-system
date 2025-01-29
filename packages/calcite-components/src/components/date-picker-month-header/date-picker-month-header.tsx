@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   calciteSpacingBase,
   calciteSpacingXxs,
@@ -86,7 +87,6 @@ export class DatePickerMonthHeader extends LitElement {
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages: DatePicker["messages"]["_overrides"];
 
@@ -325,10 +325,13 @@ export class DatePickerMonthHeader extends LitElement {
   private isMonthInRange(index: number): boolean {
     const newActiveDate = getDateInMonth(this.activeDate, index);
 
-    if (!this.min && !this.max) {
+    if ((!this.min && !this.max) || inRange(newActiveDate, this.min, this.max)) {
       return true;
     }
-    return (!!this.max && newActiveDate < this.max) || (!!this.min && newActiveDate > this.min);
+
+    return (
+      hasSameMonthAndYear(newActiveDate, this.max) || hasSameMonthAndYear(newActiveDate, this.min)
+    );
   }
 
   private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {

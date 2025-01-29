@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -65,7 +66,6 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
@@ -43,6 +44,17 @@ describe("calcite-sort-handle", () => {
         .replace(SUBSTITUTIONS.position, "4")
         .replace(SUBSTITUTIONS.total, "10"),
     );
+  });
+
+  it("sets dragHandle on action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-sort-handle lang="en" label="Hello World" set-position="4" set-size="10"></calcite-sort-handle>`,
+    );
+    await page.waitForChanges();
+
+    const handle = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+    expect(await handle.getProperty("dragHandle")).toBe(true);
   });
 
   it("fires calciteSortHandleReorder event", async () => {

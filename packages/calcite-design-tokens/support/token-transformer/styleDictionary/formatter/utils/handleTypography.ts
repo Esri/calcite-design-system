@@ -1,11 +1,11 @@
+// @ts-strict-ignore
+import { EOL } from "os";
 import { kebabCase } from "change-case";
-
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { getTypographyReferences } from "../typography/utils.js";
 import { addSCSSImportByRef } from "../typography/scss.js";
 import { Platform } from "../../../../types/platform.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
-import { EOL } from "os";
 
 export function handleTypography(token: TransformedToken, args: MappedFormatterArguments): string {
   const strObj = Object.keys(token.value).reduce((acc, typeKey) => {
@@ -24,7 +24,7 @@ export function handleTypography(token: TransformedToken, args: MappedFormatterA
       return `.${token.name} {${EOL}\t${Object.keys(strObj).join(`${EOL}\t`)}${EOL}}`;
 
     case Platform.SCSS:
-    case Platform.SASS:
+    case Platform.SASS: {
       const tokenSchemeExtensionExtendToken = (token.original.extensions &&
         token.original.extensions["calcite.extends"]) as string | undefined;
       const extraIncludes =
@@ -34,6 +34,7 @@ export function handleTypography(token: TransformedToken, args: MappedFormatterA
       const mixinLines = [].concat(extraIncludes || [], Object.keys(strObj));
 
       return `@mixin ${token.name} {${EOL}\t${mixinLines.join(`${EOL}\t`)}${EOL}}`;
+    }
     default:
       return;
   }

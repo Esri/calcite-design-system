@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -221,7 +222,7 @@ export class ListItem
   @property() setSize: number = null;
 
   /** When `true`, displays and positions the sort handle. */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /** When `true`, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
@@ -473,22 +474,6 @@ export class ListItem
     this.calciteInternalListItemActive.emit();
   }
 
-  private focusCellHandle(): void {
-    this.handleCellFocusIn(this.handleGridEl.value);
-  }
-
-  private focusCellActionsStart(): void {
-    this.handleCellFocusIn(this.actionsStartEl.value);
-  }
-
-  private focusCellContent(): void {
-    this.handleCellFocusIn(this.contentEl.value);
-  }
-
-  private focusCellActionsEnd(): void {
-    this.handleCellFocusIn(this.actionsEndEl.value);
-  }
-
   private emitCalciteInternalListItemToggle(): void {
     this.calciteInternalListItemToggle.emit();
   }
@@ -669,10 +654,6 @@ export class ListItem
     this.focusCell(null);
   }
 
-  private handleCellFocusIn(focusEl: HTMLDivElement): void {
-    this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
-  }
-
   private setFocusCell(
     focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
@@ -687,7 +668,7 @@ export class ListItem
     const gridCells = this.getGridCells();
 
     gridCells.forEach((tableCell) => {
-      tableCell.tabIndex = -1;
+      tableCell.removeAttribute("tabindex");
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
@@ -695,7 +676,12 @@ export class ListItem
       return;
     }
 
-    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+    if (focusEl === focusedEl) {
+      focusEl.tabIndex = 0;
+    } else {
+      focusEl.removeAttribute("tabindex");
+    }
+
     focusEl.setAttribute(activeCellTestAttribute, "");
 
     if (saveFocusIndex) {
@@ -754,7 +740,6 @@ export class ListItem
         ariaLabel={label}
         class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
-        onFocusIn={this.focusCellHandle}
         ref={this.handleGridEl}
         role="gridcell"
       >
@@ -819,7 +804,6 @@ export class ListItem
         class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        onFocusIn={this.focusCellActionsStart}
         ref={this.actionsStartEl}
         role="gridcell"
       >
@@ -836,7 +820,6 @@ export class ListItem
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
-        onFocusIn={this.focusCellActionsEnd}
         ref={this.actionsEndEl}
         role="gridcell"
       >
@@ -977,7 +960,6 @@ export class ListItem
         }}
         key="content-container"
         onClick={this.handleItemClick}
-        onFocusIn={this.focusCellContent}
         ref={this.contentEl}
         role="gridcell"
       >
@@ -1044,13 +1026,13 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderOpen()}
-            {this.renderActionsStart()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
                 [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
               }}
             >
+              {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
             </div>

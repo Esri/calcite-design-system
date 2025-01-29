@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -100,7 +101,9 @@ export class Modal
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private titleId: string;
 
@@ -380,23 +383,23 @@ export class Modal
   }
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
+    this.transitionEl?.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
     activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
+    this.transitionEl?.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.transitionEl?.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
     deactivateFocusTrap(this);
   }

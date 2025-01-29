@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
@@ -51,6 +52,13 @@ export class ComboboxItemGroup extends LitElement {
    * @private
    */
   @property() scale: Scale = "m";
+
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
 
   // #endregion
 

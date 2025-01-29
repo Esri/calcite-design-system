@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPicker } from "./color-picker";
@@ -83,3 +83,19 @@ export const Focus_TestOnly = (): string =>
 Focus_TestOnly.parameters = {
   chromatic: { delay: 2000 },
 };
+
+export const responsive = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .breakpoint-story-container > * {
+        // we avoid full width to stay within Chromatic’s screenshot size limit
+        width: 25%;
+      }
+    </style>
+    <calcite-color-picker scale="{scale}"></calcite-color-picker>
+    <calcite-color-picker alpha-channel scale="{scale}"></calcite-color-picker>
+  `);

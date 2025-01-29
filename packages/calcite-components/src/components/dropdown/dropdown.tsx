@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
@@ -84,7 +85,7 @@ export class Dropdown
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: HTMLDivElement;
 
@@ -235,10 +236,6 @@ export class Dropdown
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
     this.updateItems();
     connectFloatingUI(this);
   }

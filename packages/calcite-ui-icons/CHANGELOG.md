@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.11...@esri/calcite-ui-icons@4.0.0-next.12) (2025-01-29)
+
+### Features
+
+- add hammer coin and hammer lock ([#11396](https://github.com/Esri/calcite-design-system/issues/11396)) ([9326236](https://github.com/Esri/calcite-design-system/commit/93262364b1c460d6f905708027986fd4c9ca0082))
+
+## [4.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.10...@esri/calcite-ui-icons@4.0.0-next.11) (2025-01-25)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.9...@esri/calcite-ui-icons@4.0.0-next.10) (2025-01-22)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.8...@esri/calcite-ui-icons@4.0.0-next.9) (2025-01-17)
+
+### Features
+
+- add crosshair ([#11331](https://github.com/Esri/calcite-design-system/issues/11331)) ([f452298](https://github.com/Esri/calcite-design-system/commit/f45229897bda674fff1c2f76116ed894f36a5267))
+
+## [4.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.7...@esri/calcite-ui-icons@4.0.0-next.8) (2025-01-14)
+
+### Features
+
+- add utility network layer ([#11299](https://github.com/Esri/calcite-design-system/issues/11299)) ([f086c99](https://github.com/Esri/calcite-design-system/commit/f086c9910594c768d673c19c7715318296cf3819))
+
+## [4.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.6...@esri/calcite-ui-icons@4.0.0-next.7) (2025-01-04)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.5...@esri/calcite-ui-icons@4.0.0-next.6) (2025-01-03)
+
+### Performance Improvements
+
+- speed up build-fonts script ([#11196](https://github.com/Esri/calcite-design-system/issues/11196)) ([c7e3071](https://github.com/Esri/calcite-design-system/commit/c7e30714c9a7943be105d5e88fcac6443629fd12))
+
+## [4.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.4...@esri/calcite-ui-icons@4.0.0-next.5) (2025-01-02)
+
+### Features
+
+- add icon font files ([#10996](https://github.com/Esri/calcite-design-system/issues/10996)) ([e615793](https://github.com/Esri/calcite-design-system/commit/e615793daf7b71a383bf9563eb4a73fb57e4016b)), closes [#56](https://github.com/Esri/calcite-design-system/issues/56)
+
+## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.3...@esri/calcite-ui-icons@4.0.0-next.4) (2024-12-19)
+
+### Features
+
+- add plug connection ([#11113](https://github.com/Esri/calcite-design-system/issues/11113)) ([dd3eb79](https://github.com/Esri/calcite-design-system/commit/dd3eb79faf6b46fd8208612f82713cb95ed113cb))
+
 ## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.2...@esri/calcite-ui-icons@4.0.0-next.3) (2024-12-17)
 
 ### Bug Fixes

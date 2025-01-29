@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -11,9 +12,10 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
@@ -302,7 +304,7 @@ describe("calcite-flow-item", () => {
         </calcite-flow-item>
       </calcite-flow>
     `);
-    const [top, , bottom] = await page.findAll("calcite-block");
+    const [top, , bottom] = await findAll(page, "calcite-block");
 
     await bottom.callMethod("scrollIntoView");
 
@@ -389,5 +391,80 @@ describe("calcite-flow-item", () => {
 
     const flowItem = await page.find("calcite-flow-item");
     expect(await flowItem.getProperty("closed")).toBe(false);
+  });
+
+  describe("theme", () => {
+    themed(html`<calcite-flow-item show-back-button></calcite-flow-item>`, {
+      "--calcite-flow-corner-radius": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-corner-radius",
+      },
+      "--calcite-flow-heading-text-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-heading-text-color",
+      },
+      "--calcite-flow-description-text-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-description-text-color",
+      },
+      "--calcite-flow-border-color": [
+        {
+          shadowSelector: `.${CSS.backButton}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-border-color",
+        },
+      ],
+      "--calcite-flow-background-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-background-color",
+      },
+      "--calcite-flow-header-background-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-background-color",
+      },
+      "--calcite-flow-footer-background-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-footer-background-color",
+      },
+      "--calcite-flow-space": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-space",
+      },
+      "--calcite-flow-header-content-space": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-content-space",
+      },
+      "--calcite-flow-footer-space": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-footer-space",
+      },
+      "--calcite-flow-header-action-background-color-hover": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-background-color-hover",
+      },
+      "--calcite-flow-header-action-background-color-press": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-background-color-press",
+      },
+      "--calcite-flow-header-action-background-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-background-color",
+      },
+      "--calcite-flow-header-action-indicator-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-indicator-color",
+      },
+      "--calcite-flow-header-action-text-color-press": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-text-color-press",
+      },
+      "--calcite-flow-header-action-text-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-header-action-text-color",
+      },
+    });
   });
 });

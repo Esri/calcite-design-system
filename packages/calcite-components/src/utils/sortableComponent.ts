@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();
@@ -106,12 +107,24 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl, { newIndex, oldIndex }) =>
-            component.canPull({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
+          pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
+            component.canPull({
+              toEl: to.el,
+              fromEl: from.el,
+              dragEl,
+              newIndex,
+              oldIndex,
+            }),
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl, { newIndex, oldIndex }) =>
-            component.canPut({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
+          put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
+            component.canPut({
+              toEl: to.el,
+              fromEl: from.el,
+              dragEl,
+              newIndex,
+              oldIndex,
+            }),
         }),
       },
     }),
@@ -124,17 +137,17 @@ export function connectSortableComponent(component: SortableComponent): void {
     },
     handle,
     filter: `${handle}[disabled]`,
-    onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+    onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       dragState.active = true;
       onGlobalDragStart();
       component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       dragState.active = false;
       onGlobalDragEnd();
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+    onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
   });

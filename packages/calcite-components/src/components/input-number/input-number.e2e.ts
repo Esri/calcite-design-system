@@ -1,6 +1,7 @@
+// @ts-strict-ignore
 import { KeyInput } from "puppeteer";
-import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -14,15 +15,21 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
+import {
+  assertCaretPosition,
+  findAll,
+  getElementRect,
+  getElementXY,
+  isElementFocused,
+  selectText,
+} from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
-  testWorkaroundForGlobalPropRemoval,
   testHiddenInputSyncing,
   testPostValidationFocusing,
+  testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
-import { assertCaretPosition } from "../../tests/utils";
 import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
 import type { InputNumber } from "./input-number";
@@ -1527,7 +1534,7 @@ describe("calcite-input-number", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number read-only></calcite-input-number>`);
 
-    const inputs = await page.findAll("calcite-input-number >>> input");
+    const inputs = await findAll(page, "calcite-input-number >>> input");
 
     for (const input of inputs) {
       expect(await input.getProperty("readOnly")).toBe(true);

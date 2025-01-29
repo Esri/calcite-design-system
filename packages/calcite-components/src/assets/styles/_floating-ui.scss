@@ -9,10 +9,12 @@ $floating-ui-transition-offset: 5px;
 }
 
 @mixin floating-ui-offset-left {
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: $floating-ui-transition-offset;
 }
 
 @mixin floating-ui-offset-right {
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: -$floating-ui-transition-offset;
 }
 
@@ -25,6 +27,7 @@ $floating-ui-transition-offset: 5px;
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
     transition-property: inset, left, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
@@ -35,6 +38,7 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-anim-active {
   opacity: 1;
   inset-block-start: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
 }
 
@@ -65,8 +69,10 @@ $floating-ui-transition-offset: 5px;
 }
 
 @mixin floating-ui-container() {
+  inline-size: max-content;
   display: none;
   inset-block-start: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
   z-index: var(--calcite-floating-ui-z-index);
 }

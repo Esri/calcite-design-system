@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -12,7 +13,7 @@ import {
   renders,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils";
 import type { RadioButton } from "./radio-button";
 
 describe("calcite-radio-button", () => {
@@ -204,7 +205,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="none-checked" value="2"></calcite-radio-button>
       <calcite-radio-button name="none-checked" value="3"></calcite-radio-button>
     `);
-    const radioButtons = await page.findAll("calcite-radio-button");
+    const radioButtons = await findAll(page, "calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
       expect(radioButtons[i].getAttribute("checked")).toBe(null);
@@ -218,7 +219,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="multiple-checked" value="2" checked></calcite-radio-button>
       <calcite-radio-button name="multiple-checked" value="3" checked></calcite-radio-button>
     `);
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -379,7 +380,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems.length).toEqual(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -399,7 +400,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]", { allowEmpty: true });
     expect(checkedItems).toHaveLength(0);
   });
 
@@ -575,7 +576,7 @@ describe("calcite-radio-button", () => {
     `);
 
     await page.waitForChanges();
-    const radios = await page.findAll("fake-component >>> calcite-radio-button");
+    const radios = await findAll(page, "fake-component >>> calcite-radio-button");
 
     await radios[0].click();
 

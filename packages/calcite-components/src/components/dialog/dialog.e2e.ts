@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -215,7 +216,7 @@ describe("calcite-dialog", () => {
     ]);
   });
 
-  describe("accessible", async () => {
+  describe("accessible", () => {
     accessible(async () => {
       const page = await newE2EPage();
 
@@ -592,7 +593,7 @@ describe("calcite-dialog", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-dialog close-disabled>
-          <div slot="content">
+          <div slot="custom-content">
             <button id="${button1Id}">Focus1</button>
             <button id="${button2Id}">Focus2</button>
           </div>
@@ -1035,7 +1036,7 @@ describe("calcite-dialog", () => {
       await page.setContent(
         html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
           ><p>
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
             Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
             eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
             ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
@@ -1051,8 +1052,8 @@ describe("calcite-dialog", () => {
       let computedStyle = await container.getComputedStyle();
       const initialBlockSize = computedStyle.blockSize;
       const initialInlineSize = computedStyle.inlineSize;
-      const initialHeight = parseInt(initialBlockSize, 10);
-      const initialWidth = parseInt(initialInlineSize, 10);
+      const initialHeight = parseInt(initialBlockSize);
+      const initialWidth = parseInt(initialInlineSize);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 

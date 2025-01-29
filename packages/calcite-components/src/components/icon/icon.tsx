@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
@@ -48,7 +49,7 @@ export class Icon extends LitElement {
   /**
    * Displays a specific icon.
    *
-   * @see [Icons](https://esri.github.io/calcite-ui-icons)
+   * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
   @property({
     reflect: true,

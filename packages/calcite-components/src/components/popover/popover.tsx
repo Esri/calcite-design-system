@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -94,7 +95,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -340,9 +341,6 @@ export class Popover
       this.setUpReferenceElement();
     }
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
     this.hasLoaded = true;
   }
 
@@ -387,7 +385,10 @@ export class Popover
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    requestAnimationFrame(() => this.setUpReferenceElement());
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
   }
 
   private setTransitionEl(el: HTMLDivElement): void {

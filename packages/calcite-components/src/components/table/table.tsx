@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
@@ -13,6 +14,7 @@ import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import type { Pagination } from "../pagination/pagination";
+import { isHidden } from "../../utils/component";
 import {
   TableInteractionMode,
   TableLayout,
@@ -68,9 +70,6 @@ export class Table extends LitElement implements LoadableComponent {
 
   @state() pageStartRow = 1;
 
-  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-
-  // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
   @state() readCellContentsToAT: boolean;
 
   @state() selectedCount = 0;
@@ -170,13 +169,18 @@ export class Table extends LitElement implements LoadableComponent {
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteChipSelectListener);
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
+
+    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
@@ -211,9 +215,15 @@ export class Table extends LitElement implements LoadableComponent {
     this.updateRows();
   }
 
-  private calciteChipSelectListener(event: CustomEvent): void {
+  private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
+    }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.updateSelectedItems(false);
     }
   }
 
@@ -223,8 +233,8 @@ export class Table extends LitElement implements LoadableComponent {
     const destination = event.detail.destination;
     const lastCell = event.detail.lastCell;
 
-    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
-    const visibleAll = this.allRows?.filter((row) => !row.hidden);
+    const visibleBody = this.bodyRows?.filter((row) => !isHidden(row));
+    const visibleAll = this.allRows?.filter((row) => !isHidden(row));
 
     const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
     const firstBodyRow = visibleBody[0]?.positionAll;
@@ -338,7 +348,7 @@ export class Table extends LitElement implements LoadableComponent {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
@@ -391,7 +401,7 @@ export class Table extends LitElement implements LoadableComponent {
   // #region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => isHidden(el))?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;

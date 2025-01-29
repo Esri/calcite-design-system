@@ -1,8 +1,8 @@
+// @ts-strict-ignore
 /**
  * This is a copy/extension of @tokens-studio/sd-transforms/dist/parsers/expand-composites.js but now with better types!
  */
 
-import { resolveReference } from "./resolveRelevance.js";
 import { typeMap } from "../../../../types/tokenTypes/typeMaps.js";
 import { TransformOptions } from "../../../../types/styleDictionary/transformOptions.js";
 import {
@@ -12,6 +12,7 @@ import {
   SingleToken,
 } from "../../../../types/tokenStudio/designTokenTypes.js";
 import { ExpandFilter } from "../../../../types/tokenStudio/expandOptions.js";
+import { resolveReference } from "./resolveRelevance.js";
 
 export function expandToken(compToken: SingleToken<false>, isShadow = false): SingleToken<false> {
   if (typeof compToken.value !== "object") {

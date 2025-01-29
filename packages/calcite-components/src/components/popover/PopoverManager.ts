@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { isKeyboardTriggeredClick } from "../../utils/dom";
@@ -86,7 +87,7 @@ export default class PopoverManager {
   };
 
   private clickHandler = (event: PointerEvent): void => {
-    if (isKeyboardTriggeredClick(event)) {
+    if (isKeyboardTriggeredClick(event) || event.defaultPrevented) {
       return;
     }
 

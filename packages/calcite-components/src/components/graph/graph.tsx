@@ -1,9 +1,11 @@
+// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { ColorStop, DataSeries, Point } from "./interfaces";
 import { area, range, translate } from "./util";
 import { styles } from "./graph.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -86,7 +88,7 @@ export class Graph extends LitElement {
       return (
         <svg
           ariaHidden="true"
-          class="svg"
+          class={CSS.svg}
           height={height}
           preserveAspectRatio="none"
           viewBox={`0 0 ${width} ${height}`}
@@ -116,7 +118,7 @@ export class Graph extends LitElement {
     return (
       <svg
         ariaHidden="true"
-        class="svg"
+        class={CSS.svg}
         height={height}
         preserveAspectRatio="none"
         viewBox={`0 0 ${width} ${height}`}
@@ -173,12 +175,12 @@ export class Graph extends LitElement {
               />
             </mask>,
 
-            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
-            <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
-            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />,
+            <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
+            <path class={CSS.graphPathHighlight} d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
+            <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${id}3)`} />,
           ]
         ) : (
-          <path class="graph-path" d={areaPath} fill={fill} />
+          <path class={CSS.graphPath} d={areaPath} fill={fill} />
         )}
       </svg>
     );

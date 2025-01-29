@@ -1,6 +1,4 @@
-import { toHaveNoViolations } from "jest-axe";
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { expect } from "vitest";
 import type {
   ComponentTag,
   TagOrHTML,
@@ -11,7 +9,6 @@ import type {
   WithBeforeContent,
   ComponentTestContent,
 } from "./interfaces";
-expect.extend(toHaveNoViolations);
 
 export const HYDRATED_ATTR = "calcite-hydrated";
 

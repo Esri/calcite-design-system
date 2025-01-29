@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -56,7 +57,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** The close button element. */
   private closeButton = createRef<HTMLButtonElement>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
   private requestedIcon?: IconNameOrString;
@@ -151,9 +152,6 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   async load(): Promise<void> {
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

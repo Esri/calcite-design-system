@@ -101,4 +101,4 @@ Console warnings can end up polluting the build output messaging that makes it m
 
 If you notice that a test fails intermittently during local or CI test runs, it is unstable and must be skipped to avoid holding up test runs, builds and deployments.
 
-To skip a test, use the `skip` method that's available on [tests, or suites](https://jestjs.io/docs/en/api#methods) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-design-system/issues/new/choose) the unstable test template and filling it out.
+To skip a test, use the `skip` method that's available on [tests, or suites](https://vitest.dev/guide/filtering.html#skipping-suites-and-tests) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-design-system/issues/new/choose) the unstable test template and filling it out.

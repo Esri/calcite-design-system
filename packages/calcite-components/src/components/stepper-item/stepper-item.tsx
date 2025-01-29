@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -31,6 +32,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
+import { isHidden } from "../../utils/component";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -90,6 +92,13 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
@@ -273,6 +282,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   private handleItemClick(event: MouseEvent): void {
     if (
       this.disabled ||
+      isHidden(this.el) ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
@@ -302,9 +312,11 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el,
-    );
+    return Array.from(
+      this.parentStepperEl?.querySelectorAll(
+        "calcite-stepper-item:not([hidden]):not([item-hidden])",
+      ),
+    ).indexOf(this.el);
   }
 
   // #endregion

@@ -6,7 +6,7 @@ const customFunctions = [
   "medium-modular-scale",
   "modular-scale",
   "scale-duration",
-  "small-modular-scale"
+  "small-modular-scale",
 ];
 // ⚠️ END OF AUTO-GENERATED CODE
 
@@ -20,12 +20,7 @@ const scssPatternRules = [
 /** @type {import('stylelint').Config["rules"]} */
 const rules = {
   "length-zero-no-unit": true,
-  "liberty/use-logical-spec": [
-    "always",
-    {
-      except: ["left", "right"],
-    },
-  ],
+  "liberty/use-logical-spec": ["always"],
   "no-descending-specificity": [
     true,
     {

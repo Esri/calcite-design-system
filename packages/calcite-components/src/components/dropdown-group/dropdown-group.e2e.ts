@@ -1,7 +1,9 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { findAll } from "../../tests/utils";
 
 describe("calcite-dropdown-group", () => {
   describe("defaults", () => {
@@ -42,7 +44,7 @@ describe("calcite-dropdown-group", () => {
 
     await page.waitForChanges();
 
-    let items = await page.findAll("calcite-dropdown-item");
+    let items = await findAll(page, "calcite-dropdown-item");
     expect(items.length).toBe(2);
     for (const item of items) {
       expect(await item.getProperty("selectionMode")).toBe("single");
@@ -52,7 +54,7 @@ describe("calcite-dropdown-group", () => {
     dropdownGroup.setProperty("selectionMode", "none");
     await page.waitForChanges();
 
-    items = await page.findAll("calcite-dropdown-item");
+    items = await findAll(page, "calcite-dropdown-item");
     expect(items.length).toBe(2);
     for (const item of items) {
       expect(await item.getProperty("selectionMode")).toBe("none");
@@ -65,7 +67,7 @@ describe("calcite-dropdown-group", () => {
       dropdownGroup.appendChild(newItem);
     });
 
-    items = await page.findAll("calcite-dropdown-item");
+    items = await findAll(page, "calcite-dropdown-item");
     expect(items.length).toBe(3);
     for (const item of items) {
       expect(await item.getProperty("selectionMode")).toBe("none");

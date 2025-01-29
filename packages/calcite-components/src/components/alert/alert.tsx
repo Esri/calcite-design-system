@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -68,7 +69,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private lastMouseOverBegin: number;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private totalHoverTime = 0;
 
@@ -218,9 +219,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -228,12 +226,12 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
-      this.handleActiveChange();
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
+    }
+
+    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
+      this.handleActiveChange();
     }
 
     if (
@@ -271,6 +269,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   // #region Private Methods
 
   private handleActiveChange(): void {
+    onToggleOpenCloseComponent(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
@@ -282,7 +281,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
     if (this.open) {
       manager.registerElement(this.el);
     } else {

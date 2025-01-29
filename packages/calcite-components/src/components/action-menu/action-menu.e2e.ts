@@ -1,5 +1,6 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+// @ts-strict-ignore
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -12,11 +13,10 @@ import {
   slots,
   themed,
 } from "../../tests/commonTests";
-import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { CSS as TooltipCSS } from "../tooltip/resources";
-import { isElementFocused, skipAnimations } from "../../tests/utils";
+import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
 import type { Action } from "../action/action";
-import { CSS, SLOTS, activeAttr } from "./resources";
+import { activeAttr, CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   describe("renders", () => {
@@ -202,6 +202,53 @@ describe("calcite-action-menu", () => {
     await isElementFocused(page, focusTargetSelector);
   });
 
+  describe("adding/removing from DOM", () => {
+    let page: E2EPage;
+
+    beforeEach(async (): Promise<void> => {
+      page = await newE2EPage();
+      await skipAnimations(page);
+    });
+
+    async function testToggle(triggerSelector: string): Promise<void> {
+      await page.evaluate(() => {
+        const actionMenu = document.querySelector("calcite-action-menu");
+        actionMenu.remove();
+        document.body.append(actionMenu);
+      });
+      await page.waitForChanges();
+
+      const trigger = await page.find(triggerSelector);
+      await trigger.click();
+
+      const actionMenu = await page.find("calcite-action-menu");
+      expect(await actionMenu.getProperty("open")).toBe(true);
+    }
+
+    it("should toggle with default trigger", async () => {
+      await page.setContent(html`
+        <calcite-action-menu>
+          <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action text="Remove" icon="minus" text-enabled></calcite-action>
+          <calcite-action text="Banana" icon="banana" text-enabled></calcite-action>
+        </calcite-action-menu>
+      `);
+      await testToggle(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
+    });
+
+    it("should toggle with slotted trigger", async () => {
+      await page.setContent(html`
+        <calcite-action-menu>
+          <calcite-action id="trigger" slot="${SLOTS.trigger}" text="Toggle" icon="toggle"></calcite-action>
+          <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action text="Remove" icon="minus" text-enabled></calcite-action>
+          <calcite-action text="Banana" icon="banana" text-enabled></calcite-action>
+        </calcite-action-menu>
+      `);
+      await testToggle("#trigger");
+    });
+  });
+
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({ html: `<calcite-action-menu scale="l"></calcite-action-menu>` });
 
@@ -253,7 +300,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -293,7 +340,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -332,7 +379,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -372,7 +419,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -434,7 +481,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -466,7 +513,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -501,7 +548,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 

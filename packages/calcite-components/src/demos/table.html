@@ -383,6 +383,90 @@
           </calcite-table>
         </div>
       </calcite-modal>
+      <h3>Programmatic row selection testing</h3>
+
+      <calcite-table
+        id="programmatic-table"
+        caption="Simple table"
+        striped
+        numbered
+        page-size="6"
+        bordered
+        selection-mode="multiple"
+      >
+        <calcite-button id="programmatic-button" slot="selection-actions">Custom Deselect</calcite-button>
+
+        <calcite-action-bar slot="selection-actions" layout="horizontal" expand-disabled>
+          <calcite-action text="Analyze" icon="layer"></calcite-action>
+          <calcite-action text="Copy" icon="copy"></calcite-action>
+        </calcite-action-bar>
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+          <calcite-table-cell>cell content</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
 
       <h3>Scroll in parent testing</h3>
       <div style="display: inline-flex; flex-direction: row; gap: 1rem; margin: 0 auto; text-align: center">
@@ -4970,6 +5054,19 @@
           return;
         }
       });
+    });
+
+    const programmaticButton = document.getElementById("programmatic-button");
+    const programmaticTable = document.getElementById("programmatic-table");
+    const programmaticTableRows = programmaticTable.querySelectorAll("calcite-table-row:not([slot='table-header'])");
+    programmaticButton.addEventListener("click", () => {
+      programmaticTableRows.forEach((row) => {
+        row.selected = false;
+      });
+    });
+
+    programmaticTable.addEventListener("calciteTableSelect", () => {
+      console.log(programmaticTable.selectedItems);
     });
   </script>
 </html>
