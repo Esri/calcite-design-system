@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.11...@esri/calcite-ui-icons@4.0.0-next.12) (2025-01-29)
+
+### Features
+
+- add hammer coin and hammer lock ([#11396](https://github.com/Esri/calcite-design-system/issues/11396)) ([9326236](https://github.com/Esri/calcite-design-system/commit/93262364b1c460d6f905708027986fd4c9ca0082))
+
 ## [4.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.10...@esri/calcite-ui-icons@4.0.0-next.11) (2025-01-25)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
