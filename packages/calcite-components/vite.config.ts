@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -58,7 +57,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         // Add "includes.scss" import to each scss file
-        additionalData(code, id) {
+        additionalData(code: string, id: string) {
           const globalCss = "/src/assets/styles/includes";
           if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
             return undefined;
@@ -92,6 +91,11 @@ export default defineConfig({
   },
 
   test: {
+    // workaround for lumina puppeteer testing issue
+    browser: {
+      name: "chromium",
+      enabled: false,
+    },
     setupFiles: ["src/tests/setupTests.ts"],
     include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
