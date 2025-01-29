@@ -20,8 +20,9 @@
         "type": "color"
       },
       "current": {
-        "value": "{core.color.high-saturation.blue.h-bb-090}",
-        "type": "color"
+        "value": "#214155",
+        "type": "color",
+        "description": "medium-saturation core tokens missing. Should be: core.color.medium-saturation.m-bb-090"
       },
       "scrim": {
         "value": "{core.color.neutral.blk-240}",
