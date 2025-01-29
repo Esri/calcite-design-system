@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.121](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.120...@esri/calcite-components@3.0.0-next.121) (2025-01-29)
+
+### Features
+
+- **color-picker:** enable responsive layout ([#10904](https://github.com/Esri/calcite-design-system/issues/10904)) ([c37377b](https://github.com/Esri/calcite-design-system/commit/c37377b4e9abbfd8768ef0bcb0c1dfeee0969f21)), closes [#8463](https://github.com/Esri/calcite-design-system/issues/8463)
+- **inline-editable:** add component tokens ([#11357](https://github.com/Esri/calcite-design-system/issues/11357)) ([3e502a8](https://github.com/Esri/calcite-design-system/commit/3e502a84b8fa89b037cd98d21cf949f14b759edd)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **segmented-control, segmented-control-item:** add component tokens ([#11359](https://github.com/Esri/calcite-design-system/issues/11359)) ([6f6a654](https://github.com/Esri/calcite-design-system/commit/6f6a6545de094db108e4e59e34972c162a56713d)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Bug Fixes
+
+- **combobox:** ensure disabled items get proper scale ([#11400](https://github.com/Esri/calcite-design-system/issues/11400)) ([49cc976](https://github.com/Esri/calcite-design-system/commit/49cc97604c1bbd202e6cf535373e78e5ee18febf)), closes [#9888](https://github.com/Esri/calcite-design-system/issues/9888)
+
 ## [3.0.0-next.120](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.119...@esri/calcite-components@3.0.0-next.120) (2025-01-29)
 
 **Note:** Version bump only for package @esri/calcite-components
