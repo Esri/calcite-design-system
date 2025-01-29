@@ -1,8 +1,9 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
-import { LuminaJsx } from "@arcgis/lumina";
+import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
+import { ConditionalKeys, Jsonifiable } from "type-fest";
 import { ComponentTag } from "./commonTests/interfaces";
 
 /** Util to help type global props for testing. */
@@ -520,4 +521,61 @@ export async function assertCaretPosition({
  */
 export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
   return element.handle;
+}
+
+/**
+ * This util helps assert on a component's state at the time of an event firing.
+ *
+ * This is needed due to how Puppeteer works asynchronously, so the state at event emit-time might not be the same as the state at the time of the assertion.
+ *
+ * Note: values returned can only be serializable values.
+ *
+ * @param page
+ * @param propValuesTarget
+ * @param propValuesTarget.selector
+ * @param propValuesTarget.eventName
+ * @param propValuesTarget.props
+ * @param onEvent
+ */
+export async function createEventTimePropValuesAsserter<
+  Component extends LitElement,
+  Keys = keyof ToElement<Component>,
+  Events = Keys extends string ? (Keys extends `calcite${string}` ? Keys : never) : never,
+>(
+  page: E2EPage,
+  propValuesTarget: {
+    selector: ComponentTag;
+    eventName: Events;
+    props: ConditionalKeys<Keys, string>[];
+  },
+  onEvent: (propValues: Record<ConditionalKeys<Keys, string>, Jsonifiable>) => Promise<void>,
+): Promise<() => Promise<void>> {
+  // we set this up early to we capture state as soon as the event fires
+  const callbackAfterEvent = page.$eval(
+    propValuesTarget.selector,
+    (element, eventName, props) => {
+      return new Promise<Record<ConditionalKeys<Keys, string>, Jsonifiable>>((resolve) => {
+        element.addEventListener(
+          // TODO: clean up 👇
+          eventName as string,
+          () => {
+            const propValues: Partial<Record<ConditionalKeys<Keys, string>, Jsonifiable>> = {};
+
+            props.forEach((prop) => {
+              propValues[prop] =
+                // TODO: clean up 👇
+                element[prop as string];
+            });
+
+            resolve(propValues as Record<ConditionalKeys<Keys, string>, Jsonifiable>);
+          },
+          { once: true },
+        );
+      });
+    },
+    propValuesTarget.eventName,
+    propValuesTarget.props,
+  );
+
+  return async () => callbackAfterEvent.then((state) => onEvent(state));
 }
