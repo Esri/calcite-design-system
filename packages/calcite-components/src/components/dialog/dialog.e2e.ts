@@ -1166,13 +1166,15 @@ describe("calcite-dialog", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dialog width-scale="s" focus-trap-disabled open closable><button>inside</button></calcite-dialog>
-        <button>outside</button>
+        <button id="outsideEl">outside</button>
       `);
       await skipAnimations(page);
       await page.waitForChanges();
 
       const dialog = await page.find("calcite-dialog >>> .container");
       const action = await page.find("calcite-dialog >>> calcite-action");
+      const outsideEl = await page.find("#outsideEl");
+
       expect(await dialog.isVisible()).toBe(true);
 
       await action.callMethod("setFocus");
@@ -1185,33 +1187,35 @@ describe("calcite-dialog", () => {
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      await page.keyboard.press("Escape");
-      await page.waitForChanges();
-
-      expect(await dialog.isVisible()).toBe(true);
+      const activeElementId = await page.evaluate(() => document.activeElement.id);
+      expect(activeElementId).toBe(await outsideEl.getProperty("id"));
     });
 
     it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-dialog width-scale="s" modal focus-trap-disabled open closable><button>inside</button></calcite-dialog>
+        <calcite-dialog width-scale="s" modal focus-trap-disabled open closable
+          ><button id="insideEl">inside</button></calcite-dialog
+        >
         <button>outside</button>
       `);
       await skipAnimations(page);
       await page.waitForChanges();
 
       const dialog = await page.find("calcite-dialog >>> .container");
+      const insideEl = await page.find("#insideEl");
+
       expect(await dialog.isVisible()).toBe(true);
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-
-      await page.keyboard.press("Escape");
+      await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      expect(await dialog.isVisible()).toBe(false);
+      const activeElementId = await page.evaluate(() => document.activeElement.id);
+      expect(activeElementId).toBe(await insideEl.getProperty("id"));
     });
   });
 });

@@ -273,6 +273,16 @@ export class Dialog
     updateFocusTrapElements(this);
   }
 
+  /**
+   * When defined, provides a condition for focusTrapDisabled override.
+   *
+   * @private
+   */
+  @method()
+  _focusTrapDisabledOverride(): boolean {
+    return this.modal || !this.focusTrapDisabled;
+  }
+
   // #endregion
 
   // #region Events
@@ -378,7 +388,7 @@ export class Dialog
       return;
     }
 
-    if (this.modal || (!this.modal && !this.focusTrapDisabled)) {
+    if (this._focusTrapDisabledOverride()) {
       activateFocusTrap(this);
     } else {
       deactivateFocusTrap(this);
