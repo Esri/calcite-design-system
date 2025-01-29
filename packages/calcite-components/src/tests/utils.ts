@@ -522,6 +522,38 @@ export async function toElementHandle(element: E2EElement): Promise<ElementHandl
   return element.handle;
 }
 
+interface FindAllOptions {
+  /**
+   * Set to true to allow an empty result set.
+   */
+  allowEmpty: boolean;
+}
+
+/**
+ * Finds all elements matching a selector.
+ *
+ * Unlike `page.findAll` or `element.findAll`, this util throws an error if no elements are found unless `allowEmpty` is set to true.
+ *
+ * @param pageOrElement
+ * @param selector
+ * @param options
+ */
+export async function findAll(
+  pageOrElement: E2EPage | E2EElement,
+  selector: string,
+  options?: FindAllOptions,
+): Promise<E2EElement[]> {
+  // eslint-disable-next-line no-restricted-properties -- need to call the wrapped `findAll` method
+  const matches = await pageOrElement.findAll(selector);
+  const effectiveOptions = { allowEmpty: false, ...options };
+
+  if (!effectiveOptions.allowEmpty && matches.length === 0) {
+    throw new Error(`No elements found for selector: ${selector}`);
+  }
+
+  return matches;
+}
+
 /**
  * This util helps assert on a component's state at the time of an event firing.
  *

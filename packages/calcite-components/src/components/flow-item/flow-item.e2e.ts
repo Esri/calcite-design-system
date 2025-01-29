@@ -15,7 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
@@ -304,7 +304,7 @@ describe("calcite-flow-item", () => {
         </calcite-flow-item>
       </calcite-flow>
     `);
-    const [top, , bottom] = await page.findAll("calcite-block");
+    const [top, , bottom] = await findAll(page, "calcite-block");
 
     await bottom.callMethod("scrollIntoView");
 

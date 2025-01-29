@@ -1,9 +1,9 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { findAll, skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
@@ -270,7 +270,7 @@ describe("calcite-date-picker", () => {
       const monthSelect = await page.find(
         "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select",
       );
-      const monthOptions = await monthSelect.findAll("calcite-option");
+      const monthOptions = await findAll(monthSelect, "calcite-option");
 
       expect(await monthOptions[0].getProperty("disabled")).toBe(true);
       expect(await monthOptions[1].getProperty("disabled")).toBe(false);
@@ -608,10 +608,12 @@ describe("calcite-date-picker", () => {
       await setActiveDate(page, "07-01-2024");
       await page.waitForChanges();
 
-      const [monthSelectStart, monthSelectEnd] = await page.findAll(
+      const [monthSelectStart, monthSelectEnd] = await findAll(
+        page,
         `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
       );
-      const [yearInputStart, yearInputEnd] = await page.findAll(
+      const [yearInputStart, yearInputEnd] = await findAll(
+        page,
         "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
       );
       expect(await yearInputStart.getProperty("value")).toBe("2024");
@@ -641,10 +643,12 @@ describe("calcite-date-picker", () => {
       await setActiveDate(page, "01-01-2024");
       await page.waitForChanges();
 
-      const [monthSelectStart, monthSelectEnd] = await page.findAll(
+      const [monthSelectStart, monthSelectEnd] = await findAll(
+        page,
         `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
       );
-      const [yearInputStart, yearInputEnd] = await page.findAll(
+      const [yearInputStart, yearInputEnd] = await findAll(
+        page,
         "calcite-date-picker >>> calcite-date-picker-month-header >>> input",
       );
       expect(await yearInputStart.getProperty("value")).toBe("2024");
@@ -722,7 +726,8 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
 
-      const [prevMonth, nextMonth] = await page.findAll(
+      const [prevMonth, nextMonth] = await findAll(
+        page,
         `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-action`,
       );
       const monthSelect = await page.find("calcite-date-picker >>> calcite-select");
@@ -1078,7 +1083,8 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
-  const [startMonth, endMonth] = await page.findAll(
+  const [startMonth, endMonth] = await findAll(
+    page,
     `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
   );
 

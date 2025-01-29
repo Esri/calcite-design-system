@@ -1,24 +1,25 @@
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  hidden,
-  renders,
-  focusable,
-  disabled,
   defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
   t9n,
   themed,
-  reflects,
 } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
+import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
 import {
-  GlobalTestProps,
   dragAndDrop,
-  isElementFocused,
+  findAll,
   getFocusedElementProp,
+  GlobalTestProps,
+  isElementFocused,
   newProgrammaticE2EPage,
 } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
@@ -205,7 +206,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(items.length).toBe(7);
 
@@ -253,7 +254,7 @@ describe("calcite-list", () => {
 
     let dragHandleValues = [true, false, true, true, false, true, true];
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(items.length).toBe(dragHandleValues.length);
 
@@ -309,7 +310,7 @@ describe("calcite-list", () => {
 
     let dragHandleValues = [true, false, true, true, false, true, true];
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(items.length).toBe(dragHandleValues.length);
 
@@ -357,7 +358,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("scale")).toBe("m");
@@ -408,7 +409,7 @@ describe("calcite-list", () => {
       </calcite-list>
     `);
 
-    const [firstItem, secondItem] = await page.findAll("calcite-list-item");
+    const [firstItem, secondItem] = await findAll(page, "calcite-list-item");
 
     await firstItem.callMethod("setFocus");
     await page.waitForChanges();
@@ -558,7 +559,7 @@ describe("calcite-list", () => {
       }
 
       const list = await page.find("calcite-list");
-      const listItems = await page.findAll("calcite-list-item");
+      const listItems = await findAll(page, "calcite-list-item");
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(3);
       expect(await list.getProperty("filteredData")).toHaveLength(3);
@@ -612,7 +613,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       const list = await page.find("calcite-list");
-      let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      let visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems).toHaveLength(3);
       for (const item of visibleItems) {
@@ -623,7 +624,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
       expect(visibleItems).toHaveLength(2);
       for (const item of visibleItems) {
         expect(await item.getProperty("description")).toBe("list1");
@@ -639,7 +640,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
 
       expect(await list.getProperty("filterText")).toBe(matchingFont);
-      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems).toHaveLength(2);
       for (const item of visibleItems) {
@@ -680,7 +681,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      let visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      let visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems).toHaveLength(1);
       expect(await visibleItems[0].getProperty("value")).toBe("item2");
@@ -689,7 +690,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
       expect(visibleItems).toHaveLength(3);
 
       for (const item of visibleItems) {
@@ -719,7 +720,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      const visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems).toHaveLength(1);
       expect(await visibleItems[0].getProperty("value")).toBe("item2");
@@ -763,7 +764,7 @@ describe("calcite-list", () => {
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
 
-      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      const visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
     });
@@ -808,7 +809,7 @@ describe("calcite-list", () => {
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
 
-      const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+      const visibleItems = await findAll(page, "calcite-list-item:not([filter-hidden])");
 
       expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
     });
@@ -911,7 +912,7 @@ describe("calcite-list", () => {
     await page.waitForTimeout(DEBOUNCE.filter);
 
     const list = await page.find("calcite-list");
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(await items[0].getProperty("selected")).toBe(false);
     expect(await items[1].getProperty("selected")).toBe(false);
@@ -980,7 +981,7 @@ describe("calcite-list", () => {
     await page.waitForTimeout(DEBOUNCE.filter);
 
     const list = await page.find("calcite-list");
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(await items[0].getProperty("active")).toBe(true);
     expect(await items[1].getProperty("active")).toBe(false);
@@ -1012,7 +1013,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(await items[0].getProperty("selected")).toBe(false);
     expect(await items[1].getProperty("selected")).toBe(false);
@@ -1044,7 +1045,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.filter);
 
-    const items = await page.findAll("calcite-list-item");
+    const items = await findAll(page, "calcite-list-item");
 
     expect(await items[0].getProperty("selected")).toBe(false);
     expect(await items[1].getProperty("selected")).toBe(false);
@@ -1452,7 +1453,7 @@ describe("calcite-list", () => {
         </calcite-list>
       `);
       await page.waitForChanges();
-      const items = await page.findAll("calcite-list-item");
+      const items = await findAll(page, "calcite-list-item");
       const secondHandleCell = await page.find(`#two >>> .${ListItemCSS.dragContainer}`);
 
       expect(await items[0].getProperty("active")).toBe(true);
@@ -1546,7 +1547,7 @@ describe("calcite-list", () => {
         },
       );
 
-      const [first, second] = await page.findAll("calcite-list-item");
+      const [first, second] = await findAll(page, "calcite-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
       await page.waitForChanges();
@@ -1659,8 +1660,10 @@ describe("calcite-list", () => {
         },
       );
 
-      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] =
-        await page.findAll("calcite-list-item");
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await findAll(
+        page,
+        "calcite-list-item",
+      );
       expect(await first.getProperty("value")).toBe("a");
       expect(await second.getProperty("value")).toBe("b");
       expect(await third.getProperty("value")).toBe("d");
@@ -1711,7 +1714,7 @@ describe("calcite-list", () => {
         );
         await event;
         await page.waitForChanges();
-        const itemsAfter = await page.findAll("calcite-list-item");
+        const itemsAfter = await findAll(page, "calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
         for (let i = 0; i < itemsAfter.length; i++) {
@@ -1834,14 +1837,14 @@ describe("calcite-list", () => {
         await page.waitForChanges();
         const list1Id = "list1";
         const list2Id = "list2";
-        const list1After = await page.findAll(`#${list1Id} calcite-list-item`);
+        const list1After = await findAll(page, `#${list1Id} calcite-list-item`);
         expect(list1After.length).toBe(list1Order.length);
 
         for (let i = 0; i < list1After.length; i++) {
           expect(await list1After[i].getProperty("value")).toBe(list1Order[i]);
         }
 
-        const list2After = await page.findAll(`#${list2Id} calcite-list-item`);
+        const list2After = await findAll(page, `#${list2Id} calcite-list-item`);
         expect(list2After.length).toBe(list2Order.length);
 
         for (let i = 0; i < list2After.length; i++) {
@@ -1996,7 +1999,7 @@ describe("calcite-list", () => {
   });
 
   async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
-    const items = await page.findAll(`calcite-list-item-group${groupSelector} > calcite-list-item`);
+    const items = await findAll(page, `calcite-list-item-group${groupSelector} > calcite-list-item`);
     items.forEach(async (item: E2EElement) => expect(await item.isVisible()).toBe(visibility));
   }
 });
