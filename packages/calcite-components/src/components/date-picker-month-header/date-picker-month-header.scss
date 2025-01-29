@@ -71,11 +71,6 @@
     @apply focus-inset;
   }
 
-  &:hover,
-  &:focus {
-    @apply fill-color-1;
-  }
-
   &[aria-disabled="true"] {
     @apply pointer-events-none;
   }
