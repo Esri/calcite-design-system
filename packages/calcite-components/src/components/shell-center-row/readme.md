@@ -22,5 +22,3 @@ For comprehensive guidance on using and implementing `calcite-shell-center-row`,
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the `calcite-shell-panel`. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

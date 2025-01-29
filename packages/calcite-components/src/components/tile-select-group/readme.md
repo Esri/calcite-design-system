@@ -20,5 +20,3 @@ For comprehensive guidance on using and implementing `calcite-tile-select-group`
 |      | A slot for adding `calcite-tile-select` elements. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

@@ -37,5 +37,3 @@ Type: `Promise<void>`
 |      | A slot for adding one or more `calcite-chip`s. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

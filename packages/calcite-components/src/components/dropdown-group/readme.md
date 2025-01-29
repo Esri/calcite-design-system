@@ -18,5 +18,3 @@ For comprehensive guidance on using and implementing `calcite-dropdown-group`, r
 |      | A slot for adding `calcite-dropdown-item`s. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

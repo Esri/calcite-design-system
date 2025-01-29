@@ -30,5 +30,3 @@ For comprehensive guidance on using and implementing `calcite-tile-group`, refer
 |      | A slot for adding `calcite-tile` elements. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

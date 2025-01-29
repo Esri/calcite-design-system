@@ -29,5 +29,3 @@ For comprehensive guidance on using and implementing `calcite-meter`, refer to t
 | `valueLabelType`     | `value-label-type` | When `valueLabel` is `true`, specifies the format of displayed label.                                                                                                        | `"percent" \| "units"`                   | `"percent"`      |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

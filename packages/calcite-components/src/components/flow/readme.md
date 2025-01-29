@@ -29,5 +29,3 @@ Type: `Promise<void>`
 |      | A slot for adding `calcite-flow-item` elements to the component. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

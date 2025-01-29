@@ -28,7 +28,3 @@ For comprehensive guidance on using and implementing `calcite-accordion`, refer 
 | `--calcite-accordion-border-color`     | Specifies the component's border color.     |
 
 ---
-
-<!-- TODO: How do I change these auto generated stencil links? -->
-
-*Built with [StencilJS](https://stenciljs.com/)*

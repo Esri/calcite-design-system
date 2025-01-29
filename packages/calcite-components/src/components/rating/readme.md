@@ -59,5 +59,3 @@ graph TD;
 ```
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

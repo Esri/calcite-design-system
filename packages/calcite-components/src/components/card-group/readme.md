@@ -43,5 +43,3 @@ Type: `Promise<void>`
 | `--calcite-card-group-space` | Specifies the space between slotted elements.                                              |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

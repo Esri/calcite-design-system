@@ -16,5 +16,3 @@
 |      | A slot for adding content. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

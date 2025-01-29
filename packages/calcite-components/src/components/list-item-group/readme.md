@@ -24,5 +24,3 @@ For comprehensive guidance on using and implementing `calcite-list-item-group`, 
 |      | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

@@ -18,5 +18,3 @@ For comprehensive guidance on using and implementing `calcite-option-group`, ref
 |      | A slot for adding `calcite-option`s. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

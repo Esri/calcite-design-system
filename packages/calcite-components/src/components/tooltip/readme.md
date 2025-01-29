@@ -55,5 +55,3 @@ Type: `Promise<void>`
 | `--calcite-tooltip-z-index` | Sets the z-index value for the component. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

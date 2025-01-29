@@ -26,5 +26,3 @@ For comprehensive guidance on using and implementing `calcite-tree`, refer to th
 |      | A slot for `calcite-tree-item` elements. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

@@ -40,5 +40,3 @@ For comprehensive guidance on using and implementing `calcite-shell-panel`, refe
 | `--calcite-shell-panel-z-index`             | Specifies the z-index value for the component.                                                                                                           |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

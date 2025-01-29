@@ -34,5 +34,3 @@ For comprehensive guidance on using and implementing `calcite-shell`, refer to t
 | `--calcite-shell-tip-spacing` | The left and right spacing of the `calcite-tip-manager` when slotted in the component. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

@@ -19,5 +19,3 @@ For comprehensive guidance on using and implementing `calcite-tip-group`, refer 
 |      | A slot for adding `calcite-tip`s. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*

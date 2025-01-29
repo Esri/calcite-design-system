@@ -28,5 +28,3 @@
 |      | A slot for adding sortable items. |
 
 ---
-
-*Built with [StencilJS](https://stenciljs.com/)*
