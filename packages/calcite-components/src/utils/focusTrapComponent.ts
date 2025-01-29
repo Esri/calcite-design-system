@@ -80,7 +80,10 @@ export function activateFocusTrap(
   component: FocusTrapComponent,
   options?: Parameters<_FocusTrap["activate"]>[0],
 ): void {
-  if (component._focusTrapDisabledOverride() || !component.focusTrapDisabled) {
+  if (
+    (component._focusTrapDisabledOverride && component._focusTrapDisabledOverride()) ||
+    !component.focusTrapDisabled
+  ) {
     component.focusTrap?.activate(options);
   }
 }
