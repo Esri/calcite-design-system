@@ -4,12 +4,12 @@ export function transformNamesRemoveTier(token: TransformedToken): string {
   return token.name.replace(/(core|semantic)-?/gi, "");
 }
 
-export function registerNameRemoveTier(sd: typeof StyleDictionary): void {
+export async function registerNameRemoveTier(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: nameRemoveTier,
+    name: TransformNameRemoveTier,
     transform: transformNamesRemoveTier,
     type: "name",
   });
 }
 
-export const nameRemoveTier = "calcite/name/removeTier";
+export const TransformNameRemoveTier = "calcite/name/removeTier";

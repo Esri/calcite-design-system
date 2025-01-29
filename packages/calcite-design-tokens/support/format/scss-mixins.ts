@@ -24,11 +24,11 @@ export async function formatSCSSMixins(args: FormatFnArguments): Promise<string>
   return header + formatMixins(args.dictionary) + `\n`;
 }
 
-export function registerFormatSCSSMixins(sd: typeof StyleDictionary): void {
+export async function registerFormatSCSSMixins(sd: typeof StyleDictionary): Promise<void> {
   sd.registerFormat({
-    name: CalciteFormatSCSSMixins,
+    name: FormatCalciteSCSSMixins,
     format: formatSCSSMixins,
   });
 }
 
-export const CalciteFormatSCSSMixins = "calcite/format/scss-mixins";
+export const FormatCalciteSCSSMixins = "calcite/format/scss-mixins";

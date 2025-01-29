@@ -1,27 +1,34 @@
-import { TransformOptions } from "@tokens-studio/sd-transforms";
 import StyleDictionary from "style-dictionary";
-import { ValueCSSShadow } from "../value/cssShadow.js";
-import { ValueSizePxToRem } from "../value/pxToRem.js";
+import { TransformOptions } from "@tokens-studio/sd-transforms";
+
+import { TransformValueCSSShadow } from "../value/cssShadow.js";
+import { TransformValueSizePxToRem } from "../value/pxToRem.js";
 import { transforms } from "style-dictionary/enums";
-import { nameRemoveTier } from "../name/removeTier.js";
-import { NameRemoveDefault } from "../name/removeDefault.js";
-import { nameRemoveColorMode } from "../name/removeColorMode.js";
-import { NameIncludePlusMinus } from "../name/includePlusMinus.js";
-import { ValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
-import { ValueMathSum } from "../value/mathSum.js";
+import { TransformNameRemoveTier } from "../name/removeTier.js";
+import { TransformNameRemoveDefault } from "../name/removeDefault.js";
+import { TransformNameRemoveColorMode } from "../name/removeColorMode.js";
+import { TransformNameIncludePlusMinus } from "../name/includePlusMinus.js";
+import { TransformValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
+import { TransformValueMathSum } from "../value/mathSum.js";
 
 export const platformTransforms = {
   css: [
     "ts/color/css/hexrgba",
     "ts/size/css/letterspacing",
-    ValueCSSShadow,
+    TransformValueCSSShadow,
     transforms.nameKebab,
-    nameRemoveTier,
-    NameRemoveDefault,
-    nameRemoveColorMode,
-    NameIncludePlusMinus,
+    TransformNameRemoveTier,
+    TransformNameRemoveDefault,
+    TransformNameRemoveColorMode,
+    TransformNameIncludePlusMinus,
   ],
-  es6: [transforms.nameCamel, nameRemoveTier, NameRemoveDefault, nameRemoveColorMode, NameIncludePlusMinus],
+  es6: [
+    transforms.nameCamel,
+    TransformNameRemoveTier,
+    TransformNameRemoveDefault,
+    TransformNameRemoveColorMode,
+    TransformNameIncludePlusMinus,
+  ],
   compose: ["ts/typography/compose/shorthand"],
 };
 
@@ -34,9 +41,9 @@ export function getTransforms(sd: typeof StyleDictionary, transformOpts?: Transf
     "ts/size/lineheight",
     "ts/typography/fontWeight",
     "ts/color/modifiers",
-    ValueSizePxToRem,
-    ValueSizeUnitlessToPx,
-    ValueMathSum,
+    TransformValueSizePxToRem,
+    TransformValueSizeUnitlessToPx,
+    TransformValueMathSum,
   ];
 
   const platform = transformOpts?.platform ?? "css";
@@ -44,9 +51,9 @@ export function getTransforms(sd: typeof StyleDictionary, transformOpts?: Transf
   return [...agnosticTransforms, ...(platformTransforms[platform] ?? [])];
 }
 
-export const CalciteTransformGroup = "calcite";
+export const TransformCalciteGroup = "calcite";
 
-export async function registerCalciteTransformGroup(
+export async function registerTransformCalciteGroup(
   sd: typeof StyleDictionary,
   transformOpts?: TransformOptions,
 ): Promise<void> {
@@ -54,7 +61,7 @@ export async function registerCalciteTransformGroup(
   const builtinTransforms = sd.hooks.transformGroups[transformOpts?.platform ?? "css"];
 
   sd.registerTransformGroup({
-    name: CalciteTransformGroup,
+    name: TransformCalciteGroup,
     transforms: [...(includeBuiltinGroup ? builtinTransforms : []), ...getTransforms(sd, transformOpts)],
   });
 }

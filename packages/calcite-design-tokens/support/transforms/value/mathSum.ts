@@ -57,9 +57,9 @@ export function transformValueMathSum(token: TransformedToken): any {
   }
 }
 
-export function registerValueMathSum(sd: typeof StyleDictionary): void {
+export async function registerValueMathSum(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: ValueMathSum,
+    name: TransformValueMathSum,
     transform: transformValueMathSum,
     transitive: true,
     type: "value",
@@ -69,4 +69,4 @@ export function registerValueMathSum(sd: typeof StyleDictionary): void {
   });
 }
 
-export const ValueMathSum = "calcite/value/mathSum";
+export const TransformValueMathSum = "calcite/value/mathSum";

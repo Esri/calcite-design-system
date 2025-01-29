@@ -8,7 +8,7 @@ export const formatJsPlatform = ({ dictionary }: { dictionary: Dictionary }): st
   });
 };
 
-export const registerFormatJs = (sd: typeof StyleDictionary): void => {
+export const registerFormatJs = async (sd: typeof StyleDictionary): Promise<void> => {
   sd.registerFormat({
     name: FormatCalciteJs,
     format: formatJsPlatform,

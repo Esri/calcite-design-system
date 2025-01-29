@@ -9,13 +9,13 @@ export function transformNamesRemoveColorMode(token: TransformedToken): string {
   return token.name;
 }
 
-export function registerNameRemoveColorMode(sd: typeof StyleDictionary): void {
+export async function registerNameRemoveColorMode(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: nameRemoveColorMode,
+    name: TransformNameRemoveColorMode,
     transform: transformNamesRemoveColorMode,
     type: "name",
     filter: (token) => token.original.type === "color",
   });
 }
 
-export const nameRemoveColorMode = "calcite/name/removeColorMode";
+export const TransformNameRemoveColorMode = "calcite/name/removeColorMode";

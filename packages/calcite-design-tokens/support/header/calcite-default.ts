@@ -4,7 +4,7 @@ export const headerCalciteDefault = (passedMessage = [""]): Promise<string[]> | 
   return ["Calcite Design System", ...passedMessage];
 };
 
-export const registerCalciteDefaultFileHeader = (sd: typeof StyleDictionary): void => {
+export const registerCalciteDefaultFileHeader = async (sd: typeof StyleDictionary): Promise<void> => {
   sd.registerFileHeader({
     name: HeaderCalciteDefault,
     fileHeader: headerCalciteDefault,

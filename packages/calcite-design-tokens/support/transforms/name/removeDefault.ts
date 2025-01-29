@@ -11,12 +11,12 @@ export function transformNameRemoveDefault(token: TransformedToken): string {
   return token.name;
 }
 
-export function registerNameRemoveDefault(sd: typeof StyleDictionary): void {
+export async function registerNameRemoveDefault(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: NameRemoveDefault,
+    name: TransformNameRemoveDefault,
     transform: transformNameRemoveDefault,
     type: "name",
   });
 }
 
-export const NameRemoveDefault = "calcite/name/removeDefault";
+export const TransformNameRemoveDefault = "calcite/name/removeDefault";

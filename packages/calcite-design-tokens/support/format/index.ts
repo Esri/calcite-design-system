@@ -8,3 +8,7 @@ export async function registerCalciteFormats(sd: typeof StyleDictionary): Promis
   await registerFormatDocs(sd);
   await registerFormatJs(sd);
 }
+
+export { FormatCalciteJs } from "./javascript.js";
+export { FormatCalciteSCSSMixins } from "./scss-mixins.js";
+export { FormatCalciteDocs } from "./docs.js";

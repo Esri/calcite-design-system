@@ -22,9 +22,9 @@ export function transformValueCSSShadow(token: any): any {
   return token.value;
 }
 
-export function registerValueCSSShadow(sd: typeof StyleDictionary): void {
+export async function registerValueCSSShadow(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: ValueCSSShadow,
+    name: TransformValueCSSShadow,
     transform: transformValueCSSShadow,
     transitive: true,
     filter: (token) => (token.type === "boxShadow" || token.type === "shadow") && token.isSource,
@@ -32,4 +32,4 @@ export function registerValueCSSShadow(sd: typeof StyleDictionary): void {
   });
 }
 
-export const ValueCSSShadow = "calcite/value/CSSShadow";
+export const TransformValueCSSShadow = "calcite/value/CSSShadow";

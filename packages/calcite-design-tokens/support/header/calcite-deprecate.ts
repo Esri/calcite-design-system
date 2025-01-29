@@ -4,7 +4,7 @@ export const headerCalciteDefault = (passedMessage = [""]): Promise<string[]> | 
   return ["Calcite Design System", "file to be deprecated in next major release", ...passedMessage];
 };
 
-export const registerCalciteDeprecateFileHeader = (sd: typeof StyleDictionary): void => {
+export const registerCalciteDeprecateFileHeader = async (sd: typeof StyleDictionary): Promise<void> => {
   sd.registerFileHeader({
     name: HeaderCalciteDeprecate,
     fileHeader: headerCalciteDefault,

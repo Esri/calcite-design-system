@@ -30,9 +30,9 @@ function transformValueSizeUnitlessToPx(token: TransformedToken, config: Platfor
   return `${parsedVal}px`;
 }
 
-export function registerValueSizeUnitlessToPx(sd: typeof StyleDictionary): void {
+export async function registerValueSizeUnitlessToPx(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: ValueSizeUnitlessToPx,
+    name: TransformValueSizeUnitlessToPx,
     type: "value",
     filter,
     transitive: true,
@@ -40,4 +40,4 @@ export function registerValueSizeUnitlessToPx(sd: typeof StyleDictionary): void 
   });
 }
 
-export const ValueSizeUnitlessToPx = "calcite/value/UnitlessToPx";
+export const TransformValueSizeUnitlessToPx = "calcite/value/UnitlessToPx";

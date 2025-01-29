@@ -20,12 +20,12 @@ export function transformNamePlusMinus(token: TransformedToken): string {
   return token.name;
 }
 
-export function registerNameIncludePlusMinus(sd: typeof StyleDictionary): void {
+export async function registerNameIncludePlusMinus(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: NameIncludePlusMinus,
+    name: TransformNameIncludePlusMinus,
     transform: transformNamePlusMinus,
     type: "name",
   });
 }
 
-export const NameIncludePlusMinus = "calcite/name/includePlusMinus";
+export const TransformNameIncludePlusMinus = "calcite/name/includePlusMinus";

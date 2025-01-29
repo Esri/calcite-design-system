@@ -67,9 +67,9 @@ function transformValueSizePxToRem(token: TransformedToken, config: PlatformConf
   return `${parsedVal / baseFont}rem`;
 }
 
-export function registerValueSizePxToRem(sd: typeof StyleDictionary): void {
+export async function registerValueSizePxToRem(sd: typeof StyleDictionary): Promise<void> {
   sd.registerTransform({
-    name: ValueSizePxToRem,
+    name: TransformValueSizePxToRem,
     type: "value",
     filter,
     transitive: true,
@@ -77,4 +77,4 @@ export function registerValueSizePxToRem(sd: typeof StyleDictionary): void {
   });
 }
 
-export const ValueSizePxToRem = "calcite/value/pxToRem";
+export const TransformValueSizePxToRem = "calcite/value/pxToRem";

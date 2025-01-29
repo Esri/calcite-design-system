@@ -6,7 +6,7 @@ import { registerValueMathSum } from "./value/mathSum.js";
 import { registerValueCSSShadow } from "./value/cssShadow.js";
 import { registerValueSizePxToRem } from "./value/pxToRem.js";
 import { registerNameRemoveDefault } from "./name/removeDefault.js";
-import { registerCalciteTransformGroup } from "./group/calcite.js";
+import { registerTransformCalciteGroup } from "./group/calcite.js";
 import { registerValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
@@ -18,5 +18,15 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
   registerValueMathSum(sd);
   registerValueSizePxToRem(sd);
   registerValueSizeUnitlessToPx(sd);
-  registerCalciteTransformGroup(sd);
+  registerTransformCalciteGroup(sd);
 }
+
+export { TransformValueCSSShadow } from "./value/cssShadow.js";
+export { TransformValueMathSum } from "./value/mathSum.js";
+export { TransformValueSizePxToRem } from "./value/pxToRem.js";
+export { TransformValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
+export { TransformNameRemoveTier } from "./name/removeTier.js";
+export { TransformNameRemoveDefault } from "./name/removeDefault.js";
+export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";
+export { TransformNameIncludePlusMinus } from "./name/includePlusMinus.js";
+export { TransformCalciteGroup } from "./group/calcite.js";

@@ -24,7 +24,7 @@ export async function formatDocsPlatform({
   return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 }
 
-export const registerFormatDocs = (sd: typeof StyleDictionary): void => {
+export const registerFormatDocs = async (sd: typeof StyleDictionary): Promise<void> => {
   sd.registerFormat({
     name: FormatCalciteDocs,
     format: formatDocsPlatform,
