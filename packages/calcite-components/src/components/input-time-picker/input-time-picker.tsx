@@ -444,11 +444,19 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param target
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(target?: TimePart): Promise<void> {
     await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    if (target) {
+      this[`${target || "hour"}El`]?.focus();
+    } else {
+      focusFirstTabbable(this.el);
+    }
   }
 
   // #endregion
@@ -1049,12 +1057,69 @@ export class InputTimePicker
       } else {
         this.setValueDeprecated("");
       }
-    } else if (key === "ArrowDown") {
-      this.open = true;
-      event.preventDefault();
     } else if (this.open && this.focusTrapDisabled && key === "Escape") {
       this.open = false;
       event.preventDefault();
+    } else {
+      // TODO: implement meridiem-order-sensitive arrow key navigation
+      switch (this.activeEl) {
+        case this.hourEl:
+          if (key === "ArrowRight") {
+            this.setFocus("minute");
+          }
+          break;
+        case this.minuteEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocus("hour");
+              break;
+            case "ArrowRight":
+              if (this.step !== 60) {
+                this.setFocus("second");
+              } else if (this.effectiveHourFormat === "12") {
+                this.setFocus("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.secondEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocus("minute");
+              break;
+            case "ArrowRight":
+              if (this.showFractionalSecond) {
+                this.setFocus("fractionalSecond");
+              } else if (this.effectiveHourFormat === "12") {
+                this.setFocus("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.fractionalSecondEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocus("second");
+              break;
+            case "ArrowRight":
+              if (this.effectiveHourFormat === "12") {
+                this.setFocus("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.meridiemEl:
+          switch (key) {
+            case "ArrowLeft":
+              if (this.step !== 60) {
+                this.setFocus("second");
+              } else {
+                this.setFocus("minute");
+              }
+              break;
+          }
+          break;
+      }
     }
   }
 
