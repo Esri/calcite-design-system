@@ -107,23 +107,23 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl, { newDraggableIndex, oldDraggableIndex }) =>
+          pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
             component.canPull({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
-              newIndex: newDraggableIndex,
-              oldIndex: oldDraggableIndex,
+              newIndex,
+              oldIndex,
             }),
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl, { newDraggableIndex, oldDraggableIndex }) =>
+          put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
             component.canPut({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
-              newIndex: newDraggableIndex,
-              oldIndex: oldDraggableIndex,
+              newIndex,
+              oldIndex,
             }),
         }),
       },
@@ -137,18 +137,18 @@ export function connectSortableComponent(component: SortableComponent): void {
     },
     handle,
     filter: `${handle}[disabled]`,
-    onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
+    onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       dragState.active = true;
       onGlobalDragStart();
-      component.onDragStart({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
+      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
+    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       dragState.active = false;
       onGlobalDragEnd();
-      component.onDragEnd({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
+      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
-      component.onDragSort({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
+    onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
+      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
   });
 }
