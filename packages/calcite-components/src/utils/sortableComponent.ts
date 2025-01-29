@@ -107,12 +107,24 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl, { newIndex, oldIndex }) =>
-            component.canPull({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
+          pull: (to, from, dragEl, { newDraggableIndex, oldDraggableIndex }) =>
+            component.canPull({
+              toEl: to.el,
+              fromEl: from.el,
+              dragEl,
+              newIndex: newDraggableIndex,
+              oldIndex: oldDraggableIndex,
+            }),
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl, { newIndex, oldIndex }) =>
-            component.canPut({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
+          put: (to, from, dragEl, { newDraggableIndex, oldDraggableIndex }) =>
+            component.canPut({
+              toEl: to.el,
+              fromEl: from.el,
+              dragEl,
+              newIndex: newDraggableIndex,
+              oldIndex: oldDraggableIndex,
+            }),
         }),
       },
     }),
@@ -125,15 +137,15 @@ export function connectSortableComponent(component: SortableComponent): void {
     },
     handle,
     filter: `${handle}[disabled]`,
-    onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+    onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
       dragState.active = true;
       onGlobalDragStart();
-      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
+      component.onDragStart({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
     },
-    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
       dragState.active = false;
       onGlobalDragEnd();
-      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
+      component.onDragEnd({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
     },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex, oldDraggableIndex }) => {
       component.onDragSort({ fromEl, dragEl, toEl, newIndex: newDraggableIndex, oldIndex: oldDraggableIndex });
