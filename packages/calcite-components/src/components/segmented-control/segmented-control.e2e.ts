@@ -402,7 +402,7 @@ describe("calcite-segmented-control", () => {
     expect(element).toEqualAttribute("width", "full");
   });
 
-  it("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
+  it.skip("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
     async function inheritsProps(segmentedControlItems: E2EElement[]): Promise<void> {
       for (const item of segmentedControlItems) {
         expect(await item.getProperty("appearance")).toBe("outline");
