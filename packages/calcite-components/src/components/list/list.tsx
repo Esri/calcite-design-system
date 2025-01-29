@@ -13,7 +13,7 @@ import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import {
-  isDraggableListItem,
+  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -74,7 +74,7 @@ export class List
 
   // #region Private Properties
 
-  dragSelector = `${listItemSelector}:not([closed]):not([hidden]):not([filter-hidden])`;
+  dragSelector = listItemSelector;
 
   filterEl: Filter["el"];
 
@@ -948,8 +948,8 @@ export class List
     const dragEl = event.target as ListItem["el"];
     const fromEl = dragEl?.parentElement as List["el"];
     const toEl = moveTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isDraggableListItem);
-    const toElItems = Array.from(toEl.children).filter(isDraggableListItem);
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const toElItems = Array.from(toEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
@@ -988,7 +988,7 @@ export class List
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = Array.from(parentEl.children).filter(isDraggableListItem);
+    const sameParentItems = Array.from(parentEl.children).filter(isListItem);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
