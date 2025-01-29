@@ -2595,9 +2595,10 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item-group label="Conifers">
           <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
+        <calcite-combobox-item value="DisabledItem" text-label="DisabledItem" disabled></calcite-combobox-item>
       </calcite-combobox>
     `);
-    const comboboxItems = await findAll(page, "calcite-combobox-items");
+    const comboboxItems = await findAll(page, "calcite-combobox-item");
 
     for (const item of comboboxItems) {
       expect(await item.getProperty("selectionMode")).toBe("single");

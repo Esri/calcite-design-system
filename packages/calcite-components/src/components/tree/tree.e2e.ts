@@ -1386,4 +1386,27 @@ describe("calcite-tree", () => {
       expect(await tree.getProperty("selectedItems")).toHaveLength(1);
     });
   });
+
+  it("updates toggle icon when items are removed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree>
+        <calcite-tree-item id="parent-item">
+          Parent
+          <calcite-tree id="child-tree" slot="children">
+            <calcite-tree-item>Child</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+
+    const chevronSelector = `#parent-item >>> .${CSS.chevron}`;
+    expect(await page.find(chevronSelector)).toBeTruthy();
+
+    const child = await page.find("#child-tree");
+    await child.callMethod("remove");
+    await page.waitForChanges();
+
+    expect(await page.find(chevronSelector)).toBeNull();
+  });
 });
