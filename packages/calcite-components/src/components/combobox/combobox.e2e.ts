@@ -17,10 +17,16 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import {
+  createEventTimePropValuesAsserter,
+  getElementXY,
+  newProgrammaticE2EPage,
+  skipAnimations,
+} from "../../tests/utils";
 import { assertCaretPosition } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { CSS } from "./resources";
+import { Combobox } from "./combobox";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
@@ -2155,6 +2161,32 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("value and items are updated on change emit", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox allow-custom-values>
+          <!-- intentionally empty to cover base case -->
+        </calcite-combobox>
+      `);
+      const propValueAsserter = await createEventTimePropValuesAsserter<Combobox>(
+        page,
+        {
+          selector: "calcite-combobox",
+          eventName: "calciteComboboxChange",
+          props: ["value", "selectedItems"],
+        },
+        async (propValues) => {
+          expect(propValues.value).toBe("K");
+          expect(propValues.selectedItems).toHaveLength(1);
+        },
+      );
+      const combobox = await page.find("calcite-combobox");
+      await combobox.callMethod("setFocus");
+      await combobox.press("K");
+      await combobox.press("Enter");
+      await expect(propValueAsserter()).resolves.toBe(undefined);
     });
 
     it("should allow enter unknown tag when tabbing away", async () => {
