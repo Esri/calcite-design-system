@@ -949,7 +949,6 @@ export class List
     const fromEl = dragEl?.parentElement as List["el"];
     const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
-    const toElItems = Array.from(toEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
@@ -962,6 +961,7 @@ export class List
 
     toEl.prepend(dragEl);
     openAncestors(dragEl);
+    const toElItems = Array.from(toEl.children).filter(isListItem);
     const newIndex = toElItems.indexOf(dragEl);
 
     this.updateListItems();
