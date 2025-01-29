@@ -1560,6 +1560,47 @@
           </calcite-segmented-control>
         </div>
       </div>
+
+      <div
+        class="parent-flex"
+        style="
+          --calcite-segmented-control-color: red;
+          --calcite-segmented-control-background-color: blue;
+          --calcite-segmented-control-border-color: pink;
+          --calcite-segmented-control-shadow: box-shadow: 5px 5px 5px orange;
+          --calcite-segmented-control-icon-color: yellow;
+        "
+      >
+        <div class="child-flex right-aligned-text">themed</div>
+
+        <!-- solid -->
+        <div class="child-flex">
+          <calcite-segmented-control scale="s">
+            <calcite-segmented-control-item icon-end="car" value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </div>
+
+        <div class="child-flex">
+          <calcite-segmented-control scale="m">
+            <calcite-segmented-control-item icon-end="car" value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </div>
+
+        <div class="child-flex">
+          <calcite-segmented-control scale="l">
+            <calcite-segmented-control-item icon-end="car" value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

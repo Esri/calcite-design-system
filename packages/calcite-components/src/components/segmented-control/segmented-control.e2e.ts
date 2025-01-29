@@ -11,9 +11,11 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import type { SegmentedControl } from "./segmented-control";
+import { CSS } from "./resources";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -493,6 +495,15 @@ describe("calcite-segmented-control", () => {
         `,
         { testValue: 2 },
       );
+    });
+  });
+
+  describe("theme", () => {
+    themed("calcite-segmented-control", {
+      "--calcite-segmented-control-border-color": {
+        shadowSelector: `.${CSS.itemWrapper}`,
+        targetProp: "outlineColor",
+      },
     });
   });
 });
