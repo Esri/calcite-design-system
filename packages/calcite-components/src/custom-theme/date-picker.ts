@@ -29,9 +29,9 @@ export const datePickerTokens = {
   calciteDatePickerDayOutsideRangeTextColorHover: "",
 };
 
-export const datePicker = html`
-  <calcite-date-picker value="2020-11-27"></calcite-date-picker>
-  <br />
+export const datePicker = html` <calcite-date-picker value="2020-11-27"></calcite-date-picker> `;
+
+export const datePickerRange = html`
   <calcite-date-picker range></calcite-date-picker>
   <script>
     const datePicker = document.querySelector("calcite-date-picker[range]");

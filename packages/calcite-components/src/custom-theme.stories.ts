@@ -22,7 +22,7 @@ import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
-import { datePicker, datePickerTokens } from "./custom-theme/date-picker";
+import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown } from "./custom-theme/dropdown";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -114,6 +114,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       .demo-column > * {
         margin-bottom: 2rem;
       }
+      .demo-row {
+        display: flex;
+      }
+      .demo-row > .demo-column {
+        flex: 0 0 auto;
+      }
     </style>
     <div class="demo">
       <div class="demo-column">
@@ -133,15 +139,18 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
-        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip}
-        ${comboboxItem}
+        ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
+        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${datePicker}</div>
+      <div class="demo-column">${datePickerRange}</div>
     </div>
   </div>`;
 
