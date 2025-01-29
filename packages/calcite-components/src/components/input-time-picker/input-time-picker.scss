@@ -18,13 +18,17 @@
   display: flex;
   color: var(--calcite-color-text-1);
   font-weight: var(--calcite-font-weight-normal);
+  inline-size: 100%;
   max-block-size: 100%;
   padding-block: var(--calcite-spacing-xxs);
-  inline-size: 100%;
 
   &.read-only {
     background-color: var(--calcite-color-background);
   }
+}
+
+.input-container {
+  display: flex;
 }
 
 .input {
@@ -47,6 +51,10 @@
 
 .meridiem {
   margin-inline-start: var(--calcite-spacing-xxs);
+}
+
+.meridiem--start {
+  order: -1;
 }
 
 :host([scale="s"]) {
