@@ -25,7 +25,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { focusFirstTabbable, getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { isDraggableBlock } from "../block/utils";
+import { isBlock } from "../block/utils";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -52,7 +52,7 @@ export class BlockGroup
 
   // #region Private Properties
 
-  dragSelector = `${blockSelector}:not([hidden])`;
+  dragSelector = blockSelector;
 
   handleSelector = "calcite-sort-handle";
 
@@ -301,8 +301,8 @@ export class BlockGroup
     const dragEl = event.target as Block["el"];
     const fromEl = dragEl?.parentElement as BlockGroup["el"];
     const toEl = moveTo.element as BlockGroup["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isDraggableBlock);
-    const toElItems = Array.from(toEl.children).filter(isDraggableBlock);
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const toElItems = Array.from(toEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
@@ -340,7 +340,7 @@ export class BlockGroup
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = Array.from(parentEl.children).filter(isDraggableBlock);
+    const sameParentItems = Array.from(parentEl.children).filter(isBlock);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
