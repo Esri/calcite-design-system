@@ -25,6 +25,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { focusFirstTabbable, getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { isDraggableBlock } from "../block/utils";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -51,11 +52,9 @@ export class BlockGroup
 
   // #region Private Properties
 
-  dragSelector = blockSelector;
+  dragSelector = `${blockSelector}:not([hidden])`;
 
   handleSelector = "calcite-sort-handle";
-
-  private items: Block["el"][] = [];
 
   mutationObserver = createObserver("mutation", () => {
     this.updateBlockItems();
@@ -79,10 +78,6 @@ export class BlockGroup
         item.dragHandle = dragEnabled;
       }
     });
-
-    if (!this.parentBlockGroupEl) {
-      this.items = items;
-    }
 
     this.setUpSorting();
   }, DEBOUNCE.nextTick);
@@ -305,8 +300,10 @@ export class BlockGroup
 
     const dragEl = event.target as Block["el"];
     const fromEl = dragEl?.parentElement as BlockGroup["el"];
-    const oldIndex = Array.from(fromEl.children).indexOf(dragEl);
     const toEl = moveTo.element as BlockGroup["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isDraggableBlock);
+    const toElItems = Array.from(toEl.children).filter(isDraggableBlock);
+    const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
       return;
@@ -317,7 +314,7 @@ export class BlockGroup
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    const newIndex = Array.from(toEl.children).indexOf(dragEl);
+    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateBlockItems();
     this.connectObserver();
@@ -343,7 +340,7 @@ export class BlockGroup
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.items.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = Array.from(parentEl.children).filter(isDraggableBlock);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
