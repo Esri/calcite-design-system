@@ -1,9 +1,10 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, labelable, renders, hidden, t9n, themed } from "../../tests/commonTests";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
+import { accessible, disabled, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
@@ -56,7 +57,7 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>`,
       });
 
-      const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+      const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
 
       expect(buttons).toHaveLength(3);
 
@@ -72,7 +73,7 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>`,
       });
 
-      const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+      const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
 
       expect(buttons).toHaveLength(3);
 
