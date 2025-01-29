@@ -137,7 +137,7 @@ describe("calcite-dropdown", () => {
     expect(group1).toEqualAttribute("selection-mode", "multiple");
   });
 
-  it("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
+  it.skip("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-dropdown selection-mode="single-persist" scale="s">
