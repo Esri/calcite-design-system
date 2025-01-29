@@ -1,9 +1,8 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
-import { ConditionalKeys, Jsonifiable } from "type-fest";
 import { ComponentTag } from "./commonTests/interfaces";
 
 /** Util to help type global props for testing. */
@@ -568,35 +567,29 @@ export async function toElementHandle(element: E2EElement): Promise<ElementHandl
  */
 export async function createEventTimePropValuesAsserter<
   Component extends LitElement,
-  Keys = keyof ToElement<Component>,
-  Events = Keys extends string ? (Keys extends `calcite${string}` ? Keys : never) : never,
+  El extends ToElement<Component> = ToElement<Component>,
+  Keys extends Extract<keyof El, string> = Extract<keyof El, string>,
+  Events extends string = Keys extends `calcite${string}` ? Keys : never,
+  PropValues extends Record<Keys, El[Keys]> = Record<Keys, El[Keys]>,
 >(
   page: E2EPage,
   propValuesTarget: {
     selector: ComponentTag;
     eventName: Events;
-    props: ConditionalKeys<Keys, string>[];
+    props: Keys[];
   },
-  onEvent: (propValues: Record<ConditionalKeys<Keys, string>, Jsonifiable>) => Promise<void>,
+  onEvent: (propValues: PropValues) => Promise<void>,
 ): Promise<() => Promise<void>> {
   // we set this up early to we capture state as soon as the event fires
   const callbackAfterEvent = page.$eval(
     propValuesTarget.selector,
-    (element, eventName, props) => {
-      return new Promise<Record<ConditionalKeys<Keys, string>, Jsonifiable>>((resolve) => {
+    (element: El, eventName, props) => {
+      return new Promise<PropValues>((resolve) => {
         element.addEventListener(
-          // TODO: clean up 👇
-          eventName as string,
+          eventName,
           () => {
-            const propValues: Partial<Record<ConditionalKeys<Keys, string>, Jsonifiable>> = {};
-
-            props.forEach((prop) => {
-              propValues[prop] =
-                // TODO: clean up 👇
-                element[prop as string];
-            });
-
-            resolve(propValues as Record<ConditionalKeys<Keys, string>, Jsonifiable>);
+            const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
+            resolve(propValues as PropValues);
           },
           { once: true },
         );
@@ -606,5 +599,5 @@ export async function createEventTimePropValuesAsserter<
     propValuesTarget.props,
   );
 
-  return async () => callbackAfterEvent.then((state) => onEvent(state));
+  return () => callbackAfterEvent.then(onEvent);
 }
