@@ -56,7 +56,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -64,7 +64,6 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import { isHidden } from "../../utils/component";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -1317,8 +1316,8 @@ export class Combobox
       );
       item.value = value;
       item.heading = value;
-      item.selected = true;
       this.el.prepend(item);
+      this.updateItems();
       this.toggleSelection(item, true);
       this.open = true;
       if (focus) {
