@@ -2470,4 +2470,14 @@ describe("calcite-color-picker", () => {
       });
     });
   });
+
+  it("does not throw when initialized with different format value (format='auto')", async () => {
+    async function doTest(): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker value="rgb(89, 77, 77)"></calcite-color-picker>`);
+      await page.waitForChanges();
+    }
+
+    await expect(doTest()).resolves.toBeUndefined();
+  });
 });

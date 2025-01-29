@@ -256,6 +256,28 @@ describe("calcite-date-picker", () => {
       await setActiveDate(page, dateBeforeMin);
       expect(await getActiveDate(page)).toEqual(new Date(dateBeforeMin).toISOString());
     });
+
+    it("should not disable min & max month option", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker value="2025-03-20"></calcite-date-picker>`);
+
+      const datePicker = await page.find("calcite-date-picker");
+
+      datePicker.setProperty("min", "2025-02-15");
+      datePicker.setProperty("max", "2025-04-15");
+      await page.waitForChanges();
+
+      const monthSelect = await page.find(
+        "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select",
+      );
+      const monthOptions = await monthSelect.findAll("calcite-option");
+
+      expect(await monthOptions[0].getProperty("disabled")).toBe(true);
+      expect(await monthOptions[1].getProperty("disabled")).toBe(false);
+      expect(await monthOptions[2].getProperty("disabled")).toBe(false);
+      expect(await monthOptions[3].getProperty("disabled")).toBe(false);
+      expect(await monthOptions[4].getProperty("disabled")).toBe(true);
+    });
   });
 
   describe("translation support", () => {

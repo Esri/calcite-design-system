@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-flow-background-color: Specifies the component's background color.
+ */
+
 :host {
   @extend %component-host;
   @apply relative
@@ -19,6 +27,7 @@
       p-0;
     animation-name: none;
     animation-duration: var(--calcite-animation-timing);
+    background-color: var(--calcite-flow-background-color);
   }
 
   ::slotted(*) {

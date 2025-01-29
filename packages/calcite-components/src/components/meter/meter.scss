@@ -118,3 +118,12 @@
 .solid .fill-warning {
   box-shadow: 0 0 0 1px var(--calcite-color-status-warning);
 }
+
+@media (forced-colors: active) {
+  .fill,
+  .fill-danger,
+  .fill-success,
+  .fill-warning {
+    background-color: Highlight;
+  }
+}
