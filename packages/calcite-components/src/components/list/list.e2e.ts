@@ -1480,6 +1480,15 @@ describe("calcite-list", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-list drag-enabled id="list1">
+          <calcite-action
+            slot="filter-actions-end"
+            scale="s"
+            id="filter-action-test"
+            icon="show-all-parameters"
+          ></calcite-action>
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+            >Mind if I offset your index?</calcite-tooltip
+          >
           <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
           <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
           <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
@@ -1583,20 +1592,56 @@ describe("calcite-list", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-list id="first-letters" drag-enabled group="letters">
+          <calcite-action
+            slot="filter-actions-end"
+            scale="s"
+            id="filter-action-test"
+            icon="show-all-parameters"
+          ></calcite-action>
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+            >Mind if I offset your index?</calcite-tooltip
+          >
           <calcite-list-item value="a" label="A"></calcite-list-item>
           <calcite-list-item value="b" label="B"></calcite-list-item>
         </calcite-list>
 
         <calcite-list id="numbers" drag-enabled group="numbers">
+          <calcite-action
+            slot="filter-actions-end"
+            scale="s"
+            id="filter-action-test"
+            icon="show-all-parameters"
+          ></calcite-action>
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+            >Mind if I offset your index?</calcite-tooltip
+          >
           <calcite-list-item value="1" label="One"></calcite-list-item>
           <calcite-list-item value="2" label="Two"></calcite-list-item>
         </calcite-list>
 
         <calcite-list id="no-group" drag-enabled>
+          <calcite-action
+            slot="filter-actions-end"
+            scale="s"
+            id="filter-action-test"
+            icon="show-all-parameters"
+          ></calcite-action>
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+            >Mind if I offset your index?</calcite-tooltip
+          >
           <calcite-list-item value="no-group" label="No group"></calcite-list-item>
         </calcite-list>
 
         <calcite-list id="second-letters" drag-enabled group="letters">
+          <calcite-action
+            slot="filter-actions-end"
+            scale="s"
+            id="filter-action-test"
+            icon="show-all-parameters"
+          ></calcite-action>
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+            >Mind if I offset your index?</calcite-tooltip
+          >
           <calcite-list-item value="c" label="C"></calcite-list-item>
           <calcite-list-item value="d" label="D"></calcite-list-item>
           <calcite-list-item value="e" label="E"></calcite-list-item>
@@ -1761,10 +1806,28 @@ describe("calcite-list", () => {
       const group = "my-group";
       await page.setContent(
         html`<calcite-list id="list1" group="${group}" drag-enabled>
+            <calcite-action
+              slot="filter-actions-end"
+              scale="s"
+              id="filter-action-test"
+              icon="show-all-parameters"
+            ></calcite-action>
+            <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+              >Mind if I offset your index?</calcite-tooltip
+            >
             <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
             <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
           </calcite-list>
           <calcite-list id="list2" group="${group}" drag-enabled>
+            <calcite-action
+              slot="filter-actions-end"
+              scale="s"
+              id="filter-action-test"
+              icon="show-all-parameters"
+            ></calcite-action>
+            <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
+              >Mind if I offset your index?</calcite-tooltip
+            >
             <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
           </calcite-list>`,
       );
