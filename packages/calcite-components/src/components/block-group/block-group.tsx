@@ -302,7 +302,6 @@ export class BlockGroup
     const fromEl = dragEl?.parentElement as BlockGroup["el"];
     const toEl = moveTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
-    const toElItems = Array.from(toEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
@@ -314,6 +313,7 @@ export class BlockGroup
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
+    const toElItems = Array.from(toEl.children).filter(isBlock);
     const newIndex = toElItems.indexOf(dragEl);
 
     this.updateBlockItems();
