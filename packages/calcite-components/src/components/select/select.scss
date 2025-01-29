@@ -80,10 +80,11 @@
   font-size: var(--calcite-select-font-size, var(--calcite-internal-select-font-size));
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
-  border-width: var(--calcite-border-width-sm);
+  //debug
+  border-width: 0;
   padding-inline: var(--calcite-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: 0;
   line-height: var(--calcite-internal-select-line-height, normal);
   &:focus {
     @apply focus-inset;
@@ -99,7 +100,7 @@ select:disabled {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+  border-inline-width: 0 var(--calcite-spacing-px);
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
   .icon {
     color: var(--calcite-select-icon-color, var(--calcite-color-text-3));

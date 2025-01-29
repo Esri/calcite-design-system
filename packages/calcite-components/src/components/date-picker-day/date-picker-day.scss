@@ -26,7 +26,7 @@
   line-height: var(--calcite-font-line-height-fixed-base);
   block-size: var(--calcite-internal-day-size);
   outline-color: var(--calcite-color-transparent);
-  background: var(--calcite-date-picker-day-background-color, none);
+  background-color: var(--calcite-date-picker-day-background-color);
   color: var(--calcite-date-picker-day-text-color, var(--calcite-color-text-3));
 }
 
