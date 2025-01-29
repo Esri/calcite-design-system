@@ -28,6 +28,7 @@ import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
@@ -124,7 +125,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -166,6 +167,7 @@ const componentTokens = {
   ...chipTokens,
   ...flowTokens,
   ...handleTokens,
+  ...inlineEditableTokens,
   ...graphTokens,
   ...inputTokens,
   ...labelTokens,
