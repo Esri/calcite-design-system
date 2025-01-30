@@ -1910,10 +1910,6 @@ export const floatAllArrangements = (): string =>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
           <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action text="Share" icon="share"></calcite-action>
-          <calcite-action text="Print" icon="print"></calcite-action>
-        </calcite-action-group>
         <calcite-action-group slot="actions-end">
           <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
@@ -1923,7 +1919,6 @@ export const floatAllArrangements = (): string =>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
-
     <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
@@ -1955,10 +1950,6 @@ export const floatAllArrangements = (): string =>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
           <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action text="Share" icon="share"></calcite-action>
-          <calcite-action text="Print" icon="print"></calcite-action>
-        </calcite-action-group>
         <calcite-action-group slot="actions-end">
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
@@ -1984,7 +1975,6 @@ export const floatAllArrangements = (): string =>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
-    <footer slot="footer">Footer</footer>
   </calcite-shell>`;
 
 export const floatAllArrangementsStart = (): string =>
@@ -2010,10 +2000,6 @@ export const floatAllArrangementsStart = (): string =>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
           <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action text="Share" icon="share"></calcite-action>
-          <calcite-action text="Print" icon="print"></calcite-action>
-        </calcite-action-group>
         <calcite-action-group slot="actions-end">
           <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
@@ -2023,7 +2009,6 @@ export const floatAllArrangementsStart = (): string =>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
-
     <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
@@ -2055,10 +2040,6 @@ export const floatAllArrangementsStart = (): string =>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
           <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action text="Share" icon="share"></calcite-action>
-          <calcite-action text="Print" icon="print"></calcite-action>
-        </calcite-action-group>
         <calcite-action-group slot="actions-end">
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
@@ -2084,5 +2065,4 @@ export const floatAllArrangementsStart = (): string =>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
-    <footer slot="footer">Footer</footer>
   </calcite-shell>`;
