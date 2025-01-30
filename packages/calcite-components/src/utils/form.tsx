@@ -499,7 +499,7 @@ function syncHiddenFormInput(component: FormComponent): void {
 
     if (!input) {
       input = ownerDocument.createElement("input");
-      input.setAttribute("aria-hidden", "true");
+      input.ariaHidden = "true";
       input.slot = hiddenFormInputSlotName;
     }
 
