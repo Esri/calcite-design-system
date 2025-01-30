@@ -1,15 +1,15 @@
 :host {
   @apply text-n2h inline-block font-normal;
+
+  inline-size: var(--calcite-internal-color-picker-min-width);
+  min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
 @include disabled();
 
 :host([scale="s"]) {
+  --calcite-internal-color-picker-min-width: 200px;
   --calcite-color-picker-spacing: 8px;
-
-  .container {
-    inline-size: 198px;
-  }
 
   .saved-colors {
     @apply gap-1;
@@ -18,21 +18,15 @@
 }
 
 :host([scale="m"]) {
+  --calcite-internal-color-picker-min-width: 240px;
   --calcite-color-picker-spacing: 12px;
-
-  .container {
-    inline-size: 238px;
-  }
 }
 
 :host([scale="l"]) {
+  --calcite-internal-color-picker-min-width: 304px;
   --calcite-color-picker-spacing: 16px;
 
   @apply text-n1h;
-
-  .container {
-    inline-size: 302px;
-  }
 
   .section {
     &:first-of-type {
@@ -45,14 +39,12 @@
   }
 
   .control-section {
-    @apply flex-nowrap items-baseline;
-  }
-
-  .control-section {
-    @apply flex-wrap;
+    @apply flex flex-col flex-wrap items-baseline;
   }
 
   .color-hex-options {
+    inline-size: 100%;
+
     @apply flex
       flex-shrink
       flex-col
@@ -66,7 +58,9 @@
 
 .container {
   @apply bg-foreground-1;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  block-size: min-content;
   border: 1px solid var(--calcite-color-border-1);
 }
 
@@ -96,12 +90,7 @@
 }
 
 .hex-and-channels-group {
-  @apply w-full;
-}
-
-.hex-and-channels-group,
-.control-section {
-  @apply flex flex-row flex-wrap;
+  @apply flex flex-col flex-wrap w-full;
 }
 
 .section {

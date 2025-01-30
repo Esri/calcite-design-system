@@ -1189,6 +1189,8 @@
     "cluster-radius": 61726,
     "add-link-chart-root-nodes": 61727,
     "utility-network-layer": 61728,
-    "crosshair": 61729
+    "crosshair": 61729,
+    "hammer-lock": 61730,
+    "hammer-coin": 61731
   }
 }

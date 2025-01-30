@@ -1,6 +1,10 @@
 /* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
+export interface Dimensions {
+  width: number;
+  height: number;
+}
 export type FlipContext = "both" | "start" | "end";
 export type Height = Scale;
 export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warning" | "success";
