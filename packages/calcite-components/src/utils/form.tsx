@@ -82,6 +82,9 @@ export interface FormComponent<T = any> extends FormOwner {
   /** When true, this component's value will not be submitted in the form. */
   disabled: boolean;
 
+  /** Text label. */
+  label?: string;
+
   /**
    * When true, form submit requests will enforce field requirement.
    *
@@ -528,7 +531,7 @@ function defaultSyncHiddenFormInput(
   input: HTMLInputElement,
   value: string,
 ): void {
-  const { defaultValue, disabled, form, name, required } = component;
+  const { defaultValue, disabled, form, name, required, label } = component;
 
   // keep in sync to prevent losing reset value
   input.defaultValue = defaultValue;
@@ -536,6 +539,10 @@ function defaultSyncHiddenFormInput(
   input.name = name;
   input.required = required;
   input.tabIndex = -1;
+
+  if (label) {
+    input.ariaLabel = label;
+  }
 
   // we set the attr as the prop is read-only
   if (form) {
