@@ -534,15 +534,12 @@ function defaultSyncHiddenFormInput(
   const { defaultValue, disabled, form, name, required, label } = component;
 
   // keep in sync to prevent losing reset value
+  input.ariaLabel = label;
   input.defaultValue = defaultValue;
   input.disabled = disabled;
   input.name = name;
   input.required = required;
   input.tabIndex = -1;
-
-  if (label) {
-    input.ariaLabel = label;
-  }
 
   // we set the attr as the prop is read-only
   if (form) {
