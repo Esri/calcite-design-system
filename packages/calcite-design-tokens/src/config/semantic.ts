@@ -2,7 +2,7 @@ import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "
 import { formats } from "style-dictionary/enums";
 import { expandTypesMap } from "@tokens-studio/sd-transforms";
 import { HeaderCalciteDefault } from "../../support/header/calcite-default.js";
-import { CalciteTransformGroup, platformTransforms } from "../../support/transforms/group/calcite.js";
+import { TransformCalciteGroup, platformTransforms } from "../../support/transforms/group/calcite.js";
 import * as filter from "../../support/filter/index.js";
 import { Config } from "style-dictionary/types";
 import { FormatCalciteDocs } from "../../support/format/docs.js";
@@ -18,7 +18,7 @@ export default {
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
-      transformGroup: CalciteTransformGroup,
+      transformGroup: TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
       files: [
@@ -52,7 +52,7 @@ export default {
       },
     },
     css: {
-      transformGroup: CalciteTransformGroup,
+      transformGroup: TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
@@ -86,7 +86,7 @@ export default {
       },
     },
     es6: {
-      transformGroup: CalciteTransformGroup,
+      transformGroup: TransformCalciteGroup,
       transforms: platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
@@ -121,7 +121,7 @@ export default {
       ],
     },
     docs: {
-      transformGroup: CalciteTransformGroup,
+      transformGroup: TransformCalciteGroup,
       transforms: platformTransforms.es6,
       buildPath: "dist/docs/",
       prefix: "calcite",
@@ -151,7 +151,7 @@ export default {
       ],
     },
     js: {
-      transformGroup: CalciteTransformGroup,
+      transformGroup: TransformCalciteGroup,
       transforms: platformTransforms.es6,
       buildPath: "dist/js/",
       prefix: "calcite",
