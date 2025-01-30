@@ -35,6 +35,16 @@ const simpleHTML = html`
   </calcite-autocomplete>
 `;
 
+export const simpleFormHTML = html`<form>
+  <calcite-autocomplete name="test" label="Item list" id="myAutocomplete">
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  </calcite-autocomplete>
+</form>`;
+
 const simpleHTMLDisabledItems = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
@@ -413,6 +423,8 @@ describe("calcite-autocomplete", () => {
 
   describe("accessible", () => {
     accessible(simpleHTML);
+    accessible(simpleFormHTML);
+    accessible(simpleGroupHTML);
     accessible(simpleGroupHTML);
   });
 
