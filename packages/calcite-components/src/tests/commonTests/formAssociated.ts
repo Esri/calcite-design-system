@@ -98,8 +98,8 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertValueSubmissionType(page, component, options);
     await assertAriaHidden(page, component);
+    await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
@@ -127,8 +127,8 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertValueSubmissionType(page, component, options);
     await assertAriaHidden(page, component);
+    await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
