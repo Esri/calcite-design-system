@@ -106,7 +106,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rimraf": "6.0.1",
-    "rollup": "4.30.1",
+    "rollup": "4.32.0",
     "semver": "7.6.3",
     "shell-quote": "1.8.2",
     "storybook": "8.4.7",
