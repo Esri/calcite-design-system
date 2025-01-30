@@ -98,7 +98,7 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertAriaHidden(page, component);
+    await assertHiddenFormInputProps(page, component);
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
@@ -127,7 +127,7 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertAriaHidden(page, component);
+    await assertHiddenFormInputProps(page, component);
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
@@ -245,15 +245,15 @@ export function formAssociated(
     }
   }
 
-  async function assertAriaHidden(page: E2EPage, component: E2EElement): Promise<void> {
+  async function assertHiddenFormInputProps(page: E2EPage, component: E2EElement): Promise<void> {
     const name = await component.getProperty("name");
-    const ariaHidden = await page.evaluate(
-      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+    const { ariaHidden } = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<{ ariaHidden: string }> => {
         const hiddenFormInput = document.querySelector<HTMLInputElement>(
           `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
         );
 
-        return hiddenFormInput.ariaHidden;
+        return { ariaHidden: hiddenFormInput.ariaHidden };
       },
       name,
       hiddenFormInputSlotName,
