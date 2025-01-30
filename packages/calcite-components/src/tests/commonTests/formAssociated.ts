@@ -99,6 +99,7 @@ export function formAssociated(
     const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
+    await assertAriaHidden(page, component);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
@@ -127,6 +128,7 @@ export function formAssociated(
     const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
+    await assertAriaHidden(page, component);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
@@ -241,6 +243,23 @@ export function formAssociated(
     } else {
       expect(hiddenFormInputType).toMatch(inputType);
     }
+  }
+
+  async function assertAriaHidden(page: E2EPage, component: E2EElement): Promise<void> {
+    const name = await component.getProperty("name");
+    const ariaHidden = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
+        );
+
+        return hiddenFormInput.ariaHidden;
+      },
+      name,
+      hiddenFormInputSlotName,
+    );
+
+    expect(ariaHidden).toMatch("true");
   }
 
   async function assertValueResetOnFormReset(
