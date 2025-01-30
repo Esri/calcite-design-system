@@ -1,15 +1,12 @@
-import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "style-dictionary/enums";
-import { formats } from "style-dictionary/enums";
-import { expandTypesMap } from "@tokens-studio/sd-transforms";
-import { HeaderCalciteDefault } from "../../support/header/calcite-default.js";
-import { TransformCalciteGroup, platformTransforms } from "../../support/transforms/group/calcite.js";
-import * as filter from "../../support/filter/index.js";
+import {
+  formats as sdFormats,
+  logBrokenReferenceLevels,
+  logWarningLevels,
+  logVerbosityLevels,
+} from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
-import { FormatCalciteDocs } from "../../support/format/docs.js";
-import { HeaderCalciteDeprecate } from "../../support/header/calcite-deprecate.js";
-import { FormatCalciteJs } from "../../support/format/javascript.js";
-
-const sdTypes = expandTypesMap;
+import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import { transformers, filters, headers, formats } from "../../support/index.js";
 
 export default {
   // configuration
@@ -18,165 +15,165 @@ export default {
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
-      transformGroup: TransformCalciteGroup,
+      transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
       files: [
         {
           destination: "global.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.scssVariables,
+          filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderCalciteDeprecate,
           },
         },
         {
           destination: "semantic.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.scssVariables,
+          filter: filters.FilterGlobalTokens,
         },
         {
           destination: "core.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterCoreTokens,
+          format: sdFormats.scssVariables,
+          filter: filters.FilterCoreTokens,
         },
         {
           destination: "breakpoints.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterBreakpointTokens,
+          format: sdFormats.scssVariables,
+          filter: filters.FilterBreakpointTokens,
         },
       ],
       options: {
         fileExtension: ".scss",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
     },
     css: {
-      transformGroup: TransformCalciteGroup,
+      transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
         {
           destination: "global.css",
-          format: formats.cssVariables,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.cssVariables,
+          filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderCalciteDeprecate,
           },
         },
         {
           destination: "semantic.css",
-          format: formats.cssVariables,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.cssVariables,
+          filter: filters.FilterGlobalTokens,
         },
         {
           destination: "core.css",
-          format: formats.cssVariables,
-          filter: filter.FilterCoreTokens,
+          format: sdFormats.cssVariables,
+          filter: filters.FilterCoreTokens,
         },
         {
           destination: "breakpoints.css",
-          format: formats.cssVariables,
-          filter: filter.FilterBreakpointTokens,
+          format: sdFormats.cssVariables,
+          filter: filters.FilterBreakpointTokens,
         },
       ],
       options: {
         fileExtension: ".css",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
     },
     es6: {
-      transformGroup: TransformCalciteGroup,
-      transforms: platformTransforms.es6,
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
         fileExtension: ".ts",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
           destination: "global.ts",
-          format: formats.javascriptEs6,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderCalciteDeprecate,
           },
         },
         {
           destination: "semantic.ts",
-          format: formats.javascriptEs6,
-          filter: filter.FilterGlobalTokens,
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterGlobalTokens,
         },
         {
           destination: "core.ts",
-          format: formats.javascriptEs6,
-          filter: filter.FilterCoreTokens,
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterCoreTokens,
         },
         {
           destination: "breakpoints.ts",
-          format: formats.javascriptEs6,
-          filter: filter.FilterBreakpointTokens,
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterBreakpointTokens,
         },
       ],
     },
     docs: {
-      transformGroup: TransformCalciteGroup,
-      transforms: platformTransforms.es6,
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
         fileExtension: ".json",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
           destination: "global.json",
-          format: FormatCalciteDocs,
-          filter: filter.FilterSourceTokens,
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterSourceTokens,
           options: {
-            fileHeader: HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderCalciteDeprecate,
           },
         },
         {
           destination: "semantic.json",
-          format: FormatCalciteDocs,
-          filter: filter.FilterSourceTokens,
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterSourceTokens,
         },
         {
           destination: "core.json",
-          format: FormatCalciteDocs,
-          filter: filter.FilterIncludeTokens,
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterIncludeTokens,
         },
       ],
     },
     js: {
-      transformGroup: TransformCalciteGroup,
-      transforms: platformTransforms.es6,
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
         fileExtension: ".ts",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
           destination: "global.js",
-          format: FormatCalciteJs,
-          filter: filter.FilterSourceTokens,
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterSourceTokens,
           options: {
-            fileHeader: HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderCalciteDeprecate,
           },
         },
         {
           destination: "semantic.js",
-          format: FormatCalciteJs,
-          filter: filter.FilterSourceTokens,
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterSourceTokens,
         },
         {
           destination: "core.js",
-          format: FormatCalciteJs,
-          filter: filter.FilterIncludeTokens,
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterIncludeTokens,
         },
       ],
     },

@@ -29,4 +29,4 @@ export { TransformNameRemoveTier } from "./name/removeTier.js";
 export { TransformNameRemoveDefault } from "./name/removeDefault.js";
 export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";
 export { TransformNameIncludePlusMinus } from "./name/includePlusMinus.js";
-export { TransformCalciteGroup } from "./group/calcite.js";
+export { TransformCalciteGroup, platformTransforms } from "./group/calcite.js";

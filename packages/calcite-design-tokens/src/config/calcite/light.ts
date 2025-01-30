@@ -1,12 +1,12 @@
-import { logBrokenReferenceLevels, logWarningLevels, logVerbosityLevels } from "style-dictionary/enums";
-import { formats } from "style-dictionary/enums";
-import { expandTypesMap } from "@tokens-studio/sd-transforms";
-import { HeaderCalciteDefault } from "../../../support/header/calcite-default.js";
-import { TransformCalciteGroup, platformTransforms } from "../../../support/transforms/group/calcite.js";
-import * as filter from "../../../support/filter/index.js";
+import {
+  formats as sdFormats,
+  logBrokenReferenceLevels,
+  logWarningLevels,
+  logVerbosityLevels,
+} from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
-
-const sdTypes = expandTypesMap;
+import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import { transformers, filters, headers } from "../../../support/index.js";
 
 export default {
   // configuration
@@ -15,51 +15,51 @@ export default {
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
-      transformGroup: TransformCalciteGroup,
+      transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
       files: [
         {
           destination: "light.scss",
-          format: formats.scssVariables,
-          filter: filter.FilterCalciteTokens,
+          format: sdFormats.scssVariables,
+          filter: filters.FilterCalciteTokens,
         },
       ],
       options: {
         fileExtension: ".scss",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
     },
     css: {
-      transformGroup: TransformCalciteGroup,
+      transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
         {
           destination: "light.css",
-          format: formats.cssVariables,
-          filter: filter.FilterCalciteTokens,
+          format: sdFormats.cssVariables,
+          filter: filters.FilterCalciteTokens,
         },
       ],
       options: {
         fileExtension: ".css",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
     },
     es6: {
-      transformGroup: TransformCalciteGroup,
-      transforms: platformTransforms.es6,
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
         fileExtension: ".ts",
-        fileHeader: HeaderCalciteDefault,
+        fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
           destination: "light.ts",
-          format: formats.javascriptEs6,
-          filter: filter.FilterCalciteTokens,
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterCalciteTokens,
         },
       ],
     },
