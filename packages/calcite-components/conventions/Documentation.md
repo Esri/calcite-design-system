@@ -25,7 +25,7 @@ There are two ways to document deprecations, depending on the API reference. In 
 
 ### Usage snippets
 
-You can provide code snippets demonstrating a specific behavior or pattern for a component. Within the component's directory, create a new `usage` directory. Then, create a Markdown file with the filename as the title of the snippet. There should only be one snippet per Markdown file. The usage snippets will be added to the component's README after building. These usage snippets will then be displayed in Storybook.
+You can provide code snippets demonstrating a specific behavior or pattern for a component. In the component's directory, create a `usage` folder. Then, add a Markdown file named after the snippet's title, ensuring each file contains only one snippet. These usage snippets will be displayed in Storybook.
 
 ### Using utilities
 

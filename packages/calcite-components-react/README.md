@@ -16,9 +16,7 @@ There are two builds that are provided by the standard `calcite-components` pack
 
 ### Custom Elements build
 
-<!-- TODO: Get suggestions for what this should be replaced with -->
-
-[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
+[Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
 
 ```jsx
 import { setAssetPath } from "@esri/calcite-components/dist/components";
@@ -40,9 +38,7 @@ import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-compone
 
 ### Dist build
 
-<!-- TODO: Get suggestions for what this should be replaced with -->
-
-When using the [Dist](https://stenciljs.com/docs/distribution) build, you'll need to manually define the custom elements on the window. You can also choose between local and CDN hosted assets.
+When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#distribution) build, you'll need to manually define the custom elements on the window. You can also choose between local and CDN hosted assets.
 
 ```jsx
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
@@ -89,10 +85,8 @@ function onUpdate(event) {
   setSliderValue(event.target.value);
 }
 
-// TODO: Get suggestions for what this should be replaced with
-
 // need to access the dom node to set custom event listeners for props that aren't strings / numbers
-// https://stenciljs.com/docs/react#properties-and-events
+// lit.dev/docs/frameworks/react#why-are-wrappers-needed
 useEffect(
   (_) => {
     sliderEl.current.addEventListener("calciteSliderUpdate", onUpdate);
