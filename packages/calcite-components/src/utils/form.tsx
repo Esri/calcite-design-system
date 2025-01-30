@@ -128,7 +128,7 @@ export interface FormComponent<T = any> extends FormOwner {
   /**
    * Hook for components to sync _extra_ props on the hidden input form element used for form-submitting.
    *
-   * Note: The following props are set by default: disabled, hidden, name, required, value.
+   * Note: The following props are set by default: disabled, label, hidden, name, required, value.
    */
   syncHiddenFormInput?: (input: HTMLInputElement) => void;
 }
