@@ -96,7 +96,7 @@ export class Block
   /**
    * When `true`, the component displays a draggable button.
    *
-   * @deprecated No longer necessary.
+   * @deprecated No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
