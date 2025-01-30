@@ -123,6 +123,25 @@
   }
 }
 
+.float-all {
+  max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
+  box-shadow: var(--calcite-shadow-sm);
+  border-radius: var(--calcite-corner-radius-round);
+  overflow: hidden;
+}
+
+:host([layout="vertical"][position="start"]) .float-all {
+  border-inline-start: 1px solid var(--calcite-color-border-3);
+}
+
+:host([layout="vertical"][position="end"]) .float-all {
+  border-inline-end: 1px solid var(--calcite-color-border-3);
+}
+
+:host([layout="horizontal"]) .float-all {
+  border-inline: 1px solid var(--calcite-color-border-3);
+}
+
 :host([layout="horizontal"]) .container {
   @apply w-full h-auto;
   flex-direction: column;
@@ -316,7 +335,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   @apply border-color-3 border border-solid;
 }
 
-:host([position="start"]:not([slot="panel-end"]):not([display-mode="float-all"])),
+:host([position="start"]:not([slot="panel-end"])),
 :host([position="end"][slot="panel-start"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
@@ -334,12 +353,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([layout="horizontal"]:not([display-mode="float-all"])) slot[name="action-bar"]::slotted(calcite-action-bar) {
+:host([layout="horizontal"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
   border-inline: 0;
 }
 
-:host([layout="horizontal"][position="start"]:not([display-mode="float-all"])) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="start"]:not([display-mode="float-all"])) .content ::slotted(calcite-panel) {
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
   border-inline: 0;
   border-block-start: 0;
 }
