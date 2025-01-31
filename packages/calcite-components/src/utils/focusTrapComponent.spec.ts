@@ -112,4 +112,27 @@ describe("focusTrapComponent", () => {
       expect(customFocusTrapStack).toHaveLength(1);
     });
   });
+  describe("focusTrapDisabledOverride", () => {
+    it("should deactivate focus trap when focusTrapDisabledOverride returns true", () => {
+      const fakeComponent = {} as FocusTrapComponent;
+      fakeComponent.el = document.createElement("div");
+
+      connectFocusTrap(fakeComponent);
+
+      const deactivateSpy = vi.fn();
+      fakeComponent.focusTrap.deactivate = deactivateSpy;
+
+      const updateSpy = vi.fn();
+      fakeComponent.focusTrap.updateContainerElements = updateSpy;
+
+      activateFocusTrap(fakeComponent);
+
+      fakeComponent.focusTrapDisabledOverride = () => true;
+
+      updateFocusTrapElements(fakeComponent);
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+
+      expect(deactivateSpy).toHaveBeenCalledTimes(1);
+    });
+  });
 });

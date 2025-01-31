@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   accessible,
   defaults,
@@ -1162,15 +1162,22 @@ describe("calcite-dialog", () => {
   });
 
   describe("focusTrap", () => {
-    it("can tab out of non-modal dialog when focusTrapDisabled=true", async () => {
-      const page = await newE2EPage();
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
       await page.setContent(html`
-        <calcite-dialog width-scale="s" focus-trap-disabled open closable><button>inside</button></calcite-dialog>
+        <calcite-dialog width-scale="s" focus-trap-disabled open closable
+          ><button id="insideEl">inside</button></calcite-dialog
+        >
         <button id="outsideEl">outside</button>
       `);
+
       await skipAnimations(page);
       await page.waitForChanges();
+    });
 
+    it("can tab out of non-modal dialog when focusTrapDisabled=true", async () => {
       const dialog = await page.find("calcite-dialog >>> .container");
       const action = await page.find("calcite-dialog >>> calcite-action");
       const outsideEl = await page.find("#outsideEl");
@@ -1192,16 +1199,6 @@ describe("calcite-dialog", () => {
     });
 
     it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog width-scale="s" modal focus-trap-disabled open closable
-          ><button id="insideEl">inside</button></calcite-dialog
-        >
-        <button>outside</button>
-      `);
-      await skipAnimations(page);
-      await page.waitForChanges();
-
       const dialog = await page.find("calcite-dialog >>> .container");
       const insideEl = await page.find("#insideEl");
 

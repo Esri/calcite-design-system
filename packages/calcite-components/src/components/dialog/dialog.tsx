@@ -273,7 +273,7 @@ export class Dialog
     updateFocusTrapElements(this);
   }
 
-  /** When defined, provides a condition for focusTrapDisabled override. */
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
     return !this.modal && this.focusTrapDisabled;
   }
