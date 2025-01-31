@@ -13,11 +13,6 @@ import {
 } from "@arcgis/lumina";
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
@@ -27,6 +22,7 @@ import { IconName } from "../icon/interfaces";
 import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./tab-title.scss";
@@ -42,7 +38,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class TabTitle extends LitElement implements InteractiveComponent {
+export class TabTitle extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -74,6 +70,8 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -282,10 +280,6 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   /** This lifecycle method is not expected to return a promise. The returned promise will be ignored by Lit rather than awaited. */
   async loaded(): Promise<void> {
     this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
@@ -434,7 +428,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.selected && !this.disabled ? 0 : -1);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -453,7 +447,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
           {this.renderCloseButton()}
           <div class={CSS.selectedIndicator} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

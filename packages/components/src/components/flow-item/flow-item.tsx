@@ -3,11 +3,6 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -17,6 +12,7 @@ import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -42,7 +38,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class FlowItem extends LitElement implements InteractiveComponent {
+export class FlowItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -63,6 +59,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -222,10 +220,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   //#endregion
 
   //#region Private Methods
@@ -263,7 +257,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     this.calciteFlowItemBack.emit();
   }
 
-  // #endregion
+  //#endregion
 
   //#region Rendering
 
@@ -311,7 +305,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
       iconFlipRtl,
     } = this;
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <calcite-panel
           beforeClose={beforeClose}
           closable={closable}
@@ -350,7 +344,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
           <slot />
         </calcite-panel>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -1,0 +1,47 @@
+import { describe, it, expect, vi } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
+import { page, userEvent } from "@vitest/browser/context";
+import { useInteractive } from "./useInteractive";
+
+describe("useInteractive", () => {
+  class Test extends LitElement {
+    interactiveContainer = useInteractive(this);
+
+    @property() disabled = false;
+
+    render(): JsxNode {
+      return (
+        <this.interactiveContainer disabled={this.disabled}>
+          <button>hi</button>
+        </this.interactiveContainer>
+      );
+    }
+  }
+
+  it("prevents both keyboard and pointer interaction", async () => {
+    const { el, reRender } = await mount(Test);
+    const clickSpy = vi.fn();
+    const button = page.getByRole("button");
+    button.element().addEventListener("click", clickSpy);
+
+    await userEvent.click(button, { timeout: 50 });
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.getAttribute("aria-disabled")).toBeNull();
+    expect(clickSpy).toHaveBeenCalledTimes(2);
+
+    el.disabled = true;
+    await reRender();
+
+    try {
+      await userEvent.click(button, { timeout: 50 });
+    } catch {
+      // noop
+    }
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.getAttribute("aria-disabled")).toBe("true");
+    expect(clickSpy).toHaveBeenCalledTimes(2);
+  });
+});

@@ -23,11 +23,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
@@ -41,6 +36,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -57,7 +53,7 @@ declare global {
  */
 export class InputText
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
+  implements LabelableComponent, FormComponent, TextualInputComponent
 {
   //#region Static Members
 
@@ -118,6 +114,12 @@ export class InputText
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   //#endregion
 
@@ -365,10 +367,6 @@ export class InputText
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -381,10 +379,6 @@ export class InputText
   //#endregion
 
   //#region Private Methods
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -613,7 +607,7 @@ export class InputText
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -654,7 +648,7 @@ export class InputText
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -9,11 +9,6 @@ import {
   whenAnimationDone,
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -21,6 +16,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
@@ -33,7 +29,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-carousel-item`s. */
-export class Carousel extends LitElement implements InteractiveComponent {
+export class Carousel extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -93,6 +89,8 @@ export class Carousel extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -257,10 +255,6 @@ export class Carousel extends LitElement implements InteractiveComponent {
     ) {
       this.suspendWatcher();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -676,7 +670,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   override render(): JsxNode {
     const { direction } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaLabel={this.label}
           ariaLive={this.playing ? "off" : "polite"}
@@ -710,7 +704,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           {this.arrowType === "edge" && this.renderArrow("previous")}
           {this.arrowType === "edge" && this.renderArrow("next")}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

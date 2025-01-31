@@ -3,11 +3,6 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
@@ -21,6 +16,7 @@ import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -42,7 +38,7 @@ const focusMap = new Map<List["el"], number>();
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
+export class ListItem extends LitElement implements SortableComponentItem {
   //#region Static Members
 
   static override styles = [styles, sortableStyles];
@@ -73,6 +69,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -388,10 +386,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.setSelectionDefaults();
   }
 
-  disconnectedCallback() {
-    focusMap.clear();
-  }
-
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
@@ -436,8 +430,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
+  disconnectedCallback() {
+    focusMap.clear();
   }
 
   //#endregion
@@ -1048,7 +1042,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         selectionAppearance === "border");
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
             ariaExpanded={expandable ? expanded : null}
@@ -1088,7 +1082,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           {this.renderContentBottom()}
         </div>
         {this.renderDefaultContainer()}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

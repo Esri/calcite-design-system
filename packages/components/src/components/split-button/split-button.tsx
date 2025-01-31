@@ -9,15 +9,11 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
 
@@ -28,16 +24,16 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-dropdown` content. */
-export class SplitButton extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class SplitButton extends LitElement {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private get dropdownIcon(): IconName {
     return this.dropdownIconType === "chevron"
@@ -51,9 +47,11 @@ export class SplitButton extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * When `true`, the component is active.
@@ -149,9 +147,9 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's first focusable element.
@@ -165,9 +163,9 @@ export class SplitButton extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the primary button is clicked. */
   calciteSplitButtonPrimaryClick = createEvent({ cancelable: false });
@@ -175,17 +173,9 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   /** Fires when the dropdown menu is clicked. */
   calciteSplitButtonSecondaryClick = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private calciteSplitButtonPrimaryClickHandler(): void {
     this.calciteSplitButtonPrimaryClick.emit();
@@ -195,15 +185,15 @@ export class SplitButton extends LitElement implements InteractiveComponent {
     this.calciteSplitButtonSecondaryClick.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const buttonWidth = this.width === "auto" ? "auto" : "full";
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           <calcite-button
             appearance={this.appearance}
@@ -253,9 +243,9 @@ export class SplitButton extends LitElement implements InteractiveComponent {
             <slot />
           </calcite-dropdown>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }
