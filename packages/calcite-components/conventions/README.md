@@ -288,46 +288,6 @@ Using dynamic classes:
 
 **Note**: Ensure that class-generating functions are strongly typed to avoid runtime errors.
 
-## assets
-
-If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
-
-```text
-my-component/
-  assets/
-    my-component/
-      asset.json
-  my-component.e2e.ts
-  my-component.tsx
-  my-component.scss
-  ...
-```
-
-<!-- TODO: Get suggestions for what this should be replaced with -->
-
-The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
-
-```tsx
-import { Component, Host, h } from "@stencil/core";
-
-@Component({
-  tag: "calcite-test",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class MyComponent {
-  /* ... */
-}
-```
-
-Afterwards, any asset path references must use the `getAssetPath` utility, using the `assets` directory as the root.
-
-```ts
-const assetPath = getAssetPath(`./assets/my-component/asset.json`);
-```
-
-This is required in order to have a unified assets folder in the distributable.
-
 ## Unique IDs for Components
 
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:

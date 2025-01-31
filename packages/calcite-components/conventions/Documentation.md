@@ -23,10 +23,6 @@ There are two ways to document deprecations, depending on the API reference. In 
 1. The `@deprecated` JSDoc tag is used for JavaScript properties, events, and methods in the `<component-name>.tsx` file. Notes can accompany the JSDoc tag, such as "use `<property>` instead".
 2. The `[Deprecated]` text is added at the beginning of the JSDoc description for slots (`@slots`) in the `<component-name>.tsx` file and CSS variables in the `<component-name>.scss` file. The text is parsed and removed from the description in the SDK site.
 
-### Usage snippets
-
-You can provide code snippets demonstrating a specific behavior or pattern for a component. In the component's directory, create a `usage` folder. Then, add a Markdown file named after the snippet's title, ensuring each file contains only one snippet. These usage snippets will be displayed in Storybook.
-
 ### Using utilities
 
 There are a variety of Storybook [helpers](../.storybook/helpers.ts) and [utilities](../.storybook/utils.tsx) that should be used for common patterns. You can use existing stories as a reference for when/how the utilities and helpers should be used.
