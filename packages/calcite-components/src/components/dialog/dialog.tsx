@@ -275,7 +275,7 @@ export class Dialog
 
   /** When defined, provides a condition for focusTrapDisabled override. */
   focusTrapDisabledOverride(): boolean {
-    return this.modal || !this.focusTrapDisabled;
+    return !this.modal && this.focusTrapDisabled;
   }
 
   // #endregion
