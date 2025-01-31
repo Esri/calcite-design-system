@@ -1368,9 +1368,9 @@ export class Combobox
     chip?.setFocus();
   }
 
-  private scrollToActiveOrSelectedItem(selected = false): void {
+  private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
     const item =
-      selected && this.selectedItems && this.selectedItems.length
+      scrollToSelected && this.selectedItems && this.selectedItems.length
         ? this.selectedItems[0]
         : this.filteredItems[this.activeItemIndex];
 
@@ -1378,13 +1378,7 @@ export class Combobox
       return;
     }
 
-    const height = this.calculateScrollerHeight(item);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < item.offsetTop + height) {
-      this.listContainerEl.scrollTop = item.offsetTop - offsetHeight + height;
-    } else if (item.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = item.offsetTop;
-    }
+    item.scrollIntoView({ block: "nearest" });
   }
 
   private shiftActiveItemIndex(delta: number): void {
