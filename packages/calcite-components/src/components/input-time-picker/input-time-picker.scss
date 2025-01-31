@@ -42,8 +42,7 @@
   }
   &:focus,
   &:hover:focus {
-    // background-color: var(--calcite-ui-text-highlight);
-    background-color: #bbd5fa;
+    background-color: Highlight;
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
