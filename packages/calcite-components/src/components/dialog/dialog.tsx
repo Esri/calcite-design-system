@@ -273,13 +273,8 @@ export class Dialog
     updateFocusTrapElements(this);
   }
 
-  /**
-   * When defined, provides a condition for focusTrapDisabled override.
-   *
-   * @private
-   */
-  @method()
-  _focusTrapDisabledOverride(): boolean {
+  /** When defined, provides a condition for focusTrapDisabled override. */
+  focusTrapDisabledOverride(): boolean {
     return this.modal || !this.focusTrapDisabled;
   }
 
@@ -388,11 +383,7 @@ export class Dialog
       return;
     }
 
-    if (this._focusTrapDisabledOverride()) {
-      activateFocusTrap(this);
-    } else {
-      deactivateFocusTrap(this);
-    }
+    activateFocusTrap(this);
   }
 
   private updateAssistiveText(): void {
