@@ -5,7 +5,6 @@ export const CSS = {
   input: "input",
   inputContainer: "input-container",
   meridiem: "meridiem",
-  meridiemStart: "meridiem--start",
   readOnly: "read-only",
   toggleIcon: "toggle-icon",
 };

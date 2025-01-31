@@ -1682,6 +1682,7 @@ export class InputTimePicker
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourFormat === "12";
+    const meridiemStart = this.meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
@@ -1692,6 +1693,27 @@ export class InputTimePicker
         >
           <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
+            {showMeridiem && meridiemStart && (
+              <span
+                aria-label={this.intlMeridiem}
+                aria-valuemax="2"
+                aria-valuemin="1"
+                aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
+                aria-valuetext={this.meridiem}
+                class={{
+                  [CSS.empty]: !this.localizedMeridiem,
+                  [CSS.input]: true,
+                  [CSS.meridiem]: true,
+                }}
+                onFocus={this.timePartFocusHandler}
+                onKeyDown={this.meridiemKeyDownHandler}
+                ref={this.setMeridiemEl}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {this.localizedMeridiem || emptyValue}
+              </span>
+            )}
             <span
               aria-label={this.intlHour}
               aria-valuemax="23"
@@ -1772,7 +1794,7 @@ export class InputTimePicker
               </span>
             )}
             {this.localizedSecondSuffix && <span>{this.localizedSecondSuffix}</span>}
-            {showMeridiem && (
+            {showMeridiem && !meridiemStart && (
               <span
                 aria-label={this.intlMeridiem}
                 aria-valuemax="2"
@@ -1783,7 +1805,6 @@ export class InputTimePicker
                   [CSS.empty]: !this.localizedMeridiem,
                   [CSS.input]: true,
                   [CSS.meridiem]: true,
-                  [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={this.meridiemKeyDownHandler}

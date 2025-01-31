@@ -52,10 +52,6 @@
   margin-inline-start: var(--calcite-spacing-xxs);
 }
 
-.meridiem--start {
-  order: -1;
-}
-
 :host([scale="s"]) {
   --calcite-toggle-spacing: theme("spacing.2");
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
