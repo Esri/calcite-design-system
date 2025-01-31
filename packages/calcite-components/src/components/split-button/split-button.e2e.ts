@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
+import { findAll } from "../../tests/utils";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -114,7 +115,7 @@ describe("calcite-split-button", () => {
       html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`,
     });
 
-    const buttons = await page.findAll("calcite-split-button >>> calcite-button");
+    const buttons = await findAll(page, "calcite-split-button >>> calcite-button");
 
     expect(buttons).toHaveLength(2);
 

@@ -1,10 +1,10 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, afterAll, beforeAll, vi, MockInstance } from "vitest";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { afterAll, beforeAll, describe, expect, it, MockInstance, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
-import { getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils";
 import { SelectionMode } from "../interfaces";
 
 type SpyInstance = MockInstance;
@@ -352,7 +352,7 @@ describe("calcite-tree", () => {
 
         const tree = await page.find("calcite-tree");
 
-        const [item1, item2] = await page.findAll("calcite-tree-item");
+        const [item1, item2] = await findAll(page, "calcite-tree-item");
 
         await item1.click();
 
@@ -388,7 +388,7 @@ describe("calcite-tree", () => {
 
         const tree = await page.find("calcite-tree");
 
-        const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
+        const [item1, item2, item3, item4] = await findAll(page, "calcite-tree-item");
 
         await directItemClick(page, item1);
 
@@ -453,17 +453,17 @@ describe("calcite-tree", () => {
 
         const tree = await page.find(`calcite-tree`);
         const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
-        const [item1, item2] = await page.findAll(`calcite-tree-item`);
+        const [item1, item2] = await findAll(page, `calcite-tree-item`);
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
         expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
+        expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
         expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
+        expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
       });
     });
 
@@ -508,7 +508,7 @@ describe("calcite-tree", () => {
         await page.waitForChanges();
         expect(selectEventSpy).toHaveReceivedEventTimes(0);
         expect(await tree.getProperty("selectedItems")).toHaveLength(3);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(3);
+        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(3);
         expect(parent1).toHaveAttribute("indeterminate");
         expect(grandparent).toHaveAttribute("indeterminate");
 
@@ -516,7 +516,7 @@ describe("calcite-tree", () => {
         await page.waitForChanges();
         expect(selectEventSpy).toHaveReceivedEventTimes(0);
         expect(await tree.getProperty("selectedItems")).toHaveLength(5);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(5);
+        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(5);
         expect(parent1).not.toHaveAttribute("indeterminate");
         expect(parent1).toHaveAttribute("selected");
         expect(grandparent).toHaveAttribute("indeterminate");
@@ -525,7 +525,7 @@ describe("calcite-tree", () => {
         await page.waitForChanges();
         expect(selectEventSpy).toHaveReceivedEventTimes(0);
         expect(await tree.getProperty("selectedItems")).toHaveLength(7);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(7);
+        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(7);
         expect(grandparent).not.toHaveAttribute("indeterminate");
         expect(grandparent).toHaveAttribute("selected");
 
@@ -533,7 +533,7 @@ describe("calcite-tree", () => {
         await page.waitForChanges();
         expect(selectEventSpy).toHaveReceivedEventTimes(0);
         expect(await tree.getProperty("selectedItems")).toHaveLength(3);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(3);
+        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(3);
         expect(grandparent).toHaveAttribute("indeterminate");
         expect(grandparent).not.toHaveAttribute("selected");
         expect(parent1).toHaveAttribute("indeterminate");
@@ -551,7 +551,7 @@ describe("calcite-tree", () => {
         await page.waitForChanges();
         expect(selectEventSpy).toHaveReceivedEventTimes(0);
         expect(await tree.getProperty("selectedItems")).toHaveLength(7);
-        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(7);
+        expect(await findAll(page, "calcite-tree-item[selected]")).toHaveLength(7);
         expect(grandparent).not.toHaveAttribute("indeterminate");
         expect(grandparent).toHaveAttribute("selected");
       });
@@ -1258,7 +1258,7 @@ describe("calcite-tree", () => {
             expect(await tree.getProperty("selectedItems")).toHaveLength(0);
 
             const expandableParentItem = await page.find(`#${expandableItemId}`);
-            const childItems = await expandableParentItem.findAll("calcite-tree-item");
+            const childItems = await findAll(expandableParentItem, "calcite-tree-item");
             expect(await expandableParentItem.getProperty("expanded")).toBe(false);
 
             await selectItem(page, expandableParentItem);

@@ -1,10 +1,10 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
 import { CSS } from "./resources";
@@ -77,7 +77,7 @@ describe("calcite-flow", () => {
       await page.waitForChanges();
 
       const flow = await page.find("calcite-flow");
-      const flowItems = await page.findAll("calcite-flow-item");
+      const flowItems = await findAll(page, "calcite-flow-item");
 
       expect(flowItems).toHaveLength(2);
       expect(await flowItems[0].getProperty("selected")).toBe(false);
@@ -126,7 +126,7 @@ describe("calcite-flow", () => {
       );
       await page.waitForChanges();
 
-      let items = await page.findAll("calcite-flow-item");
+      let items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(2);
       expect(items[0].id).toBe("first");
@@ -143,7 +143,7 @@ describe("calcite-flow", () => {
       }, `.${ITEM_CSS.backButton}`);
       await page.waitForChanges();
 
-      items = await page.findAll("calcite-flow-item");
+      items = await findAll(page, "calcite-flow-item");
       expect(items).toHaveLength(2);
       expect(items[0].id).toBe("first");
       expect(items[1].id).toBe("second");
@@ -215,7 +215,7 @@ describe("calcite-flow", () => {
 
       await slowPageAnimations(page);
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(1);
 
@@ -225,7 +225,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items2 = await page.findAll("calcite-flow-item");
+      const items2 = await findAll(page, "calcite-flow-item");
 
       expect(items2).toHaveLength(2);
 
@@ -276,7 +276,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(3);
 
@@ -289,7 +289,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items2 = await page.findAll("calcite-flow-item");
+      const items2 = await findAll(page, "calcite-flow-item");
 
       expect(items2).toHaveLength(3);
 
@@ -337,7 +337,7 @@ describe("calcite-flow", () => {
       });
       await page.waitForChanges();
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(3);
 
@@ -380,7 +380,7 @@ describe("calcite-flow", () => {
         </calcite-flow>`,
       );
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(5);
 

@@ -1,8 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils";
+import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils";
 import type { TileGroup } from "./tile-group";
 
 describe("calcite-tile-group", () => {
@@ -208,7 +208,7 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
 
-      let tiles = await page.findAll("calcite-tile");
+      let tiles = await findAll(page, "calcite-tile");
       tiles.forEach((tile) => {
         expect(tile.getAttribute("scale")).toBe("s");
       });
@@ -216,7 +216,7 @@ describe("calcite-tile-group", () => {
       await page.$eval("calcite-tile-group", (element: TileGroup["el"]) => element.setAttribute("scale", "l"));
       await page.waitForChanges();
 
-      tiles = await page.findAll("calcite-tile");
+      tiles = await findAll(page, "calcite-tile");
       tiles.forEach((tile) => {
         expect(tile.getAttribute("scale")).toBe("l");
       });
