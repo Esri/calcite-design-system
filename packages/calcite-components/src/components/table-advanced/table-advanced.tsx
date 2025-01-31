@@ -1,3 +1,4 @@
+import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
@@ -9,6 +10,7 @@ import {
 } from "../../utils/loadable";
 import type { Input } from "../input/input";
 import { Scale } from "../interfaces";
+import { DEBOUNCE } from "../../utils/resources";
 import { CSS } from "./resources";
 import { styles } from "./table-advanced.scss";
 
@@ -51,17 +53,37 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   /** Specifies the table columns of the component. */
   @property() columns: ColumnDefinition[];
 
-  /** Specifies the field to be used as row index. Default is `id`. */
-  @property() rowIndexField: string;
-
   /** Specifies the component's height. Default is `auto`. */
-  @property() height: string;
+  @property() height: string = "auto";
 
-  /** When true, the component shows scroll to row input. */
-  @property() showScrollToRow = false;
+  /** When true, an input appears that can be used to scroll to a specific table row by row index. Default row index is `id`, a custom row index can be set in `rowIndexProp`. */
+  @property() scrollToRowEnabled = false;
 
-  /** Scroll to row input value. */
+  /** Specifies the scroll to row input value. */
   @property() scrollToRowInputValue: string;
+
+  /** Specifies the property to be used as row index. Default is `id`. */
+  @property() rowIndexProp: string = "id";
+
+  /** When true, an input appears that can be used to filter `calcite-table-advanced` items. Default filter property is `id`, a custom property can be set in `filterByProp`.  */
+  @property() filterEnabled = false;
+
+  /** Specifies the filter input value. */
+  @property() filterInputValue: string;
+
+  /** Specifies the property to be used to filter `calcite-table-advanced` items. Default is `id`. */
+  @property() filterByProp: string = "id";
+
+  /**
+   * Specifies a function to handle filtering.
+   *
+   * @example
+   * myTable.filterPredicate = (myTableItem) => {
+   *   // returns true to show the table item if some condition is met
+   *   return data.someProp == "someValue";
+   * };
+   */
+  @property() filterPredicate?: (item: any) => boolean;
 
   // #endregion
 
@@ -91,6 +113,14 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
     if (changes.has("columns") && this.hasUpdated) {
       this.columnsWatcher(this.columns);
     }
+
+    if (changes.has("filterPredicate") && this.hasUpdated) {
+      if (this.validFilterPredicate()) {
+        this.tabulator.setFilter(this.filterPredicate);
+      } else {
+        this.tabulator.clearFilter();
+      }
+    }
   }
 
   loaded(): void {
@@ -101,9 +131,13 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
       : new Tabulator(this.tableEl, {
           data: this.data || [],
           columns: this.columns || [],
-          index: this.rowIndexField || "id",
-          height: this.height || "auto",
+          index: this.rowIndexProp,
+          height: this.height,
         });
+
+    if (this.validFilterPredicate()) {
+      this.tabulator.setFilter(this.filterPredicate);
+    }
   }
 
   // #endregion
@@ -126,15 +160,61 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
     }
   }
 
-  private changeHandler(event: CustomEvent): void {
+  private scrollToRowChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.scrollToRowInputValue = (event.target as Input["el"]).value;
   }
 
-  private inputHandler(event: CustomEvent): void {
+  private scrollToRowInputHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.scrollToRowInputValue = (event.target as Input["el"]).value;
   }
+
+  private handleScrollToRow(): void {
+    if (this.scrollToRowInputValue) {
+      this.tabulator.scrollToRow(this.scrollToRowInputValue, "top", true);
+    }
+  }
+
+  private scrollToRowKeyDownHandler(event: KeyboardEvent): void {
+    switch (event.key) {
+      case "Enter":
+        this.handleScrollToRow();
+        event.preventDefault();
+        break;
+    }
+  }
+
+  private filterChangeHandler(event: CustomEvent): void {
+    event.stopPropagation();
+    this.filterInputValue = (event.target as Input["el"]).value;
+
+    if (!this.validFilterPredicate()) {
+      this.handleSetFilter();
+    }
+  }
+
+  private filterInputHandler(event: CustomEvent): void {
+    event.stopPropagation();
+    this.filterInputValue = (event.target as Input["el"]).value;
+
+    if (!this.validFilterPredicate()) {
+      this.handleSetFilter();
+    }
+  }
+
+  private handleSetFilter = debounce((): void => {
+    if (this.filterInputValue) {
+      this.tabulator.setFilter(this.filterByProp, "like", this.filterInputValue);
+    } else {
+      this.tabulator.clearFilter();
+    }
+  }, DEBOUNCE.filter);
+
+  private validFilterPredicate(): boolean {
+    return typeof this.filterPredicate === "function";
+  }
+
   // #endregion
 
   // #region Rendering
@@ -142,22 +222,35 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        {this.showScrollToRow && (
+        {this.scrollToRowEnabled && (
           <div>
             <calcite-input
-              oncalciteInputChange={this.changeHandler}
-              oncalciteInputInput={this.inputHandler}
-              type="search"
+              onKeyDown={this.scrollToRowKeyDownHandler}
+              oncalciteInputChange={this.scrollToRowChangeHandler}
+              oncalciteInputInput={this.scrollToRowInputHandler}
+              placeholder="Scroll"
+              type="text"
               value={this.scrollToRowInputValue}
             />
             <button
               onClick={() => {
-                console.log("row", this.tabulator.getRow(this.scrollToRowInputValue).getData());
-                this.tabulator.scrollToRow(this.scrollToRowInputValue, "top", true);
+                this.handleScrollToRow();
               }}
             >
               Scroll to row
             </button>
+          </div>
+        )}
+
+        {this.filterEnabled && (
+          <div>
+            <calcite-input
+              oncalciteInputChange={this.filterChangeHandler}
+              oncalciteInputInput={this.filterInputHandler}
+              placeholder="Filter"
+              type="text"
+              value={this.filterInputValue}
+            />
           </div>
         )}
 

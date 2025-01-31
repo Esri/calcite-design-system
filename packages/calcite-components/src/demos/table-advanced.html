@@ -37,8 +37,8 @@
         <div class="child">
           <calcite-table-advanced
             scale="s"
-            show-scroll-to-row
-            row-index-field="name"
+            scroll-to-row-enabled
+            row-index-prop="name"
             height="150px"
           ></calcite-table-advanced>
         </div>
@@ -48,7 +48,7 @@
       <div class="parent">
         <div class="child title-text">Column Groups</div>
         <div class="child">
-          <calcite-table-advanced scale="m"></calcite-table-advanced>
+          <calcite-table-advanced scale="m" filter-enabled filter-by-prop="name"></calcite-table-advanced>
         </div>
       </div>
 
@@ -68,22 +68,22 @@
             <table>
               <thead>
                 <tr>
-                  <th>Heading</th>
-                  <th>Heading 1</th>
-                  <th>Heading 2</th>
-                  <th>Heading 3</th>
-                  <th>Heading 4</th>
-                  <th>Heading 5</th>
+                  <th>heading</th>
+                  <th>heading 1</th>
+                  <th>heading 2</th>
+                  <th>heading 3</th>
+                  <th>heading 4</th>
+                  <th>heading 5</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
+                  <td>cell1</td>
+                  <td>cell1</td>
+                  <td>cell1</td>
+                  <td>cell1</td>
+                  <td>cell1</td>
+                  <td>cell1</td>
                 </tr>
                 <tr>
                   <td>cell</td>
@@ -323,7 +323,7 @@
 
       var dataColumnGroups = [
         {
-          id: 4,
+          id: 1,
           name: "Brendon Philips",
           progress: 100,
           gender: "male",
@@ -332,7 +332,7 @@
           dob: "01/08/1980",
         },
         {
-          id: 5,
+          id: 2,
           name: "Margret Marmajuke",
           progress: 16,
           gender: "female",
@@ -341,7 +341,7 @@
           dob: "31/01/1999",
         },
         {
-          id: 6,
+          id: 3,
           name: "Frank Harbours",
           progress: 38,
           gender: "male",
@@ -349,6 +349,33 @@
           col: "red",
           dob: "12/05/1966",
           car: 1,
+        },
+        {
+          id: 4,
+          name: "Oli Bob",
+          progress: 11,
+          gender: "male",
+          rating: 1,
+          col: "yellow",
+          dob: "31/01/1998",
+        },
+        {
+          id: 5,
+          name: "Mary May",
+          progress: 12,
+          gender: "female",
+          rating: 2,
+          col: "yellow",
+          dob: "31/01/1997",
+        },
+        {
+          id: 6,
+          name: "Brendon Philips",
+          progress: 13,
+          gender: "male",
+          rating: 3,
+          col: "yellow",
+          dob: "31/01/1996",
         },
       ];
 
@@ -376,6 +403,10 @@
 
       tableAdvancedColumnGroups.data = dataColumnGroups;
       tableAdvancedColumnGroups.columns = columnGroups;
+
+      tableAdvancedColumnGroups.filterPredicate = function (data) {
+        return data.name == "Frank Harbours" || data.rating <= 2;
+      };
 
       var dataFitToWidth = [
         { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
