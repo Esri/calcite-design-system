@@ -113,7 +113,7 @@ describe("focusTrapComponent", () => {
     });
   });
   describe("focusTrapDisabledOverride", () => {
-    it("should activate focus trap when focusTrapDisabledOverride returns true", () => {
+    it("should activate focus trap when focusTrapDisabledOverride returns false", () => {
       const fakeComponent = {} as FocusTrapComponent;
       fakeComponent.el = document.createElement("div");
 
@@ -129,7 +129,7 @@ describe("focusTrapComponent", () => {
       expect(activateSpy).toHaveBeenCalledTimes(1);
     });
 
-    it("should deactivate focus trap when focusTrapDisabledOverride returns true", () => {
+    it("should not activate focus trap when focusTrapDisabledOverride returns true", () => {
       const fakeComponent = {} as FocusTrapComponent;
       fakeComponent.el = document.createElement("div");
 
