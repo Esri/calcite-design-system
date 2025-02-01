@@ -24,11 +24,6 @@ export interface UseFocusTrap {
   overrideFocusTrapEl: (el: HTMLElement) => void;
 
   /**
-   * Returns true if the focus trap is ready
-   */
-  readonly ready: boolean;
-
-  /**
    * Updates focusable elements within the trap.
    *
    * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
@@ -91,9 +86,6 @@ export const useFocusTrap = <T extends LitElement>(
         }
 
         focusTrapEl = el;
-      },
-      get ready(): boolean {
-        return !!focusTrap;
       },
       updateContainerElements: () => {
         const targetEl = focusTrapEl || component.el;
