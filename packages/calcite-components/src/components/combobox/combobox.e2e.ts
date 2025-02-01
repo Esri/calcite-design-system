@@ -2571,6 +2571,51 @@ describe("calcite-combobox", () => {
           </calcite-combobox>`,
           "item3",
         ));
+
+      it("shows the selected item when initially opened", async () => {
+        const page = await newE2EPage();
+
+        await page.setContent(`
+            <calcite-combobox
+                    open
+                    id="labelOne"
+                    label="test"
+                    placeholder="selected element (Black Eyed Susan) should be in view"
+                    max-items="6"
+                    selection-mode="single"
+                  >
+                    <calcite-combobox-item value="Trees" text-label="Trees">
+                      <calcite-combobox-item value="Pine" text-label="Pine">
+                        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+                      </calcite-combobox-item>
+                      <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+                      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+                    </calcite-combobox-item>
+                    <calcite-combobox-item value="Flowers" text-label="Flowers">
+                      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+                      <calcite-combobox-item
+                        value="Black Eyed Susan"
+                        text-label="Black Eyed Susan"
+                        selected
+                      ></calcite-combobox-item>
+                      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+                    </calcite-combobox-item>
+                    <calcite-combobox-item value="Animals" text-label="Animals">
+                      <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+                      <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+                      <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+                    </calcite-combobox-item>
+                    <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+                    <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+                    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+                  </calcite-combobox>
+            `);
+        await page.waitForChanges();
+        const combobox = await page.find("calcite-combobox");
+        const item1 = await combobox.find("calcite-combobox-item[value='Black Eyed Susan']");
+
+        expect(await item1.isIntersectingViewport()).toBeTruthy();
+      });
     });
 
     describe("multiple-selection", () => {

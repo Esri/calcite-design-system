@@ -839,7 +839,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(0);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -850,7 +850,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -901,11 +901,12 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1366,27 +1367,24 @@ export class Combobox
     chip?.setFocus();
   }
 
-  private scrollToActiveItem(): void {
-    const activeItem = this.filteredItems[this.activeItemIndex];
+  private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
+    const item =
+      scrollToSelected && this.selectedItems && this.selectedItems.length
+        ? this.selectedItems[0]
+        : this.filteredItems[this.activeItemIndex];
 
-    if (!activeItem) {
+    if (!item) {
       return;
     }
 
-    const height = this.calculateScrollerHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
-    }
+    item.scrollIntoView({ block: "nearest" });
   }
 
   private shiftActiveItemIndex(delta: number): void {
     const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
   }
 
   private updateActiveItemIndex(index: number): void {
