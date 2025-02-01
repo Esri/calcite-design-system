@@ -168,6 +168,7 @@ export class TileGroup
 
       config: {
         root: getRootNode(el),
+        group: "test",
         onSort: (event) => {
           console.log({ onSort: event });
           const values = event.values as string[];
@@ -177,6 +178,10 @@ export class TileGroup
         },
         onTransfer: (event) => {
           console.log({ onTransfer: event });
+          event.targetParent.el.insertBefore(
+            event.draggedNodes[0].el,
+            event.targetParent.data.enabledNodes.map((node) => node.el)[event.targetIndex],
+          );
         },
       },
     });
