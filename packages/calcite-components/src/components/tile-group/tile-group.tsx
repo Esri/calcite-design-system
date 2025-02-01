@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, state } from "@arcgis/lumina";
-import { dragAndDrop, remapNodes } from "@formkit/drag-and-drop";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { dragAndDrop } from "@formkit/drag-and-drop";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -36,7 +36,7 @@ export class TileGroup
 
   private items: Tile["el"][] = [];
 
-  @state() private dragValues: string[] = [];
+  private dragValues: string[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
@@ -230,8 +230,10 @@ export class TileGroup
   }
 
   private async updateTiles(): Promise<void> {
-    await this.componentOnReady();
     this.items = this.getSlottedTiles();
+    this.dragValues = this.items?.map((el) => el.guid) ?? [];
+
+    await this.componentOnReady();
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
@@ -241,8 +243,6 @@ export class TileGroup
       el.selectionMode = this.selectionMode;
     });
     this.updateSelectedItems();
-    remapNodes(this.el);
-    this.dragValues = this.items?.map((el) => el.guid) ?? [];
   }
 
   private calciteInternalTileKeyEventListener(event: CustomEvent): void {
