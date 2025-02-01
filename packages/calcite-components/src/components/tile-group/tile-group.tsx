@@ -151,8 +151,14 @@ export class TileGroup
 
   // #region Private Methods
 
+  private updateDragValues(): void {
+    this.dragValues = this.items?.map((el) => el.guid) ?? [];
+  }
+
   private async initDragAndDrop(): Promise<void> {
     await this.componentOnReady();
+    this.updateDragValues();
+
     const { el } = this;
 
     dragAndDrop({
@@ -231,7 +237,7 @@ export class TileGroup
 
   private updateTiles(): void {
     this.items = this.getSlottedTiles();
-    this.dragValues = this.items?.map((el) => el.guid) ?? [];
+    this.updateDragValues();
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
