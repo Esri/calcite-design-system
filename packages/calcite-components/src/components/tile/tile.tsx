@@ -149,7 +149,10 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
     SelectionMode
   > = "none";
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   * @internal
+   */
   @property() guid = guid();
 
   // #endregion

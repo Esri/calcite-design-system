@@ -138,8 +138,7 @@ export class TileGroup
     updateHostInteraction(this);
   }
 
-  async loaded(): Promise<void> {
-    await this.componentOnReady();
+  loaded(): void {
     this.updateSelectedItems();
     this.initDragAndDrop();
   }
@@ -152,7 +151,8 @@ export class TileGroup
 
   // #region Private Methods
 
-  private initDragAndDrop(): void {
+  private async initDragAndDrop(): Promise<void> {
+    await this.componentOnReady();
     const { el } = this;
 
     dragAndDrop({
@@ -229,11 +229,9 @@ export class TileGroup
     }
   }
 
-  private async updateTiles(): Promise<void> {
+  private updateTiles(): void {
     this.items = this.getSlottedTiles();
     this.dragValues = this.items?.map((el) => el.guid) ?? [];
-
-    await this.componentOnReady();
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
