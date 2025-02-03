@@ -43,7 +43,7 @@
   );
   --calcite-internal-internal-carousel-item-icon-color: var(
     --calcite-internal-carousel-item-icon-color,
-    var(--calcite-color-border-3)
+    var(--calcite-color-border-1)
   );
   --calcite-internal-internal-carousel-item-icon-color-selected: var(
     --calcite-internal-carousel-item-icon-color-selected,
@@ -55,11 +55,11 @@
   );
   --calcite-internal-internal-carousel-control-color: var(
     --calcite-internal-carousel-item-icon-color,
-    var(--calcite-color-border-input)
+    var(--calcite-color-border-text-3)
   );
   --calcite-internal-internal-carousel-autoplay-progress-background-color: var(
     --calcite-internal-carousel-autoplay-progress-background-color,
-    var(--calcite-color-border-3)
+    var(--calcite-color-border-1)
   );
   --calcite-internal-internal-carousel-autoplay-progress-fill-color: var(
     --calcite-internal-carousel-autoplay-progress-fill-color,
