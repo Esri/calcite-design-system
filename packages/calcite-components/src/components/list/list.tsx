@@ -846,9 +846,9 @@ export class List
     const rootNode = getRootNode(el);
 
     const lists = group
-      ? Array.from(rootNode.querySelectorAll<List["el"]>(`calcite-list[group="${group}"]`)).filter(
-          (list) => !list.disabled && list.dragEnabled,
-        )
+      ? Array.from(
+          rootNode.querySelectorAll<List["el"]>(`${listSelector}[group="${group}"]`),
+        ).filter((list) => !list.disabled && list.dragEnabled)
       : [];
 
     this.moveToItems = lists.map((element) => ({
