@@ -14,12 +14,7 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/loadable";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
@@ -40,10 +35,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-block` elements.
  */
-export class BlockGroup
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponent
-{
+export class BlockGroup extends LitElement implements InteractiveComponent, SortableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -176,10 +168,6 @@ export class BlockGroup
     this.setParentBlockGroup();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
@@ -191,10 +179,6 @@ export class BlockGroup
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

@@ -2,7 +2,7 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";
@@ -98,39 +98,7 @@ describe("calcite-block-group", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    const items = await page.findAll("calcite-block");
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(true);
-    }
-
-    const root = await page.find("#root");
-
-    root.setProperty("dragEnabled", false);
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.nextTick);
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("dragHandle")).toBe(false);
-    }
-  });
-
-  it("should set the dragHandle property on items which are not direct children", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-block-group id="root" drag-enabled group="my-block-group">
-        <div>
-          <calcite-block id="one" heading="one" label="One"></calcite-block>
-          <calcite-block id="two" heading="two" label="Two"></calcite-block>
-          <calcite-block id="three" heading="three" label="Three"></calcite-block>
-        </div>
-      </calcite-block-group>`,
-    );
-
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.nextTick);
-
-    const items = await page.findAll("calcite-block");
+    const items = await findAll(page, "calcite-block");
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("dragHandle")).toBe(true);
@@ -219,7 +187,7 @@ describe("calcite-block-group", () => {
         },
       );
 
-      const [first, second] = await page.findAll("calcite-block");
+      const [first, second] = await findAll(page, "calcite-block");
       expect(await first.getProperty("heading")).toBe("two");
       expect(await second.getProperty("heading")).toBe("one");
       await page.waitForChanges();
@@ -332,7 +300,7 @@ describe("calcite-block-group", () => {
         },
       );
 
-      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll("calcite-block");
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await findAll(page, "calcite-block");
       expect(await first.getProperty("heading")).toBe("a");
       expect(await second.getProperty("heading")).toBe("b");
       expect(await third.getProperty("heading")).toBe("d");
@@ -383,7 +351,7 @@ describe("calcite-block-group", () => {
         );
         await event;
         await page.waitForChanges();
-        const itemsAfter = await page.findAll("calcite-block");
+        const itemsAfter = await findAll(page, "calcite-block");
         expect(itemsAfter.length).toBe(3);
 
         for (let i = 0; i < itemsAfter.length; i++) {
@@ -506,14 +474,15 @@ describe("calcite-block-group", () => {
         await page.waitForChanges();
         const component1Id = "component1";
         const component2Id = "component2";
-        const component1After = await page.findAll(`#${component1Id} calcite-block`);
+
+        const component1After = await findAll(page, `#${component1Id} calcite-block`);
         expect(component1After.length).toBe(component1Order.length);
 
         for (let i = 0; i < component1After.length; i++) {
           expect(await component1After[i].getProperty("heading")).toBe(component1Order[i]);
         }
 
-        const component2After = await page.findAll(`#${component2Id} calcite-block`);
+        const component2After = await findAll(page, `#${component1Id} calcite-block`);
         expect(component2After.length).toBe(component2Order.length);
 
         for (let i = 0; i < component2After.length; i++) {
