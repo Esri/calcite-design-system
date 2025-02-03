@@ -6,7 +6,7 @@ import {
 } from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import { transformers, filters, headers } from "../../../support/index.js";
+import { transformers, filters, headers, formats } from "../../../support/index.js";
 
 export default {
   // configuration
@@ -60,6 +60,14 @@ export default {
           destination: "light.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterCalciteTokens,
+        },
+        {
+          destination: "global.js",
+          format: formats.FormatESS6Merge,
+          filter: filters.FilterCalciteTokens,
+          options: {
+            suffix: "Light",
+          },
         },
       ],
     },
