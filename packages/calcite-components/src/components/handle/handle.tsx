@@ -14,6 +14,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
@@ -145,6 +146,12 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
   }
 
   loaded(): void {
+    logger.deprecated("component", {
+      name: "handle",
+      removalVersion: 4,
+      suggested: "sort-handle",
+    });
+
     setComponentLoaded(this);
   }
 

@@ -2,8 +2,6 @@
   @apply block;
 }
 
-@include disabled();
-
 .container {
   position: relative;
 }
@@ -13,3 +11,5 @@
 }
 
 @include base-component();
+
+@include disabled();

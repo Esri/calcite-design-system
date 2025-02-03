@@ -51,6 +51,14 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
     return typeof this.setPosition === "number" && typeof this.setSize === "number";
   }
 
+  @state() get isSetDisabled(): boolean {
+    const { setPosition, setSize, moveToItems } = this;
+
+    return this.hasSetInfo
+      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
+      : false;
+  }
+
   // #endregion
 
   // #region Public Properties
@@ -253,7 +261,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
       this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || this.isSetDisabled();
+    const isDisabled = disabled || this.isSetDisabled;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -288,14 +296,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
         </calcite-dropdown>
       </InteractiveContainer>
     );
-  }
-
-  private isSetDisabled(): boolean {
-    const { setPosition, setSize, moveToItems } = this;
-
-    return this.hasSetInfo
-      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
-      : false;
   }
 
   private renderMoveToItem(moveToItem: MoveTo): JsxNode {

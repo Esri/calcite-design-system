@@ -16,6 +16,7 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { logger } from "../../utils/logger";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 
@@ -100,6 +101,14 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   override connectedCallback(): void {
     this.setUpSorting();
     this.beginObserving();
+  }
+
+  load(): void {
+    logger.deprecated("component", {
+      name: "sortable-list",
+      removalVersion: 4,
+      suggested: "block-group",
+    });
   }
 
   override updated(): void {
