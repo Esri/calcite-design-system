@@ -1,3 +1,5 @@
+import { Dimensions } from "../interfaces";
+
 /** x,y coordinate set */
 export type Point = [number, number];
 
@@ -6,12 +8,6 @@ export type DataSeries = Point[];
 
 /** Function that converts point from data space to pixels */
 export type Translator = (p: Point) => Point;
-
-/** Dimensions (in pixels) */
-export interface Dimensions {
-  width: number;
-  height: number;
-}
 
 /** Min/Max from all values of a given data set */
 export interface Extent {
