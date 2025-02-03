@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.125](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.124...@esri/calcite-components@3.0.0-next.125) (2025-02-03)
+
+### Bug Fixes
+
+- **shell-panel:** Fix visual issues in `displayMode="float-all"` ([#11410](https://github.com/Esri/calcite-design-system/issues/11410)) ([59bcc30](https://github.com/Esri/calcite-design-system/commit/59bcc30db56759ab1b9da860eac0fc40e65b731c)), closes [#9926](https://github.com/Esri/calcite-design-system/issues/9926)
+
 ## [3.0.0-next.124](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.123...@esri/calcite-components@3.0.0-next.124) (2025-02-03)
 
 ### Bug Fixes
