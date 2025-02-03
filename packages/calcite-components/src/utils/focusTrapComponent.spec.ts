@@ -113,15 +113,19 @@ describe("focusTrapComponent", () => {
     });
   });
   describe("focusTrapDisabledOverride", () => {
-    it("should activate focus trap when focusTrapDisabledOverride returns false", () => {
-      const fakeComponent = {} as FocusTrapComponent;
+    const fakeComponent = {} as FocusTrapComponent;
+    let activateSpy: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
       fakeComponent.el = document.createElement("div");
 
       connectFocusTrap(fakeComponent);
 
-      const activateSpy = vi.fn();
+      activateSpy = vi.fn();
       fakeComponent.focusTrap.activate = activateSpy;
+    });
 
+    it("should activate focus trap when focusTrapDisabledOverride returns false", () => {
       fakeComponent.focusTrapDisabledOverride = () => false;
 
       activateFocusTrap(fakeComponent);
@@ -130,14 +134,6 @@ describe("focusTrapComponent", () => {
     });
 
     it("should not activate focus trap when focusTrapDisabledOverride returns true", () => {
-      const fakeComponent = {} as FocusTrapComponent;
-      fakeComponent.el = document.createElement("div");
-
-      connectFocusTrap(fakeComponent);
-
-      const activateSpy = vi.fn();
-      fakeComponent.focusTrap.activate = activateSpy;
-
       fakeComponent.focusTrapDisabledOverride = () => true;
 
       activateFocusTrap(fakeComponent);

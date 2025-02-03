@@ -1198,6 +1198,23 @@ describe("calcite-dialog", () => {
       expect(activeElementId).toBe(await outsideEl.getProperty("id"));
     });
 
+    it("cannot tab out of non-modal dialog when focusTrapDisabled=false", async () => {
+      const dialog = await page.find("calcite-dialog >>> .container");
+      const insideEl = await page.find("#insideEl");
+
+      expect(await dialog.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const activeElementId = await page.evaluate(() => document.activeElement.id);
+      expect(activeElementId).toBe(await insideEl.getProperty("id"));
+    });
+
     it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
       const dialog = await page.find("calcite-dialog >>> .container");
       const insideEl = await page.find("#insideEl");
@@ -1213,6 +1230,27 @@ describe("calcite-dialog", () => {
 
       const activeElementId = await page.evaluate(() => document.activeElement.id);
       expect(activeElementId).toBe(await insideEl.getProperty("id"));
+    });
+
+    it("can tab out of dialog when modal=true and focusTrapDisabled=false", async () => {
+      const dialog = await page.find("calcite-dialog >>> .container");
+      const action = await page.find("calcite-dialog >>> calcite-action");
+      const outsideEl = await page.find("#outsideEl");
+
+      await action.callMethod("setFocus");
+      await page.waitForChanges();
+
+      expect(await dialog.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const activeElementId = await page.evaluate(() => document.activeElement.id);
+      expect(activeElementId).toBe(await outsideEl.getProperty("id"));
     });
   });
 });
