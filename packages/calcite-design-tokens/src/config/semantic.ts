@@ -88,12 +88,12 @@ export default {
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        fileExtension: ".ts",
+        fileExtension: ".js",
         fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
-          destination: "global.ts",
+          destination: "global.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterGlobalTokens,
           options: {
@@ -101,17 +101,17 @@ export default {
           },
         },
         {
-          destination: "semantic.ts",
+          destination: "semantic.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterGlobalTokens,
         },
         {
-          destination: "core.ts",
+          destination: "core.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterCoreTokens,
         },
         {
-          destination: "breakpoints.ts",
+          destination: "breakpoints.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterBreakpointTokens,
         },
@@ -153,7 +153,7 @@ export default {
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
-        fileExtension: ".ts",
+        fileExtension: ".js",
         fileHeader: headers.HeaderCalciteDefault,
       },
       files: [

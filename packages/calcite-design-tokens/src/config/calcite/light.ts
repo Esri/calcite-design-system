@@ -52,12 +52,12 @@ export default {
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        fileExtension: ".ts",
+        fileExtension: ".js",
         fileHeader: headers.HeaderCalciteDefault,
       },
       files: [
         {
-          destination: "light.ts",
+          destination: "light.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterCalciteTokens,
         },
