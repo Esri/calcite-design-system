@@ -17,7 +17,7 @@
  */
 
 :host {
-  @apply block relative;
+  @apply block relative h-full;
 
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
@@ -47,7 +47,7 @@
   max-block-size: var(--calcite-text-area-max-height);
   min-block-size: var(--calcite-text-area-min-height);
   max-inline-size: var(--calcite-text-area-max-width);
-  min-inline-size: var(--calcite-text-area-min-width);
+  min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
 
   &::placeholder {
     @apply font-normal;
