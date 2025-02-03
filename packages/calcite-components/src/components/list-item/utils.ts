@@ -42,7 +42,7 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
   const listItemChildren = slotEl
     .assignedElements({ flatten: true })
-    .filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
+    .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
 
   listItemChildren.forEach((listItem) => {
     listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
@@ -65,5 +65,5 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
 }
 
 export function isListItem(element: Element): element is ListItem["el"] {
-  return element?.tagName === "CALCITE-LIST-ITEM";
+  return element.tagName === "CALCITE-LIST-ITEM";
 }
