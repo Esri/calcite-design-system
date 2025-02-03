@@ -482,7 +482,7 @@ describe("calcite-block-group", () => {
           expect(await component1After[i].getProperty("heading")).toBe(component1Order[i]);
         }
 
-        const component2After = await findAll(page, `#${component1Id} calcite-block`);
+        const component2After = await findAll(page, `#${component2Id} calcite-block`);
         expect(component2After.length).toBe(component2Order.length);
 
         for (let i = 0; i < component2After.length; i++) {
