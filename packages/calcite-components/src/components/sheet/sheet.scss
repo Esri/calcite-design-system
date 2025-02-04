@@ -273,6 +273,7 @@
 :host([position="inline-start"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
     right: var(--calcite-internal-sheet-resize-handle-offset);
     block-size: 100%;
   }
@@ -291,6 +292,7 @@
 :host([position="inline-end"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
     left: var(--calcite-internal-sheet-resize-handle-offset);
     block-size: 100%;
   }
