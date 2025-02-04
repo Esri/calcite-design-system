@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.12...@esri/calcite-ui-icons@4.0.0-next.13) (2025-02-04)
+
+### Features
+
+- add dual image area, dual image direction, and dual image location ([#11445](https://github.com/Esri/calcite-design-system/issues/11445)) ([0da01b8](https://github.com/Esri/calcite-design-system/commit/0da01b82c34238abd532b20819fb3963ad485707))
+
 ## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.11...@esri/calcite-ui-icons@4.0.0-next.12) (2025-01-29)
 
 ### Features
