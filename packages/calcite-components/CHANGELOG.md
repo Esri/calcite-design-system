@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.127](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.126...@esri/calcite-components@3.0.0-next.127) (2025-02-04)
+
+### Features
+
+- **text-area:** add `limitText` prop to prevent input beyond max-length ([#11440](https://github.com/Esri/calcite-design-system/issues/11440)) ([4835dee](https://github.com/Esri/calcite-design-system/commit/4835dee86dad1cea1a5d43ad7801513c86625dbe)), closes [#10175](https://github.com/Esri/calcite-design-system/issues/10175)
+
+### Bug Fixes
+
+- **carousel:** Improve Carousel navigation display ([#11439](https://github.com/Esri/calcite-design-system/issues/11439)) ([e735d41](https://github.com/Esri/calcite-design-system/commit/e735d416c011da9deaae828795dd9407cdfddd02)), closes [#11426](https://github.com/Esri/calcite-design-system/issues/11426)
+
 ## [3.0.0-next.126](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.125...@esri/calcite-components@3.0.0-next.126) (2025-02-03)
 
 ### Features
