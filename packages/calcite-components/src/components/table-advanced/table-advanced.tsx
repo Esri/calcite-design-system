@@ -85,6 +85,12 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
    */
   @property() filterPredicate?: (item: any) => boolean;
 
+  /** Specifies the table columns to always be visible when scrolling horizontally */
+  @property() frozenColumns: Array<string>[] = [];
+
+  /** Specifies the property to be used to find frozen columns. Default is `name` */
+  @property() frozenColumnProp: string = "name";
+
   // #endregion
 
   // #region Events
@@ -130,7 +136,7 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
       ? new Tabulator(this.customSlotTableEl, {})
       : new Tabulator(this.tableEl, {
           data: this.data || [],
-          columns: this.columns || [],
+          columns: this.setFrozenColumns(this.columns) || [],
           index: this.rowIndexProp,
           height: this.height,
         });
@@ -213,6 +219,22 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
 
   private validFilterPredicate(): boolean {
     return typeof this.filterPredicate === "function";
+  }
+
+  private setFrozenColumns(columns: ColumnDefinition[]): Array<ColumnDefinition> {
+    this.frozenColumns.forEach((frozenColumn) => {
+      const column = columns.find(
+        (column) =>
+          column[this.frozenColumnProp].toString().toLowerCase() ===
+          frozenColumn.toString().toLowerCase(),
+      );
+
+      if (column) {
+        column.frozen = true;
+      }
+    });
+
+    return columns;
   }
 
   // #endregion
