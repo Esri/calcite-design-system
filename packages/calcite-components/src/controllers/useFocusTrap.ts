@@ -47,12 +47,12 @@ interface FocusTrapComponent extends LitElement {
   /**
    * When `true` prevents focus trapping.
    */
-  focusTrapDisabled?: boolean | (() => boolean);
+  focusTrapDisabled?: boolean;
 
   /**
    * When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping.
    */
-  focusTrapDisabledOverride?: boolean | (() => boolean);
+  focusTrapDisabledOverride?: () => boolean;
 }
 
 /**

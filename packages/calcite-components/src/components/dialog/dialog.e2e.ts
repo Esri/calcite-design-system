@@ -1232,13 +1232,9 @@ describe("calcite-dialog", () => {
       expect(activeElementId).toBe(await insideEl.getProperty("id"));
     });
 
-    it("can tab out of dialog when modal=true and focusTrapDisabled=false", async () => {
+    it("cannot tab out of dialog when modal=true and focusTrapDisabled=false", async () => {
       const dialog = await page.find("calcite-dialog >>> .container");
-      const action = await page.find("calcite-dialog >>> calcite-action");
-      const outsideEl = await page.find("#outsideEl");
-
-      await action.callMethod("setFocus");
-      await page.waitForChanges();
+      const insideEl = await page.find("#insideEl");
 
       expect(await dialog.isVisible()).toBe(true);
 
@@ -1250,7 +1246,7 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
 
       const activeElementId = await page.evaluate(() => document.activeElement.id);
-      expect(activeElementId).toBe(await outsideEl.getProperty("id"));
+      expect(activeElementId).toBe(await insideEl.getProperty("id"));
     });
   });
 });
