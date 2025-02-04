@@ -24,8 +24,8 @@ describe("calcite-text-area", () => {
   describe("defaults", () => {
     defaults("calcite-text-area", [
       {
-        propertyName: "wrap",
-        defaultValue: "soft",
+        propertyName: "limitText",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
@@ -42,6 +42,10 @@ describe("calcite-text-area", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "wrap",
+        defaultValue: "soft",
       },
     ]);
   });
@@ -63,6 +67,10 @@ describe("calcite-text-area", () => {
       {
         propertyName: "columns",
         value: "10",
+      },
+      {
+        propertyName: "limitText",
+        value: true,
       },
       {
         propertyName: "rows",

@@ -164,7 +164,7 @@ export class TextArea
   /**
    * When `true`, prevents input beyond the maximum length, mimicking native `<textarea>` behavior.
    */
-  @property() limitText = false;
+  @property({ reflect: true }) limitText = false;
 
   /**
    * When the component resides in a form,
