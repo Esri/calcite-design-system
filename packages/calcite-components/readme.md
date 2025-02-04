@@ -40,49 +40,7 @@ npm install @esri/calcite-components
 
 ### 1. Build
 
-Choose one of the two builds provided by Calcite Components.
-
-#### Custom Elements
-
-<!-- TODO: Get suggestions for what this should be replaced with -->
-
-[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when leveraging a frontend framework. To use this build, you will need to set the path to Calcite Components' assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on the CDN.
-
-```jsx
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-// CDN hosted assets
-setAssetPath("https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets");
-
-// Local assets
-// setAssetPath(PATH); // PATH depends on framework, more info below
-```
-
-Next, you need to import each component you use from the custom elements build. This will automatically define the custom elements on the window.
-
-```jsx
-import "@esri/calcite-components/dist/components/calcite-button";
-import "@esri/calcite-components/dist/components/calcite-icon";
-import "@esri/calcite-components/dist/components/calcite-slider";
-```
-
-#### Distribution
-
-<!-- TODO: Get suggestions for what this should be replaced with -->
-
-When using the [Distribution](https://stenciljs.com/docs/distribution) build, you'll need to define the custom elements on the window. You can also choose between local and CDN hosted assets.
-
-```jsx
-import { defineCustomElements } from "@esri/calcite-components/dist/loader";
-// CDN hosted assets
-defineCustomElements(window, {
-  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets",
-});
-
-// Local assets
-// defineCustomElements(window);
-```
-
-Since you defined the custom elements on the window, you do not need to import individual components.
+Refer to the [Get started](https://developers.arcgis.com/calcite-design-system/get-started/) page for details on setting up a build.
 
 ### 2. Assets
 
@@ -106,25 +64,7 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 
 ## TypeScript
 
-Lit provides a full set of typings for all the components in this repo. To make TypeScript aware of these components, just import the library:
-
-```ts
-import "@esri/calcite-components";
-```
-
-This will provide autocomplete of component names/properties, as well as additional HTML element types:
-
-```ts
-// created elements will implicitly have the correct type already
-const loader = document.createElement("calcite-loader");
-document.body.appendChild(loader);
-loader.active = true;
-
-// you can also explicitly type an element using the generated types
-// the type name will always be formatted like HTML{CamelCaseComponentName}Element
-const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
-loader.active = true;
-```
+Refer to the [TypeScript section of the Framework integration](https://developers.arcgis.com/calcite-design-system/resources/frameworks/#typescript) resource page for guidance on setting up TypeScript.
 
 ## Browser Support
 

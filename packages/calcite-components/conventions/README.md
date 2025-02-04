@@ -8,10 +8,7 @@ Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Custom Element Conformance - W3C Editor's Draft](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance)
-
-## Structure
-
-We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/master/STYLE_GUIDE.md#file-structure) for more details.
+- [Internal Tooling and Guidlines for Building Components](qawebgis.esri.com/components/lumina/introduction)
 
 ## Component Responsibilities
 
