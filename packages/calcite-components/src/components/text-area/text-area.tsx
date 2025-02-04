@@ -162,6 +162,11 @@ export class TextArea
   @property() label: string;
 
   /**
+   * When `true`, prevents input beyond the maximum length, mimicking native `<textarea>` behavior.
+   */
+  @property({ reflect: true }) limitText = false;
+
+  /**
    * When the component resides in a form,
    * specifies the maximum number of characters allowed.
    *
@@ -462,6 +467,7 @@ export class TextArea
           }}
           cols={this.columns}
           disabled={this.disabled}
+          maxLength={this.limitText ? this.maxLength : -1}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
