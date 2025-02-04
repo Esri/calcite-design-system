@@ -30,7 +30,7 @@ Esri's design principles, components, and patterns can be consumed through a sui
 
 ## What are Calcite Components?
 
-Calcite Components are a set of reusable web components built using Stencil.js. With Calcite Components, you can quickly build on-brand, lightweight, and accessible web applications.
+Calcite Components are a set of reusable web components built using Lit. With Calcite Components, you can quickly build on-brand, lightweight, and accessible web applications.
 
 The framework-agnostic components can be used to develop entire websites and applications. The set is flexible for developers and adheres to consistent, industry-standard design principles. The codebase is well supported, steadily maintained, and always being improved.
 

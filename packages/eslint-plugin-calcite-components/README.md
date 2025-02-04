@@ -1,6 +1,6 @@
 # @esri/eslint-plugin-calcite-components
 
-ESLint rules specific to Stencil JS projects.
+ESLint rules specific to `@esri/calcite-components` development.
 
 ## Installation
 
