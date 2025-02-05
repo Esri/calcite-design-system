@@ -141,9 +141,6 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** Allows configuring focus trap. */
-  @property() focusTrapOptions;
-
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
    *

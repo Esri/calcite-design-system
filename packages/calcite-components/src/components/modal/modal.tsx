@@ -156,9 +156,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** Allows configuring focus trap. */
-  @property() focusTrapOptions;
-
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
 
