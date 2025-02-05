@@ -15,7 +15,6 @@ export const datePickerTokens = {
   calciteDatePickerMonthSelectTextColor: "",
   calciteDatePickerMonthSelectIconColor: "",
   calciteDatePickerMonthSelectIconColorHover: "",
-  calciteDatePickerMonthSelectBorderColor: "",
   calciteDatePickerDayBackgroundColor: "",
   calciteDatePickerDayBackgroundColorHover: "",
   calciteDatePickerDayTextColor: "",

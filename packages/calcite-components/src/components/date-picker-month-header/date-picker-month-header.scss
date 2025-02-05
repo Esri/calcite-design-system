@@ -127,12 +127,13 @@
 }
 
 .month-select {
+  --calcite-select-internal-border-width: 0;
+  --calcite-select-internal-icon-border-inline-end-width: 0;
   --calcite-select-spacing-inline: var(--calcite-spacing-xxs);
   --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size-md));
   --calcite-select-text-color: var(--calcite-date-picker-month-select-text-color, var(--calcite-color-text-1));
   --calcite-select-icon-color: var(--calcite-date-picker-month-select-icon-color);
   --calcite-select-icon-color-hover: var(--calcite-date-picker-month-select-icon-color-hover);
-  --calcite-select-border-color: var(--calcite-date-picker-month-select-border-color, var(--calcite-color-transparent));
 
   --calcite-internal-select-spacing-block: var(--calcite-spacing-xxs);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-xxs);

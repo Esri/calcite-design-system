@@ -1105,11 +1105,6 @@ describe("calcite-date-picker", () => {
           targetProp: "--calcite-select-icon-color-hover",
           state: "hover",
         },
-        "--calcite-date-picker-month-select-border-color": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-          targetProp: "--calcite-select-border-color",
-        },
         "--calcite-date-picker-day-background-color": {
           selector: "calcite-date-picker",
           shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
