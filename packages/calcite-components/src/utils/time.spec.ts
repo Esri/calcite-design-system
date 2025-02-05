@@ -7,7 +7,7 @@ import {
   getMeridiemOrder,
   isLocaleHourFormatOpposite,
   isValidTime,
-  localizeTimeStringToParts,
+  localizeTimeString,
   parseTimeString,
   toISOTimeString,
 } from "./time";
@@ -287,9 +287,9 @@ describe("isValidTime", () => {
   });
 });
 
-describe("localizeTimeStringToParts", () => {
-  it("returns localized decimal separator and fractional second value", () => {
-    expect(localizeTimeStringToParts({ value: "06:45:30.12123", locale: "fr" })).toEqual({
+describe("localizeTimeString", () => {
+  it("returns localized decimal separator and fractional second value as parts", () => {
+    expect(localizeTimeString({ parts: true, value: "06:45:30.12123", locale: "fr" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
@@ -301,7 +301,7 @@ describe("localizeTimeStringToParts", () => {
       localizedMeridiem: null,
     });
 
-    expect(localizeTimeStringToParts({ value: "06:45:30", locale: "fr" })).toEqual({
+    expect(localizeTimeString({ parts: true, value: "06:45:30", locale: "fr" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
@@ -313,7 +313,7 @@ describe("localizeTimeStringToParts", () => {
       localizedMeridiem: null,
     });
 
-    expect(localizeTimeStringToParts({ value: "06:45:30.12123", locale: "da" })).toEqual({
+    expect(localizeTimeString({ parts: true, value: "06:45:30.12123", locale: "da" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ".",
       localizedMinute: "45",
@@ -326,8 +326,8 @@ describe("localizeTimeStringToParts", () => {
     });
   });
 
-  it("returns fractional second value with padded zeros when necessary", () => {
-    expect(localizeTimeStringToParts({ value: "06:45:30.04", locale: "en" })).toEqual({
+  it("returns fractional second value with padded zeros when necessary as parts", () => {
+    expect(localizeTimeString({ parts: true, value: "06:45:30.04", locale: "en" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
@@ -338,7 +338,7 @@ describe("localizeTimeStringToParts", () => {
       localizedSecondSuffix: null,
       localizedMeridiem: "AM",
     });
-    expect(localizeTimeStringToParts({ value: "06:45:30.003", locale: "en" })).toEqual({
+    expect(localizeTimeString({ parts: true, value: "06:45:30.003", locale: "en" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
@@ -349,7 +349,7 @@ describe("localizeTimeStringToParts", () => {
       localizedSecondSuffix: null,
       localizedMeridiem: "AM",
     });
-    expect(localizeTimeStringToParts({ value: "06:45:30.007", locale: "ar", numberingSystem: "arab" })).toEqual({
+    expect(localizeTimeString({ parts: true, value: "06:45:30.007", locale: "ar", numberingSystem: "arab" })).toEqual({
       localizedHour: "٠٦",
       localizedHourSuffix: ":",
       localizedMinute: "٤٥",

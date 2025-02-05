@@ -366,27 +366,28 @@ export function localizeTimePart({
 }
 
 interface LocalizeTimeStringParameters {
-  value: string;
-  includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
+  hour12?: boolean;
+  includeSeconds?: boolean;
   locale: SupportedLocale;
   numberingSystem?: NumberingSystem;
-  hour12?: boolean;
+  parts?: boolean;
+  value: string;
 }
 
 export function localizeTimeString({
-  value,
-  locale,
-  numberingSystem = "latn",
-  includeSeconds = true,
   fractionalSecondDigits,
   hour12,
-}: LocalizeTimeStringParameters): string {
+  includeSeconds = true,
+  locale,
+  numberingSystem = "latn",
+  parts = false,
+  value,
+}: LocalizeTimeStringParameters): string | LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
-
   const dateFromTimeString = new Date(
     Date.UTC(
       0,
@@ -399,36 +400,64 @@ export function localizeTimeString({
     ),
   );
   const formatter = createLocaleDateTimeFormatter({
-    locale,
-    numberingSystem,
-    includeSeconds,
     fractionalSecondDigits,
     hour12,
+    includeSeconds,
+    locale,
+    numberingSystem,
   });
-  let result = formatter.format(dateFromTimeString) || null;
+  if (parts) {
+    const parts = formatter.formatToParts(dateFromTimeString);
+    let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
-  // The bulgarian "ч." character (abbreviation for "hours") should not display for short and medium time formats.
-  if (result && locale === "bg" && result.includes(" ч.")) {
-    result = result.replaceAll(" ч.", "");
-  }
-
-  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
-  // @see https://issues.chromium.org/issues/40172622
-  // @see https://issues.chromium.org/issues/40676973
-  if (locale === "bs" || locale === "mk") {
-    const localeData = localizedTwentyFourHourMeridiems.get(locale);
-    if (result.includes("AM")) {
-      result = result.replaceAll("AM", localeData.am);
-    } else if (result.includes("PM")) {
-      result = result.replaceAll("PM", localeData.pm);
+    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+    // @see https://issues.chromium.org/issues/40172622
+    // @see https://issues.chromium.org/issues/40676973
+    if (hour12 && (locale === "bs" || locale === "mk")) {
+      const localeData = localizedTwentyFourHourMeridiems.get(locale);
+      localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
     }
-    // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
-    if (result.indexOf(".") !== result.length - 1) {
-      result = result.replace(".", ",");
-    }
-  }
+    return {
+      localizedHour: getLocalizedTimePart("hour", parts),
+      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      localizedMinute: getLocalizedTimePart("minute", parts),
+      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      localizedSecond: getLocalizedTimePart("second", parts),
+      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      localizedFractionalSecond: localizeTimePart({
+        value: fractionalSecond,
+        part: "fractionalSecond",
+        locale,
+        numberingSystem,
+      }),
+      localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
+      localizedMeridiem,
+    };
+  } else {
+    let result = formatter.format(dateFromTimeString) || null;
 
-  return result;
+    // The bulgarian "ч." character (abbreviation for "hours") should not display for short and medium time formats.
+    if (!parts && typeof result === "string" && locale === "bg" && result && result.includes(" ч.")) {
+      result = result.replaceAll(" ч.", "");
+    }
+
+    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+    // @see https://issues.chromium.org/issues/40172622
+    // @see https://issues.chromium.org/issues/40676973
+    if (locale === "bs" || locale === "mk") {
+      const localeData = localizedTwentyFourHourMeridiems.get(locale);
+      if (result.includes("AM")) {
+        result = result.replaceAll("AM", localeData.am);
+      } else if (result.includes("PM")) {
+        result = result.replaceAll("PM", localeData.pm);
+      }
+      // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
+      if (result.indexOf(".") !== result.length - 1) {
+        result = result.replace(".", ",");
+      }
+    }
+    return result;
+  }
 }
 
 interface LocalizeTimeStringToPartsParameters {

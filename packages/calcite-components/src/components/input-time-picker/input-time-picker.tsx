@@ -69,6 +69,7 @@ import {
   getMeridiem,
   getLocalizedTimePartSuffix,
   getLocalizedDecimalSeparator,
+  LocalizedTime,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces, getDecimals } from "../../utils/math";
@@ -544,6 +545,10 @@ export class InputTimePicker
 
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.stepWatcher(this.step, changes.get("step"));
+    }
+
+    if (changes.has("value")) {
+      this.setLocalizedInputValue({ isoTimeString: changes.get("value") });
     }
   }
 
@@ -1277,14 +1282,14 @@ export class InputTimePicker
     const numberingSystem = params?.numberingSystem ?? this.numberingSystem;
     const value = params?.isoTimeString ?? this.value;
     return (
-      localizeTimeString({
+      (localizeTimeString({
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
         hour12,
         includeSeconds: this.shouldIncludeSeconds(),
         locale,
         numberingSystem,
         value,
-      }) ?? ""
+      }) as string) ?? ""
     );
   }
 
@@ -1504,7 +1509,14 @@ export class InputTimePicker
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ hour12, value, locale, numberingSystem });
+      } = localizeTimeString({
+        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
+        hour12,
+        locale,
+        numberingSystem,
+        parts: true,
+        value,
+      }) as LocalizedTime;
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -1576,7 +1588,6 @@ export class InputTimePicker
   private setValueDirectly(value: string): void {
     const includeSeconds = this.shouldIncludeSeconds();
     this.value = toISOTimeString(value, includeSeconds);
-    this.setLocalizedInputValue();
   }
 
   private setValuePart(key: TimePart, value: number | string | Meridiem): void {
