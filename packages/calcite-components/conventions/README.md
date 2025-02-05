@@ -8,10 +8,7 @@ Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Custom Element Conformance - W3C Editor's Draft](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance)
-
-## Structure
-
-We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/master/STYLE_GUIDE.md#file-structure) for more details.
+- [Internal Tooling and Guidlines for Building Components](qawebgis.esri.com/components/lumina/introduction)
 
 ## Component Responsibilities
 
@@ -288,54 +285,6 @@ Using dynamic classes:
 
 **Note**: Ensure that class-generating functions are strongly typed to avoid runtime errors.
 
-## assets
-
-If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
-
-```text
-my-component/
-  assets/
-    my-component/
-      asset.json
-  my-component.e2e.ts
-  my-component.tsx
-  my-component.scss
-  ...
-```
-
-The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
-
-```tsx
-import { Component, Host, h } from "@stencil/core";
-
-@Component({
-  tag: "calcite-test",
-  shadow: true,
-  assetsDirs: ["assets"],
-})
-export class MyComponent {
-  /* ... */
-}
-```
-
-Afterwards, any asset path references must use the `getAssetPath` utility, using the `assets` directory as the root.
-
-```ts
-const assetPath = getAssetPath(`./assets/my-component/asset.json`);
-```
-
-This is required in order to have a unified assets folder in the distributable.
-
-## Bundling and Loading
-
-Stencil has the capability to build and distribute a large variety of outputs based on our needs. You can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
-
-As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
-
-**Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
-
-Each root component should have a corresponding bundle entry in `stencil.config.ts`.
-
 ## Unique IDs for Components
 
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:
@@ -364,32 +313,6 @@ export class Example {
 
 This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id` this will respect the users `id`.
 
-## Prerendering and SSR
-
-Stencil provide the capability to render web components on the server and seamlessly hydrate them on the client. This is handled by the `dist-hydrate-script` output target in `stencil.config.ts`.
-
-This generates a `hydrate` directory which exposes `renderToString()` (for the server) and `hydrateDocument()` for the client.
-
-Since many of the same lifecycle methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
-
-```ts
-import { isBrowser } from "../utils/browser";
-
-if (isBrowser()) {
-  // client side
-} else {
-  // server side
-}
-```
-
-Checking if the necessary APIs are present is also acceptable:
-
-```ts
-const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").assignedElements() : [];
-```
-
-To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
-
 ## Cleaning up resources
 
 Ensure all components clean up their resources.
@@ -416,10 +339,6 @@ Avoid setting z-index ad hoc and instead use a contextual z-index layer from the
 ## Utils
 
 There are utilities for common workflows in [`src/utils`](../src/utils).
-
-### Global attributes
-
-Watching global attributes on components is now possible with Stencil v4. Please refer to the [documentation page](https://stenciljs.com/docs/reactive-data#watching-native-html-attributes) for more information.
 
 ### BigDecimal
 

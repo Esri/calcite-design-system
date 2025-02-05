@@ -24,8 +24,8 @@ describe("calcite-text-area", () => {
   describe("defaults", () => {
     defaults("calcite-text-area", [
       {
-        propertyName: "wrap",
-        defaultValue: "soft",
+        propertyName: "limitText",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
@@ -42,6 +42,10 @@ describe("calcite-text-area", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "wrap",
+        defaultValue: "soft",
       },
     ]);
   });
@@ -63,6 +67,10 @@ describe("calcite-text-area", () => {
       {
         propertyName: "columns",
         value: "10",
+      },
+      {
+        propertyName: "limitText",
+        value: true,
       },
       {
         propertyName: "rows",
@@ -147,21 +155,27 @@ describe("calcite-text-area", () => {
     expect(inputEventSpy).not.toHaveReceivedEvent();
   });
 
-  it("should be able to enter characters beyond max-length", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
+  describe("max-length", () => {
+    const inputText = "rocky mountains";
+    async function testMaxLength(pageContent: string, inputText: string, expectedValue: string): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      const element = await page.find("calcite-text-area");
 
-    const element = await page.find("calcite-text-area");
-    element.setAttribute("max-length", "5");
-    await page.waitForChanges();
+      await element.callMethod("setFocus");
+      await page.keyboard.type(inputText);
+      await page.waitForChanges();
 
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(expectedValue);
+    }
 
-    await page.keyboard.type("rocky mountains");
-    await page.waitForChanges();
+    it("should be able to enter characters beyond max-length by default", async () => {
+      await testMaxLength("<calcite-text-area max-length='5'></calcite-text-area>", inputText, inputText);
+    });
 
-    expect(await element.getProperty("value")).toBe("rocky mountains");
+    it("can follow native max-length behavior and restrict input", async () => {
+      await testMaxLength("<calcite-text-area limit-text max-length='5'></calcite-text-area>", inputText, "rocky");
+    });
   });
 
   it("should have footer--slotted class when slotted at both start and end", async () => {

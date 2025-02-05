@@ -1,25 +1,31 @@
 // @ts-strict-ignore
 import { KeyInput } from "puppeteer";
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
   t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
+import {
+  assertCaretPosition,
+  findAll,
+  getElementRect,
+  getElementXY,
+  isElementFocused,
+  selectText,
+} from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
-import { assertCaretPosition } from "../../tests/utils";
 import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
@@ -1765,7 +1771,7 @@ describe("calcite-input", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input read-only></calcite-input>`);
 
-    const inputs = await page.findAll("calcite-input >>> input");
+    const inputs = await findAll(page, "calcite-input >>> input");
 
     for (const input of inputs) {
       expect(await input.getProperty("readOnly")).toBe(true);

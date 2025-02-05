@@ -6,10 +6,10 @@
  * @prop --calcite-block-border-color: Specifies the component's border color.
  * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
- * @prop --calcite-block-header-text-color: Specifies the component's `heading` text color.
+ * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
+ * @prop --calcite-block-heading-text-color-press: When the component is `open`, specifies the `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the component's text color.
- * @prop --calcite-block-text-color-hover: Specifies the component's text color when hovered.
  */
 
 :host {
@@ -24,7 +24,6 @@
 
 @include disabled();
 
-@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 .header {
@@ -119,7 +118,7 @@ calcite-handle {
     ease-in-out
     p-0;
 
-  color: var(--calcite-block-header-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
 }
 
 .description {
@@ -173,7 +172,7 @@ calcite-handle {
 }
 
 .toggle:hover .toggle-icon {
-  color: var(--calcite-block-text-color-hover, var(--calcite-color-text-1));
+  color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
 }
 
 .container {
@@ -209,7 +208,7 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    color: var(--calcite-block-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
   }
 }
 

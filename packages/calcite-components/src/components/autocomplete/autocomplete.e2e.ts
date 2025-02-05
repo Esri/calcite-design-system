@@ -1,25 +1,25 @@
-import { describe, it, beforeEach, expect } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import {
   accessible,
   defaults,
   disabled,
-  hidden,
   floatingUIOwner,
+  focusable,
   formAssociated,
+  hidden,
   labelable,
   openClose,
   reflects,
   renders,
+  slots,
   t9n,
   themed,
-  focusable,
-  slots,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
-import { isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
@@ -34,6 +34,16 @@ const simpleHTML = html`
     <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
   </calcite-autocomplete>
 `;
+
+export const simpleFormHTML = html`<form>
+  <calcite-autocomplete name="test" label="Item list" id="myAutocomplete">
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  </calcite-autocomplete>
+</form>`;
 
 const simpleHTMLDisabledItems = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
@@ -413,6 +423,8 @@ describe("calcite-autocomplete", () => {
 
   describe("accessible", () => {
     accessible(simpleHTML);
+    accessible(simpleFormHTML);
+    accessible(simpleGroupHTML);
     accessible(simpleGroupHTML);
   });
 
@@ -517,7 +529,7 @@ describe("calcite-autocomplete", () => {
 
       expect(await autocomplete.getProperty("open")).toBe(true);
 
-      const items = await page.findAll("calcite-autocomplete-item");
+      const items = await findAll(page, "calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(key === "ArrowUp" ? items.length - 2 === i : i === 0);
@@ -534,7 +546,7 @@ describe("calcite-autocomplete", () => {
 
       expect(await autocomplete.getProperty("open")).toBe(true);
 
-      const items = await page.findAll("calcite-autocomplete-item");
+      const items = await findAll(page, "calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(false);
@@ -572,7 +584,7 @@ describe("calcite-autocomplete", () => {
 
       expect(await autocomplete.getProperty("open")).toBe(true);
 
-      const items = await page.findAll("calcite-autocomplete-item");
+      const items = await findAll(page, "calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(false);
@@ -610,7 +622,7 @@ describe("calcite-autocomplete", () => {
 
       expect(await autocomplete.getProperty("open")).toBe(true);
 
-      const items = await page.findAll("calcite-autocomplete-item");
+      const items = await findAll(page, "calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(false);
@@ -641,7 +653,7 @@ describe("calcite-autocomplete", () => {
 
       expect(await autocomplete.getProperty("open")).toBe(true);
 
-      const items = await page.findAll("calcite-autocomplete-item");
+      const items = await findAll(page, "calcite-autocomplete-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].getProperty("active")).toBe(false);
@@ -767,8 +779,8 @@ describe("calcite-autocomplete", () => {
     const page = await newE2EPage();
     await page.setContent(simpleGroupHTML);
 
-    const items = await page.findAll("calcite-autocomplete-item");
-    const groups = await page.findAll("calcite-autocomplete-item-group");
+    const items = await findAll(page, "calcite-autocomplete-item");
+    const groups = await findAll(page, "calcite-autocomplete-item-group");
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("scale")).toBe("m");

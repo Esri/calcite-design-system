@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.12...@esri/calcite-ui-icons@4.0.0-next.13) (2025-02-04)
+
+### Features
+
+- add dual image area, dual image direction, and dual image location ([#11445](https://github.com/Esri/calcite-design-system/issues/11445)) ([0da01b8](https://github.com/Esri/calcite-design-system/commit/0da01b82c34238abd532b20819fb3963ad485707))
+
+## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.11...@esri/calcite-ui-icons@4.0.0-next.12) (2025-01-29)
+
+### Features
+
+- add hammer coin and hammer lock ([#11396](https://github.com/Esri/calcite-design-system/issues/11396)) ([9326236](https://github.com/Esri/calcite-design-system/commit/93262364b1c460d6f905708027986fd4c9ca0082))
+
+## [4.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.10...@esri/calcite-ui-icons@4.0.0-next.11) (2025-01-25)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.9...@esri/calcite-ui-icons@4.0.0-next.10) (2025-01-22)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.8...@esri/calcite-ui-icons@4.0.0-next.9) (2025-01-17)
+
+### Features
+
+- add crosshair ([#11331](https://github.com/Esri/calcite-design-system/issues/11331)) ([f452298](https://github.com/Esri/calcite-design-system/commit/f45229897bda674fff1c2f76116ed894f36a5267))
+
 ## [4.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.7...@esri/calcite-ui-icons@4.0.0-next.8) (2025-01-14)
 
 ### Features
