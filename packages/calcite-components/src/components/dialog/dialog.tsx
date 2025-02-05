@@ -375,11 +375,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   onOpen(): void {
     this.calciteDialogOpen.emit();
-
-    if (!this.open) {
-      return;
-    }
-
     this.focusTrap.activate();
   }
 
