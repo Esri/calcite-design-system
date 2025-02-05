@@ -323,9 +323,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
       this.updateOverflowHiddenClass();
     }
-    if ((changes.has("modal") || changes.has("focusTrapDisabled")) && this.hasUpdated) {
-      this.handleFocusTrapDisabled();
-    }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -364,14 +361,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   // #region Private Methods
 
-  private handleFocusTrapDisabled(): void {
-    if (!this.open) {
-      return;
-    }
-
-    this.focusTrap.activate();
-  }
-
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =
@@ -386,7 +375,12 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   onOpen(): void {
     this.calciteDialogOpen.emit();
-    this.handleFocusTrapDisabled();
+
+    if (!this.open) {
+      return;
+    }
+
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
