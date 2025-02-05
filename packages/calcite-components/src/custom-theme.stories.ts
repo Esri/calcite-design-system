@@ -23,7 +23,7 @@ import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker } from "./custom-theme/date-picker";
-import { dropdown } from "./custom-theme/dropdown";
+import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -165,6 +165,9 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...DropdownTokens,
+  ...DropdownItemTokens,
+  ...DropdownGroupTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
