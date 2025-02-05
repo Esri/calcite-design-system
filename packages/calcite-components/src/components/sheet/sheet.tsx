@@ -44,7 +44,7 @@ declare global {
     "calcite-sheet": Sheet;
   }
 }
-
+/** @slot - A slot for adding custom content. */
 export class Sheet
   extends LitElement
   implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
