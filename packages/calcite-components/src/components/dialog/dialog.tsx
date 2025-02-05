@@ -161,7 +161,14 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** Allows special focus-trap configuration. */
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
   @property() focusTrapOptions;
 
   /** The component header text. */
