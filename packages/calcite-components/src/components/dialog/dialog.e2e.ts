@@ -1259,6 +1259,7 @@ describe("calcite-dialog", () => {
 
     it("cannot tab out of non-modal dialog when focusTrapDisabled=false", async () => {
       const dialog = await page.find("calcite-dialog");
+      const action = await page.find("calcite-dialog >>> calcite-action");
       const insideEl = await page.find("#insideEl");
 
       dialog.setProperty("focusTrapDisabled", false);
@@ -1267,6 +1268,11 @@ describe("calcite-dialog", () => {
 
       expect(await dialog.isVisible()).toBe(true);
 
+      await action.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
