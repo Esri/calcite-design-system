@@ -28,7 +28,7 @@ export interface UseFocusTrap {
    *
    * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
    */
-  updateContainerElements: () => void;
+  updateContainerElements: (extraContainers?: ExtendedFocusTrapOptions["extraContainers"]) => void;
 }
 
 interface UseFocusTrapOptions<T extends LitElement = LitElement> {
@@ -61,14 +61,20 @@ export type ExtendedFocusTrapOptions =
     extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
   };
 
-function getEffectiveContainerElements(targetEl: HTMLElement, component: FocusTrapComponent) {
-  if (!component.focusTrapOptions?.extraContainers) {
+function getEffectiveContainerElements(
+  targetEl: HTMLElement,
+  { focusTrapOptions }: FocusTrapComponent,
+  extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+) {
+  if (!focusTrapOptions?.extraContainers && !extraContainers) {
     return targetEl;
   }
 
-  const { extraContainers } = component.focusTrapOptions;
+  return [targetEl, ...toContainerArray(focusTrapOptions?.extraContainers), ...toContainerArray(extraContainers)];
+}
 
-  return [targetEl, ...(Array.isArray(extraContainers) ? extraContainers : [extraContainers])];
+function toContainerArray(containers: ExtendedFocusTrapOptions["extraContainers"] = []) {
+  return Array.isArray(containers) ? containers : [containers];
 }
 
 /**
@@ -124,9 +130,9 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
 
         focusTrapEl = el;
       },
-      updateContainerElements: () => {
+      updateContainerElements: (extraContainers?: ExtendedFocusTrapOptions["extraContainers"]) => {
         const targetEl = focusTrapEl || component.el;
-        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component));
+        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component, extraContainers));
       },
     };
   });
