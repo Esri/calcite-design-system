@@ -43,6 +43,34 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: FocusTrapOptions;
 }
 
+interface FocusTrapComponent extends LitElement {
+  /**
+   * Additional options to configure the focus trap.
+   */
+  focusTrapOptions?: ExtendedFocusTrapOptions;
+}
+
+export type ExtendedFocusTrapOptions =
+  /**
+   * @see https://github.com/focus-trap/focus-trap#createoptions
+   */
+  Pick<FocusTrapOptions, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
+    /**
+     * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
+     */
+    extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
+  };
+
+function getEffectiveContainerElements(targetEl: HTMLElement, component: FocusTrapComponent) {
+  if (!component.focusTrapOptions?.extraContainers) {
+    return targetEl;
+  }
+
+  const { extraContainers } = component.focusTrapOptions;
+
+  return [targetEl, ...(Array.isArray(extraContainers) ? extraContainers : [extraContainers])];
+}
+
 /**
  * A controller for managing focus traps.
  *
@@ -50,19 +78,20 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
  *
  * @param options
  */
-export const useFocusTrap = <T extends LitElement>(
+export const useFocusTrap = <T extends FocusTrapComponent>(
   options: UseFocusTrapOptions<T>,
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
-    const { focusTrapOptions } = options;
+    const internalFocusTrapOptions = options.focusTrapOptions;
 
     controller.onConnected(() => {
       if (component[options.triggerProp] && focusTrap) {
         focusTrap.activate();
       }
     });
+
     controller.onDisconnected(() => focusTrap?.deactivate());
 
     return {
@@ -74,7 +103,15 @@ export const useFocusTrap = <T extends LitElement>(
         }
 
         if (!focusTrap) {
-          focusTrap = createFocusTrap(targetEl, createFocusTrapOptions(targetEl, focusTrapOptions));
+          const effectiveFocusTrapOptions = {
+            ...internalFocusTrapOptions,
+            ...component.focusTrapOptions,
+          };
+
+          focusTrap = createFocusTrap(
+            getEffectiveContainerElements(targetEl, component),
+            createFocusTrapOptions(targetEl, effectiveFocusTrapOptions),
+          );
         }
 
         focusTrap.activate(options);
@@ -89,7 +126,7 @@ export const useFocusTrap = <T extends LitElement>(
       },
       updateContainerElements: () => {
         const targetEl = focusTrapEl || component.el;
-        return focusTrap?.updateContainerElements(targetEl);
+        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component));
       },
     };
   });
