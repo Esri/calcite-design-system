@@ -192,6 +192,9 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
+
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
@@ -275,6 +278,11 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     this.focusTrap.updateContainerElements();
   }
 
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
+  }
+
   // #endregion
 
   // #region Events
@@ -352,6 +360,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   // #endregion
 
   // #region Private Methods
+
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =

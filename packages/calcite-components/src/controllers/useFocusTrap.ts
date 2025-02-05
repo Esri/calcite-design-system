@@ -43,6 +43,18 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: FocusTrapOptions;
 }
 
+interface FocusTrapComponent extends LitElement {
+  /**
+   * When `true` prevents focus trapping.
+   */
+  focusTrapDisabled?: boolean;
+
+  /**
+   * When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping.
+   */
+  focusTrapDisabledOverride?: () => boolean;
+}
+
 /**
  * A controller for managing focus traps.
  *
@@ -50,7 +62,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
  *
  * @param options
  */
-export const useFocusTrap = <T extends LitElement>(
+export const useFocusTrap = <T extends FocusTrapComponent>(
   options: UseFocusTrapOptions<T>,
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
@@ -77,7 +89,13 @@ export const useFocusTrap = <T extends LitElement>(
           focusTrap = createFocusTrap(targetEl, createFocusTrapOptions(targetEl, focusTrapOptions));
         }
 
-        focusTrap.activate(options);
+        if (
+          typeof component.focusTrapDisabledOverride === "function"
+            ? !component.focusTrapDisabledOverride()
+            : !component.focusTrapDisabled
+        ) {
+          focusTrap.activate(options);
+        }
       },
       deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => focusTrap?.deactivate(options),
       overrideFocusTrapEl: (el: HTMLElement) => {
