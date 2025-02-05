@@ -131,6 +131,9 @@ export class Popover
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
+  /** Allows configuring focus trap. */
+  @property() focusTrapOptions;
+
   /** The component header text. */
   @property() heading: string;
 
