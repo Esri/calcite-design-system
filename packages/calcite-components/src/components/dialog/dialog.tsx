@@ -70,7 +70,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  focusTrap = useFocusTrap<Dialog>({
+  focusTrap = useFocusTrap<this>({
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
@@ -160,6 +160,9 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
+
+  /** Allows special focus-trap configuration. */
+  @property() focusTrapOptions;
 
   /** The component header text. */
   @property() heading: string;

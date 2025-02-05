@@ -9,14 +9,14 @@ export interface UseFocusTrap {
    *
    * @see https://github.com/focus-trap/focus-trap#trapactivate
    */
-  activate: (options?: Parameters<FocusTrap["activate"]>[0]) => void;
+  activate: () => void;
 
   /**
    * Deactivates the focus trap.
    *
    * @see https://github.com/focus-trap/focus-trap#trapdeactivate
    */
-  deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => void;
+  deactivate: () => void;
 
   /**
    * By default, the host element will be used as the focus-trap element, but if the focus-trap element needs to be a different element, use this method prior to activating to set the focus-trap element.
@@ -43,6 +43,34 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: FocusTrapOptions;
 }
 
+interface FocusTrapComponent extends LitElement {
+  /**
+   * Additional options to configure the focus trap.
+   */
+  focusTrapOptions?: ExtendedFocusTrapOptions;
+}
+
+export type ExtendedFocusTrapOptions =
+  /**
+   * @see https://github.com/focus-trap/focus-trap#createoptions
+   */
+  Pick<FocusTrapOptions, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
+    /**
+     * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
+     */
+    extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
+  };
+
+function getEffectiveContainerElements(targetEl: HTMLElement, component: FocusTrapComponent) {
+  if (!component.focusTrapOptions?.extraContainers) {
+    return targetEl;
+  }
+
+  const { extraContainers } = component.focusTrapOptions;
+
+  return [targetEl, ...(Array.isArray(extraContainers) ? extraContainers : [extraContainers])];
+}
+
 /**
  * A controller for managing focus traps.
  *
@@ -50,23 +78,24 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
  *
  * @param options
  */
-export const useFocusTrap = <T extends LitElement>(
+export const useFocusTrap = <T extends FocusTrapComponent>(
   options: UseFocusTrapOptions<T>,
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
-    const { focusTrapOptions } = options;
+    const internalFocusTrapOptions = options.focusTrapOptions;
 
     controller.onConnected(() => {
       if (component[options.triggerProp] && focusTrap) {
         focusTrap.activate();
       }
     });
+
     controller.onDisconnected(() => focusTrap?.deactivate());
 
     return {
-      activate: (options?: Parameters<FocusTrap["activate"]>[0]) => {
+      activate: () => {
         const targetEl = focusTrapEl || component.el;
 
         if (!targetEl.isConnected) {
@@ -74,12 +103,20 @@ export const useFocusTrap = <T extends LitElement>(
         }
 
         if (!focusTrap) {
-          focusTrap = createFocusTrap(targetEl, createFocusTrapOptions(targetEl, focusTrapOptions));
+          const effectiveFocusTrapOptions = {
+            ...internalFocusTrapOptions,
+            ...component.focusTrapOptions,
+          };
+
+          focusTrap = createFocusTrap(
+            getEffectiveContainerElements(targetEl, component),
+            createFocusTrapOptions(targetEl, effectiveFocusTrapOptions),
+          );
         }
 
-        focusTrap.activate(options);
+        focusTrap.activate();
       },
-      deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => focusTrap?.deactivate(options),
+      deactivate: () => focusTrap?.deactivate(),
       overrideFocusTrapEl: (el: HTMLElement) => {
         if (focusTrap) {
           throw new Error("Focus trap already created");
@@ -89,7 +126,7 @@ export const useFocusTrap = <T extends LitElement>(
       },
       updateContainerElements: () => {
         const targetEl = focusTrapEl || component.el;
-        return focusTrap?.updateContainerElements(targetEl);
+        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component));
       },
     };
   });
