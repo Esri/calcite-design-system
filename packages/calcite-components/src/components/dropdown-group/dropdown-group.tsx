@@ -3,8 +3,9 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { CSS } from "../dropdown-item/resources";
+import { CSS as ItemCSS } from "../dropdown-item/resources";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
+import { CSS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./dropdown-group.scss";
 
@@ -135,13 +136,13 @@ export class DropdownGroup extends LitElement {
 
   override render(): JsxNode {
     const groupTitle = this.groupTitle ? (
-      <span ariaHidden="true" class="dropdown-title">
+      <span ariaHidden="true" class={CSS.title}>
         {this.groupTitle}
       </span>
     ) : null;
 
     const dropdownSeparator =
-      this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
+      this.groupPosition > 0 ? <div class={CSS.separator} role="separator" /> : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.groupTitle;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -150,7 +151,7 @@ export class DropdownGroup extends LitElement {
     return (
       <div
         class={{
-          [CSS.container]: true,
+          [ItemCSS.container]: true,
         }}
       >
         {dropdownSeparator}

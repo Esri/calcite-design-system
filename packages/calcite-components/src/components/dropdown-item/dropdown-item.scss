@@ -5,10 +5,10 @@
  *
  * @prop --calcite-dropdown-item-background-color-hover: Specifies the background color of the dropdown item when hovered.
  * @prop --calcite-dropdown-item-background-color-press: Specifies the background color of the dropdown item when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: Specifies the color of the dropdown item icon when hovered.
- * @prop --calcite-dropdown-item-icon-color-press: Specifies the color of the dropdown item icon when selected or active.
- * @prop --calcite-dropdown-item-text-color: Specifies the color of the dropdown item text.
+ * @prop --calcite-dropdown-item-icon-color-hover: Specifies the color of the dropdown item icon when hovered. 
+ * @prop --calcite-dropdown-item-icon-color-press: Specifies the color of the dropdown item icons when selected or active.
  * @prop --calcite-dropdown-item-text-color-press: Specifies the color of the dropdown item text when selected or active.
+ * @prop --calcite-dropdown-item-text-color: Specifies the color of the dropdown item text.
 */
 
 @mixin item-styling {
@@ -132,24 +132,18 @@
 :host([selected]) .dropdown-link {
   @apply font-medium;
   color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
-  & calcite-icon {
-    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-icon-color, var(--calcite-color-brand)));
+
+  calcite-icon {
+    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(
-    --calcite-dropdown-item-icon-color-hover,
-    var(--calcite-color-selection-hover, var(--calcite-icon-color, var(--calcite-color-border-1)))
-  );
+  color: var(--calcite-dropdown-item-icon-color-hover, var(--calcite-color-border-1));
   @apply opacity-100;
 }
 
 :host([selected]) .dropdown-item-icon {
-  color: var(
-    --calcite-dropdown-item-icon-color-press,
-    var(--calcite-color-selection-press, var(--calcite-icon-color, var(--calcite-color-brand)))
-  );
   @apply opacity-100;
 }
 
