@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
-import { LuminaJsx } from "@arcgis/lumina";
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "./commonTests/interfaces";
 
@@ -520,4 +520,116 @@ export async function assertCaretPosition({
  */
 export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
   return element.handle;
+}
+
+interface FindAllOptions {
+  /**
+   * Set to true to allow an empty result set.
+   */
+  allowEmpty: boolean;
+}
+
+/**
+ * Finds all elements matching a selector.
+ *
+ * Unlike `page.findAll` or `element.findAll`, this util throws an error if no elements are found unless `allowEmpty` is set to true.
+ *
+ * @param pageOrElement
+ * @param selector
+ * @param options
+ */
+export async function findAll(
+  pageOrElement: E2EPage | E2EElement,
+  selector: string,
+  options?: FindAllOptions,
+): Promise<E2EElement[]> {
+  // eslint-disable-next-line no-restricted-properties -- need to call the wrapped `findAll` method
+  const matches = await pageOrElement.findAll(selector);
+  const effectiveOptions = { allowEmpty: false, ...options };
+
+  if (!effectiveOptions.allowEmpty && matches.length === 0) {
+    throw new Error(`No elements found for selector: ${selector}`);
+  }
+
+  return matches;
+}
+
+/**
+ * This util helps assert on a component's state at the time of an event firing.
+ *
+ * This is needed due to how Puppeteer works asynchronously, so the state at event emit-time might not be the same as the state at the time of the assertion.
+ *
+ * Note: values returned can only be serializable values.
+ *
+ * @example
+ *
+ * it("props are updated on change emit", async () => {
+ *   const page = await newE2EPage();
+ *   await page.setContent(html`
+ *     <calcite-combobox>
+ *       <!-- ... -->
+ *     </calcite-combobox>
+ *   `);
+ *   const propValueAsserter = await createEventTimePropValuesAsserter<Combobox>(
+ *     page,
+ *     {
+ *       selector: "calcite-combobox",
+ *       eventName: "calciteComboboxChange",
+ *       props: ["value", "selectedItems"],
+ *     },
+ *     async (propValues) => {
+ *       expect(propValues.value).toBe("K");
+ *       expect(propValues.selectedItems).toHaveLength(1);
+ *     },
+ *   );
+ *   const combobox = await page.find("calcite-combobox");
+ *   await combobox.callMethod("setFocus");
+ *   await combobox.press("K");
+ *   await combobox.press("Enter");
+ *
+ *   await expect(propValueAsserter()).resolves.toBe(undefined);
+ * });
+ *
+ * @param page
+ * @param propValuesTarget
+ * @param propValuesTarget.selector
+ * @param propValuesTarget.eventName
+ * @param propValuesTarget.props
+ * @param onEvent
+ */
+export async function createEventTimePropValuesAsserter<
+  Component extends LitElement,
+  El extends ToElement<Component> = ToElement<Component>,
+  Keys extends Extract<keyof El, string> = Extract<keyof El, string>,
+  Events extends string = Keys extends `calcite${string}` ? Keys : never,
+  PropValues extends Record<Keys, El[Keys]> = Record<Keys, El[Keys]>,
+>(
+  page: E2EPage,
+  propValuesTarget: {
+    selector: ComponentTag;
+    eventName: Events;
+    props: Keys[];
+  },
+  onEvent: (propValues: PropValues) => Promise<void>,
+): Promise<() => Promise<void>> {
+  // we set this up early to we capture state as soon as the event fires
+  const callbackAfterEvent = page.$eval(
+    propValuesTarget.selector,
+    (element: El, eventName, props) => {
+      return new Promise<PropValues>((resolve) => {
+        element.addEventListener(
+          eventName,
+          () => {
+            const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
+            resolve(propValues as PropValues);
+          },
+          { once: true },
+        );
+      });
+    },
+    propValuesTarget.eventName,
+    propValuesTarget.props,
+  );
+
+  return () => callbackAfterEvent.then(onEvent);
 }
