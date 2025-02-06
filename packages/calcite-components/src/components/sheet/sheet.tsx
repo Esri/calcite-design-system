@@ -26,7 +26,7 @@ import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
-import { useFocusTrap } from "../../controllers/useFocusTrap";
+import { ExtendedFocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -224,10 +224,16 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
     focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    this.focusTrap.updateContainerElements();
+  async updateFocusTrapElements(
+    extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.updateContainerElements(extraContainers);
   }
 
   // #endregion

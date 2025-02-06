@@ -280,7 +280,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   }
 
   /**
-   * Updates the element(s) that are used within the focus-trap of the component.
+   * Updates the element(s) that are included in the focus-trap of the component.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
