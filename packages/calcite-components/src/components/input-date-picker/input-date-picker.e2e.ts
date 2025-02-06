@@ -524,7 +524,7 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await calendar.isVisible()).toBe(true);
 
-      await selectDayInMonthByIndex(page, 30);
+      await selectDayInMonthByIndex(page, 28);
       expect(await calendar.isVisible()).toBe(false);
     });
 
