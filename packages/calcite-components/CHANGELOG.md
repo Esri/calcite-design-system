@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.132](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.131...@esri/calcite-components@3.0.0-next.132) (2025-02-06)
+
+### Features
+
+- **dialog, modal, popover, sheet:** add options prop to customize focus-trap ([#11453](https://github.com/Esri/calcite-design-system/issues/11453)) ([454f8e8](https://github.com/Esri/calcite-design-system/commit/454f8e8723986ba15785190fd3f3100b7c05eee3)), closes [#11345](https://github.com/Esri/calcite-design-system/issues/11345)
+
 ## [3.0.0-next.131](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.130...@esri/calcite-components@3.0.0-next.131) (2025-02-06)
 
 ### Bug Fixes
