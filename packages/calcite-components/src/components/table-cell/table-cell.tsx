@@ -86,6 +86,9 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
+  @property() parentRowIsLast: boolean;
+
+  /** @private */
   @property() parentRowIsSelected: boolean;
 
   /** @private */
@@ -185,6 +188,7 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS.lastRow]: this.parentRowIsLast,
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.staticCell]: staticCell,

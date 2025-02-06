@@ -6,5 +6,6 @@ export const CSS = {
   selectedCell: "selected-cell",
   assistiveText: "assistive-text",
   lastCell: "last-cell",
+  lastRow: "last-row",
   staticCell: "static-cell",
 };

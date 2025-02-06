@@ -319,6 +319,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
+          (cell as TableCell["el"]).parentRowIsLast = this.lastVisibleRow;
         }
       });
     }
