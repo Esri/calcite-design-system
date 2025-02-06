@@ -38,6 +38,7 @@ declare global {
   }
 }
 
+/** @slot - A slot for adding custom content. */
 export class Sheet extends LitElement implements OpenCloseComponent, LoadableComponent {
   // #region Static Members
 

@@ -44,6 +44,16 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
 }
 
 interface FocusTrapComponent extends LitElement {
+  /*
+   * When `true` prevents focus trapping.
+   */
+  focusTrapDisabled?: boolean;
+
+  /**
+   * When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping.
+   */
+  focusTrapDisabledOverride?: () => boolean;
+
   /**
    * Additional options to configure the focus trap.
    */
@@ -120,7 +130,13 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
           );
         }
 
-        focusTrap.activate(options);
+        if (
+          typeof component.focusTrapDisabledOverride === "function"
+            ? !component.focusTrapDisabledOverride()
+            : !component.focusTrapDisabled
+        ) {
+          focusTrap.activate(options);
+        }
       },
       deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => focusTrap?.deactivate(options),
       overrideFocusTrapEl: (el: HTMLElement) => {
