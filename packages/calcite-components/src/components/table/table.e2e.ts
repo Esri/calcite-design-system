@@ -2103,13 +2103,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.selectionCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2198,13 +2198,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.numberCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.numberCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2299,19 +2299,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.selectionCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.numberCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2406,13 +2406,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.selectionCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2431,7 +2431,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.numberCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.down("ControlLeft");
     await page.keyboard.press("Home");
@@ -2534,19 +2534,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.numberCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.numberCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
@@ -2561,7 +2561,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.numberCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.down("ControlRight");
     await page.keyboard.press("Home");
@@ -2621,19 +2621,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.selectionCell, "2": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.numberCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.down("ControlRight");
     await page.keyboard.press("End");
@@ -2648,7 +2648,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": CELL_CSS.numberCell, "2": CELL_CSS.lastRow });
   });
 
   it("navigates correctly when number and selection column present numbered and interaction-mode static - only focusing selection cells", async () => {
@@ -2731,12 +2731,12 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.selectionCell, "1": CELL_CSS.lastRow });
   });
 });

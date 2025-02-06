@@ -70,7 +70,7 @@ td.last-cell {
 /* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
 /* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
 @-moz-document url-prefix() {
-  .number-cell:not(.last-row) {
+  .number-cell:not(.last-row):not(.footer-cell) {
     box-shadow: inset 0 -1px 0 0 var(--calcite-internal-table-row-border-color);
   }
 }
