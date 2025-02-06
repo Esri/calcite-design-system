@@ -2,9 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -260,5 +261,29 @@ describe("calcite-split-button", () => {
     await page.keyboard.press("Enter");
     await dropdownCloseEvent;
     expect(await positionContainer.isVisible()).toBe(false);
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-split-button-background-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+      },
+      "--calcite-split-button-background-color-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+        state: "hover",
+      },
+      "--calcite-split-button-background-color-press": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+        state: { press: "calcite-split-button >>> calcite-button" },
+      },
+      "--calcite-split-button-divider-color": {
+        shadowSelector: ".divider",
+        targetProp: "backgroundColor",
+      },
+    };
+    themed(`calcite-split-button`, tokens);
   });
 });
