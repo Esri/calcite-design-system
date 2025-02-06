@@ -34,7 +34,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.0-next.121",
+    "@arcgis/lumina-compiler": "^4.32.0-next.122",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -107,7 +107,7 @@
     "react-dom": "18.3.1",
     "rimraf": "6.0.1",
     "rollup": "4.34.0",
-    "semver": "7.6.3",
+    "semver": "7.7.0",
     "shell-quote": "1.8.2",
     "storybook": "8.4.7",
     "storybook-addon-rtl": "1.0.1",
