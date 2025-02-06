@@ -467,7 +467,7 @@ export class TextArea
           }}
           cols={this.columns}
           disabled={this.disabled}
-          maxLength={this.limitText ? this.maxLength : -1}
+          maxLength={this.limitText ? this.maxLength : undefined}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
