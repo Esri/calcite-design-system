@@ -164,6 +164,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #region Events
 
+  /** Fires when a user changes the component's time */
   calciteTimePickerChange = createEvent({ cancelable: false });
 
   // #endregion
