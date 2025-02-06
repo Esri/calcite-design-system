@@ -15,7 +15,7 @@ import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { block, blockTokens } from "./custom-theme/block";
-import { buttons } from "./custom-theme/button";
+import { buttons, buttonTokens } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -45,6 +45,7 @@ import { select, selectTokens } from "./custom-theme/select";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
+import { splitButton, splitButtonTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
@@ -141,7 +142,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${comboboxItem}
       </div>
       <div class="demo-column">
-        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
+        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${splitButton}
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
@@ -162,6 +163,7 @@ const componentTokens = {
   ...avatarTokens,
   ...blockSectionTokens,
   ...blockTokens,
+  ...buttonTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
@@ -185,6 +187,7 @@ const componentTokens = {
   ...ratingTokens,
   ...selectTokens,
   ...sliderTokens,
+  ...splitButtonTokens,
   ...switchTokens,
   ...tabsTokens,
   ...textAreaTokens,
