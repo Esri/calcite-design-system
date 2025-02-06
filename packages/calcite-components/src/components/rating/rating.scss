@@ -5,7 +5,8 @@
  *
  * @prop --calcite-rating-spacing-unit: [Deprecated] Use `--calcite-rating-spacing`. Specifies the amount of left and right margin spacing between each item.
  * @prop --calcite-rating-spacing: Specifies the amount of left and right margin spacing between each item.
- * @prop --calcite-rating-color-hover: Specifies the component's item color when hovered or selected.
+ * @prop --calcite-rating-color-hover: Specifies the component's item color when hovered.
+ * @prop --calcite-rating-color-press: Specifies the component's item color when active.
  * @prop --calcite-rating-color: Specifies the component's item color.
  * @prop --calcite-rating-average-color: Specifies the component's item color when average is set.
  * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
@@ -58,6 +59,12 @@
   flex-direction: column;
   cursor: pointer;
   color: var(--calcite-rating-color, theme("borderColor.color.input"));
+  &:hover {
+    color: var(--calcite-rating-color-hover, var(--calcite-color-brand-hover));
+  }
+  &:active {
+    color: var(--calcite-rating-color-press, var(--calcite-color-brand-press));
+  }
   &:focus {
     @apply focus-outset;
   }
@@ -70,7 +77,7 @@
 
 .hovered,
 .selected {
-  color: var(--calcite-rating-color-hover, theme("colors.brand"));
+  color: var(--calcite-rating-color, theme("colors.brand"));
 }
 
 .fraction {
