@@ -181,6 +181,8 @@ export class InputTimePicker
 
   private calciteTimePickerEl: TimePicker["el"];
 
+  private containerEl: HTMLDivElement;
+
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
@@ -1297,6 +1299,10 @@ export class InputTimePicker
     this.openHandler();
   }
 
+  private setContainerEl(el: HTMLDivElement): void {
+    this.containerEl = el;
+  }
+
   private setFractionalSecondEl(el: HTMLSpanElement) {
     this.fractionalSecondEl = el;
   }
@@ -1565,6 +1571,10 @@ export class InputTimePicker
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
+  private toggleIconClickHandler() {
+    this.open = !this.open;
+  }
+
   private toggleSecond(): void {
     this.showSecond = this.step < 60;
     this.showFractionalSecond = decimalPlaces(this.step) > 0;
@@ -1590,6 +1600,7 @@ export class InputTimePicker
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
+          ref={this.setContainerEl}
         >
           <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
@@ -1716,37 +1727,37 @@ export class InputTimePicker
               </span>
             )}
           </div>
-          <calcite-popover
-            autoClose={true}
-            focusTrapDisabled={this.focusTrapDisabled}
-            initialFocusTrapFocus={false}
-            label={messages.chooseTime}
-            lang={this.messages._lang}
-            oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
-            oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
-            oncalcitePopoverClose={this.popoverCloseHandler}
-            oncalcitePopoverOpen={this.popoverOpenHandler}
-            overlayPositioning={this.overlayPositioning}
-            placement={this.placement}
-            ref={this.setCalcitePopoverEl}
-            // TODO: set reference element to inputContainer
-            // referenceElement={this.calciteInputEl}
-            triggerDisabled={true}
-          >
-            <calcite-time-picker
-              hourFormat={this.effectiveHourFormat}
-              lang={this.messages._lang}
-              messageOverrides={this.messageOverrides}
-              numberingSystem={this.numberingSystem}
-              oncalciteTimePickerChange={this.timePickerChangeHandler}
-              ref={this.setCalciteTimePickerEl}
-              scale={this.scale}
-              step={this.step}
-              tabIndex={this.open ? undefined : -1}
-              value={this.value}
-            />
-          </calcite-popover>
+          {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
+        <calcite-popover
+          autoClose={true}
+          focusTrapDisabled={this.focusTrapDisabled}
+          initialFocusTrapFocus={false}
+          label={messages.chooseTime}
+          lang={this.messages._lang}
+          oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+          oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
+          oncalcitePopoverClose={this.popoverCloseHandler}
+          oncalcitePopoverOpen={this.popoverOpenHandler}
+          overlayPositioning={this.overlayPositioning}
+          placement={this.placement}
+          ref={this.setCalcitePopoverEl}
+          referenceElement={this.containerEl}
+          triggerDisabled={true}
+        >
+          <calcite-time-picker
+            hourFormat={this.effectiveHourFormat}
+            lang={this.messages._lang}
+            messageOverrides={this.messageOverrides}
+            numberingSystem={this.numberingSystem}
+            oncalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.setCalciteTimePickerEl}
+            scale={this.scale}
+            step={this.step}
+            tabIndex={this.open ? undefined : -1}
+            value={this.value}
+          />
+        </calcite-popover>
         <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -1763,12 +1774,12 @@ export class InputTimePicker
 
   private renderToggleIcon(open: boolean): JsxNode {
     return (
-      <span class={CSS.toggleIcon} slot="action">
-        <calcite-icon
-          icon={open ? "chevron-up" : "chevron-down"}
-          scale={getIconScale(this.scale)}
-        />
-      </span>
+      <calcite-icon
+        class={CSS.toggleIcon}
+        icon={open ? "chevron-up" : "chevron-down"}
+        onClick={this.toggleIconClickHandler}
+        scale={getIconScale(this.scale)}
+      />
     );
   }
 

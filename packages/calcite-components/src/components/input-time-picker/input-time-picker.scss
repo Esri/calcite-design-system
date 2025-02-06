@@ -1,6 +1,6 @@
 :host {
-  @apply inline-block
-    select-none;
+  display: inline-block;
+  inline-size: 100%;
 }
 
 @include disabled();
@@ -17,10 +17,16 @@
   box-sizing: border-box;
   display: flex;
   color: var(--calcite-color-text-1);
+  flex-wrap: nowrap;
   font-weight: var(--calcite-font-weight-normal);
   inline-size: 100%;
-  max-block-size: 100%;
   padding-block: var(--calcite-spacing-xxs);
+  user-select: none;
+
+  &:focus-within {
+    border-color: var(--calcite-color-brand);
+    @apply focus-inset;
+  }
 
   &.read-only {
     background-color: var(--calcite-color-background);
@@ -29,6 +35,7 @@
 
 .input-container {
   display: flex;
+  flex-grow: 1;
 }
 
 .input {
@@ -48,67 +55,40 @@
   }
 }
 
+.toggle-icon {
+  --calcite-icon-color: var(--calcite-color-text-3);
+  cursor: pointer;
+  &:hover {
+    --calcite-icon-color: var(--calcite-color-text-1);
+  }
+}
+
 .meridiem {
   margin-inline-start: var(--calcite-spacing-xxs);
 }
 
 :host([scale="s"]) {
-  --calcite-toggle-spacing: theme("spacing.2");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
-
   .container {
     font-size: var(--calcite-font-size--2);
-    line-height: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-xs);
     padding-inline: var(--calcite-spacing-xs);
-    .clock-icon {
-      margin-inline-end: var(--calcite-spacing-xs);
-    }
   }
 }
 
 :host([scale="m"]) {
-  --calcite-toggle-spacing: theme("spacing.3");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.6"))};
-
   .container {
     font-size: var(--calcite-font-size--1);
-    line-height: var(--calcite-spacing-xl);
-    padding-inline: var(--calcite-spacing-sm);
-    .clock-icon {
-      margin-inline-end: var(--calcite-spacing-xs);
-    }
+    gap: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-spacing-md);
   }
 }
 
 :host([scale="l"]) {
-  --calcite-toggle-spacing: theme("spacing.4");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
-
   .container {
     font-size: var(--calcite-font-size-0);
-    line-height: var(--calcite-spacing-xxl);
+    gap: var(--calcite-spacing-lg);
     padding-inline: var(--calcite-spacing-lg);
-    .clock-icon {
-      margin-inline-end: var(--calcite-spacing-lg);
-    }
   }
-}
-
-.input-wrapper {
-  @apply relative;
-}
-
-.toggle-icon {
-  @apply absolute flex cursor-pointer items-center;
-  inset-inline-end: 0;
-  inset-block: 0;
-  padding-inline: var(--calcite-toggle-spacing);
-  --calcite-icon-color: var(--calcite-color-text-3);
-}
-
-.input-wrapper:hover .toggle-icon,
-calcite-input-text:focus + .toggle-icon {
-  --calcite-icon-color: var(--calcite-color-text-1);
 }
 
 @include form-validation-message();
