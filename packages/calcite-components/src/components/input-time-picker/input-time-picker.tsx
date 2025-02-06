@@ -31,7 +31,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -42,7 +42,6 @@ import {
   localizedTwentyFourHourMeridiems,
   getSupportedLocale,
   NumberingSystem,
-  numberStringFormatter,
   SupportedLocale,
 } from "../../utils/locale";
 import {
@@ -80,7 +79,6 @@ import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
-import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
@@ -161,13 +159,6 @@ interface DayjsTimeParts {
   millisecond: number;
 }
 
-interface GetLocalizedTimeStringParameters {
-  hourFormat?: EffectiveHourFormat;
-  isoTimeString?: string;
-  locale?: SupportedLocale;
-  numberingSystem?: NumberingSystem;
-}
-
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -224,8 +215,6 @@ export class InputTimePicker
   // #endregion
 
   // #region State Properties
-
-  @state() calciteInputEl: InputText["el"];
 
   @state() effectiveHourFormat: EffectiveHourFormat;
 
@@ -485,7 +474,6 @@ export class InputTimePicker
 
   constructor() {
     super();
-    this.listen("blur", this.hostBlurHandler);
     this.listen("keydown", this.keyDownHandler);
   }
 
@@ -602,54 +590,6 @@ export class InputTimePicker
       this.setValueDirectly(newValue);
     }
     this.userChangedValue = false;
-  }
-
-  private hostBlurHandler(): void {
-    const delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
-
-    if (!delocalizedInputValue) {
-      this.setValueDeprecated("");
-    } else if (delocalizedInputValue !== this.value) {
-      this.setValueDeprecated(delocalizedInputValue);
-      this.setLocalizedInputValue();
-    }
-
-    this.deactivate();
-  }
-
-  private calciteInternalInputFocusHandler(event: CustomEvent): void {
-    if (!this.readOnly) {
-      event.stopPropagation();
-    }
-  }
-
-  private calciteInternalInputInputHandler(event: CustomEvent): void {
-    const {
-      messages: { _lang: locale },
-      numberingSystem,
-    } = this;
-
-    if (numberingSystem && numberingSystem !== "latn") {
-      const target = event.target as TimePicker["el"];
-
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem,
-        useGrouping: false,
-      };
-
-      const valueInNumberingSystem = numberStringFormatter
-        .delocalize(target.value)
-        .split("")
-        .map((char) =>
-          numberKeys.includes(char)
-            ? numberStringFormatter.numberFormatter.format(Number(char))
-            : char,
-        )
-        .join("");
-
-      this.setInputValue(valueInNumberingSystem);
-    }
   }
 
   private decrementHour(): void {
@@ -1047,20 +987,10 @@ export class InputTimePicker
     if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
-        this.calciteInputEl.setFocus();
       }
 
       if (event.composedPath().includes(this.calciteTimePickerEl)) {
         return;
-      }
-
-      const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
-
-      if (isValidTime(newValue)) {
-        this.setValueDeprecated(newValue);
-        this.setLocalizedInputValue();
-      } else {
-        this.setValueDeprecated("");
       }
     } else if (this.open && this.focusTrapDisabled && key === "Escape") {
       this.open = false;
@@ -1274,25 +1204,6 @@ export class InputTimePicker
     }
   }
 
-  private getLocalizedTimeString(params?: GetLocalizedTimeStringParameters): string {
-    const hour12 =
-      params?.hourFormat === "12" ||
-      (this.effectiveHourFormat && this.effectiveHourFormat === "12");
-    const locale = params?.locale ?? this.messages._lang;
-    const numberingSystem = params?.numberingSystem ?? this.numberingSystem;
-    const value = params?.isoTimeString ?? this.value;
-    return (
-      (localizeTimeString({
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        hour12,
-        includeSeconds: this.shouldIncludeSeconds(),
-        locale,
-        numberingSystem,
-        value,
-      }) as string) ?? ""
-    );
-  }
-
   private meridiemKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
       return;
@@ -1402,13 +1313,6 @@ export class InputTimePicker
     this.secondEl = el;
   }
 
-  private setInputEl(el: InputText["el"]): void {
-    if (!el) {
-      return;
-    }
-    this.calciteInputEl = el;
-  }
-
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
     if (!el) {
       return;
@@ -1475,16 +1379,9 @@ export class InputTimePicker
     );
   }
 
-  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
-    this.setInputValue(this.getLocalizedTimeString(params));
+  private setLocalizedInputValue = (): void => {
+    // TODO: figure out what this means
   };
-
-  private setInputValue(newInputValue: string): void {
-    if (!this.calciteInputEl) {
-      return;
-    }
-    this.calciteInputEl.value = newInputValue;
-  }
 
   private setMeridiemEl(el: HTMLSpanElement): void {
     this.meridiemEl = el;
@@ -1673,20 +1570,12 @@ export class InputTimePicker
     this.showFractionalSecond = decimalPlaces(this.step) > 0;
   }
 
-  private onInputWrapperClick() {
-    this.open = !this.open;
-  }
-
-  private deactivate(): void {
-    this.open = false;
-  }
-
   // #endregion
 
   // #region Rendering
 
   override render(): JsxNode {
-    const { disabled, messages, readOnly } = this;
+    const { messages, readOnly } = this;
     const emptyValue = "--";
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
     const hourIsNumber = isValidNumber(this.hour);
@@ -1827,58 +1716,37 @@ export class InputTimePicker
               </span>
             )}
           </div>
-        </div>
-        <br />
-        <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input-text
-            aria-errormessage={IDS.validationMessage}
-            ariaAutoComplete="none"
-            ariaHasPopup="dialog"
-            ariaInvalid={this.status === "invalid"}
-            disabled={disabled}
-            icon="clock"
-            label={getLabelText(this)}
+          <calcite-popover
+            autoClose={true}
+            focusTrapDisabled={this.focusTrapDisabled}
+            initialFocusTrapFocus={false}
+            label={messages.chooseTime}
             lang={this.messages._lang}
-            oncalciteInputTextInput={this.calciteInternalInputInputHandler}
-            oncalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
-            readOnly={readOnly}
-            ref={this.setInputEl}
-            role="combobox"
-            scale={this.scale}
-            status={this.status}
+            oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
+            oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
+            oncalcitePopoverClose={this.popoverCloseHandler}
+            oncalcitePopoverOpen={this.popoverOpenHandler}
+            overlayPositioning={this.overlayPositioning}
+            placement={this.placement}
+            ref={this.setCalcitePopoverEl}
+            // TODO: set reference element to inputContainer
+            // referenceElement={this.calciteInputEl}
+            triggerDisabled={true}
           >
-            {!this.readOnly && this.renderToggleIcon(this.open)}
-          </calcite-input-text>
+            <calcite-time-picker
+              hourFormat={this.effectiveHourFormat}
+              lang={this.messages._lang}
+              messageOverrides={this.messageOverrides}
+              numberingSystem={this.numberingSystem}
+              oncalciteTimePickerChange={this.timePickerChangeHandler}
+              ref={this.setCalciteTimePickerEl}
+              scale={this.scale}
+              step={this.step}
+              tabIndex={this.open ? undefined : -1}
+              value={this.value}
+            />
+          </calcite-popover>
         </div>
-        <calcite-popover
-          autoClose={true}
-          focusTrapDisabled={this.focusTrapDisabled}
-          initialFocusTrapFocus={false}
-          label={messages.chooseTime}
-          lang={this.messages._lang}
-          oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
-          oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
-          oncalcitePopoverClose={this.popoverCloseHandler}
-          oncalcitePopoverOpen={this.popoverOpenHandler}
-          overlayPositioning={this.overlayPositioning}
-          placement={this.placement}
-          ref={this.setCalcitePopoverEl}
-          referenceElement={this.calciteInputEl}
-          triggerDisabled={true}
-        >
-          <calcite-time-picker
-            hourFormat={this.effectiveHourFormat}
-            lang={this.messages._lang}
-            messageOverrides={this.messageOverrides}
-            numberingSystem={this.numberingSystem}
-            oncalciteTimePickerChange={this.timePickerChangeHandler}
-            ref={this.setCalciteTimePickerEl}
-            scale={this.scale}
-            step={this.step}
-            tabIndex={this.open ? undefined : -1}
-            value={this.value}
-          />
-        </calcite-popover>
         <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
