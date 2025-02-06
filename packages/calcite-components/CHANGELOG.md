@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.131](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.130...@esri/calcite-components@3.0.0-next.131) (2025-02-06)
+
+### Bug Fixes
+
+- **table:** Fix `bordered` styling in Firefox ([#11466](https://github.com/Esri/calcite-design-system/issues/11466)) ([340ef9f](https://github.com/Esri/calcite-design-system/commit/340ef9f9b999846a8ecf7f2d7a05eef26f688b17)), closes [#11464](https://github.com/Esri/calcite-design-system/issues/11464)
+
 ## [3.0.0-next.130](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.129...@esri/calcite-components@3.0.0-next.130) (2025-02-06)
 
 ### Features
