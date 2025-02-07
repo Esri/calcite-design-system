@@ -216,7 +216,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     setAttribute(
       this.el,
       "tabindex",
-      this.disabled || this.layout.includes("horizontal") ? null : 0,
+      this.disabled || this.layout?.includes("horizontal") ? null : 0,
     );
   }
 
