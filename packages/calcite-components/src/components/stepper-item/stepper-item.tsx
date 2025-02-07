@@ -213,6 +213,11 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   override updated(): void {
     updateHostInteraction(this);
+    setAttribute(
+      this.el,
+      "tabindex",
+      this.disabled || this.layout.includes("horizontal") ? null : 0,
+    );
   }
 
   loaded(): void {
@@ -327,7 +332,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaCurrent = this.selected ? "step" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", this.disabled ? -1 : 0);
 
     // use local var to bypass logic-changing compiler transformation
     const innerDisplayContextTabIndex = this.layout === "horizontal" && !this.disabled ? 0 : null;
