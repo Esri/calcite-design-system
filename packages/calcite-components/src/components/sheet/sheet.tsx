@@ -26,7 +26,7 @@ import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
-import { ExtendedFocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -150,7 +150,7 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
@@ -232,7 +232,7 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
    */
   @method()
   async updateFocusTrapElements(
-    extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+    extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
     this.focusTrap.updateContainerElements(extraContainers);
   }

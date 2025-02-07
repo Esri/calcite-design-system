@@ -20,7 +20,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
-import { ExtendedFocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
@@ -169,7 +169,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** The component header text. */
   @property() heading: string;
@@ -289,7 +289,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    */
   @method()
   async updateFocusTrapElements(
-    extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+    extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
     this.focusTrap.updateContainerElements(extraContainers);
   }

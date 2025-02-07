@@ -30,7 +30,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
-import { ExtendedFocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
@@ -164,7 +164,7 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
@@ -251,7 +251,7 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
    */
   @method()
   async updateFocusTrapElements(
-    extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+    extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
     this.focusTrap.updateContainerElements(extraContainers);
   }
