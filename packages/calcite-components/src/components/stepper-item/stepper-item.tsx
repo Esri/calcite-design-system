@@ -213,11 +213,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   override updated(): void {
     updateHostInteraction(this);
-    setAttribute(
-      this.el,
-      "tabindex",
-      this.disabled || this.layout?.includes("horizontal") ? null : 0,
-    );
+    setAttribute(this.el, "tabindex", this.disabled || this.layout === "horizontal" ? null : 0);
   }
 
   loaded(): void {
