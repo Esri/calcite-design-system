@@ -30,4 +30,15 @@ tr.last-visible-row {
   border-block-end: 0;
 }
 
+/* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
+@-moz-document url-prefix() {
+  tr {
+    box-shadow: inset 0 -1px 0 0 var(--calcite-internal-table-row-border-color);
+  }
+  tr.last-visible-row {
+    box-shadow: inset 0 -1px 0 0 transparent;
+  }
+}
+
 @include item-hidden();

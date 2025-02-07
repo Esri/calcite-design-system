@@ -1,5 +1,5 @@
 import { makeGenericController } from "@arcgis/components-controllers";
-import { createFocusTrap, FocusTrap, Options as FocusTrapOptions } from "focus-trap";
+import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { createFocusTrapOptions } from "../utils/focusTrapComponent";
 
@@ -28,7 +28,7 @@ export interface UseFocusTrap {
    *
    * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
    */
-  updateContainerElements: () => void;
+  updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
 }
 
 interface UseFocusTrapOptions<T extends LitElement = LitElement> {
@@ -40,11 +40,11 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * Options to pass to the focus-trap library.
    */
-  focusTrapOptions?: FocusTrapOptions;
+  focusTrapOptions?: Options;
 }
 
 interface FocusTrapComponent extends LitElement {
-  /**
+  /*
    * When `true` prevents focus trapping.
    */
   focusTrapDisabled?: boolean;
@@ -53,6 +53,38 @@ interface FocusTrapComponent extends LitElement {
    * When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping.
    */
   focusTrapDisabledOverride?: () => boolean;
+
+  /**
+   * Additional options to configure the focus trap.
+   */
+  focusTrapOptions?: Partial<FocusTrapOptions>;
+}
+
+export type FocusTrapOptions =
+  /**
+   * @see https://github.com/focus-trap/focus-trap#createoptions
+   */
+  Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
+    /**
+     * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
+     */
+    extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
+  };
+
+function getEffectiveContainerElements(
+  targetEl: HTMLElement,
+  { focusTrapOptions }: FocusTrapComponent,
+  extraContainers?: FocusTrapOptions["extraContainers"],
+) {
+  if (!focusTrapOptions?.extraContainers && !extraContainers) {
+    return targetEl;
+  }
+
+  return [targetEl, ...toContainerArray(focusTrapOptions?.extraContainers), ...toContainerArray(extraContainers)];
+}
+
+function toContainerArray(containers: FocusTrapOptions["extraContainers"] = []) {
+  return Array.isArray(containers) ? containers : [containers];
 }
 
 /**
@@ -68,13 +100,14 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
-    const { focusTrapOptions } = options;
+    const internalFocusTrapOptions = options.focusTrapOptions;
 
     controller.onConnected(() => {
       if (component[options.triggerProp] && focusTrap) {
         focusTrap.activate();
       }
     });
+
     controller.onDisconnected(() => focusTrap?.deactivate());
 
     return {
@@ -86,7 +119,15 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
         }
 
         if (!focusTrap) {
-          focusTrap = createFocusTrap(targetEl, createFocusTrapOptions(targetEl, focusTrapOptions));
+          const effectiveFocusTrapOptions = {
+            ...internalFocusTrapOptions,
+            ...component.focusTrapOptions,
+          };
+
+          focusTrap = createFocusTrap(
+            getEffectiveContainerElements(targetEl, component),
+            createFocusTrapOptions(targetEl, effectiveFocusTrapOptions),
+          );
         }
 
         if (
@@ -105,9 +146,9 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
 
         focusTrapEl = el;
       },
-      updateContainerElements: () => {
+      updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => {
         const targetEl = focusTrapEl || component.el;
-        return focusTrap?.updateContainerElements(targetEl);
+        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component, extraContainers));
       },
     };
   });

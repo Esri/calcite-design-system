@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.134](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.133...@esri/calcite-components@3.0.0-next.134) (2025-02-07)
+
+### Bug Fixes
+
+- **stepper-item:** keep initial focus on newly selected item ([#11482](https://github.com/Esri/calcite-design-system/issues/11482)) ([d478173](https://github.com/Esri/calcite-design-system/commit/d4781738278afa6bcc89150ffe5ed0470adb90cd)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
+## [3.0.0-next.133](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.132...@esri/calcite-components@3.0.0-next.133) (2025-02-07)
+
+### Bug Fixes
+
+- **dialog, modal, popover:** add type to `focusTrapOptions` prop ([#11481](https://github.com/Esri/calcite-design-system/issues/11481)) ([26f0435](https://github.com/Esri/calcite-design-system/commit/26f0435ffc58c7c4d615cc47dbe05ed49a35fdef)), closes [#11345](https://github.com/Esri/calcite-design-system/issues/11345)
+- **dropdown:** avoid showing scroller when max-items equals items ([#11480](https://github.com/Esri/calcite-design-system/issues/11480)) ([9356de1](https://github.com/Esri/calcite-design-system/commit/9356de1fcc8ec0654f3b4d6dc59fa8ebbe8288bb)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
+## [3.0.0-next.132](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.131...@esri/calcite-components@3.0.0-next.132) (2025-02-06)
+
+### Features
+
+- **dialog, modal, popover, sheet:** add options prop to customize focus-trap ([#11453](https://github.com/Esri/calcite-design-system/issues/11453)) ([454f8e8](https://github.com/Esri/calcite-design-system/commit/454f8e8723986ba15785190fd3f3100b7c05eee3)), closes [#11345](https://github.com/Esri/calcite-design-system/issues/11345)
+
+## [3.0.0-next.131](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.130...@esri/calcite-components@3.0.0-next.131) (2025-02-06)
+
+### Bug Fixes
+
+- **table:** Fix `bordered` styling in Firefox ([#11466](https://github.com/Esri/calcite-design-system/issues/11466)) ([340ef9f](https://github.com/Esri/calcite-design-system/commit/340ef9f9b999846a8ecf7f2d7a05eef26f688b17)), closes [#11464](https://github.com/Esri/calcite-design-system/issues/11464)
+
+## [3.0.0-next.130](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.129...@esri/calcite-components@3.0.0-next.130) (2025-02-06)
+
+### Features
+
+- **date-picker:** add component tokens ([#11380](https://github.com/Esri/calcite-design-system/issues/11380)) ([e63beb5](https://github.com/Esri/calcite-design-system/commit/e63beb5273acc8dc62233fc0a4f5eebc77863edb)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.0.0-next.129](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.128...@esri/calcite-components@3.0.0-next.129) (2025-02-05)
 
 ### Features
