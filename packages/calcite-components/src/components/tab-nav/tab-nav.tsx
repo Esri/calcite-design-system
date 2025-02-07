@@ -382,7 +382,7 @@ export class TabNav extends LitElement {
       this.intersectionObserver?.observe(child);
     });
     if (slottedElements.length > 1 && this.firstTabClosable) {
-      slottedElements[0].closable = true;
+      (slottedElements[0] as TabTitle["el"]).closable = true;
     }
 
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
