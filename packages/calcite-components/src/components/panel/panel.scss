@@ -179,14 +179,8 @@
       --calcite-panel-header-action-background-color,
       var(--calcite-panel-header-background-color)
     );
-    --calcite-action-background-color-hover: var(
-      --calcite-panel-header-action-background-color-hover,
-      var(--calcite-panel-header-background-color-hover)
-    );
-    --calcite-action-background-color-press: var(
-      --calcite-panel-header-action-background-color-press,
-      var(--calcite-panel-header-background-color-press)
-    );
+    --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
+    --calcite-action-background-color-press: var(--calcite-panel-header-action-background-color-press);
     --calcite-action-text-color: var(--calcite-panel-header-action-text-color, var(--calcite-panel-header-text-color));
     --calcite-action-text-color-hover: var(
       --calcite-panel-header-action-text-color-hover,
