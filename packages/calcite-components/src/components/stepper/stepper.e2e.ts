@@ -1,11 +1,12 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils";
 import type { StepperItem } from "../stepper-item/stepper-item";
+import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
@@ -523,6 +524,50 @@ describe("calcite-stepper", () => {
       await page.waitForChanges();
 
       expect(finalSelectedItem).toBe("item-3");
+    });
+  });
+
+  describe("items should retain focus after being clicked for all layouts with clickable, focusable item UX", () => {
+    function createStepperHTML(
+      clickableFocusableItemLayout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+    ): string {
+      return html`
+        <calcite-stepper layout="${clickableFocusableItemLayout}">
+          <calcite-stepper-item heading="Step 1" id="step-1">
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2" id="step-2">
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      `;
+    }
+
+    async function assertFocusRetention(page: E2EPage, layout: "horizontal" | "vertical"): Promise<void> {
+      await page.setContent(createStepperHTML(layout));
+
+      const internalClickableElementSelector =
+        layout === "horizontal" ? `>>> .${STEPPER_ITEM_CSS.stepperItemHeader}` : "";
+
+      await page.click(`#step-2 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-2")).toBe(true);
+
+      await page.click(`#step-1 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-1")).toBe(true);
+    }
+
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    it("retains item focus in horizontal layout", async () => {
+      await assertFocusRetention(page, "horizontal");
+    });
+
+    it("retains item focus in vertical layout", async () => {
+      await assertFocusRetention(page, "vertical");
     });
   });
 
