@@ -476,7 +476,6 @@ export class Dropdown
       return;
     }
 
-    this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
