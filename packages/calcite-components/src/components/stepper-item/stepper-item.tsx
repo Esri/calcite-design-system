@@ -23,12 +23,7 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
@@ -183,7 +178,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
@@ -213,10 +207,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

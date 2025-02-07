@@ -1,11 +1,6 @@
 // @ts-strict-ignore
 import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
@@ -80,18 +75,6 @@ export class NavigationLogo extends LitElement implements LoadableComponent {
     if (this.href) {
       this.el.focus();
     }
-  }
-
-  // #endregion
-
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

@@ -2,12 +2,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
@@ -125,7 +120,6 @@ export class TableHeader extends LitElement implements LoadableComponent {
   // #region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateScreenReaderText();
   }
 
@@ -133,10 +127,6 @@ export class TableHeader extends LitElement implements LoadableComponent {
     if (changes.has("selectedRowCount") || changes.has("selectedRowCountLocalized")) {
       this.updateScreenReaderText();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

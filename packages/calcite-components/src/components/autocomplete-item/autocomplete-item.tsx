@@ -1,11 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../interfaces";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -111,16 +106,8 @@ export class AutocompleteItem
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

@@ -18,12 +18,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -293,7 +288,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
       removalVersion: 4,
       suggested: "dialog",
     });
-    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openModal();
@@ -316,10 +310,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

@@ -8,12 +8,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { SLOTS, CSS, IDS } from "./resources";
@@ -138,14 +133,6 @@ export class AccordionItem extends LitElement implements LoadableComponent {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
-  }
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

@@ -12,12 +12,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -150,7 +145,6 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   // #region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
@@ -169,10 +163,6 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     ) {
       this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

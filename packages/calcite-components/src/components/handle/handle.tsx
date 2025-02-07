@@ -2,12 +2,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -121,10 +116,6 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -151,8 +142,6 @@ export class Handle extends LitElement implements LoadableComponent, Interactive
       removalVersion: 4,
       suggested: "sort-handle",
     });
-
-    setComponentLoaded(this);
   }
 
   // #endregion

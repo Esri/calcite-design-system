@@ -12,12 +12,7 @@ import {
 } from "@arcgis/lumina";
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -156,14 +151,6 @@ export class MenuItem extends LitElement implements LoadableComponent {
     this.listen("focusout", this.handleFocusOut);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

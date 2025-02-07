@@ -11,12 +11,7 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  LoadableComponent,
-  componentFocusable,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import type { Action } from "../action/action";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
@@ -98,18 +93,6 @@ export class Navigation extends LitElement implements LoadableComponent {
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
-
-  // #endregion
-
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
 
   // #endregion
 

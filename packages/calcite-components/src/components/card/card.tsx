@@ -11,12 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -152,16 +147,8 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

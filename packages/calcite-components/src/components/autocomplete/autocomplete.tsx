@@ -30,11 +30,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -431,7 +426,6 @@ export class Autocomplete
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.getAllItemsDebounced();
   }
 
@@ -491,7 +485,6 @@ export class Autocomplete
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
     this.defaultInputValue = this.inputValue || "";
-    setComponentLoaded(this);
     connectFloatingUI(this);
   }
 

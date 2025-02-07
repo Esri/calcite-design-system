@@ -44,13 +44,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
@@ -570,10 +564,6 @@ export class Combobox
     connectFloatingUI(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -620,7 +610,6 @@ export class Combobox
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
-    setComponentLoaded(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
@@ -1005,7 +994,7 @@ export class Combobox
   }
 
   private async refreshSelectionDisplay() {
-    await componentLoaded(this);
+    await this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
       return;

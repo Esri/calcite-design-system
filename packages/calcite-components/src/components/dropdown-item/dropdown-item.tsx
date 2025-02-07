@@ -13,12 +13,7 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -158,16 +153,11 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.initialize();
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

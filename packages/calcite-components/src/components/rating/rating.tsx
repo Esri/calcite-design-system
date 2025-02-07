@@ -23,12 +23,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 import { Validation } from "../functional/Validation";
@@ -221,7 +216,6 @@ export class Rating
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestUpdate("value");
   }
 
@@ -256,7 +250,6 @@ export class Rating
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

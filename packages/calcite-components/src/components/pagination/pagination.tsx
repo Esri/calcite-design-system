@@ -1,12 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -167,7 +162,6 @@ export class Pagination extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleTotalPages();
     this.handleLastStartItemChange();
     this.handleIsXXSmall();
@@ -206,7 +200,6 @@ export class Pagination extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 

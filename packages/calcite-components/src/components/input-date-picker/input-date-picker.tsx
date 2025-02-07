@@ -49,12 +49,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -448,7 +443,6 @@ export class InputDatePicker
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -517,7 +511,6 @@ export class InputDatePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }

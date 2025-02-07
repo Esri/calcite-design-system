@@ -3,12 +3,7 @@ import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from 
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -90,18 +85,6 @@ export class BlockSection extends LitElement implements LoadableComponent {
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
-
-  // #endregion
-
-  // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
 
   // #endregion
 
