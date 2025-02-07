@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-next.133](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.132...@esri/calcite-components@3.0.0-next.133) (2025-02-07)
+
+### Bug Fixes
+
+- **dialog, modal, popover:** add type to `focusTrapOptions` prop ([#11481](https://github.com/Esri/calcite-design-system/issues/11481)) ([26f0435](https://github.com/Esri/calcite-design-system/commit/26f0435ffc58c7c4d615cc47dbe05ed49a35fdef)), closes [#11345](https://github.com/Esri/calcite-design-system/issues/11345)
+- **dropdown:** avoid showing scroller when max-items equals items ([#11480](https://github.com/Esri/calcite-design-system/issues/11480)) ([9356de1](https://github.com/Esri/calcite-design-system/commit/9356de1fcc8ec0654f3b4d6dc59fa8ebbe8288bb)), closes [#10731](https://github.com/Esri/calcite-design-system/issues/10731)
+
 ## [3.0.0-next.132](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.131...@esri/calcite-components@3.0.0-next.132) (2025-02-06)
 
 ### Features
