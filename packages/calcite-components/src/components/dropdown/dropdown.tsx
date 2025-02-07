@@ -562,30 +562,14 @@ export class Dropdown
 
   private getMaxScrollerHeight(): number {
     const { maxItems, items } = this;
-    let itemsToProcess = 0;
-    let maxScrollerHeight = 0;
-    let groupHeaderHeight: number;
 
-    this.groups.forEach((group) => {
-      if (maxItems > 0 && itemsToProcess < maxItems) {
-        Array.from(group.children).forEach((item: DropdownItem["el"], index) => {
-          if (index === 0) {
-            if (isNaN(groupHeaderHeight)) {
-              groupHeaderHeight = item.offsetTop;
-            }
+    return items.length >= maxItems ? this.getYDistance(this.scrollerEl, items[maxItems - 1]) : 0;
+  }
 
-            maxScrollerHeight += groupHeaderHeight;
-          }
-
-          if (itemsToProcess < maxItems) {
-            maxScrollerHeight += item.offsetHeight;
-            itemsToProcess += 1;
-          }
-        });
-      }
-    });
-
-    return items.length >= maxItems ? maxScrollerHeight : 0;
+  private getYDistance(parent: HTMLElement, child: HTMLElement): number {
+    const parentRect = parent.getBoundingClientRect();
+    const childRect = child.getBoundingClientRect();
+    return childRect.bottom - parentRect.top;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
