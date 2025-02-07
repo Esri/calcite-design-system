@@ -10,6 +10,9 @@ export interface FocusTrapComponent {
   /** When `true`, prevents focus trapping. */
   focusTrapDisabled?: boolean;
 
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride?: () => boolean;
+
   /** The focus trap instance. */
   focusTrap: FocusTrap;
 
@@ -45,22 +48,32 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     return;
   }
 
-  const focusTrapOptions: FocusTrapOptions = {
+  component.focusTrap = createFocusTrap(focusTrapNode, createFocusTrapOptions(el, options?.focusTrapOptions));
+}
+
+/**
+ * Helper to create the FocusTrap options.
+ *
+ * @param hostEl
+ * @param options
+ */
+export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapOptions): FocusTrapOptions {
+  const focusTrapNode = options?.fallbackFocus || hostEl;
+
+  return {
     clickOutsideDeactivates: true,
     fallbackFocus: focusTrapNode,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
     },
-    ...options?.focusTrapOptions,
+    ...options,
 
     // the following options are not overridable
-    document: el.ownerDocument,
+    document: hostEl.ownerDocument,
     tabbableOptions,
     trapStack: focusTrapStack,
   };
-
-  component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);
 }
 
 /**
@@ -73,7 +86,7 @@ export function activateFocusTrap(
   component: FocusTrapComponent,
   options?: Parameters<_FocusTrap["activate"]>[0],
 ): void {
-  if (!component.focusTrapDisabled) {
+  if (component.focusTrapDisabledOverride ? !component.focusTrapDisabledOverride() : !component.focusTrapDisabled) {
     component.focusTrap?.activate(options);
   }
 }

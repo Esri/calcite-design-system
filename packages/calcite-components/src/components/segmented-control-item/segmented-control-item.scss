@@ -1,21 +1,37 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-segmented-control-color: Specifies the component's color.
+ * @prop --calcite-segmented-control-background-color: Specifies the component's background color.
+ * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
+ * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
+ * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
+ */
+
 :host {
   @apply flex
     cursor-pointer
     self-stretch
-    font-normal;
+    font-normal
+    focus-base;
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-animation-timing) ease-in-out;
 }
 
-:host label {
-  @apply text-color-3
-    pointer-events-none
+.label {
+  @apply pointer-events-none
     m-0.5
     box-border
     flex
     flex-1
     items-center;
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-segmented-control-background-color);
+  box-shadow: var(--calcite-segmented-control-shadow);
+  border-color: var(--calcite-segmented-control-border-color);
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
@@ -26,10 +42,6 @@
   @apply justify-center;
 }
 
-// focus styles
-:host {
-  @apply focus-base;
-}
 :host(:focus) {
   @apply focus-inset;
   outline-offset: -1px;
@@ -49,27 +61,32 @@
   @apply text-0h px-4 py-2.5;
 }
 
-:host(:hover) label {
-  @apply bg-foreground-2 text-color-1;
+:host(:hover) .label {
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-2));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
-:host(:active) label {
-  @apply bg-foreground-3;
+:host(:active) .label {
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-3));
 }
 
-:host([checked]) label {
-  @apply bg-brand border-color-brand cursor-default text-color-inverse;
+:host([checked]) .label {
+  @apply cursor-default;
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
+  border-color: var(--calcite-segmented-control-border-color, var(--calcite-color-brand));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
 :host([checked]) .label--outline,
 :host([checked]) .label--outline-fill {
-  @apply bg-foreground-1 border-color-brand;
-  box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
-  color: theme("backgroundColor.brand");
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-segmented-control-border-color, var(--calcite-color-brand));
+  box-shadow: var(--calcite-segmented-control-shadow, inset 0 0 0 1px var(--calcite-color-brand));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-brand));
 }
 
 :host([checked]) .label--outline {
-  @apply bg-transparent;
+  background-color: var(--calcite-segmented-control-background-color, transparent);
 }
 
 ::slotted(input) {
@@ -77,14 +94,14 @@
 }
 
 @media (forced-colors: active) {
-  :host([checked]) label {
+  :host([checked]) .label {
     background-color: highlight;
   }
   :host([checked]) .label--outline,
   :host([checked]) .label--outline-fill {
     @apply outline-none;
   }
-  :host([checked]) label:not([class~="label--outline"]) .icon {
+  :host([checked]) .label:not([class~="label--outline"]) .icon {
     color: highlightText;
   }
 }
@@ -97,6 +114,7 @@
 
   margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
   margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
+  --calcite-icon-color: var(--calcite-segmented-control-icon-color);
 }
 
 :host([icon-start]) .label--scale-s {
