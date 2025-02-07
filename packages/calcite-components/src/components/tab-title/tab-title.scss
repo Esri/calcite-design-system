@@ -117,6 +117,13 @@
   border-block-end: 1px solid transparent;
 }
 
+:host(:not([bordered])) .container {
+  &:hover,
+  &:active {
+    @apply text-color-1;
+  }
+}
+
 :host([bordered]:not([selected]):hover) .container:not(.container--bottom) {
   border-block-end: 1px solid var(--calcite-color-border-1);
 }
@@ -151,10 +158,6 @@
   inset-block-start: -1px;
 }
 
-:host([bordered][selected]:hover) .container::after {
-  background: var(--calcite-color-foreground-2);
-}
-
 :host([bordered][selected]:focus) .container::after {
   background: transparent;
 }
@@ -176,6 +179,12 @@
 :host(:focus) .selected-indicator,
 :host(:active) .selected-indicator {
   background-color: var(--calcite-color-brand);
+}
+
+:host([selected]:focus) {
+  .selected-indicator {
+    block-size: 4px;
+  }
 }
 
 @media (forced-colors: active) {
@@ -285,6 +294,11 @@
 
 // bordered styles
 :host([bordered]) .container {
+  &:hover,
+  &:active {
+    @apply text-color-1;
+  }
+
   &:not(.container--bottom) .close-button {
     block-size: calc(100% - var(--calcite-spacing-px));
     margin-block-start: -1px;
@@ -334,6 +348,10 @@
 
 :host([selected][bordered]) .container {
   border-inline-color: var(--calcite-color-border-1);
+  &:hover,
+  &:active {
+    background: transparent;
+  }
 }
 
 :host([layout="inline"][bordered]),
