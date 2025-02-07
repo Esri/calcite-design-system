@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
-import { PropertyValues } from "lit";
+import { CSSResult, PropertyValues } from "lit";
+import { css } from "lit-element";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -9,7 +10,6 @@ import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
 import { IconNameOrString } from "./interfaces";
-import { styles } from "./icon.scss";
 
 declare global {
   interface DeclareElements {
@@ -20,7 +20,15 @@ declare global {
 export class Icon extends LitElement {
   // #region Static Members
 
-  static override styles = styles;
+  static get styles(): CSSResult {
+    return css`
+    :host {
+      display: inline-block;
+      height: 1em;
+      width: 1em;
+      border: 1px solid red;
+    `;
+  }
 
   // #endregion
 
