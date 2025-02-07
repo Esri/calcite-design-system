@@ -1079,7 +1079,7 @@ export class InputTimePicker
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
-          initialFocusTrapFocus={false}
+          focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
