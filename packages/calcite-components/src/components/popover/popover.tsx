@@ -139,7 +139,7 @@ export class Popover
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions: FocusTrapOptions;
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** The component header text. */
   @property() heading: string;
