@@ -129,6 +129,13 @@ export class TabNav extends LitElement {
   /** Specifies text to update multiple components to keep in sync if one changes. */
   @property({ reflect: true }) syncId: string;
 
+  /**
+   * Keeps track whether the first tab title was ever closable
+   *
+   * @private
+   */
+  firstTabClosable = false;
+
   // #endregion
 
   // #region Events
@@ -374,6 +381,10 @@ export class TabNav extends LitElement {
     slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    if (slottedElements.length > 1 && this.firstTabClosable) {
+      slottedElements[0].closable = true;
+    }
+
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
   }
 
@@ -529,6 +540,7 @@ export class TabNav extends LitElement {
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
+      this.firstTabClosable = true;
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
 
