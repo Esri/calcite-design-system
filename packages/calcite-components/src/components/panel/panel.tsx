@@ -421,7 +421,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   private renderActionBar(): JsxNode {
     return (
-      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar} part="header">
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -575,6 +575,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
         <div
           class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
           hidden={!showHeaderContent}
+          part="header"
         >
           {this.renderHeaderStartActions()}
           {this.renderHeaderSlottedContent()}
@@ -594,7 +595,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
       hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter}>
+      <footer class={CSS.footer} hidden={!showFooter} part="footer">
         <div class={CSS.footerContent} hidden={!hasFooterContent}>
           <slot name={SLOTS.footer} onSlotChange={this.handleFooterSlotChange} />
         </div>
