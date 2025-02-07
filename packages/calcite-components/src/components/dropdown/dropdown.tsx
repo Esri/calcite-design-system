@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createEvent, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
