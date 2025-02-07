@@ -47,12 +47,18 @@
         --calcite-panel-header-content-space: 0;
         --calcite-panel-footer-space: 0;
 
-        --calcite-action-background-color: lime;
-        --calcite-action-background-color-hover: lime;
-        --calcite-action-background-color-pressed: lime;
-        --calcite-action-text-color: blue;
-        --calcite-action-text-color-pressed: blue;
+        --calcite-panel-header-action-background-color: lime;
+        --calcite-panel-header-action-background-color-hover: lime;
+        --calcite-panel-header-action-background-color-press: lime;
+        --calcite-panel-header-action-text-color: blue;
+        --calcite-panel-header-action-text-color-press: blue;
         --calcite-popover-border-color: blue;
+      }
+
+      .themed-panel calcite-action[slot="header-actions-end"] {
+        --calcite-action-background-color: blue;
+        --calcite-action-background-color-hover: blue;
+        --calcite-action-background-color-press: blue;
       }
     </style>
 
