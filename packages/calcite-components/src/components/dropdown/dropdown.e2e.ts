@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import dedent from "dedent";
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -1043,12 +1042,12 @@ describe("calcite-dropdown", () => {
   });
 
   describe("accessible", () => {
-    accessible(dedent`${dropdownSelectionModeContent}`);
+    accessible(html`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(dedent`${dropdownSelectionModeContent}`);
+    await page.setContent(html`${dropdownSelectionModeContent}`);
     await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");
