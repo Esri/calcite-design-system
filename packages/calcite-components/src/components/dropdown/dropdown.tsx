@@ -647,7 +647,7 @@ export class Dropdown
           <div
             aria-labelledby={`${guid}-menubutton`}
             class={{
-              ["calcite-dropdown-content"]: true,
+              [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}

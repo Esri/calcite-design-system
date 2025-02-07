@@ -23,6 +23,7 @@ import {
 } from "../../tests/utils";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -654,6 +655,10 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(true);
       }
+
+      // no scroller should be present when max-items === items
+      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+      expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
     });
   });
 
