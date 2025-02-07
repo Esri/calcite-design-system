@@ -42,7 +42,7 @@ import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
-import { useFocusTrap } from "../../controllers/useFocusTrap";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -139,7 +139,7 @@ export class Popover
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** The component header text. */
   @property() heading: string;

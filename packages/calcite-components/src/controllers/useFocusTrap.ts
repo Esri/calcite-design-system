@@ -1,5 +1,5 @@
 import { makeGenericController } from "@arcgis/components-controllers";
-import { createFocusTrap, FocusTrap, Options as FocusTrapOptions } from "focus-trap";
+import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { createFocusTrapOptions } from "../utils/focusTrapComponent";
 
@@ -28,7 +28,7 @@ export interface UseFocusTrap {
    *
    * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
    */
-  updateContainerElements: (extraContainers?: ExtendedFocusTrapOptions["extraContainers"]) => void;
+  updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
 }
 
 interface UseFocusTrapOptions<T extends LitElement = LitElement> {
@@ -40,7 +40,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * Options to pass to the focus-trap library.
    */
-  focusTrapOptions?: FocusTrapOptions;
+  focusTrapOptions?: Options;
 }
 
 interface FocusTrapComponent extends LitElement {
@@ -57,14 +57,14 @@ interface FocusTrapComponent extends LitElement {
   /**
    * Additional options to configure the focus trap.
    */
-  focusTrapOptions?: ExtendedFocusTrapOptions;
+  focusTrapOptions?: Partial<FocusTrapOptions>;
 }
 
-export type ExtendedFocusTrapOptions =
+export type FocusTrapOptions =
   /**
    * @see https://github.com/focus-trap/focus-trap#createoptions
    */
-  Pick<FocusTrapOptions, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
+  Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
     /**
      * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
      */
@@ -74,7 +74,7 @@ export type ExtendedFocusTrapOptions =
 function getEffectiveContainerElements(
   targetEl: HTMLElement,
   { focusTrapOptions }: FocusTrapComponent,
-  extraContainers?: ExtendedFocusTrapOptions["extraContainers"],
+  extraContainers?: FocusTrapOptions["extraContainers"],
 ) {
   if (!focusTrapOptions?.extraContainers && !extraContainers) {
     return targetEl;
@@ -83,7 +83,7 @@ function getEffectiveContainerElements(
   return [targetEl, ...toContainerArray(focusTrapOptions?.extraContainers), ...toContainerArray(extraContainers)];
 }
 
-function toContainerArray(containers: ExtendedFocusTrapOptions["extraContainers"] = []) {
+function toContainerArray(containers: FocusTrapOptions["extraContainers"] = []) {
   return Array.isArray(containers) ? containers : [containers];
 }
 
@@ -146,7 +146,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
 
         focusTrapEl = el;
       },
-      updateContainerElements: (extraContainers?: ExtendedFocusTrapOptions["extraContainers"]) => {
+      updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => {
         const targetEl = focusTrapEl || component.el;
         return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component, extraContainers));
       },
