@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createEvent, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -261,7 +261,7 @@ export class Dropdown
       this.flipPlacementsHandler();
     }
 
-    if (changes.has("maxItems") && (this.hasUpdated || this.maxItems !== 0)) {
+    if (changes.has("maxItems") && this.hasUpdated) {
       this.setMaxScrollerHeight();
     }
 
@@ -451,6 +451,11 @@ export class Dropdown
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
     entries.forEach((entry) => {
       const { target } = entry;
+
+      if (!this.hasUpdated) {
+        return;
+      }
+
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -463,23 +468,15 @@ export class Dropdown
     const { referenceEl, scrollerEl } = this;
     const referenceElWidth = referenceEl?.clientWidth;
 
-    if (!referenceElWidth || !scrollerEl) {
-      return;
-    }
-
     scrollerEl.style.minWidth = `${referenceElWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
-    const { scrollerEl } = this;
-    if (!scrollerEl) {
-      return;
-    }
-
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
+
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
     if (el) {
       this.resizeObserver?.observe(el);
@@ -562,7 +559,9 @@ export class Dropdown
   private getMaxScrollerHeight(): number {
     const { maxItems, items } = this;
 
-    return items.length >= maxItems ? this.getYDistance(this.scrollerEl, items[maxItems - 1]) : 0;
+    return items.length >= maxItems && maxItems > 0
+      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
+      : 0;
   }
 
   private getYDistance(parent: HTMLElement, child: HTMLElement): number {
