@@ -55,3 +55,8 @@ export const SLOTS = {
 };
 
 export const HEADING_LEVEL = 3;
+
+export const PART = {
+  header: "header",
+  footer: "footer",
+};
