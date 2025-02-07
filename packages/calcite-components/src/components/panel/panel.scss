@@ -17,11 +17,11 @@
  * @prop --calcite-panel-content-space: [Deprecated] Use `--calcite-panel-space` instead. Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: [Deprecated] Use `--calcite-panel-footer-space` instead. Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] Use `--calcite-panel-border-color` instead. Specifies the component header's block end border.
- * @prop --calcite-panel-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements.
- * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when hovered.
- * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when pressed.
- * @prop --calcite-panel-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements.
- * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and slotted and overflowing `header-actions-end` elements when pressed.
+ * @prop --calcite-panel-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+ * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+ * @prop --calcite-panel-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
  
  */
 
