@@ -169,7 +169,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: ExtendedFocusTrapOptions;
 
   /** The component header text. */
   @property() heading: string;

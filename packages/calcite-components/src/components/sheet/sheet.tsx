@@ -150,7 +150,7 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: ExtendedFocusTrapOptions;
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.

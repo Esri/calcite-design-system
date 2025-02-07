@@ -164,7 +164,7 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
    */
-  @property() focusTrapOptions;
+  @property() focusTrapOptions: ExtendedFocusTrapOptions;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
