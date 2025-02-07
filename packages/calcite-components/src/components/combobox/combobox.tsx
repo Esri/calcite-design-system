@@ -90,8 +90,7 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent,
-    LoadableComponent
+    FloatingUIComponent
 {
   // #region Static Members
 
@@ -994,8 +993,6 @@ export class Combobox
   }
 
   private async refreshSelectionDisplay() {
-    await this.componentOnReady();
-
     if (isSingleLike(this.selectionMode)) {
       return;
     }

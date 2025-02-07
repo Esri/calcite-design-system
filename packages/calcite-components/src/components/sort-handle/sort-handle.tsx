@@ -27,7 +27,7 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

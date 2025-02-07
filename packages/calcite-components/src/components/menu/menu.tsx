@@ -22,7 +22,7 @@ declare global {
 
 type Layout = "horizontal" | "vertical";
 
-export class Menu extends LitElement implements LoadableComponent {
+export class Menu extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

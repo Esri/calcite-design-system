@@ -35,7 +35,7 @@ const maxItemBreakpoints = {
   xxsmall: 1,
 };
 
-export class Pagination extends LitElement implements LoadableComponent {
+export class Pagination extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

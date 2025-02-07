@@ -29,7 +29,7 @@ declare global {
 }
 
 /** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
-export class MenuItem extends LitElement implements LoadableComponent {
+export class MenuItem extends LitElement {
   // #region Static Members
 
   static override styles = styles;

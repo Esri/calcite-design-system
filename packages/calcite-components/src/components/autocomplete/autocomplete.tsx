@@ -78,7 +78,6 @@ export class Autocomplete
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent,
     TextualInputComponent
 {

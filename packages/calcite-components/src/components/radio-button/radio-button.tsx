@@ -29,7 +29,7 @@ declare global {
 
 export class RadioButton
   extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   // #region Static Members
 

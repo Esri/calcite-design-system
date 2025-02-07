@@ -96,7 +96,6 @@ export class InputDatePicker
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent
 {
   // #region Static Members

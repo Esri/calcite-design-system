@@ -34,7 +34,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class Sheet extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Sheet extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;

@@ -24,7 +24,7 @@ declare global {
   }
 }
 
-export class Filter extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Filter extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

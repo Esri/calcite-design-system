@@ -24,7 +24,7 @@ declare global {
 /**
  * @deprecated Use the `calcite-sort-handle` component instead.
  */
-export class Handle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class Handle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

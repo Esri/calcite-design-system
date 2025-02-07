@@ -30,7 +30,7 @@ declare global {
  * @slot - A slot for adding text.
  * @slot image - A slot for adding an image.
  */
-export class Chip extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Chip extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

@@ -24,7 +24,7 @@ declare global {
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-export class ActionPad extends LitElement implements LoadableComponent {
+export class ActionPad extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

@@ -33,7 +33,7 @@ declare global {
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
-export class Navigation extends LitElement implements LoadableComponent {
+export class Navigation extends LitElement {
   // #region Static Members
 
   static override styles = styles;

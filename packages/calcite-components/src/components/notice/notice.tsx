@@ -40,7 +40,7 @@ declare global {
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
-export class Notice extends LitElement implements LoadableComponent, OpenCloseComponent {
+export class Notice extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;

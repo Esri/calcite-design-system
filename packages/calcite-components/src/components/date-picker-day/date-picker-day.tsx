@@ -28,7 +28,7 @@ declare global {
   }
 }
 
-export class DatePickerDay extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DatePickerDay extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

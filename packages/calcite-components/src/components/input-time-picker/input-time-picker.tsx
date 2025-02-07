@@ -153,7 +153,7 @@ interface GetLocalizedTimeStringParameters {
 
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent
 {
   // #region Static Members
 

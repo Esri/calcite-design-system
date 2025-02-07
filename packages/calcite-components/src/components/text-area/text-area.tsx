@@ -57,7 +57,6 @@ export class TextArea
   implements
     FormComponent,
     LabelableComponent,
-    LoadableComponent,
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {

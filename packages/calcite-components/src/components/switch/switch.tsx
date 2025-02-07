@@ -28,7 +28,7 @@ declare global {
 
 export class Switch
   extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   // #region Static Members
 

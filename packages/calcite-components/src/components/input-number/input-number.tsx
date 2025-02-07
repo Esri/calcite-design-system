@@ -71,8 +71,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     NumericInputComponent,
-    TextualInputComponent,
-    LoadableComponent
+    TextualInputComponent
 {
   // #region Static Members
 

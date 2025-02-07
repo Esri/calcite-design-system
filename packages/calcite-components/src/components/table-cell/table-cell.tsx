@@ -24,7 +24,7 @@ declare global {
 }
 
 /** @slot - A slot for adding content, usually text content. */
-export class TableCell extends LitElement implements InteractiveComponent, LoadableComponent {
+export class TableCell extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

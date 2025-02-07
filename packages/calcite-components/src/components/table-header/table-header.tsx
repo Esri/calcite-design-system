@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-export class TableHeader extends LitElement implements LoadableComponent {
+export class TableHeader extends LitElement {
   // #region Static Members
 
   static override styles = styles;

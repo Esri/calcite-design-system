@@ -72,7 +72,6 @@ export class Input
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LoadableComponent,
     NumericInputComponent,
     TextualInputComponent
 {

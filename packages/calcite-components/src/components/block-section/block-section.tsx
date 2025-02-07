@@ -18,7 +18,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class BlockSection extends LitElement implements LoadableComponent {
+export class BlockSection extends LitElement {
   // #region Static Members
 
   static override styles = styles;

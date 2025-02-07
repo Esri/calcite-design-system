@@ -32,7 +32,7 @@ declare global {
 }
 
 /** @slot - A slot for adding text. */
-export class DropdownItem extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DropdownItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

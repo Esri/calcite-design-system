@@ -39,7 +39,7 @@ declare global {
   }
 }
 
-export class DatePicker extends LitElement implements LoadableComponent {
+export class DatePicker extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

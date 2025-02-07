@@ -56,7 +56,7 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
 /** @slot - A slot for adding `calcite-option`s. */
 export class Select
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 

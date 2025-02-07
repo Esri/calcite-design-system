@@ -47,7 +47,7 @@ const manager = new AlertManager();
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
-export class Alert extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Alert extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;

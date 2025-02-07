@@ -36,7 +36,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
  * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
  * @slot tooltip - A slot for adding an tooltip for the menu.
  */
-export class ActionMenu extends LitElement implements LoadableComponent {
+export class ActionMenu extends LitElement {
   // #region Static Members
 
   static override styles = styles;

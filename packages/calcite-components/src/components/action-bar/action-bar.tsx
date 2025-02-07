@@ -42,7 +42,7 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-export class ActionBar extends LitElement implements LoadableComponent {
+export class ActionBar extends LitElement {
   // #region Static Members
 
   static override styles = styles;

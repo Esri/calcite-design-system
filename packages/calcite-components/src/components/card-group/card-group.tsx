@@ -19,7 +19,7 @@ declare global {
 }
 
 /** @slot - A slot for adding one or more `calcite-card`s. */
-export class CardGroup extends LitElement implements InteractiveComponent, LoadableComponent {
+export class CardGroup extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

@@ -33,7 +33,7 @@ declare global {
 
 const DEFAULT_COLOR = Color();
 
-export class ColorPickerHexInput extends LitElement implements LoadableComponent {
+export class ColorPickerHexInput extends LitElement {
   // #region Static Members
 
   static override styles = styles;

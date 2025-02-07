@@ -28,7 +28,7 @@ declare global {
  * @slot - A slot for adding a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Action extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

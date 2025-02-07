@@ -52,10 +52,7 @@ declare global {
 const manager = new PopoverManager();
 
 /** @slot - A slot for adding custom content. */
-export class Popover
-  extends LitElement
-  implements FloatingUIComponent, OpenCloseComponent, LoadableComponent
-{
+export class Popover extends LitElement implements FloatingUIComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;

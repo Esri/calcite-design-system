@@ -26,7 +26,7 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
-export class AccordionItem extends LitElement implements LoadableComponent {
+export class AccordionItem extends LitElement {
   // #region Static Members
 
   static override styles = styles;

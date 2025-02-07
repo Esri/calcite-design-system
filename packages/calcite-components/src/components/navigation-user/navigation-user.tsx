@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class NavigationUser extends LitElement implements LoadableComponent {
+export class NavigationUser extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

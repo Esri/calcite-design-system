@@ -29,7 +29,7 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent, LoadableComponent {
+export class Meter extends LitElement implements FormComponent {
   // #region Static Members
 
   static override styles = styles;

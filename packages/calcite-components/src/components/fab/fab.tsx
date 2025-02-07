@@ -20,7 +20,7 @@ declare global {
   }
 }
 
-export class Fab extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Fab extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

@@ -26,10 +26,7 @@ declare global {
 }
 
 /** @slot - A slot for adding a `calcite-input`. */
-export class InlineEditable
-  extends LitElement
-  implements InteractiveComponent, LabelableComponent, LoadableComponent
-{
+export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

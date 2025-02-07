@@ -23,10 +23,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
-export class AutocompleteItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent
-{
+export class AutocompleteItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

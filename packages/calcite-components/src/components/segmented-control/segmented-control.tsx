@@ -44,7 +44,7 @@ declare global {
 /** @slot - A slot for adding `calcite-segmented-control-item`s. */
 export class SegmentedControl
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 

@@ -40,10 +40,7 @@ const focusMap = new Map<List["el"], number>();
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponentItem
-{
+export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
   // #region Static Members
 
   static override styles = styles;

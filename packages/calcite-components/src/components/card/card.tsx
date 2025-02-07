@@ -42,7 +42,7 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Card extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

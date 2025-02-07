@@ -21,7 +21,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-dropdown` content. */
-export class SplitButton extends LitElement implements InteractiveComponent, LoadableComponent {
+export class SplitButton extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

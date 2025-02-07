@@ -53,12 +53,7 @@ declare global {
 /** @slot action - A slot for positioning a button next to the component. */
 export class InputText
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    LoadableComponent,
-    TextualInputComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
   // #region Static Members
 

@@ -49,7 +49,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-export class Modal extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Modal extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;

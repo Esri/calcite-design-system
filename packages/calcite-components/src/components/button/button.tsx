@@ -48,7 +48,7 @@ declare global {
  */
 export class Button
   extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner
 {
   // #region Static Members
 

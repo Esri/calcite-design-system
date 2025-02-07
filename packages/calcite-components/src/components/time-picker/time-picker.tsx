@@ -42,7 +42,7 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export class TimePicker extends LitElement implements LoadableComponent {
+export class TimePicker extends LitElement {
   // #region Static Members
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 

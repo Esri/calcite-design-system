@@ -16,7 +16,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-flow-item` elements to the component. */
-export class Flow extends LitElement implements LoadableComponent {
+export class Flow extends LitElement {
   // #region Static Members
 
   static override styles = styles;

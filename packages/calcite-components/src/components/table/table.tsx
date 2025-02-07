@@ -32,7 +32,7 @@ declare global {
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
-export class Table extends LitElement implements LoadableComponent {
+export class Table extends LitElement {
   // #region Static Members
 
   static override styles = styles;

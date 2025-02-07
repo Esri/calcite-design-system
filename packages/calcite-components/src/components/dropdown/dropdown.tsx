@@ -46,7 +46,7 @@ declare global {
  */
 export class Dropdown
   extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
+  implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent
 {
   // #region Static Members
 

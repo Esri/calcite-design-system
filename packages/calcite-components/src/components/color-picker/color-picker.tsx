@@ -65,7 +65,7 @@ declare global {
 
 const throttleFor60FpsInMs = 16;
 
-export class ColorPicker extends LitElement implements InteractiveComponent, LoadableComponent {
+export class ColorPicker extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

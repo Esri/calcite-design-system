@@ -32,7 +32,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-carousel-item`s. */
-export class Carousel extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Carousel extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

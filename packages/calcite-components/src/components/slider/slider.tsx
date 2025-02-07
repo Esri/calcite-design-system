@@ -54,7 +54,7 @@ function isRange(value: number | number[]): value is number[] {
 
 export class Slider
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 

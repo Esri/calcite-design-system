@@ -28,7 +28,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-radio-button`s. */
-export class RadioButtonGroup extends LitElement implements LoadableComponent {
+export class RadioButtonGroup extends LitElement {
   // #region Static Members
 
   static override styles = styles;

@@ -27,7 +27,7 @@ declare global {
  * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
  */
-export class TileSelect extends LitElement implements InteractiveComponent, LoadableComponent {
+export class TileSelect extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;

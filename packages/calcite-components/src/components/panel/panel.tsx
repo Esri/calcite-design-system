@@ -51,7 +51,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Panel extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Panel extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
