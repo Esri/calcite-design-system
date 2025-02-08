@@ -1,38 +1,55 @@
+<!--
+1. Serve this file using any web server
+2. Open it in Chrome
+3. In DevTools, enable "3G" throttling (without it the bug is less consistently reproducible)
+4. Reload the page and wait for it to finish loading
+5. Click on the "Click to remove calcite-icon" button
+6. Run garbage collection in DevTools
+7. See that "Garbage collected!" is not logged
+8. Collect memory snapshot and see that calcite-action is not freed
+9. Comment out any of the places commented with "Without this bug is not reproducible" and see that bug is no longer reproducible
+-->
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <script type="module">
+      // Without this bug is not reproducible:
       import "/stub.js";
     </script>
   </head>
   <body>
-    <button onclick="remove('calcite-icon');">Remove icon</button>
+    <button>Click to remove calcite-icon</button>
     <calcite-icon></calcite-icon>
     <script type="module">
       class ProxyComponent extends HTMLElement {
         constructor() {
           super();
+          // Without this bug is not reproducible:
           const renderRoot = this.attachShadow({
             mode: "open",
           });
           const style = new CSSStyleSheet();
+          // Bug not reproducible if the following style is not present:
           style.replaceSync(`:host{display:inline-block}`);
+          // Without this bug is not reproducible:
           renderRoot.adoptedStyleSheets = [style];
         }
       }
       customElements.define("calcite-icon", ProxyComponent);
-    </script>
-    <script>
-      const registry = new FinalizationRegistry((heldValue) => {
-        console.log(`garbage collected "${heldValue}"`);
-      });
-      function remove(tagName) {
-        let el = document.querySelector(tagName);
-        registry.register(el, el.tagName);
+
+      const registry = new FinalizationRegistry(console.log);
+      document.querySelector("button").onclick = () => {
+        const el = document.querySelector("calcite-icon");
+        registry.register(el, "Garbage collected!");
         el.remove();
+        // This fixes the bug (but not if run with a delay)
+        // const styleSheet = Array.from(el.shadowRoot.adoptedStyleSheets)[0];
+        // styleSheet.replaceSync("");
+
+        // Does not help:
         el.shadowRoot.adoptedStyleSheets = [];
-      }
+      };
     </script>
   </body>
 </html>
