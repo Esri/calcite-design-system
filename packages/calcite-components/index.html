@@ -20,10 +20,6 @@
         connectedCallback() {
           this.el = document.querySelector("calcite-icons");
           const renderRoot = this.el.attachShadow({ mode: "open" });
-          Object.defineProperty(this, "shadowRoot", {
-            // Create shadow root on the proxy instance, to make Lit render content there
-            value: renderRoot,
-          });
           const style = new CSSStyleSheet();
           style.replaceSync(`:host{display:inline-block}`);
           renderRoot.getRootNode().adoptedStyleSheets = [style];
@@ -67,7 +63,7 @@
 
         setTimeout(() => {
           el._litElement.__childPart = undefined;
-          el._litElement.shadowRoot._$litPart$ = undefined;
+          el.shadowRoot._$litPart$ = undefined;
           el._litElement.manager = undefined;
           delete el._litElement;
           (el.shadowRoot ?? el).innerHTML = "";
