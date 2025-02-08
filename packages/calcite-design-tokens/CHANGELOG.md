@@ -5,156 +5,22 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.0...@esri/calcite-design-tokens@3.0.0) (2025-02-08)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **tokens:** Size and Space token values have changed. Line Height tokens exported for JS and ES6 are now unitless.
+- **tokens:** Size and Space token values have changed. Line Height tokens exported for JS and ES6 are now unitless.
 
 ### Features
 
-* Add default focus color token ([#10512](https://github.com/Esri/calcite-design-system/issues/10512)) ([92a2be0](https://github.com/Esri/calcite-design-system/commit/92a2be04cd90b26c0e5370465d2ec2565fe51dc0))
-
+- Add default focus color token ([#10512](https://github.com/Esri/calcite-design-system/issues/10512)) ([92a2be0](https://github.com/Esri/calcite-design-system/commit/92a2be04cd90b26c0e5370465d2ec2565fe51dc0))
 
 ### Bug Fixes
 
-* **font:** Change calcite-font-bold to be semi-bold ([#10745](https://github.com/Esri/calcite-design-system/issues/10745)) ([f1454c1](https://github.com/Esri/calcite-design-system/commit/f1454c146611a79fb36d4055245611d55bb15cd7))
-* **tokens:** Correct space and size tokens ([#10727](https://github.com/Esri/calcite-design-system/issues/10727)) ([13c2df8](https://github.com/Esri/calcite-design-system/commit/13c2df8a9d392aed03475f1dc315d509c9e1957a))
-
+- **font:** Change calcite-font-bold to be semi-bold ([#10745](https://github.com/Esri/calcite-design-system/issues/10745)) ([f1454c1](https://github.com/Esri/calcite-design-system/commit/f1454c146611a79fb36d4055245611d55bb15cd7))
+- **tokens:** Correct space and size tokens ([#10727](https://github.com/Esri/calcite-design-system/issues/10727)) ([13c2df8](https://github.com/Esri/calcite-design-system/commit/13c2df8a9d392aed03475f1dc315d509c9e1957a))
 
 ### Deprecations
 
-* **letter-spacing, paragraph-spacing, text-decoration, text-case:** Align with UIKit ([#10744](https://github.com/Esri/calcite-design-system/issues/10744)) ([239ef96](https://github.com/Esri/calcite-design-system/commit/239ef96137cf19c8de5506f7bbd99be117a098cb))
-
-## [3.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.6...@esri/calcite-design-tokens@3.0.0-next.7) (2025-01-14)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.5...@esri/calcite-design-tokens@3.0.0-next.6) (2025-01-10)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.4...@esri/calcite-design-tokens@3.0.0-next.5) (2025-01-04)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.3...@esri/calcite-design-tokens@3.0.0-next.4) (2025-01-01)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.2...@esri/calcite-design-tokens@3.0.0-next.3) (2024-12-28)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.1...@esri/calcite-design-tokens@3.0.0-next.2) (2024-12-02)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.0...@esri/calcite-design-tokens@3.0.0-next.1) (2024-12-02)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.3.0-next.4...@esri/calcite-design-tokens@3.0.0-next.0) (2024-11-27)
-
-### ⚠ BREAKING CHANGES
-
-- **tokens:** Size and Space token values have changed. Line Height
-  tokens exported for JS and ES6 are now unitless.
-
-### Size
-
-calcite-size-px: 1px;
-calcite-size-xxxs: 0.75rem; // 12px was 2px
-calcite-size-xxs: 0.875rem; // 14px was 4px
-calcite-size-xs: 1rem; // 16px was 6px
-calcite-size-sm: 1.5rem; // 24px was 8px
-calcite-size-sm-plus; // removed
-calcite-size-md: 2rem; // 32px was 12px
-calcite-size-md-plus; // removed
-calcite-size-lg: 2.75rem; // 44px was 16px
-calcite-size-xl: 3rem; // 48px was 20px
-calcite-size-xxl: 4rem; // 64px was 24px
-calcite-size-xxxl: 6rem; // 96px was 32px
-
-### Space
-
-calcite-spacing-none: 0; // new
-calcite-spacing-px: 1px;
-calcite-spacing-base: 2px;
-calcite-spacing-xxs: 0.25rem; // 4px
-calcite-spacing-xs: 0.375rem; // 6px
-calcite-spacing-sm: 0.5rem; // 8px
-calcite-spacing-sm-plus: 0.625rem; // new
-calcite-spacing-md: 0.75rem; // 12px
-calcite-spacing-md-plus: 0.875rem; // new
-calcite-spacing-lg: 1rem; // 16px was 14px
-calcite-spacing-xl: 1.25rem; // 20px was 16px
-calcite-spacing-xxl: 1.5rem; // 24px was 20px
-calcite-spacing-xxxl: 2rem; // 32px
-
-### Pixel based tokens are now categorized under "fixed"
-
-calcite-size-fixed-xxxl: 32px; // deprecated
-calcite-size-fixed-xxl: 24px; // deprecated
-calcite-size-fixed-xl: 20px; // deprecated
-calcite-size-fixed-lg: 16px; // deprecated
-calcite-size-fixed-md: 12px; // deprecated
-calcite-size-fixed-sm: 8px; // deprecated
-calcite-size-fixed-xs: 6px; // deprecated
-calcite-size-fixed-xxs: 4px; // deprecated
-calcite-size-fixed-xxxs: 2px; // deprecated
-
-calcite-spacing-fixed-lg: 14px; // deprecated
-calcite-spacing-fixed-md: 12px; // deprecated
-calcite-spacing-fixed-sm: 8px; // deprecated
-calcite-spacing-fixed-xl: 16px; // deprecated
-calcite-spacing-fixed-xs: 6px; // deprecated
-calcite-spacing-fixed-xxl: 20px; // deprecated
-calcite-spacing-fixed-xxs: 4px; // deprecated
-calcite-spacing-fixed-xxxl: 32px; // deprecated
-
-### Bug Fixes
-
-- **tokens:** correct space and size tokens ([#10727](https://github.com/Esri/calcite-design-system/issues/10727)) ([febb217](https://github.com/Esri/calcite-design-system/commit/febb217121fb5109f02e23573a0185db2ee80684)), closes [#10012](https://github.com/Esri/calcite-design-system/issues/10012) [#10014](https://github.com/Esri/calcite-design-system/issues/10014)
-
-## [2.3.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.3.0-next.3...@esri/calcite-design-tokens@2.3.0-next.4) (2024-11-27)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.3.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.3.0-next.2...@esri/calcite-design-tokens@2.3.0-next.3) (2024-11-26)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.3.0-next.1...@esri/calcite-design-tokens@2.3.0-next.2) (2024-11-21)
-
-### Bug Fixes
-
-- **font:** change calcite-font-bold to be semi-bold ([#10745](https://github.com/Esri/calcite-design-system/issues/10745)) ([ad84dc4](https://github.com/Esri/calcite-design-system/commit/ad84dc46aa939913b8799175cf6b4029a603172d)), closes [#9524](https://github.com/Esri/calcite-design-system/issues/9524)
-
-## [2.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.3.0-next.0...@esri/calcite-design-tokens@2.3.0-next.1) (2024-11-20)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.1-next.4...@esri/calcite-design-tokens@2.3.0-next.0) (2024-10-31)
-
-### Features
-
-- add default focus color token ([#10512](https://github.com/Esri/calcite-design-system/issues/10512)) ([b78626c](https://github.com/Esri/calcite-design-system/commit/b78626c17ee415b6cf95ac0db83bd08250b69f66)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180) [#10510](https://github.com/Esri/calcite-design-system/issues/10510)
-
-## [2.2.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.1-next.3...@esri/calcite-design-tokens@2.2.1-next.4) (2024-09-12)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.2.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.1-next.2...@esri/calcite-design-tokens@2.2.1-next.3) (2024-07-30)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.2.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.1-next.1...@esri/calcite-design-tokens@2.2.1-next.2) (2024-07-29)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.1-next.0...@esri/calcite-design-tokens@2.2.1-next.1) (2024-06-27)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- **letter-spacing, paragraph-spacing, text-decoration, text-case:** Align with UIKit ([#10744](https://github.com/Esri/calcite-design-system/issues/10744)) ([239ef96](https://github.com/Esri/calcite-design-system/commit/239ef96137cf19c8de5506f7bbd99be117a098cb))
 
 ## [2.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.2...@esri/calcite-design-tokens@2.2.0) (2024-04-30)
 
