@@ -4,6 +4,7 @@
   "tag-separator": "@",
   "draft-pull-request": true,
   "include-v-in-tag": false,
+  "commit-search-depth": 1000,
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
     { "type": "fix", "section": "Bug Fixes" },
