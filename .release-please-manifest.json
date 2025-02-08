@@ -1,7 +1,7 @@
 {
-  "packages/calcite-components": "2.13.2",
-  "packages/calcite-components-react": "2.13.2",
-  "packages/calcite-design-tokens": "2.2.0",
-  "packages/calcite-ui-icons": "3.32.0",
-  "packages/eslint-plugin-calcite-components": "1.2.1"
+  "packages/calcite-components": "3.0.0",
+  "packages/calcite-components-react": "3.0.0",
+  "packages/calcite-design-tokens": "3.0.0",
+  "packages/calcite-ui-icons": "4.0.0",
+  "packages/eslint-plugin-calcite-components": "2.0.0"
 }
