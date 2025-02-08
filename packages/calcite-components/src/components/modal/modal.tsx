@@ -368,6 +368,10 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

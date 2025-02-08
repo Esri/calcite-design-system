@@ -246,6 +246,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
