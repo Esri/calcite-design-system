@@ -434,7 +434,15 @@ export class TabTitle extends LitElement implements InteractiveComponent {
             [CSS.scale(this.scale)]: true,
           }}
           hidden={closed}
-          ref={(el) => (el ? this.resizeObserver?.observe(el) : null)}
+          ref={(el) => {
+            const { resizeObserver } = this;
+
+            if (el) {
+              resizeObserver?.observe(el);
+            } else {
+              resizeObserver?.unobserve(el);
+            }
+          }}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
             {this.iconStart ? iconStartEl : null}

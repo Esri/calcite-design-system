@@ -1,6 +1,5 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
   property,
@@ -41,7 +40,6 @@ import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -70,8 +68,6 @@ export class Popover
   // #region Private Properties
 
   private arrowEl: SVGSVGElement;
-
-  private closeButtonEl = createRef<Action["el"]>();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -361,14 +357,19 @@ export class Popover
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
-    this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
+    if (!el) {
+      return;
     }
+
+    this.floatingEl = el;
+    requestAnimationFrame(() => this.setUpReferenceElement());
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -477,6 +478,10 @@ export class Popover
   }
 
   private storeArrowEl(el: SVGSVGElement): void {
+    if (!el) {
+      return;
+    }
+
     this.arrowEl = el;
     this.reposition(true);
   }
@@ -493,7 +498,6 @@ export class Popover
           appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
-          ref={this.closeButtonEl}
           scale={this.scale}
           text={messages.close}
         >

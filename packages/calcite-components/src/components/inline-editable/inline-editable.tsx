@@ -47,8 +47,6 @@ export class InlineEditable
 
   private cancelEditingButton = createRef<Button["el"]>();
 
-  private confirmEditingButton = createRef<Button["el"]>();
-
   private _editingEnabled = false;
 
   private enableEditingButton = createRef<Button["el"]>();
@@ -254,7 +252,7 @@ export class InlineEditable
     if (event.key === "Tab" && this.shouldShowControls) {
       if (!event.shiftKey && event.target === this.inputElement) {
         event.preventDefault();
-        this.cancelEditingButton.value.setFocus();
+        this.cancelEditingButton.value?.setFocus();
       }
       if (!!event.shiftKey && event.target === this.cancelEditingButton.value) {
         event.preventDefault();
@@ -290,7 +288,7 @@ export class InlineEditable
         this.loading = true;
         await this.afterConfirm();
         this.disableEditing();
-        this.enableEditingButton.value.setFocus();
+        this.enableEditingButton.value?.setFocus();
       }
     } catch {
       // we handle error in finally block
@@ -357,7 +355,6 @@ export class InlineEditable
                 label={this.messages.confirmChanges}
                 loading={this.loading}
                 onClick={this.confirmChangesHandler}
-                ref={this.confirmEditingButton}
                 scale={this.scale}
                 title={this.messages.confirmChanges}
                 type="button"

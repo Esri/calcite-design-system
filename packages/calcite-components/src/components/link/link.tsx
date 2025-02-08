@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
+import { createRef, Ref } from "lit-html/directives/ref.js";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -43,7 +44,7 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
   // #region Private Properties
 
   /** the rendered child element */
-  private childEl: HTMLAnchorElement | HTMLSpanElement;
+  private childEl = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
   // #endregion
 
@@ -87,7 +88,7 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    focusElement(this.childEl);
+    focusElement(this.childEl.value);
   }
 
   // #endregion
@@ -122,7 +123,7 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
 
     // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
-      this.childEl.click();
+      this.childEl.value?.click();
     }
   }
 
@@ -131,10 +132,6 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
       // click was invoked internally, we stop it here
       event.stopPropagation();
     }
-  }
-
-  private storeTagRef(el: Link["childEl"]): void {
-    this.childEl = el;
   }
 
   // #endregion
@@ -189,7 +186,10 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
           }
           href={childElType === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.storeTagRef}
+          ref={
+            /* cast to one of the possible types to work around typing bug */
+            this.childEl as Ref<HTMLAnchorElement>
+          }
           rel={childElType === "a" && this.rel}
           role={role}
           tabIndex={tabIndex}

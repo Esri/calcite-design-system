@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -30,7 +31,7 @@ export class Flow extends LitElement implements LoadableComponent {
 
   // #region Private Properties
 
-  private frameEl: HTMLDivElement;
+  private frameEl = createRef<HTMLDivElement>();
 
   private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateItemsAndProps(),
@@ -150,12 +151,12 @@ export class Flow extends LitElement implements LoadableComponent {
   // #region Private Methods
 
   private async handleFlowDirectionChange(flowDirection: FlowDirection): Promise<void> {
-    if (flowDirection === "standby") {
+    if (flowDirection === "standby" || !this.frameEl.value) {
       return;
     }
 
     await whenAnimationDone(
-      this.frameEl,
+      this.frameEl.value,
       flowDirection === "retreating" ? "calcite-frame-retreat" : "calcite-frame-advance",
     );
 
@@ -257,10 +258,6 @@ export class Flow extends LitElement implements LoadableComponent {
     }
   }
 
-  private setFrameEl(el: HTMLDivElement): void {
-    this.frameEl = el;
-  }
-
   // #endregion
 
   // #region Rendering
@@ -275,7 +272,7 @@ export class Flow extends LitElement implements LoadableComponent {
     };
 
     return (
-      <div class={frameDirectionClasses} ref={this.setFrameEl}>
+      <div class={frameDirectionClasses} ref={this.frameEl}>
         <slot />
       </div>
     );

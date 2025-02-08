@@ -675,22 +675,42 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private setHourEl(el: HTMLSpanElement): void {
+    if (!el) {
+      return;
+    }
+
     this.hourEl = el;
   }
 
   private setMeridiemEl(el: HTMLSpanElement): void {
+    if (!el) {
+      return;
+    }
+
     this.meridiemEl = el;
   }
 
   private setMinuteEl(el: HTMLSpanElement): void {
+    if (!el) {
+      return;
+    }
+
     this.minuteEl = el;
   }
 
   private setSecondEl(el: HTMLSpanElement): void {
+    if (!el) {
+      return;
+    }
+
     this.secondEl = el;
   }
 
   private setFractionalSecondEl(el: HTMLSpanElement): void {
+    if (!el) {
+      return;
+    }
+
     this.fractionalSecondEl = el;
   }
 

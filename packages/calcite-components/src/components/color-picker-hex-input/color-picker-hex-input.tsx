@@ -378,12 +378,20 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
     this.value = oldValue;
   }
 
-  private storeHexInputRef(node: InputText["el"]): void {
-    this.hexInputNode = node;
+  private storeHexInputRef(el: InputText["el"]): void {
+    if (!el) {
+      return;
+    }
+
+    this.hexInputNode = el;
   }
 
-  private storeOpacityInputRef(node: InputNumber["el"]): void {
-    this.opacityInputNode = node;
+  private storeOpacityInputRef(el: InputNumber["el"]): void {
+    if (!el) {
+      return;
+    }
+
+    this.opacityInputNode = el;
   }
 
   private formatHexForInternalInput(hex: string): string {

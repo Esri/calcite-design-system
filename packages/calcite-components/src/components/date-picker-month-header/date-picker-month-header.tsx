@@ -295,7 +295,7 @@ export class DatePickerMonthHeader extends LitElement {
       this.calciteInternalDatePickerMonthHeaderSelectChange.emit(inRangeDate);
     }
 
-    if (commit) {
+    if (commit && yearInputEl.value) {
       yearInputEl.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
@@ -353,7 +353,7 @@ export class DatePickerMonthHeader extends LitElement {
       if (!this.position) {
         await (isDirectionLeft ? this.nextMonthAction.setFocus() : this.prevMonthAction.setFocus());
       } else {
-        this.yearInputEl.value.focus();
+        this.yearInputEl.value?.focus();
       }
     }
   }
@@ -517,7 +517,13 @@ export class DatePickerMonthHeader extends LitElement {
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
-        ref={(el) => (isDirectionRight ? (this.nextMonthAction = el) : (this.prevMonthAction = el))}
+        ref={(el) => {
+          if (!el) {
+            return;
+          }
+
+          return isDirectionRight ? (this.nextMonthAction = el) : (this.prevMonthAction = el);
+        }}
         role="button"
         scale={this.scale === "l" ? "l" : "m"}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}

@@ -9,6 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -68,7 +69,7 @@ export class InputTimeZone
 
   // #region Private Properties
 
-  private comboboxEl: Combobox["el"];
+  private comboboxEl = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -239,7 +240,7 @@ export class InputTimeZone
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    await this.comboboxEl.setFocus();
+    await this.comboboxEl.value?.setFocus();
   }
 
   // #endregion
@@ -337,8 +338,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl) {
-      this.comboboxEl.open = this.open;
+    if (this.comboboxEl.value) {
+      this.comboboxEl.value.open = this.open;
     }
   }
 
@@ -377,10 +378,6 @@ export class InputTimeZone
     this.setFocus();
   }
 
-  private setComboboxRef(el: Combobox["el"]): void {
-    this.comboboxEl = el;
-  }
-
   /**
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
@@ -394,10 +391,12 @@ export class InputTimeZone
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    this.comboboxEl.selectedItems[0].textLabel =
-      !metadata.country || open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+    if (this.comboboxEl.value) {
+      this.comboboxEl.value.selectedItems[0].textLabel =
+        !metadata.country || open
+          ? label
+          : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+    }
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {

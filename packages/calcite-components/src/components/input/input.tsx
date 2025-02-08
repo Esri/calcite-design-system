@@ -97,13 +97,13 @@ export class Input
   );
 
   /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
+  private childEl = createRef<HTMLInputElement | HTMLTextAreaElement>();
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
   /** number text input element for locale */
-  private childNumberEl?: HTMLInputElement;
+  private childNumberEl = createRef<HTMLInputElement>();
 
   defaultValue: Input["value"];
 
@@ -429,9 +429,9 @@ export class Input
   @method()
   async selectText(): Promise<void> {
     if (this.type === "number") {
-      this.childNumberEl?.select();
+      this.childNumberEl.value?.select();
     } else {
-      this.childEl?.select();
+      this.childEl.value?.select();
     }
   }
 
@@ -440,7 +440,7 @@ export class Input
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
+    focusFirstTabbable(this.type === "number" ? this.childNumberEl.value : this.childEl.value);
   }
 
   // #endregion
@@ -683,7 +683,7 @@ export class Input
     }
 
     if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
+      this.files = (this.childEl.value as HTMLInputElement).files;
     }
 
     this.setValue({
@@ -727,7 +727,9 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.displayedValue;
+      if (this.childNumberEl.value) {
+        this.childNumberEl.value.value = this.displayedValue;
+      }
     } else {
       this.setValue({
         nativeEvent,
@@ -786,27 +788,30 @@ export class Input
       useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (
+        this.value &&
+        this.childNumberEl.value?.value.indexOf(numberStringFormatter.decimal) === -1
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key)) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberEl.value?.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.split("-").length <= 2) {
+      if (this.value && this.childNumberEl.value?.value.split("-").length <= 2) {
         return;
       }
     }
@@ -861,19 +866,11 @@ export class Input
     syncHiddenFormInput(this.type, this, input);
   }
 
-  private setChildElRef(el: HTMLInputElement | HTMLTextAreaElement) {
-    this.childEl = el;
-  }
-
-  private setChildNumberElRef(el: HTMLInputElement) {
-    this.childNumberEl = el;
-  }
-
   private setInputValue(newInputValue: string): void {
-    if (this.type === "number" && this.childNumberEl) {
-      this.childNumberEl.value = newInputValue;
-    } else if (this.childEl) {
-      this.childEl.value = newInputValue;
+    if (this.type === "number" && this.childNumberEl.value) {
+      this.childNumberEl.value.value = newInputValue;
+    } else if (this.childEl.value) {
+      this.childEl.value.value = newInputValue;
     }
   }
 
@@ -1094,7 +1091,7 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildNumberElRef}
+          ref={this.childNumberEl}
           type="text"
           value={this.displayedValue}
         />
@@ -1136,7 +1133,7 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildElRef}
+          ref={this.childEl}
           required={this.required ? true : null}
           spellcheck={this.el.spellcheck}
           step={this.step}

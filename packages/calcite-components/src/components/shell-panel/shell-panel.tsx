@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   getElementDir,
   isPrimaryPointerButton,
@@ -39,7 +40,7 @@ export class ShellPanel extends LitElement {
 
   private actionBars: ActionBar["el"][] = [];
 
-  private contentEl: HTMLDivElement;
+  private contentEl = createRef<HTMLDivElement>();
 
   private contentHeightMax: number = null;
 
@@ -266,7 +267,9 @@ export class ShellPanel extends LitElement {
   }
 
   private updateAriaValues(): void {
-    const { contentEl } = this;
+    const {
+      contentEl: { value: contentEl },
+    } = this;
     const computedStyle = contentEl && getComputedStyle(contentEl);
 
     if (!computedStyle) {
@@ -327,10 +330,6 @@ export class ShellPanel extends LitElement {
     if (typeof min === "number" && !isNaN(min)) {
       this.contentHeightMin = min;
     }
-  }
-
-  private storeContentEl(contentEl: HTMLDivElement): void {
-    this.contentEl = contentEl;
   }
 
   private getKeyAdjustedSize(event: KeyboardEvent): number | null {
@@ -461,17 +460,21 @@ export class ShellPanel extends LitElement {
   }
 
   private setInitialContentHeight(): void {
-    this.initialContentHeight = this.contentEl?.getBoundingClientRect().height;
+    this.initialContentHeight = this.contentEl.value?.getBoundingClientRect().height;
   }
 
   private setInitialContentWidth(): void {
-    this.initialContentWidth = this.contentEl?.getBoundingClientRect().width;
+    this.initialContentWidth = this.contentEl.value?.getBoundingClientRect().width;
   }
 
-  private connectSeparator(separatorEl: HTMLDivElement): void {
+  private setSeparatorRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.disconnectSeparator();
-    this.separatorEl = separatorEl;
-    separatorEl?.addEventListener(
+    this.separatorEl = el;
+    el?.addEventListener(
       "pointerdown",
       this.separatorPointerDown,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
@@ -559,7 +562,7 @@ export class ShellPanel extends LitElement {
           class={CSS.separator}
           key="separator"
           onKeyDown={this.separatorKeyDown}
-          ref={this.connectSeparator}
+          ref={this.setSeparatorRef}
           role="separator"
           tabIndex={0}
           touch-action="none"
@@ -596,7 +599,7 @@ export class ShellPanel extends LitElement {
         }}
         hidden={collapsed}
         key="content"
-        ref={this.storeContentEl}
+        ref={this.contentEl}
         style={style}
       >
         {this.renderHeader()}

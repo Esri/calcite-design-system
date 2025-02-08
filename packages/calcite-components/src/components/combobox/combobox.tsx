@@ -735,7 +735,9 @@ export class Combobox
   }
 
   private clearInputValue(): void {
-    this.textInput.value.value = "";
+    if (this.textInput.value) {
+      this.textInput.value.value = "";
+    }
     this.filterText = "";
   }
 
@@ -786,7 +788,7 @@ export class Combobox
         }
         break;
       case "ArrowLeft":
-        if (this.activeChipIndex !== -1 || this.textInput.value.selectionStart === 0) {
+        if (this.activeChipIndex !== -1 || this.textInput.value?.selectionStart === 0) {
           this.previousChip();
           event.preventDefault();
         }
@@ -825,7 +827,7 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value.value && !event.defaultPrevented) {
+        if (!this.textInput.value?.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
@@ -1062,6 +1064,10 @@ export class Combobox
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.floatingEl = el;
     connectFloatingUI(this);
   }
@@ -1082,30 +1088,46 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.chipContainerEl = el;
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.referenceEl = el;
     connectFloatingUI(this);
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.allSelectedIndicatorChipEl = el;
   }
 
   private setSelectedIndicatorChipEl(el: Chip["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.selectedIndicatorChipEl = el;
   }
 

@@ -133,7 +133,7 @@ export class MenuItem extends LitElement implements LoadableComponent {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.anchorEl.value.focus();
+    this.anchorEl.value?.focus();
   }
 
   // #endregion

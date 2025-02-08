@@ -444,6 +444,10 @@ export class ListItem
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.sortHandleEl = el;
     this.sortHandleOpenHandler();
   }
@@ -643,7 +647,7 @@ export class ListItem
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);
-        containerEl.focus();
+        containerEl?.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }

@@ -810,6 +810,10 @@ export class List
   }
 
   private setFilterEl(el: Filter["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.filterEl = el;
     this.performFilter();
   }

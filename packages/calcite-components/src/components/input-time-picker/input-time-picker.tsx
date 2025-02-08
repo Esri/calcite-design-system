@@ -16,6 +16,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -195,7 +196,7 @@ export class InputTimePicker
 
   // #region State Properties
 
-  @state() calciteInputEl: InputText["el"];
+  @state() calciteInputEl = createRef<InputText["el"]>();
 
   @state() effectiveHourFormat: EffectiveHourFormat;
 
@@ -496,7 +497,7 @@ export class InputTimePicker
   }
 
   private hostBlurHandler(): void {
-    const delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
+    const delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value?.value);
 
     if (!delocalizedInputValue) {
       this.setValue("");
@@ -711,14 +712,14 @@ export class InputTimePicker
     if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
-        this.calciteInputEl.setFocus();
+        this.calciteInputEl.value?.setFocus();
       }
 
       if (event.composedPath().includes(this.calciteTimePickerEl)) {
         return;
       }
 
-      const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
+      const newValue = this.delocalizeTimeString(this.calciteInputEl.value?.value);
 
       if (isValidTime(newValue)) {
         this.setValue(newValue);
@@ -917,13 +918,6 @@ export class InputTimePicker
     this.openHandler();
   }
 
-  private setInputEl(el: InputText["el"]): void {
-    if (!el) {
-      return;
-    }
-    this.calciteInputEl = el;
-  }
-
   private setCalciteTimePickerEl(el: TimePicker["el"]): void {
     if (!el) {
       return;
@@ -995,10 +989,9 @@ export class InputTimePicker
   };
 
   private setInputValue(newInputValue: string): void {
-    if (!this.calciteInputEl) {
-      return;
+    if (this.calciteInputEl.value) {
+      this.calciteInputEl.value.value = newInputValue;
     }
-    this.calciteInputEl.value = newInputValue;
   }
 
   /**
@@ -1068,7 +1061,7 @@ export class InputTimePicker
             oncalciteInputTextInput={this.calciteInternalInputInputHandler}
             oncalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
-            ref={this.setInputEl}
+            ref={this.calciteInputEl}
             role="combobox"
             scale={this.scale}
             status={this.status}
@@ -1089,7 +1082,7 @@ export class InputTimePicker
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.calciteInputEl}
+          referenceElement={this.calciteInputEl.value}
           triggerDisabled={true}
         >
           <calcite-time-picker

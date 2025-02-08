@@ -478,9 +478,11 @@ export class Dropdown
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }
@@ -503,14 +505,20 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.referenceEl = el;
     connectFloatingUI(this);
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
+    this.resizeObserver?.observe(el);
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.floatingEl = el;
     connectFloatingUI(this);
   }

@@ -11,6 +11,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -126,7 +127,7 @@ export class InputDatePicker
 
   private dialogId = `date-picker-dialog--${guid()}`;
 
-  private endInput: InputText["el"];
+  private endInput = createRef<InputText["el"]>();
 
   private endWrapper: HTMLDivElement;
 
@@ -154,7 +155,7 @@ export class InputDatePicker
 
   referenceEl: HTMLDivElement;
 
-  private startInput: InputText["el"];
+  private startInput = createRef<InputText["el"]>();
 
   private startWrapper: HTMLDivElement;
 
@@ -670,7 +671,7 @@ export class InputDatePicker
 
     if (wasToggleClicked) {
       const targetInput = position === "start" ? startInput : endInput;
-      targetInput.setFocus();
+      targetInput.value?.setFocus();
     }
 
     if (!range || !this.open || currentOpenInput === position) {
@@ -687,6 +688,10 @@ export class InputDatePicker
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -724,14 +729,6 @@ export class InputDatePicker
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     syncHiddenFormInput("date", this, input);
-  }
-
-  private setStartInput(el: InputText["el"]): void {
-    this.startInput = el;
-  }
-
-  private setEndInput(el: InputText["el"]): void {
-    this.endInput = el;
   }
 
   private blurHandler(): void {
@@ -797,9 +794,9 @@ export class InputDatePicker
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
-        this.endInput?.setFocus();
+        this.endInput.value?.setFocus();
       } else if (this.shouldFocusRangeStart()) {
-        this.startInput?.setFocus();
+        this.startInput.value?.setFocus();
       }
 
       if (submitForm(this)) {
@@ -825,21 +822,37 @@ export class InputDatePicker
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.floatingEl = el;
     connectFloatingUI(this);
   }
 
   private setStartWrapper(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.startWrapper = el;
     this.setReferenceEl();
   }
 
   private setEndWrapper(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.endWrapper = el;
     this.setReferenceEl();
   }
 
   private setDatePickerRef(el: DatePicker["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.datePickerEl = el;
     connectFocusTrap(this, {
       focusTrapEl: el,
@@ -893,7 +906,7 @@ export class InputDatePicker
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
+    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput.value);
   }
 
   private handleDateRangeChange(event: CustomEvent<void>): void {
@@ -912,7 +925,7 @@ export class InputDatePicker
 
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
-      this.startInput.setFocus();
+      this.startInput.value?.setFocus();
       this.open = false;
       return;
     }
@@ -1077,8 +1090,9 @@ export class InputDatePicker
   }
 
   private focusInput(): void {
-    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
-    focusedInput.setFocus();
+    const focusedInput =
+      this.focusedInput === "start" ? this.startInput.value : this.endInput.value;
+    focusedInput?.setFocus();
   }
 
   // #endregion
@@ -1131,7 +1145,7 @@ export class InputDatePicker
                   oncalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setStartInput}
+                  ref={this.startInput}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
@@ -1215,7 +1229,7 @@ export class InputDatePicker
                     oncalciteInternalInputTextFocus={this.endInputFocus}
                     placeholder={this.localeData?.placeholder}
                     readOnly={readOnly}
-                    ref={this.setEndInput}
+                    ref={this.endInput}
                     role="combobox"
                     scale={this.scale}
                     status={this.status}

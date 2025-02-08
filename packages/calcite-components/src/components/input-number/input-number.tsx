@@ -95,7 +95,7 @@ export class InputNumber
   );
 
   /** number text input element for locale */
-  private childNumberEl?: HTMLInputElement;
+  private childNumberEl = createRef<HTMLInputElement>();
 
   defaultValue: InputNumber["value"];
 
@@ -366,7 +366,7 @@ export class InputNumber
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childNumberEl?.select();
+    this.childNumberEl.value?.select();
   }
 
   /** Sets focus on the component. */
@@ -374,7 +374,7 @@ export class InputNumber
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.childNumberEl?.focus();
+    this.childNumberEl.value?.focus();
   }
 
   // #endregion
@@ -641,7 +641,9 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.displayedValue;
+      if (this.childNumberEl.value) {
+        this.childNumberEl.value.value = this.displayedValue;
+      }
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -702,27 +704,30 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (
+        this.value &&
+        this.childNumberEl.value?.value.indexOf(numberStringFormatter.decimal) === -1
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberEl.value?.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberEl.value?.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.split("-").length <= 2) {
+      if (this.value && this.childNumberEl.value?.value.split("-").length <= 2) {
         return;
       }
     }
@@ -784,15 +789,11 @@ export class InputNumber
     syncHiddenFormInput("number", this, input);
   }
 
-  private setChildNumberElRef(el: HTMLInputElement) {
-    this.childNumberEl = el;
-  }
-
   private setInputNumberValue(newInputValue: string): void {
-    if (!this.childNumberEl) {
+    if (!this.childNumberEl.value) {
       return;
     }
-    this.childNumberEl.value = newInputValue;
+    this.childNumberEl.value.value = newInputValue;
   }
 
   private setPreviousEmittedNumberValue(value: string): void {
@@ -1004,7 +1005,7 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildNumberElRef}
+        ref={this.childNumberEl}
         type="text"
         value={this.displayedValue}
       />

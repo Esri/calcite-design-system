@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
@@ -65,7 +66,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   // #region Private Properties
 
-  private containerEl: HTMLElement;
+  private containerEl = createRef<HTMLElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -200,7 +201,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
+    focusFirstTabbable(this.containerEl.value);
   }
 
   // #endregion
@@ -278,10 +279,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
     } else {
       panelScrollEl.removeAttribute("tabindex");
     }
-  }
-
-  private setContainerRef(node: HTMLElement): void {
-    this.containerEl = node;
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
@@ -380,13 +377,14 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   }
 
   private setPanelScrollEl(el: HTMLElement): void {
+    if (!el) {
+      return;
+    }
+
     this.panelScrollEl = el;
     this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-      this.resizeHandler();
-    }
+    this.resizeObserver?.observe(el);
+    this.resizeHandler();
   }
 
   private handleAlertsSlotChange(event: Event): void {
@@ -657,12 +655,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
     const { disabled, loading, isClosed } = this;
 
     const panelNode = (
-      <article
-        ariaBusy={loading}
-        class={CSS.container}
-        hidden={isClosed}
-        ref={this.setContainerRef}
-      >
+      <article ariaBusy={loading} class={CSS.container} hidden={isClosed} ref={this.containerEl}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

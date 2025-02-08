@@ -63,8 +63,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
 
   // #region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
-
   private contentId: string;
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -368,6 +366,10 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -577,7 +579,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
         class={CSS.close}
         key="button"
         onClick={this.handleCloseClick}
-        ref={this.closeButtonEl}
         title={this.messages.close}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />

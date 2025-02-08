@@ -281,11 +281,12 @@ export class Button
   }
 
   private setChildEl(el: HTMLElement): void {
-    this.childEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.childEl = el;
+    this.resizeObserver?.observe(el);
   }
 
   // #endregion
