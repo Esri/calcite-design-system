@@ -16,57 +16,31 @@
     <button onclick="remove('calcite-icons');">Remove icon</button>
 
     <script type="module">
-      import { LitElement } from "lit";
-
-      class LuminaElement extends LitElement {
-        static lumina = true;
-      }
-      class Icon extends LuminaElement {
-        createRenderRoot() {
+      class Icon extends HTMLElement {
+        connectedCallback() {
           this.el = document.querySelector("calcite-icons");
           const renderRoot = this.el.attachShadow({ mode: "open" });
           Object.defineProperty(this, "shadowRoot", {
             // Create shadow root on the proxy instance, to make Lit render content there
             value: renderRoot,
           });
-          renderRoot.getRootNode().adoptedStyleSheets = [Icon.styles];
+          const style = new CSSStyleSheet();
+          style.replaceSync(`:host{display:inline-block}`);
+          renderRoot.getRootNode().adoptedStyleSheets = [style];
           return renderRoot;
         }
         static get isConnected() {
           return this.el.isConnected;
         }
-        static tagName = "calcite-icons";
-        static get styles() {
-          const style = new CSSStyleSheet();
-          style.replaceSync(`:host{display:inline-block}`);
-          // return undefined;
-          return style;
-        }
       }
       class ProxyComponent extends HTMLElement {
-        static lumina = true;
         constructor() {
           super();
-          this._initializeComponent({ a: Icon });
-        }
-        connectedCallback() {
-          this._litElement.connectedCallback();
-        }
-        _initializeComponent(module) {
-          const ProxyClass = this.constructor;
-          const store = this._store;
-
-          // Support multiple components in a single file
-          const LitConstructor = Object.values(module).a;
-
-          const lazyTagName = `calcite-icons--lazy`;
-          const litElement = document.createElement(lazyTagName);
+          const litElement = document.createElement("calcite-icons--lazy");
           this._litElement = litElement;
           litElement.connectedCallback?.();
         }
       }
-
-      const ProxyClass = class extends ProxyComponent {};
 
       customElements.define("calcite-icons--lazy", Icon);
       {
@@ -75,7 +49,7 @@
         document.body.appendChild(icon);
       }
 
-      customElements.define("calcite-icons", ProxyClass);
+      customElements.define("calcite-icons", ProxyComponent);
     </script>
     <script>
       const consoleLog = window.console.log;
