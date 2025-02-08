@@ -7,30 +7,131 @@
   </head>
 
   <body>
-    <custom-element></custom-element>
-    <script>
-      customElements.define(
-        "custom-element",
-        class extends HTMLElement {
-          constructor() {
-            super();
-            this.attachShadow({ mode: "open" });
-            const styles = new CSSStyleSheet();
-            styles.replaceSync(`    :host {
-      display: inline-block;
-  `);
-            this.shadowRoot.adoptedStyleSheets = [styles];
-          }
-        },
-      );
-      setTimeout(() => {
-        const t = document.querySelector("custom-element");
-        const registry = new FinalizationRegistry((heldValue) => {
-          console.log(`garbage collected "${heldValue}"`);
-        });
-        registry.register(t, "custom-element (Proxy)");
-        t.remove();
-      }, 100);
+    <button onclick="remove('calcite-icons');">Remove icon</button>
+
+    <script type="module">
+      class ProxyComponent extends HTMLElement {
+        constructor() {
+          super();
+          const renderRoot = this.attachShadow({ mode: "open" });
+          const style = new CSSStyleSheet();
+          style.replaceSync(`:host{display:inline-block}`);
+          renderRoot.adoptedStyleSheets = [style];
+        }
+      }
+
+      {
+        const icon = document.createElement("calcite-icons");
+        icon.icon = "check-circle";
+        document.body.appendChild(icon);
+      }
+
+      customElements.define("calcite-icons", ProxyComponent);
     </script>
+    <script>
+      const consoleLog = window.console.log;
+      const registry = new FinalizationRegistry((heldValue) => {
+        consoleLog(`garbage collected "${heldValue}"`);
+      });
+
+      let counter = 0;
+      function remove(tagName) {
+        let el = document.querySelector(tagName);
+        consoleLog(`removing "${el.tagName}"`);
+        registry.register(el, el.tagName + " (Proxy)");
+        // registry.register(el._litElement, el.tagName + " (LitElement)");
+        el.remove();
+
+        setTimeout(() => {
+          // el._litElement.__childPart = undefined;
+          el.shadowRoot._$litPart$ = undefined;
+          // el._litElement.manager = undefined;
+          delete el._litElement;
+          (el.shadowRoot ?? el).innerHTML = "";
+          (el.shadowRoot ?? document).adoptedStyleSheets = [];
+          nukeProperties(el.shadowRoot);
+          Object.getOwnPropertySymbols(el).map((property) => {
+            try {
+              delete el[property];
+            } catch {}
+          });
+          Object.getOwnPropertyNames(el).map((property) => {
+            try {
+              delete el[property];
+            } catch {}
+          });
+          counter += 1;
+          if (counter === 1) {
+            document.head.remove();
+            document.body.remove();
+            let Class = customElements.get(tagName);
+            nukeProperties(Class);
+            nukeProperties(ShadowRoot);
+            nukeProperties(document);
+            nukeProperties(window);
+          }
+        }, 1000);
+      }
+      function nukeProperties(Class) {
+        const Object = window.Object;
+        while (Class) {
+          Object.getOwnPropertyNames(Class).map((property) => {
+            try {
+              delete Class[property];
+            } catch {}
+          });
+          Object.getOwnPropertySymbols(Class).map((property) => {
+            try {
+              delete Class[property];
+            } catch {}
+          });
+          if (Class.prototype) {
+            Object.getOwnPropertyNames(Class.prototype).map((property) => {
+              try {
+                delete Class.prototype[property];
+              } catch {}
+            });
+            Object.getOwnPropertySymbols(Class.prototype).map((property) => {
+              try {
+                delete Class.prototype[property];
+              } catch {}
+            });
+          }
+          Class = Object.getPrototypeOf(Class);
+        }
+        link = undefined;
+      }
+    </script>
+    <!--<calcite-icons icon="check-circle"></calcite-icons>
+    <calcite-link open>Link</calcite-link>
+
+    <script>
+      const registry = new FinalizationRegistry((heldValue) => {
+        console.log(`garbage collected "${heldValue}"`);
+      });
+
+      // Icon is cleaned up fine - only calcite-link has issues
+      let icon = document.querySelector("calcite-icons");
+      let link = document.querySelector("calcite-link");
+      customElements
+        .whenDefined("calcite-link")
+        .then(async () => {
+          await icon.componentOnReady();
+          await link.componentOnReady();
+        })
+        .then(() => {
+          setTimeout(() => {
+            clean(icon, "icon");
+            clean(link, "link");
+            icon = undefined;
+            link = undefined;
+            function clean(el) {
+              registry.register(el, el.tagName + " (Proxy)");
+              registry.register(el._litElement, el.tagName + " (LitElement)");
+              el.remove();
+            }
+          }, 1000);
+        });
+    </script>-->
   </body>
 </html>

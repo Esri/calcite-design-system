@@ -4,47 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
-    <script src="/src/demos/_assets/head.ts"></script>
-    <style>
-      a {
-        text-decoration: none;
-      }
-    </style>
   </head>
 
   <body>
     <button onclick="remove('calcite-icons');">Remove icon</button>
 
     <script type="module">
-      class Icon extends HTMLElement {
-        connectedCallback() {
-          this.el = document.querySelector("calcite-icons");
-          const renderRoot = this.el.attachShadow({ mode: "open" });
-          const style = new CSSStyleSheet();
-          style.replaceSync(`:host{display:inline-block}`);
-          renderRoot.getRootNode().adoptedStyleSheets = [style];
-          return renderRoot;
-        }
-        static get isConnected() {
-          return this.el.isConnected;
-        }
-      }
       class ProxyComponent extends HTMLElement {
         constructor() {
           super();
-          const litElement = document.createElement("calcite-icons--lazy");
-          this._litElement = litElement;
-          litElement.connectedCallback?.();
+          const renderRoot = this.attachShadow({ mode: "open" });
+          const style = new CSSStyleSheet();
+          style.replaceSync(`:host{display:inline-block}`);
+          renderRoot.adoptedStyleSheets = [style];
         }
       }
 
-      customElements.define("calcite-icons--lazy", Icon);
       {
         const icon = document.createElement("calcite-icons");
         icon.icon = "check-circle";
         document.body.appendChild(icon);
       }
-
       customElements.define("calcite-icons", ProxyComponent);
     </script>
     <script>
@@ -58,17 +38,12 @@
         let el = document.querySelector(tagName);
         consoleLog(`removing "${el.tagName}"`);
         registry.register(el, el.tagName + " (Proxy)");
-        registry.register(el._litElement, el.tagName + " (LitElement)");
         el.remove();
 
         setTimeout(() => {
-          el._litElement.__childPart = undefined;
           el.shadowRoot._$litPart$ = undefined;
-          el._litElement.manager = undefined;
-          delete el._litElement;
           (el.shadowRoot ?? el).innerHTML = "";
           (el.shadowRoot ?? document).adoptedStyleSheets = [];
-          el._store = undefined;
           nukeProperties(el.shadowRoot);
           Object.getOwnPropertySymbols(el).map((property) => {
             try {
