@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
   <head>
+    <script type="module" src="/index.html_html-proxy&index=1.js"></script>
+
     <meta charset="utf-8" />
     <title>Demos</title>
   </head>
@@ -8,18 +10,7 @@
     <button onclick="remove('calcite-icons');">Remove icon</button>
     <calcite-icons></calcite-icons>
 
-    <script type="module">
-      class ProxyComponent extends HTMLElement {
-        constructor() {
-          super();
-          const renderRoot = this.attachShadow({ mode: "open" });
-          const style = new CSSStyleSheet();
-          style.replaceSync(`:host{display:inline-block}`);
-          renderRoot.adoptedStyleSheets = [style];
-        }
-      }
-      customElements.define("calcite-icons", ProxyComponent);
-    </script>
+    <script type="module" src="/index.html_html-proxy&index=2.js"></script>
     <script>
       const consoleLog = window.console.log;
       const registry = new FinalizationRegistry((heldValue) => {
