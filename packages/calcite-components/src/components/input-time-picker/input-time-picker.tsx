@@ -1,10 +1,4 @@
 // @ts-strict-ignore
-import dayjs from "dayjs/esm/index.js";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat/index.js";
-import localeData from "dayjs/esm/plugin/localeData/index.js";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat/index.js";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat/index.js";
-import updateLocale from "dayjs/esm/plugin/updateLocale/index.js";
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -38,22 +32,14 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import {
-  localizedTwentyFourHourMeridiems,
-  getSupportedLocale,
-  NumberingSystem,
-  SupportedLocale,
-} from "../../utils/locale";
+import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import {
   formatTimePart,
   formatTimeString,
   FractionalSecondDigits,
   getLocaleHourFormat,
-  getLocaleOppositeHourFormat,
-  getMeridiemFormatToken,
   getMeridiemOrder,
   EffectiveHourFormat,
-  isLocaleHourFormatOpposite,
   isValidTime,
   localizeTimeString,
   toISOTimeString,
@@ -90,73 +76,6 @@ declare global {
   interface DeclareElements {
     "calcite-input-time-picker": InputTimePicker;
   }
-}
-
-// some bundlers (e.g., Webpack) need dynamic import paths to be static
-const supportedDayjsLocaleToLocaleConfigImport = new Map([
-  ["ar", () => import("dayjs/esm/locale/ar.js")],
-  ["bg", () => import("dayjs/esm/locale/bg.js")],
-  ["bs", () => import("dayjs/esm/locale/bs.js")],
-  ["ca", () => import("dayjs/esm/locale/ca.js")],
-  ["cs", () => import("dayjs/esm/locale/cs.js")],
-  ["da", () => import("dayjs/esm/locale/da.js")],
-  ["de", () => import("dayjs/esm/locale/de.js")],
-  ["de-at", () => import("dayjs/esm/locale/de-at.js")],
-  ["de-ch", () => import("dayjs/esm/locale/de-ch.js")],
-  ["el", () => import("dayjs/esm/locale/el.js")],
-  ["en", () => import("dayjs/esm/locale/en.js")],
-  ["en-au", () => import("dayjs/esm/locale/en-au.js")],
-  ["en-ca", () => import("dayjs/esm/locale/en-ca.js")],
-  ["en-gb", () => import("dayjs/esm/locale/en-gb.js")],
-  ["es", () => import("dayjs/esm/locale/es.js")],
-  ["es-mx", () => import("dayjs/esm/locale/es-mx.js")],
-  ["et", () => import("dayjs/esm/locale/et.js")],
-  ["fi", () => import("dayjs/esm/locale/fi.js")],
-  ["fr", () => import("dayjs/esm/locale/fr.js")],
-  ["fr-ch", () => import("dayjs/esm/locale/fr-ch.js")],
-  ["he", () => import("dayjs/esm/locale/he.js")],
-  ["hi", () => import("dayjs/esm/locale/hi.js")],
-  ["hr", () => import("dayjs/esm/locale/hr.js")],
-  ["hu", () => import("dayjs/esm/locale/hu.js")],
-  ["id", () => import("dayjs/esm/locale/id.js")],
-  ["it", () => import("dayjs/esm/locale/it.js")],
-  ["it-ch", () => import("dayjs/esm/locale/it-ch.js")],
-  ["ja", () => import("dayjs/esm/locale/ja.js")],
-  ["ko", () => import("dayjs/esm/locale/ko.js")],
-  ["lt", () => import("dayjs/esm/locale/lt.js")],
-  ["lv", () => import("dayjs/esm/locale/lv.js")],
-  ["mk", () => import("dayjs/esm/locale/mk.js")],
-  ["nl", () => import("dayjs/esm/locale/nl.js")],
-  ["nb", () => import("dayjs/esm/locale/nb.js")],
-  ["pl", () => import("dayjs/esm/locale/pl.js")],
-  ["pt", () => import("dayjs/esm/locale/pt.js")],
-  ["pt-br", () => import("dayjs/esm/locale/pt-br.js")],
-  ["ro", () => import("dayjs/esm/locale/ro.js")],
-  ["ru", () => import("dayjs/esm/locale/ru.js")],
-  ["sk", () => import("dayjs/esm/locale/sk.js")],
-  ["sl", () => import("dayjs/esm/locale/sl.js")],
-  ["sr", () => import("dayjs/esm/locale/sr.js")],
-  ["sv", () => import("dayjs/esm/locale/sv.js")],
-  ["th", () => import("dayjs/esm/locale/th.js")],
-  ["tr", () => import("dayjs/esm/locale/tr.js")],
-  ["uk", () => import("dayjs/esm/locale/uk.js")],
-  ["vi", () => import("dayjs/esm/locale/vi.js")],
-  ["zh-cn", () => import("dayjs/esm/locale/zh-cn.js")],
-  ["zh-hk", () => import("dayjs/esm/locale/zh-hk.js")],
-  ["zh-tw", () => import("dayjs/esm/locale/zh-tw.js")],
-]);
-
-dayjs.extend(customParseFormat);
-dayjs.extend(localeData);
-dayjs.extend(localizedFormat);
-dayjs.extend(preParsePostFormat);
-dayjs.extend(updateLocale);
-
-interface DayjsTimeParts {
-  hour: number;
-  minute: number;
-  second: number;
-  millisecond: number;
 }
 
 function capitalize(str: string): string {
@@ -196,12 +115,6 @@ export class InputTimePicker
   private minuteEl: HTMLSpanElement;
 
   labelEl: Label["el"];
-
-  private localeConfig: ILocale;
-
-  private localeDefaultLTFormat: string;
-
-  private localeDefaultLTSFormat: string;
 
   private meridiemOrder: number;
 
@@ -496,7 +409,6 @@ export class InputTimePicker
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    await this.loadLocaleData();
     this.updateLocale();
   }
 
@@ -516,6 +428,7 @@ export class InputTimePicker
     }
 
     if (changes.has("hourFormat")) {
+      // TODO: relocalize input value
       this.updateLocale();
     }
 
@@ -526,10 +439,12 @@ export class InputTimePicker
     }
 
     if (changes.has("messages")) {
+      // TODO: relocalize input value
       this.langWatcher();
     }
 
     if (changes.has("numberingSystem")) {
+      // TODO: relocalize input value
       this.setLocalizedInputValue({ numberingSystem: changes.get("numberingSystem") });
     }
 
@@ -538,6 +453,7 @@ export class InputTimePicker
     }
 
     if (changes.has("value")) {
+      // TODO: relocalize input value
       this.setLocalizedInputValue({ isoTimeString: changes.get("value") });
     }
   }
@@ -563,7 +479,6 @@ export class InputTimePicker
   // #region Private Methods
 
   private async langWatcher(): Promise<void> {
-    await this.loadLocaleData();
     this.updateLocale();
   }
 
@@ -750,16 +665,13 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
-    const includeSeconds = this.shouldIncludeSeconds();
-    this.setValueDeprecated(toISOTimeString(value, includeSeconds));
+    this.setValueDeprecated(toISOTimeString(value, this.showSecond));
     this.setLocalizedInputValue({ isoTimeString: value });
   }
 
   private updateLocale(locale: SupportedLocale = this.messages._lang): void {
     this.effectiveHourFormat =
       this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
-    this.localeDefaultLTFormat = this.localeConfig.formats.LT;
-    this.localeDefaultLTSFormat = this.localeConfig.formats.LTS;
     this.setLocalizedInputValue({ locale });
   }
 
@@ -863,122 +775,6 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private delocalizeTimeString(value: string): string {
-    // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(this.getSupportedDayjsLocale(this.messages._lang.toLowerCase()));
-
-    const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
-
-    let delocalizedTimeString: string;
-
-    if (this.shouldIncludeFractionalSeconds()) {
-      const stepPrecision = decimalPlaces(this.step);
-      const centisecondParts = this.delocalizeTimeStringToParts(value, "S");
-
-      if (stepPrecision === 1) {
-        delocalizedTimeString =
-          centisecondParts.millisecond !== 0
-            ? this.getTimeStringFromParts(centisecondParts)
-            : this.getTimeStringFromParts(nonFractionalSecondParts);
-      } else {
-        const decisecondParts = this.delocalizeTimeStringToParts(value, "SS");
-
-        if (stepPrecision === 2) {
-          if (decisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
-          } else if (centisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
-          } else {
-            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-          }
-        } else if (stepPrecision >= 3) {
-          const millisecondParts = this.delocalizeTimeStringToParts(value, "SSS");
-
-          if (millisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(millisecondParts);
-          } else if (decisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
-          } else if (centisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
-          } else {
-            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-          }
-        }
-      }
-    } else {
-      delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-    }
-
-    return delocalizedTimeString;
-  }
-
-  private delocalizeTimeStringToParts(
-    value: string,
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS",
-  ): DayjsTimeParts {
-    const effectiveLocale = this.messages._lang;
-    let localizedTimeString = value;
-    const effectiveHourFormat = isLocaleHourFormatOpposite(
-      this.effectiveHourFormat,
-      effectiveLocale,
-    )
-      ? getLocaleOppositeHourFormat(effectiveLocale)
-      : getLocaleHourFormat(effectiveLocale);
-
-    if (localizedTwentyFourHourMeridiems.has(effectiveLocale) && effectiveHourFormat === "12") {
-      const localizedAM = localizedTwentyFourHourMeridiems.get(effectiveLocale).am;
-      const localizedPM = localizedTwentyFourHourMeridiems.get(effectiveLocale).pm;
-      const meridiemFormatToken = getMeridiemFormatToken(effectiveLocale);
-      const caseAdjustedAMString =
-        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "AM" : "am";
-      const caseAdjustedPMString =
-        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "PM" : "pm";
-
-      localizedTimeString = localizedTimeString.includes(localizedPM)
-        ? localizedTimeString.replaceAll(localizedPM, caseAdjustedPMString)
-        : localizedTimeString.replaceAll(localizedAM, caseAdjustedAMString);
-    }
-
-    this.setLocaleTimeFormat({
-      fractionalSecondFormatToken,
-      hourFormat: effectiveHourFormat,
-    });
-
-    const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-    if (dayjsParseResult.isValid()) {
-      return {
-        hour: dayjsParseResult.get("hour"),
-        minute: dayjsParseResult.get("minute"),
-        second: dayjsParseResult.get("second"),
-        millisecond: dayjsParseResult.get("millisecond"),
-      };
-    }
-    return {
-      hour: null,
-      minute: null,
-      second: null,
-      millisecond: null,
-    };
-  }
-
-  private getTimeStringFromParts(parts: DayjsTimeParts): string {
-    let timeString = "";
-    if (!parts) {
-      return timeString;
-    }
-    if (parts.hour !== null && parts.minute !== null) {
-      timeString = `${formatTimePart(parts.hour)}:${formatTimePart(parts.minute)}`;
-      if (this.shouldIncludeSeconds() && parts.second !== null) {
-        timeString += `:${formatTimePart(parts.second)}`;
-        if (this.shouldIncludeFractionalSeconds() && parts.millisecond !== null) {
-          const second = (parts.millisecond * 0.001).toFixed(decimalPlaces(this.step));
-          timeString += `.${second.toString().replace("0.", "")}`;
-        }
-      }
-    }
-    return timeString;
-  }
-
   private keyDownHandler(event: KeyboardEvent): void {
     const { defaultPrevented, key } = event;
 
@@ -1057,152 +853,6 @@ export class InputTimePicker
           }
           break;
       }
-    }
-  }
-
-  private getSupportedDayjsLocale(locale: string) {
-    const dayjsLocale = locale.toLowerCase();
-    if (dayjsLocale === "no") {
-      return "nb";
-    }
-    if (dayjsLocale === "pt-pt") {
-      return "pt";
-    }
-    return dayjsLocale;
-  }
-
-  private async loadLocaleData(): Promise<void> {
-    let supportedLocale = getSupportedLocale(this.messages._lang).toLowerCase();
-
-    supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
-
-    const { default: localeConfig } =
-      await supportedDayjsLocaleToLocaleConfigImport.get(supportedLocale)();
-
-    this.localeConfig = localeConfig;
-
-    dayjs.locale(this.localeConfig, null, true);
-    dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
-  }
-
-  private getExtendedLocaleConfig(
-    locale: SupportedLocale,
-  ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
-    /*
-     * Meridiem and format tokens below are based on https://github.com/unicode-org/cldr-json/
-     *
-     * To reference a specific locale, check:
-     * https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-modern/main/<locale>/ca-generic.json
-     *
-     * Example (es-MX):
-     * https://github.com/unicode-org/cldr-json/blob/d38478855dd8342749f0494332cc8acc2895d20d/cldr-json/cldr-dates-modern/main/es-MX/ca-generic.json#L227
-     */
-    if (locale === "ar") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
-        formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
-          L: "DD/MM/YYYY",
-          LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY h:mm a",
-          LLLL: "dddd D MMMM YYYY h:mm a",
-        },
-      };
-    }
-
-    if (locale === "en-au") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
-      };
-    }
-
-    if (locale === "en-ca") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
-      };
-    }
-
-    if (locale === "el") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
-      };
-    }
-
-    if (locale === "es-mx") {
-      return {
-        formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
-          L: "DD/MM/YYYY",
-          LL: "D [de] MMMM [de] YYYY",
-          LLL: "D [de] MMMM [de] YYYY H:mm",
-          LLLL: "dddd, D [de] MMMM [de] YYYY H:mm",
-        },
-      };
-    }
-
-    if (locale === "hi") {
-      return {
-        formats: {
-          LT: "h:mm A",
-          LTS: "h:mm:ss A",
-          L: "DD/MM/YYYY",
-          LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY, h:mm A",
-          LLLL: "dddd, D MMMM YYYY, h:mm A",
-        },
-        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
-      };
-    }
-
-    if (locale === "ja") {
-      return {
-        meridiem: (hour) => (hour > 12 ? "午後" : "午前"),
-      };
-    }
-
-    if (locale === "ko") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
-      };
-    }
-
-    if (locale === "no") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
-      };
-    }
-
-    if (locale === "ru") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "PM" : "AM"),
-      };
-    }
-
-    if (locale === "zh-cn") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
-      };
-    }
-
-    if (locale === "zh-tw") {
-      return {
-        formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
-        },
-      };
-    }
-
-    if (locale === "zh-hk") {
-      return {
-        formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
-        },
-        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
-      };
     }
   }
 
@@ -1286,14 +936,6 @@ export class InputTimePicker
     }
   }
 
-  private shouldIncludeSeconds(): boolean {
-    return this.step < 60;
-  }
-
-  private shouldIncludeFractionalSeconds(): boolean {
-    return decimalPlaces(this.step) > 0;
-  }
-
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -1324,65 +966,6 @@ export class InputTimePicker
       return;
     }
     this.calciteTimePickerEl = el;
-  }
-
-  private setLocaleTimeFormat({
-    fractionalSecondFormatToken,
-    hourFormat,
-  }: {
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS";
-    hourFormat: EffectiveHourFormat;
-  }): void {
-    const effectiveLocale = this.messages._lang;
-    const localeDefaultHourFormat = getLocaleHourFormat(effectiveLocale);
-    const hourRegEx = /h+|H+/g;
-    const meridiemRegEx = /\s+|a+|A+|\s+/g;
-
-    let ltFormatString = this.localeConfig.formats.LT;
-    let ltsFormatString = this.localeConfig.formats.LTS;
-
-    if (hourFormat === "12" && localeDefaultHourFormat === "24") {
-      const meridiemFormatToken = getMeridiemFormatToken(effectiveLocale);
-      const meridiemOrder = getMeridiemOrder(effectiveLocale);
-      ltFormatString = ltFormatString.replaceAll(hourRegEx, "h");
-      ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
-      ltFormatString =
-        meridiemOrder === 0
-          ? `${meridiemFormatToken}${ltFormatString}`
-          : `${ltFormatString}${meridiemFormatToken}`;
-      ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "h");
-      ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
-      ltsFormatString =
-        meridiemOrder === 0
-          ? `${meridiemFormatToken}${ltsFormatString}`
-          : `${ltsFormatString}${meridiemFormatToken}`;
-    } else if (hourFormat === "24" && localeDefaultHourFormat === "12") {
-      ltFormatString = ltFormatString.replaceAll(hourRegEx, "H");
-      ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
-      ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "H");
-      ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
-    } else {
-      ltFormatString = this.localeDefaultLTFormat;
-      ltsFormatString = this.localeDefaultLTSFormat;
-    }
-
-    const fractionalSecondTokenMatch = ltsFormatString?.match(/ss\.*(S+)/g);
-    if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
-      const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
-      ltsFormatString = fractionalSecondTokenMatch
-        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
-        : ltsFormatString.replace("ss", secondFormatToken);
-    } else if (fractionalSecondTokenMatch) {
-      ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
-    }
-
-    this.localeConfig.formats.LT = ltFormatString;
-    this.localeConfig.formats.LTS = ltsFormatString;
-
-    dayjs.updateLocale(
-      this.getSupportedDayjsLocale(getSupportedLocale(effectiveLocale)),
-      this.localeConfig as Record<string, any>,
-    );
   }
 
   private setLocalizedInputValue = (): void => {
@@ -1489,8 +1072,7 @@ export class InputTimePicker
    * @param value The new value
    */
   private setValueDirectly(value: string): void {
-    const includeSeconds = this.shouldIncludeSeconds();
-    this.value = toISOTimeString(value, includeSeconds);
+    this.value = toISOTimeString(value, this.showSecond);
   }
 
   private setValuePart(key: TimePart, value: number | string | Meridiem): void {
