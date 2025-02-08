@@ -13,19 +13,17 @@
   </head>
 
   <body>
-    <button onclick="remove('calcite-icon');">Remove icon</button>
+    <button onclick="remove('calcite-icons');">Remove icon</button>
 
     <script type="module">
       import { LitElement } from "lit";
-      // import { customElement } from "/src/runtime.ts";
 
       class LuminaElement extends LitElement {
         static lumina = true;
       }
       class Icon extends LuminaElement {
-        // el = icon;
         createRenderRoot() {
-          this.el = document.querySelector("calcite-icon");
+          this.el = document.querySelector("calcite-icons");
           const renderRoot = this.el.attachShadow({ mode: "open" });
           Object.defineProperty(this, "shadowRoot", {
             // Create shadow root on the proxy instance, to make Lit render content there
@@ -34,7 +32,10 @@
           renderRoot.getRootNode().adoptedStyleSheets = [Icon.styles];
           return renderRoot;
         }
-        static tagName = "calcite-icon";
+        static get isConnected() {
+          return this.el.isConnected;
+        }
+        static tagName = "calcite-icons";
         static get styles() {
           const style = new CSSStyleSheet();
           style.replaceSync(`:host{display:inline-block}`);
@@ -42,17 +43,39 @@
           return style;
         }
       }
-      // customElement("calcite-icon", Icon);
+      class ProxyComponent extends HTMLElement {
+        static lumina = true;
+        constructor() {
+          super();
+          this._initializeComponent({ a: Icon });
+        }
+        connectedCallback() {
+          this._litElement.connectedCallback();
+        }
+        _initializeComponent(module) {
+          const ProxyClass = this.constructor;
+          const store = this._store;
 
-      customElements.get("calcite-icon")._loadPromise = async () => ({ Icon });
-      customElements.get("calcite-icon")._LitConstructor = Icon;
-      customElements.define("calcite-icon--lazy", Icon);
+          // Support multiple components in a single file
+          const LitConstructor = Object.values(module).a;
 
+          const lazyTagName = `calcite-icons--lazy`;
+          const litElement = document.createElement(lazyTagName);
+          this._litElement = litElement;
+          litElement.connectedCallback?.();
+        }
+      }
+
+      const ProxyClass = class extends ProxyComponent {};
+
+      customElements.define("calcite-icons--lazy", Icon);
       {
-        const icon = document.createElement("calcite-icon");
+        const icon = document.createElement("calcite-icons");
         icon.icon = "check-circle";
         document.body.appendChild(icon);
       }
+
+      customElements.define("calcite-icons", ProxyClass);
     </script>
     <script>
       const consoleLog = window.console.log;
@@ -129,7 +152,7 @@
         link = undefined;
       }
     </script>
-    <!--<calcite-icon icon="check-circle"></calcite-icon>
+    <!--<calcite-icons icon="check-circle"></calcite-icons>
     <calcite-link open>Link</calcite-link>
 
     <script>
@@ -138,7 +161,7 @@
       });
 
       // Icon is cleaned up fine - only calcite-link has issues
-      let icon = document.querySelector("calcite-icon");
+      let icon = document.querySelector("calcite-icons");
       let link = document.querySelector("calcite-link");
       customElements
         .whenDefined("calcite-link")
