@@ -2,6 +2,7 @@ __docs-temp__/*
 docs/
 hydrate/
 *.js
+!/test/stub.js
 !/.lintstagedrc.js
 src/components/icon/assets
 node_modules
