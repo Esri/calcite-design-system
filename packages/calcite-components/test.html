@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
   </head>
-
   <body>
     <button onclick="remove('calcite-icons');">Remove icon</button>
+    <calcite-icons></calcite-icons>
 
     <script type="module">
       class ProxyComponent extends HTMLElement {
@@ -19,13 +18,6 @@
           renderRoot.adoptedStyleSheets = [style];
         }
       }
-
-      {
-        const icon = document.createElement("calcite-icons");
-        icon.icon = "check-circle";
-        document.body.appendChild(icon);
-      }
-
       customElements.define("calcite-icons", ProxyComponent);
     </script>
     <script>
@@ -39,14 +31,10 @@
         let el = document.querySelector(tagName);
         consoleLog(`removing "${el.tagName}"`);
         registry.register(el, el.tagName + " (Proxy)");
-        // registry.register(el._litElement, el.tagName + " (LitElement)");
         el.remove();
 
         setTimeout(() => {
-          // el._litElement.__childPart = undefined;
           el.shadowRoot._$litPart$ = undefined;
-          // el._litElement.manager = undefined;
-          delete el._litElement;
           (el.shadowRoot ?? el).innerHTML = "";
           (el.shadowRoot ?? document).adoptedStyleSheets = [];
           nukeProperties(el.shadowRoot);
@@ -102,36 +90,5 @@
         link = undefined;
       }
     </script>
-    <!--<calcite-icons icon="check-circle"></calcite-icons>
-    <calcite-link open>Link</calcite-link>
-
-    <script>
-      const registry = new FinalizationRegistry((heldValue) => {
-        console.log(`garbage collected "${heldValue}"`);
-      });
-
-      // Icon is cleaned up fine - only calcite-link has issues
-      let icon = document.querySelector("calcite-icons");
-      let link = document.querySelector("calcite-link");
-      customElements
-        .whenDefined("calcite-link")
-        .then(async () => {
-          await icon.componentOnReady();
-          await link.componentOnReady();
-        })
-        .then(() => {
-          setTimeout(() => {
-            clean(icon, "icon");
-            clean(link, "link");
-            icon = undefined;
-            link = undefined;
-            function clean(el) {
-              registry.register(el, el.tagName + " (Proxy)");
-              registry.register(el._litElement, el.tagName + " (LitElement)");
-              el.remove();
-            }
-          }, 1000);
-        });
-    </script>-->
   </body>
 </html>
