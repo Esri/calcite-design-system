@@ -1,11 +1,10 @@
 <!doctype html>
 <html>
   <head>
-    <script type="module">
-      import { makeDefineCustomElements } from "/node_modules/.vite/deps/@arcgis_lumina.js";
-      export const defineCustomElements = makeDefineCustomElements;
-    </script>
     <meta charset="utf-8" />
+    <script type="module">
+      import "/stub.js";
+    </script>
   </head>
   <body>
     <button onclick="remove('calcite-icon');">Remove icon</button>
@@ -25,73 +24,14 @@
       customElements.define("calcite-icon", ProxyComponent);
     </script>
     <script>
-      const consoleLog = window.console.log;
       const registry = new FinalizationRegistry((heldValue) => {
-        consoleLog(`garbage collected "${heldValue}"`);
+        console.log(`garbage collected "${heldValue}"`);
       });
-
-      let counter = 0;
       function remove(tagName) {
         let el = document.querySelector(tagName);
-        consoleLog(`removing "${el.tagName}"`);
-        registry.register(el, el.tagName + " (Proxy)");
+        registry.register(el, el.tagName);
         el.remove();
-
-        setTimeout(() => {
-          el.shadowRoot._$litPart$ = undefined;
-          (el.shadowRoot ?? el).innerHTML = "";
-          (el.shadowRoot ?? document).adoptedStyleSheets = [];
-          nukeProperties(el.shadowRoot);
-          Object.getOwnPropertySymbols(el).map((property) => {
-            try {
-              delete el[property];
-            } catch {}
-          });
-          Object.getOwnPropertyNames(el).map((property) => {
-            try {
-              delete el[property];
-            } catch {}
-          });
-          counter += 1;
-          if (counter === 1) {
-            document.head.remove();
-            document.body.remove();
-            let Class = customElements.get(tagName);
-            nukeProperties(Class);
-            nukeProperties(ShadowRoot);
-            nukeProperties(document);
-            nukeProperties(window);
-          }
-        }, 1000);
-      }
-      function nukeProperties(Class) {
-        const Object = window.Object;
-        while (Class) {
-          Object.getOwnPropertyNames(Class).map((property) => {
-            try {
-              delete Class[property];
-            } catch {}
-          });
-          Object.getOwnPropertySymbols(Class).map((property) => {
-            try {
-              delete Class[property];
-            } catch {}
-          });
-          if (Class.prototype) {
-            Object.getOwnPropertyNames(Class.prototype).map((property) => {
-              try {
-                delete Class.prototype[property];
-              } catch {}
-            });
-            Object.getOwnPropertySymbols(Class.prototype).map((property) => {
-              try {
-                delete Class.prototype[property];
-              } catch {}
-            });
-          }
-          Class = Object.getPrototypeOf(Class);
-        }
-        link = undefined;
+        el.shadowRoot.adoptedStyleSheets = [];
       }
     </script>
   </body>
