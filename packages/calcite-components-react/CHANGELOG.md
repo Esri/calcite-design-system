@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.13.2...@esri/calcite-components-react@3.0.0) (2025-02-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* 
+
+### Code Refactoring
+
+* Migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([9bffc3f](https://github.com/Esri/calcite-design-system/commit/9bffc3fcbed65ffb91f089cd7846b1b06ada2b47))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @esri/calcite-components bumped from 3.0.0-next.135 to 3.0.0
+
 ## [3.0.0-next.135](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.0.0-next.134...@esri/calcite-components-react@3.0.0-next.135) (2025-02-08)
 
 **Note:** Version bump only for package @esri/calcite-components-react

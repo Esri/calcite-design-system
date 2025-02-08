@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.0...@esri/calcite-design-tokens@3.0.0) (2025-02-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **tokens:** Size and Space token values have changed. Line Height tokens exported for JS and ES6 are now unitless.
+
+### Features
+
+* Add default focus color token ([#10512](https://github.com/Esri/calcite-design-system/issues/10512)) ([92a2be0](https://github.com/Esri/calcite-design-system/commit/92a2be04cd90b26c0e5370465d2ec2565fe51dc0))
+
+
+### Bug Fixes
+
+* **font:** Change calcite-font-bold to be semi-bold ([#10745](https://github.com/Esri/calcite-design-system/issues/10745)) ([f1454c1](https://github.com/Esri/calcite-design-system/commit/f1454c146611a79fb36d4055245611d55bb15cd7))
+* **tokens:** Correct space and size tokens ([#10727](https://github.com/Esri/calcite-design-system/issues/10727)) ([13c2df8](https://github.com/Esri/calcite-design-system/commit/13c2df8a9d392aed03475f1dc315d509c9e1957a))
+
+
+### Deprecations
+
+* **letter-spacing, paragraph-spacing, text-decoration, text-case:** Align with UIKit ([#10744](https://github.com/Esri/calcite-design-system/issues/10744)) ([239ef96](https://github.com/Esri/calcite-design-system/commit/239ef96137cf19c8de5506f7bbd99be117a098cb))
+
 ## [3.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.6...@esri/calcite-design-tokens@3.0.0-next.7) (2025-01-14)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
