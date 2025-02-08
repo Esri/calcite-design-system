@@ -25,7 +25,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **input-time-zone:** Developers using `messageOverrides` will need to make sure they do not reference removed entries.
 - **block:** The component's `label` property is a required property and `heading` is an optional property.
 - **list:** The component's `label` property is required to provide context between lists when dragging.
--
+- For a consistent development experience, components now convert `null` to `undefined`, so developers will need to update code with strict null checks
 - Components remain directly consumable, with no wrapper needed.
 - floating-ui elements no longer take up space when closed ([#10241](https://github.com/Esri/calcite-design-system/issues/10241))
 - **list:** Modifies the component's keyboard sorting experience by using a dropdown menu to move list items. The ListItem `dragSelected` property and `calciteListItemDragHandleChange` event have been removed due to no longer being relevant.

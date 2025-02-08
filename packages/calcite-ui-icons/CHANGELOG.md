@@ -5,10 +5,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [4.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0...@esri/calcite-ui-icons@4.0.0) (2025-02-08)
 
-### ⚠ BREAKING CHANGES
-
--
-
 ### Features
 
 - Add ArcGIS Knowledge Studio 11.5 Icons ([#11018](https://github.com/Esri/calcite-design-system/issues/11018)) ([deaeacd](https://github.com/Esri/calcite-design-system/commit/deaeacd919f67bb91fafd1313aa261fea44453d2))

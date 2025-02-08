@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
--
+- For a consistent development experience, components now convert `null` to `undefined`, so developers will need to update code with strict null checks
 
 ### Code Refactoring
 

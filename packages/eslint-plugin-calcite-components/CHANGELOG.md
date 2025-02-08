@@ -7,8 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
--
-- The following deprecated rules from `@esri/eslint-plugin-calcite-components` have been removed due to changes introduced in #10310:
+- The following deprecated rules from `@esri/eslint-plugin-calcite-components` have been removed due to changes introduced in #10310: `ban-props-on-host`, `enforce-ref-last-prop`, and `require-event-emitter-type`. Developers should either remain on the current version or remove these rules from their ESLint configuration to avoid potential issues.
 
 ### Deprecations
 
