@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos</title>
+  </head>
+
+  <body>
+    <custom-element></custom-element>
+    <script>
+      customElements.define(
+        "custom-element",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: "open" });
+            const styles = new CSSStyleSheet();
+            styles.replaceSync(`    :host {
+      display: inline-block;
+  `);
+            this.shadowRoot.adoptedStyleSheets = [styles];
+          }
+        },
+      );
+      setTimeout(() => {
+        const t = document.querySelector("custom-element");
+        const registry = new FinalizationRegistry((heldValue) => {
+          console.log(`garbage collected "${heldValue}"`);
+        });
+        registry.register(t, "custom-element (Proxy)");
+        t.remove();
+      }, 100);
+    </script>
+  </body>
+</html>

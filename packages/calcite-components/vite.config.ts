@@ -14,6 +14,10 @@ export default defineConfig({
   ssr: {
     noExternal: nonEsmDependencies,
   },
+  optimizeDeps: {
+    disabled: true,
+    noDiscovery: true,
+  },
 
   plugins: [
     useLumina({

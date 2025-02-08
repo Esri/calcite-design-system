@@ -13,66 +13,152 @@
   </head>
 
   <body>
-    <!-- test case 1 -->
-    <!--    <calcite-label layout="inline">-->
-    <!--      Toggle panel block-->
-    <!--      <calcite-switch></calcite-switch>-->
-    <!--    </calcite-label>-->
+    <button onclick="remove('calcite-icon');">Remove icon</button>
 
-    <!-- test case 2 -->
-    <p>
-      <button onclick="remove('calcite-icon');">Remove icon</button>
-      <calcite-icon icon="check-circle"></calcite-icon>
-    </p>
-    <p>
-      <button onclick="remove('calcite-link')">Remove link</button>
-      <calcite-link open>Link</calcite-link>
-    </p>
+    <script type="module">
+      import { LitElement } from "lit";
+      // import { customElement } from "/src/runtime.ts";
+
+      class LuminaElement extends LitElement {
+        static lumina = true;
+      }
+      class Icon extends LuminaElement {
+        // el = icon;
+        createRenderRoot() {
+          this.el = document.querySelector("calcite-icon");
+          const renderRoot = this.el.attachShadow({ mode: "open" });
+          Object.defineProperty(this, "shadowRoot", {
+            // Create shadow root on the proxy instance, to make Lit render content there
+            value: renderRoot,
+          });
+          renderRoot.getRootNode().adoptedStyleSheets = [Icon.styles];
+          return renderRoot;
+        }
+        static tagName = "calcite-icon";
+        static get styles() {
+          const style = new CSSStyleSheet();
+          style.replaceSync(`:host{display:inline-block}`);
+          // return undefined;
+          return style;
+        }
+      }
+      // customElement("calcite-icon", Icon);
+
+      customElements.get("calcite-icon")._loadPromise = async () => ({ Icon });
+      customElements.get("calcite-icon")._LitConstructor = Icon;
+      customElements.define("calcite-icon--lazy", Icon);
+
+      {
+        const icon = document.createElement("calcite-icon");
+        icon.icon = "check-circle";
+        document.body.appendChild(icon);
+      }
+    </script>
+    <script>
+      const consoleLog = window.console.log;
+      const registry = new FinalizationRegistry((heldValue) => {
+        consoleLog(`garbage collected "${heldValue}"`);
+      });
+
+      let counter = 0;
+      function remove(tagName) {
+        let el = document.querySelector(tagName);
+        consoleLog(`removing "${el.tagName}"`);
+        registry.register(el, el.tagName + " (Proxy)");
+        registry.register(el._litElement, el.tagName + " (LitElement)");
+        el.remove();
+
+        setTimeout(() => {
+          el._litElement.__childPart = undefined;
+          el._litElement.shadowRoot._$litPart$ = undefined;
+          el._litElement.manager = undefined;
+          delete el._litElement;
+          (el.shadowRoot ?? el).innerHTML = "";
+          (el.shadowRoot ?? document).adoptedStyleSheets = [];
+          el._store = undefined;
+          nukeProperties(el.shadowRoot);
+          Object.getOwnPropertySymbols(el).map((property) => {
+            try {
+              delete el[property];
+            } catch {}
+          });
+          Object.getOwnPropertyNames(el).map((property) => {
+            try {
+              delete el[property];
+            } catch {}
+          });
+          counter += 1;
+          if (counter === 1) {
+            document.head.remove();
+            document.body.remove();
+            let Class = customElements.get(tagName);
+            nukeProperties(Class);
+            nukeProperties(ShadowRoot);
+            nukeProperties(document);
+            nukeProperties(window);
+          }
+        }, 1000);
+      }
+      function nukeProperties(Class) {
+        const Object = window.Object;
+        while (Class) {
+          Object.getOwnPropertyNames(Class).map((property) => {
+            try {
+              delete Class[property];
+            } catch {}
+          });
+          Object.getOwnPropertySymbols(Class).map((property) => {
+            try {
+              delete Class[property];
+            } catch {}
+          });
+          if (Class.prototype) {
+            Object.getOwnPropertyNames(Class.prototype).map((property) => {
+              try {
+                delete Class.prototype[property];
+              } catch {}
+            });
+            Object.getOwnPropertySymbols(Class.prototype).map((property) => {
+              try {
+                delete Class.prototype[property];
+              } catch {}
+            });
+          }
+          Class = Object.getPrototypeOf(Class);
+        }
+        link = undefined;
+      }
+    </script>
+    <!--<calcite-icon icon="check-circle"></calcite-icon>
+    <calcite-link open>Link</calcite-link>
 
     <script>
       const registry = new FinalizationRegistry((heldValue) => {
         console.log(`garbage collected "${heldValue}"`);
       });
 
-      /* test case 1 */
-
-      // const htmlSwitch = document.querySelector('calcite-switch')
-      // let i = 0
-      //
-      // htmlSwitch.addEventListener('calciteSwitchChange', () => {
-      //   if (htmlSwitch.checked) {
-      //     i++
-      //     console.log(`creating "CALCITE-BLOCK ${i}"`)
-      //     addBlock()
-      //   } else {
-      //     console.log(`destroying "CALCITE-BLOCK ${i}"`)
-      //     removeBlock()
-      //   }
-      // })
-      //
-      // function addBlock() {
-      //   const block = document.createElement('calcite-block')
-      //
-      //   block.heading = 'Block heading'
-      //   block.open = true
-      //
-      //   registry.register(block, `${block.tagName} ${i}`)
-      //   document.body.append(block)
-      // }
-      //
-      // function removeBlock() {
-      //   const block = document.querySelector('calcite-block')
-      //   block.remove()
-      // }
-
-      /* test case 2 */
-
-      function remove(tagName) {
-        const element = document.querySelector(tagName);
-        console.log(`removing "${element.tagName}"`);
-        registry.register(element, `${element.tagName}`);
-        element.remove();
-      }
-    </script>
+      // Icon is cleaned up fine - only calcite-link has issues
+      let icon = document.querySelector("calcite-icon");
+      let link = document.querySelector("calcite-link");
+      customElements
+        .whenDefined("calcite-link")
+        .then(async () => {
+          await icon.componentOnReady();
+          await link.componentOnReady();
+        })
+        .then(() => {
+          setTimeout(() => {
+            clean(icon, "icon");
+            clean(link, "link");
+            icon = undefined;
+            link = undefined;
+            function clean(el) {
+              registry.register(el, el.tagName + " (Proxy)");
+              registry.register(el._litElement, el.tagName + " (LitElement)");
+              el.remove();
+            }
+          }, 1000);
+        });
+    </script>-->
   </body>
 </html>
