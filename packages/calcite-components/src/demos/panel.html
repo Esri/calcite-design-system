@@ -48,13 +48,16 @@
         --calcite-panel-content-space: 12px;
         --calcite-panel-footer-padding: 3rem;
         --calcite-panel-header-border-block-end: rgb(13, 242, 204);
+
+        --calcite-panel-header-action-background-color: blue;
+        --calcite-panel-header-action-background-color-hover: blue;
+        --calcite-panel-header-action-background-color-press: blue;
       }
 
-      calcite-panel.themed-panel::part(header) {
-        --calcite-action-background-color: var(--calcite-panel-header-background-color);
-      }
-      calcite-panel.themed-panel::part(footer) {
-        --calcite-action-background-color: var(--calcite-panel-footer-background-color);
+      .themed-panel calcite-action[slot="header-actions-end"] {
+        --calcite-action-background-color: red;
+        --calcite-action-background-color-hover: red;
+        --calcite-action-background-color-press: red;
       }
     </style>
 

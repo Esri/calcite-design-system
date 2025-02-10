@@ -19,11 +19,6 @@
  * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
  * @prop --calcite-panel-header-content-space: Specifies the padding of the `"header-content"` slot.
  * @prop --calcite-panel-footer-space: Specifies the padding of the component's footer.
- * @prop --calcite-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s. Applies to any slotted `calcite-action`s. Use ::part(header) or ::part(footer) to target sets of calcite-actions.
- * @prop --calcite-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s. Use ::part(header) or ::part(footer) to target sets of calcite-actions.
- * @prop --calcite-action-background-color-pressed: Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s. Use ::part(header) or ::part(footer) to target sets of calcite-actions.
- * @prop --calcite-action-text-color-hover: Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s. Use ::part(header) or ::part(footer) to target sets of calcite-actions.
- * @prop --calcite-action-text-color-pressed: Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s. Use ::part(header) or ::part(footer) to target sets of calcite-actions.
  * @prop --calcite-popover-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
  * @prop --calcite-panel-content-space: [Deprecated] Use `--calcite-panel-space` instead. Specifies the padding of the component's content.
  * @prop --calcite-panel-footer-padding: [Deprecated] Use `--calcite-panel-footer-space` instead. Specifies the padding of the component's footer.

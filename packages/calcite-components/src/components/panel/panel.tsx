@@ -31,7 +31,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, PART, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 
 declare global {
@@ -421,7 +421,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   private renderActionBar(): JsxNode {
     return (
-      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar} part={PART.header}>
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -575,7 +575,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
         <div
           class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
           hidden={!showHeaderContent}
-          part={PART.header}
         >
           {this.renderHeaderStartActions()}
           {this.renderHeaderSlottedContent()}
@@ -595,7 +594,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
       hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter} part={PART.footer}>
+      <footer class={CSS.footer} hidden={!showFooter}>
         <div class={CSS.footerContent} hidden={!hasFooterContent}>
           <slot name={SLOTS.footer} onSlotChange={this.handleFooterSlotChange} />
         </div>
