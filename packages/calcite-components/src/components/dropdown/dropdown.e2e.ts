@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import dedent from "dedent";
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -656,6 +655,10 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(true);
       }
+
+      // no scroller should be present when max-items === items
+      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+      expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
     });
   });
 
@@ -1040,12 +1043,12 @@ describe("calcite-dropdown", () => {
   });
 
   describe("accessible", () => {
-    accessible(dedent`${dropdownSelectionModeContent}`);
+    accessible(html`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(dedent`${dropdownSelectionModeContent}`);
+    await page.setContent(html`${dropdownSelectionModeContent}`);
     await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");

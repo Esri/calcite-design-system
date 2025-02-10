@@ -37,6 +37,10 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
       {
+        propertyName: "dragDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
@@ -55,6 +59,10 @@ describe("calcite-block", () => {
       {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
       },
     ]);
   });
@@ -80,6 +88,14 @@ describe("calcite-block", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "dragDisabled",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        value: true,
       },
     ]);
   });

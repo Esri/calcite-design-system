@@ -6,14 +6,6 @@ import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
 import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
@@ -28,6 +20,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
@@ -66,10 +59,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Dialog
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
+export class Dialog extends LitElement implements OpenCloseComponent, LoadableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -80,7 +70,21 @@ export class Dialog
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: () => !this.modal,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private ignoreOpenChange = false;
 
@@ -157,6 +161,16 @@ export class Dialog
    */
   @property({ reflect: true }) escapeDisabled = false;
 
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
   /** The component header text. */
   @property() heading: string;
 
@@ -187,6 +201,9 @@ export class Dialog
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
+
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -265,10 +282,21 @@ export class Dialog
     return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.updateContainerElements(extraContainers);
+  }
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
   }
 
   // #endregion
@@ -296,29 +324,11 @@ export class Dialog
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // scrim closes on click, so we let it take over
-        clickOutsideDeactivates: () => !this.modal,
-        escapeDeactivates: (event) => {
-          if (!event.defaultPrevented && !this.escapeDisabled) {
-            this.open = false;
-            event.preventDefault();
-          }
-
-          return false;
-        },
-      },
-    });
     this.setupInteractions();
   }
 
   async load(): Promise<void> {
     setUpLoadableComponent(this);
-    // when dialog initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      this.openDialog();
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -359,7 +369,6 @@ export class Dialog
   override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    deactivateFocusTrap(this);
     this.embedded = false;
     this.cleanupInteractions();
   }
@@ -367,6 +376,7 @@ export class Dialog
   // #endregion
 
   // #region Private Methods
+
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =
@@ -381,7 +391,7 @@ export class Dialog
 
   onOpen(): void {
     this.calciteDialogOpen.emit();
-    activateFocusTrap(this);
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
@@ -390,7 +400,7 @@ export class Dialog
 
   onClose(): void {
     this.calciteDialogClose.emit();
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
   private toggleDialog(value: boolean): void {

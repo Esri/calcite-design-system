@@ -15,8 +15,6 @@
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
 
-@import "../../assets/styles/animation";
-
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;

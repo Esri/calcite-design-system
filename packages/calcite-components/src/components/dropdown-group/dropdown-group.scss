@@ -8,8 +8,7 @@
 */
 
 :host {
-  // we make the host relative, so items can consistently compute their offsetTop based on the group
-  @apply block relative;
+  @apply block;
 }
 
 .container {

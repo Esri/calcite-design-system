@@ -2,8 +2,6 @@ name: Icon Team Diff Check
 on:
   pull_request:
     branches: [dev]
-  pull_request_review:
-    types: [submitted]
 jobs:
   check-diff:
     runs-on: ubuntu-latest
