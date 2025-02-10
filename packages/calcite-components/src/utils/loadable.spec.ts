@@ -1,26 +1,21 @@
 import { describe, expect, it, vi } from "vitest";
 import { waitForAnimationFrame } from "../tests/utils";
-import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "./loadable";
+import { createControlledPromise } from "../tests/utils/promises";
+import { componentLoaded } from "./loadable";
 
 describe("loadable", () => {
   it("should honor loadable component lifecycle", async () => {
-    const fakeComponent: any = {};
+    const controlledPromise = createControlledPromise<void>();
+
+    const fakeComponent: any = {
+      componentOnReady: () => controlledPromise.promise,
+    };
 
     const afterLoad = vi.fn();
     componentLoaded(fakeComponent)?.then(afterLoad);
+    expect(afterLoad).toHaveBeenCalledTimes(0);
 
-    await waitForAnimationFrame();
-    expect(afterLoad).not.toHaveBeenCalled();
-
-    setUpLoadableComponent(fakeComponent);
-    await waitForAnimationFrame();
-    expect(afterLoad).not.toHaveBeenCalled();
-
-    setComponentLoaded(fakeComponent);
-    await waitForAnimationFrame();
-    expect(afterLoad).not.toHaveBeenCalled();
-
-    componentLoaded(fakeComponent).then(afterLoad);
+    controlledPromise.resolve();
     await waitForAnimationFrame();
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });

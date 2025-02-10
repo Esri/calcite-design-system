@@ -13,6 +13,7 @@ import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import {
+  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -845,9 +846,9 @@ export class List
     const rootNode = getRootNode(el);
 
     const lists = group
-      ? Array.from(rootNode.querySelectorAll<List["el"]>(`calcite-list[group="${group}"]`)).filter(
-          (list) => !list.disabled && list.dragEnabled,
-        )
+      ? Array.from(
+          rootNode.querySelectorAll<List["el"]>(`${listSelector}[group="${group}"]`),
+        ).filter((list) => !list.disabled && list.dragEnabled)
       : [];
 
     this.moveToItems = lists.map((element) => ({
@@ -946,8 +947,9 @@ export class List
 
     const dragEl = event.target as ListItem["el"];
     const fromEl = dragEl?.parentElement as List["el"];
-    const oldIndex = Array.from(fromEl.children).indexOf(dragEl);
     const toEl = moveTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
       return;
@@ -959,7 +961,8 @@ export class List
 
     toEl.prepend(dragEl);
     openAncestors(dragEl);
-    const newIndex = Array.from(toEl.children).indexOf(dragEl);
+    const toElItems = Array.from(toEl.children).filter(isListItem);
+    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateListItems();
     this.connectObserver();
@@ -985,7 +988,7 @@ export class List
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = Array.from(parentEl.children).filter(isListItem);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);

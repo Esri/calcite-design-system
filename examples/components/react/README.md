@@ -23,7 +23,7 @@ This package includes the compatible version of the main component library as a 
 
 ### Setup components
 
-[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when using frontend frameworks, such as React. First, import and call `setAssetPath`, which ensures translations, icons, and other required assets are available to Calcite components (more on copying assets below). You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN. This example uses local assets.
+By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can import and use `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components. (More on copying assets below.)
 
 ```ts
 import { setAssetPath } from "@esri/calcite-components/dist/components";

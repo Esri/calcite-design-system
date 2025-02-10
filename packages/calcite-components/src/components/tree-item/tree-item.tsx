@@ -62,7 +62,7 @@ export class TreeItem extends LitElement implements InteractiveComponent, OpenCl
 
   // #region State Properties
 
-  @state() hasEndActions = false;
+  @state() private hasEndActions = false;
 
   /**
    * Used to make sure initially expanded tree-item can properly
@@ -86,7 +86,9 @@ export class TreeItem extends LitElement implements InteractiveComponent, OpenCl
   @property({ reflect: true }) expanded = false;
 
   /** @private */
-  @property({ reflect: true }) hasChildren: boolean = null;
+  @property({ reflect: true }) get hasChildren(): boolean {
+    return !!this.childTree;
+  }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
@@ -289,6 +291,7 @@ export class TreeItem extends LitElement implements InteractiveComponent, OpenCl
     )[0];
 
     this.childTree = childTree;
+    this.requestUpdate("hasChildren");
 
     this.updateChildTree();
   }
@@ -341,7 +344,6 @@ export class TreeItem extends LitElement implements InteractiveComponent, OpenCl
   }
 
   preWillUpdate(): void {
-    this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
     let parentTree = this.el.closest("calcite-tree");
     if (!parentTree) {

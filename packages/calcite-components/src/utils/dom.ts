@@ -123,6 +123,7 @@ export function getTextWidth(text: string, font: string): number {
   context.font = font;
   return context.measureText(text).width;
 }
+
 /**
  * This helper returns the host of a ShadowRoot.
  *
@@ -615,7 +616,27 @@ export async function whenTransitionDone(
 }
 
 type TransitionOrAnimation = "transition" | "animation";
-type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
+type TransitionOrAnimationInstance = CSSTransition | Animation;
+
+async function triggerFallbackStartEnd(start: () => void, end: () => void): Promise<void> {
+  // offset callbacks by a frame to simulate event counterparts
+  await nextFrame();
+  start?.();
+
+  await nextFrame();
+  end?.();
+}
+
+function findAnimation(
+  targetEl: HTMLElement,
+  type: TransitionOrAnimation,
+  transitionPropOrAnimationName: string,
+): TransitionOrAnimationInstance {
+  const targetProp = type === "transition" ? "transitionProperty" : "animationName";
+  return targetEl
+    .getAnimations()
+    .find((anim: Animation | CSSTransition) => anim[targetProp] === transitionPropOrAnimationName);
+}
 
 /**
  * This util helps determine when a transition has completed.
@@ -633,78 +654,31 @@ export async function whenTransitionOrAnimationDone(
   onStart?: () => void,
   onEnd?: () => void,
 ): Promise<void> {
-  const style = window.getComputedStyle(targetEl);
-  const allDurations = type === "transition" ? style.transitionDuration : style.animationDuration;
-  const allProps = type === "transition" ? style.transitionProperty : style.animationName;
+  let anim = findAnimation(targetEl, type, transitionPropOrAnimationName);
 
-  const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
-  const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
-  const duration =
-    allDurationsArray[propIndex] ??
-    /* Safari will have a single duration value for the shorthand prop when multiple, separate names/props are defined,
-            so we fall back to it if there's no matching prop duration */
-    allDurationsArray[0];
-
-  function triggerFallbackStartEnd(): void {
-    // offset callbacks by a frame to simulate event counterparts
-    requestAnimationFrame(() => {
-      onStart?.();
-
-      requestAnimationFrame(() => onEnd?.());
-    });
+  if (!anim) {
+    // we try again in the next frame in case the browser hasn't yet initiated the transition/animation
+    await nextFrame();
+    anim = findAnimation(targetEl, type, transitionPropOrAnimationName);
   }
 
-  if (duration === "0s") {
-    triggerFallbackStartEnd();
-    return;
+  if (!anim) {
+    return triggerFallbackStartEnd(onStart, onEnd);
   }
 
-  const startEvent = type === "transition" ? "transitionstart" : "animationstart";
-  const endEvent = type === "transition" ? "transitionend" : "animationend";
-  const cancelEvent = type === "transition" ? "transitioncancel" : "animationcancel";
+  onStart?.();
 
-  return new Promise<void>((resolve) => {
-    const fallbackTimeoutId = window.setTimeout(
-      (): void => {
-        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
-        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        triggerFallbackStartEnd();
-        resolve();
-      },
-      parseFloat(duration) * 1000,
-    );
-
-    targetEl.addEventListener(startEvent, onTransitionOrAnimationStart);
-    targetEl.addEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-    targetEl.addEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-
-    function onTransitionOrAnimationStart(event: TransitionOrAnimationEvent): void {
-      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
-        window.clearTimeout(fallbackTimeoutId);
-        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
-        onStart?.();
-      }
-    }
-
-    function onTransitionOrAnimationEndOrCancel(event: TransitionOrAnimationEvent): void {
-      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
-        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        onEnd?.();
-        resolve();
-      }
-    }
-  });
+  try {
+    await anim.finished;
+  } catch {
+    // swallow error if canceled
+  } finally {
+    onEnd?.();
+  }
 }
 
-function isTransitionEvent(event: TransitionOrAnimationEvent): event is TransitionEvent {
-  return "propertyName" in event;
-}
-
-function getTransitionOrAnimationName(event: TransitionOrAnimationEvent): string {
-  return isTransitionEvent(event) ? event.propertyName : event.animationName;
+function nextFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 /**

@@ -97,6 +97,10 @@ export default class TooltipManager {
   };
 
   private pointerMoveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const composedPath = event.composedPath();
     const { activeTooltip } = this;
 
@@ -129,6 +133,10 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.clickedTooltip = null;
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
@@ -160,6 +168,10 @@ export default class TooltipManager {
   };
 
   private focusInHandler = (event: FocusEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 

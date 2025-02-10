@@ -5,8 +5,7 @@ import { isBrowser } from "./browser";
 /**
  * This helper adds support for knowing when a component has been loaded.
  *
- * Related issue: https://github.com/Esri/calcite-design-system/issues/5369
- * Could be related to Stencil.js issue: https://github.com/ionic-team/stencil/issues/3580
+ * @deprecated this interface is no longer needed, and you can use LitElement.componentOnReady instead
  *
  * Implementing
  *
@@ -21,11 +20,11 @@ import { isBrowser } from "./browser";
  *  //
  *  //--------------------------------------------------------------------------
  *
- *  componentWillLoad(): void {
+ *  load(): void {
  *    setUpLoadableComponent(this);
  *  }
  *
- *  componentDidLoad(): void {
+ *  loaded(): void {
  *    setComponentLoaded(this);
  *  }
  *
@@ -40,101 +39,82 @@ import { isBrowser } from "./browser";
  *  }
  * ```
  */
-export interface LoadableComponent extends LitElement {
-  /**
-   * Stencil lifecycle method.
-   * https://stenciljs.com/docs/component-lifecycle#componentwillload
-   *
-   * Called once just after the component is first connected to the DOM. Since this method is only called once, it's a good place to load data asynchronously and to setup the state without triggering extra re-renders.
-   */
-  load: () => Promise<void> | void;
-
-  /**
-   * Stencil lifecycle method.
-   * https://stenciljs.com/docs/component-lifecycle#componentdidload
-   *
-   * Called once just after the component is fully loaded and the first render() occurs.
-   */
-  loaded: () => Promise<void> | void;
-}
-
-const resolveMap = new WeakMap<LoadableComponent, (value: void | PromiseLike<void>) => void>();
-
-const promiseMap = new WeakMap<LoadableComponent, Promise<void>>();
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- this interface is deprecated, and we allow it to be empty for incremental migration
+export interface LoadableComponent {}
 
 /**
  * This helper util sets up the component for the ability to know when the component has been loaded.
  *
- * This should be used in the `componentWillLoad` lifecycle hook.
+ * This should be used in the `load` lifecycle hook.
  *
- * ```
- * componentWillLoad(): void {
+ * @deprecated this method is no longer needed, and you can use LitElement.componentOnReady instead
+ *
+ * @example
+ * load(): void {
  *   setUpLoadableComponent(this);
  * }
- * ```
  *
- * @param component
+ * @param _component
  */
-export function setUpLoadableComponent(component: LoadableComponent): void {
-  promiseMap.set(component, new Promise((resolve) => resolveMap.set(component, resolve)));
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- this method is deprecated, and we allow it to be empty for incremental migration
+export function setUpLoadableComponent(_component: LoadableComponent): void {
+  // intentionally empty
 }
 
 /**
  * This helper util lets the loadable component know that it is now loaded.
  *
- * This should be used in the `componentDidLoad` lifecycle hook.
+ * This should be used in the `loaded` lifecycle hook.
  *
- * ```
- * componentDidLoad(): void {
+ * @deprecated this method is no longer needed, and you can use LitElement.componentOnReady instead
+ *
+ * @example
+ * loaded(): void {
  *   setComponentLoaded(this);
  * }
- * ```
  *
- * @param component
+ * @param _component
  */
-export function setComponentLoaded(component: LoadableComponent): void {
-  resolveMap.get(component)();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- this method is deprecated, and we allow it to be empty for incremental migration
+export function setComponentLoaded(_component: LoadableComponent): void {
+  // intentionally empty
 }
 
 /**
- * This helper util can be used to ensure a component has been loaded (The "componentDidLoad" Stencil lifecycle method has been called).
- *
- * Requires requires `LoadableComponent` to be implemented.
+ * This helper util can be used to ensure a component has been loaded (The "componentOnReady" lifecycle method has been called).
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first.
  *
- * ```
+ * @deprecated use LitElement.componentOnReady instead
+ *
+ * @example
  * async myMethod(): Promise<void> {
  *   await componentLoaded(this);
  * }
- * ```
  *
  * @param component
  * @returns Promise<void>
  */
-export function componentLoaded(component: LoadableComponent): Promise<void> {
-  return promiseMap.get(component);
+export async function componentLoaded(component: LitElement): Promise<void> {
+  await component.componentOnReady();
 }
 
 /**
- * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentDidLoad" Stencil lifecycle method has been called and any internal elements are focusable).
- *
- * Requires `LoadableComponent` to be implemented.
+ * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentOnReady" lifecycle method has been called and any internal elements are focusable).
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
  *
- * ```
+ * @example
  * async setFocus(): Promise<void> {
  *   await componentFocusable(this);
  *   this.internalElement?.focus();
  * }
- * ```
  *
  * @param component
  * @returns Promise<void>
  */
-export async function componentFocusable(component: LoadableComponent): Promise<void> {
-  await componentLoaded(component);
+export async function componentFocusable(component: LitElement): Promise<void> {
+  await component.componentOnReady();
 
   if (!isBrowser()) {
     return;

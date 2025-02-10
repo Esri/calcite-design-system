@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
 import {
   componentFocusable,
   LoadableComponent,
@@ -42,6 +42,22 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Private Properties
 
   private dropdownEl: Dropdown["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() get hasSetInfo(): boolean {
+    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+  }
+
+  @state() get isSetDisabled(): boolean {
+    const { setPosition, setSize, moveToItems } = this;
+
+    return this.hasSetInfo
+      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
+      : false;
+  }
 
   // #endregion
 
@@ -186,6 +202,10 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   private getLabel(): string {
     const { label, messages, setPosition, setSize } = this;
 
+    if (!this.hasSetInfo) {
+      return label ?? "";
+    }
+
     let formattedLabel = label
       ? messages.repositionLabel.replace(SUBSTITUTIONS.label, label)
       : messages.reposition;
@@ -237,23 +257,11 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Rendering
 
   override render(): JsxNode {
-    const {
-      disabled,
-      flipPlacements,
-      messages,
-      open,
-      overlayPositioning,
-      placement,
-      scale,
-      setPosition,
-      setSize,
-      widthScale,
-      moveToItems,
-    } = this;
-    const text = this.getLabel();
+    const { disabled, flipPlacements, open, overlayPositioning, placement, scale, widthScale } =
+      this;
 
-    const isDisabled =
-      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems.length < 1);
+    const text = this.getLabel();
+    const isDisabled = disabled || this.isSetDisabled;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -283,17 +291,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             text={text}
             title={text}
           />
-          <calcite-dropdown-group
-            groupTitle={messages.reorder}
-            key="reorder"
-            scale={scale}
-            selectionMode="none"
-          >
-            {this.renderTop()}
-            {this.renderUp()}
-            {this.renderDown()}
-            {this.renderBottom()}
-          </calcite-dropdown-group>
+          {this.renderGroup()}
           {this.renderMoveToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
@@ -311,6 +309,22 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
         {moveToItem.label}
       </calcite-dropdown-item>
     );
+  }
+
+  private renderGroup(): JsxNode {
+    return this.hasSetInfo ? (
+      <calcite-dropdown-group
+        groupTitle={this.messages.reorder}
+        key="reorder"
+        scale={this.scale}
+        selectionMode="none"
+      >
+        {this.renderTop()}
+        {this.renderUp()}
+        {this.renderDown()}
+        {this.renderBottom()}
+      </calcite-dropdown-group>
+    ) : null;
   }
 
   private renderMoveToGroup(): JsxNode {

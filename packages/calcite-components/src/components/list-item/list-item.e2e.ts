@@ -73,6 +73,10 @@ describe("calcite-list-item", () => {
         propertyName: "iconFlipRtl",
         defaultValue: undefined,
       },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -80,6 +84,10 @@ describe("calcite-list-item", () => {
     reflects("calcite-list-item", [
       {
         propertyName: "unavailable",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
         value: true,
       },
     ]);

@@ -228,7 +228,8 @@ export class InputTimePicker
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
   /**
-   * Specifies the maximum value.
+   * When the component resides in a form,
+   * specifies the maximum value.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
@@ -245,7 +246,8 @@ export class InputTimePicker
   messages = useT9n<typeof T9nStrings>();
 
   /**
-   * Specifies the minimum value.
+   * When the component resides in a form,
+   * specifies the minimum value.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
@@ -279,7 +281,10 @@ export class InputTimePicker
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -1074,7 +1079,7 @@ export class InputTimePicker
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
-          initialFocusTrapFocus={false}
+          focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}

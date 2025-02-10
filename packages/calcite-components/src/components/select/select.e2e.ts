@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -14,6 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 import type { Select } from "./select";
 
@@ -110,7 +111,7 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("dos");
       await page.waitForChanges();
 
-      let selected = await page.findAll("calcite-option[selected]");
+      let selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
@@ -121,7 +122,7 @@ describe("calcite-select", () => {
       await lastOption.setProperty("selected", true);
       await page.waitForChanges();
 
-      selected = await page.findAll("calcite-option[selected]");
+      selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
@@ -139,7 +140,7 @@ describe("calcite-select", () => {
         </calcite-select>
       `);
       await page.waitForChanges();
-      const selected = await page.findAll("calcite-option[selected]");
+      const selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
@@ -156,7 +157,7 @@ describe("calcite-select", () => {
           </calcite-select>
         `,
       });
-      const selected = await page.findAll("calcite-option[selected]");
+      const selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
@@ -175,15 +176,15 @@ describe("calcite-select", () => {
       });
       const internalSelect = await page.find(`calcite-select >>> .${CSS.select}`);
 
-      expect(await internalSelect.findAll("option")).toHaveLength(3);
+      expect(await findAll(internalSelect, "option")).toHaveLength(3);
 
-      const options = await page.findAll("calcite-option");
+      const options = await findAll(page, "calcite-option");
 
       for (let i = 0; i < options.length; i++) {
         await options[i].callMethod("remove");
       }
 
-      expect(await internalSelect.findAll("option")).toHaveLength(0);
+      expect(await findAll(internalSelect, "option", { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-select", (select) => {
         const number = document.createElement("calcite-option");
@@ -193,7 +194,7 @@ describe("calcite-select", () => {
       });
       await page.waitForChanges();
 
-      expect(await internalSelect.findAll("option")).toHaveLength(1);
+      expect(await findAll(internalSelect, "option")).toHaveLength(1);
     });
   });
 
@@ -226,7 +227,7 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("c");
       await page.waitForChanges();
 
-      let selected = await page.findAll("calcite-option[selected]");
+      let selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
@@ -237,7 +238,7 @@ describe("calcite-select", () => {
       await lastNumberOption.setProperty("selected", true);
       await page.waitForChanges();
 
-      selected = await page.findAll("calcite-option[selected]");
+      selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
@@ -262,7 +263,7 @@ describe("calcite-select", () => {
         </calcite-select>
       `);
       await page.waitForChanges();
-      const selected = await page.findAll("calcite-option[selected]");
+      const selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
@@ -286,7 +287,7 @@ describe("calcite-select", () => {
           </calcite-select>
         `,
       });
-      const selected = await page.findAll("calcite-option[selected]");
+      const selected = await findAll(page, "calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
@@ -310,16 +311,16 @@ describe("calcite-select", () => {
       });
       const internalSelect = await page.find(`calcite-select >>> .${CSS.select}`);
 
-      expect(await internalSelect.findAll("option")).toHaveLength(3);
-      expect(await internalSelect.findAll("optgroup")).toHaveLength(3);
+      expect(await findAll(internalSelect, "option")).toHaveLength(3);
+      expect(await findAll(internalSelect, "optgroup")).toHaveLength(3);
 
-      const optionsAndGroups = await page.findAll("calcite-option, calcite-option-group");
+      const optionsAndGroups = await findAll(page, "calcite-option, calcite-option-group");
 
       for (let i = 0; i < optionsAndGroups.length; i++) {
         await optionsAndGroups[i].callMethod("remove");
       }
 
-      expect(await internalSelect.findAll("option, optgroup")).toHaveLength(0);
+      expect(await findAll(internalSelect, "option, optgroup", { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-select", (select) => {
         const letters = document.createElement("calcite-option-group");
@@ -338,8 +339,8 @@ describe("calcite-select", () => {
       });
       await page.waitForChanges();
 
-      expect(await internalSelect.findAll("option")).toHaveLength(2);
-      expect(await internalSelect.findAll("optgroup")).toHaveLength(2);
+      expect(await findAll(internalSelect, "option")).toHaveLength(2);
+      expect(await findAll(internalSelect, "optgroup")).toHaveLength(2);
     });
   });
 

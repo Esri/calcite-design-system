@@ -30,7 +30,7 @@
   @apply shadow-2
   inline-flex
   flex-col
-  overflow-y-auto;
+  overflow-hidden;
 
   gap: var(--calcite-action-pad-items-space, 0);
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;

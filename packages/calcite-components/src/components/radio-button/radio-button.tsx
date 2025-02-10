@@ -101,7 +101,10 @@ export class RadioButton
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */

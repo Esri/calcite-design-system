@@ -2,10 +2,8 @@
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
-import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
-import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
-import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
 import { waitForAnimationFrame } from "../tests/utils";
+import { createControlledPromise } from "../tests/utils/promises";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -436,205 +434,113 @@ describe("dom", () => {
     );
   }
 
-  describe("whenTransitionDone", () => {
-    const testProp = "opacity";
-    const testDuration = "0.5s";
-
+  /*
+   * These tests depend on the `getAnimations` method which is not available in happy-dom,
+   * so we try to mock it as close to the real thing as possible.
+   */
+  describe("transition/animation helpers", () => {
     let element: HTMLDivElement;
-    let dispatchTransitionEvent: TransitionEventDispatcher;
     let onStartCallback: Mock;
     let onEndCallback: Mock;
 
     beforeEach(() => {
-      dispatchTransitionEvent = createTransitionEventDispatcher();
       element = window.document.createElement("div");
       onStartCallback = vi.fn();
       onEndCallback = vi.fn();
     });
 
-    it("should return a promise that resolves after the transition", async () => {
-      const testTransition = `${testProp} ${testDuration} ease 0s`;
+    const helpers = [whenTransitionDone, whenAnimationDone] as const;
 
-      element.style.transition = testTransition;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        transition: testTransition,
-        transitionDuration: testDuration,
-        transitionProperty: testProp,
+    helpers.forEach((helper) => {
+      const type = helper === whenTransitionDone ? "transition" : "animation";
+      const animationPropName = helper === whenTransitionDone ? "transitionProperty" : "animationName";
+      const testTransitionOrAnimationName = helper === whenTransitionDone ? "opacity" : "fade";
+
+      describe(`${helper.name}`, () => {
+        it(`should return a promise that resolves after the ${type} (running at call time)`, async () => {
+          const controlledPromise = createControlledPromise<void>();
+          const animationsPerCall = [
+            [
+              {
+                [animationPropName]: testTransitionOrAnimationName,
+                finished: controlledPromise.promise,
+              } as unknown as Animation | CSSTransition,
+            ],
+          ];
+          element.getAnimations = () => animationsPerCall.shift();
+
+          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+          expect(onStartCallback).toHaveBeenCalled();
+          expect(onEndCallback).not.toHaveBeenCalled();
+
+          controlledPromise.resolve();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+          expect(onStartCallback).toHaveBeenCalled();
+          expect(onEndCallback).toHaveBeenCalled();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+          expect(onStartCallback).toHaveBeenCalled();
+          await expect(onEndCallback).toHaveBeenCalled();
+        });
+
+        it(`should return a promise that resolves after the ${type} (running frame after call time)`, async () => {
+          const controlledPromise = createControlledPromise<void>();
+          const animationsPerCall = [
+            [],
+            [
+              {
+                [animationPropName]: testTransitionOrAnimationName,
+                finished: controlledPromise.promise,
+              } as unknown as Animation | CSSTransition,
+            ],
+          ];
+          element.getAnimations = () => animationsPerCall.shift();
+
+          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+          expect(onStartCallback).not.toHaveBeenCalled();
+          expect(onEndCallback).not.toHaveBeenCalled();
+
+          await waitForAnimationFrame();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+          expect(onStartCallback).toHaveBeenCalled();
+          expect(onEndCallback).not.toHaveBeenCalled();
+
+          controlledPromise.resolve();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+          expect(onStartCallback).toHaveBeenCalled();
+          expect(onEndCallback).toHaveBeenCalled();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+          expect(onStartCallback).toHaveBeenCalled();
+          await expect(onEndCallback).toHaveBeenCalled();
+        });
+
+        it(`should return a promise that resolves after 0s ${type} or has not started when expected (fallback cases)`, async () => {
+          const animationsPerCall = [[], []];
+          element.getAnimations = () => animationsPerCall.shift();
+
+          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+          expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+          await waitForAnimationFrame();
+          expect(onStartCallback).not.toHaveBeenCalled();
+          expect(onEndCallback).not.toHaveBeenCalled();
+
+          await waitForAnimationFrame();
+          expect(onStartCallback).toHaveBeenCalled();
+
+          await waitForAnimationFrame();
+          expect(onEndCallback).toHaveBeenCalled();
+
+          expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+        });
       });
-
-      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
-      element.style.opacity = "0";
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).not.toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      dispatchTransitionEvent(element, "transitionstart", testProp);
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      dispatchTransitionEvent(element, "transitionend", testProp);
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).toHaveBeenCalled();
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).toHaveBeenCalled();
-    });
-
-    it("should return a promise that resolves after 0s transition", async () => {
-      const testDuration = "0s"; // shadows the outer testDuration
-      const testTransition = `${testProp} ${testDuration} ease 0s`;
-
-      element.style.transition = testTransition;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        transition: testTransition,
-        transitionDuration: testDuration,
-        transitionProperty: testProp,
-      });
-
-      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
-      element.style.opacity = "0";
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      await waitForAnimationFrame();
-      expect(onStartCallback).toHaveBeenCalled();
-      await waitForAnimationFrame();
-      expect(onEndCallback).toHaveBeenCalled();
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-    });
-
-    it("should return a promise that resolves when called and transition has not started when expected", async () => {
-      const testTransition = `${testProp} ${testDuration} ease 0s`;
-
-      element.style.transition = testTransition;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        transition: testTransition,
-        transitionDuration: testDuration,
-        transitionProperty: testProp,
-      });
-
-      const promise = whenTransitionDone(element, testProp, onStartCallback, onEndCallback);
-      element.style.opacity = "0";
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).not.toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-      await waitForAnimationFrame();
-      expect(onStartCallback).toHaveBeenCalled();
-      await waitForAnimationFrame();
-      expect(onEndCallback).toHaveBeenCalled();
-    });
-  });
-
-  describe("whenAnimationDone", () => {
-    const testAnimationName = "fade";
-    const testDuration = "0.5s";
-
-    let element: HTMLDivElement;
-    let dispatchAnimationEvent: AnimationEventDispatcher;
-    let onStartCallback: Mock;
-    let onEndCallback: Mock;
-
-    beforeEach(() => {
-      dispatchAnimationEvent = createAnimationEventDispatcher();
-      element = window.document.createElement("div");
-      onStartCallback = vi.fn();
-      onEndCallback = vi.fn();
-    });
-
-    it("should return a promise that resolves after the animation", async () => {
-      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
-
-      element.style.animation = testAnimation;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        animation: testAnimation,
-        animationDuration: testDuration,
-        animationName: testAnimationName,
-      });
-
-      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
-      element.style.animationName = "none";
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).not.toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      dispatchAnimationEvent(element, "animationstart", testAnimationName);
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      dispatchAnimationEvent(element, "animationend", testAnimationName);
-
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).toHaveBeenCalled();
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-      expect(onStartCallback).toHaveBeenCalled();
-      expect(onEndCallback).toHaveBeenCalled();
-    });
-
-    it("should return a promise that resolves after 0s animation", async () => {
-      const testDuration = "0s"; // shadows the outer testDuration
-      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
-
-      element.style.animation = testAnimation;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        animation: testAnimation,
-        animationDuration: testDuration,
-        animationName: testAnimationName,
-      });
-
-      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
-      element.style.animationName = "none";
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      await waitForAnimationFrame();
-      expect(onStartCallback).toHaveBeenCalled();
-      await waitForAnimationFrame();
-      expect(onEndCallback).toHaveBeenCalled();
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-    });
-
-    it("should return a promise that resolves when called and animation has not started when expected", async () => {
-      const testAnimation = `${testAnimationName} ${testDuration} ease 0s`;
-
-      element.style.animation = testAnimation;
-      window.document.body.append(element);
-      mockGetComputedStyleFor(element, {
-        animation: testAnimation,
-        animationDuration: testDuration,
-        animationName: testAnimationName,
-      });
-
-      const promise = whenAnimationDone(element, testAnimationName, onStartCallback, onEndCallback);
-      element.style.animationName = "none";
-      expect(await promiseState(promise)).toHaveProperty("status", "pending");
-      expect(onStartCallback).not.toHaveBeenCalled();
-      expect(onEndCallback).not.toHaveBeenCalled();
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-      await waitForAnimationFrame();
-      expect(onStartCallback).toHaveBeenCalled();
-      await waitForAnimationFrame();
-      expect(onEndCallback).toHaveBeenCalled();
     });
   });
 
