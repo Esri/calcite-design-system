@@ -3,9 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.2.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1-next.4...@esri/eslint-plugin-calcite-components@1.2.2-next.0) (2024-10-01)
+## [2.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.0-next.7...@esri/eslint-plugin-calcite-components@2.0.1-next.0) (2025-02-10)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+
+## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1...@esri/eslint-plugin-calcite-components@2.0.0) (2025-02-08)
+
+### ⚠ BREAKING CHANGES
+
+- The following deprecated rules from `@esri/eslint-plugin-calcite-components` have been removed due to changes introduced in #10310: `ban-props-on-host`, `enforce-ref-last-prop`, and `require-event-emitter-type`. Developers should either remain on the current version or remove these rules from their ESLint configuration to avoid potential issues.
+
+### Deprecations
+
+- Deprecate `ban-props-on-host` rule ([#10642](https://github.com/Esri/calcite-design-system/issues/10642)) ([06cb6fb](https://github.com/Esri/calcite-design-system/commit/06cb6fbd72e43edbd8063215c4d80cea9c62783b))
+- Deprecate `require-event-emitter-type` rule ([#10638](https://github.com/Esri/calcite-design-system/issues/10638)) ([abe53c2](https://github.com/Esri/calcite-design-system/commit/abe53c20cf2248a0875e5667cdb32f644010f771))
+
+### Code Refactoring
+
+- Migrate to Lumina ([#10482](https://github.com/Esri/calcite-design-system/issues/10482)) ([9bffc3f](https://github.com/Esri/calcite-design-system/commit/9bffc3fcbed65ffb91f089cd7846b1b06ada2b47))
+- Remove deprecated `ban-props-on-host`, `enforce-ref-last-prop`, `require-event-emitter-type` rules ([#10679](https://github.com/Esri/calcite-design-system/issues/10679)) ([1e0e0ce](https://github.com/Esri/calcite-design-system/commit/1e0e0ce99aa35d4cdf9be04f8f77647ca7a3b736))
 
 ## [1.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.0...@esri/eslint-plugin-calcite-components@1.2.1) (2024-09-30)
 
