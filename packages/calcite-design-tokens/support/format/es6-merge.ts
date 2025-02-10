@@ -41,47 +41,54 @@ async function formatES6Merge(args): Promise<string> {
     formatting: getFormattingCloneWithoutPrefix(formatting),
     options,
   });
-
-  let content = [
-    dictionary.allTokens.map((token) => {
-      const value = JSON.stringify(options.usesDtcg ? token.$value : token.value);
-      const comment = options.usesDtcg ? token.$description : token.comment;
-      const to_ret = `export const ${token.name + (options.suffix ? options.suffix[0].toUpperCase() + options.suffix.slice(1) : "")} = ${value};`;
-
-      return comment ? to_ret.concat(`// ${comment}`) : to_ret;
-    }),
-  ]
-    .flat()
-    .join("\n");
+  let currentFile = "";
 
   try {
-    // const newRegex = new RegExp('', "gm");
-    const regexPattern = new RegExp(
-      /(export const (calcite[A-z0-9]+\s?=\s?["0-9A-z%-.#\s]+);( \/\/[ \w\(\)."]+)*)/,
-      "gm",
-    );
-    const currentFile = readFileSync(resolve(process.cwd(), platform.buildPath, file.destination), "utf8");
+    currentFile = readFileSync(resolve(process.cwd(), platform.buildPath, file.destination), "utf8");
+    dictionary.allTokens.map((token) => {
+      const regexPatternMatchObject = new RegExp(
+        `export const (${token.name})\\s?=\\s?(?<value>{(["\\w]+\\s?:\\s?["#\\w(\\s\\/.)]+,?)+});`,
+        "gm",
+      );
+      const foundExport = regexPatternMatchObject.exec(currentFile);
 
-    if (currentFile.includes(options.suffix)) {
-      let counter = 0;
-      let z = null;
-      const info = [];
+      if (foundExport) {
+        const oldValue = JSON.parse(foundExport.groups.value);
+        const value = JSON.stringify(
+          options.suffix
+            ? { ...oldValue, [options.suffix.toLowerCase()]: options.usesDtcg ? token.$value : token.value }
+            : options.usesDtcg
+              ? token.$value
+              : token.value,
+        );
+        const comment = options.usesDtcg ? token.$description : token.comment;
+        const newExport = `export const ${token.name} = ${value};${comment ? ` // ${comment}` : ""}`;
+        currentFile = currentFile.replace(foundExport[0], newExport);
+      } else {
+        const value = JSON.stringify({ [options.suffix.toLowerCase()]: options.usesDtcg ? token.$value : token.value });
+        const comment = options.usesDtcg ? token.$description : token.comment;
+        const newExport = `export const ${token.name} = ${value};${comment ? ` // ${comment}` : ""}`;
 
-      while (null != (z = regexPattern.exec(currentFile))) {
-        if (!z[0].includes(options.suffix)) {
-          info[counter] = z[0];
-          counter++;
-        }
+        currentFile = currentFile.trim() + "\n" + newExport + "\n";
       }
-    }
-
-    content = currentFile + "\n" + content;
+    });
   } catch (error) {
-    console.error(error);
-    content = header + "\n" + content;
+    console.debug("Error reading file", error);
+    const variables = dictionary.allTokens.map((token) => {
+      const value = JSON.stringify(
+        options.suffix
+          ? { [options.suffix.toLowerCase()]: options.usesDtcg ? token.$value : token.value }
+          : options.usesDtcg
+            ? token.$value
+            : token.value,
+      );
+      const comment = options.usesDtcg ? token.$description : token.comment;
+      return `export const ${token.name} = ${value};${comment ? ` // ${comment}` : ""}`;
+    });
+    currentFile = await formatJS(`${header}\n${variables.join("\n")}`);
   }
 
-  return formatJS(content);
+  return formatJS(currentFile);
 }
 
 export async function registerFormatESS6Merge(sd: typeof StyleDictionary): Promise<void> {
