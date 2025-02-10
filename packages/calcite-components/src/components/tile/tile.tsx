@@ -9,6 +9,7 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconNameOrString } from "../icon/interfaces";
+import { componentFocusable } from "../../utils/component";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
