@@ -10,7 +10,7 @@ import { transformers, filters, headers, formats } from "../../../support/index.
 
 export default {
   // configuration
-  source: ["src/semantic/color/calcite/light.json"],
+  source: ["src/semantic/calcite/light.json"],
   include: ["src/core/*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
