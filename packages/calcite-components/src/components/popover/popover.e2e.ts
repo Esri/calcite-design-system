@@ -20,12 +20,12 @@ import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   describe("renders when closed", () => {
-    renders("calcite-popover", { display: "block" });
+    renders("calcite-popover", { display: "contents" });
   });
 
   describe("renders when open", () => {
     renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
-      display: "block",
+      display: "contents",
     });
   });
 

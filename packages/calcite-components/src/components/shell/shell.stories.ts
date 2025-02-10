@@ -1886,3 +1886,183 @@ export const popoverZIndex = (): string =>
     </calcite-shell-panel>
     <calcite-panel heading="Content"></calcite-panel>
   </calcite-shell>`;
+
+export const floatAllArrangements = (): string =>
+  html` <calcite-shell content-behind>
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+    ></div>
+    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
+        <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+        </calcite-action>
+        <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled text="Tables" icon="table" slot="menu-actions"> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search"></calcite-action>
+          <calcite-action icon="measure" text="Measure"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
+      </calcite-action-bar>
+      <calcite-panel
+        closable
+        heading="Configure popup"
+        description="Popular Demographics in the United States (Beta) - County"
+        width-scale="m"
+      >
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-top" position="start">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-bottom" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Share" icon="share"></calcite-action>
+          <calcite-action text="Print" icon="print"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
+export const floatAllArrangementsStart = (): string =>
+  html` <calcite-shell content-behind>
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+    ></div>
+    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
+        <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+        </calcite-action>
+        <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled text="Tables" icon="table" slot="menu-actions"> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search"></calcite-action>
+          <calcite-action icon="measure" text="Measure"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
+      </calcite-action-bar>
+      <calcite-panel
+        closable
+        heading="Configure popup"
+        description="Popular Demographics in the United States (Beta) - County"
+        width-scale="m"
+      >
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="vertical" slot="panel-top" position="start">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Example">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-bottom" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Share" icon="share"></calcite-action>
+          <calcite-action text="Print" icon="print"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;

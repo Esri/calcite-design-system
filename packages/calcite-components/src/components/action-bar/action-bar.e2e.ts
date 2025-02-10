@@ -14,7 +14,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { CSS, SLOTS } from "./resources";
@@ -358,7 +358,7 @@ describe("calcite-action-bar", () => {
       </calcite-action-bar>`,
     );
 
-    const groups = await page.findAll("calcite-action-group");
+    const groups = await findAll(page, "calcite-action-group");
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
@@ -413,8 +413,8 @@ describe("calcite-action-bar", () => {
       });
       await page.waitForTimeout(DEBOUNCE.resize);
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(2);
+      expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
         element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
@@ -431,8 +431,8 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
     });
 
     it("should slot 'menu-actions' on sublist changes after being enabled", async () => {
@@ -461,16 +461,16 @@ describe("calcite-action-bar", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
       const actionBar = await page.find("calcite-action-bar");
       actionBar.setProperty("overflowActionsDisabled", false);
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
     });
 
     it.skip("should slot 'menu-actions' on resize of component", async () => {
@@ -497,8 +497,8 @@ describe("calcite-action-bar", () => {
       });
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
         element.style.height = "550px";
@@ -507,8 +507,8 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
       await page.waitForChanges();
 
-      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
+      expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(2);
     });
   });
 
@@ -543,7 +543,7 @@ describe("calcite-action-bar", () => {
     `;
     await page.waitForChanges();
 
-    const groups = await page.findAll("calcite-action-group");
+    const groups = await findAll(page, "calcite-action-group");
 
     for (const childGroup of groups) {
       expect(await childGroup.getProperty("layout")).toBe("vertical");

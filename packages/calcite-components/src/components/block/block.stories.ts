@@ -11,7 +11,16 @@ const { toggleDisplay } = ATTRIBUTES;
 interface BlockStoryArgs
   extends Pick<
       Block,
-      "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel" | "menuPlacement"
+      | "heading"
+      | "description"
+      | "open"
+      | "collapsible"
+      | "loading"
+      | "disabled"
+      | "headingLevel"
+      | "menuPlacement"
+      | "dragDisabled"
+      | "sortHandleOpen"
     >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
@@ -28,6 +37,8 @@ export default {
     collapsible: true,
     loading: false,
     disabled: false,
+    dragDisabled: false,
+    sortHandleOpen: false,
     headingLevel: 2,
     text: "Animals",
     sectionOpen: true,
@@ -57,6 +68,8 @@ export const simple = (args: BlockStoryArgs): string => html`
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
+    ${boolean("drag-disabled", args.dragDisabled)}
+    ${boolean("sort-handle-open", args.dragDisabled)}
     heading-level="${args.headingLevel}"
   >
     <calcite-block-section

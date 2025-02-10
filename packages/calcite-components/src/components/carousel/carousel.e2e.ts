@@ -4,7 +4,8 @@ import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
-import { CSS, centerItemsByBreakpoint } from "./resources";
+import { findAll } from "../../tests/utils";
+import { centerItemsByBreakpoint, CSS } from "./resources";
 
 const customDuration = 1000;
 
@@ -838,7 +839,7 @@ describe("calcite-carousel", () => {
       }, newItemId);
       await page.waitForChanges();
 
-      const items = await page.findAll("calcite-carousel calcite-carousel-item");
+      const items = await findAll(page, "calcite-carousel calcite-carousel-item");
       expect(items.length).toBe(2);
 
       const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
@@ -1065,7 +1066,7 @@ describe("calcite-carousel", () => {
     expect(animationStartSpy).toHaveReceivedEventTimes(4);
     expect(animationEndSpy).toHaveReceivedEventTimes(4);
 
-    const [item1, item2, item3] = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemIndividual}`);
+    const [item1, item2, item3] = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemIndividual}`);
 
     await item2.click();
     await page.waitForChanges();
@@ -1114,7 +1115,7 @@ describe("calcite-carousel", () => {
     expect(animationStartSpy).toHaveReceivedEventTimes(2);
     expect(animationEndSpy).toHaveReceivedEventTimes(2);
 
-    const [item1, item2, item3] = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemIndividual}`);
+    const [item1, item2, item3] = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemIndividual}`);
 
     await item2.click();
     await page.waitForTimeout(customDuration);
@@ -1163,7 +1164,7 @@ describe("renders the expected number of pagination items when overflowing", () 
       </calcite-carousel>`,
     );
 
-    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    const items = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemVisible}`);
     expect(items).toHaveLength(centerItemsByBreakpoint["xxsmall"] + 2);
   });
 
@@ -1184,7 +1185,7 @@ describe("renders the expected number of pagination items when overflowing", () 
       </calcite-carousel>`,
     );
 
-    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    const items = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemVisible}`);
     expect(items).toHaveLength(centerItemsByBreakpoint["xsmall"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing xsmall middle selected", async () => {
@@ -1204,7 +1205,7 @@ describe("renders the expected number of pagination items when overflowing", () 
       </calcite-carousel>`,
     );
 
-    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    const items = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemVisible}`);
     expect(items).toHaveLength(centerItemsByBreakpoint["small"] + 2);
   });
   it("correctly limits the number of slide pagination items shown when overflowing small last selected", async () => {
@@ -1224,7 +1225,7 @@ describe("renders the expected number of pagination items when overflowing", () 
       </calcite-carousel>`,
     );
 
-    const items = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemVisible}`);
+    const items = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemVisible}`);
     expect(items).toHaveLength(centerItemsByBreakpoint["medium"] + 2);
   });
 });
