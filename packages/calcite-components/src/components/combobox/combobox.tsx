@@ -56,7 +56,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -64,7 +64,6 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import { isHidden } from "../../utils/component";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -840,7 +839,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(0);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -851,7 +850,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -902,11 +901,12 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1245,7 +1245,7 @@ export class Combobox
   }
 
   private updateItemProps(): void {
-    this.items.forEach((item) => {
+    this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
@@ -1317,8 +1317,8 @@ export class Combobox
       );
       item.value = value;
       item.heading = value;
-      item.selected = true;
       this.el.prepend(item);
+      this.updateItems();
       this.toggleSelection(item, true);
       this.open = true;
       if (focus) {
@@ -1367,27 +1367,24 @@ export class Combobox
     chip?.setFocus();
   }
 
-  private scrollToActiveItem(): void {
-    const activeItem = this.filteredItems[this.activeItemIndex];
+  private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
+    const item =
+      scrollToSelected && this.selectedItems && this.selectedItems.length
+        ? this.selectedItems[0]
+        : this.filteredItems[this.activeItemIndex];
 
-    if (!activeItem) {
+    if (!item) {
       return;
     }
 
-    const height = this.calculateScrollerHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
-    }
+    item.scrollIntoView({ block: "nearest" });
   }
 
   private shiftActiveItemIndex(delta: number): void {
     const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
   }
 
   private updateActiveItemIndex(index: number): void {

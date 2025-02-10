@@ -1,6 +1,6 @@
 # strict-boolean-attributes
 
-This rule will catch any Stencil Props that would produce boolean attributes that are not [HTML5-compliant](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes).
+This rule will catch any reflected component properties that would produce boolean attributes that are not [HTML5-compliant](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes).
 
 ## Config
 

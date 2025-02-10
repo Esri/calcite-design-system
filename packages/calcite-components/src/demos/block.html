@@ -286,12 +286,58 @@
 
       <hr />
 
-      <!-- with drag handle -->
       <div class="parent">
-        <div class="child right-aligned-text">with drag handle</div>
+        <div class="child right-aligned-text">dragEnabled</div>
 
         <div class="child">
-          <calcite-block heading="Who dis?" description="seriously! who dis?" drag-handle></calcite-block>
+          <h3>Group 1</h3>
+          <calcite-block-group drag-enabled group="my-group" label="Group 1">
+            <calcite-block
+              collapsible
+              heading="A rubber chicken"
+              description="Why did the chicken cross the road? To avoid being squeezed!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Invisible ink" description="You can't see me!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Whoopee cushion" description="The sound of laughter!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Fake mustache" description="Incognito mode activated!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Giant foam finger" description="We're number one!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Clown nose" description="Honk if you love clowns!"
+              >My block content!</calcite-block
+            >
+            <calcite-block
+              collapsible
+              heading="Joke book"
+              description="Why don't scientists trust atoms? Because they make up everything!"
+              >My block content!</calcite-block
+            >
+          </calcite-block-group>
+          <h3>Group 2</h3>
+          <calcite-block-group drag-enabled group="my-group" label="Group 2">
+            <calcite-block collapsible heading="Silly string" description="A colorful mess!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Fake dog poop" description="Watch your step!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Rubber duck" description="Quack quack!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Groucho glasses" description="Disguise yourself instantly!"
+              >My block content!</calcite-block
+            >
+            <calcite-block collapsible heading="Banana peel" description="Classic slip and fall!"
+              >My block content!</calcite-block
+            >
+          </calcite-block-group>
         </div>
       </div>
     </demo-dom-swapper>
