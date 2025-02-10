@@ -79,8 +79,7 @@
   flex: 1 0 auto;
   cursor: inherit;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
     color: var(
       --calcite-action-text-color-press,
@@ -168,7 +167,7 @@
 
 :host([appearance="transparent"]) {
   &:host([active]) .button {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-color-transparent-press);
   }
 
   .button {
@@ -177,8 +176,7 @@
       duration-150
       ease-in-out;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background-color: var(--calcite-color-transparent-hover);
     }
 

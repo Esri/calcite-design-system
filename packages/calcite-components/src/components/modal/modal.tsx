@@ -406,8 +406,14 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private handleOpenedChange(value: boolean): void {
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
-    this.transitionEl.classList.add(idleClass);
+    transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
   }
 
