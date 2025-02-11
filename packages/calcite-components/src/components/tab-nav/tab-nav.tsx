@@ -72,6 +72,8 @@ export class TabNav extends LitElement {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
 
+  private firstTabClosable = false;
+
   // #endregion
 
   // #region State Properties
@@ -128,13 +130,6 @@ export class TabNav extends LitElement {
 
   /** Specifies text to update multiple components to keep in sync if one changes. */
   @property({ reflect: true }) syncId: string;
-
-  /**
-   * Keeps track whether the first tab title was ever closable
-   *
-   * @private
-   */
-  firstTabClosable = false;
 
   // #endregion
 
@@ -377,12 +372,15 @@ export class TabNav extends LitElement {
   private onSlotChange(event: Event): void {
     this.intersectionObserver?.disconnect();
 
-    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
+    const slottedElements = slotChangeGetAssignedElements<TabTitle["el"]>(
+      event,
+      "calcite-tab-title",
+    );
     slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
     if (slottedElements.length > 1 && this.firstTabClosable) {
-      (slottedElements[0] as TabTitle["el"]).closable = true;
+      slottedElements[0].closable = true;
     }
 
     this.calciteInternalTabNavSlotChange.emit(slottedElements);

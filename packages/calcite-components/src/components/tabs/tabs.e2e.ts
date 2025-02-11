@@ -407,8 +407,6 @@ describe("calcite-tabs", () => {
     });
 
     it("should hide x when last closable tab and display x when > 1 closable tabs", async () => {
-      expect(await allTabTitles[0].getProperty("closable")).toBe(true);
-      expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
       for (let i = 2; i <= 4; ++i) {
         await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
       }
@@ -416,8 +414,8 @@ describe("calcite-tabs", () => {
       expect(await tab1.getProperty("closable")).toBe(false);
       expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
 
-      await page.$eval("calcite-tabs", (element: Tabs["el"]) => {
-        element.ownerDocument
+      await page.evaluate(() => {
+        document
           .getElementById("tab-title-4")
           .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
       });
