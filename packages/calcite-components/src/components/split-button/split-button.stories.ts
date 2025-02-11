@@ -287,3 +287,35 @@ export const appearanceAndKindCombinations_TestOnly = (): string => html`
 `;
 
 export const loadingAndDisabled_TestOnly = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
+
+export const primaryAsALink_TestOnly = (): string =>
+  html` <calcite-split-button
+    scale="s"
+    primary-text="Primary Option"
+    dropdown-icon-type="overflow"
+    href="split-button.html"
+    rel="external"
+    target="_blank"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
+
+export const primaryAsADownload_TestOnly = (): string =>
+  html` <calcite-split-button
+    download
+    scale="s"
+    primary-text="Primary Option"
+    primary-icon-start="download"
+    dropdown-icon-type="overflow"
+    href="/"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
