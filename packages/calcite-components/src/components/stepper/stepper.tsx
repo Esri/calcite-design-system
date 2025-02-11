@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusElementInGroup, getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
@@ -50,6 +50,8 @@ export class Stepper extends LitElement {
   private multipleViewMode = false;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  private slotEl: HTMLSlotElement;
 
   // #endregion
 
@@ -301,7 +303,10 @@ export class Stepper extends LitElement {
   }
 
   private updateItems(): void {
-    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+    if (!this.slotEl) {
+      return;
+    }
+    getSlotAssignedElements(this.slotEl, "calcite-stepper-item").forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
       item.layout = this.layout;
@@ -394,11 +399,13 @@ export class Stepper extends LitElement {
       (el): el is StepperItem["el"] =>
         el?.tagName === "CALCITE-STEPPER-ITEM" && !isHidden(el as StepperItem["el"]),
     );
+    this.slotEl = event.target;
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerEl.style.gridTemplateAreas = spacing;
     this.containerEl.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
+    this.updateItems();
   }
 
   // #endregion
