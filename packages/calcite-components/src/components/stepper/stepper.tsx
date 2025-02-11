@@ -1,7 +1,11 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusElementInGroup, getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  getSlotAssignedElements,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
@@ -10,6 +14,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
 import { isHidden } from "../../utils/component";
+import type { StepperItem as HTMLCalciteStepperItemElement } from "../stepper-item/stepper-item";
 import { CSS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
@@ -306,12 +311,14 @@ export class Stepper extends LitElement {
     if (!this.slotEl) {
       return;
     }
-    getSlotAssignedElements(this.slotEl, "calcite-stepper-item").forEach((item) => {
-      item.icon = this.icon;
-      item.numbered = this.numbered;
-      item.layout = this.layout;
-      item.scale = this.scale;
-    });
+    getSlotAssignedElements(this.slotEl, "calcite-stepper-item").forEach(
+      (item: HTMLCalciteStepperItemElement) => {
+        item.icon = this.icon;
+        item.numbered = this.numbered;
+        item.layout = this.layout;
+        item.scale = this.scale;
+      },
+    );
   }
 
   private determineActiveStepper(): void {
@@ -399,7 +406,7 @@ export class Stepper extends LitElement {
       (el): el is StepperItem["el"] =>
         el?.tagName === "CALCITE-STEPPER-ITEM" && !isHidden(el as StepperItem["el"]),
     );
-    this.slotEl = event.target;
+    this.slotEl = event.target as HTMLSlotElement;
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerEl.style.gridTemplateAreas = spacing;
