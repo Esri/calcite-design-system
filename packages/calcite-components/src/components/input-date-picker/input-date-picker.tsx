@@ -845,7 +845,6 @@ export class InputDatePicker
       focusTrapEl: el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        // Allow outside click, as clicking outside closes the date picker which deactivates focusTrap.
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
