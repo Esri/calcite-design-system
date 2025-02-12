@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dropdown-item-background-color-hover: Specifies the background color of the dropdown item when hovered.
- * @prop --calcite-dropdown-item-background-color-press: Specifies the background color of the dropdown item when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: Specifies the color of the dropdown item icon when hovered. 
- * @prop --calcite-dropdown-item-icon-color-press: Specifies the color of the dropdown item icons when selected or active.
- * @prop --calcite-dropdown-item-text-color-press: Specifies the color of the dropdown item text when selected or active.
- * @prop --calcite-dropdown-item-text-color: Specifies the color of the dropdown item text.
+ * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
+ * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
+ * @prop --calcite-dropdown-item-icon-color-hover: Specifies the item's icon selection color when hovered. 
+ * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
+ * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
+ * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
 */
 
 @mixin item-styling {
