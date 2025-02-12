@@ -1,6 +1,6 @@
 # Calcite Components React
 
-This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). See the [react example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react) for a minimal application using this package.
+This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). Refer to the [React example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react) for a minimal application using this package.
 
 ## Installation
 
