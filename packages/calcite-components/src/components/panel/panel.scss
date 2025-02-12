@@ -28,6 +28,7 @@
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 @include disabled();
@@ -88,11 +89,12 @@
 }
 
 .container {
+  --calcite-internal-panel-corner-radius: inherit;
   @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border text-n1 text-color-2;
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
+  border-radius: inherit;
   box-sizing: border-box;
   font-size: var(--calcite-font-size--1);
 }
@@ -107,8 +109,7 @@
 
 .header {
   @apply flex flex-col z-header;
-  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
-    var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none)) 0 0;
+  border-radius: inherit inherit 0 0;
   background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
   border-block-end: 1px solid
     var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
@@ -199,12 +200,12 @@ calcite-action-menu {
 #collapse,
 calcite-action-menu {
   &:last-child {
-    border-radius-start-end: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
+    border-radius-start-end: inherit;
   }
 }
 
 .back-button {
-  border-radius-start-start: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
+  border-radius-start-start: inherit;
 }
 
 .content-wrapper {
@@ -247,8 +248,7 @@ calcite-action-menu {
     var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
   );
   background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
-  border-radius: 0 0 var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none))
-    var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
+  border-radius: 0 0 inherit inherit;
 }
 
 .footer-content {
