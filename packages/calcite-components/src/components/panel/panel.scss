@@ -9,12 +9,11 @@
  * @prop --calcite-panel-border-color: Specifies the component's border color.
  * @prop --calcite-panel-background-color: Specifies the component's background color.
  * @prop --calcite-panel-header-background-color: Specifies the background color of the component's header.
- * @prop --calcite-panel-header-action-background-color: Specifies the background color of the component's `header-actions`.
- * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of the component's `header-actions` when hovered.
- * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of the component's `header-actions` when pressed or active.
- * @prop --calcite-panel-header-action-text-color: Specifies the text and icon color of the component's `header-actions`.
- * @prop --calcite-panel-header-action-text-color-hover: Specifies the text and icon color of the component's `header-actions` when hovered.
- * @prop --calcite-panel-header-action-text-color-press: Specifies the text and icon color of the component's `header-actions` when pressed or active.
+ * @prop --calcite-panel-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+ * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+ * @prop --calcite-panel-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
  * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
  * @prop --calcite-panel-header-content-space: Specifies the padding of the `"header-content"` slot.
@@ -167,25 +166,15 @@
   }
 }
 
-.header {
-  ::slotted(calcite-action),
-  calcite-action {
-    --calcite-action-background-color: var(
-      --calcite-panel-header-action-background-color,
-      var(--calcite-panel-header-background-color)
-    );
-    --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
-    --calcite-action-background-color-press: var(--calcite-panel-header-action-background-color-press);
-    --calcite-action-text-color: var(--calcite-panel-header-action-text-color, var(--calcite-panel-header-text-color));
-    --calcite-action-text-color-hover: var(
-      --calcite-panel-header-action-text-color-hover,
-      var(--calcite-panel-header-text-color-hover)
-    );
-    --calcite-action-text-color-press: var(
-      --calcite-panel-header-action-text-color-press,
-      var(--calcite-panel-header-text-color-press)
-    );
-  }
+#close,
+#collapse,
+.back-button,
+calcite-action-menu {
+  --calcite-action-background-color: var(--calcite-panel-header-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-panel-header-action-background-color-press);
+  --calcite-action-text-color: var(--calcite-panel-header-action-text-color);
+  --calcite-action-text-color-pressed: var(--calcite-panel-header-action-text-color-pressed);
 }
 
 .back-button {
@@ -204,12 +193,6 @@
 
 .header-actions--end {
   margin-inline-start: theme("margin.auto");
-}
-
-#close,
-#collapse,
-.back-button,
-calcite-action-menu {
 }
 
 #close,
