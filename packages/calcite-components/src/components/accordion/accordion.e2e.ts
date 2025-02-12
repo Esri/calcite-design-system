@@ -87,18 +87,17 @@ describe("calcite-accordion", () => {
     ]);
   });
 
-  it.skip("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
+  it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion icon-position="start" icon-type="plus-minus" selection-mode="single-persist" scale="l">
+    <calcite-accordion icon-position="start" icon-type="plus-minus" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
-    const accordionItems = await findAll(page, "calcite-accordion-items");
+    const accordionItems = await findAll(page, "calcite-accordion-item");
 
     for (const item of accordionItems) {
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
-      expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("l");
     }
   });

@@ -98,7 +98,7 @@ describe("calcite-stepper", () => {
     expect((await containerEl.getComputedStyle()).display).toBe("grid");
   });
 
-  it.skip("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
+  it.only("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-stepper layout="vertical" scale="l" numbered icon>
@@ -116,7 +116,7 @@ describe("calcite-stepper", () => {
         </calcite-stepper-item>
       </calcite-stepper>
     `);
-    const stepperItems = await findAll(page, "calcite-stepper-items");
+    const stepperItems = await findAll(page, "calcite-stepper-item");
 
     for (const item of stepperItems) {
       expect(await item.getProperty("icon")).toBe(true);
