@@ -5,7 +5,7 @@ This package provides React wrappers for [Calcite components](https://developers
 ## Installation
 
 ```sh
-npm install --save @esri/calcite-components-react
+npm install @esri/calcite-components-react
 ```
 
 This package includes the compatible version of the standard `@esri/calcite-components` package, so you do not need to install it separately.
@@ -16,15 +16,12 @@ There are two builds provided by the standard components package.
 
 ### Custom Elements build
 
-[Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the components assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
+[Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. Assets from the CDN are used by default, but you can specify a local asset path with `setAssetPath`. Additional setup for using local assets will be explained in a subsequent step.
 
 ```jsx
 import { setAssetPath } from "@esri/calcite-components/dist/components";
-// Local assets
-setAssetPath(window.location.href);
 
-// CDN hosted assets
-// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+setAssetPath(window.location.href);
 ```
 
 Next, you need to import each component you use from the standard components package's custom elements build. This will automatically define the custom elements on the window. Then, import the same components from `@esri/calcite-components-react`.
@@ -38,17 +35,12 @@ import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-compone
 
 ### Dist build
 
-When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#distribution) build, you'll need to manually define the custom elements on the window. You can also choose between local and CDN hosted assets.
+When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#distribution) build, you'll need to manually define the custom elements on the window:
 
 ```jsx
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
-// Local assets
-defineCustomElements(window);
 
-// CDN hosted assets
-// defineCustomElements(window, {
-//   resourcesUrl: "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
-// });
+defineCustomElements(window);
 ```
 
 Since you manually defined the custom elements on the window, you only need to import the individual components from `@esri/calcite-components-react`.
