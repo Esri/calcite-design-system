@@ -478,9 +478,11 @@ export class Dropdown
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }

@@ -195,6 +195,10 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   }
 
   private setTransitionEl(el: HTMLElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
