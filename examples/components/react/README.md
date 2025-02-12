@@ -39,9 +39,9 @@ Next, import the components used in your application:
 
 ```tsx
 // define the custom elements on the browser
-import "@esri/calcite-components/dist/components/calcite-button.js";
-import "@esri/calcite-components/dist/components/calcite-icon.js";
-import "@esri/calcite-components/dist/components/calcite-slider.js";
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-slider";
 
 // import the React wrapper components
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
