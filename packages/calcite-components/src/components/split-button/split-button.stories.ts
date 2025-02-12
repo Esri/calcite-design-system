@@ -290,7 +290,7 @@ export const loadingAndDisabled_TestOnly = (): string => html`<calcite-button lo
 
 export const primaryAsALink = (): string =>
   html` <calcite-split-button
-    scale="s"
+    scale="m"
     primary-text="Primary Option"
     dropdown-icon-type="overflow"
     href="split-button.html"
@@ -307,7 +307,7 @@ export const primaryAsALink = (): string =>
 export const primaryAsADownload = (): string =>
   html` <calcite-split-button
     download
-    scale="s"
+    scale="m"
     primary-text="Primary Option"
     primary-icon-start="download"
     dropdown-icon-type="overflow"
