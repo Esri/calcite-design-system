@@ -108,6 +108,95 @@
   opacity: 1;
 }
 
+:host([appearance="solid"]) {
+  &:host([kind="neutral"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-foreground-3);
+      }
+      &:active {
+        background-color: var(--calcite-color-border-3);
+      }
+    }
+  }
+
+  &:host([kind="inverse"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-inverse-hover);
+      }
+      &:active {
+        background-color: var(--calcite-color-inverse-press);
+      }
+    }
+  }
+
+  &:host([kind="brand"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-brand-hover);
+      }
+      &:active {
+        background-color: var(--calcite-color-brand-press);
+      }
+    }
+  }
+}
+
+:host([appearance="outline-fill"]) {
+  &:host([kind="neutral"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-foreground-2);
+        border-color: var(--calcite-color-border-input);
+      }
+      &:active {
+        background-color: var(--calcite-color-foreground-3);
+        border-color: var(--calcite-color-text-3);
+      }
+    }
+  }
+
+  &:host([kind="inverse"]) .container,
+  &:host([kind="brand"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-foreground-2);
+      }
+      &:active {
+        background-color: var(--calcite-color-foreground-3);
+      }
+    }
+  }
+}
+
+:host([appearance="outline"]) {
+  &:host([kind="neutral"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-transparent-hover);
+        border-color: var(--calcite-color-border-input);
+      }
+      &:active {
+        background-color: var(--calcite-color-transparent-press);
+        border-color: var(--calcite-color-text-3);
+      }
+    }
+  }
+
+  &:host([kind="inverse"]) .container,
+  &:host([kind="brand"]) .container {
+    &.selectable {
+      &:hover {
+        background-color: var(--calcite-color-transparent-hover);
+      }
+      &:active {
+        background-color: var(--calcite-color-transparent-press);
+      }
+    }
+  }
+}
+
 :host([scale="s"]) {
   .container {
     --calcite-internal-chip-block-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
