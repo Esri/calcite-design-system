@@ -58,14 +58,32 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems } = this;
+    const { dragEnabled, el, moveToItems, canPull, canPut } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
         item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+          (moveToItem) =>
+            moveToItem.element !== el &&
+            !item.contains(moveToItem.element) &&
+            (canPull?.({
+              toEl: moveToItem.element as BlockGroup["el"],
+              fromEl: el,
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: null,
+            }) ??
+              true) &&
+            (canPut?.({
+              toEl: el,
+              fromEl: moveToItem.element as BlockGroup["el"],
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: null,
+            }) ??
+              true),
         );
         item.dragHandle = dragEnabled;
       }

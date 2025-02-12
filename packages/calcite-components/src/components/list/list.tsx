@@ -110,6 +110,8 @@ export class List
       moveToItems,
       displayMode,
       scale,
+      canPull,
+      canPut,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -121,7 +123,25 @@ export class List
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+          (moveToItem) =>
+            moveToItem.element !== el &&
+            !item.contains(moveToItem.element) &&
+            (canPull?.({
+              toEl: moveToItem.element as List["el"],
+              fromEl: el,
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: null,
+            }) ??
+              true) &&
+            (canPut?.({
+              toEl: el,
+              fromEl: moveToItem.element as List["el"],
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: null,
+            }) ??
+              true),
         );
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
@@ -198,7 +218,7 @@ export class List
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can  move from the list. */
+  /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
