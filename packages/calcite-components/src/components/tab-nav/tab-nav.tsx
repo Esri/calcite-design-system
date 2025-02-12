@@ -72,7 +72,7 @@ export class TabNav extends LitElement {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
 
-  private firstTabClosable = false;
+  private firstVisibleTabClosable = false;
 
   // #endregion
 
@@ -379,8 +379,11 @@ export class TabNav extends LitElement {
     slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
-    if (slottedElements.length > 1 && this.firstTabClosable) {
-      slottedElements[0].closable = true;
+    const visibleTabTitlesIndices = this.visibleTabTitlesIndices;
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+    if (totalVisibleTabTitles > 1 && this.firstVisibleTabWasClosable) {
+      slottedElements[visibleTabTitlesIndices[0]].closable = true;
+      this.firstVisibleTabWasClosable = false;
     }
 
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
@@ -526,19 +529,23 @@ export class TabNav extends LitElement {
     });
   }
 
-  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
-    const { tabTitles } = this;
-    const selectionModified = closedTabTitleEl.selected;
-
-    const visibleTabTitlesIndices = tabTitles.reduce(
+  private get visibleTabTitlesIndices(): number[] {
+    return this.tabTitles.reduce(
       (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
       [],
     );
+  }
+
+  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
+    const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
+
+    const visibleTabTitlesIndices = this.visibleTabTitlesIndices;
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
-      this.firstTabClosable = true;
+      this.firstVisibleTabWasClosable = true;
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
 
