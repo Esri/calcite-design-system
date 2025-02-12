@@ -72,7 +72,7 @@ export class TabNav extends LitElement {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
 
-  private firstVisibleTabClosable = false;
+  private makeFirstVisibleTabClosable = false;
 
   // #endregion
 
@@ -381,9 +381,9 @@ export class TabNav extends LitElement {
     });
     const visibleTabTitlesIndices = this.visibleTabTitlesIndices;
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
-    if (totalVisibleTabTitles > 1 && this.firstVisibleTabWasClosable) {
+    if (totalVisibleTabTitles > 1 && this.makeFirstVisibleTabClosable) {
       slottedElements[visibleTabTitlesIndices[0]].closable = true;
-      this.firstVisibleTabWasClosable = false;
+      this.makeFirstVisibleTabClosable = false;
     }
 
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
@@ -545,7 +545,7 @@ export class TabNav extends LitElement {
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
-      this.firstVisibleTabWasClosable = true;
+      this.makeFirstVisibleTabClosable = true;
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
 
