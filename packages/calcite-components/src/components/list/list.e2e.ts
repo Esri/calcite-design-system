@@ -1651,6 +1651,37 @@ describe("calcite-list", () => {
 
       await page.waitForChanges();
 
+      const listItems = await findAll(page, `calcite-list[group="letters"] calcite-list-item`);
+
+      expect(listItems.length).toBe(6);
+
+      const moveToItemIds = await page.evaluate(() => {
+        return Array.from(document.querySelectorAll(`calcite-list[group="letters"] calcite-list-item`))
+          .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
+          .flat();
+      });
+
+      expect(moveToItemIds.length).toBe(6);
+
+      const uniqueMoveToItemIds = new Set(moveToItemIds);
+
+      expect(uniqueMoveToItemIds.size).toBe(2);
+
+      const moveToItemElementIds = await page.evaluate(() => {
+        return Array.from(document.querySelectorAll(`calcite-list[group="letters"] calcite-list-item`))
+          .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
+          .flat();
+      });
+
+      expect(moveToItemElementIds.length).toBe(6);
+      expect(moveToItemElementIds[0]).toBe("second-letters");
+      expect(moveToItemElementIds[1]).toBe("second-letters");
+
+      expect(moveToItemElementIds[2]).toBe("first-letters");
+      expect(moveToItemElementIds[3]).toBe("first-letters");
+      expect(moveToItemElementIds[4]).toBe("first-letters");
+      expect(moveToItemElementIds[5]).toBe("first-letters");
+
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
         const testWindow = window as TestWindow;
