@@ -993,6 +993,8 @@ export class Combobox
   }
 
   private async refreshSelectionDisplay() {
+    this.componentOnReady();
+
     if (isSingleLike(this.selectionMode)) {
       return;
     }
