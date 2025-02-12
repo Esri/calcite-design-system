@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.0...@esri/calcite-components@3.1.0-next.1) (2025-02-12)
+
+### Features
+
+- **dropdown, dropdown-item, dropdown-group:** add component tokens ([#11465](https://github.com/Esri/calcite-design-system/issues/11465)) ([e6d405b](https://github.com/Esri/calcite-design-system/commit/e6d405b660d9621a163da4fc279d89d9814ef58a)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0-next.135...@esri/calcite-components@3.1.0-next.0) (2025-02-10)
 
 ### Features

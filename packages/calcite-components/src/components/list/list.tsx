@@ -854,7 +854,7 @@ export class List
     this.moveToItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
 
     const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
