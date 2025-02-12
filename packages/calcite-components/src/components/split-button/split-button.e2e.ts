@@ -46,6 +46,22 @@ describe("calcite-split-button", () => {
         propertyName: "placement",
         value: "bottom-end",
       },
+      {
+        propertyName: "download",
+        value: true,
+      },
+      {
+        propertyName: "href",
+        value: "/",
+      },
+      {
+        propertyName: "rel",
+        value: "external",
+      },
+      {
+        propertyName: "target",
+        value: "_blank",
+      },
     ]);
   });
 
@@ -282,32 +298,32 @@ describe("calcite-split-button", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-split-button href="/">Continue</calcite-split-button>`);
 
-    const elementAsLink = await page.find("calcite-split-button >>> a");
+    const elementAsButton = await page.find("calcite-split-button >>> calcite-button");
 
-    expect(elementAsLink).not.toBeNull();
-    expect(await elementAsLink.getProperty("download")).toBe("");
-    expect(elementAsLink).not.toHaveAttribute("download");
+    expect(elementAsButton).not.toBeNull();
+    expect(await elementAsButton.getProperty("download")).toBe(false);
+    expect(elementAsButton).not.toHaveAttribute("download");
 
     const element = await page.find("calcite-split-button");
 
     element.setProperty("download", true);
     await page.waitForChanges();
 
-    expect(await elementAsLink.getProperty("download")).toBe("");
-    expect(elementAsLink).toHaveAttribute("download");
-    expect(elementAsLink.getAttribute("download")).toBe("");
+    expect(await elementAsButton.getProperty("download")).toEqual(true);
+    expect(elementAsButton).toHaveAttribute("download");
+    expect(elementAsButton.getAttribute("download")).toBe("");
 
     const newFilename = "my-cool-file.jpg";
     element.setProperty("download", newFilename);
     await page.waitForChanges();
 
-    expect(await elementAsLink.getProperty("download")).toBe(newFilename);
-    expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+    expect(await elementAsButton.getProperty("download")).toBe(newFilename);
+    expect(elementAsButton.getAttribute("download")).toBe(newFilename);
 
     element.setProperty("download", false);
     await page.waitForChanges();
 
-    expect(await elementAsLink.getProperty("download")).toBe("");
-    expect(elementAsLink).not.toHaveAttribute("download");
+    expect(await elementAsButton.getProperty("download")).toBe(false);
+    expect(elementAsButton).not.toHaveAttribute("download");
   });
 });

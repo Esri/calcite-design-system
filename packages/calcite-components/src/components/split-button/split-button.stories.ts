@@ -288,7 +288,7 @@ export const appearanceAndKindCombinations_TestOnly = (): string => html`
 
 export const loadingAndDisabled_TestOnly = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
 
-export const primaryAsALink_TestOnly = (): string =>
+export const primaryAsALink = (): string =>
   html` <calcite-split-button
     scale="s"
     primary-text="Primary Option"
@@ -304,7 +304,7 @@ export const primaryAsALink_TestOnly = (): string =>
     </calcite-dropdown-group>
   </calcite-split-button>`;
 
-export const primaryAsADownload_TestOnly = (): string =>
+export const primaryAsADownload = (): string =>
   html` <calcite-split-button
     download
     scale="s"
