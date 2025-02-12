@@ -21,10 +21,14 @@ export function getTag(tagOrHTML: string): ComponentTag {
     const calciteTagRegex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
     const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
+
     if (calciteTagMatchResult) {
       return calciteTagMatchResult[0].substring(1) as ComponentTag;
     }
-    throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
+
+    throw new Error(
+      `Could not extract tag from HTML: ${trimmedTag}. Please check that the HTML string contains a valid Calcite component tag.`,
+    );
   }
 
   return tagOrHTML as ComponentTag;

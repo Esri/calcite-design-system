@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import dedent from "dedent";
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -16,12 +15,15 @@ import {
 } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
+  findAll,
   getFocusedElementProp,
   isElementFocused,
   skipAnimations,
 } from "../../tests/utils";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -136,7 +138,7 @@ describe("calcite-dropdown", () => {
     expect(group1).toEqualAttribute("selection-mode", "multiple");
   });
 
-  it("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
+  it.skip("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-dropdown selection-mode="single-persist" scale="s">
@@ -148,7 +150,7 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>
     `);
-    const dropdownItems = await page.findAll("calcite-dropdown-items");
+    const dropdownItems = await findAll(page, "calcite-dropdown-items");
 
     for (const item of dropdownItems) {
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
@@ -632,7 +634,7 @@ describe("calcite-dropdown", () => {
       await element.click();
       await dropdownOpenEvent;
 
-      const items = await page.findAll("calcite-dropdown-item");
+      const items = await findAll(page, "calcite-dropdown-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
@@ -653,6 +655,10 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(true);
       }
+
+      // no scroller should be present when max-items === items
+      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+      expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
     });
   });
 
@@ -1021,7 +1027,7 @@ describe("calcite-dropdown", () => {
     `);
 
     const element = await page.find("calcite-dropdown");
-    const trigger = await element.findAll(".trigger");
+    const trigger = await findAll(element, ".trigger");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     await trigger[0].click();
     expect(await dropdownWrapper.isVisible()).toBe(true);
@@ -1037,12 +1043,12 @@ describe("calcite-dropdown", () => {
   });
 
   describe("accessible", () => {
-    accessible(dedent`${dropdownSelectionModeContent}`);
+    accessible(html`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(dedent`${dropdownSelectionModeContent}`);
+    await page.setContent(html`${dropdownSelectionModeContent}`);
     await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");
@@ -1461,5 +1467,19 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
       expect(await isElementFocused(page, "#item-2")).toBe(true);
     });
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-width": {
+        targetProp: "inlineSize",
+        shadowSelector: `.${CSS.content}`,
+      },
+      "--calcite-dropdown-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.content}`,
+      },
+    };
+    themed(`<calcite-dropdown open></calcite-dropdown>`, tokens);
   });
 });

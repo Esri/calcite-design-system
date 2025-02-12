@@ -1,5 +1,13 @@
 import { html } from "../../support/formatting";
 
+export const segmentedControlTokens = {
+  calciteSegmentedControlColor: "",
+  calciteSegmentedControlBackgroundColor: "",
+  calciteSegmentedControlBorderColor: "",
+  calciteSegmentedControlShadow: "",
+  calciteSegmentedControlIconColor: "",
+};
+
 export const segmentedControl = html`<calcite-label>
   Segmented Control
   <calcite-segmented-control>

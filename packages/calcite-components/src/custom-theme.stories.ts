@@ -22,11 +22,13 @@ import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
-import { datePicker } from "./custom-theme/date-picker";
-import { dropdown } from "./custom-theme/dropdown";
+import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
+import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
+import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
@@ -38,7 +40,7 @@ import { notice, noticeTokens } from "./custom-theme/notice";
 import { pagination, paginationTokens } from "./custom-theme/pagination";
 import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
-import { segmentedControl } from "./custom-theme/segmented-control";
+import { segmentedControl, segmentedControlTokens } from "./custom-theme/segmented-control";
 import { select, selectTokens } from "./custom-theme/select";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
@@ -114,6 +116,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       .demo-column > * {
         margin-bottom: 2rem;
       }
+      .demo-row {
+        display: flex;
+      }
+      .demo-row > .demo-column {
+        flex: 0 0 auto;
+      }
     </style>
     <div class="demo">
       <div class="demo-column">
@@ -123,25 +131,29 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
       </div>
       <div class="demo-column">
         <div>${card}</div>
         ${cardThumbnail}
         <div>${dropdown} ${buttons}</div>
+        <div>${flow}</div>
         <div>${checkbox}</div>
         ${chips} ${pagination} ${slider}
       </div>
       <div class="demo-column">
-        ${datePicker} ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon}
-        ${avatarInitials} ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip}
-        ${comboboxItem}
+        ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
+        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${datePicker}</div>
+      <div class="demo-column">${datePickerRange}</div>
     </div>
   </div>`;
 
@@ -162,7 +174,13 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...datePickerTokens,
+  ...DropdownTokens,
+  ...DropdownItemTokens,
+  ...DropdownGroupTokens,
+  ...flowTokens,
   ...handleTokens,
+  ...inlineEditableTokens,
   ...graphTokens,
   ...inputTokens,
   ...labelTokens,
@@ -176,6 +194,7 @@ const componentTokens = {
   ...paginationTokens,
   ...popoverTokens,
   ...progressTokens,
+  ...segmentedControlTokens,
   ...ratingTokens,
   ...selectTokens,
   ...sliderTokens,
