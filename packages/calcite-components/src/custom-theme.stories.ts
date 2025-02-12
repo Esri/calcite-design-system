@@ -45,7 +45,7 @@ import { select, selectTokens } from "./custom-theme/select";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
-import { splitButton, splitButtonTokens } from "./custom-theme/switch";
+import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
