@@ -14,6 +14,7 @@ import {
 } from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconNameOrString } from "../icon/interfaces";
+import { guid } from "../../utils/guid";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -147,6 +148,12 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  /**
+   * The component's value.
+   * @internal
+   */
+  @property() guid = guid();
 
   // #endregion
 
