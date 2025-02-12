@@ -138,10 +138,10 @@ describe("calcite-dropdown", () => {
     expect(group1).toEqualAttribute("selection-mode", "multiple");
   });
 
-  it.skip("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
+  it("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-dropdown selection-mode="single-persist" scale="s">
+      <calcite-dropdown selection-mode="single" scale="s">
         <calcite-button slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1">Content</calcite-dropdown-item>
@@ -150,10 +150,10 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>
     `);
-    const dropdownItems = await findAll(page, "calcite-dropdown-items");
+    const dropdownItems = await findAll(page, "calcite-dropdown-item");
 
     for (const item of dropdownItems) {
-      expect(await item.getProperty("selectionMode")).toBe("single-persist");
+      expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("s");
     }
   });
