@@ -204,7 +204,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.moveToItems = blockGroups.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
   }
 

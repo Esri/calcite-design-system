@@ -1651,15 +1651,16 @@ describe("calcite-list", () => {
 
       await page.waitForChanges();
 
-      const listItems = await findAll(page, `calcite-list[group="letters"] calcite-list-item`);
+      const letterItemSelector = `calcite-list[group="letters"] calcite-list-item`;
+      const letterItems = await findAll(page, letterItemSelector);
 
-      expect(listItems.length).toBe(6);
+      expect(letterItems.length).toBe(6);
 
-      const moveToItemIds = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll(`calcite-list[group="letters"] calcite-list-item`))
+      const moveToItemIds = await page.evaluate((letterItemSelector) => {
+        return Array.from(document.querySelectorAll(letterItemSelector))
           .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
           .flat();
-      });
+      }, letterItemSelector);
 
       expect(moveToItemIds.length).toBe(6);
 
@@ -1667,11 +1668,11 @@ describe("calcite-list", () => {
 
       expect(uniqueMoveToItemIds.size).toBe(2);
 
-      const moveToItemElementIds = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll(`calcite-list[group="letters"] calcite-list-item`))
+      const moveToItemElementIds = await page.evaluate((letterItemSelector) => {
+        return Array.from(document.querySelectorAll(letterItemSelector))
           .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
           .flat();
-      });
+      }, letterItemSelector);
 
       expect(moveToItemElementIds.length).toBe(6);
       expect(moveToItemElementIds[0]).toBe("second-letters");
