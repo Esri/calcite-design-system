@@ -7,20 +7,19 @@
  * @prop --calcite-accordion-background-color: Specifies the component's background color.
  * @prop --calcite-accordion-text-color: Specifies the component's text color.
  * @prop --calcite-accordion-text-color-hover: Specifies the component's main text color on hover.
- * @prop --calcite-accordion-text-color-pressed: Specifies the component's main text color when pressed.
-
- * @prop --calcite-accordion-item-background-color: [Deprecated] Use --calcite-accordion-background-color. Specifies the component's background color.
- * @prop --calcite-accordion-item-border-color: [Deprecated] Use --calcite-accordion-border-color. Specifies the component's border color.
+ * @prop --calcite-accordion-text-color-press: Specifies the component's main text color when pressed.
+ * @prop --calcite-accordion-item-background-color: [Deprecated] Use `--calcite-accordion-background-color`. Specifies the component's background color.
+ * @prop --calcite-accordion-item-border-color: [Deprecated] Use `--calcite-accordion-border-color`. Specifies the component's border color.
  * @prop --calcite-accordion-item-content-space: Specifies the component's padding.
- * @prop --calcite-accordion-item-end-icon-color: Specifies the component's iconEnd color. Fallback to --calcite-accordion-item-icon-color or current color.
+ * @prop --calcite-accordion-item-end-icon-color: Specifies the component's iconEnd color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-expand-icon-color: Specifies the component's expand icon color.
  * @prop --calcite-accordion-item-header-background-color: Specifies the component's heading background color.
  * @prop --calcite-accordion-item-heading-text-color: Specifies the component's heading text color.
- * @prop --calcite-accordion-item-icon-color: [Deprecated] Use --calcite-icon-color. Specifies the component's default icon color.
- * @prop --calcite-accordion-item-start-icon-color: Specifies the component's iconStart color. Fallback to --calcite-accordion-item-icon-color or current color.
- * @prop --calcite-accordion-item-text-color: [Deprecated] Use --calcite-accordion-text-color. Specifies the component's text color.
- * @prop --calcite-accordion-item-text-color-hover: [Deprecated] Use --calcite-accordion-text-color-hover. Specifies the component's text color on hover.
- * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use --calcite-accordion-text-color-press. Specifies the component's text color on press.
+ * @prop --calcite-accordion-item-icon-color: [Deprecated] Use `--calcite-icon-color`. Specifies the component's default icon color.
+ * @prop --calcite-accordion-item-start-icon-color: Specifies the component's iconStart color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-text-color: [Deprecated] Use `--calcite-accordion-text-color`. Specifies the component's text color.
+ * @prop --calcite-accordion-item-text-color-hover: [Deprecated] Use `--calcite-accordion-text-color-hover`. Specifies the component's text color on hover.
+ * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use `--calcite-accordion-text-color-press`. Specifies the component's text color on press.
  */
 
 %icon-position {
@@ -132,7 +131,7 @@
     .heading {
       color: var(
         --calcite-accordion-item-heading-text-color,
-        var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1))
+        var(--calcite-accordion-text-color-press, var(--calcite-color-text-1))
       );
     }
   }
@@ -229,7 +228,7 @@
 
 :host([expanded]) {
   color: var(
-    --calcite-accordion-text-color-pressed,
+    --calcite-accordion-text-color-press,
     var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-1)))
   );
 
