@@ -387,7 +387,10 @@
     position: relative;
     visibility: visible;
     opacity: var(--calcite-opacity-half, 0.5);
-    color: var(--calcite-chip-select-icon-color-pressed, var(--calcite-chip-select-icon-color, currentColor));
+    color: var(
+      --calcite-chip-select-icon-color-press,
+      var(--calcite-chip-select-icon-color-pressed, var(--calcite-chip-select-icon-color, currentColor))
+    );
   }
 }
 
