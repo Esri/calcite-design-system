@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"`, specifies the font size of the loading percentage.
+ * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
  * @prop --calcite-loader-size: When `inline` is not set, specifies the component's width and height.
  * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
  * @prop --calcite-loader-spacing: Specifies the the component's padding.
