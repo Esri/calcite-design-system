@@ -845,7 +845,6 @@ export class InputDatePicker
       focusTrapEl: el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        // Allow outside click and let the popover manager take care of closing the popover.
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
