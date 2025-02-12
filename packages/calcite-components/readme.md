@@ -4,13 +4,13 @@
 [![downloads per month](https://img.shields.io/npm/dm/@esri/calcite-components?style=flat-square&color=35AC46)](https://www.npmjs.com/package/@esri/calcite-components)
 [![commits per month](https://img.shields.io/github/commit-activity/m/esri/calcite-components?style=flat-square&color=EDD317)](https://github.com/Esri/calcite-design-system/graphs/contributors)
 
-# Calcite Components
+# Calcite components
 
-Calcite Components, part of Esri's Calcite Design System, is a rich library of flexible, framework-agnostic web components for building applications. View the [documentation](https://developers.arcgis.com/calcite-design-system/components/) for component descriptions, examples, and API reference, which includes properties, slots, styles, and theming.
+Calcite components, part of Esri's Calcite Design System, is a rich library of flexible, framework-agnostic web components for building applications. View the [documentation](https://developers.arcgis.com/calcite-design-system/components/) for component descriptions, examples, and API reference, which includes properties, slots, styles, and theming.
 
 ## Use the CDN
 
-The most common approach for loading Calcite Components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
+The most common approach for loading Calcite components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
 
 <!-- x-release-please-start-version -->
 
@@ -32,13 +32,13 @@ Once these tags are added, components can be used like any other HTML element. O
 
 ## Use the NPM package
 
-Refer to the [Get started](https://developers.arcgis.com/calcite-design-system/get-started/) page for details on setting up the [NPM package](https://www.npmjs.com/package/@esri/calcite-components).
+Refer to the [Get started](https://developers.arcgis.com/calcite-design-system/get-started/#use-the-npm-package) page for details on setting up the [NPM package](https://www.npmjs.com/package/@esri/calcite-components).
 
 ## TypeScript
 
-Refer to the [TypeScript section of the Framework integration](https://developers.arcgis.com/calcite-design-system/resources/frameworks/#typescript) resource page for guidance on setting up TypeScript.
+Refer to the [Framework integration](https://developers.arcgis.com/calcite-design-system/resources/frameworks/#typescript) resource page for guidance on setting up TypeScript.
 
-## Browser Support
+## Browser support
 
 <table>
   <thead>
