@@ -34,7 +34,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.0-next.129",
+    "@arcgis/lumina-compiler": "^4.32.0-next.131",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
