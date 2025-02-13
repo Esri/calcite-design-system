@@ -1,0 +1,23 @@
+{
+  "tokenSetOrder": [
+    "component/button",
+    "core/color",
+    "core/container-size",
+    "core/font",
+    "core/opacity",
+    "core/shadow",
+    "core/size",
+    "core/z-index",
+    "semantic/border",
+    "semantic/color",
+    "semantic/container-size",
+    "semantic/corner",
+    "semantic/font",
+    "semantic/opacity",
+    "semantic/shadow",
+    "semantic/size",
+    "semantic/space",
+    "semantic/typography",
+    "semantic/z-index"
+  ]
+}
