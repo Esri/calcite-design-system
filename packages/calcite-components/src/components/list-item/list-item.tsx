@@ -103,25 +103,11 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() bordered = false;
 
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated Use `collapsible` prop instead.
-   */
+  /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, a close button is added to the component. */
-  @property({ reflect: true }) collapsible = false;
-
-  /**
-   * When `true`, hides the component.
-   *
-   * @deprecated Use `collapsed` prop instead.
-   */
-  @property({ reflect: true }) closed = false;
-
   /** When `true`, hides the component. */
-  @property({ reflect: true }) collapsed = false;
+  @property({ reflect: true }) closed = false;
 
   /** A description for the component. Displays below the label text. */
   @property() description: string;
@@ -188,7 +174,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    *
    * @deprecated Use `expanded` prop instead.
    */
-  @property({ reflect: true }) open = false;
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+
+  set open(value: boolean) {
+    this.expanded = value;
+  }
 
   /** When `true`, the item is expanded to show child components. */
   @property({ reflect: true }) expanded = false;
@@ -322,7 +315,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
-  calciteListItemCollapsed = createEvent({ cancelable: false });
+  calciteListItemClose = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -375,31 +368,19 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded")) {
-      this.open = this.expanded;
-    }
-
-    if (changes.has("collapsible")) {
-      this.closable = this.collapsible;
-    }
-
-    if (changes.has("collapsed")) {
-      this.closed = this.collapsed;
-    }
-
     if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
       this.activeHandler(this.active);
     }
 
     if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
-      this.handleCollapsedChange();
+      this.handleClosedChange();
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange();
     }
 
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       this.handleExpandedChange();
     }
 
@@ -430,7 +411,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
   }
 
-  private handleCollapsedChange(): void {
+  private handleClosedChange(): void {
     this.emitCalciteInternalListItemChange();
   }
 
@@ -499,9 +480,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.calciteInternalListItemChange.emit();
   }
 
-  private handleCollapseClick(): void {
+  private handleCloseClick(): void {
     this.closed = true;
-    this.calciteListItemCollapsed.emit();
+    this.calciteListItemClose.emit();
   }
 
   private handleContentSlotChange(event: Event): void {
@@ -567,8 +548,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.toggle();
   }
 
-  private toggle(value = !this.open): void {
-    this.open = value;
+  private toggle(value = !this.expanded): void {
+    this.expanded = value;
     this.calciteListItemToggle.emit();
   }
 
@@ -621,7 +602,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       containerEl: { value: containerEl },
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
-      open,
+      expanded,
       expandable,
     } = this;
 
@@ -639,7 +620,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if (!open && expandable) {
+        if (!expanded && expandable) {
           this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
@@ -653,7 +634,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if (open && expandable) {
+        if (expanded && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
@@ -779,7 +760,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderExpanded(): JsxNode {
-    const { el, open, expandable, messages, displayMode, scale } = this;
+    const { el, expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -788,7 +769,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const dir = getElementDir(el);
 
     const icon = expandable
-      ? open
+      ? expanded
         ? ICONS.open
         : dir === "rtl"
           ? ICONS.collapsedRTL
@@ -797,7 +778,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = expandable ? (open ? messages.collapse : messages.expand) : undefined;
+    const tooltip = expandable ? (expanded ? messages.collapse : messages.expand) : undefined;
 
     const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
@@ -844,11 +825,11 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         {closable ? (
           <calcite-action
             appearance="transparent"
-            class={CSS.collapse}
+            class={CSS.close}
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
-            onClick={this.handleCollapseClick}
+            onClick={this.handleCloseClick}
             scale={this.scale}
             text={messages.close}
           />
@@ -926,7 +907,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerExpanded]: this.expandable && this.open,
+          [CSS.nestedContainerExpanded]: this.expandable && this.expanded,
         }}
       >
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
@@ -988,7 +969,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   override render(): JsxNode {
     const {
       expandable,
-      open,
+      expanded,
       level,
       active,
       label,
@@ -1020,7 +1001,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       <InteractiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={expandable ? open : null}
+            ariaExpanded={expandable ? expanded : null}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
