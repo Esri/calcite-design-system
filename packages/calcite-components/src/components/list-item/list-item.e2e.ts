@@ -46,6 +46,26 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
+        propertyName: "expanded",
+        defaultValue: false,
+      },
+      {
+        propertyName: "closed",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapsed",
+        defaultValue: false,
+      },
+      {
+        propertyName: "closable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
         propertyName: "dragHandle",
         defaultValue: false,
       },
@@ -361,13 +381,13 @@ describe("calcite-list-item", () => {
   it("should fire close event when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-list-item closable>test</calcite-list-item>" });
 
-    const calciteListItemClose = await page.spyOnEvent("calciteListItemClose", "window");
+    const calciteListItemCollapsed = await page.spyOnEvent("calciteListItemCollapsed", "window");
 
     const closeButton = await page.find(`calcite-list-item >>> .${CSS.actionsEnd} calcite-action`);
 
     await closeButton.click();
 
-    expect(calciteListItemClose).toHaveReceivedEventTimes(1);
+    expect(calciteListItemCollapsed).toHaveReceivedEventTimes(1);
   });
 
   it("should fire calciteListItemToggle event when opened and closed", async () => {
@@ -382,7 +402,7 @@ describe("calcite-list-item", () => {
 
     expect(await listItem.getProperty("open")).toBe(false);
 
-    const openButton = await page.find(`#test >>> .${CSS.openContainer}`);
+    const openButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
 
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(true);
@@ -403,7 +423,7 @@ describe("calcite-list-item", () => {
 
     expect(await listItem.getProperty("open")).toBe(false);
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
 
     expect(openButton.getAttribute("title")).toBe(null);
 
@@ -445,7 +465,7 @@ describe("calcite-list-item", () => {
       ></calcite-list-item>`,
     });
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
 
     expect(openButton).toBe(null);
   });
