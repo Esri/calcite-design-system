@@ -3,12 +3,12 @@ import { html } from "../../support/formatting";
 export const chipTokens = {
   calciteChipBackgroundColor: "",
   calciteChipBorderColor: "",
-  calciteChipCornerRadius: "",
-  calciteChipTextColor: "",
-  calciteChipIconColor: "",
   calciteChipCloseIconColor: "",
+  calciteChipCornerRadius: "",
+  calciteChipIconColor: "",
+  calciteChipSelectIconColorPress: "",
   calciteChipSelectIconColor: "",
-  calciteChipSelectIconColorPressed: "",
+  calciteChipTextColor: "",
 };
 
 export const chips = html`<div>
