@@ -218,9 +218,15 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]):
       : null;
   }
   if (part === "secondSuffix") {
-    const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
-    const secondSuffix = parts[secondIndex + 1];
-    return secondSuffix && secondSuffix.type === "literal" ? secondSuffix.value?.trim() || null : null;
+    let secondSuffixPart;
+    const fractionalSecondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "fractionalSecond"));
+    if (fractionalSecondIndex) {
+      secondSuffixPart = parts[fractionalSecondIndex + 1];
+    } else {
+      const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+      secondSuffixPart = parts[secondIndex + 1];
+    }
+    return secondSuffixPart && secondSuffixPart.type === "literal" ? secondSuffixPart.value?.trim() || null : null;
   }
   return parts.find(({ type }) => (part == "meridiem" ? type === "dayPeriod" : type === part))?.value || null;
 }
@@ -424,12 +430,7 @@ export function localizeTimeString({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: localizeTimePart({
-        value: fractionalSecond,
-        part: "fractionalSecond",
-        locale,
-        numberingSystem,
-      }),
+      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem,
     };
