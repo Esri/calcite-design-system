@@ -1357,7 +1357,7 @@ export class Combobox
 
   private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
     const item =
-      scrollToSelected && this.selectedItems && this.selectedItems.length
+      scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
         : this.filteredItems[this.activeItemIndex];
 
