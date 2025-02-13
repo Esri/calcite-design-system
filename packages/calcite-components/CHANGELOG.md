@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.1...@esri/calcite-components@3.1.0-next.2) (2025-02-13)
+
+### Features
+
+- **split-button:** make downloadable and linkable ([#11520](https://github.com/Esri/calcite-design-system/issues/11520)) ([f87097f](https://github.com/Esri/calcite-design-system/commit/f87097f90e244837e8d1e2b32af2ad3062451453)), closes [#9126](https://github.com/Esri/calcite-design-system/issues/9126)
+
+### Bug Fixes
+
+- **list, block-group:** drag menu 'Move to' actions broken when list elements have explicit ids ([#11515](https://github.com/Esri/calcite-design-system/issues/11515)) ([94b032c](https://github.com/Esri/calcite-design-system/commit/94b032ce8580780f2b6235305e29198d889e6870)), closes [#11513](https://github.com/Esri/calcite-design-system/issues/11513)
+
 ## [3.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.0...@esri/calcite-components@3.1.0-next.1) (2025-02-12)
 
 ### Features
