@@ -5,9 +5,6 @@ import { registerFilterDarkColorTokens } from "./dark.js";
 import { registerFilterBreakpointTokens } from "./breakpoints.js";
 import { registerFilterTypographyTokens } from "./typography.js";
 import { registerFilterCoreTokens } from "./core.js";
-import { registerFilterSurvey123Tokens } from "./survey123.js";
-import { registerFilterDevSummitTokens } from "./devSummit.js";
-import { registerFilterCalciteTokens } from "./calcite.js";
 import { registerFilterSourceTokens } from "./source.js";
 import { registerFilterIncludeTokens } from "./include.js";
 
@@ -19,9 +16,6 @@ export async function registerCalciteFilters(sd: typeof StyleDictionary): Promis
     registerFilterLightColorTokens(sd),
     registerFilterTypographyTokens(sd),
     registerFilterCoreTokens(sd),
-    registerFilterCalciteTokens(sd),
-    registerFilterSurvey123Tokens(sd),
-    registerFilterDevSummitTokens(sd),
     registerFilterSourceTokens(sd),
     registerFilterIncludeTokens(sd),
   ]);
@@ -32,8 +26,5 @@ export { FilterBreakpointTokens } from "./breakpoints.js";
 export { FilterCoreTokens } from "./core.js";
 export { FilterLightColorTokens } from "./light.js";
 export { FilterDarkColorTokens } from "./dark.js";
-export { FilterSurvey123Tokens } from "./survey123.js";
-export { FilterDevSummitTokens } from "./devSummit.js";
-export { FilterCalciteTokens } from "./calcite.js";
 export { FilterSourceTokens } from "./source.js";
 export { FilterIncludeTokens } from "./include.js";

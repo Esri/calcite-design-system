@@ -11,4 +11,4 @@ export const registerCalciteDeprecateFileHeader = async (sd: typeof StyleDiction
   });
 };
 
-export const HeaderCalciteDeprecate = "calcite/header/default";
+export const HeaderCalciteDeprecate = "calcite/header/deprecate";

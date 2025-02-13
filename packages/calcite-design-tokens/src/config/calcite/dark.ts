@@ -22,7 +22,7 @@ export default {
         {
           destination: "dark.scss",
           format: sdFormats.scssVariables,
-          filter: filters.FilterCalciteTokens,
+          filter: filters.FilterSourceTokens,
         },
       ],
       options: {
@@ -38,7 +38,7 @@ export default {
         {
           destination: "dark.css",
           format: sdFormats.cssVariables,
-          filter: filters.FilterCalciteTokens,
+          filter: filters.FilterSourceTokens,
         },
       ],
       options: {
@@ -59,12 +59,12 @@ export default {
         {
           destination: "dark.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterCalciteTokens,
+          filter: filters.FilterSourceTokens,
         },
         {
           destination: "global.js",
           format: formats.FormatESS6Merge,
-          filter: filters.FilterCalciteTokens,
+          filter: filters.FilterSourceTokens,
           options: {
             suffix: "dark",
           },
