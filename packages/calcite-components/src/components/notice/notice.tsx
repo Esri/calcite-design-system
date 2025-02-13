@@ -117,6 +117,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
     if (!this.closeButton.value && !noticeLinkEl) {
       return;
     }
+
     if (noticeLinkEl) {
       return noticeLinkEl.setFocus();
     } else if (this.closeButton.value) {
@@ -185,6 +186,10 @@ export class Notice extends LitElement implements OpenCloseComponent {
   }
 
   private setTransitionEl(el: HTMLElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

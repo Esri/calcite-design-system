@@ -174,7 +174,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
-          this.childLink.value.click();
+          this.childLink.value?.click();
         }
         event.preventDefault();
         break;

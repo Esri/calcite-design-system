@@ -70,8 +70,7 @@ export class InputText
     this.handleGlobalAttributesChanged,
   );
 
-  /** keep track of the rendered child */
-  private childEl?: HTMLInputElement;
+  private childEl = createRef<HTMLInputElement>();
 
   defaultValue: InputText["value"];
 
@@ -293,7 +292,7 @@ export class InputText
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childEl?.select();
+    this.childEl.value?.select();
   }
 
   /** Sets focus on the component. */
@@ -301,7 +300,7 @@ export class InputText
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.childEl?.focus();
+    this.childEl.value?.focus();
   }
 
   // #endregion
@@ -429,7 +428,7 @@ export class InputText
 
   private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
-      element: this.childEl,
+      element: this.childEl.value,
       value: this.value,
     });
 
@@ -455,7 +454,7 @@ export class InputText
 
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
-      element: this.childEl,
+      element: this.childEl.value,
       value: this.value,
     });
   }
@@ -484,15 +483,11 @@ export class InputText
     syncHiddenFormInput("text", this, input);
   }
 
-  private setChildElRef(el) {
-    this.childEl = el;
-  }
-
   private setInputValue(newInputValue: string): void {
-    if (!this.childEl) {
+    if (!this.childEl.value) {
       return;
     }
-    this.childEl.value = newInputValue;
+    this.childEl.value.value = newInputValue;
   }
 
   private setPreviousEmittedValue(value: string): void {
@@ -597,7 +592,7 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
+        ref={this.childEl}
         required={this.required ? true : null}
         spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}

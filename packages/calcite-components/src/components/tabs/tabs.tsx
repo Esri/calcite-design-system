@@ -184,6 +184,10 @@ export class Tabs extends LitElement {
   }
 
   private setDefaultSlotRef(el): void {
+    if (!el) {
+      return;
+    }
+
     this.slotEl = el;
   }
 
