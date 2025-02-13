@@ -13,12 +13,7 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -39,7 +34,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class Sheet extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Sheet extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -269,7 +264,6 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openSheet();
@@ -292,10 +286,6 @@ export class Sheet extends LitElement implements OpenCloseComponent, LoadableCom
     ) {
       this.setupInteractions();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

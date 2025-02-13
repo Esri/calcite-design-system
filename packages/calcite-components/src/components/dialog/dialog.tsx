@@ -5,12 +5,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -59,7 +54,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Dialog extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -328,10 +323,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     this.setupInteractions();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -361,10 +352,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
