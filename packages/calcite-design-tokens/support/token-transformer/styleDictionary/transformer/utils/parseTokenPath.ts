@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 /**
  * Replaces the word "color" with "ui" when it is the first value in the path and removes the word "default" from the final token names.
  * This puts generated tokens in alignment with the theme variable names in Calcite-Colors
@@ -16,7 +17,7 @@ export const parseTokenPath = (path: string[]): string[] => {
       case "default":
       case "semantic":
         continue;
-      default:
+      default: {
         const priorPathSection = parsedPath.pop();
 
         if (p.length > 0) {
@@ -39,6 +40,7 @@ export const parseTokenPath = (path: string[]): string[] => {
         }
 
         break;
+      }
     }
   }
   return parsedPath;

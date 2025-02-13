@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.0.0-next.1",
+  "version": "4.0.1-next.0",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
   "keywords": [
@@ -29,6 +29,7 @@
     "icons/",
     "js/",
     "lib/",
+    "fonts/*.ttf",
     "bin/sprinter.js",
     "docs/icons.json",
     "docs/keywords.json",
@@ -39,16 +40,18 @@
     "sprite-32.svg"
   ],
   "scripts": {
-    "build": "npm run copy-assets && npm run buildsprite-16 && npm run buildsprite-24 && npm run buildsprite-32 && npm run optimize",
-    "buildsprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
-    "buildsprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
-    "buildsprite-32": "svgstore -o sprite-32.svg icons/*-32*.svg",
+    "build": "node bin/cli.js",
+    "postbuild": "npm run build:sprite && npm run build:fonts",
+    "build:fonts": "bin/build-fonts.js || true",
+    "build:sprite": "concurrently npm:build:sprite-*",
+    "build:sprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
+    "build:sprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
+    "build:sprite-32": "svgstore -o sprite-32.svg icons/*-32*.svg",
     "convert-all-desktop-multi": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s 16 && node bin/convert-mobile.js -o \"../desktop-output\" -s 24 && node bin/convert-mobile.js -o \"../desktop-output\" -s 32 && node bin/convert-mobile.js -o \"../desktop-output\" -s 64",
     "convert-all-desktop:size": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s",
     "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
-    "optimize": "node bin/cli.js",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js"
   },
@@ -58,6 +61,7 @@
     "camelcase": "6.3.0",
     "cli-progress": "^3.12.0",
     "debounce": "^2.1.0",
+    "fantasticon": "3.0.0",
     "fs-extra": "11.2.0",
     "glob": "^11.0.0",
     "svg2img": "1.0.0-beta.2",

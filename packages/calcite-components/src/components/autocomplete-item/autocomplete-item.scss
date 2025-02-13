@@ -1,0 +1,90 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-description-text-color: Specifies the text color of the component's description.
+ * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ */
+
+.scale--s {
+  @apply text-n2h;
+  --calcite-internal-autocomplete-item-spacing-unit-l: theme("spacing.2");
+  --calcite-internal-autocomplete-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size-xs);
+}
+
+.scale--m {
+  @apply text-n1h;
+  --calcite-internal-autocomplete-item-spacing-unit-l: theme("spacing.3");
+  --calcite-internal-autocomplete-item-spacing-unit-s: theme("spacing[1.5]");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size-sm);
+}
+
+.scale--l {
+  @apply text-0h;
+  --calcite-internal-autocomplete-item-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-autocomplete-item-spacing-unit-s: theme("spacing[2.5]");
+  --calcite-internal-autocomplete-item-description-font-size: var(--calcite-font-size);
+}
+
+:host {
+  @apply flex;
+}
+
+.container {
+  @apply flex
+    w-full
+    min-w-full
+    cursor-pointer
+    focus-base
+    relative
+    box-border
+    items-center;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-3));
+  gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
+  padding-block: var(--calcite-internal-autocomplete-item-spacing-unit-s);
+  @include word-break();
+  justify-content: space-around;
+}
+
+.description {
+  color: var(--calcite-autocomplete-description-text-color);
+  font-size: var(--calcite-internal-autocomplete-item-description-font-size);
+}
+
+.heading {
+  color: var(--calcite-autocomplete-heading-text-color, var(--calcite-color-text-1));
+}
+
+.heading,
+.description {
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+:host(:hover:not([disabled])) .container {
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
+
+  .description {
+    color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));
+  }
+}
+
+.container--active {
+  @apply focus-inset;
+}
+
+.content-center {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-block: 0;
+}
+
+@include text-highlight-item();
+@include base-component();
+@include disabled();

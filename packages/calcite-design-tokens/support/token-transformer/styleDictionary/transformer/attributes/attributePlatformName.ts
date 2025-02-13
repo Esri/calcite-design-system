@@ -1,5 +1,5 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
-
 import { Platform, PlatformUnion } from "../../../../types/platform.js";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { transformNamesSet } from "../name/nameSet.js";

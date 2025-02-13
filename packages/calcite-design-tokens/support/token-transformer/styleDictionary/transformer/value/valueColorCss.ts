@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
 import { Matcher } from "style-dictionary/types/Matcher";
 import Color from "tinycolor2";
@@ -13,6 +14,7 @@ function deeplyNestedColorValue(val) {
 
     if (val.includes("rgba") || color.getAlpha() === 0) {
       const hexMatch = val.match(/#[\w\d]{3,6}/g);
+      // eslint-disable-next-line no-useless-escape -- escaping '.' to match a period instead of any character
       const opacityMatch = val.match(/[\d\.]+(?=\))/);
       if (hexMatch) {
         color = Color(hexMatch[0]);

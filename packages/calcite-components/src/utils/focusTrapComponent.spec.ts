@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { GlobalTestProps } from "../tests/utils";
 import {
@@ -109,6 +110,35 @@ describe("focusTrapComponent", () => {
 
       focusTrapComponent.activateFocusTrap(fakeComponent);
       expect(customFocusTrapStack).toHaveLength(1);
+    });
+  });
+  describe("focusTrapDisabledOverride", () => {
+    const fakeComponent = {} as FocusTrapComponent;
+    let activateSpy: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+      fakeComponent.el = document.createElement("div");
+
+      connectFocusTrap(fakeComponent);
+
+      activateSpy = vi.fn();
+      fakeComponent.focusTrap.activate = activateSpy;
+    });
+
+    it("should activate focus trap when focusTrapDisabledOverride returns false", () => {
+      fakeComponent.focusTrapDisabledOverride = () => false;
+
+      activateFocusTrap(fakeComponent);
+
+      expect(activateSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not activate focus trap when focusTrapDisabledOverride returns true", () => {
+      fakeComponent.focusTrapDisabledOverride = () => true;
+
+      activateFocusTrap(fakeComponent);
+
+      expect(activateSpy).toHaveBeenCalledTimes(0);
     });
   });
 });

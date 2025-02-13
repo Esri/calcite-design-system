@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
 import { PlatformOptions } from "../../../../types/styleDictionary/platform.js";
-import { createTokenReference } from "./createTokenReference.js";
 import { hexToRgb } from "../../transformer/utils/hexToRGBA.js";
+import { createTokenReference } from "./createTokenReference.js";
 
 export function getReferencesFromValue(
   originalValue: string,

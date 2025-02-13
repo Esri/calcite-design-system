@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -7,12 +8,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
@@ -21,7 +17,7 @@ import type { Label } from "../label/label";
 import type { Button } from "../button/button";
 import { styles } from "./inline-editable.scss";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/inline-editable.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -30,10 +26,7 @@ declare global {
 }
 
 /** @slot - A slot for adding a `calcite-input`. */
-export class InlineEditable
-  extends LitElement
-  implements InteractiveComponent, LabelableComponent, LoadableComponent
-{
+export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -145,10 +138,6 @@ export class InlineEditable
     connectLabel(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -161,10 +150,6 @@ export class InlineEditable
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -234,7 +219,7 @@ export class InlineEditable
       this.inputElement.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.value.setFocus();
+    this.enableEditingButton.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
@@ -270,8 +255,7 @@ export class InlineEditable
   private async enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      event.target === this.cancelEditingButton.value ||
-      event.target === this.confirmEditingButton.value
+      (event.target !== this.enableEditingButton.value && event.target !== this.inputElement)
     ) {
       return;
     }

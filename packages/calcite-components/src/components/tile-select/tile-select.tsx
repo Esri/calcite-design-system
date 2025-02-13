@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -6,12 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Alignment, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
@@ -31,7 +27,7 @@ declare global {
  * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
  */
-export class TileSelect extends LitElement implements InteractiveComponent, LoadableComponent {
+export class TileSelect extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -150,8 +146,6 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
       removalVersion: 4,
       suggested: ["tile", "tile-group"],
     });
-
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -172,12 +166,8 @@ export class TileSelect extends LitElement implements InteractiveComponent, Load
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
+    this.input?.remove();
   }
 
   // #endregion

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -12,7 +13,7 @@ import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
-import T9nStrings from "./assets/t9n/shell-panel.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";
@@ -293,9 +294,9 @@ export class ShellPanel extends LitElement {
   }
 
   private updateWidths(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
-    const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
-    const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
+    const max = parseInt(computedStyle.getPropertyValue("max-width"));
+    const min = parseInt(computedStyle.getPropertyValue("min-width"));
+    const valueNow = parseInt(computedStyle.getPropertyValue("width"));
 
     if (typeof valueNow === "number" && !isNaN(valueNow)) {
       this.initialContentWidth = valueNow;
@@ -311,9 +312,9 @@ export class ShellPanel extends LitElement {
   }
 
   private updateHeights(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-height"), 10);
-    const min = parseInt(computedStyle.getPropertyValue("min-height"), 10);
-    const valueNow = parseInt(computedStyle.getPropertyValue("height"), 10);
+    const max = parseInt(computedStyle.getPropertyValue("max-height"));
+    const min = parseInt(computedStyle.getPropertyValue("min-height"));
+    const valueNow = parseInt(computedStyle.getPropertyValue("height"));
 
     if (typeof valueNow === "number" && !isNaN(valueNow)) {
       this.initialContentHeight = valueNow;

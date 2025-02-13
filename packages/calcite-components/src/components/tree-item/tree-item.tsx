@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
@@ -56,7 +57,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   // #region State Properties
 
-  @state() hasEndActions = false;
+  @state() private hasEndActions = false;
 
   /**
    * Used to make sure initially expanded tree-item can properly
@@ -80,7 +81,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) expanded = false;
 
   /** @private */
-  @property({ reflect: true }) hasChildren: boolean = null;
+  @property({ reflect: true }) get hasChildren(): boolean {
+    return !!this.childTree;
+  }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
@@ -265,6 +268,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     )[0];
 
     this.childTree = childTree;
+    this.requestUpdate("hasChildren");
 
     this.updateChildTree();
   }
@@ -317,7 +321,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   }
 
   preWillUpdate(): void {
-    this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
     let parentTree = this.el.closest("calcite-tree");
     if (!parentTree) {
@@ -354,18 +357,19 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
-    const chevron = this.hasChildren ? (
-      <calcite-icon
-        class={{
-          [CSS.chevron]: true,
-          [CSS_UTILITY.rtl]: rtl,
-        }}
-        data-test-id="icon"
-        icon={ICONS.chevronRight}
-        onClick={this.iconClickHandler}
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
+    const chevron =
+      this.hasChildren || this.selectionMode === "ancestors" ? (
+        <calcite-icon
+          class={{
+            [CSS.chevron]: true,
+            [CSS_UTILITY.rtl]: rtl,
+          }}
+          data-test-id="icon"
+          icon={this.hasChildren ? ICONS.chevronRight : ICONS.blank}
+          onClick={this.iconClickHandler}
+          scale={getIconScale(this.scale)}
+        />
+      ) : null;
     const defaultSlotNode: JsxNode = <slot key="default-slot" />;
 
     const checkbox =
@@ -382,7 +386,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             }
             scale={getIconScale(this.scale)}
           />
-          <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
         </div>
       ) : null;
     const selectedIcon = showBulletPoint
@@ -433,7 +436,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaHidden = toAriaBoolean(hidden);
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -462,8 +465,13 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             >
               {chevron}
               {itemIndicator}
+              {checkbox ? checkbox : null}
               {this.iconStart ? iconStartEl : null}
-              {checkbox ? checkbox : defaultSlotNode}
+              {checkbox ? (
+                <label class={CSS.checkboxLabel}>{defaultSlotNode}</label>
+              ) : (
+                defaultSlotNode
+              )}
             </div>
             <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapper}>
               {slotNode}

@@ -3,13 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
- * @prop --calcite-loader-size: The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: The width and height of an inline loader
- * @prop --calcite-loader-padding : Specifies the padding of the loader.
+ * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
+ * @prop --calcite-loader-size: When `inline` is not set, specifies the component's width and height.
+ * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
+ * @prop --calcite-loader-spacing: Specifies the the component's padding.
+ * @prop --calcite-loader-progress-color-inline: When `inline`, specifies the component's progress ring color.
+ * @prop --calcite-loader-text-spacing: When not `inline`, specifies the component's `text` margin.
+ * @prop --calcite-loader-text-weight: When not `inline` and `text` is provided, specifies the component's `text` font weight.
+ * @prop --calcite-loader-text-color: When not `inline` and `text` is provided, specifies the component's `text` color.
+ * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
+ * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
-
-@import "../../assets/styles/animation";
 
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
@@ -19,71 +23,73 @@
   stroke-width: var(--calcite-internal-stroke-width);
   fill: none;
   transform: scale(1, 1);
-  padding-block: var(--calcite-loader-padding, theme("spacing.16"));
+  padding-block: var(--calcite-loader-spacing, theme("spacing.16"));
 }
 
 :host([scale="s"]) {
   --calcite-internal-stroke-width: 3;
   --calcite-internal-text-offset: var(--calcite-spacing-xxs);
-  --calcite-loader-font-size: var(--calcite-font-size--3);
-  --calcite-loader-size: theme("spacing.8");
-  --calcite-loader-size-inline: theme("spacing.3");
+  --calcite-internal-loader-font-size: var(--calcite-font-size--3);
+  --calcite-internal-loader-size: theme("spacing.8");
+  --calcite-internal-loader-size-inline: theme("spacing.3");
   --calcite-internal-loader-value-line-height: 0.625rem; // 10px
 }
 
 :host([scale="m"]) {
   --calcite-internal-stroke-width: 6;
   --calcite-internal-text-offset: var(--calcite-spacing-sm);
-  --calcite-loader-font-size: theme("fontSize.0");
-  --calcite-loader-size: theme("spacing.16");
-  --calcite-loader-size-inline: theme("spacing.4");
+  --calcite-internal-loader-font-size: theme("fontSize.0");
+  --calcite-internal-loader-size: theme("spacing.16");
+  --calcite-internal-loader-size-inline: theme("spacing.4");
   --calcite-internal-loader-value-line-height: 1.375rem; // 22px
 }
 
 :host([scale="l"]) {
   --calcite-internal-stroke-width: 8;
   --calcite-internal-text-offset: var(--calcite-spacing-md);
-  --calcite-loader-font-size: theme("fontSize.2");
-  --calcite-loader-size: theme("spacing.24");
-  --calcite-loader-size-inline: theme("spacing.6");
+  --calcite-internal-loader-font-size: theme("fontSize.2");
+  --calcite-internal-loader-size: theme("spacing.24");
+  --calcite-internal-loader-size-inline: theme("spacing.6");
   --calcite-internal-loader-value-line-height: 1.71875rem; // 27.5px
 }
 
 .text {
   @apply text-n2h
-  text-color-1
   block
   text-center;
-  margin-block-start: var(--calcite-internal-text-offset);
+  margin-block-start: var(--calcite-loader-text-spacing, var(--calcite-internal-text-offset));
+  font-weight: var(--calcite-loader-text-weight, var(--calcite-font-weight-normal));
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
 }
 
 .percentage {
-  @apply block text-center text-color-1;
+  @apply block text-center;
   font-size: var(--calcite-loader-font-size);
-  inline-size: var(--calcite-loader-size);
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   line-height: var(--calcite-internal-loader-value-line-height);
   align-self: center;
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
 }
 
 .rings {
   @apply relative flex overflow-visible opacity-100;
-  inline-size: var(--calcite-loader-size);
-  block-size: var(--calcite-loader-size);
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
 }
 
 .ring {
   @apply absolute top-0 origin-center overflow-visible;
   inset-inline-start: 0;
-  inline-size: var(--calcite-loader-size);
-  block-size: var(--calcite-loader-size);
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
 }
 
 .ring--track {
-  stroke: var(--calcite-color-transparent-press);
+  stroke: var(--calcite-loader-track-color, var(--calcite-color-transparent-press));
 }
 
 .ring--progress {
-  stroke: var(--calcite-color-brand);
+  stroke: var(--calcite-loader-progress-color, var(--calcite-color-brand));
   transform: rotate(-90deg);
   transition: all var(--calcite-internal-animation-timing-fast) linear;
 }
@@ -98,25 +104,45 @@
   --calcite-internal-stroke-width: 2;
 
   @apply relative m-0 stroke-current stroke-2 py-0;
-  block-size: var(--calcite-loader-size-inline);
-  min-block-size: var(--calcite-loader-size-inline);
-  inline-size: var(--calcite-loader-size-inline);
-  vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
+  block-size: var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline)));
+  min-block-size: var(
+    --calcite-loader-size,
+    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+  );
+  inline-size: var(
+    --calcite-loader-size,
+    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+  );
+  vertical-align: calc(
+    var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))) * -1 * 0.2
+  );
 
   .rings {
     @apply top-0 m-0;
     inset-inline-start: 0;
-    inline-size: var(--calcite-loader-size-inline);
-    block-size: var(--calcite-loader-size-inline);
+    inline-size: var(
+      --calcite-loader-size,
+      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+    );
+    block-size: var(
+      --calcite-loader-size,
+      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+    );
   }
 
   .ring {
-    inline-size: var(--calcite-loader-size-inline);
-    block-size: var(--calcite-loader-size-inline);
+    inline-size: var(
+      --calcite-loader-size,
+      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+    );
+    block-size: var(
+      --calcite-loader-size,
+      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
+    );
   }
 
   .ring--progress {
-    stroke: currentColor;
+    stroke: var(--calcite-loader-progress-color-inline, currentColor);
   }
 }
 

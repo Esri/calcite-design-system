@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
 import {
@@ -18,12 +19,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -32,7 +28,7 @@ import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
-import T9nStrings from "./assets/t9n/button.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
@@ -52,7 +48,7 @@ declare global {
  */
 export class Button
   extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner
 {
   // #region Static Members
 
@@ -107,8 +103,9 @@ export class Button
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
-   * Without a value, the browser will suggest a filename/extension
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   * Without a value, the browser will suggest a filename/extension.
+   *
+   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -210,7 +207,6 @@ export class Button
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     if (isBrowser()) {
       this.updateHasContent();
     }
@@ -221,7 +217,6 @@ export class Button
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setTooltipText();
   }
 

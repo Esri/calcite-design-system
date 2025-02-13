@@ -1,8 +1,9 @@
+// @ts-strict-ignore
 import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
-import { getReferencesFromValue } from "./getReferenceFromValue.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { FormattingRules } from "../utils.js";
+import { getReferencesFromValue } from "./getReferenceFromValue.js";
 
 export function handleStringValueTokens(
   token: TransformedToken,
@@ -17,7 +18,7 @@ export function handleStringValueTokens(
     options: args.options,
   });
   // the key comes from Token Studio, which is why we have to keep the misspelling
-  // eslint-disable-next-line @cspell/spellchecker
+
   const themeAble = ["sass", "scss"].includes(args.options.platform) && !!token["themeable"] ? "!default" : false;
   const comment = !token.comment
     ? undefined

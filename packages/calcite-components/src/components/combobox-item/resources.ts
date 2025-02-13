@@ -6,7 +6,6 @@ export const CSS = {
   container: "container",
   custom: "icon--custom",
   description: "description",
-  filterMatch: "filter-match",
   icon: "icon",
   iconSelected: "icon--selected",
   label: "label",
@@ -20,4 +19,5 @@ export const CSS = {
 
 export const SLOTS = {
   contentEnd: "content-end",
+  contentStart: "content-start",
 };

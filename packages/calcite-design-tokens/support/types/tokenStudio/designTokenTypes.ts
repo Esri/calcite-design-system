@@ -22,7 +22,6 @@ import {
   SingleTextDecorationToken,
   SingleColorToken,
 } from "@tokens-studio/types";
-
 import { SingleColorSchemeToken } from "../tokenTypes/colorScheme.js";
 import { SingleTypographyToken } from "../tokenTypes/typography.js";
 

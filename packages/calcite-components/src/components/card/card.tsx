@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -10,12 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -27,7 +23,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { CSS, ICONS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/card.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
 
 declare global {
@@ -46,7 +42,7 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Card extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -151,16 +147,8 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

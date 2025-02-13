@@ -1,7 +1,0 @@
-{
-  "*.{json,html,yml}": ["prettier --write"],
-  "*.scss": ["stylelint --fix", "prettier --write"],
-  "packages/**/*.{ts,tsx}": ["cross-env ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.tsx --fix", "prettier --write"],
-  ".github/scripts/*.js": ["cross-env ESLINT_USE_FLAT_CONFIG=false eslint --ext .js", "prettier --write"],
-  "*.md": ["prettier --write", "markdownlint --fix"]
-}

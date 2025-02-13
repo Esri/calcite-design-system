@@ -121,6 +121,10 @@ calcite-panel {
   --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
 }
 
+::slotted(*) {
+  --calcite-panel-background-color: initial;
+}
+
 .dialog {
   @apply pointer-events-none
     m-6

@@ -2,8 +2,6 @@
 export const FontWeight = {
   black: 900,
   bold: 700,
-  // This font weight name comes from token studio transformers
-  // eslint-disable-next-line @cspell/spellchecker
   buch: 400,
   demi: 600,
   demibold: 600,
@@ -16,8 +14,6 @@ export const FontWeight = {
   hairline: 1,
   halbfett: 600,
   heavy: 900,
-  // This font weight name comes from token studio transformers
-  // eslint-disable-next-line @cspell/spellchecker
   kraeftig: 500,
   kräftig: 500,
   leicht: 300,
@@ -28,8 +24,6 @@ export const FontWeight = {
   semibold: 600,
   super: 900,
   thin: 100,
-  // This font weight name comes from token studio transformers
-  // eslint-disable-next-line @cspell/spellchecker
   ultabold: 800,
   ultra: 1000,
   ultralight: 200,

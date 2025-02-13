@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
@@ -36,12 +37,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -57,7 +53,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/input.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
@@ -76,7 +72,6 @@ export class Input
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LoadableComponent,
     NumericInputComponent,
     TextualInputComponent
 {
@@ -91,7 +86,7 @@ export class Input
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -180,9 +175,9 @@ export class Input
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type. */
   @property({ reflect: true }) clearable = false;
@@ -234,14 +229,16 @@ export class Input
   @property() localeFormat = false;
 
   /**
-   * Specifies the maximum value for type "number".
+   * When the component resides in a form,
+   * specifies the maximum value for `type="number"`.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max: number;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -258,14 +255,16 @@ export class Input
   messages = useT9n<typeof T9nStrings>();
 
   /**
-   * Specifies the minimum value for `type="number"`.
+   * When the component resides in a form,
+   * specifies the minimum value for `type="number"`.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min: number;
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
@@ -296,7 +295,8 @@ export class Input
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -320,7 +320,10 @@ export class Input
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -343,6 +346,8 @@ export class Input
    * Specifies the component type.
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
+   *
+   *  `"textarea"` [Deprecated] use the `calcite-text-area` component instead.
    */
   @property({ reflect: true }) type:
     | "color"
@@ -472,7 +477,6 @@ export class Input
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
@@ -514,10 +518,6 @@ export class Input
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -666,16 +666,15 @@ export class Input
     this.calciteInternalInputFocus.emit();
   }
 
-  private inputChangeHandler(): void {
-    if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
-    }
-  }
-
   private inputInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
+
     this.setValue({
       nativeEvent,
       origin: "user",
@@ -1053,9 +1052,9 @@ export class Input
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const enterKeyHint = this.el.enterKeyHint || this.el.getAttribute("enterkeyhint");
-    const inputMode = this.el.inputMode || this.el.getAttribute("inputmode");
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1064,12 +1063,12 @@ export class Input
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
-          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1079,6 +1078,7 @@ export class Input
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
+          // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
@@ -1100,7 +1100,7 @@ export class Input
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
-          autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
+          autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
             [CSS.editingEnabled]: this.editingEnabled,
@@ -1108,8 +1108,8 @@ export class Input
           }}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-          inputMode={inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}
           min={this.minString}
@@ -1117,10 +1117,10 @@ export class Input
           multiple={this.multiple}
           name={this.name}
           onBlur={this.inputBlurHandler}
-          onChange={this.inputChangeHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
           onKeyDown={this.inputKeyDownHandler}
+          // eslint-disable-next-line react/forbid-component-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
@@ -1138,7 +1138,12 @@ export class Input
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly

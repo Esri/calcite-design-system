@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -5,7 +6,7 @@ import { slotChangeHasContent } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Loader } from "../loader/loader";
 import { CSS, BREAKPOINTS } from "./resources";
-import T9nStrings from "./assets/t9n/scrim.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./scrim.scss";
 
 declare global {

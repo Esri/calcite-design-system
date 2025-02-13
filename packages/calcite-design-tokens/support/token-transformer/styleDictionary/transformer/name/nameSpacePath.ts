@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
+import { capitalCase } from "change-case";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { parseTokenPath } from "../utils/parseTokenPath.js";
-import { capitalCase } from "change-case";
 
 export const transformNamesSpacePath: CalledTransformerFunction<string> = (token, args) => {
   const tokenPath = parseTokenPath(

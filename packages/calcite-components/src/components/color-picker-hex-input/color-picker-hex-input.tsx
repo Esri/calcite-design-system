@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Color from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -15,12 +16,7 @@ import {
   rgbToHex,
 } from "../color-picker/utils";
 import { focusElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
 import type { InputNumber } from "../input-number/input-number";
@@ -37,7 +33,7 @@ declare global {
 
 const DEFAULT_COLOR = Color();
 
-export class ColorPickerHexInput extends LitElement implements LoadableComponent {
+export class ColorPickerHexInput extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -142,10 +138,6 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
     }
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -161,10 +153,6 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   // #endregion
 
   // #region Private Methods
@@ -175,8 +163,9 @@ export class ColorPickerHexInput extends LitElement implements LoadableComponent
     const { allowEmpty, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
+    const anyShorthand = isShorthandHex(hex, true) || isShorthandHex(hex, false);
 
-    if (isShorthandHex(hex, this.alphaChannel)) {
+    if (anyShorthand) {
       // ensure modified pasted hex values are committed since we prevent default to remove the # char.
       this.onHexInputChange();
     }

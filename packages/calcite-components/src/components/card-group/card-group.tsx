@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -8,12 +9,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import type { Card } from "../card/card";
 import { styles } from "./card-group.scss";
 
@@ -24,7 +19,7 @@ declare global {
 }
 
 /** @slot - A slot for adding one or more `calcite-card`s. */
-export class CardGroup extends LitElement implements InteractiveComponent, LoadableComponent {
+export class CardGroup extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -71,7 +66,7 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await this.componentOnReady();
     if (!this.disabled) {
       focusElement(this.items[0]);
     }
@@ -94,10 +89,6 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
     this.listen("calciteCardSelect", this.calciteCardSelectListener);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -113,7 +104,6 @@ export class CardGroup extends LitElement implements InteractiveComponent, Loada
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.updateSelectedItems();
   }
 

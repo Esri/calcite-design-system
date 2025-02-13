@@ -82,6 +82,13 @@
                 <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
               </calcite-segmented-control>
             </calcite-label>
+            <calcite-label
+              >resizable
+              <calcite-segmented-control id="control-resizable">
+                <calcite-segmented-control-item checked value="false">false</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="true">true</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
           </calcite-block>
           <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
           <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
@@ -96,6 +103,7 @@
 
       <script>
         function openSheet(id) {
+          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
           document.getElementById(id).open = true;
         }
 
@@ -104,10 +112,12 @@
         const controlPosition = document.getElementById("control-position");
         const controlHeight = document.getElementById("control-height");
         const controlWidth = document.getElementById("control-width");
+        const controlResizable = document.getElementById("control-resizable");
 
         controlDisplay.addEventListener("calciteSegmentedControlChange", function (event) {
           exampleSheet.displayMode = event.target.value;
         });
+
         controlPosition.addEventListener("calciteSegmentedControlChange", function (event) {
           exampleSheet.position = event.target.value;
         });
@@ -120,9 +130,12 @@
           exampleSheet.widthScale = event.target.value;
         });
 
+        controlResizable.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.resizable = event.target.value === "true";
+        });
+
         document.addEventListener("calcitePanelClose", () => {
           document.querySelectorAll("calcite-sheet").forEach((sheet) => (sheet.open = false));
-          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
         });
       </script>
     </demo-dom-swapper>

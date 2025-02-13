@@ -1,5 +1,5 @@
+// @ts-strict-ignore
 import { Matcher } from "style-dictionary/types/Matcher.js";
-
 import {
   CalledTransformerFunction,
   TransformerTypeUnion,

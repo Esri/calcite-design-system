@@ -4,17 +4,18 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     "lib": ["dom", "dom.iterable", "es2022"],
-    "moduleResolution": "Bundler",
-    "skipLibCheck": true,
     "module": "esnext",
-    "target": "es2022",
-    "resolveJsonModule": true,
+    "moduleResolution": "Bundler",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "useDefineForClassFields": false,
-    "jsx": "preserve",
-    "jsxFragmentFactory": "Fragment",
-    "jsxFactory": "h"
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "es2022",
+    "useDefineForClassFields": false
   }
 }

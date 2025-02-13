@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { logger } from "../../utils/logger";
 import { styles } from "./tip-group.scss";

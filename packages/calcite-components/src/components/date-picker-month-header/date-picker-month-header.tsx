@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   calciteSpacingBase,
   calciteSpacingXxs,
@@ -86,7 +87,6 @@ export class DatePickerMonthHeader extends LitElement {
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages: DatePicker["messages"]["_overrides"];
 
@@ -306,24 +306,32 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private setYearSelectMenuWidth(): void {
-    if (!this.monthPickerEl.value) {
+    const el = this.monthPickerEl.value;
+    if (!el) {
       return;
     }
 
-    const fontStyle = getComputedStyle(this.monthPickerEl.value).font;
-    const localeMonths = this.localeData.months[this.monthStyle];
-    const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
-    const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, fontStyle));
-    this.monthPickerEl.value.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
+    requestAnimationFrame(() => {
+      const computedStyle = getComputedStyle(el);
+      // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
+      const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
+      const localeMonths = this.localeData.months[this.monthStyle];
+      const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
+      const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, shorthandFont));
+      el.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
+    });
   }
 
   private isMonthInRange(index: number): boolean {
     const newActiveDate = getDateInMonth(this.activeDate, index);
 
-    if (!this.min && !this.max) {
+    if ((!this.min && !this.max) || inRange(newActiveDate, this.min, this.max)) {
       return true;
     }
-    return (!!this.max && newActiveDate < this.max) || (!!this.min && newActiveDate > this.min);
+
+    return (
+      hasSameMonthAndYear(newActiveDate, this.max) || hasSameMonthAndYear(newActiveDate, this.min)
+    );
   }
 
   private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {

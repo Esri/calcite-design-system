@@ -1,10 +1,10 @@
+// @ts-strict-ignore
+import { EOL } from "os";
 import sd, { Core as StyleDictionary } from "style-dictionary";
 import prettierSync from "@prettier/sync";
-
+import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments.js";
 import { formatTokens } from "./utils/formatTokens.js";
 import { formatExtraOutput } from "./utils/formatExtraOutput.js";
-import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments.js";
-import { EOL } from "os";
 
 export const formatCssPlatform: CalledFormatterFunction = (args) => {
   const { file, dictionary } = args;

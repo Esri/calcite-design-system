@@ -1,8 +1,10 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+// @ts-strict-ignore
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
+import { findAll } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -216,7 +218,7 @@ describe("calcite-tree-item", () => {
       const page = await newE2EPage();
       await page.setContent(tree);
       await page.waitForChanges();
-      const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      const ancestors = await findAll(page, `calcite-tree-item[data-id="ancestor"]`);
 
       for (const node of ancestors) {
         expect(await node.getProperty("indeterminate")).toBe(true);
@@ -251,7 +253,7 @@ describe("calcite-tree-item", () => {
       const page = await newE2EPage();
       await page.setContent(tree);
       await page.waitForChanges();
-      const [indeterminateAncestor, selectedAncestor] = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      const [indeterminateAncestor, selectedAncestor] = await findAll(page, `calcite-tree-item[data-id="ancestor"]`);
 
       expect(await indeterminateAncestor.getProperty("indeterminate")).toBe(true);
       expect(await indeterminateAncestor.getProperty("selected")).toBe(false);
@@ -288,7 +290,7 @@ describe("calcite-tree-item", () => {
       await btn.click();
 
       const item = await page.find("#newbie");
-      expect(item).toEqualAttribute("aria-hidden", "false");
+      expect(item.inert).toBe(false);
       expect(item.tabIndex).toBe(0);
     });
   });

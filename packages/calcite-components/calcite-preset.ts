@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 

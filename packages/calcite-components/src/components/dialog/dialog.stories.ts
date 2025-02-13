@@ -137,6 +137,22 @@ const footerContent = html`<calcite-button
   <calcite-button slot="${SLOTS.footerEnd}" width="auto" appearance="outline">Cancel</calcite-button>
   <calcite-button slot="${SLOTS.footerEnd}" width="auto">Save</calcite-button>`;
 
+const customContent = html` <div
+  style="margin: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--calcite-color-background);
+        border: 1px solid var(--calcite-color-brand);
+        border-radius: 5px;"
+  slot="custom-content"
+>
+  <p>This dialog has default content replaced with custom content.</p>
+  <calcite-button id="custom-content-button" appearance="transparent" scale="s">Close</calcite-button>
+</div>`;
+
 export const slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
@@ -169,6 +185,10 @@ export const slotsWithModal = (): string => html`
     </calcite-action-bar>
     ${footerContent}
   </calcite-dialog>
+`;
+
+export const customContentSlot = (): string => html`
+  <calcite-dialog heading="Custom content slot dialog" open placement="cover"> ${customContent} </calcite-dialog>
 `;
 
 export const darkModeRTLCustomSizeCSSVars = (): string => html`
@@ -229,6 +249,18 @@ export const withCustomContent = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <div slot="${SLOTS.content}">Custom Content!</div>
     <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const withCustomContentPanel = (): string => html`
+  <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+    <calcite-panel heading="Custom Panel" slot="${SLOTS.content}">Custom Panel Content!</calcite-panel>
+  </calcite-dialog>
+`;
+
+export const withCustomContentDivPanel = (): string => html`
+  <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
+    <div slot="${SLOTS.content}"><calcite-panel heading="Custom Panel">Custom Panel Content!</calcite-panel></div>
   </calcite-dialog>
 `;
 

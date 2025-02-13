@@ -5,4 +5,5 @@ export type ItemData = {
   description: string;
   metadata: Record<string, unknown>;
   el: ListItem["el"];
-}[];
+  heading?: string[];
+};

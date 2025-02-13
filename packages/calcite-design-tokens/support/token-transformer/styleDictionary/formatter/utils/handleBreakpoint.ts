@@ -1,13 +1,13 @@
+// @ts-strict-ignore
+import { EOL } from "os";
 import { checkAndEvaluateMath } from "@tokens-studio/sd-transforms";
-
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { TokenBreakpointContextUnion } from "../../../../types/tokenTypes/breakpointContext.js";
-import { handleStringValueTokens } from "./handleStringValue.js";
 import { Platform } from "../../../../types/platform.js";
 import { transformNamesKebabCase } from "../../transformer/name/nameKebabCase.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
-import { EOL } from "os";
+import { handleStringValueTokens } from "./handleStringValue.js";
 
 export function handleBreakpoint(
   token: TransformedToken,

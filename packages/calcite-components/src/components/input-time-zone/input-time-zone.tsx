@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -16,12 +17,7 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -43,7 +39,7 @@ import {
   getUserTimeZoneName,
   getUserTimeZoneOffset,
 } from "./utils";
-import T9nStrings from "./assets/t9n/input-time-zone.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 import { styles } from "./input-time-zone.scss";
 
@@ -55,7 +51,7 @@ declare global {
 
 export class InputTimeZone
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent
 {
   // #region Static Members
 
@@ -168,12 +164,13 @@ export class InputTimeZone
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
-   * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+   * @see [Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
   @property() referenceDate: Date | string;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -218,7 +215,7 @@ export class InputTimeZone
    *
    * If no value is provided, the user's time zone offset will be selected by default.
    *
-   * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
+   * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
   get value(): string {
@@ -233,6 +230,7 @@ export class InputTimeZone
 
   // #region Public Methods
 
+  /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -268,15 +266,12 @@ export class InputTimeZone
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
     const initialValue = this.value;
     const normalized = this.normalizeValue(initialValue);
     this.value = normalized || (initialValue === "" ? normalized : undefined);
-
-    await this.updateTimeZoneSelection();
+    this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
     afterConnectDefaultValueSet(this, selectedValue);
@@ -288,6 +283,10 @@ export class InputTimeZone
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && this.hasUpdated) {
+      this.handleValueChange(this.value, changes.get("value"));
+    }
+
     if (
       changes.has("messages") ||
       (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
@@ -299,10 +298,6 @@ export class InputTimeZone
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
     }
-
-    if (changes.has("value") && this.hasUpdated) {
-      this.handleValueChange(this.value, changes.get("value"));
-    }
   }
 
   override updated(): void {
@@ -310,7 +305,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
@@ -324,12 +318,12 @@ export class InputTimeZone
 
   // #region Private Methods
 
-  private handleTimeZoneItemPropsChange(): void {
+  private async handleTimeZoneItemPropsChange(): Promise<void> {
     if (!this.timeZoneItems || !this.hasUpdated) {
       return;
     }
 
-    this.updateTimeZoneItems();
+    await this.updateTimeZoneItems();
     this.updateTimeZoneSelection();
   }
 
@@ -386,21 +380,16 @@ export class InputTimeZone
    * @private
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
-    console.log("ovd");
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
-      console.log("bail");
       return;
     }
 
     const { label, metadata } = this.selectedTimeZoneItem;
 
-    const lbl =
+    this.comboboxEl.selectedItems[0].textLabel =
       !metadata.country || open
         ? label
         : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
-
-    console.log("label", lbl);
-    this.comboboxEl.selectedItems[0].textLabel = lbl;
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -463,7 +452,7 @@ export class InputTimeZone
     this.timeZoneItems = await this.createTimeZoneItems();
   }
 
-  private async updateTimeZoneSelection(): Promise<void> {
+  private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;

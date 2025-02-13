@@ -1,0 +1,17 @@
+# custom CSpell dictionary for calcite-components examples
+
+## band names
+Radiohead
+
+## fictional names
+Chipson
+Hudsucker
+
+## flora
+Angiospermae
+
+## usernames
+eabbey
+jdoe
+umonti
+

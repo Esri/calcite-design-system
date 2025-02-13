@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
 import { checkAndEvaluateMath } from "@tokens-studio/sd-transforms";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";

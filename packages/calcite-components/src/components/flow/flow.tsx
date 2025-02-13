@@ -1,12 +1,8 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
@@ -20,7 +16,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-flow-item` elements to the component. */
-export class Flow extends LitElement implements LoadableComponent {
+export class Flow extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -32,8 +28,10 @@ export class Flow extends LitElement implements LoadableComponent {
   private frameEl: HTMLDivElement;
 
   private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserverChange(),
+    this.updateItemsAndProps(),
   );
+
+  private items: FlowItemLikeElement[] = [];
 
   private selectedIndex = -1;
 
@@ -42,8 +40,6 @@ export class Flow extends LitElement implements LoadableComponent {
   // #region State Properties
 
   @state() flowDirection: FlowDirection = "standby";
-
-  @state() items: FlowItemLikeElement[] = [];
 
   // #endregion
 
@@ -102,9 +98,9 @@ export class Flow extends LitElement implements LoadableComponent {
     await componentFocusable(this);
 
     const { items } = this;
-    const activeItem = items[items.length - 1];
+    const selectedItem = items[this.selectedIndex];
 
-    return activeItem?.setFocus();
+    return selectedItem?.setFocus();
   }
 
   // #endregion
@@ -119,11 +115,6 @@ export class Flow extends LitElement implements LoadableComponent {
 
   override connectedCallback(): void {
     this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.handleMutationObserverChange();
-  }
-
-  load(): void {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -137,7 +128,7 @@ export class Flow extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
-    setComponentLoaded(this);
+    this.updateItemsAndProps();
   }
 
   override disconnectedCallback(): void {
@@ -193,7 +184,7 @@ export class Flow extends LitElement implements LoadableComponent {
     return newSelectedIndex < oldSelectedIndex ? "retreating" : "advancing";
   }
 
-  private handleMutationObserverChange(): void {
+  private updateItemsAndProps(): void {
     const { customItemSelectors, el } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
@@ -205,7 +196,6 @@ export class Flow extends LitElement implements LoadableComponent {
     this.items = newItems;
 
     this.ensureSelectedFlowItemExists();
-
     this.updateFlowProps();
   }
 

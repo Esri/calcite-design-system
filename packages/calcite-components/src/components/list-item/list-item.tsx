@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -7,14 +8,10 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SelectionMode, InteractionMode, Scale } from "../interfaces";
+import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
+import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -22,8 +19,8 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
-import T9nStrings from "./assets/t9n/list-item.t9n.en.json";
-import { getDepth, hasListItemChildren } from "./utils";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
 
@@ -34,8 +31,6 @@ declare global {
 }
 
 const focusMap = new Map<List["el"], number>();
-const listSelector = "calcite-list";
-
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -45,10 +40,7 @@ const listSelector = "calcite-list";
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponentItem
-{
+export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
   // #region Static Members
 
   static override styles = styles;
@@ -182,7 +174,7 @@ export class ListItem
    *
    * @private
    */
-  @property({ reflect: true }) displayMode: ListDisplayMode;
+  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
    * Sets the item to display a border.
@@ -243,13 +235,22 @@ export class ListItem
   @property() setSize: number = null;
 
   /** When `true`, displays and positions the sort handle. */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /** When `true`, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */
   @property() value: any;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true }) iconStart: IconNameOrString;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true }) iconEnd: IconNameOrString;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   // #endregion
 
@@ -364,10 +365,6 @@ export class ListItem
     this.setSelectionDefaults();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
@@ -421,10 +418,6 @@ export class ListItem
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -498,22 +491,6 @@ export class ListItem
     this.calciteInternalListItemActive.emit();
   }
 
-  private focusCellHandle(): void {
-    this.handleCellFocusIn(this.handleGridEl.value);
-  }
-
-  private focusCellActionsStart(): void {
-    this.handleCellFocusIn(this.actionsStartEl.value);
-  }
-
-  private focusCellContent(): void {
-    this.handleCellFocusIn(this.contentEl.value);
-  }
-
-  private focusCellActionsEnd(): void {
-    this.handleCellFocusIn(this.actionsEndEl.value);
-  }
-
   private emitCalciteInternalListItemToggle(): void {
     this.calciteInternalListItemToggle.emit();
   }
@@ -572,7 +549,14 @@ export class ListItem
       return;
     }
 
-    this.expandable = this.displayMode === "nested" && hasListItemChildren(slotEl);
+    const children = getListItemChildren(slotEl);
+
+    children.lists.forEach((list) => {
+      list.displayMode = this.displayMode;
+    });
+
+    this.expandable =
+      this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -596,7 +580,7 @@ export class ListItem
     this.toggleSelected(event.shiftKey);
   }
 
-  private toggleSelected(shiftKey: boolean): void {
+  private async toggleSelected(shiftKey: boolean): Promise<void> {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -612,6 +596,8 @@ export class ListItem
     this.calciteInternalListItemSelectMultiple.emit({
       selectMultiple: shiftKey && selectionMode === "multiple",
     });
+
+    await this.updateComplete;
     this.calciteListItemSelect.emit();
   }
 
@@ -685,10 +671,6 @@ export class ListItem
     this.focusCell(null);
   }
 
-  private handleCellFocusIn(focusEl: HTMLDivElement): void {
-    this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
-  }
-
   private setFocusCell(
     focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
@@ -703,7 +685,7 @@ export class ListItem
     const gridCells = this.getGridCells();
 
     gridCells.forEach((tableCell) => {
-      tableCell.tabIndex = -1;
+      tableCell.removeAttribute("tabindex");
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
@@ -711,7 +693,12 @@ export class ListItem
       return;
     }
 
-    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+    if (focusEl === focusedEl) {
+      focusEl.tabIndex = 0;
+    } else {
+      focusEl.removeAttribute("tabindex");
+    }
+
     focusEl.setAttribute(activeCellTestAttribute, "");
 
     if (saveFocusIndex) {
@@ -770,7 +757,6 @@ export class ListItem
         ariaLabel={label}
         class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
-        onFocusIn={this.focusCellHandle}
         ref={this.handleGridEl}
         role="gridcell"
       >
@@ -835,7 +821,6 @@ export class ListItem
         class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        onFocusIn={this.focusCellActionsStart}
         ref={this.actionsStartEl}
         role="gridcell"
       >
@@ -852,7 +837,6 @@ export class ListItem
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
-        onFocusIn={this.focusCellActionsEnd}
         ref={this.actionsEndEl}
         role="gridcell"
       >
@@ -889,6 +873,34 @@ export class ListItem
         <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
       </div>
     );
+  }
+
+  private renderIconStart(): JsxNode {
+    const { iconStart, iconFlipRtl, scale } = this;
+
+    return iconStart ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={iconStart}
+        key="icon-start"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+  }
+
+  private renderIconEnd(): JsxNode {
+    const { iconEnd, iconFlipRtl, scale } = this;
+
+    return iconEnd ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={iconEnd}
+        key="icon-end"
+        scale={getIconScale(scale)}
+      />
+    ) : null;
   }
 
   private renderContentEnd(): JsxNode {
@@ -947,7 +959,9 @@ export class ListItem
     const content = [
       this.renderContentStart(),
       this.renderCustomContent(),
+      this.renderIconStart(),
       this.renderContentProperties(),
+      this.renderIconEnd(),
       this.renderContentEnd(),
     ];
 
@@ -963,7 +977,6 @@ export class ListItem
         }}
         key="content-container"
         onClick={this.handleItemClick}
-        onFocusIn={this.focusCellContent}
         ref={this.contentEl}
         role="gridcell"
       >
@@ -1030,13 +1043,13 @@ export class ListItem
             {this.renderDragHandle()}
             {this.renderSelected()}
             {this.renderExpanded()}
-            {this.renderActionsStart()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
                 [CSS.contentContainerWrapperBordered]: contentContainerWrapperBordered,
               }}
             >
+              {this.renderActionsStart()}
               {this.renderContentContainer()}
               {this.renderActionsEnd()}
             </div>

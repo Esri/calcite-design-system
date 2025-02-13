@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -8,12 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -23,8 +19,11 @@ import {
 } from "../../utils/floating-ui";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
+import { MoveTo } from "../sort-handle/interfaces";
+import { SortHandle } from "../sort-handle/sort-handle";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/block.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 
 declare global {
@@ -41,10 +40,7 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
-{
+export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -53,9 +49,11 @@ export class Block
 
   // #region Private Properties
 
-  openTransitionProp = "margin-top";
+  transitionProp = "margin-top" as const;
 
   transitionEl: HTMLElement;
+
+  private sortHandleEl: SortHandle["el"];
 
   // #endregion
 
@@ -84,7 +82,14 @@ export class Block
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, displays a drag handle in the header. */
+  /** When `true`, and a parent Block Group is `dragEnabled`, the component is not draggable. */
+  @property({ reflect: true }) dragDisabled = false;
+
+  /**
+   * When `true`, the component displays a draggable button.
+   *
+   * @deprecated No longer necessary. Use Block Group for draggable functionality.
+   */
   @property({ reflect: true }) dragHandle = false;
 
   /**
@@ -129,6 +134,13 @@ export class Block
    */
   messages = useT9n<typeof T9nStrings>();
 
+  /**
+   * Sets the item to display a border.
+   *
+   * @private
+   */
+  @property() moveToItems: MoveTo[] = [];
+
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) open = false;
 
@@ -140,6 +152,23 @@ export class Block
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setPosition: number = null;
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setSize: number = null;
+
+  /** When `true`, displays and positions the sort handle. */
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /**
    * Displays a status-related indicator icon.
@@ -175,6 +204,18 @@ export class Block
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
 
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteBlockSortHandleBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  calciteBlockSortHandleClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is open and animation is complete. */
+  calciteBlockSortHandleOpen = createEvent({ cancelable: false });
+
   /**
    * Fires when the component's header is clicked.
    *
@@ -190,11 +231,11 @@ export class Block
     this.transitionEl = this.el;
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
+  load(): void {
+    if (!this.heading && !this.label) {
+      logger.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
     }
   }
 
@@ -206,14 +247,14 @@ export class Block
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       onToggleOpenCloseComponent(this);
     }
+
+    if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
+      this.sortHandleOpenHandler();
+    }
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -233,6 +274,42 @@ export class Block
 
   onClose(): void {
     this.calciteBlockClose.emit();
+  }
+
+  private sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
+  }
+
+  private setSortHandleEl(el: SortHandle["el"]): void {
+    this.sortHandleEl = el;
+    this.sortHandleOpenHandler();
+  }
+
+  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeOpen.emit();
+  }
+
+  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeClose.emit();
+  }
+
+  private handleSortHandleClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = false;
+    this.calciteBlockSortHandleClose.emit();
+  }
+
+  private handleSortHandleOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = true;
+    this.calciteBlockSortHandleOpen.emit();
   }
 
   private onHeaderClick(): void {
@@ -363,6 +440,10 @@ export class Block
       description,
       menuFlipPlacements,
       menuPlacement,
+      moveToItems,
+      setPosition,
+      setSize,
+      dragDisabled,
     } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
@@ -383,7 +464,21 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle label={heading || label} /> : null}
+        {this.dragHandle ? (
+          <calcite-sort-handle
+            disabled={dragDisabled}
+            label={heading || label}
+            moveToItems={moveToItems}
+            oncalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+            oncalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+            oncalciteSortHandleClose={this.handleSortHandleClose}
+            oncalciteSortHandleOpen={this.handleSortHandleOpen}
+            overlayPositioning="fixed"
+            ref={this.setSortHandleEl}
+            setPosition={setPosition}
+            setSize={setSize}
+          />
+        ) : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}

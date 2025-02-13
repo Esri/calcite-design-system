@@ -3,41 +3,41 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
- * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
- * @prop --calcite-action-background-color-pressed: Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
+ * @prop --calcite-action-background-color: Specifies the component's background color.
+ * @prop --calcite-action-corner-radius-end-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start start.
  * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-action-corner-radius-end-end: Specifies the component's corner radius end end.
- * @prop --calcite-action-corner-radius-end-start: Specifies the component's corner radius end start.
- * @prop --calcite-action-corner-radius-start-end: Specifies the component's corner radius start end.
- * @prop --calcite-action-corner-radius-start-start: Specifies the component's corner radius start start.
+ * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
+ * @prop --calcite-action-text-color-press: Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
- * @prop --calcite-action-text-color-pressed: Specifies the component's text color when hovered.
  */
 
 :host {
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
+  --calcite-internal-action-text-color: var(--calcite-color-text-3);
+}
+
+:host([drag-handle]) {
+  @apply cursor-move;
+  --calcite-internal-action-text-color: var(--calcite-color-border-input);
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
 :host,
-button {
-  border-end-end-radius: var(
-    --calcite-action-corner-radius-end-end,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-end-start-radius: var(
-    --calcite-action-corner-radius-end-start,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-start-end-radius: var(
-    --calcite-action-corner-radius-start-end,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
-  );
-  border-start-start-radius: var(
-    --calcite-action-corner-radius-start-start,
-    var(--calcite-action-corner-radius, var(--calcite-corner-radius))
+.button {
+  border-radius: var(
+    --calcite-action-corner-radius,
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
   );
 }
 
@@ -69,15 +69,17 @@ button {
     font-sans;
 
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
   text-align: unset;
   flex: 1 0 auto;
   cursor: inherit;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
   }
 
   &:focus {
@@ -85,7 +87,10 @@ button {
   }
 
   &:active {
-    background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -122,8 +127,14 @@ button {
     &,
     &:hover,
     &:focus {
-      color: var(--calcite-action-text-color-pressed, var(--calcite-color-text-1));
-      background-color: var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3));
+      color: var(
+        --calcite-action-text-color-press,
+        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+      );
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+      );
     }
 
     &:active {
@@ -150,14 +161,17 @@ button {
 }
 
 :host([appearance="transparent"]) {
+  &:host([active]) .button {
+    background-color: var(--calcite-color-transparent-press);
+  }
+
   .button {
     @apply bg-transparent
       transition-shadow
       duration-150
       ease-in-out;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background-color: var(--calcite-color-transparent-hover);
     }
 
@@ -256,14 +270,25 @@ button {
   .button,
   .button:hover,
   .button:focus {
-    @apply opacity-disabled bg-foreground-1 cursor-default;
+    @apply opacity-disabled cursor-default;
+    background-color: var(
+      --calcite-action-background-color,
+      var(--calcite-action-background-color, var(--calcite-color-foreground-1))
+    );
   }
 
   &:host([active]) {
     .button,
     .button:hover,
     .button:focus {
-      @apply opacity-disabled bg-foreground-3;
+      @apply opacity-disabled;
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(
+          --calcite-action-background-color-press,
+          var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+        )
+      );
     }
   }
 }

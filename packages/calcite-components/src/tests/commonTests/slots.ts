@@ -1,9 +1,8 @@
-import { toHaveNoViolations } from "jest-axe";
+// @ts-strict-ignore
+
 import { expect, it } from "vitest";
 import { getTag, simplePageSetup } from "./utils";
 import { TagOrHTML } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper for asserting slots.

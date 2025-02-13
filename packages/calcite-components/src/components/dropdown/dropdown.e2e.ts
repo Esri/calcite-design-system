@@ -1,4 +1,4 @@
-import dedent from "dedent";
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -15,12 +15,15 @@ import {
 } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
+  findAll,
   getFocusedElementProp,
   isElementFocused,
   skipAnimations,
 } from "../../tests/utils";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -82,7 +85,7 @@ describe("calcite-dropdown", () => {
     hidden("calcite-dropdown");
   });
 
-  describe.skip("disabled", () => {
+  describe("disabled", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
@@ -138,7 +141,7 @@ describe("calcite-dropdown", () => {
   it("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-dropdown selection-mode="single-persist" scale="s">
+      <calcite-dropdown selection-mode="single" scale="s">
         <calcite-button slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1">Content</calcite-dropdown-item>
@@ -147,12 +150,12 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>
     `);
-    const dropdownItems = await page.findAll("calcite-dropdown-items");
+    const dropdownItems = await findAll(page, "calcite-dropdown-item");
 
-    dropdownItems.forEach(async (item) => {
-      expect(await item.getProperty("selectionMode")).toBe("single-persist");
+    for (const item of dropdownItems) {
+      expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("s");
-    });
+    }
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
@@ -605,8 +608,9 @@ describe("calcite-dropdown", () => {
 
     it("control max items displayed", async () => {
       const maxItems = 7;
-      const page = await newE2EPage({
-        html: html`<calcite-dropdown max-items="${maxItems}">
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dropdown max-items="${maxItems}">
           <calcite-button slot="trigger">Open Dropdown</calcite-button>
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -623,14 +627,14 @@ describe("calcite-dropdown", () => {
             <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>`,
-      });
+      );
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
       await element.click();
       await dropdownOpenEvent;
 
-      const items = await page.findAll("calcite-dropdown-item");
+      const items = await findAll(page, "calcite-dropdown-item");
 
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
@@ -643,6 +647,18 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
       }
+
+      const totalItems = 10;
+      element.setProperty("maxItems", totalItems);
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].isIntersectingViewport()).toBe(true);
+      }
+
+      // no scroller should be present when max-items === items
+      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+      expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
     });
   });
 
@@ -1011,7 +1027,7 @@ describe("calcite-dropdown", () => {
     `);
 
     const element = await page.find("calcite-dropdown");
-    const trigger = await element.findAll(".trigger");
+    const trigger = await findAll(element, ".trigger");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     await trigger[0].click();
     expect(await dropdownWrapper.isVisible()).toBe(true);
@@ -1027,12 +1043,12 @@ describe("calcite-dropdown", () => {
   });
 
   describe("accessible", () => {
-    accessible(dedent`${dropdownSelectionModeContent}`);
+    accessible(html`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(dedent`${dropdownSelectionModeContent}`);
+    await page.setContent(html`${dropdownSelectionModeContent}`);
     await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");
@@ -1128,7 +1144,7 @@ describe("calcite-dropdown", () => {
     await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="title-group">
@@ -1451,5 +1467,19 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
       expect(await isElementFocused(page, "#item-2")).toBe(true);
     });
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-width": {
+        targetProp: "inlineSize",
+        shadowSelector: `.${CSS.content}`,
+      },
+      "--calcite-dropdown-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.content}`,
+      },
+    };
+    themed(`<calcite-dropdown open></calcite-dropdown>`, tokens);
   });
 });

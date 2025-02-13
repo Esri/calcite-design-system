@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import type { Alert } from "./alert";
 
 export const alertQueueTimeoutMs = 300;

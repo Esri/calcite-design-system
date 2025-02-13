@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 // This is a copy/extension of sd-transforms/src/parsers/add-font-styles.ts with better types
 
 import { TransformOptions } from "../../../../types/styleDictionary/transformOptions.js";

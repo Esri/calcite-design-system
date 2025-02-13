@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
@@ -7,12 +8,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { SLOTS, CSS, IDS } from "./resources";
@@ -30,7 +26,7 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
-export class AccordionItem extends LitElement implements LoadableComponent {
+export class AccordionItem extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -137,14 +133,6 @@ export class AccordionItem extends LitElement implements LoadableComponent {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
-  }
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

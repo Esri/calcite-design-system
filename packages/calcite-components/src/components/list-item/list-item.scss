@@ -8,9 +8,9 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-border-color: Specifies the component's border color.
  * @prop --calcite-list-content-text-color: Specifies the content color.
- * @prop --calcite-list-description-text-color: Specifies the description color.
+ * @prop --calcite-list-description-text-color: Specifies the `description` color.
  * @prop --calcite-list-icon-color: Specifies the component's icon color.
- * @prop --calcite-list-label-text-color: Specifies the label color.
+ * @prop --calcite-list-label-text-color: Specifies the `label` color.
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
@@ -49,17 +49,30 @@
   background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-1));
 }
 
-.container--border-selected {
-  box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+.container--border {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    inline-size: var(--calcite-border-width-lg);
+    inset-block: 0;
+    inset-inline-start: 0;
+    background-color: transparent;
+    content: "";
+  }
 }
 
-.container--border-unselected {
-  box-shadow: inset 4px 0 0 0 transparent;
+.container--border-selected {
+  &::before {
+    background-color: var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+  }
 }
 
 .container:hover {
   &.container--border-unselected {
-    box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
+    &::before {
+      background-color: var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
+    }
   }
 }
 
@@ -142,6 +155,16 @@
   color: var(--calcite-list-description-text-color, var(--calcite-color-text-3));
 }
 
+.icon {
+  align-self: center;
+  color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
+}
+
+:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
 :host([scale="s"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
@@ -223,7 +246,7 @@
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
@@ -244,7 +267,7 @@
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs);
@@ -282,7 +305,7 @@
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: 0;
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-md);
@@ -291,6 +314,11 @@
 :host([scale="l"][display-mode="nested"]) {
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="l"][display-mode="nested"][drag-handle]) {
+  .container {
+    padding-inline-start: 0;
   }
 }
 :host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
@@ -305,8 +333,14 @@
   @apply word-break font-sans font-normal;
 }
 
-:host([selected]) .label {
-  @apply font-medium;
+:host([selected]) {
+  .label {
+    @apply font-medium;
+  }
+
+  .icon {
+    color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
+  }
 }
 
 :host([selected]) .description {
@@ -400,7 +434,7 @@
     content: "";
     inline-size: theme("spacing[0.5]");
     z-index: theme("zIndex.header");
-    background-color: theme("colors.brand");
+    background-color: var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
     inset-block: 0;
   }
   &::before {

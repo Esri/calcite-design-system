@@ -16,5 +16,5 @@ export const accordion = html`<style>
     }</style
   ><calcite-accordion>
     ${[0, 1, 2, 3, 4].map((idx) => accordionItem(idx)).join("\n")}
-    <calcite-accordion-item heading="Accordion Item 5" expanded>${tree}</calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Item 6" expanded>${tree}</calcite-accordion-item>
   </calcite-accordion>`;

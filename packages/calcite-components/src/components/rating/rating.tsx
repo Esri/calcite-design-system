@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -22,19 +23,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import T9nStrings from "./assets/t9n/rating.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
 import { IDS } from "./resources";
@@ -48,7 +44,7 @@ declare global {
 
 export class Rating
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -125,7 +121,8 @@ export class Rating
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -219,7 +216,6 @@ export class Rating
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestUpdate("value");
   }
 
@@ -254,7 +250,6 @@ export class Rating
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -350,7 +345,7 @@ export class Rating
   }
 
   private handleLabelClick(event: Event) {
-    //preventing pointerdown event will supress any compatability mouse events except for click event.
+    //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -12,6 +13,7 @@ import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -24,6 +26,7 @@ declare global {
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
+ * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
 export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region Static Members
@@ -35,6 +38,12 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() hasContent = false;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private _selected = false;
 
   // #endregion
 
@@ -88,7 +97,18 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected: boolean = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      // we emit directly to avoid delays updating the parent combobox
+      this.emitItemChange();
+    }
+  }
 
   /**
    * Specifies the selection mode of the component, where:
@@ -131,6 +151,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   @property() value: any;
 
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
+
   // #endregion
 
   // #region Events
@@ -158,16 +185,14 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
-      changes.has("textLabel")
+      this.hasUpdated &&
+      (changes.has("disabled") ||
+        changes.has("heading") ||
+        changes.has("label") ||
+        changes.has("textLabel"))
     ) {
-      this.calciteInternalComboboxItemChange.emit();
+      this.emitItemChange();
     }
   }
 
@@ -178,6 +203,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
+  private emitItemChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
@@ -241,7 +270,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const { disabled, heading, label, textLabel, value } = this;
+    const {
+      disabled,
+      heading,
+      label,
+      textLabel,
+      value,
+      filterTextMatchPattern,
+      description,
+      shortHeading,
+    } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const icon = disabled || isSingleSelect ? undefined : "check";
     const selectionIcon = isSingleSelect ? "bullet-point" : "check";
@@ -254,7 +292,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el) + 1;
+    const depth = getDepth(this.el);
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -271,15 +310,31 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}
+            <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
-              <div class={CSS.title}>{this.renderTextContent(headingText)}</div>
-              {this.description ? (
-                <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+              <div class={CSS.title}>
+                {highlightText({
+                  text: headingText,
+                  pattern: filterTextMatchPattern,
+                })}
+              </div>
+              {description ? (
+                <div class={CSS.description}>
+                  {highlightText({
+                    text: description,
+                    pattern: filterTextMatchPattern,
+                  })}
+                </div>
               ) : null}
             </div>
-            {this.shortHeading ? (
-              <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
+            {shortHeading ? (
+              <div class={CSS.shortText}>
+                {highlightText({
+                  text: shortHeading,
+                  pattern: filterTextMatchPattern,
+                })}
+              </div>
             ) : null}
             <slot name={SLOTS.contentEnd} />
           </li>
@@ -287,23 +342,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         </div>
       </InteractiveContainer>
     );
-  }
-
-  private renderTextContent(text: string): string | (string | JsxNode)[] {
-    const pattern = this.filterTextMatchPattern;
-
-    if (!pattern || !text) {
-      return text;
-    }
-
-    const parts: (string | JsxNode)[] = text.split(pattern);
-
-    if (parts.length > 1) {
-      // we only highlight the first match
-      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
-    }
-
-    return parts;
   }
 
   // #endregion

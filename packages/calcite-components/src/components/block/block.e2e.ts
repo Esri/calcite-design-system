@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -12,6 +13,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -35,6 +37,10 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
       {
+        propertyName: "dragDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
@@ -53,6 +59,10 @@ describe("calcite-block", () => {
       {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
       },
     ]);
   });
@@ -78,6 +88,14 @@ describe("calcite-block", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "dragDisabled",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        value: true,
       },
     ]);
   });
@@ -421,5 +439,61 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n("calcite-block");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-block
+          heading="heading"
+          description="description"
+          open
+          collapsible
+          icon-end="pen"
+          icon-start="pen"
+        >
+          <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <div>content</div>
+        </calcite-block>`,
+        {
+          "--calcite-block-border-color": {
+            targetProp: "borderColor",
+          },
+          "--calcite-block-header-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-block-header-background-color-hover": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          "--calcite-block-text-color": [
+            { shadowSelector: `.${CSS.description}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
+          ],
+          "--calcite-block-heading-text-color-press": [
+            {
+              shadowSelector: `.${CSS.toggleIcon}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+              state: { press: { attribute: "class", value: CSS.heading } },
+            },
+          ],
+        },
+      );
+    });
+    describe("closed", () => {
+      themed(html`<calcite-block heading="heading"></calcite-block>`, {
+        "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
+      });
+    });
   });
 });

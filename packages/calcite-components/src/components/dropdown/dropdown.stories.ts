@@ -243,7 +243,8 @@ export const itemsAsLinksDarkMode = (): string => html`
 itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" scale="m" width-scale="m" type="click">
+  <!-- we use large scale to test max viewport height-->
+  <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" width-scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="First group">
       <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -259,6 +260,13 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
       <calcite-dropdown-item>9</calcite-dropdown-item>
       <calcite-dropdown-item>10</calcite-dropdown-item>
     </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Third group">
+      <calcite-dropdown-item>11</calcite-dropdown-item>
+      <calcite-dropdown-item>12</calcite-dropdown-item>
+      <calcite-dropdown-item>13</calcite-dropdown-item>
+      <calcite-dropdown-item>14</calcite-dropdown-item>
+      <calcite-dropdown-item>15</calcite-dropdown-item>
+    </calcite-dropdown-group>
   </calcite-dropdown>
 `;
 
@@ -267,6 +275,7 @@ scrollingAfterCertainItems_TestOnly.parameters = {
 };
 
 export const scrollingWithoutMaxItems_TestOnly = (): string => html`
+  <!-- we use large scale to test max viewport height-->
   <calcite-dropdown open>
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="single" group-title="Sort by">
@@ -287,6 +296,13 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
       <calcite-dropdown-item>8</calcite-dropdown-item>
       <calcite-dropdown-item>9</calcite-dropdown-item>
       <calcite-dropdown-item>10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Third group">
+      <calcite-dropdown-item>11</calcite-dropdown-item>
+      <calcite-dropdown-item>12</calcite-dropdown-item>
+      <calcite-dropdown-item>13</calcite-dropdown-item>
+      <calcite-dropdown-item>14</calcite-dropdown-item>
+      <calcite-dropdown-item>15</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;

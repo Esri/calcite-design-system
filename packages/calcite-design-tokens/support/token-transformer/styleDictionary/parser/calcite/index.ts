@@ -1,6 +1,5 @@
 import { Core as StyleDictionary } from "style-dictionary";
 import { ParserOptions } from "style-dictionary/types/Parser.js";
-
 import { addFontStyles } from "../utils/add-font-styles.js";
 import { expandComposites } from "../utils/expandComposites.js";
 import { expand } from "../../../../types/tokenStudio/expandOptions.js";

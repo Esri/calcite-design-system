@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
@@ -12,6 +13,7 @@ describe("calcite-icon", () => {
   describe("defaults", () => {
     defaults("calcite-icon", [
       { propertyName: "flipRtl", defaultValue: false },
+      { propertyName: "preload", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
     ]);
   });
@@ -19,6 +21,7 @@ describe("calcite-icon", () => {
   describe("reflects", () => {
     reflects("calcite-icon", [
       { propertyName: "flipRtl", value: true },
+      { propertyName: "preload", value: true },
       { propertyName: "scale", value: "m" },
     ]);
   });
@@ -70,20 +73,30 @@ describe("calcite-icon", () => {
       expect(path.getAttribute("d")).toBe(iconPathData);
     });
 
-    it.skip("loads icon when it's close to viewport", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
-      await page.waitForChanges();
+    describe("icon-loading when it's close to viewport", () => {
+      it("default (no preload)", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
+        await page.waitForChanges();
+        const icon = await page.find(`calcite-icon`);
+        const path = await page.find(`calcite-icon >>> path`);
 
-      const icon = await page.find(`calcite-icon`);
-      const path = await page.find(`calcite-icon >>> path`);
+        expect(path.getAttribute("d")).toBeFalsy();
 
-      expect(path.getAttribute("d")).toBeFalsy();
+        icon.setProperty("style", null);
+        await page.waitForChanges();
 
-      icon.setProperty("style", null);
-      await page.waitForChanges();
+        expect(path.getAttribute("d")).toBeTruthy();
+      });
 
-      expect(path.getAttribute("d")).toBeTruthy();
+      it("preload", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-icon icon="a-z" preload style="margin-top: 1000px"></calcite-icon>`);
+        await page.waitForChanges();
+        const path = await page.find(`calcite-icon >>> path`);
+
+        expect(path.getAttribute("d")).toBeTruthy();
+      });
     });
 
     describe("scales", () => {

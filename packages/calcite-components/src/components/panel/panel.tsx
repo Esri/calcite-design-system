@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -10,12 +11,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -29,7 +25,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
-import T9nStrings from "./assets/t9n/panel.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 
@@ -55,7 +51,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Panel extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Panel extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -225,7 +221,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.isClosed = this.closed;
   }
 
@@ -234,7 +229,7 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("closed") && (this.hasUpdated || this.closed !== false)) {
+    if (changes.has("closed") && this.hasUpdated) {
       if (this.closed) {
         this.close();
       } else {
@@ -245,10 +240,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

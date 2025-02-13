@@ -1,6 +1,6 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
 import { kebabCase } from "change-case";
-
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { parseTokenPath } from "../utils/parseTokenPath.js";
 

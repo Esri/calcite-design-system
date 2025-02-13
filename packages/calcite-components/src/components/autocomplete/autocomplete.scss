@@ -1,0 +1,122 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ *
+ * @prop --calcite-autocomplete-input-prefix-size: Specifies the Input's prefix width, when present.
+ * @prop --calcite-autocomplete-input-suffix-size: Specifies the Input's suffix width, when present.
+ *
+ * @prop --calcite-autocomplete-input-background-color: Specifies the background color of the Input.
+ * @prop --calcite-autocomplete-input-border-color: Specifies the border color of the Input.
+ * @prop --calcite-autocomplete-input-corner-radius: Specifies the corner radius of the Input.
+ * @prop --calcite-autocomplete-input-shadow: Specifies the shadow of the Input.
+ *
+ * @prop --calcite-autocomplete-input-icon-color:  Specifies the icon color of the Input.
+ * @prop --calcite-autocomplete-input-text-color: Specifies the text color of the Input.
+ * @prop --calcite-autocomplete-input-placeholder-text-color: Specifies the color of placeholder text in the Input.
+ *
+ * @prop --calcite-autocomplete-input-actions-background-color: Specifies the background color of Input's `clearable` element.
+ * @prop --calcite-autocomplete-input-actions-background-color-hover: Specifies the background color of Input's `clearable` element when hovered.
+ * @prop --calcite-autocomplete-input-actions-background-color-press: Specifies the background color of Input's `clearable` element when pressed.
+ * @prop --calcite-autocomplete-input-actions-icon-color: Specifies the icon color of Input's `clearable` element.
+ * @prop --calcite-autocomplete-input-actions-icon-color-hover: Specifies the icon color of Input's `clearable` element when hovered.
+ * @prop --calcite-autocomplete-input-actions-icon-color-press: Specifies the icon color of Input's `clearable` element when pressed.
+ *
+ * @prop --calcite-autocomplete-input-loading-background-color: Specifies the background color of the Input's `loading` element, when present.
+ * @prop --calcite-autocomplete-input-loading-fill-color: Specifies the fill color of the Input's `loading` element, when present.
+ *
+ * @prop --calcite-autocomplete-input-prefix-background-color:  Specifies the background color of the Input's prefix, when present.
+ * @prop --calcite-autocomplete-input-prefix-text-color:  Specifies the text color of the Input's prefix, when present.
+ *
+ * @prop --calcite-autocomplete-input-suffix-background-color:  Specifies the background color of the Input's suffix, when present.
+ * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
+ */
+
+:host {
+  @apply relative
+    block;
+}
+
+.input-container {
+  @apply relative
+    flex
+    flex-auto
+    flex-nowrap;
+}
+
+.input {
+  @apply w-full;
+
+  --calcite-input-prefix-size: var(--calcite-autocomplete-input-prefix-size);
+  --calcite-input-suffix-size: var(--calcite-autocomplete-input-suffix-size);
+
+  --calcite-input-background-color: var(--calcite-autocomplete-input-background-color);
+  --calcite-input-border-color: var(--calcite-autocomplete-input-border-color);
+  --calcite-input-corner-radius: var(--calcite-autocomplete-input-corner-radius);
+  --calcite-input-shadow: var(--calcite-autocomplete-input-shadow);
+
+  --calcite-input-icon-color: var(--calcite-autocomplete-input-icon-color);
+  --calcite-input-text-color: var(--calcite-autocomplete-input-text-color);
+  --calcite-input-placeholder-text-color: var(--calcite-autocomplete-input-placeholder-text-color);
+
+  --calcite-input-actions-background-color: var(--calcite-autocomplete-input-actions-background-color);
+  --calcite-input-actions-background-color-hover: var(--calcite-autocomplete-input-actions-background-color-hover);
+  --calcite-input-actions-background-color-press: var(--calcite-autocomplete-input-actions-background-color-press);
+  --calcite-input-actions-icon-color: var(--calcite-autocomplete-input-actions-icon-color);
+  --calcite-input-actions-icon-color-hover: var(--calcite-autocomplete-input-actions-icon-color-hover);
+  --calcite-input-actions-icon-color-press: var(--calcite-autocomplete-input-actions-icon-color-press);
+
+  --calcite-input-loading-background-color: var(--calcite-autocomplete-input-loading-background-color);
+  --calcite-input-loading-fill-color: var(--calcite-autocomplete-input-loading-fill-color);
+
+  --calcite-input-prefix-background-color: var(--calcite-autocomplete-input-prefix-background-color);
+  --calcite-input-prefix-text-color: var(--calcite-autocomplete-input-prefix-text-color);
+
+  --calcite-input-suffix-background-color: var(--calcite-autocomplete-input-suffix-background-color);
+  --calcite-input-suffix-text-color: var(--calcite-autocomplete-input-suffix-text-color);
+}
+
+@include disabled();
+
+.content-container {
+  @apply w-full
+    box-border;
+}
+
+.floating-ui-container {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  @include floating-ui-container();
+}
+
+@include floating-ui-elem-anim(".floating-ui-container");
+
+.content-container .calcite-floating-ui-anim {
+  @apply max-h-menu
+    overflow-y-auto
+    w-full;
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-autocomplete-corner-radius, var(--calcite-corner-radius-round));
+}
+
+.content--hidden {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .floating-ui-container--active {
+    border: 1px solid canvasText;
+  }
+}
+
+.screen-readers-only {
+  @apply sr-only;
+}
+
+@include form-validation-message();
+@include hidden-form-input();
+@include base-component();

@@ -1,4 +1,5 @@
-import { toHaveNoViolations } from "jest-axe";
+// @ts-strict-ignore
+
 import { LitElement, PublicLitElement } from "@arcgis/lumina";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
@@ -6,8 +7,6 @@ import { MessageBundle } from "../../utils/t9n";
 import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 /**
  * Helper to test t9n component setup.
@@ -76,7 +75,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
-          if (typeof input === "string" && input.endsWith(".t9n.es.json")) {
+          if (typeof input === "string" && input.endsWith(".es.json")) {
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 

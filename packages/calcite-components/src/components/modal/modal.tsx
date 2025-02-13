@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -17,27 +18,15 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/modal.t9n.en.json";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
 
@@ -60,10 +49,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-export class Modal
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
+export class Modal extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -80,19 +66,21 @@ export class Modal
     this.updateSizeCssVars();
   });
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: false,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
 
-  focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = () => {
-    this.open = false;
-  };
+        return false;
+      },
+    },
+  })(this);
 
   private ignoreOpenChange = false;
 
@@ -112,7 +100,9 @@ export class Modal
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private titleId: string;
 
@@ -160,6 +150,16 @@ export class Modal
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
@@ -239,10 +239,16 @@ export class Modal
     focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.updateContainerElements(extraContainers);
   }
 
   // #endregion
@@ -274,14 +280,6 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateSizeCssVars();
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
-        clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
-      },
-    });
   }
 
   async load(): Promise<void> {
@@ -290,7 +288,6 @@ export class Modal
       removalVersion: 4,
       suggested: "dialog",
     });
-    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openModal();
@@ -302,10 +299,6 @@ export class Modal
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (
       (changes.has("hasBack") && (this.hasUpdated || this.hasBack !== false)) ||
       (changes.has("hasPrimary") && (this.hasUpdated || this.hasPrimary !== false)) ||
@@ -319,15 +312,10 @@ export class Modal
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
-    deactivateFocusTrap(this);
   }
 
   // #endregion
@@ -348,18 +336,6 @@ export class Modal
       this.open = false;
     }
   };
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
 
   private handleHeaderSlotChange(event: Event): void {
     this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
@@ -386,25 +362,25 @@ export class Modal
   }
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
+    this.transitionEl?.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
-    activateFocusTrap(this);
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
+    this.transitionEl?.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.transitionEl?.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
   private toggleModal(value: boolean): void {
@@ -420,8 +396,14 @@ export class Modal
   }
 
   private handleOpenedChange(value: boolean): void {
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
-    this.transitionEl.classList.add(idleClass);
+    transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
   }
 

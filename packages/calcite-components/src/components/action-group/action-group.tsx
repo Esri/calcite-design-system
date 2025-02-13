@@ -1,11 +1,7 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -13,7 +9,7 @@ import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/do
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { Columns } from "./interfaces";
-import T9nStrings from "./assets/t9n/action-group.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
 
@@ -28,7 +24,7 @@ declare global {
  * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
-export class ActionGroup extends LitElement implements LoadableComponent {
+export class ActionGroup extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -107,10 +103,6 @@ export class ActionGroup extends LitElement implements LoadableComponent {
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -120,11 +112,6 @@ export class ActionGroup extends LitElement implements LoadableComponent {
       this.menuOpen = false;
     }
   }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   // #endregion
 
   // #region Private Methods

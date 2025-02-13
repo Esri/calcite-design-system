@@ -1,80 +1,53 @@
+:host([scale="s"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.25rem;
+  --calcite-internal-tree-item-padding-block: 0.25rem;
+  --calcite-internal-tree-item-children-container-padding: 1.25rem;
+  --calcite-internal-tree-item-line-left-position: 0.75rem;
+  @apply text-n2h;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.5rem;
+  --calcite-internal-tree-item-padding-block: 0.5rem;
+  --calcite-internal-tree-item-children-container-padding: 1.5rem;
+  --calcite-internal-tree-item-line-left-position: 1rem;
+  @apply text-n1h;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.75rem;
+  --calcite-internal-tree-item-padding-block: 0.625rem;
+  --calcite-internal-tree-item-children-container-padding: 2.25rem;
+  --calcite-internal-tree-item-line-left-position: 1.5rem;
+  @apply text-0h;
+}
+
 :host {
   @apply text-color-3
     block
     max-w-full
     cursor-pointer;
+
+  .children-container ::slotted(*) {
+    padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
+  }
 }
 
 .node-actions-container {
   @apply flex;
+
+  .node-container,
+  .checkbox-container {
+    gap: var(--calcite-internal-tree-item-spacing-unit);
+  }
+  .node-container {
+    padding-inline: var(--calcite-internal-tree-item-spacing-unit);
+    padding-block: var(--calcite-internal-tree-item-padding-block);
+  }
 }
 
 @include calcite-hydrated-hidden();
 @include disabled();
-
-:host([scale="s"]) {
-  @apply text-n2h;
-
-  .node-actions-container {
-    @apply min-h-[1.5rem];
-    .node-container {
-      .checkbox,
-      .checkmark,
-      .bullet-point {
-        margin-inline: theme("margin.1");
-      }
-      .icon-start {
-        margin-inline: theme("margin.3");
-      }
-      .chevron {
-        padding: theme("padding.1");
-      }
-    }
-  }
-}
-
-:host([scale="m"]) {
-  @apply text-n1h;
-
-  .node-actions-container {
-    @apply min-h-[2rem];
-    .node-container {
-      .checkbox,
-      .checkmark,
-      .bullet-point {
-        margin-inline: theme("margin.2");
-      }
-      .icon-start {
-        margin-inline: theme("margin.3");
-      }
-      .chevron {
-        padding: theme("padding.2");
-      }
-    }
-  }
-}
-
-:host([scale="l"]) {
-  @apply text-0h;
-
-  .node-actions-container {
-    @apply min-h-[2.75rem];
-    .node-container {
-      .checkbox,
-      .checkmark,
-      .bullet-point {
-        margin-inline: theme("margin.3");
-      }
-      .icon-start {
-        margin-inline: theme("margin.3");
-      }
-      .chevron {
-        padding-inline: var(--calcite-spacing-md);
-        padding-block: var(--calcite-spacing-sm-plus);
-      }
-    }
-  }
-}
 
 :host([lines]) {
   .children-container::after {
@@ -85,7 +58,8 @@
         transition-colors
         z-default;
     // ensure lines don't overlap focus outline
-    block-size: 96%;
+    block-size: 100%;
+    inset-inline-start: var(--calcite-internal-tree-item-line-left-position);
     content: "";
     background-color: var(--calcite-color-border-2);
   }
@@ -154,7 +128,6 @@
 
 .children-container {
   @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   transition:
     var(--calcite-animation-timing) $easing-function,
@@ -195,37 +168,6 @@
   .checkmark {
     @apply opacity-100;
     color: theme("colors.brand");
-  }
-}
-
-:host([selection-mode="none"]:not([has-children])) {
-  &:host([scale="s"]) .node-container {
-    padding-inline-start: theme("padding.2");
-  }
-  &:host([scale="m"]) .node-container {
-    padding-inline-start: theme("padding.4");
-  }
-  &:host([scale="l"]) .node-container {
-    padding-inline-start: theme("padding.6");
-  }
-}
-
-// ancestors selection-mode, dropdown without children
-:host(:not([has-children])) {
-  &:host([scale="s"]) .node-container[data-selection-mode="ancestors"] .checkbox {
-    padding-inline-start: theme("padding.5");
-  }
-  &:host([scale="m"]) .node-container[data-selection-mode="ancestors"] .checkbox {
-    padding-inline-start: theme("padding.6");
-  }
-  &:host([scale="l"]) .node-container[data-selection-mode="ancestors"] .checkbox {
-    padding-inline-start: 1.75rem;
-  }
-}
-// ancestors selection-mode, dropdown with children
-:host([has-children]) .node-container[data-selection-mode="ancestors"] {
-  .checkbox {
-    margin-inline-start: 0;
   }
 }
 

@@ -75,11 +75,13 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const rightAligned_TestOnly = (): string =>
-  html`<div style="text-align: right">
-    <a href="#" id="tooltip-button">Hover for Tooltip</a>
-    <calcite-tooltip open reference-element="tooltip-button">
-      <span>Tooltip content lorem ipsum</span>
-    </calcite-tooltip>
+  html`<div style="width:800px; height:800px;">
+    <div style="text-align: right; width: 600px;">
+      <a href="#" id="tooltip-button">Hover for Tooltip</a>
+      <calcite-tooltip open reference-element="tooltip-button">
+        <span>Tooltip content lorem ipsum</span>
+      </calcite-tooltip>
+    </div>
   </div>`;
 
 export const transparentBG_TestOnly = (): string => html`

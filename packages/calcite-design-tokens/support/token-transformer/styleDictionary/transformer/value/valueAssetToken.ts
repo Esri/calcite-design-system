@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { Core as StyleDictionary } from "style-dictionary";
 import { Matcher } from "style-dictionary/types/Matcher.js";
 import { TransformedToken } from "style-dictionary/types/TransformedToken.js";

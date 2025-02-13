@@ -1,24 +1,20 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
-import T9nStrings from "./assets/t9n/action.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action.scss";
 
@@ -32,7 +28,7 @@ declare global {
  * @slot - A slot for adding a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Action extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -74,8 +70,15 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /**
+   * When `true`, the component is draggable.
+   *
+   * @private
+   */
+  @property({ reflect: true }) dragHandle = false;
+
   /** Specifies an icon to display. */
-  @property() icon: IconNameOrString;
+  @property({ reflect: true }) icon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -131,16 +134,8 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -235,7 +230,7 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
     ) : null;
   }
 
-  override render(): JsxNode {
+  private renderButton(): JsxNode {
     const {
       active,
       compact,
@@ -262,22 +257,54 @@ export class Action extends LitElement implements InteractiveComponent, Loadable
       [CSS.buttonCompact]: compact,
     };
 
-    return (
-      <InteractiveContainer disabled={disabled}>
-        <button
+    const buttonContent = (
+      <>
+        {this.renderIconContainer()}
+        {this.renderTextContainer()}
+        {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+      </>
+    );
+
+    if (this.dragHandle) {
+      return (
+        // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
+        <span
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
+          ariaDisabled={this.disabled ? this.disabled : null}
           ariaLabel={ariaLabel}
           ariaPressed={active}
           class={buttonClasses}
-          disabled={disabled}
           id={buttonId}
           ref={this.buttonEl}
+          role="button"
+          tabIndex={this.disabled ? null : 0}
         >
-          {this.renderIconContainer()}
-          {this.renderTextContainer()}
-          {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
-        </button>
+          {buttonContent}
+        </span>
+      );
+    }
+
+    return (
+      <button
+        aria-controls={indicator ? indicatorId : null}
+        ariaBusy={loading}
+        ariaLabel={ariaLabel}
+        ariaPressed={active}
+        class={buttonClasses}
+        disabled={disabled}
+        id={buttonId}
+        ref={this.buttonEl}
+      >
+        {buttonContent}
+      </button>
+    );
+  }
+
+  override render(): JsxNode {
+    return (
+      <InteractiveContainer disabled={this.disabled}>
+        {this.renderButton()}
         <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
         {this.renderIndicatorText()}
       </InteractiveContainer>

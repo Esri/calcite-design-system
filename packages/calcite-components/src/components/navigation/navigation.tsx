@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -10,19 +11,14 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  LoadableComponent,
-  componentFocusable,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import type { Action } from "../action/action";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
 declare global {
   interface DeclareElements {
-    "calcite-navigation": CalciteNavigation;
+    "calcite-navigation": Navigation;
   }
 }
 
@@ -37,7 +33,7 @@ declare global {
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
-export class CalciteNavigation extends LitElement implements LoadableComponent {
+export class Navigation extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -97,18 +93,6 @@ export class CalciteNavigation extends LitElement implements LoadableComponent {
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
-
-  // #endregion
-
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
 
   // #endregion
 

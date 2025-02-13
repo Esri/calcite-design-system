@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElement } from "../../utils/dom";
@@ -6,12 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Button } from "../button/button";
@@ -24,7 +20,7 @@ declare global {
   }
 }
 
-export class Fab extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Fab extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -90,16 +86,8 @@ export class Fab extends LitElement implements InteractiveComponent, LoadableCom
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

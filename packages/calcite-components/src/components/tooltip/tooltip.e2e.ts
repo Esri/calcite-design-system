@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
@@ -90,9 +91,9 @@ describe("calcite-tooltip", () => {
   }
 
   describe("renders", () => {
-    renders(`calcite-tooltip`, { display: "block" });
+    renders(`calcite-tooltip`, { display: "contents" });
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
-      display: "block",
+      display: "contents",
     });
   });
 
@@ -319,6 +320,34 @@ describe("calcite-tooltip", () => {
     expect(await positionContainer.isVisible()).toBe(true);
   });
 
+  it("should not open when hover event is prevented", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
+    );
+
+    await page.waitForChanges();
+
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
+
+    expect(await positionContainer.isVisible()).toBe(false);
+
+    await page.$eval("#ref", (ref) => {
+      ref.addEventListener("pointermove", (event) => {
+        event.preventDefault();
+      });
+    });
+
+    const ref = await page.find("#ref");
+
+    await ref.hover();
+
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+    expect(await positionContainer.isVisible()).toBe(false);
+  });
+
   it("should honor hover interaction with span inside", async () => {
     const page = await newE2EPage();
 
@@ -419,6 +448,34 @@ describe("calcite-tooltip", () => {
     const testElement = await page.find("#test");
 
     await testElement.focus();
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
+  it("should not open if focus event is prevented", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <button id="test">test</button>
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    await page.$eval("#ref", (ref) => {
+      ref.addEventListener("focusin", (event) => {
+        event.preventDefault();
+      });
+
+      ref.dispatchEvent(new FocusEvent("focusin", { bubbles: true, cancelable: true }));
+    });
 
     await page.waitForChanges();
 
@@ -544,6 +601,45 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(false);
     await assertEscapeKeyCanceled(page, true);
+  });
+
+  it("should not close with ESC key if event is prevented", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.focus();
+
+    await referenceElement.hover();
+
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      document.body.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+        }
+      });
+    });
+
+    await dispatchKeydownEvent(page, "#ref", "Escape");
+
+    expect(await tooltip.getProperty("open")).toBe(true);
   });
 
   it("should only open the last focused tooltip", async () => {
@@ -1174,6 +1270,25 @@ describe("calcite-tooltip", () => {
       expect(await tooltip.getProperty("open")).toBe(false);
     });
 
+    it("should not open when click event is prevented", async () => {
+      const page = await newE2EPage();
+      await page.setContent(pageContent);
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+
+      await page.$eval("#ref", (ref) => {
+        ref.addEventListener("click", (event) => {
+          event.preventDefault();
+        });
+
+        ref.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      });
+
+      await page.waitForChanges();
+      expect(await tooltip.getProperty("open")).toBe(false);
+    });
+
     it("should work when focusing on a reference element first", async () => {
       const page = await newE2EPage();
       await page.setContent(pageContent);
@@ -1201,6 +1316,54 @@ describe("calcite-tooltip", () => {
       await other.focus();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(false);
+    });
+  });
+
+  describe("warning messages", () => {
+    let consoleSpy: MockInstance;
+
+    beforeEach(
+      () =>
+        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+          // hide warning messages during test
+        })),
+    );
+
+    afterEach(() => consoleSpy.mockClear());
+
+    it("does not warn if reference element is present", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          <div id="ref">referenceElement</div>`,
+      );
+      await page.waitForChanges();
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it("does not warn after removal", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          <div id="ref">referenceElement</div>`,
+      );
+      await page.waitForChanges();
+      const tooltip = await page.find("calcite-tooltip");
+      await tooltip.callMethod("remove");
+      await page.waitForChanges();
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it("warns if reference element is not present", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>`);
+      await page.waitForChanges();
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
+      );
     });
   });
 

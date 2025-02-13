@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -12,12 +13,7 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -36,7 +32,7 @@ declare global {
 }
 
 /** @slot - A slot for adding text. */
-export class DropdownItem extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DropdownItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -157,16 +153,11 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.initialize();
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

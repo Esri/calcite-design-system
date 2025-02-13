@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElement } from "../../utils/dom";
 import {
@@ -13,12 +14,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { CSS } from "./resources";
@@ -32,7 +28,7 @@ declare global {
 
 export class Switch
   extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -119,16 +115,8 @@ export class Switch
     connectForm(this);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

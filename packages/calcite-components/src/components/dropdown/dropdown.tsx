@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -21,12 +22,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -50,7 +46,7 @@ declare global {
  */
 export class Dropdown
   extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
+  implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent
 {
   // #region Static Members
 
@@ -84,7 +80,7 @@ export class Dropdown
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: HTMLDivElement;
 
@@ -235,16 +231,8 @@ export class Dropdown
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
     this.updateItems();
     connectFloatingUI(this);
-  }
-
-  load(): void {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -264,7 +252,7 @@ export class Dropdown
       this.flipPlacementsHandler();
     }
 
-    if (changes.has("maxItems") && (this.hasUpdated || this.maxItems !== 0)) {
+    if (changes.has("maxItems") && this.hasUpdated) {
       this.setMaxScrollerHeight();
     }
 
@@ -287,7 +275,6 @@ export class Dropdown
 
   loaded(): void {
     this.updateSelectedItems();
-    setComponentLoaded(this);
     connectFloatingUI(this);
   }
 
@@ -454,6 +441,11 @@ export class Dropdown
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
     entries.forEach((entry) => {
       const { target } = entry;
+
+      if (!this.hasUpdated) {
+        return;
+      }
+
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -466,22 +458,12 @@ export class Dropdown
     const { referenceEl, scrollerEl } = this;
     const referenceElWidth = referenceEl?.clientWidth;
 
-    if (!referenceElWidth || !scrollerEl) {
-      return;
-    }
-
     scrollerEl.style.minWidth = `${referenceElWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
-    const { scrollerEl } = this;
-    if (!scrollerEl) {
-      return;
-    }
-
-    this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
 
@@ -566,30 +548,16 @@ export class Dropdown
 
   private getMaxScrollerHeight(): number {
     const { maxItems, items } = this;
-    let itemsToProcess = 0;
-    let maxScrollerHeight = 0;
-    let groupHeaderHeight: number;
 
-    this.groups.forEach((group) => {
-      if (maxItems > 0 && itemsToProcess < maxItems) {
-        Array.from(group.children).forEach((item: DropdownItem["el"], index) => {
-          if (index === 0) {
-            if (isNaN(groupHeaderHeight)) {
-              groupHeaderHeight = item.offsetTop;
-            }
+    return items.length >= maxItems && maxItems > 0
+      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
+      : 0;
+  }
 
-            maxScrollerHeight += groupHeaderHeight;
-          }
-
-          if (itemsToProcess < maxItems) {
-            maxScrollerHeight += item.offsetHeight;
-            itemsToProcess += 1;
-          }
-        });
-      }
-    });
-
-    return items.length > maxItems ? maxScrollerHeight : 0;
+  private getYDistance(parent: HTMLElement, child: HTMLElement): number {
+    const parentRect = parent.getBoundingClientRect();
+    const childRect = child.getBoundingClientRect();
+    return childRect.bottom - parentRect.top;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -667,7 +635,7 @@ export class Dropdown
           <div
             aria-labelledby={`${guid}-menubutton`}
             class={{
-              ["calcite-dropdown-content"]: true,
+              [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}

@@ -8,4 +8,3 @@
  * If you need to provide additional typings, create a separate file.
  */
 /// <reference types="@arcgis/lumina/typings" />
-/// <reference types="vitest/config" />

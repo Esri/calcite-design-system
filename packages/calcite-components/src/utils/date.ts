@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { DateLocaleData } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
 

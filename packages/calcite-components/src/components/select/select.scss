@@ -3,9 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-select-font-size: The font size of `calcite-option`s in the component.
- * @prop --calcite-select-spacing: The padding around the selected option text.
- * @prop --calcite-select-text-color: The text color of the component.
+ * @prop --calcite-select-font-size: Specifies the font size of `calcite-option`s in the component.
+ * @prop --calcite-select-text-color: Specifies the text color of `calcite-option`s in the component.
+ * @prop --calcite-select-border-color: Specifies the component's border color.
+ * @prop --calcite-select-icon-color: Specifies the component's icon color.
+ * @prop --calcite-select-icon-color-hover: Specifies the component's icon color when hovered or active.
  */
 
 :host {
@@ -23,7 +25,7 @@
   &:active,
   &:hover {
     .icon {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-select-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -31,20 +33,20 @@
 @include disabled();
 
 :host([scale="s"]) {
-  --calcite-select-font-size: theme("fontSize.n2h");
+  --calcite-internal-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
   --calcite-internal-select-block-size: #{$calcite-size-24};
 }
 
 :host([scale="m"]) {
-  --calcite-select-font-size: theme("fontSize.n1h");
+  --calcite-internal-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-md);
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: theme("fontSize.0h");
+  --calcite-internal-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
   --calcite-internal-select-block-size: #{$calcite-size-44};
@@ -64,8 +66,6 @@
 
 .select {
   @apply bg-foreground-1
-    border-color-input
-    text-color-2
     font-inherit
     focus-base
     m-0
@@ -76,14 +76,15 @@
     truncate
     rounded-none
     border-solid;
-  font-size: inherit;
   font-weight: inherit;
+  font-size: var(--calcite-select-font-size, var(--calcite-internal-select-font-size));
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
+  border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
-  border-inline-end-width: theme("borderWidth.0");
-  line-height: var(--calcite-select-line-height, normal);
+  border-inline-end-width: 0;
+  line-height: var(--calcite-internal-select-line-height, normal);
   &:focus {
     @apply focus-inset;
   }
@@ -97,11 +98,12 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
+  border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-inline-width: theme("borderWidth.0")
     var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
   .icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
   }
 }
 

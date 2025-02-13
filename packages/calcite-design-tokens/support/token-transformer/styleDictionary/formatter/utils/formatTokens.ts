@@ -1,11 +1,12 @@
+// @ts-strict-ignore
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
+import { ExpandableTokenTypes } from "../../../../types/tokenStudio/designTokenTypes.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { handleColor } from "./handleColor.js";
 import { handleStringValueTokens } from "./handleStringValue.js";
 import { handleTypography } from "./handleTypography.js";
 import { sortByReference } from "./sortByReference.js";
-import { ExpandableTokenTypes } from "../../../../types/tokenStudio/designTokenTypes.js";
 import { handleBreakpoint } from "./handleBreakpoint.js";
-import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 
 export type FormattedTokens = Record<string, (string | Record<string, string>)[]>;
 

@@ -1,0 +1,58 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-border-color: Specifies the border color of the component.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ */
+
+.scale--s {
+  @apply text-n2h;
+  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.2");
+}
+
+.scale--m {
+  @apply text-n1h;
+  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.3");
+}
+
+.scale--l {
+  @apply text-0h;
+  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.4");
+}
+
+:host {
+  @apply m-0
+    flex
+    flex-col;
+}
+
+.container {
+  @apply flex
+    flex-col;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  padding-block-start: var(--calcite-internal-autocomplete-item-group-spacing-unit);
+}
+
+.container--no-spacing {
+  padding-block-start: 0;
+}
+
+.heading {
+  border: 0 solid;
+  @apply box-border
+    w-full
+    min-w-0
+    max-w-full
+    word-break
+    border-b
+    font-bold;
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-2));
+  border-block-end-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
+  padding-block: var(--calcite-internal-autocomplete-item-group-spacing-unit);
+  padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit);
+}
+
+@include base-component();

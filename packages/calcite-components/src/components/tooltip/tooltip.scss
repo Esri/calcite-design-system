@@ -3,15 +3,15 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tooltip-background-color: Specifies the background color of the component.
- * @prop --calcite-tooltip-border-color: Specifies the border color of the component.
- * @prop --calcite-tooltip-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-tooltip-text-color: Specifies the text color of the component.
- * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
+ * @prop --calcite-tooltip-background-color: Specifies the component's background color.
+ * @prop --calcite-tooltip-border-color: Specifies the component's border color.
+ * @prop --calcite-tooltip-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-tooltip-text-color: Specifies the component's text color.
+ * @prop --calcite-tooltip-z-index: Specifies the z-index value for the component.
  */
 
 :host {
-  @apply relative block;
+  @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 

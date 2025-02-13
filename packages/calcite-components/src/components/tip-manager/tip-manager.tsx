@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
@@ -6,7 +7,7 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tip } from "../tip/tip";
-import T9nStrings from "./assets/t9n/tip-manager.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./tip-manager.scss";
 

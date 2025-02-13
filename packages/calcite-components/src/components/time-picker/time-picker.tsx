@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { numberKeys } from "../../utils/key";
@@ -5,13 +6,14 @@ import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
 import {
+  EffectiveHourFormat,
   formatTimePart,
-  getLocaleHourCycle,
+  getLocaleHourFormat,
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
   getMeridiemOrder,
-  HourCycle,
+  HourFormat,
   isValidTime,
   localizeTimePart,
   localizeTimeStringToParts,
@@ -22,16 +24,12 @@ import {
   TimePart,
 } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/time-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
 
 declare global {
@@ -44,9 +42,8 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export class TimePicker extends LitElement implements LoadableComponent {
+export class TimePicker extends LitElement {
   // #region Static Members
-
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
@@ -75,11 +72,11 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   @state() activeEl: HTMLSpanElement;
 
+  @state() effectiveHourFormat: EffectiveHourFormat;
+
   @state() fractionalSecond: string;
 
   @state() hour: string;
-
-  @state() hourCycle: HourCycle;
 
   @state() localizedDecimalSeparator = ".";
 
@@ -112,6 +109,17 @@ export class TimePicker extends LitElement implements LoadableComponent {
   // #endregion
 
   // #region Public Properties
+
+  /**
+   * Specifies the component's hour format, where:
+   *
+   * `"user"` displays the user's locale format,
+   * `"12"` displays a 12-hour format, and
+   * `"24"` displays a 24-hour format.
+   *
+   * @default "user"
+   */
+  @property({ reflect: true }) hourFormat: HourFormat = "user";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -151,8 +159,8 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #region Events
 
-  /** @private */
-  calciteInternalTimePickerChange = createEvent({ cancelable: false });
+  /** Fires when a user changes the component's time */
+  calciteTimePickerChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -170,10 +178,6 @@ export class TimePicker extends LitElement implements LoadableComponent {
     this.toggleSecond();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -187,13 +191,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
       this.setValue(this.value);
     }
 
-    if (changes.has("messages")) {
+    if (changes.has("hourFormat") || changes.has("messages")) {
       this.updateLocale();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -229,7 +229,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
-            } else if (this.hourCycle === "12") {
+            } else if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -245,7 +245,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           case "ArrowRight":
             if (this.showFractionalSecond) {
               this.focusPart("fractionalSecond");
-            } else if (this.hourCycle === "12") {
+            } else if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -259,7 +259,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
             event.preventDefault();
             break;
           case "ArrowRight":
-            if (this.hourCycle === "12") {
+            if (this.effectiveHourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -295,7 +295,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    const newHour = !this.hour ? 0 : parseInt(this.hour) === 0 ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
   }
 
@@ -394,7 +394,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
-        switch (this.hourCycle) {
+        switch (this.effectiveHourFormat) {
           case "12":
             newHour =
               this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
@@ -685,6 +685,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const {
+        effectiveHourFormat,
         messages: { _lang: locale },
         numberingSystem,
       } = this;
@@ -698,7 +699,12 @@ export class TimePicker extends LitElement implements LoadableComponent {
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      } = localizeTimeStringToParts({
+        value,
+        locale,
+        numberingSystem,
+        hour12: effectiveHourFormat === "12",
+      });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -754,9 +760,11 @@ export class TimePicker extends LitElement implements LoadableComponent {
     value: number | string | Meridiem,
   ): void {
     const {
+      effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
     } = this;
+    const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -778,6 +786,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           part: "hour",
           locale,
           numberingSystem,
+          hour12,
         });
       }
     } else if (key === "fractionalSecond") {
@@ -793,6 +802,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: "fractionalSecond",
         locale,
         numberingSystem,
+        hour12,
       });
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
@@ -801,6 +811,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: key,
         locale,
         numberingSystem,
+        hour12,
       });
     }
     let emit = false;
@@ -821,11 +832,15 @@ export class TimePicker extends LitElement implements LoadableComponent {
     }
     this.value = newValue;
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
-          ?.localizedMeridiem || null
+      ? localizeTimeStringToParts({
+          hour12,
+          locale,
+          numberingSystem,
+          value: this.value,
+        })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteTimePickerChange.emit();
     }
   }
 
@@ -835,7 +850,8 @@ export class TimePicker extends LitElement implements LoadableComponent {
   }
 
   private updateLocale() {
-    this.hourCycle = getLocaleHourCycle(this.messages._lang, this.numberingSystem);
+    this.effectiveHourFormat =
+      this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.messages._lang,
       this.numberingSystem,
@@ -846,15 +862,14 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #endregion
 
-  // #region Rendering
-
   override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);
     const iconScale = getIconScale(this.scale);
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const showMeridiem = this.hourCycle === "12";
+    const showSecondSuffix = this.messages._lang !== "bg" && this.localizedSecondSuffix;
+    const showMeridiem = this.effectiveHourFormat === "12";
     return (
       <div
         class={{
@@ -911,7 +926,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
+        <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>
+          {this.localizedHourSuffix}
+        </span>
         <div class={CSS.column} role="group">
           <span
             ariaLabel={this.messages.minuteUp}
@@ -956,7 +973,11 @@ export class TimePicker extends LitElement implements LoadableComponent {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
+        {this.showSecond && (
+          <span class={{ [CSS.delimiter]: true, [CSS.minuteSuffix]: true }}>
+            {this.localizedMinuteSuffix}
+          </span>
+        )}
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
@@ -1004,7 +1025,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
           </div>
         )}
         {this.showFractionalSecond && (
-          <span class={CSS.delimiter}>{this.localizedDecimalSeparator}</span>
+          <span class={{ [CSS.delimiter]: true, [CSS.decimalSeparator]: true }}>
+            {this.localizedDecimalSeparator}
+          </span>
         )}
         {this.showFractionalSecond && (
           <div class={CSS.column} role="group">
@@ -1052,14 +1075,16 @@ export class TimePicker extends LitElement implements LoadableComponent {
             </span>
           </div>
         )}
-        {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+        {showSecondSuffix && (
+          <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
+            {this.localizedSecondSuffix}
+          </span>
         )}
         {showMeridiem && (
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0,
+              [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
             }}
             role="group"
           >

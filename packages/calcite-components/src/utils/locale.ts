@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
 export const defaultLocale = "en";
@@ -98,6 +99,40 @@ export const locales = [
   "zh-TW",
 ];
 
+/**
+ * To reference the CLDR meridiems for each supported locale navigate to:
+ * https://github.com/unicode-org/cldr-json/tree/main/cldr-json/cldr-dates-full/main,
+ * click {locale}/ca-generic.json and drill down to main.{locale}.dates.calendars.generic.dayPeriods.format.abbreviated.
+ */
+export const localizedTwentyFourHourMeridiems = new Map(
+  Object.entries({
+    bg: { am: "пр.об.", pm: "сл.об." },
+    bs: { am: "prijepodne", pm: "popodne" },
+    ca: { am: "a. m.", pm: "p. m." },
+    cs: { am: "dop.", pm: "odp." },
+    es: { am: "a. m.", pm: "p. m." },
+    "es-mx": { am: "a.m.", pm: "p.m." },
+    "es-MX": { am: "a.m.", pm: "p.m." },
+    fi: { am: "ap.", pm: "ip." },
+    he: { am: "לפנה״צ", pm: "אחה״צ" },
+    hu: { am: "de. ", pm: "du." },
+    lt: { am: "priešpiet", pm: "popiet" },
+    lv: { am: "priekšpusdienā", pm: "pēcpusdienā" },
+    mk: { am: "претпл.", pm: "попл." },
+    no: { am: "a.m.", pm: "p.m." },
+    nl: { am: "a.m.", pm: "p.m." },
+    "pt-pt": { am: "da manhã", pm: "da tarde" },
+    "pt-PT": { am: "da manhã", pm: "da tarde" },
+    ro: { am: "a.m.", pm: "p.m." },
+    sl: { am: "dop.", pm: "pop." },
+    sv: { am: "fm", pm: "em" },
+    th: { am: "ก่อนเที่ยง", pm: "หลังเที่ยง" },
+    tr: { am: "ÖÖ", pm: "ÖS" },
+    uk: { am: "дп", pm: "пп" },
+    vi: { am: "SA", pm: "CH" },
+  }),
+);
+
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
 export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
@@ -112,7 +147,7 @@ const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
 // for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
-// see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+// @see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
@@ -178,7 +213,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * See https://github.com/Esri/calcite-design-system/issues/9387
+ * @see https://github.com/Esri/calcite-design-system/issues/9387
  *
  * @param locale – the BCP 47 locale code
  * @returns {string} a BCP 47 locale code
@@ -290,7 +325,9 @@ export class NumberStringFormat {
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
-    this._decimal = parts.find((d) => d.type === "decimal").value;
+    // @see https://issues.chromium.org/issues/40656070
+    this._decimal =
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);
   }

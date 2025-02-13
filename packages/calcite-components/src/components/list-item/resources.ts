@@ -30,6 +30,7 @@ export const CSS = {
   expandedContainer: "expanded-container",
   dragContainer: "drag-container",
   collapse: "collapse",
+  icon: "icon",
 };
 
 export const SLOTS = {

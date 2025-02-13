@@ -1,6 +1,6 @@
+// @ts-strict-ignore
 import styleDictionary, { Core as StyleDictionary } from "style-dictionary";
 import prettierSync from "@prettier/sync";
-
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 
 export const formatJsPlatform: CalledFormatterFunction = (args) => {

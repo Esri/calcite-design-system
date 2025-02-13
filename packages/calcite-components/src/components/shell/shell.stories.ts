@@ -235,7 +235,8 @@ const advancedLeadingPanelHTML = html(`
   <calcite-block collapsible open heading="More Block" summary="This is the primary.">
     <calcite-block-content>
       <div style="height: 300px;">
-        <p>Cool thang.</p>
+        <p>Cool thing.</p>
+        <p>Cool thing.</p>
       </div>
     </calcite-block-content>
   </calcite-block>
@@ -568,11 +569,11 @@ export const slottedModalAndAlert = (): string =>
   <main>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
-      toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
-      vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
-      taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
-      enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
       style="
@@ -582,7 +583,7 @@ export const slottedModalAndAlert = (): string =>
     position:relative;
     "
     >
-      <div class="gnav" slot="header">Header Example</div>
+      <div class="global-nav" slot="header">Header Example</div>
       <calcite-modal open slot="modals" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
       <calcite-alert open slot="alerts" placement="top-end"
         ><span slot="title">Alert slotted in Shell</span>
@@ -616,7 +617,7 @@ export const slottedModalAndAlert = (): string =>
             <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
             </calcite-action>
             <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-            <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
         <calcite-flow>
@@ -635,9 +636,9 @@ export const slottedModalAndAlert = (): string =>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
-      chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
-      offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
   </main>`);
 
@@ -645,11 +646,11 @@ export const slottedSheetOverlay = (): string =>
   html(`
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
-      toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
-      vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
-      taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
-      enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
       style="
@@ -659,7 +660,7 @@ export const slottedSheetOverlay = (): string =>
     position:relative;
     "
     >
-      <div class="gnav" slot="header">Header Example</div>
+      <div class="global-nav" slot="header">Header Example</div>
       <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
             <calcite-panel closable heading="Ultrices neque"
               ><p>
@@ -702,7 +703,7 @@ export const slottedSheetOverlay = (): string =>
             <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
             </calcite-action>
             <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-            <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
         <calcite-flow>
@@ -721,9 +722,9 @@ export const slottedSheetOverlay = (): string =>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
-      chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
-      offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
     <script>
     document.addEventListener("calcitePanelClose", () => {
@@ -737,11 +738,11 @@ const slottedSheetHtml: string[] = [];
   slottedSheetHtml[i] = html(`
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
-      toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
-      vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
-      taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
-      enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
       style="
@@ -751,7 +752,7 @@ const slottedSheetHtml: string[] = [];
     position:relative;
     "
     >
-      <div class="gnav" slot="header">Header Example</div>
+      <div class="global-nav" slot="header">Header Example</div>
       <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
             <calcite-panel closable heading="Ultrices neque"
               ><p>
@@ -794,7 +795,7 @@ const slottedSheetHtml: string[] = [];
             <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
             </calcite-action>
             <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-            <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
         <calcite-flow>
@@ -813,9 +814,9 @@ const slottedSheetHtml: string[] = [];
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
-      chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
-      offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
     <script>
     document.addEventListener("calcitePanelClose", () => {
@@ -856,7 +857,7 @@ export const slottedPanelTop_TestOnly = (): string =>
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-    <div class="gnav" slot="header">Header Example</div>
+    <div class="global-nav" slot="header">Header Example</div>
     <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
@@ -910,7 +911,7 @@ export const slottedPanelBottom_TestOnly = (): string =>
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-      <div class="gnav" slot="header">Header Example</div>
+      <div class="global-nav" slot="header">Header Example</div>
       <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
       <footer slot="footer">Footer Example</footer>
     </calcite-shell>
@@ -936,7 +937,7 @@ export const slottedPanelTopAndBottom = (): string =>
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-    <div class="gnav" slot="header">Header Example</div>
+    <div class="global-nav" slot="header">Header Example</div>
     <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
     <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
     <footer slot="footer">Footer Example</footer>
@@ -962,7 +963,7 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
-    <div class="gnav" slot="header">Header Example</div>
+    <div class="global-nav" slot="header">Header Example</div>
     <calcite-shell-panel
       slot="panel-start"
       displayMode="dock"
@@ -1063,7 +1064,7 @@ position:relative;
           <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
           </calcite-action>
           <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-          <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
         </calcite-action-group>
         <calcite-action-group>
           <calcite-action icon="search" text="Search"></calcite-action>
@@ -1198,7 +1199,7 @@ position:relative;
           <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
           </calcite-action>
           <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-          <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
         </calcite-action-group>
         <calcite-action-group>
           <calcite-action icon="search" text="Search"></calcite-action>
@@ -1309,7 +1310,7 @@ position:relative;
             </calcite-block>
           </calcite-sortable-list>
           <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-          <calcite-tooltip label="tootltip" reference-element="label-fab" pointer-disabled>
+          <calcite-tooltip label="tooltip" reference-element="label-fab" pointer-disabled>
             Add label class
           </calcite-tooltip>
         </calcite-flow-item>
@@ -1884,4 +1885,184 @@ export const popoverZIndex = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>`;
+
+export const floatAllArrangements = (): string =>
+  html` <calcite-shell content-behind>
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+    ></div>
+    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
+        <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+        </calcite-action>
+        <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled text="Tables" icon="table" slot="menu-actions"> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search"></calcite-action>
+          <calcite-action icon="measure" text="Measure"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
+      </calcite-action-bar>
+      <calcite-panel
+        closable
+        heading="Configure popup"
+        description="Popular Demographics in the United States (Beta) - County"
+        width-scale="m"
+      >
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-top" position="start">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-bottom" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Share" icon="share"></calcite-action>
+          <calcite-action text="Print" icon="print"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
+export const floatAllArrangementsStart = (): string =>
+  html` <calcite-shell content-behind>
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+    ></div>
+    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
+        <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+        </calcite-action>
+        <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled text="Tables" icon="table" slot="menu-actions"> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search"></calcite-action>
+          <calcite-action icon="measure" text="Measure"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
+      </calcite-action-bar>
+      <calcite-panel
+        closable
+        heading="Configure popup"
+        description="Popular Demographics in the United States (Beta) - County"
+        width-scale="m"
+      >
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="vertical" slot="panel-top" position="start">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Example">
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-bottom" position="end">
+      <calcite-action-bar slot="action-bar" expand-disabled>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Share" icon="share"></calcite-action>
+          <calcite-action text="Print" icon="print"></calcite-action>
+        </calcite-action-group>
+        <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Example" closable>
+        <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
   </calcite-shell>`;

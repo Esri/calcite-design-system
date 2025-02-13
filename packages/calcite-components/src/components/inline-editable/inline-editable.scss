@@ -1,3 +1,17 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-inline-editable-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-inline-editable-background-color: Specifies the component's background color.
+ * @prop --calcite-inline-editable-button-background-color: Specifies the button element's background color when appearance="solid" or appearance="outline-fill".
+ * @prop --calcite-inline-editable-button-corner-radius: Specifies the button element's corner radius.
+ * @prop --calcite-inline-editable-button-loader-color: Specifies the button element's loader color.
+ * @prop --calcite-inline-editable-button-shadow-color: Specifies the button element's box-shadow color.
+ * @prop --calcite-inline-editable-button-text-color: Specifies the button element's text color.
+ */
+
 :host {
   @apply block;
 }
@@ -20,23 +34,24 @@
   }
 }
 
-:host(:not([editing-enabled]):not([disabled])) {
-  .wrapper {
-    &:hover {
-      @apply bg-foreground-2;
-    }
-  }
-}
-
 .wrapper {
-  @apply bg-foreground-1
-    transition-default
+  @apply transition-default
     box-border
     flex
     justify-between;
 
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
+
   .input-wrapper {
     @apply flex-1;
+  }
+}
+
+:host(:not([editing-enabled]):not([disabled])) {
+  .wrapper {
+    &:hover {
+      background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
+    }
   }
 }
 
@@ -44,10 +59,14 @@
   @apply flex;
 }
 
-@include disabled() {
-  .cancel-editing-button-wrapper {
-    @apply border-color-2;
-  }
+calcite-button {
+  --calcite-button-background-color: var(--calcite-inline-editable-button-background-color);
+  --calcite-button-corner-radius: var(--calcite-inline-editable-button-corner-radius);
+  --calcite-button-loader-color: var(--calcite-inline-editable-button-loader-color);
+  --calcite-button-shadow-color: var(--calcite-inline-editable-button-shadow-color);
+  --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
 }
+
+@include disabled();
 
 @include base-component();

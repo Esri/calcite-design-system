@@ -1,8 +1,10 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
@@ -581,5 +583,77 @@ describe("calcite-shell-panel", () => {
 
   describe("translation support", () => {
     t9n("calcite-shell-panel");
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
+        "--calcite-shell-panel-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-panel-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+      });
+    });
+    describe("border configurations", () => {
+      themed(
+        html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
+        {
+          "--calcite-shell-panel-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineEndColor",
+          },
+        },
+      );
+      themed(
+        html`<calcite-shell-panel layout="horizontal" slot="panel-top" display-mode="float-all"></calcite-shell-panel>`,
+        {
+          "--calcite-shell-panel-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+        },
+      );
+      themed(html`<calcite-shell-panel slot="panel-top" display-mode="float-all"></calcite-shell-panel>`, {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+      });
+      themed(
+        html`<calcite-shell-panel
+          layout="horizontal"
+          position="end"
+          slot="panel-bottom"
+          display-mode="float-all"
+        ></calcite-shell-panel>`,
+        {
+          "--calcite-shell-panel-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+        },
+      );
+      themed(
+        html`<calcite-shell-panel
+          layout="vertical"
+          slot="panel-bottom"
+          display-mode="float-all"
+        ></calcite-shell-panel>`,
+        {
+          "--calcite-shell-panel-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineStartColor",
+          },
+        },
+      );
+    });
   });
 });

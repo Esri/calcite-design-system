@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -21,18 +22,13 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { isBrowser } from "../../utils/browser";
 import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import T9nStrings from "./assets/t9n/date-picker.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
@@ -43,7 +39,7 @@ declare global {
   }
 }
 
-export class DatePicker extends LitElement implements LoadableComponent {
+export class DatePicker extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -97,7 +93,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * When the component resides in a form,
+   * specifies the latest allowed date (`"yyyy-mm-dd"`).
+   */
   @property({ reflect: true }) max: string;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
@@ -113,7 +112,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * When the component resides in a form,
+   * specifies the earliest allowed date (`"yyyy-mm-dd"`).
+   */
   @property({ reflect: true }) min: string;
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
@@ -199,7 +201,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
@@ -229,10 +230,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
     if (changes.has("messages") && this.hasUpdated) {
       this.loadLocaleData().catch(console.error);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

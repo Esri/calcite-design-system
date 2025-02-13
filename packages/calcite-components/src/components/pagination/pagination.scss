@@ -1,3 +1,16 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-pagination-color: Specifies the component's item color.
+ * @prop --calcite-pagination-color-hover: Specifies the component's item color when hovered or selected.
+ * @prop --calcite-pagination-color-border-hover: Specifies the component's item bottom border color when hovered.
+ * @prop --calcite-pagination-color-border-active: Specifies the component's item bottom border color when selected.
+ * @prop --calcite-pagination-background-color: Specifies the component's item background color when active.
+ * @prop --calcite-pagination-icon-color-background-hover: Specifies the component's chevron item background color when hovered.
+ */
+
 :host {
   @apply flex;
   writing-mode: horizontal-tb;
@@ -66,7 +79,6 @@
   @apply p-0
     m-0
     text-0h
-    text-color-3
     font-inherit
     box-border
     flex
@@ -76,6 +88,8 @@
     justify-center
     align-baseline
     bg-transparent;
+
+  color: var(--calcite-pagination-color, var(--calcite-color-text-3));
 }
 
 .chevron,
@@ -84,19 +98,27 @@
   border-block: 2px solid transparent;
 
   &:hover {
-    @apply text-color-1 transition-default;
+    @apply transition-default;
+
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
+  }
+  &:active {
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
   }
 }
 
 .page {
   &:hover {
-    @apply border-b-color-2;
+    border-block-end-color: var(--calcite-pagination-color-border-hover, var(--calcite-color-border-2));
   }
   &:active {
-    @apply bg-foreground-3 text-color-1;
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
   }
   &.selected {
-    @apply text-color-1 border-b-color-brand font-medium;
+    @apply font-medium;
+
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
+    border-block-end-color: var(--calcite-pagination-color-border-active, var(--calcite-color-brand));
 
     &:focus {
       border-block-end-width: var(--calcite-spacing-xxs);
@@ -107,10 +129,10 @@
 
 .chevron {
   &:hover {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-pagination-icon-color-background-hover, var(--calcite-color-foreground-2));
   }
   &:active {
-    @apply bg-foreground-3 text-color-1;
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
   }
   &.disabled {
     @apply pointer-events-none bg-transparent;

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
@@ -8,17 +9,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
-import T9nStrings from "./assets/t9n/filter.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
 
@@ -28,7 +24,7 @@ declare global {
   }
 }
 
-export class Filter extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Filter extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -74,6 +70,11 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
    * This property is needed to conduct filtering.
    */
   @property() items: object[] = [];
+
+  /**
+   * Specifies an accessible name for the component.
+   */
+  @property() label: string;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -146,7 +147,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   // #region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
   }
 
@@ -165,10 +165,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -232,7 +228,7 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              label={this.messages.label}
+              label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
               onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}

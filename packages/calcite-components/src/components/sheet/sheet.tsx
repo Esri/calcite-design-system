@@ -1,35 +1,30 @@
+// @ts-strict-ignore
+import interact from "interactjs";
+import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import {
   createEvent,
   h,
+  method,
+  state,
   JsxNode,
   LitElement,
-  method,
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CSS } from "./resources";
-import { DisplayMode } from "./interfaces";
+import { clamp } from "../../utils/math";
+import { useT9n } from "../../controllers/useT9n";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
+import { DisplayMode, ResizeValues } from "./interfaces";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
 declare global {
@@ -38,10 +33,8 @@ declare global {
   }
 }
 
-export class Sheet
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
+/** @slot - A slot for adding custom content. */
+export class Sheet extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -50,25 +43,33 @@ export class Sheet
 
   // #region Private Properties
 
+  private contentEl: HTMLDivElement;
+
   private contentId: string;
 
-  private escapeDeactivates = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || this.escapeDisabled) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: false,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
 
-  focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
+        return false;
+      },
+    },
+  })(this);
 
   private ignoreOpenChange = false;
 
   private initialOverflowCSS: string;
+
+  private interaction: Interactable;
+
+  messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
@@ -84,9 +85,26 @@ export class Sheet
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
+
+  private resizeHandleEl: HTMLDivElement;
 
   transitionEl: HTMLDivElement;
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() resizeValues: ResizeValues = {
+    inlineSize: 0,
+    blockSize: 0,
+    minInlineSize: 0,
+    minBlockSize: 0,
+    maxInlineSize: 0,
+    maxBlockSize: 0,
+  };
 
   // #endregion
 
@@ -120,6 +138,16 @@ export class Sheet
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
+  /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
    *
    * @deprecated Use the `height` property instead.
@@ -135,6 +163,9 @@ export class Sheet
    * @required
    */
   @property() label: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -163,6 +194,11 @@ export class Sheet
   /** Determines where the component will be positioned. */
   @property({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
+  /** When `true`, the component is resizable. */
+  @property({ reflect: true }) resizable = false;
+
+  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
+
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
@@ -184,10 +220,16 @@ export class Sheet
     focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.updateContainerElements(extraContainers);
   }
 
   // #endregion
@@ -217,18 +259,10 @@ export class Sheet
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // Scrim has it's own close handler, allow it to take over.
-        clickOutsideDeactivates: false,
-        escapeDeactivates: this.escapeDeactivates,
-        onDeactivate: this.focusTrapDeactivates,
-      },
-    });
+    this.setupInteractions();
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openSheet();
@@ -240,24 +274,24 @@ export class Sheet
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       onToggleOpenCloseComponent(this);
     }
-  }
 
-  loaded(): void {
-    setComponentLoaded(this);
+    if (
+      (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      this.setupInteractions();
+    }
   }
 
   override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    deactivateFocusTrap(this);
     this.embedded = false;
+    this.cleanupInteractions();
   }
 
   // #endregion
@@ -279,18 +313,6 @@ export class Sheet
     }
   };
 
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
-
   private toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {
       return;
@@ -303,13 +325,190 @@ export class Sheet
     }
   }
 
+  private getResizeIcon(): string {
+    const { position } = this;
+
+    return position === "block-start" || position === "block-end"
+      ? "drag-resize-vertical"
+      : "drag-resize-horizontal";
+  }
+
+  private getContentElDOMRect(): DOMRect {
+    return this.contentEl.getBoundingClientRect();
+  }
+
+  private handleKeyDown(event: KeyboardEvent): void {
+    const { key, defaultPrevented, shiftKey } = event;
+    const {
+      position,
+      resizable,
+      contentEl,
+      el,
+      resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
+    } = this;
+
+    const arrowKeys =
+      position === "block-end" || position === "block-start"
+        ? ["ArrowUp", "ArrowDown"]
+        : ["ArrowLeft", "ArrowRight"];
+
+    const keys = [...arrowKeys, "Home", "End"];
+
+    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
+      return;
+    }
+
+    const rect = this.getContentElDOMRect();
+    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const stepValue = shiftKey ? sheetResizeShiftStep : sheetResizeStep;
+
+    switch (key) {
+      case "ArrowUp":
+        this.updateSize({
+          size: rect.height + (position === "block-end" ? stepValue : -stepValue),
+          type: "blockSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowDown":
+        this.updateSize({
+          size: rect.height + (position === "block-end" ? -stepValue : stepValue),
+          type: "blockSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        this.updateSize({
+          size: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
+          type: "inlineSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowRight":
+        this.updateSize({
+          size: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
+          type: "inlineSize",
+        });
+        event.preventDefault();
+        break;
+      case "Home":
+        this.updateSize({
+          size:
+            position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
+          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
+        });
+        break;
+      case "End":
+        this.updateSize({
+          size:
+            position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
+          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
+        });
+        break;
+    }
+  }
+
+  private updateSize({
+    type,
+    size,
+  }: {
+    type: "inlineSize" | "blockSize";
+    size: number | null;
+  }): void {
+    const { contentEl, resizeValues } = this;
+
+    if (!contentEl) {
+      return;
+    }
+
+    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
+    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
+
+    const clamped =
+      resizeValues[resizeMin] && resizeValues[resizeMax]
+        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
+        : size;
+
+    const rounded = Math.round(clamped);
+
+    this.resizeValues = {
+      ...resizeValues,
+      [type]: rounded,
+    };
+
+    contentEl.style[type] = size !== null ? `${rounded}px` : null;
+  }
+
+  private cleanupInteractions(): void {
+    this.interaction?.unset();
+    this.updateSize({ size: null, type: "inlineSize" });
+    this.updateSize({ size: null, type: "blockSize" });
+  }
+
+  private setupInteractions(): void {
+    this.cleanupInteractions();
+
+    const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
+
+    if (!contentEl || !open || !resizable || !resizeHandleEl) {
+      return;
+    }
+
+    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
+      window.getComputedStyle(contentEl);
+
+    const values: ResizeValues = {
+      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
+      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
+      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+    };
+
+    this.resizeValues = values;
+
+    const rtl = getElementDir(el) === "rtl";
+
+    this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
+      edges: {
+        top: position === "block-end" ? resizeHandleEl : false,
+        right: position === (rtl ? "inline-end" : "inline-start") ? resizeHandleEl : false,
+        bottom: position === "block-start" ? resizeHandleEl : false,
+        left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
+      },
+      modifiers: [
+        interact.modifiers.restrictSize({
+          min: {
+            width: values.minInlineSize,
+            height: values.minBlockSize,
+          },
+          max: {
+            width: values.maxInlineSize,
+            height: values.maxBlockSize,
+          },
+        }),
+      ],
+      listeners: {
+        move: ({ rect }: ResizeEvent) => {
+          const isBlock = position === "block-start" || position === "block-end";
+
+          this.updateSize({
+            size: isBlock ? rect.height : rect.width,
+            type: isBlock ? "blockSize" : "inlineSize",
+          });
+        },
+      },
+    });
+  }
+
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
   }
 
   onOpen(): void {
     this.calciteSheetOpen.emit();
-    activateFocusTrap(this);
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
@@ -318,10 +517,16 @@ export class Sheet
 
   onClose(): void {
     this.calciteSheetClose.emit();
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
-  private setContentId(el: HTMLDivElement): void {
+  private setResizeHandleEl(el: HTMLDivElement): void {
+    this.resizeHandleEl = el;
+    this.setupInteractions();
+  }
+
+  private setContentEl(el: HTMLDivElement): void {
+    this.contentEl = el;
     this.contentId = ensureId(el);
   }
 
@@ -383,7 +588,9 @@ export class Sheet
   // #region Rendering
 
   override render(): JsxNode {
+    const { resizable, position, resizeValues } = this;
     const dir = getElementDir(this.el);
+    const isBlockPosition = position === "block-start" || position === "block-end";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "aria-describedby", this.contentId);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -392,6 +599,7 @@ export class Sheet
     this.el.ariaModal = "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
+
     return (
       <div
         class={{
@@ -409,13 +617,34 @@ export class Sheet
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div
-          class={{
-            [CSS.content]: true,
-          }}
-          ref={this.setContentId}
-        >
-          <slot />
+        <div class={CSS.content} ref={this.setContentEl}>
+          <div class={CSS.contentContainer}>
+            <slot />
+          </div>
+          {resizable ? (
+            <div
+              ariaLabel={this.messages.resizeEnabled}
+              ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+              ariaValueMax={
+                isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
+              }
+              ariaValueMin={
+                isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
+              }
+              ariaValueNow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
+              class={CSS.resizeHandle}
+              key="resize-handle"
+              onKeyDown={this.handleKeyDown}
+              ref={this.setResizeHandleEl}
+              role="separator"
+              tabIndex={0}
+              touch-action="none"
+            >
+              <div class={CSS.resizeHandleBar}>
+                <calcite-icon icon={this.getResizeIcon()} scale="s" />
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     );

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import Sortable from "sortablejs";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
@@ -15,6 +16,7 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { logger } from "../../utils/logger";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 
@@ -24,7 +26,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding sortable items. */
+/**
+ * @deprecated Use the `calcite-block-group` component instead.
+ * @slot - A slot for adding sortable items.
+ */
 export class SortableList extends LitElement implements InteractiveComponent, SortableComponent {
   // #region Static Members
 
@@ -96,6 +101,14 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   override connectedCallback(): void {
     this.setUpSorting();
     this.beginObserving();
+  }
+
+  load(): void {
+    logger.deprecated("component", {
+      name: "sortable-list",
+      removalVersion: 4,
+      suggested: "block-group",
+    });
   }
 
   override updated(): void {

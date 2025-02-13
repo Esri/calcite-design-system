@@ -1,7 +1,9 @@
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+// @ts-strict-ignore
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
@@ -37,7 +39,7 @@ describe("calcite-pagination", () => {
     it("should render only one page when totalItems is less than pageSize", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination total-items="10" page-size="11"></calcite-pagination>`);
-      const links = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
+      const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
       expect(links.length).toBe(1);
     });
   });
@@ -48,7 +50,7 @@ describe("calcite-pagination", () => {
       await page.setContent(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
       const list = await page.find(`calcite-pagination >>> .${CSS.list}`);
       expect(list).not.toBeNull();
-      const listItems = await page.findAll(`calcite-pagination >>> .${CSS.listItem}`);
+      const listItems = await findAll(page, `calcite-pagination >>> .${CSS.listItem}`);
       expect(listItems.length).toBe(12);
     });
   });
@@ -152,7 +154,7 @@ describe("calcite-pagination", () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start-item="1" total-items="36" page-size="10"></calcite-pagination>`);
       const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
-      const pages = await page.findAll("calcite-pagination >>> .page");
+      const pages = await findAll(page, "calcite-pagination >>> .page");
       await pages[1].click();
       await page.waitForChanges();
 
@@ -239,7 +241,7 @@ describe("calcite-pagination", () => {
     };
 
     async function getDisplayedValues(): Promise<string[]> {
-      const buttons = await page.findAll("calcite-pagination >>> .page");
+      const buttons = await findAll(page, "calcite-pagination >>> .page");
       const buttonsTestedForSeparator = buttons.slice(-4);
       return buttonsTestedForSeparator.map((button) => button.innerText);
     }
@@ -256,7 +258,7 @@ describe("calcite-pagination", () => {
       );
       element = await page.find("calcite-pagination");
 
-      const buttons = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
+      const buttons = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
       const last = buttons[buttons.length - 1];
       await last.click();
     });
@@ -352,7 +354,7 @@ describe("calcite-pagination", () => {
       await page.setContent(
         `<calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination>`,
       );
-      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      const hiddenChevrons = await findAll(page, `calcite-pagination >>> .${CSS.hiddenItem}`);
       expect(hiddenChevrons.length).toBe(2);
     });
 
@@ -361,8 +363,97 @@ describe("calcite-pagination", () => {
       await page.setContent(
         `<div style="width: 100px;"><calcite-pagination total-items="123456789" page-size="10" scale="l"></calcite-pagination></div>`,
       );
-      const hiddenChevrons = await page.findAll(`calcite-pagination >>> .${CSS.hiddenItem}`);
+      const hiddenChevrons = await findAll(page, `calcite-pagination >>> .${CSS.hiddenItem}`, { allowEmpty: true });
       expect(hiddenChevrons.length).toBe(0);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color": [
+          {
+            shadowSelector: `.${CSS.chevron}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.ellipsis}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("hover", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": [
+          {
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        ],
+        "--calcite-pagination-color-border-hover": {
+          shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
+          targetProp: "borderBlockEndColor",
+          state: "hover",
+        },
+        "--calcite-pagination-icon-color-background-hover": {
+          shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      });
+    });
+    describe("active", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": [
+          {
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: `${CSS.chevron}` } },
+          },
+          {
+            shadowSelector: `.${CSS.page}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: `${CSS.page}` } },
+          },
+        ],
+        "--calcite-pagination-background-color": [
+          {
+            shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: `${CSS.page}` } },
+          },
+          {
+            shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: `${CSS.chevron}` } },
+          },
+        ],
+      });
+    });
+    describe("selected", () => {
+      themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
+        "--calcite-pagination-color-hover": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "color",
+          state: "focus",
+        },
+        "--calcite-pagination-color-border-active": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "borderBlockEndColor",
+          state: "focus",
+        },
+      });
     });
   });
 });

@@ -3,6 +3,7 @@ const build = require("./build");
 const pathData = require("./path-data");
 const optimize = require("./optimize");
 const debounce = require("debounce");
+const { execSync } = require("child_process");
 const bs = require("browser-sync").create();
 const options = {
   awaitWriteFinish: true,
@@ -18,8 +19,9 @@ build().then(() => {
     ui: false,
     port: 8080,
   });
-  bs.watch("icons/*.svg", options, onChange);
-  bs.watch("docs/keywords.json", options, onChange);
+  execSync("npm run build:fonts");
+  bs.watch("./icons/*.svg", options, onChange);
+  bs.watch("./docs/keywords.json", options, onChange);
 
   function onChange(event, file) {
     if (event === "add") {

@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "2.0.0-next.1",
+  "version": "2.0.1-next.0",
   "description": "ESLint rules for @esri/calcite-components",
   "repository": {
     "type": "git",
@@ -17,10 +17,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
-    "test": "jest"
-  },
-  "devDependencies": {
-    "ts-node": "10.9.2"
+    "test": "vitest"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",

@@ -1,12 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   formatTimePart,
+  getLocaleHourFormat,
+  getLocaleOppositeHourFormat,
+  getLocalizedMeridiem,
   getMeridiemOrder,
+  isLocaleHourFormatOpposite,
   isValidTime,
   localizeTimeStringToParts,
   parseTimeString,
   toISOTimeString,
 } from "./time";
+import { supportedLocales } from "./locale";
 
 describe("formatTimePart", () => {
   it("returns decimals less than 1 with leading and trailing zeros to match the provided length", () => {
@@ -34,24 +39,234 @@ describe("formatTimePart", () => {
   });
 });
 
+describe("getLocalizedMeridiem", () => {
+  it("ar", () => {
+    expect(getLocalizedMeridiem("ar", "AM")).toEqual("ص");
+    expect(getLocalizedMeridiem("ar", "PM")).toEqual("م");
+  });
+  it("bg", () => {
+    expect(getLocalizedMeridiem("bg", "AM")).toEqual("пр.об.");
+    expect(getLocalizedMeridiem("bg", "PM")).toEqual("сл.об.");
+  });
+  it("bs", () => {
+    expect(getLocalizedMeridiem("bs", "AM")).toEqual("prijepodne");
+    expect(getLocalizedMeridiem("bs", "PM")).toEqual("popodne");
+  });
+  it("ca", () => {
+    expect(getLocalizedMeridiem("ca", "AM")).toEqual("a. m.");
+    expect(getLocalizedMeridiem("ca", "PM")).toEqual("p. m.");
+  });
+  it("cs", () => {
+    expect(getLocalizedMeridiem("cs", "AM")).toEqual("dop.");
+    expect(getLocalizedMeridiem("cs", "PM")).toEqual("odp.");
+  });
+  it("da", () => {
+    expect(getLocalizedMeridiem("da", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("da", "PM")).toEqual("PM");
+  });
+  it("de", () => {
+    expect(getLocalizedMeridiem("de", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("de", "PM")).toEqual("PM");
+  });
+  it("de-AT", () => {
+    expect(getLocalizedMeridiem("de-AT", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("de-AT", "PM")).toEqual("PM");
+  });
+  it("de-CH", () => {
+    expect(getLocalizedMeridiem("de-CH", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("de-CH", "PM")).toEqual("PM");
+  });
+  it("en-GB", () => {
+    expect(getLocalizedMeridiem("en-GB", "AM")).toEqual("am");
+    expect(getLocalizedMeridiem("en-GB", "PM")).toEqual("pm");
+  });
+  it("el", () => {
+    expect(getLocalizedMeridiem("el", "AM")).toEqual("π.μ.");
+    expect(getLocalizedMeridiem("el", "PM")).toEqual("μ.μ.");
+  });
+  it("en-US", () => {
+    expect(getLocalizedMeridiem("en", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("en", "PM")).toEqual("PM");
+  });
+  it("en-AU", () => {
+    expect(getLocalizedMeridiem("en-AU", "AM")).toEqual("am");
+    expect(getLocalizedMeridiem("en-AU", "PM")).toEqual("pm");
+  });
+  it("en-CA", () => {
+    expect(getLocalizedMeridiem("en-CA", "AM")).toEqual("a.m.");
+    expect(getLocalizedMeridiem("en-CA", "PM")).toEqual("p.m.");
+  });
+  it("es", () => {
+    expect(getLocalizedMeridiem("es", "AM")).toEqual("a. m.");
+    expect(getLocalizedMeridiem("es", "PM")).toEqual("p. m.");
+  });
+  it("es-MX", () => {
+    expect(getLocalizedMeridiem("es-MX", "AM")).toEqual("a.m.");
+    expect(getLocalizedMeridiem("es-MX", "PM")).toEqual("p.m.");
+  });
+  it("et", () => {
+    expect(getLocalizedMeridiem("et", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("et", "PM")).toEqual("PM");
+  });
+  it("fi", () => {
+    expect(getLocalizedMeridiem("fi", "AM")).toEqual("ap.");
+    expect(getLocalizedMeridiem("fi", "PM")).toEqual("ip.");
+  });
+  it("fr", () => {
+    expect(getLocalizedMeridiem("fr", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("fr", "PM")).toEqual("PM");
+  });
+  it("fr-CH", () => {
+    expect(getLocalizedMeridiem("fr-CH", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("fr-CH", "PM")).toEqual("PM");
+  });
+  it("he", () => {
+    expect(getLocalizedMeridiem("he", "AM")).toEqual("לפנה״צ");
+    expect(getLocalizedMeridiem("he", "PM")).toEqual("אחה״צ");
+  });
+  it("hi", () => {
+    expect(getLocalizedMeridiem("hi", "AM")).toEqual("am");
+    expect(getLocalizedMeridiem("hi", "PM")).toEqual("pm");
+  });
+  it("hu", () => {
+    expect(getLocalizedMeridiem("hu", "AM")).toEqual("de.");
+    expect(getLocalizedMeridiem("hu", "PM")).toEqual("du.");
+  });
+  it("hr", () => {
+    expect(getLocalizedMeridiem("hr", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("hr", "PM")).toEqual("PM");
+  });
+  it("id", () => {
+    expect(getLocalizedMeridiem("id", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("id", "PM")).toEqual("PM");
+  });
+  it("italian", () => {
+    expect(getLocalizedMeridiem("it", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("it", "PM")).toEqual("PM");
+  });
+  it("it-CH", () => {
+    expect(getLocalizedMeridiem("it-CH", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("it-CH", "PM")).toEqual("PM");
+  });
+  it("ja", () => {
+    expect(getLocalizedMeridiem("ja", "AM")).toEqual("午前");
+    expect(getLocalizedMeridiem("ja", "PM")).toEqual("午後");
+  });
+  it("ko", () => {
+    expect(getLocalizedMeridiem("ko", "AM")).toEqual("오전");
+    expect(getLocalizedMeridiem("ko", "PM")).toEqual("오후");
+  });
+  it("lt", () => {
+    expect(getLocalizedMeridiem("lt", "AM")).toEqual("priešpiet");
+    expect(getLocalizedMeridiem("lt", "PM")).toEqual("popiet");
+  });
+  it("lv", () => {
+    expect(getLocalizedMeridiem("lv", "AM")).toEqual("priekšpusdienā");
+    expect(getLocalizedMeridiem("lv", "PM")).toEqual("pēcpusdienā");
+  });
+  it("mk", () => {
+    expect(getLocalizedMeridiem("mk", "AM")).toEqual("претпл.");
+    expect(getLocalizedMeridiem("mk", "PM")).toEqual("попл.");
+  });
+  it("no", () => {
+    expect(getLocalizedMeridiem("no", "AM")).toEqual("a.m.");
+    expect(getLocalizedMeridiem("no", "PM")).toEqual("p.m.");
+  });
+  it("nl", () => {
+    expect(getLocalizedMeridiem("nl", "AM")).toEqual("a.m.");
+    expect(getLocalizedMeridiem("nl", "PM")).toEqual("p.m.");
+  });
+  it("pl", () => {
+    expect(getLocalizedMeridiem("pl", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("pl", "PM")).toEqual("PM");
+  });
+  it("pt-BR", () => {
+    expect(getLocalizedMeridiem("pt-BR", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("pt-BR", "PM")).toEqual("PM");
+  });
+  it("pt-PT", () => {
+    expect(getLocalizedMeridiem("pt-PT", "AM")).toEqual("da manhã");
+    expect(getLocalizedMeridiem("pt-PT", "PM")).toEqual("da tarde");
+  });
+  it("ro", () => {
+    expect(getLocalizedMeridiem("ro", "AM")).toEqual("a.m.");
+    expect(getLocalizedMeridiem("ro", "PM")).toEqual("p.m.");
+  });
+  it("ru", () => {
+    expect(getLocalizedMeridiem("ru", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("ru", "PM")).toEqual("PM");
+  });
+  it("sl", () => {
+    expect(getLocalizedMeridiem("sl", "AM")).toEqual("dop.");
+    expect(getLocalizedMeridiem("sl", "PM")).toEqual("pop.");
+  });
+  it("sr", () => {
+    expect(getLocalizedMeridiem("sr", "AM")).toEqual("AM");
+    expect(getLocalizedMeridiem("sr", "PM")).toEqual("PM");
+  });
+  it("sv", () => {
+    expect(getLocalizedMeridiem("sv", "AM")).toEqual("fm");
+    expect(getLocalizedMeridiem("sv", "PM")).toEqual("em");
+  });
+  it("th", () => {
+    expect(getLocalizedMeridiem("th", "AM")).toEqual("ก่อนเที่ยง");
+    expect(getLocalizedMeridiem("th", "PM")).toEqual("หลังเที่ยง");
+  });
+  it("tr", () => {
+    expect(getLocalizedMeridiem("tr", "AM")).toEqual("ÖÖ");
+    expect(getLocalizedMeridiem("tr", "PM")).toEqual("ÖS");
+  });
+  it("uk", () => {
+    expect(getLocalizedMeridiem("uk", "AM")).toEqual("дп");
+    expect(getLocalizedMeridiem("uk", "PM")).toEqual("пп");
+  });
+  it("vi", () => {
+    expect(getLocalizedMeridiem("vi", "AM")).toEqual("SA");
+    expect(getLocalizedMeridiem("vi", "PM")).toEqual("CH");
+  });
+  it("zh-CN", () => {
+    expect(getLocalizedMeridiem("zh-CN", "AM")).toEqual("上午");
+    expect(getLocalizedMeridiem("zh-CN", "PM")).toEqual("下午");
+  });
+  it("zh-HK", () => {
+    expect(getLocalizedMeridiem("zh-HK", "AM")).toEqual("上午");
+    expect(getLocalizedMeridiem("zh-HK", "PM")).toEqual("下午");
+  });
+  it("zh-TW", () => {
+    expect(getLocalizedMeridiem("zh-TW", "AM")).toEqual("上午");
+    expect(getLocalizedMeridiem("zh-TW", "PM")).toEqual("下午");
+  });
+});
+
 describe("getMeridiemOrder", () => {
-  it("returns 0 for arabic lang", () => {
-    expect(getMeridiemOrder("ar")).toEqual(0);
+  const nonZeroLangs = ["ar", "el", "en", "es", "he", "hi"];
+  const zeroLangs = ["hu", "ja", "ko", "tr", "zh-CN", "zh-HK"];
+
+  nonZeroLangs.forEach((lang) => {
+    it(`returns non-zero for ${lang}`, () => {
+      expect(getMeridiemOrder(lang)).not.toEqual(0);
+    });
   });
-  it("returns 0 for chinese (hong kong) lang", () => {
-    expect(getMeridiemOrder("zh-HK")).toEqual(0);
+
+  zeroLangs.forEach((lang) => {
+    it(`returns zero for ${lang}`, () => {
+      expect(getMeridiemOrder(lang)).toEqual(0);
+    });
   });
-  it("returns 0 for hebrew lang", () => {
-    expect(getMeridiemOrder("he")).toEqual(0);
-  });
-  it("returns 0 for korean lang", () => {
-    expect(getMeridiemOrder("ko")).toEqual(0);
-  });
-  it("returns non-zero for ltr langs", () => {
-    expect(getMeridiemOrder("el")).not.toEqual(0);
-    expect(getMeridiemOrder("en")).not.toEqual(0);
-    expect(getMeridiemOrder("es")).not.toEqual(0);
-    expect(getMeridiemOrder("hi")).not.toEqual(0);
+});
+
+describe("hour-format utils", () => {
+  supportedLocales.forEach((locale) => {
+    const localeDefaultHourFormat = getLocaleHourFormat(locale);
+    it(`getLocaleOppositeHourFormat returns ${locale}'s opposite hour format`, () => {
+      const expected = localeDefaultHourFormat === "12" ? "24" : "12";
+      expect(getLocaleOppositeHourFormat(locale)).toBe(expected);
+    });
+    it(`isLocaleHourFormatOpposite returns true when ${locale}'s hour format is not set to its default and false otherwise`, () => {
+      const expected = localeDefaultHourFormat === "12";
+      expect(isLocaleHourFormatOpposite("12", locale)).toBe(!expected);
+      expect(isLocaleHourFormatOpposite("24", locale)).toBe(expected);
+    });
   });
 });
 

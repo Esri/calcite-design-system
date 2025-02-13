@@ -1,7 +1,11 @@
-// TODO: [MIGRATION] Take a look at @arcgis/typescript-config to see if you can adapt it, or borrow from it: https://devtopia.esri.com/WebGIS/arcgis-web-components/blob/main/packages/support-packages/typescript-config/tsconfig.lumina.json
-// TODO: [MIGRATION] Compare your config to that in starter package to see if anything needs to be updated: https://devtopia.esri.com/WebGIS/arcgis-web-components/blob/main/packages/starter-packages/lumina-components/tsconfig.json
-// TODO: [MIGRATION] If you used "files" tsconfig option to reference .d.ts files before, that may no longer be necessary. Read https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#using-custom-elements-from-another-library-in-your-component
 {
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-strict-plugin"
+      }
+    ]
+  },
   "extends": "./tsconfig-base",
   "include": ["src", "*.ts"],
   "exclude": ["src/demos/**/*", "src/tests/**/*", "src/**/*.stories.ts"]

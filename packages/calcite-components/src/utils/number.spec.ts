@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import { locales, numberStringFormatter } from "./locale";
 import {

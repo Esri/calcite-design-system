@@ -1,8 +1,10 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
+import { findAll } from "../../tests/utils";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -19,6 +21,22 @@ describe("calcite-split-button", () => {
         propertyName: "placement",
         defaultValue: "bottom-end",
       },
+      {
+        propertyName: "download",
+        defaultValue: false,
+      },
+      {
+        propertyName: "href",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "rel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "target",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -27,6 +45,22 @@ describe("calcite-split-button", () => {
       {
         propertyName: "placement",
         value: "bottom-end",
+      },
+      {
+        propertyName: "download",
+        value: true,
+      },
+      {
+        propertyName: "href",
+        value: "/",
+      },
+      {
+        propertyName: "rel",
+        value: "external",
+      },
+      {
+        propertyName: "target",
+        value: "_blank",
       },
     ]);
   });
@@ -113,7 +147,7 @@ describe("calcite-split-button", () => {
       html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`,
     });
 
-    const buttons = await page.findAll("calcite-split-button >>> calcite-button");
+    const buttons = await findAll(page, "calcite-split-button >>> calcite-button");
 
     expect(buttons).toHaveLength(2);
 
@@ -258,5 +292,38 @@ describe("calcite-split-button", () => {
     await page.keyboard.press("Enter");
     await dropdownCloseEvent;
     expect(await positionContainer.isVisible()).toBe(false);
+  });
+
+  it("sets download attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-split-button href="/">Continue</calcite-split-button>`);
+
+    const elementAsButton = await page.find("calcite-split-button >>> calcite-button");
+
+    expect(elementAsButton).not.toBeNull();
+    expect(await elementAsButton.getProperty("download")).toBe(false);
+    expect(elementAsButton).not.toHaveAttribute("download");
+
+    const element = await page.find("calcite-split-button");
+
+    element.setProperty("download", true);
+    await page.waitForChanges();
+
+    expect(await elementAsButton.getProperty("download")).toEqual(true);
+    expect(elementAsButton).toHaveAttribute("download");
+    expect(elementAsButton.getAttribute("download")).toBe("");
+
+    const newFilename = "my-cool-file.jpg";
+    element.setProperty("download", newFilename);
+    await page.waitForChanges();
+
+    expect(await elementAsButton.getProperty("download")).toBe(newFilename);
+    expect(elementAsButton.getAttribute("download")).toBe(newFilename);
+
+    element.setProperty("download", false);
+    await page.waitForChanges();
+
+    expect(await elementAsButton.getProperty("download")).toBe(false);
+    expect(elementAsButton).not.toHaveAttribute("download");
   });
 });

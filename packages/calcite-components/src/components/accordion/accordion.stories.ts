@@ -226,5 +226,12 @@ export const slottedItemsStretched = (): string => html`
       </calcite-notice>
       <calcite-action slot="actions-end" icon="smile"></calcite-action>
     </calcite-accordion-item>
+    <calcite-accordion-item description="Cars, trucks and motorcycles" heading="Vehicles" icon-start="car">
+      <calcite-switch slot="actions-start" icon="smile"> </calcite-switch>
+      <calcite-notice open>
+        <div slot="message">Recommended for highway use</div>
+      </calcite-notice>
+      <calcite-switch slot="actions-end" icon="smile"></calcite-switch>
+    </calcite-accordion-item>
   </calcite-accordion>
 `;

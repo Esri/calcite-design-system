@@ -56,7 +56,7 @@ export function placeholderImage({
     <text fill="${textColor}" font-family="${fontFamily}" font-size="${fontSize}" dy="${dy}" font-weight="${fontWeight}" x="50%" y="50%" text-anchor="middle">${text}</text>
   </svg>`;
 
-  // Thanks to: filamentgroup/directory-encoder
+  // based on https://github.com/filamentgroup/directory-encoder
   const cleaned = str
     .replace(/[\t\n\r]/gim, "") // Strip newlines and tabs
     .replace(/\s\s+/g, " ") // Condense multiple spaces

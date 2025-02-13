@@ -1,11 +1,7 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -20,7 +16,7 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
-import T9nStrings from "./assets/t9n/sort-handle.t9n.en.json";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
@@ -31,7 +27,7 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -41,6 +37,22 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Private Properties
 
   private dropdownEl: Dropdown["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() get hasSetInfo(): boolean {
+    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+  }
+
+  @state() get isSetDisabled(): boolean {
+    const { setPosition, setSize, moveToItems } = this;
+
+    return this.hasSetInfo
+      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
+      : false;
+  }
 
   // #endregion
 
@@ -55,12 +67,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   /** Specifies the label of the component. */
   @property() label: string;
 
-  /**
-   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
-   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
-   */
-  @property({ reflect: true }) maxItems = 0;
-
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -68,12 +74,11 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** Defines the "Move to" items. */
-  @property() moveToItems: MoveTo[];
+  @property() moveToItems: MoveTo[] = [];
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -143,10 +148,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -159,10 +160,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -191,6 +188,10 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   private getLabel(): string {
     const { label, messages, setPosition, setSize } = this;
+
+    if (!this.hasSetInfo) {
+      return label ?? "";
+    }
 
     let formattedLabel = label
       ? messages.repositionLabel.replace(SUBSTITUTIONS.label, label)
@@ -243,21 +244,11 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Rendering
 
   override render(): JsxNode {
-    const {
-      disabled,
-      flipPlacements,
-      messages,
-      open,
-      overlayPositioning,
-      placement,
-      scale,
-      setPosition,
-      setSize,
-      widthScale,
-    } = this;
-    const text = this.getLabel();
+    const { disabled, flipPlacements, open, overlayPositioning, placement, scale, widthScale } =
+      this;
 
-    const isDisabled = disabled || !setPosition || !setSize;
+    const text = this.getLabel();
+    const isDisabled = disabled || this.isSetDisabled;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -279,6 +270,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             active={open}
             appearance="transparent"
             class={CSS.handle}
+            dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale={scale}
@@ -286,17 +278,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             text={text}
             title={text}
           />
-          <calcite-dropdown-group
-            groupTitle={messages.reorder}
-            key="reorder"
-            scale={scale}
-            selectionMode="none"
-          >
-            {this.renderTop()}
-            {this.renderUp()}
-            {this.renderDown()}
-            {this.renderBottom()}
-          </calcite-dropdown-group>
+          {this.renderGroup()}
           {this.renderMoveToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
@@ -316,10 +298,26 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
     );
   }
 
+  private renderGroup(): JsxNode {
+    return this.hasSetInfo ? (
+      <calcite-dropdown-group
+        groupTitle={this.messages.reorder}
+        key="reorder"
+        scale={this.scale}
+        selectionMode="none"
+      >
+        {this.renderTop()}
+        {this.renderUp()}
+        {this.renderDown()}
+        {this.renderBottom()}
+      </calcite-dropdown-group>
+    ) : null;
+  }
+
   private renderMoveToGroup(): JsxNode {
     const { messages, moveToItems, scale } = this;
 
-    return moveToItems?.length ? (
+    return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
         key="move-to-items"

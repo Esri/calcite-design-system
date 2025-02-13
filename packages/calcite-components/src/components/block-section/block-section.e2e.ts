@@ -1,6 +1,7 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -233,4 +234,65 @@ describe("calcite-block-section", () => {
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-block-section text="Planes" open icon-end="pen" icon-start="pen" text="a block-section">
+            <p>Block section content</p>
+          </calcite-block-section>
+        `,
+        {
+          "--calcite-block-section-border-color": {
+            targetProp: "borderBlockEndColor",
+          },
+          "--calcite-block-section-background-color": [
+            {
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${CSS.toggle}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${CSS.toggleContainer}`,
+              targetProp: "backgroundColor",
+            },
+          ],
+          "--calcite-block-section-header-text-color": [
+            {
+              targetProp: "color",
+            },
+          ],
+          "--calcite-block-section-text-color": [
+            { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+          ],
+          "--calcite-block-section-text-color-hover": [
+            {
+              shadowSelector: `.${CSS.toggle}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.chevronIcon}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.sectionHeader}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+              state: "hover",
+            },
+          ],
+        },
+      );
+    });
+  });
 });

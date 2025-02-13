@@ -9290,5 +9290,217 @@
     "alias": ["4.0.0", "weather", "weather", "conditions", "forecast"],
     "category": "Weather",
     "release": "4.0.0"
+  },
+  "add-link-chart-root-nodes": {
+    "alias": [
+      "4.0.0",
+      "knowledge graph",
+      "filter",
+      "points",
+      "model",
+      "select",
+      "add to",
+      "nodes",
+      "area",
+      "distance "
+    ],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "cluster-radius": {
+    "alias": ["4.0.0", "knowledge graph", "area", "nodes", "distance", "select", "model"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "collapse-entities": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes", "simplify", "condense"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "collapse-relationships": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes", "simplify", "condense"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "community-detection": {
+    "alias": ["4.0.0", "knowledge graph", "calculator", "filter", "points", "model", "select", "add to", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "editing-trim-to-length": {
+    "alias": ["4.0.0", "knowledge graph", "area", "nodes", "distance", "select", "model"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "filtered-find-add-path": {
+    "alias": ["4.0.0", "knowledge graph", "filter", "points", "model", "select", "add to", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "find-add-path": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add to", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "hide-data": {
+    "alias": ["4.0.0", "knowledge graph", "server", "memory"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "hide-link-chart-nonspatial-data": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "remove", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "hide-link-chart-root-nodes": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "remove", "nodes", "area", "distance"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-apply-to": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-centrality": {
+    "alias": ["4.0.0", "knowledge graph", "calculator", "filter", "points", "model", "select", "add to", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-collapse-ends": {
+    "alias": ["4.0.0", "knowledge graph", "close", "delete", "points", "model", "select", "add to", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-connect": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-connect-between": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-connect-from": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-find-between": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-select-between": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-sync-selection": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "link-chart-tools": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "nodes", "wrench"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "multi-timeline": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes", "clock", "time"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "select-nonspatial-data": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "select-root-chart-nodes": {
+    "alias": ["4.0.0", "knowledge graph", "view", "area", "nodes", "distance", "select", "model"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "show-data": {
+    "alias": ["4.0.0", "knowledge graph", "view", "server", "memory"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "show-link-chart-nonspatial-data": {
+    "alias": ["4.0.0", "knowledge graph", "eye", "view", "points", "model", "select", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "show-link-chart-root-nodes": {
+    "alias": ["4.0.0", "knowledge graph", "view", "area", "nodes", "distance", "select", "model"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "single-timeline": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "add", "nodes", "clock", "time"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "uncollapse-entities": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "uncollapse-relationships": {
+    "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "nodes"],
+    "category": "Knowledge Graph",
+    "release": "4.0.0"
+  },
+  "plug-connection": {
+    "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter", "service"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "utility-network-layer": {
+    "alias": [
+      "4.0.0",
+      "layers",
+      "networking",
+      "lines",
+      "circles",
+      "points",
+      "dots",
+      "connection",
+      "connected",
+      "running-analysis"
+    ],
+    "category": "Layers",
+    "release": "4.0.0"
+  },
+  "crosshair": {
+    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target", "aim", "marker", "goal", "point"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "hammer-coin": {
+    "alias": ["4.0.0", "objects", "tool", "mallet", "cash", "change", "currency"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "hammer-lock": {
+    "alias": ["4.0.0", "objects", "lock", "tool", "combination", "secure"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "dual-image-location": {
+    "alias": ["4.0.0", "gis", "location", "direction", "two", "position", "site"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-area": {
+    "alias": ["4.0.0", "gis", "area", "zone", "region", "two", "image"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-distance": {
+    "alias": ["4.0.0", "gis", "distance", "two", "gap", "span", "reach"],
+    "category": "GIS",
+    "release": "4.0.0"
   }
 }

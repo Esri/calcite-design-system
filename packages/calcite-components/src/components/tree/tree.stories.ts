@@ -1,29 +1,55 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import type { Scale } from "../interfaces";
 import { Tree } from "./tree";
 
-const { selectionMode, scale } = ATTRIBUTES;
+/**
+ * This decorator takes HTML for items and will create a composite story for all scales for each specified selection mode.
+ *
+ * @param itemsStory - the HTML story template for items
+ * @param context - the context object
+ * @param context.args - the args object
+ * @param context.args.selectionMode - the selection mode(s) to use for the tree
+ * @param context.args.lines
+ * @returns the composite story for all scales for  specified selection mode
+ */
+function allScaleTreeBuilder(
+  itemsStory: () => string,
+  context: { args: { selectionMode: Tree["selectionMode"]; lines: boolean } },
+): string {
+  const items = itemsStory();
+  const { selectionMode = "single", lines } = context.args;
+  const scales: Scale[] = ["s", "m", "l"];
 
-type TreeStoryArgs = Pick<Tree, "lines" | "selectionMode" | "scale">;
+  return html`
+    <style>
+      .tree-container {
+        flex: 1;
+        margin-right: 10px;
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+
+    <div class="container">
+      ${scales.map(
+        (scale) => html`
+          <div class="tree-container">
+            <h3>${selectionMode} selection mode + ${scale} scale</h3>
+            <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
+              ${items}
+            </calcite-tree>
+          </div>
+        `,
+      )}
+    </div>
+  `;
+}
 
 export default {
   title: "Components/Tree",
-  args: {
-    lines: false,
-    selectionMode: selectionMode.values[0],
-    scale: scale.defaultValue,
-  },
-  argTypes: {
-    selectionMode: {
-      options: selectionMode.values,
-      control: { type: "select" },
-    },
-    scale: {
-      options: scale.values,
-      control: { type: "select" },
-    },
-  },
   parameters: {
     chromatic: {
       delay: 1000,
@@ -31,17 +57,17 @@ export default {
   },
 };
 
-const treeItems = html`
+const treeItems = (expanded = true) => html`
   <calcite-tree-item label="test item">
     <a>Child 1</a>
   </calcite-tree-item>
-  <calcite-tree-item label="test item" icon-start="palette">
+  <calcite-tree-item label="test item" icon-start="palette" ${expanded ? "expanded" : ""}>
     <a>Child 2</a>
     <calcite-tree slot="children" icon-start="palette">
       <calcite-tree-item label="test item">
         <a>Grandchild 1</a>
       </calcite-tree-item>
-      <calcite-tree-item label="test item" icon-start="palette">
+      <calcite-tree-item label="test item" icon-start="palette" ${expanded ? "expanded" : ""}>
         <a>Grandchild 2</a>
         <calcite-tree slot="children" icon-start="palette">
           <calcite-tree-item label="test item">
@@ -54,7 +80,7 @@ const treeItems = html`
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
-  <calcite-tree-item label="test item">
+  <calcite-tree-item label="test item" ${expanded ? "expanded" : ""}>
     <a>Child 3</a>
     <calcite-tree slot="children">
       <calcite-tree-item label="test item">
@@ -67,21 +93,8 @@ const treeItems = html`
   </calcite-tree-item>
 `;
 
-const slottedLargeDropdown = html`
-  <calcite-dropdown slot="actions-end" id="slottedLargeDropdown" scale="l">
-    <calcite-action slot="trigger" icon="ellipsis" scale="l"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
-      <calcite-dropdown-item>Group elements</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Display mode" selection-mode="single">
-      <calcite-dropdown-item selected>Row</calcite-dropdown-item>
-      <calcite-dropdown-item>Column</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-const slottedDefaultDropdown = html`
-  <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown">
+const slottedDefaultDropdown = (scale: string) => html`
+  <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown" scale="${scale}">
     <calcite-action slot="trigger" icon="ellipsis"></calcite-action>
     <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
@@ -93,129 +106,70 @@ const slottedDefaultDropdown = html`
   </calcite-dropdown>
 `;
 
-const slottedSmallDropdown = html`
-  <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown" scale="s">
-    <calcite-action slot="trigger" icon="ellipsis" scale="s"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
-      <calcite-dropdown-item>Group elements</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Display mode" selection-mode="single">
-      <calcite-dropdown-item selected>Row</calcite-dropdown-item>
-      <calcite-dropdown-item>Column</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-const iconStartLargeActionsEnd = html`
+const iconStartLargeActionsEnd = (scale: string) => html`
   <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Child 1</a>
-    ${slottedLargeDropdown} ${slottedLargeDropdown}
+    <a>Child 1 </a>
+    ${slottedDefaultDropdown(scale)} ${slottedDefaultDropdown(scale)}
   </calcite-tree-item>
   <calcite-tree-item label="test item" expanded>
-    <a>Child 2</a>
+    <a>Child 2 </a>
     <calcite-tree slot="children" expanded>
       <calcite-tree-item label="test item" expanded>
-        <a>Grandchild 1</a>
+        <a>Grandchild 1 </a>
         <calcite-tree slot="children" expanded>
           <calcite-tree-item label="test item" icon-start="palette" expanded>
-            <a>Great-Grandchild 1</a>
-            ${slottedLargeDropdown}${slottedLargeDropdown}
+            <a>Great - Grandchild 1 </a>
+            ${slottedDefaultDropdown(scale)}${slottedDefaultDropdown(scale)}
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
   <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Child 3</a>
-    ${slottedLargeDropdown}
+    <a>Child 3 </a>
+    ${slottedDefaultDropdown(scale)}
     <calcite-tree slot="children" expanded>
       <calcite-tree-item label="test item" icon-start="palette">
-        <a>Grandchild 1</a>
+        <a>Grandchild 1 </a>
       </calcite-tree-item>
       <calcite-tree-item label="test item" expanded>
-        <a>Grandchild 2</a>
-        ${slottedLargeDropdown}
+        <a>Grandchild 2 </a>
+        ${slottedDefaultDropdown(scale)}
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
 `;
 
-const slottedDefaultActionsEnd = html`
-  <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Child 1</a>
-  </calcite-tree-item>
-  <calcite-tree-item label="test item" expanded>
-    <a>Child 2</a>
-    <calcite-tree slot="children" expanded>
-      <calcite-tree-item label="test item" expanded>
-        <a>Grandchild 1</a>
-        <calcite-tree slot="children" expanded>
-          <calcite-tree-item label="test item" icon-start="palette" expanded>
-            <a>Great-Grandchild 1</a>
-            ${slottedDefaultDropdown}${slottedDefaultDropdown}
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-  </calcite-tree-item>
-`;
+export const singleSelectionMode = (): string => html` ${treeItems()} `;
+singleSelectionMode.decorators = [allScaleTreeBuilder];
+singleSelectionMode.args = { selectionMode: "single" };
 
-const slottedSmallActionsEnd = html`
-  <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Child 1</a>
-  </calcite-tree-item>
-  <calcite-tree-item label="test item" expanded>
-    <a>Child 2</a>
-    <calcite-tree slot="children" expanded>
-      <calcite-tree-item label="test item" expanded>
-        <a>Grandchild 1</a>
-        <calcite-tree slot="children" expanded>
-          <calcite-tree-item label="test item" icon-start="palette" expanded>
-            <a>Great-Grandchild 1</a>
-            ${slottedSmallDropdown}${slottedSmallDropdown}
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-  </calcite-tree-item>
-`;
+export const selectionModeNone = (): string => html`${treeItems()}`;
+selectionModeNone.decorators = [allScaleTreeBuilder];
+selectionModeNone.args = { selectionMode: "none" };
 
-export const simple = (args: TreeStoryArgs): string => html`
-  <calcite-tree ${boolean("lines", args.lines)} selection-mode="${args.selectionMode}" scale="${args.scale}">
-    ${treeItems}
-  </calcite-tree>
-`;
+export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
+linesRTL.decorators = [allScaleTreeBuilder];
+linesRTL.args = { lines: true, selectionMode: "single" };
 
-export const selectionModeNone = (): string => html` <calcite-tree selection-mode="none">${treeItems}</calcite-tree> `;
+export const multipleSelectionModeWithLines_TestOnly = (): string => html` ${treeItems()} `;
 
-export const withLines_TestOnly = (): string => html`
-  <calcite-tree lines>
-    <calcite-tree-item label="test item"> Child 1 </calcite-tree-item>
-    <calcite-tree-item label="test item" expanded>
-      Child 2
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> Grandchild 1 </calcite-tree-item>
-        <calcite-tree-item label="test item"> Grandchild 2 </calcite-tree-item>
-        <calcite-tree-item label="test item" expanded>
-          Grandchild 3
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> Great-Grandchild 1 </calcite-tree-item>
-            <calcite-tree-item label="test item"> Great-Grandchild 2 </calcite-tree-item>
-            <calcite-tree-item label="test item"> Great-Grandchild 3 </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-`;
+multipleSelectionModeWithLines_TestOnly.decorators = [allScaleTreeBuilder];
+multipleSelectionModeWithLines_TestOnly.args = { lines: true, selectionMode: "multiple" };
 
-export const iconStartAndActionsEnd = (): string => html`
-  <div style="width: 650px">
-    <calcite-tree style="margin: 80px" scale="l"> ${iconStartLargeActionsEnd} </calcite-tree>
-    <calcite-tree style="margin: 80px" scale="m"> ${slottedDefaultActionsEnd} </calcite-tree>
-    <calcite-tree style="margin: 80px" scale="s"> ${slottedSmallActionsEnd} </calcite-tree>
-  </div>
-`;
+export const ancestorsSelectionModeWithLines_TestOnly = (): string => html` ${treeItems()} `;
+
+ancestorsSelectionModeWithLines_TestOnly.decorators = [allScaleTreeBuilder];
+ancestorsSelectionModeWithLines_TestOnly.args = { lines: true, selectionMode: "ancestors" };
+
+export const singlePersistSelectionModeWithLines_TestOnly = (): string => html` ${treeItems()} `;
+
+singlePersistSelectionModeWithLines_TestOnly.decorators = [allScaleTreeBuilder];
+singlePersistSelectionModeWithLines_TestOnly.args = { lines: true, selectionMode: "single-persist" };
+
+export const iconStartAndActionsEnd = (scale: string): string => html` ${iconStartLargeActionsEnd(scale)} `;
+iconStartAndActionsEnd.decorators = [allScaleTreeBuilder];
+iconStartAndActionsEnd.args = { selectionMode: "single" };
 
 export const treeItemTextContentWraps_TestOnly = (): string => html`
   <calcite-tree style="width: 300px">
@@ -257,10 +211,10 @@ export const treeItemContentIsNotClipped_TestOnly = (): string => html`
   </calcite-tree>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-tree class="calcite-mode-dark" dir="rtl" selection-mode="single" scale="m"> ${treeItems} </calcite-tree>
-`;
+export const darkModeRTL_TestOnly = (): string => html`<div dir="rtl">${treeItems()}</div> `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL_TestOnly.args = { selectionMode: "single" };
+darkModeRTL_TestOnly.decorators = [allScaleTreeBuilder];
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">
@@ -298,173 +252,3 @@ export const OverflowingSubtree = (): string =>
         }, 1000);
       });
     </script>`;
-
-export const allSelectionModesExpanded_TestOnly = (): string => html`
-  <h2>ancestors</h2>
-  <calcite-tree selection-mode="ancestors">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>children</h2>
-  <calcite-tree selection-mode="children">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>multichildren</h2>
-  <calcite-tree selection-mode="multichildren">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>multiple</h2>
-  <calcite-tree selection-mode="multiple">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>none</h2>
-  <calcite-tree selection-mode="none">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>single</h2>
-  <calcite-tree selection-mode="single">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-
-  <h2>single-persist</h2>
-  <calcite-tree selection-mode="single-persist">
-    <calcite-tree-item label="test item"> <span>Child 1</span> </calcite-tree-item>
-
-    <calcite-tree-item label="test item" expanded>
-      <span>Child 2</span>
-
-      <calcite-tree slot="children">
-        <calcite-tree-item label="test item"> <span>Grandchild 1</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item"> <span>Grandchild 2</span> </calcite-tree-item>
-
-        <calcite-tree-item label="test item">
-          <span>Grandchild 3</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 1</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 2</span> </calcite-tree-item>
-            <calcite-tree-item label="test item"> <span>Great-Grandchild 3</span> </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>
-`;

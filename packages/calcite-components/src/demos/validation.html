@@ -281,6 +281,59 @@
                 <calcite-rating required name="rating"></calcite-rating>
               </calcite-label>
             </li>
+
+            <!-- Autocomplete -->
+            <li>
+              <calcite-label>
+                Which framework do you use?
+                <calcite-autocomplete name="framework" required id="framework">
+                  <calcite-autocomplete-item-group heading="Frameworks">
+                    <calcite-autocomplete-item
+                      label="VanillaJS"
+                      value="vanilla"
+                      heading="VanillaJS"
+                      description="VanillaJS with @esri/calcite-components"
+                      icon-start="ribbon"
+                    ></calcite-autocomplete-item>
+                    <calcite-autocomplete-item
+                      label="React"
+                      value="react"
+                      heading="React"
+                      description="React with @esri/calcite-components-react"
+                      icon-start="code"
+                    ></calcite-autocomplete-item>
+                    <calcite-autocomplete-item
+                      label="Vue"
+                      value="vue"
+                      heading="Vue"
+                      description="Vue with @esri/calcite-components"
+                      icon-start="package"
+                    ></calcite-autocomplete-item>
+                    <calcite-autocomplete-item
+                      label="Svelte"
+                      value="svelte"
+                      heading="Svelte"
+                      description="Svelte with @esri/calcite-components"
+                      icon-start="banana"
+                    ></calcite-autocomplete-item>
+                    <calcite-autocomplete-item
+                      label="Angular"
+                      value="angular"
+                      heading="Angular"
+                      description="Angular with @esri/calcite-components"
+                      icon-start="data"
+                    ></calcite-autocomplete-item>
+                    <calcite-autocomplete-item
+                      label="Ember"
+                      value="ember"
+                      heading="Ember"
+                      description="Ember with @esri/calcite-components"
+                      icon-start="trash"
+                    ></calcite-autocomplete-item>
+                  </calcite-autocomplete-item-group>
+                </calcite-autocomplete>
+              </calcite-label>
+            </li>
           </ol>
 
           <!-- Button -->
@@ -456,6 +509,12 @@
       const datePicker = document.getElementById("when");
       datePicker.maxAsDate = new Date();
       datePicker.min = "2021-01-01";
+
+      // Autocomplete
+      const autocomplete = document.getElementById("framework");
+      autocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+        autocomplete.inputValue = event.target.value;
+      });
 
       // Form submission
       const form = document.getElementById("form");

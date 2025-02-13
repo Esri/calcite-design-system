@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -1130,6 +1131,84 @@ describe("selection modes", () => {
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
     await selectedItemAsserter([row1.id]);
   });
+
+  it("correctly updates selected items and does not emit public event when table row selected properties are programmatically set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1" selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-table", "calciteTableSelect");
+
+    const element = await page.find("calcite-table");
+    const row1 = await page.find("#row-1");
+    const row2 = await page.find("#row-2");
+    const row3 = await page.find("#row-3");
+
+    const tableSelectSpy = await element.spyOnEvent("calciteTableSelect");
+    await page.waitForChanges();
+
+    expect(await row1.getProperty("selected")).toBe(true);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await selectedItemAsserter([row1.id]);
+
+    row1.setProperty("selected", false);
+    await page.waitForChanges();
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(await element.getProperty("selectedItems")).toHaveLength(0);
+    await selectedItemAsserter([]);
+
+    row2.setProperty("selected", true);
+    await page.waitForChanges();
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(true);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await selectedItemAsserter([row2.id]);
+
+    row3.setProperty("selected", true);
+    await page.waitForChanges();
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(true);
+    expect(await row3.getProperty("selected")).toBe(true);
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(await element.getProperty("selectedItems")).toHaveLength(2);
+    await selectedItemAsserter([row2.id, row3.id]);
+
+    row2.setProperty("selected", false);
+    row3.setProperty("selected", false);
+    await page.waitForChanges();
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(await element.getProperty("selectedItems")).toHaveLength(0);
+    await selectedItemAsserter([]);
+  });
 });
 
 describe("pagination event", () => {
@@ -1535,7 +1614,7 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
   });
 
-  it("navigates correctly skipping disabled rows", async () => {
+  it("navigates correctly skipping disabled and hidden rows", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1558,6 +1637,10 @@ describe("keyboard navigation", () => {
         <calcite-table-row id="row-4">
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-5" hidden>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
     );
@@ -1588,7 +1671,7 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
   });
 
-  it("navigates correctly skipping disabled rows when disabled rows in last body position", async () => {
+  it("navigates correctly skipping disabled/hidden rows when disabled/hidden rows in last body position", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1611,6 +1694,10 @@ describe("keyboard navigation", () => {
         <calcite-table-row id="row-4" disabled>
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-5" hidden>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
     );
