@@ -14,12 +14,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -34,7 +29,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-dropdown` content. */
-export class SplitButton extends LitElement implements InteractiveComponent, LoadableComponent {
+export class SplitButton extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -178,16 +173,8 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

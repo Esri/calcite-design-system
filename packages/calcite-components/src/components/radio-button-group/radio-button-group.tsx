@@ -13,12 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -33,7 +28,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-radio-button`s. */
-export class RadioButtonGroup extends LitElement implements LoadableComponent {
+export class RadioButtonGroup extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -133,10 +128,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -153,7 +144,6 @@ export class RadioButtonGroup extends LitElement implements LoadableComponent {
 
   loaded(): void {
     this.passPropsToRadioButtons();
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
