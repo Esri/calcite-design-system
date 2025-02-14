@@ -122,6 +122,7 @@ export class List
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
+        const oldIndex = Array.from(el.children).filter(isListItem).indexOf(item);
         item.moveToItems = moveToItems.filter(
           (moveToItem) =>
             moveToItem.element !== el &&
@@ -131,7 +132,7 @@ export class List
               fromEl: el,
               dragEl: item,
               newIndex: 0,
-              oldIndex: null,
+              oldIndex,
             }) ??
               true) &&
             (canPut?.({
@@ -139,7 +140,7 @@ export class List
               fromEl: moveToItem.element as List["el"],
               dragEl: item,
               newIndex: 0,
-              oldIndex: null,
+              oldIndex: Array.from(moveToItem.element.children).filter(isListItem).indexOf(item),
             }) ??
               true),
         );

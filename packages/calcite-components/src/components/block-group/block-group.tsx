@@ -64,6 +64,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
+        const oldIndex = Array.from(el.children).filter(isBlock).indexOf(item);
         item.moveToItems = moveToItems.filter(
           (moveToItem) =>
             moveToItem.element !== el &&
@@ -73,7 +74,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
               fromEl: el,
               dragEl: item,
               newIndex: 0,
-              oldIndex: null,
+              oldIndex,
             }) ??
               true) &&
             (canPut?.({
@@ -81,7 +82,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
               fromEl: moveToItem.element as BlockGroup["el"],
               dragEl: item,
               newIndex: 0,
-              oldIndex: null,
+              oldIndex: Array.from(moveToItem.element.children).filter(isBlock).indexOf(item),
             }) ??
               true),
         );
