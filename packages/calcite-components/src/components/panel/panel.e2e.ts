@@ -721,7 +721,6 @@ describe("calcite-panel", () => {
       </calcite-panel>`,
       {
         "--calcite-panel-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
         "--calcite-panel-heading-text-color": {
