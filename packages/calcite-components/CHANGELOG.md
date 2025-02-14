@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.6...@esri/calcite-components@3.1.0-next.7) (2025-02-14)
+
+### Bug Fixes
+
+- **tooltip:** close tooltips on prevented pointer move events ([#11557](https://github.com/Esri/calcite-design-system/issues/11557)) ([0b19cef](https://github.com/Esri/calcite-design-system/commit/0b19cefaaed335e9817a7c52c37d9d62f3fff759)), closes [#11541](https://github.com/Esri/calcite-design-system/issues/11541)
+
 ## [3.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.5...@esri/calcite-components@3.1.0-next.6) (2025-02-14)
 
 ### Bug Fixes
