@@ -780,7 +780,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion

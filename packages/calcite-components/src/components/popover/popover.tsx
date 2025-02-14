@@ -97,7 +97,7 @@ export class Popover
   private hasLoaded = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   transitionProp = "opacity" as const;
