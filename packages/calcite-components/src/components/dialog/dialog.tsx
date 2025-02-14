@@ -291,7 +291,8 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   async updateFocusTrapElements(
     extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
-    this.focusTrap.updateContainerElements(extraContainers);
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
