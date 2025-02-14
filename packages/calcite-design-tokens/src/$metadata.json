@@ -10,8 +10,6 @@
     "semantic-old/color",
     "semantic-old/typography",
     "semantic/border",
-    "semantic/color/calcite/light",
-    "semantic/color/calcite/dark",
     "semantic/container-size",
     "semantic/corner",
     "semantic/font",
@@ -19,6 +17,8 @@
     "semantic/shadow",
     "semantic/size",
     "semantic/space",
-    "semantic/z-index"
+    "semantic/z-index",
+    "semantic/calcite/dark",
+    "semantic/calcite/light"
   ]
 }

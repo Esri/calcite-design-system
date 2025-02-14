@@ -5440,6 +5440,28 @@
             "type": "color"
           }
         }
+      },
+      "opacity": {
+        "10": {
+          "value": "rgba(0,0,0,0.1)",
+          "type": "color"
+        },
+        "12": {
+          "value": "rgba(0,0,0,0.12)",
+          "type": "color"
+        },
+        "16": {
+          "value": "rgba(0,0,0,0.16)",
+          "type": "color"
+        },
+        "04": {
+          "value": "rgba(0,0,0,0.04)",
+          "type": "color"
+        },
+        "08": {
+          "value": "rgba(0,0,0,0.08)",
+          "type": "color"
+        }
       }
     }
   }

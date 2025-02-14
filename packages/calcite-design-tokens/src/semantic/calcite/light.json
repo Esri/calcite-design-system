@@ -207,6 +207,20 @@
         "value": "{core.color.neutral.blk-100}",
         "type": "color"
       }
+    },
+    "shadow": {
+      "1": {
+        "value": "{core.color.opacity.04}",
+        "type": "color"
+      },
+      "2": {
+        "value": "{core.color.opacity.08}",
+        "type": "color"
+      },
+      "3": {
+        "value": "{core.color.opacity.10}",
+        "type": "color"
+      }
     }
   }
 }

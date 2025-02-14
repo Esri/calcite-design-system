@@ -4,8 +4,8 @@
     "name": "Brand Light",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/color/calcite/light": "enabled"
+      "semantic/calcite/light": "enabled",
+      "semantic/shadow": "enabled"
     },
     "$figmaVariableReferences": {
       "color.background.default": "faf13fa93938be3f64d5d471848aad67453ab72c",
@@ -55,8 +55,8 @@
     "name": "Brand Dark",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source",
-      "semantic/color/calcite/dark": "enabled"
+      "semantic/calcite/dark": "enabled",
+      "semantic/shadow": "enabled"
     },
     "$figmaVariableReferences": {
       "color.background.default": "faf13fa93938be3f64d5d471848aad67453ab72c",
