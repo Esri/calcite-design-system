@@ -94,7 +94,6 @@
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-  border-radius: inherit;
   box-sizing: border-box;
   font-size: var(--calcite-font-size--1);
 }
@@ -109,7 +108,7 @@
 
 .header {
   @apply flex flex-col z-header;
-  border-radius: inherit inherit 0 0;
+
   background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
   border-block-end: 1px solid
     var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
@@ -196,18 +195,6 @@ calcite-action-menu {
   margin-inline-start: theme("margin.auto");
 }
 
-#close,
-#collapse,
-calcite-action-menu {
-  &:last-child {
-    border-radius-start-end: inherit;
-  }
-}
-
-.back-button {
-  border-radius-start-start: inherit;
-}
-
 .content-wrapper {
   @apply flex
   flex-auto
@@ -248,7 +235,6 @@ calcite-action-menu {
     var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
   );
   background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
-  border-radius: 0 0 inherit inherit;
 }
 
 .footer-content {
