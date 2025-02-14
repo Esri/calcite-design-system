@@ -424,7 +424,7 @@ export class Rating
                       type="radio"
                       value={value}
                     />
-                    <StarIcon full={selected || average} scale={this.scale} />
+                    <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
                       <div class="fraction" style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />

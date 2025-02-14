@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 export const ratingTokens = {
   calciteRatingSpacing: "",
   calciteRatingColorHover: "",
+  calciteRatingColorPress: "",
   calciteRatingColor: "",
   calciteRatingAverageColor: "",
   calciteRatingAverageTextColor: "",
