@@ -295,6 +295,7 @@ export class Action extends LitElement implements InteractiveComponent {
         disabled={disabled}
         id={buttonId}
         ref={this.buttonEl}
+        // tabIndex is required for the button to be focusable on click in safari.
         tabIndex={disabled ? null : 0}
       >
         {buttonContent}
