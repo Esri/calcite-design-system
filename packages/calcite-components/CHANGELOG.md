@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0...@esri/calcite-components@3.0.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* **dialog, modal, sheet:** Preserve focus-trap extra containers across internal trap updates ([#11548](https://github.com/Esri/calcite-design-system/issues/11548)) ([4e421b7](https://github.com/Esri/calcite-design-system/commit/4e421b732a137041abb6fe3411ae49b215e6e4dc))
+* **input-date-picker:** Allow navigating between months using chevron actions in Safari ([#11547](https://github.com/Esri/calcite-design-system/issues/11547)) ([9b8c02e](https://github.com/Esri/calcite-design-system/commit/9b8c02ea799b46168ceb4545e195cee626128ba8))
+* **list, block-group:** Drag menu 'Move to' actions broken when list elements have explicit ids ([#11515](https://github.com/Esri/calcite-design-system/issues/11515)) ([e0daf83](https://github.com/Esri/calcite-design-system/commit/e0daf8360707b6a9da379151f14f04ec698f881f))
+
 ## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.13.2...@esri/calcite-components@3.0.0) (2025-02-08)
 
 ### ⚠ BREAKING CHANGES
