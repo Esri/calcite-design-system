@@ -106,7 +106,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
 
 darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const interactivityStates_TestOnly = (): string => html`
+export const interactivityStates = (): string => html`
   <div style="width:500px; max-width:100%; background-color:white; padding:100px">
     <h2>appearance="solid" & kind="neutral"</h2>
     <calcite-chip-group selection-mode="single">
