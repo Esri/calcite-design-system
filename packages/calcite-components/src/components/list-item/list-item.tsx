@@ -428,6 +428,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.sortHandleEl = el;
     this.sortHandleOpenHandler();
   }
@@ -627,7 +631,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);
-        containerEl.focus();
+        containerEl?.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }

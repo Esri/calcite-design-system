@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
@@ -35,7 +36,7 @@ export class AccordionItem extends LitElement {
 
   // #region Private Properties
 
-  private headerEl: HTMLDivElement;
+  private headerEl = createRef<HTMLDivElement>();
 
   // #endregion
 
@@ -103,7 +104,7 @@ export class AccordionItem extends LitElement {
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.headerEl.focus();
+    this.headerEl.value?.focus();
   }
 
   // #endregion
@@ -198,10 +199,6 @@ export class AccordionItem extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
-  private storeHeaderEl(el: HTMLDivElement): void {
-    this.headerEl = el;
-  }
-
   /** handle clicks on item header */
   private itemHeaderClickHandler(): void {
     this.emitRequestedItem();
@@ -291,7 +288,7 @@ export class AccordionItem extends LitElement {
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
-            ref={this.storeHeaderEl}
+            ref={this.headerEl}
             role="button"
             tabIndex="0"
           >

@@ -271,7 +271,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby") {
+    if (direction === "standby" || !this.itemContainer) {
       return;
     }
 
@@ -551,14 +551,26 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private storeTabListRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.tabList = el;
   }
 
   private storeContainerRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.container = el;
   }
 
   private storeItemContainerRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.itemContainer = el;
   }
 

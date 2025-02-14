@@ -851,12 +851,20 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.focusScope(scopeNode);
   }
 
-  private storeColorFieldScope(node: HTMLDivElement): void {
-    this.colorFieldScopeNode = node;
+  private storeColorFieldScope(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
+    this.colorFieldScopeNode = el;
   }
 
-  private storeHueScope(node: HTMLDivElement): void {
-    this.hueScopeNode = node;
+  private storeHueScope(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
+    this.hueScopeNode = el;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -1071,11 +1079,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     context.scale(devicePixelRatio, devicePixelRatio);
   }
 
-  private initColorField(canvas?: HTMLCanvasElement): void {
-    if (!canvas) {
+  private initColorField(el?: HTMLCanvasElement): void {
+    if (!el) {
       return;
     }
-    this.colorFieldRenderingContext = canvas.getContext("2d");
+
+    this.colorFieldRenderingContext = el.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
   }
@@ -1404,8 +1413,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
-  private storeOpacityScope(node: HTMLDivElement): void {
-    this.opacityScopeNode = node;
+  private storeOpacityScope(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
+    this.opacityScopeNode = el;
   }
 
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {

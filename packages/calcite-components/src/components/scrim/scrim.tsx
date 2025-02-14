@@ -75,6 +75,10 @@ export class Scrim extends LitElement {
   }
 
   private storeLoaderEl(el: Loader["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.loaderEl = el;
     this.handleResize();
   }
