@@ -581,7 +581,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
