@@ -72,6 +72,8 @@ export class TabNav extends LitElement {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
 
+  private makeFirstVisibleTabClosable = false;
+
   // #endregion
 
   // #region State Properties
@@ -370,10 +372,20 @@ export class TabNav extends LitElement {
   private onSlotChange(event: Event): void {
     this.intersectionObserver?.disconnect();
 
-    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
+    const slottedElements = slotChangeGetAssignedElements<TabTitle["el"]>(
+      event,
+      "calcite-tab-title",
+    );
     slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    const visibleTabTitlesIndices = this.visibleTabTitlesIndices;
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+    if (totalVisibleTabTitles > 1 && this.makeFirstVisibleTabClosable) {
+      slottedElements[visibleTabTitlesIndices[0]].closable = true;
+      this.makeFirstVisibleTabClosable = false;
+    }
+
     this.calciteInternalTabNavSlotChange.emit(slottedElements);
   }
 
@@ -517,18 +529,23 @@ export class TabNav extends LitElement {
     });
   }
 
-  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
-    const { tabTitles } = this;
-    const selectionModified = closedTabTitleEl.selected;
-
-    const visibleTabTitlesIndices = tabTitles.reduce(
+  private get visibleTabTitlesIndices(): number[] {
+    return this.tabTitles.reduce(
       (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
       [],
     );
+  }
+
+  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
+    const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
+
+    const visibleTabTitlesIndices = this.visibleTabTitlesIndices;
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
+      this.makeFirstVisibleTabClosable = true;
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
 
