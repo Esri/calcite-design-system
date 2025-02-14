@@ -1608,6 +1608,37 @@ describe("calcite-input-date-picker", () => {
       expect(await calendar.isVisible()).toBe(true);
     });
 
+    it("should not close date-picker when user navigate using chevrons & min, max are set to adjacent months", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker
+          min="2024-08-10"
+          value="2024-09-15"
+          max="2024-09-14"
+        ></calcite-input-date-picker>`,
+      );
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      await input.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "next");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+    });
+
     it("should not close date-picker when user navigate to last valid month in range", async () => {
       const page = await newE2EPage();
       await page.setContent(
