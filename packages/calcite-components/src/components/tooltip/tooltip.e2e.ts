@@ -348,6 +348,35 @@ describe("calcite-tooltip", () => {
     expect(await positionContainer.isVisible()).toBe(false);
   });
 
+  it("should close when hover event is prevented", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+      <div id="button-container">
+        <div id="ref">referenceElement</div>
+      </div>
+    `);
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
+
+    const ref = await page.find("#ref");
+    await ref.hover();
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    expect(await positionContainer.isVisible()).toBe(true);
+
+    await page.$eval("#button-container", (buttonContainer) => {
+      buttonContainer.addEventListener("pointermove", (event) => {
+        event.preventDefault();
+      });
+    });
+
+    await ref.hover();
+    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    expect(await positionContainer.isVisible()).toBe(false);
+  });
+
   it("should honor hover interaction with span inside", async () => {
     const page = await newE2EPage();
 
