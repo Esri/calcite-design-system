@@ -2,6 +2,7 @@ export const CSS = {
   actionsEnd: "actions-end",
   actionsStart: "actions-start",
   description: "description",
+  close: "close",
   collapsed: "collapsed",
   container: "container",
   containerHover: "container--hover",

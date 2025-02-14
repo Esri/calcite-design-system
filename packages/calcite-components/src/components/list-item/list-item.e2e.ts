@@ -381,16 +381,16 @@ describe("calcite-list-item", () => {
   it("should fire close event when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-list-item closable>test</calcite-list-item>" });
 
-    const calciteListItemCollapsed = await page.spyOnEvent("calciteListItemCollapsed", "window");
+    const calciteListItemClosed = await page.spyOnEvent("calciteListItemClosed", "window");
 
     const closeButton = await page.find(`calcite-list-item >>> .${CSS.actionsEnd} calcite-action`);
 
     await closeButton.click();
 
-    expect(calciteListItemCollapsed).toHaveReceivedEventTimes(1);
+    expect(calciteListItemClosed).toHaveReceivedEventTimes(1);
   });
 
-  it("should fire calciteListItemToggle event when opened and closed", async () => {
+  it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
     const page = await newE2EPage({
       html: html`<calcite-list-item id="test" display-mode="nested"
         ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
@@ -400,16 +400,16 @@ describe("calcite-list-item", () => {
     const listItem = await page.find("#test");
     const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
-    expect(await listItem.getProperty("open")).toBe(false);
+    expect(await listItem.getProperty("expanded")).toBe(false);
 
-    const openButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
+    const expandedButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
 
-    await openButton.click();
-    expect(await listItem.getProperty("open")).toBe(true);
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(true);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
 
-    await openButton.click();
-    expect(await listItem.getProperty("open")).toBe(false);
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
   });
 
@@ -421,18 +421,18 @@ describe("calcite-list-item", () => {
     const listItem = await page.find("calcite-list-item");
     const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
-    expect(await listItem.getProperty("open")).toBe(false);
+    expect(await listItem.getProperty("expanded")).toBe(false);
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
+    const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
 
-    expect(openButton.getAttribute("title")).toBe(null);
+    expect(expandedButton.getAttribute("title")).toBe(null);
 
-    await openButton.click();
-    expect(await listItem.getProperty("open")).toBe(false);
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
 
-    await openButton.click();
-    expect(await listItem.getProperty("open")).toBe(false);
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
   });
 
@@ -458,16 +458,16 @@ describe("calcite-list-item", () => {
     expect(await list.getProperty("displayMode")).toBe("flat");
   });
 
-  it("flat list should not render open container", async () => {
+  it("flat list should not render expanded container", async () => {
     const page = await newE2EPage({
       html: html`<calcite-list-item display-mode="flat"
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
 
-    const openButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
+    const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
 
-    expect(openButton).toBe(null);
+    expect(expandedButton).toBe(null);
   });
 
   it("renders with iconStart", async () => {
