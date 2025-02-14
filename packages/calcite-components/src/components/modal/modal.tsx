@@ -87,7 +87,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
   private modalContent = createRef<HTMLDivElement>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   private _open = false;

@@ -767,7 +767,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
