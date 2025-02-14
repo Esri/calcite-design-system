@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.1...@esri/calcite-components@3.0.2) (2025-02-14)
+
+
+### Bug Fixes
+
+* **dialog, modal, popover, sheet:** Fixes an issue that caused extra containers to be lost after internal trap updates ([#11556](https://github.com/Esri/calcite-design-system/issues/11556)) ([083e8dc](https://github.com/Esri/calcite-design-system/commit/083e8dc03b5a94075bd85e6d1397a9c2bacdc23f))
+
 ## [3.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.0...@esri/calcite-components@3.0.1) (2025-02-14)
 
 
