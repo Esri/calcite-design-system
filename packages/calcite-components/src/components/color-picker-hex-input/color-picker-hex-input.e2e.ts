@@ -543,7 +543,7 @@ describe("calcite-color-picker-hex-input", () => {
           input = await page.find("calcite-color-picker-hex-input");
         });
 
-        it.skip("commits hexa chars on Tab and Enter", async () => {
+        it("commits hexa chars on Tab and Enter", async () => {
           await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
           await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
           // eslint-disable-next-line @cspell/spellchecker -- testing hex code
@@ -552,7 +552,7 @@ describe("calcite-color-picker-hex-input", () => {
           await assertTabAndEnterBehavior("", startingHexa, true);
         });
 
-        it.skip("prevents committing invalid hexa values", async () => {
+        it("prevents committing invalid hexa values", async () => {
           // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
           // eslint-disable-next-line @cspell/spellchecker -- testing hex code
@@ -597,7 +597,7 @@ describe("calcite-color-picker-hex-input", () => {
             await page.waitForChanges();
           });
 
-          it.skip("commits hexa chars on Tab and Enter", async () => {
+          it("commits hexa chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
             await assertTabAndEnterBehavior("baba", "#bbaabbaa", true);
             // eslint-disable-next-line @cspell/spellchecker -- testing hex code
@@ -606,7 +606,7 @@ describe("calcite-color-picker-hex-input", () => {
             await assertTabAndEnterBehavior("", null, true);
           });
 
-          it.skip("prevents committing invalid hexa values", async () => {
+          it("prevents committing invalid hexa values", async () => {
             // eslint-disable-next-line @cspell/spellchecker -- testing hex code
             await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
             // eslint-disable-next-line @cspell/spellchecker -- testing hex code

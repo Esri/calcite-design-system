@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 // TODO: Uncomment this test when there's a resolution to this bug. https://github.com/ionic-team/stencil/issues/1669
 // import { TipManager } from "./calcite-tip-manager";
 
-describe.skip("TipManager", () => {
+describe("TipManager", () => {
   it("should increment/decrement the selectedIndex when the public next/prev methods are called", () => {
     // const tipManager = new TipManager();
     // tipManager.total = 2; //needed to
