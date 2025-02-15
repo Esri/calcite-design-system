@@ -123,6 +123,7 @@ export class List
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
         const oldIndex = Array.from(el.children).filter(isListItem).indexOf(item);
+        const newIndex = 0;
         item.moveToItems = moveToItems.filter(
           (moveToItem) =>
             moveToItem.element !== el &&
@@ -131,7 +132,7 @@ export class List
               toEl: moveToItem.element as List["el"],
               fromEl: el,
               dragEl: item,
-              newIndex: 0,
+              newIndex,
               oldIndex,
             }) ??
               true) &&
@@ -139,7 +140,7 @@ export class List
               toEl: el,
               fromEl: moveToItem.element as List["el"],
               dragEl: item,
-              newIndex: 0,
+              newIndex,
               oldIndex,
             }) ??
               true),
