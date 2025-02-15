@@ -813,7 +813,7 @@ describe("calcite-rating", () => {
         "--calcite-rating-color-press": {
           shadowSelector: `.${CSS.star}`,
           targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.star } },
+          state: { press: `calcite-rating >>> .${CSS.star}` },
         },
       });
     });
