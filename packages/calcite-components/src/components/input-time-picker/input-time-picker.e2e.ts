@@ -116,7 +116,7 @@ describe("calcite-input-time-picker", () => {
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
 
-    describe.skip("initially open", () => {
+    describe("initially open", () => {
       openClose.initial("calcite-input-time-picker");
     });
   });

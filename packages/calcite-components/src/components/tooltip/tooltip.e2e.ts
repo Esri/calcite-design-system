@@ -1039,7 +1039,7 @@ describe("calcite-tooltip", () => {
     });
   });
 
-  it.skip("should open hovered tooltip while pointer is moving", async () => {
+  it("should open hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
@@ -1090,7 +1090,7 @@ describe("calcite-tooltip", () => {
     }
   });
 
-  it.skip("should close non hovered tooltip while pointer is moving", async () => {
+  it("should close non hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
