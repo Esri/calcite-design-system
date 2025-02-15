@@ -3,12 +3,14 @@
     "shadow": {
       "0": {
         "value": {
+          "x": "0",
+          "y": "0",
           "blur": "0",
-          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
-          "offsetX": "0",
-          "offsetY": "0",
           "spread": "0",
-          "type": "boxShadow"
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
+          "type": "boxShadow",
+          "offsetX": "0",
+          "offsetY": "0"
         },
         "type": "boxShadow",
         "attributes": {
@@ -34,12 +36,14 @@
       },
       "1": {
         "value": {
-          "offsetX": "0",
-          "offsetY": "2",
+          "x": "0",
+          "y": "0",
           "blur": "8",
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-          "type": "boxShadow"
+          "type": "dropShadow",
+          "offsetX": "0",
+          "offsetY": "2"
         },
         "type": "boxShadow",
         "attributes": {
@@ -65,12 +69,14 @@
       },
       "2": {
         "value": {
-          "offsetX": "0",
-          "offsetY": "4",
+          "x": "0",
+          "y": "0",
           "blur": "16",
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          "type": "boxShadow"
+          "type": "boxShadow",
+          "offsetX": "0",
+          "offsetY": "4"
         },
         "type": "boxShadow",
         "attributes": {
@@ -96,12 +102,14 @@
       },
       "3": {
         "value": {
-          "offsetX": "0",
-          "offsetY": "4",
+          "x": "0",
+          "y": "0",
           "blur": "20",
           "spread": "0",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          "type": "boxShadow"
+          "type": "boxShadow",
+          "offsetX": "0",
+          "offsetY": "4"
         },
         "type": "boxShadow",
         "attributes": {
@@ -127,12 +135,14 @@
       },
       "4": {
         "value": {
-          "offsetX": "0",
-          "offsetY": "12",
+          "x": "0",
+          "y": "0",
           "blur": "32",
           "spread": "-2",
           "color": "rgba({core.color.neutral.blk-240}, {core.opacity.10})",
-          "type": "boxShadow"
+          "type": "boxShadow",
+          "offsetX": "0",
+          "offsetY": "12"
         },
         "type": "boxShadow",
         "attributes": {

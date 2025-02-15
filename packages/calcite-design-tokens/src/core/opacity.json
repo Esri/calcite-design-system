@@ -97,6 +97,54 @@
           }
         }
       },
+      "12": {
+        "value": "12%",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "10",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "16": {
+        "value": "16%",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "10",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
       "20": {
         "value": "20%",
         "type": "opacity",
