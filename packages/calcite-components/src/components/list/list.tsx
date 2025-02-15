@@ -140,7 +140,7 @@ export class List
               fromEl: moveToItem.element as List["el"],
               dragEl: item,
               newIndex: 0,
-              oldIndex: Array.from(moveToItem.element.children).filter(isListItem).indexOf(item),
+              oldIndex,
             }) ??
               true),
         );

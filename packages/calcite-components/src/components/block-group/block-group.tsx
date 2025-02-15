@@ -82,7 +82,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
               fromEl: moveToItem.element as BlockGroup["el"],
               dragEl: item,
               newIndex: 0,
-              oldIndex: Array.from(moveToItem.element.children).filter(isBlock).indexOf(item),
+              oldIndex,
             }) ??
               true),
         );
