@@ -54,15 +54,7 @@ describe("calcite-list-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
         propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapsible",
         defaultValue: false,
       },
       {
@@ -381,13 +373,13 @@ describe("calcite-list-item", () => {
   it("should fire close event when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-list-item closable>test</calcite-list-item>" });
 
-    const calciteListItemClosed = await page.spyOnEvent("calciteListItemClosed", "window");
+    const calciteListItemClose = await page.spyOnEvent("calciteListItemClose", "window");
 
     const closeButton = await page.find(`calcite-list-item >>> .${CSS.actionsEnd} calcite-action`);
 
     await closeButton.click();
 
-    expect(calciteListItemClosed).toHaveReceivedEventTimes(1);
+    expect(calciteListItemClose).toHaveReceivedEventTimes(1);
   });
 
   it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
