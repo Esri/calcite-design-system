@@ -1,13 +1,9 @@
+// @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import type { ColumnDefinition, OptionsData } from "tabulator-tables";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import type { Input } from "../input/input";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
@@ -21,7 +17,7 @@ declare global {
 }
 
 /** @slot - A slot for adding HTML tables */
-export class TableAdvanced extends LitElement implements LoadableComponent {
+export class TableAdvanced extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -103,10 +99,6 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
     super();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -124,14 +116,12 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
       if (this.validFilterPredicate()) {
         this.tabulator.setFilter(this.filterPredicate);
       } else {
-        this.tabulator.clearFilter();
+        this.tabulator.clearFilter(false);
       }
     }
   }
 
   loaded(): void {
-    setComponentLoaded(this);
-
     this.tabulator = this.customSlotTableEl
       ? new Tabulator(this.customSlotTableEl, {})
       : new Tabulator(this.tableEl, {
@@ -213,7 +203,7 @@ export class TableAdvanced extends LitElement implements LoadableComponent {
     if (this.filterInputValue) {
       this.tabulator.setFilter(this.filterByProp, "like", this.filterInputValue);
     } else {
-      this.tabulator.clearFilter();
+      this.tabulator.clearFilter(false);
     }
   }, DEBOUNCE.filter);
 
