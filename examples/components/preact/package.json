@@ -28,7 +28,7 @@
     ]
   },
   "dependencies": {
-    "@esri/calcite-components": "2.13.2",
+    "@esri/calcite-components": "3.0.2",
     "preact": "^10.10.0",
     "preact-render-to-string": "^5.2.1",
     "preact-router": "^3.2.1"

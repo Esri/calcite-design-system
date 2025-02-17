@@ -11,7 +11,6 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { FocusTargetOrFalse } from "focus-trap";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -27,30 +26,18 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -65,10 +52,7 @@ declare global {
 const manager = new PopoverManager();
 
 /** @slot - A slot for adding custom content. */
-export class Popover
-  extends LitElement
-  implements FloatingUIComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
+export class Popover extends LitElement implements FloatingUIComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -85,14 +69,27 @@ export class Popover
 
   floatingEl: HTMLDivElement;
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented) {
+          this.open = false;
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private guid = `calcite-popover-${guid()}`;
 
   private hasLoaded = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   transitionProp = "opacity" as const;
@@ -126,17 +123,21 @@ export class Popover
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
   /** The component header text. */
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
-
-  /**
-   * Specifies whether focus should move to the popover when the focus trap is activated.
-   *  `@internal`
-   */
-  @property({ type: Boolean }) initialFocusTrapFocus: FocusTargetOrFalse;
 
   /**
    * Accessible name for the component.
@@ -251,7 +252,7 @@ export class Popover
   /** Updates the element(s) that are used within the focus-trap of the component. */
   @method()
   async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
@@ -277,29 +278,10 @@ export class Popover
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    connectFocusTrap(this, {
-      focusTrapEl: this.el,
-      focusTrapOptions: {
-        allowOutsideClick: true,
-        escapeDeactivates: (event) => {
-          if (!event.defaultPrevented) {
-            this.open = false;
-            event.preventDefault();
-          }
-
-          return false;
-        },
-        initialFocus: this.initialFocusTrapFocus,
-      },
-    });
 
     // we set up the ref element in the next frame to ensure PopoverManager
     // event handlers are invoked after connect (mainly for `components` output target)
     requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -307,10 +289,6 @@ export class Popover
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
@@ -336,7 +314,6 @@ export class Popover
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     if (this.referenceElement && !this.referenceEl) {
       this.setUpReferenceElement();
     }
@@ -348,24 +325,11 @@ export class Popover
     this.mutationObserver?.disconnect();
     this.removeReferences();
     disconnectFloatingUI(this);
-    deactivateFocusTrap(this);
   }
 
   // #endregion
 
   // #region Private Methods
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
 
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
@@ -486,7 +450,7 @@ export class Popover
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
-    activateFocusTrap(this);
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
@@ -496,7 +460,7 @@ export class Popover
   onClose(): void {
     this.calcitePopoverClose.emit();
     hideFloatingUI(this);
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
   private storeArrowEl(el: SVGSVGElement): void {
