@@ -24,11 +24,16 @@ export interface UseFocusTrap {
   overrideFocusTrapEl: (el: HTMLElement) => void;
 
   /**
-   * Updates focusable elements within the trap.
+   * Sets the extra containers to be used in the focus trap.
    *
    * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
    */
-  updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
+  setExtraContainers: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
+
+  /**
+   * Updates focusable elements within the trap.
+   */
+  updateContainerElements: () => void;
 }
 
 interface UseFocusTrapOptions<T extends LitElement = LitElement> {
@@ -100,6 +105,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
+    let effectiveContainers: FocusTrapOptions["extraContainers"];
     const internalFocusTrapOptions = options.focusTrapOptions;
 
     controller.onConnected(() => {
@@ -111,7 +117,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     controller.onDisconnected(() => focusTrap?.deactivate());
 
     return {
-      activate: (options?: Parameters<FocusTrap["activate"]>[0]) => {
+      activate: () => {
         const targetEl = focusTrapEl || component.el;
 
         if (!targetEl.isConnected) {
@@ -123,11 +129,9 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
             ...internalFocusTrapOptions,
             ...component.focusTrapOptions,
           };
+          effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
 
-          focusTrap = createFocusTrap(
-            getEffectiveContainerElements(targetEl, component),
-            createFocusTrapOptions(targetEl, effectiveFocusTrapOptions),
-          );
+          focusTrap = createFocusTrap(effectiveContainers, createFocusTrapOptions(targetEl, effectiveFocusTrapOptions));
         }
 
         if (
@@ -135,10 +139,10 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
             ? !component.focusTrapDisabledOverride()
             : !component.focusTrapDisabled
         ) {
-          focusTrap.activate(options);
+          focusTrap.activate();
         }
       },
-      deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => focusTrap?.deactivate(options),
+      deactivate: () => focusTrap?.deactivate(),
       overrideFocusTrapEl: (el: HTMLElement) => {
         if (focusTrap) {
           throw new Error("Focus trap already created");
@@ -146,9 +150,12 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
 
         focusTrapEl = el;
       },
-      updateContainerElements: (extraContainers?: FocusTrapOptions["extraContainers"]) => {
+      setExtraContainers: (extraContainers?: FocusTrapOptions["extraContainers"]) => {
         const targetEl = focusTrapEl || component.el;
-        return focusTrap?.updateContainerElements(getEffectiveContainerElements(targetEl, component, extraContainers));
+        effectiveContainers = getEffectiveContainerElements(targetEl, component, extraContainers);
+      },
+      updateContainerElements: () => {
+        return focusTrap?.updateContainerElements(effectiveContainers);
       },
     };
   });

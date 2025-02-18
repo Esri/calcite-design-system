@@ -49,12 +49,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -101,7 +96,6 @@ export class InputDatePicker
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent
 {
   // #region Static Members
@@ -448,7 +442,6 @@ export class InputDatePicker
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -517,7 +510,6 @@ export class InputDatePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }
@@ -845,7 +837,6 @@ export class InputDatePicker
       focusTrapEl: el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        // Allow outside click and let the popover manager take care of closing the popover.
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,
