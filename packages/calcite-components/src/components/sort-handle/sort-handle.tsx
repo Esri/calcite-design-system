@@ -1,12 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -32,7 +27,7 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -153,10 +148,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -169,10 +160,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
