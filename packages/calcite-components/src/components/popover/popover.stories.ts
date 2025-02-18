@@ -79,7 +79,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [300] } };
 
 export const darkModeRTL_TestOnly = (): string =>
   html` <div style="width: 400px;">

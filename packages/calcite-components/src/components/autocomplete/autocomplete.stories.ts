@@ -146,7 +146,7 @@ export const smallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [300] } };
 
 export const customIcon = (): string => html`
   <div style="width:350px">
