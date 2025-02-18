@@ -43,7 +43,10 @@ export const simple = (args: TooltipStoryArgs): string => html`
 
 export const smallViewport = (): string => html`
   <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud</calcite-button>
-  <calcite-tooltip reference-element="reference-element" open>${contentHTML}</calcite-tooltip>
+  <calcite-tooltip reference-element="reference-element" open
+    >Lorem ipsum dolor sit amet, conse ctetur adip iscing elit, sed do eiusmod tempor incid idunt ut labore et dolore
+    magna aliqua</calcite-tooltip
+  >
 `;
 smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
 
