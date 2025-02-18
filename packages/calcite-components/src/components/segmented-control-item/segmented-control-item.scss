@@ -45,6 +45,7 @@
 :host(:focus) {
   @apply focus-inset;
   outline-offset: -1px;
+  z-index: 1;
 }
 
 .label--scale-s {
