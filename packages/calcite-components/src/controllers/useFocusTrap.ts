@@ -117,7 +117,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     controller.onDisconnected(() => focusTrap?.deactivate());
 
     return {
-      activate: (options?: Parameters<FocusTrap["activate"]>[0]) => {
+      activate: () => {
         const targetEl = focusTrapEl || component.el;
 
         if (!targetEl.isConnected) {
@@ -139,10 +139,10 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
             ? !component.focusTrapDisabledOverride()
             : !component.focusTrapDisabled
         ) {
-          focusTrap.activate(options);
+          focusTrap.activate();
         }
       },
-      deactivate: (options?: Parameters<FocusTrap["deactivate"]>[0]) => focusTrap?.deactivate(options),
+      deactivate: () => focusTrap?.deactivate(),
       overrideFocusTrapEl: (el: HTMLElement) => {
         if (focusTrap) {
           throw new Error("Focus trap already created");
