@@ -41,6 +41,14 @@ export const simple = (args: TooltipStoryArgs): string => html`
   </div>
 `;
 
+export const smallViewport = (): string => html`
+  ${referenceElementHTML}
+  <calcite-tooltip reference-element="reference-element" open>
+    <span> ${contentHTML} </span>
+  </calcite-tooltip>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const open_TestOnly = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
