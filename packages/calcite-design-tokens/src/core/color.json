@@ -4688,7 +4688,7 @@
             }
           },
           "d-gg-430": {
-            "value": "#36DA43",
+            "value": "#11AD1D",
             "type": "color",
             "attributes": {
               "calcite-schema": {
@@ -5030,7 +5030,7 @@
             "type": "color"
           },
           "m-gg-030": {
-            "value": "#cbe2cb",
+            "value": "#B2D4B2",
             "type": "color"
           },
           "m-gg-040": {
@@ -5268,7 +5268,7 @@
             "type": "color"
           },
           "m-ro-100": {
-            "value": "#582b1c",
+            "value": "#27120C",
             "type": "color"
           }
         },
