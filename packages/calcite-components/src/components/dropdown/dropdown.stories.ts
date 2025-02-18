@@ -75,6 +75,18 @@ export const simple = (args: DropdownStoryArgs): string => html`
   </calcite-dropdown>
 `;
 
+export const smallViewport = (): string => html`
+  <calcite-dropdown open>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group group-title="Sort by">
+      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item>Title</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const simpleAutoWidth = (): string => html`
   <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>

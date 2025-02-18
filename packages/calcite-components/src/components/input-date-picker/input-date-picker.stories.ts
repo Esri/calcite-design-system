@@ -76,6 +76,11 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
   </div>
 `;
 
+export const smallViewport = (): string => html`
+  <calcite-input-date-picker value="2020-02-12" open></calcite-input-date-picker>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const withMinMax = (): string =>
   html` <style>
       .container {

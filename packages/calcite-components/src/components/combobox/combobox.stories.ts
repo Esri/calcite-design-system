@@ -93,6 +93,34 @@ export const single = (): string => html`
   </div>
 `;
 
+export const smallViewport = (): string => html`
+  <calcite-combobox
+    selection-display="all"
+    selection-mode="single"
+    label="demo"
+    open
+    max-items="0"
+    placeholder="placeholder"
+    scale="m"
+    status="idle"
+  >
+    <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
+    <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
+    <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
+    <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
+    <calcite-combobox-item icon="battery3" value="battery" text-label="Battery Charging"></calcite-combobox-item>
+    <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
+    <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
+    <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>
+    <calcite-combobox-item icon="brightness" value="brightness" text-label="Brightness"></calcite-combobox-item>
+    <calcite-combobox-item icon="calendar" value="calendar" text-label="Calendar"></calcite-combobox-item>
+    <calcite-combobox-item icon="camera" value="camera" text-label="Camera"></calcite-combobox-item>
+    <calcite-combobox-item icon="car" value="car" text-label="Car"></calcite-combobox-item>
+    <calcite-combobox-item icon="clock" value="clock" text-label="Clock"></calcite-combobox-item>
+  </calcite-combobox>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <h2>selection-display="all" (default)</h2>
@@ -384,8 +412,8 @@ const style = html`
 
 export const longItemsAllSelectionModes = (): string => html`
   ${style}
-  <div style="display: flex; flex-direction: column;"> 
-    <div style="display: flex; flex-direction: row; margin-block-end: 160px;"> 
+  <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: row; margin-block-end: 160px;">
       <calcite-combobox open selection-mode="single" style="margin-right: 20px;">
         <calcite-combobox-item text-label="Layers">
         <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
@@ -399,7 +427,7 @@ export const longItemsAllSelectionModes = (): string => html`
       </calcite-combobox>
     </div>
 
-    <div style="display: flex; flex-direction: row;"> 
+    <div style="display: flex; flex-direction: row;">
       <calcite-combobox open selection-mode="multiple" style="margin-right: 20px;">
         <calcite-combobox-item-group label="First item group">
           <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
@@ -418,8 +446,8 @@ export const longItemsAllSelectionModes = (): string => html`
           </calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
-    </div> 
-  <div> 
+    </div>
+  <div>
 `;
 
 export const disabled_TestOnly = (): string =>

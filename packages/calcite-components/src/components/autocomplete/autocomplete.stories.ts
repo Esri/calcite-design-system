@@ -134,6 +134,20 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
   </div>
 `;
 
+export const smallViewport = (): string => html`
+  <calcite-autocomplete open>
+    <calcite-autocomplete-item-group heading="Dogs">
+      <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
+      <calcite-autocomplete-item label="Fido" value="one" heading="Fido"></calcite-autocomplete-item>
+    </calcite-autocomplete-item-group>
+    <calcite-autocomplete-item-group heading="Cats">
+      <calcite-autocomplete-item label="Felix" value="felix" heading="Felix"></calcite-autocomplete-item>
+      <calcite-autocomplete-item label="Garfield" value="garfield" heading="Garfield"></calcite-autocomplete-item>
+    </calcite-autocomplete-item-group>
+  </calcite-autocomplete>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const customIcon = (): string => html`
   <div style="width:350px">
     <calcite-autocomplete icon="banana"></calcite-autocomplete>

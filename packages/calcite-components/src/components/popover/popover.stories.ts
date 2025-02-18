@@ -68,6 +68,12 @@ export const simple = (args: PopoverStoryArgs): string => html`
   </div>
 `;
 
+export const smallViewport = (): string => html`
+  ${referenceElementHTML}
+  <calcite-popover reference-element="reference-element" open> ${contentHTML} </calcite-popover>
+`;
+smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
+
 export const darkModeRTL_TestOnly = (): string =>
   html` <div style="width: 400px;">
     ${referenceElementHTML}
