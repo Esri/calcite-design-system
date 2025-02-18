@@ -23,13 +23,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -63,7 +57,6 @@ export class TextArea
   implements
     FormComponent,
     LabelableComponent,
-    LoadableComponent,
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {
@@ -93,7 +86,7 @@ export class TextArea
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
-    await componentLoaded(this);
+    await this.componentOnReady();
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
       this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
@@ -285,7 +278,7 @@ export class TextArea
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    await componentLoaded(this);
+    await this.componentOnReady();
     this.textAreaEl.select();
   }
 
@@ -315,17 +308,9 @@ export class TextArea
     connectForm(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
     this.setTextAreaHeight();
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

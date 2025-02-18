@@ -98,6 +98,7 @@ export default class TooltipManager {
 
   private pointerMoveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
+      this.closeHoveredTooltip();
       return;
     }
 

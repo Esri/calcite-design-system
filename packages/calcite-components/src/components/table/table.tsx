@@ -4,11 +4,6 @@ import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
@@ -37,7 +32,7 @@ declare global {
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
-export class Table extends LitElement implements LoadableComponent {
+export class Table extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -175,8 +170,6 @@ export class Table extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-
     /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
@@ -201,10 +194,6 @@ export class Table extends LitElement implements LoadableComponent {
     ) {
       this.updateRows();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
