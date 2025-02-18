@@ -119,7 +119,7 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" text-label="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { delay: 10000, viewports: [300] } };
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">

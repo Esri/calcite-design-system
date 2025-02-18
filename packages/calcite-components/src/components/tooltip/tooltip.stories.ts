@@ -48,7 +48,7 @@ export const smallViewport = (): string => html`
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { delay: 10000, viewports: [300] } };
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
 export const open_TestOnly = (): string => html`
   <div style="width: 400px;">

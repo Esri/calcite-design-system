@@ -85,7 +85,7 @@ export const smallViewport = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
-smallViewport.parameters = { chromatic: { delay: 10000, viewports: [300] } };
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
 export const simpleAutoWidth = (): string => html`
   <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" type="click">
