@@ -19,7 +19,7 @@ There are two builds provided by the standard components package.
 [Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. Assets from the CDN are used by default, but you can specify a local asset path with `setAssetPath`. Additional setup for using local assets will be explained in a subsequent step.
 
 ```jsx
-import { setAssetPath } from "@esri/calcite-components/dist/components";
+import { setAssetPath } from "@esri/calcite-components";
 
 setAssetPath(window.location.href);
 ```
@@ -40,7 +40,7 @@ When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#di
 ```jsx
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 
-defineCustomElements(window);
+defineCustomElements();
 ```
 
 Since you manually defined the custom elements on the window, you only need to import the individual components from `@esri/calcite-components-react`.
