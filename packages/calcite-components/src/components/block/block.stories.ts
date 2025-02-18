@@ -13,7 +13,7 @@ interface BlockStoryArgs
       Block,
       | "heading"
       | "description"
-      | "open"
+      | "expanded"
       | "collapsible"
       | "loading"
       | "disabled"
@@ -24,7 +24,7 @@ interface BlockStoryArgs
     >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
-  sectionOpen: BlockSection["open"];
+  sectionExpanded: BlockSection["expanded"];
 }
 
 export default {
@@ -33,7 +33,7 @@ export default {
     menuPlacement: defaultEndMenuPlacement,
     heading: "Heading",
     description: "description",
-    open: true,
+    expanded: true,
     collapsible: true,
     loading: false,
     disabled: false,
@@ -41,7 +41,7 @@ export default {
     sortHandleOpen: false,
     headingLevel: 2,
     text: "Animals",
-    sectionOpen: true,
+    sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
   },
   argTypes: {
@@ -64,7 +64,7 @@ export const simple = (args: BlockStoryArgs): string => html`
     heading="${args.heading}"
     description="${args.description}"
     menu-placement="${args.menuPlacement}"
-    ${boolean("open", args.open)}
+    ${boolean("expanded", args.expanded)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
@@ -74,12 +74,12 @@ export const simple = (args: BlockStoryArgs): string => html`
   >
     <calcite-block-section
       text="${args.text}"
-      ${boolean("open", args.sectionOpen)}
+      ${boolean("expanded", args.sectionExpanded)}
       toggle-display="${args.toggleDisplay}"
     >
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
-    <calcite-block-section text="Nature" open>
+    <calcite-block-section text="Nature" expanded>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
   </calcite-block>
@@ -98,8 +98,8 @@ export const withIconAndHeader = (): string => html`
 `;
 
 export const disabled_TestOnly = (): string => html`
-  <calcite-block heading="heading" description="description" open collapsible disabled>
-    <calcite-block-section text="Nature" open>
+  <calcite-block heading="heading" description="description" expanded collapsible disabled>
+    <calcite-block-section text="Nature" expanded>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
   </calcite-block>
@@ -111,7 +111,7 @@ export const paddingDisabled_TestOnly = (): string =>
       heading="Example block heading"
       description="example summary heading"
       collapsible
-      open
+      expanded
       style="--calcite-block-padding: 0;"
     >
       <div>calcite components ninja</div>
@@ -122,23 +122,23 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-block
     heading="Heading"
     description="description"
-    open
+    expanded
     collapsible
     heading-level="2"
     class="calcite-mode-dark"
     dir="rtl"
   >
-    <calcite-block-section text="Animals" open toggle-display="button">
+    <calcite-block-section text="Animals" expanded toggle-display="button">
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
-    <calcite-block-section text="Nature" open>
+    <calcite-block-section text="Nature" expanded>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
   </calcite-block>
 `;
 
 export const contentCanTakeFullHeight_TestOnly = (): string =>
-  html`<calcite-block open heading="Heading" description="description" style="height: 250px">
+  html`<calcite-block expanded heading="Heading" description="description" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
 
@@ -162,23 +162,23 @@ export const alignmentIconHeadingAndDescription_TestOnly = (): string =>
   /></calcite-block>`;
 
 export const contentSpacing_TestOnly = (): string => html`
-  <calcite-block heading="Block heading" open>
+  <calcite-block heading="Block heading" expanded>
     <div>Some text that has padding built in</div>
   </calcite-block>
 `;
 
 export const loadingWithSlottedIcon_TestOnly = (): string => html`
-  <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
+  <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
     <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
-    <calcite-notice open>
+    <calcite-notice expanded>
       <div slot="message">Use layer effects sparingly</div>
     </calcite-notice>
   </calcite-block>
 `;
 
 export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string => html`
-  <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
-    <calcite-notice open>
+  <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
+    <calcite-notice expanded>
       <div slot="message">Use layer effects sparingly</div>
     </calcite-notice>
   </calcite-block>
@@ -188,17 +188,23 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
   <calcite-panel style="width:250px">
     <calcite-block
       collapsible
-      open
+      expanded
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
     >
-      <calcite-notice open>
+      <calcite-notice expanded>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
-      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+      <calcite-block-section
+        expanded
+        text="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
         <p>Block section content</p>
       </calcite-block-section>
-      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+      <calcite-block-section
+        expanded
+        text="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
         <p>Block section content</p>
       </calcite-block-section>
     </calcite-block>
@@ -207,10 +213,13 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
     >
-      <calcite-notice open>
+      <calcite-notice expanded>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
-      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+      <calcite-block-section
+        expanded
+        text="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
         <p>Block section content</p>
       </calcite-block-section>
     </calcite-block>
@@ -243,7 +252,7 @@ export const scrollingContainerSetup_TestOnly = (): string =>
         margin: 0;
       }
     </style>
-    <calcite-block heading="Should scroll to the gradient at the bottom" open>
+    <calcite-block heading="Should scroll to the gradient at the bottom" expanded>
       <div class="scroll-container">
         <p></p>
       </div>
@@ -262,19 +271,19 @@ export const scrollingContainerSetup_TestOnly = (): string =>
 scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
 
 export const toggleDisplayWithLongText_TestOnly = (): string =>
-  html`<calcite-block open heading="Calcite block" style="width:150px">
-    <calcite-block-section id="block-section" open text="Calcite block's super long text" toggle-display="switch">
-      <calcite-notice open>
+  html`<calcite-block expanded heading="Calcite block" style="width:150px">
+    <calcite-block-section id="block-section" expanded text="Calcite block's super long text" toggle-display="switch">
+      <calcite-notice expanded>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
     </calcite-block-section>
   </calcite-block>`;
 
 export const icons_TestOnly = (): string => html`
-  <calcite-block heading="Heading" description="summary" collapsible open>
+  <calcite-block heading="Heading" description="summary" collapsible expanded>
     <calcite-block-section
       text="Planes, trains, and automobiles are some examples of modes of transportation"
-      open
+      expanded
       icon-end="pen"
       icon-start="pen"
       toggle-display="switch"
@@ -285,7 +294,7 @@ export const icons_TestOnly = (): string => html`
 
     <calcite-block-section
       text="Planes, trains, and automobiles are some examples of modes of transportation"
-      open
+      expanded
       icon-end="pen"
       icon-start="pen"
       toggle-display="button"

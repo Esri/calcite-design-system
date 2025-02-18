@@ -295,7 +295,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       return;
     }
 
-    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    // we set the property instead of the attribute to ensure expanded/collapsed events are emitted properly
     this.sortHandleEl.open = this.sortHandleOpen;
   }
 
@@ -474,7 +474,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       </header>
     );
 
-    const collapseIcon = expanded ? ICONS.opened : ICONS.closed;
+    const collapseIcon = expanded ? ICONS.expanded : ICONS.collapsed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>

@@ -498,7 +498,7 @@ describe("calcite-block", () => {
         },
       );
     });
-    describe("closed", () => {
+    describe("collapsed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
         "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });
