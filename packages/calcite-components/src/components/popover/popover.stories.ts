@@ -70,7 +70,14 @@ export const simple = (args: PopoverStoryArgs): string => html`
 
 export const smallViewport = (): string => html`
   ${referenceElementHTML}
-  <calcite-popover reference-element="reference-element" open> ${contentHTML} </calcite-popover>
+  <calcite-popover reference-element="reference-element" open>
+    <b>I am a title!</b> <br />
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+    </p>
+    <calcite-link>I am an inline link</calcite-link>
+  </calcite-popover>
 `;
 smallViewport.parameters = { chromatic: { delay: 10000, viewports: [240] } };
 
