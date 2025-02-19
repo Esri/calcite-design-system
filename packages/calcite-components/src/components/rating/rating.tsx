@@ -344,7 +344,7 @@ export class Rating
     target.focus();
   }
 
-  private handleLabelClick(event: Event) {
+  private handleLabelClick(event: MouseEvent) {
     //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
