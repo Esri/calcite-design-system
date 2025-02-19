@@ -1,169 +1,167 @@
 {
-  "core": {
-    "shadow": {
-      "0": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "0",
-          "spread": "0",
-          "color": "rgba({color.neutral.blk-240}, {core.opacity.0})",
-          "type": "boxShadow",
-          "offsetX": "0",
-          "offsetY": "0"
-        },
+  "shadow": {
+    "0": {
+      "value": {
+        "x": "0",
+        "y": "0",
+        "blur": "0",
+        "spread": "0",
+        "color": "rgba({color.neutral.blk-240}, {opacity.0})",
         "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "0",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "offsetX": "0",
+        "offsetY": "0"
       },
-      "1": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "8",
-          "spread": "0",
-          "color": "rgba({color.neutral.blk-240}, {core.opacity.4})",
-          "type": "dropShadow",
-          "offsetX": "0",
-          "offsetY": "2"
-        },
-        "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "1",
-            "context": "",
-            "mode": ""
-          }
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "0",
+          "context": "",
+          "mode": ""
         }
+      }
+    },
+    "1": {
+      "value": {
+        "x": "0",
+        "y": "0",
+        "blur": "8",
+        "spread": "0",
+        "color": "rgba({color.neutral.blk-240}, {opacity.4})",
+        "type": "dropShadow",
+        "offsetX": "0",
+        "offsetY": "2"
       },
-      "2": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "16",
-          "spread": "0",
-          "color": "rgba({color.neutral.blk-240}, {core.opacity.8})",
-          "type": "boxShadow",
-          "offsetX": "0",
-          "offsetY": "4"
-        },
-        "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "2",
-            "context": "",
-            "mode": ""
-          }
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "1",
+          "context": "",
+          "mode": ""
         }
-      },
-      "3": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "20",
-          "spread": "0",
-          "color": "rgba({color.neutral.blk-240}, {core.opacity.8})",
-          "type": "boxShadow",
-          "offsetX": "0",
-          "offsetY": "4"
-        },
+      }
+    },
+    "2": {
+      "value": {
+        "x": "0",
+        "y": "0",
+        "blur": "16",
+        "spread": "0",
+        "color": "rgba({color.neutral.blk-240}, {opacity.8})",
         "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "3",
-            "context": "",
-            "mode": ""
-          }
+        "offsetX": "0",
+        "offsetY": "4"
+      },
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "2",
+          "context": "",
+          "mode": ""
         }
-      },
-      "4": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "32",
-          "spread": "-2",
-          "color": "rgba({color.neutral.blk-240}, {core.opacity.10})",
-          "type": "boxShadow",
-          "offsetX": "0",
-          "offsetY": "12"
-        },
+      }
+    },
+    "3": {
+      "value": {
+        "x": "0",
+        "y": "0",
+        "blur": "20",
+        "spread": "0",
+        "color": "rgba({color.neutral.blk-240}, {opacity.8})",
         "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "4",
-            "context": "",
-            "mode": ""
-          }
+        "offsetX": "0",
+        "offsetY": "4"
+      },
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "3",
+          "context": "",
+          "mode": ""
+        }
+      }
+    },
+    "4": {
+      "value": {
+        "x": "0",
+        "y": "0",
+        "blur": "32",
+        "spread": "-2",
+        "color": "rgba({color.neutral.blk-240}, {opacity.10})",
+        "type": "boxShadow",
+        "offsetX": "0",
+        "offsetY": "12"
+      },
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "4",
+          "context": "",
+          "mode": ""
         }
       }
     }

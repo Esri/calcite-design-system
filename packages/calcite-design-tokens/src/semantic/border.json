@@ -3,7 +3,7 @@
     "border": {
       "width": {
         "none": {
-          "value": "{core.size.default.none}",
+          "value": "{size.default.none}",
           "type": "borderWidth",
           "attributes": {
             "calcite-schema": {
@@ -27,7 +27,7 @@
           }
         },
         "sm": {
-          "value": "{core.size.default.1}",
+          "value": "{size.default.1}",
           "type": "borderWidth",
           "attributes": {
             "calcite-schema": {
@@ -51,7 +51,7 @@
           }
         },
         "md": {
-          "value": "{core.size.default.2}",
+          "value": "{size.default.2}",
           "type": "borderWidth",
           "attributes": {
             "calcite-schema": {
@@ -75,7 +75,7 @@
           }
         },
         "lg": {
-          "value": "{core.size.default.4}",
+          "value": "{size.default.4}",
           "type": "borderWidth",
           "attributes": {
             "calcite-schema": {

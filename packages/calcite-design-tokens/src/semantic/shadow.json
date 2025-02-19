@@ -1,7 +1,7 @@
 {
   "shadow": {
     "none": {
-      "value": "{core.shadow.0}",
+      "value": "{shadow.0}",
       "type": "boxShadow",
       "attributes": {
         "calcite-schema": {

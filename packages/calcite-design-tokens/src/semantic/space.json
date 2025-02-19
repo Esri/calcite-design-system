@@ -3,7 +3,7 @@
     "spacing": {
       "fixed": {
         "xxs": {
-          "value": "{core.size.default.4}",
+          "value": "{size.default.4}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -28,7 +28,7 @@
           }
         },
         "xs": {
-          "value": "{core.size.default.6}",
+          "value": "{size.default.6}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -53,7 +53,7 @@
           }
         },
         "sm": {
-          "value": "{core.size.default.8}",
+          "value": "{size.default.8}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -78,7 +78,7 @@
           }
         },
         "md": {
-          "value": "{core.size.default.12}",
+          "value": "{size.default.12}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -103,7 +103,7 @@
           }
         },
         "lg": {
-          "value": "{core.size.default.14}",
+          "value": "{size.default.14}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -128,7 +128,7 @@
           }
         },
         "xl": {
-          "value": "{core.size.default.16}",
+          "value": "{size.default.16}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -153,7 +153,7 @@
           }
         },
         "xxl": {
-          "value": "{core.size.default.20}",
+          "value": "{size.default.20}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -178,7 +178,7 @@
           }
         },
         "xxxl": {
-          "value": "{core.size.default.32}",
+          "value": "{size.default.32}",
           "type": "space",
           "description": "deprecated",
           "attributes": {
@@ -205,7 +205,7 @@
       },
       "default": {
         "none": {
-          "value": "{core.size.default.none}",
+          "value": "{size.default.none}",
           "type": "space",
           "attributes": {
             "calcite-schema": {
@@ -229,7 +229,7 @@
           }
         },
         "px": {
-          "value": "{core.size.default.1}",
+          "value": "{size.default.1}",
           "type": "space",
           "attributes": {
             "calcite-schema": {
@@ -253,7 +253,7 @@
           }
         },
         "base": {
-          "value": "{core.size.default.2}",
+          "value": "{size.default.2}",
           "type": "space",
           "attributes": {
             "calcite-schema": {
@@ -277,7 +277,7 @@
           }
         },
         "xxs": {
-          "value": "{core.size.default.4}",
+          "value": "{size.default.4}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -301,7 +301,7 @@
           }
         },
         "xs": {
-          "value": "{core.size.default.6}",
+          "value": "{size.default.6}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -325,7 +325,7 @@
           }
         },
         "sm": {
-          "value": "{core.size.default.8}",
+          "value": "{size.default.8}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -349,7 +349,7 @@
           }
         },
         "sm+": {
-          "value": "{core.size.default.10}",
+          "value": "{size.default.10}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -373,7 +373,7 @@
           }
         },
         "md": {
-          "value": "{core.size.default.12}",
+          "value": "{size.default.12}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -397,7 +397,7 @@
           }
         },
         "md+": {
-          "value": "{core.size.default.14}",
+          "value": "{size.default.14}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -421,7 +421,7 @@
           }
         },
         "lg": {
-          "value": "{core.size.default.16}",
+          "value": "{size.default.16}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -445,7 +445,7 @@
           }
         },
         "xl": {
-          "value": "{core.size.default.20}",
+          "value": "{size.default.20}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -469,7 +469,7 @@
           }
         },
         "xxl": {
-          "value": "{core.size.default.24}",
+          "value": "{size.default.24}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {
@@ -493,7 +493,7 @@
           }
         },
         "xxxl": {
-          "value": "{core.size.default.32}",
+          "value": "{size.default.32}",
           "type": "dimension",
           "attributes": {
             "calcite-schema": {

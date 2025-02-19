@@ -27,7 +27,7 @@
           }
         },
         "sharp": {
-          "value": "{core.size.default.none}",
+          "value": "{size.default.none}",
           "type": "borderRadius",
           "attributes": {
             "calcite-schema": {
@@ -51,7 +51,7 @@
           }
         },
         "round": {
-          "value": "{core.size.default.4}",
+          "value": "{size.default.4}",
           "type": "borderRadius",
           "attributes": {
             "calcite-schema": {
@@ -75,7 +75,7 @@
           }
         },
         "pill": {
-          "value": "{core.size.relative.100}",
+          "value": "{size.relative.100}",
           "type": "borderRadius",
           "attributes": {
             "calcite-schema": {
