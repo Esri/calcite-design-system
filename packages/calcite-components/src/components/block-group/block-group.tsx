@@ -58,34 +58,14 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems, canPull } = this;
+    const { dragEnabled, el, moveToItems } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
-        const oldIndex = Array.from(el.children).filter(isBlock).indexOf(item);
-        const newIndex = 0;
         item.moveToItems = moveToItems.filter(
-          (moveToItem) =>
-            moveToItem.element !== el &&
-            !item.contains(moveToItem.element) &&
-            (canPull?.({
-              toEl: moveToItem.element as BlockGroup["el"],
-              fromEl: el,
-              dragEl: item,
-              newIndex,
-              oldIndex,
-            }) ??
-              true) &&
-            ((moveToItem.element as BlockGroup["el"]).canPut?.({
-              toEl: el,
-              fromEl: moveToItem.element as BlockGroup["el"],
-              dragEl: item,
-              newIndex,
-              oldIndex,
-            }) ??
-              true),
+          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
       }
@@ -191,7 +171,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
-      ((changes.has("canPull") || changes.has("canPut")) && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
       this.updateBlockItems();
@@ -310,6 +289,26 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
+      return;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex: 0,
+        oldIndex,
+      }) === false ||
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex: 0,
+        oldIndex,
+      }) === false
+    ) {
+      // todo: report error here
       return;
     }
 

@@ -356,8 +356,6 @@ describe("calcite-block-group", () => {
         <calcite-block-group id="second-letters" drag-enabled group="letters">
           <calcite-block id="c" heading="c" label="C"></calcite-block>
           <calcite-block id="d" heading="d" label="D"></calcite-block>
-          <calcite-block id="e" heading="e" label="E"></calcite-block>
-          <calcite-block id="f" heading="f" label="F"></calcite-block>
         </calcite-block-group>
       `);
       await page.waitForChanges();
@@ -370,31 +368,7 @@ describe("calcite-block-group", () => {
       await page.waitForChanges();
 
       const letterBlocks = await findAll(page, "calcite-block");
-      expect(letterBlocks.length).toBe(6);
-
-      function mapMoveToItemsToElIds(item: Block["el"]) {
-        return item.moveToItems.map((moveToItem) => moveToItem.element.id);
-      }
-
-      const blockAMoveItems = await page.$eval("#a", mapMoveToItemsToElIds);
-      expect(blockAMoveItems.length).toBe(0);
-
-      const blockBMoveItems = await page.$eval("#b", mapMoveToItemsToElIds);
-      expect(blockBMoveItems.length).toBe(1);
-      expect(blockBMoveItems[0]).toBe("second-letters");
-
-      const blockCMoveItems = await page.$eval("#c", mapMoveToItemsToElIds);
-      expect(blockCMoveItems.length).toBe(1);
-      expect(blockCMoveItems[0]).toBe("first-letters");
-
-      const blockDMoveItems = await page.$eval("#d", mapMoveToItemsToElIds);
-      expect(blockDMoveItems.length).toBe(0);
-
-      const blockEMoveItems = await page.$eval("#e", mapMoveToItemsToElIds);
-      expect(blockEMoveItems.length).toBe(0);
-
-      const blockFMoveItems = await page.$eval("#f", mapMoveToItemsToElIds);
-      expect(blockFMoveItems.length).toBe(0);
+      expect(letterBlocks.length).toBe(4);
     });
 
     it("reorders using a keyboard", async () => {

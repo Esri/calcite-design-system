@@ -102,7 +102,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
-      canPull,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -113,28 +112,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
-        const oldIndex = Array.from(el.children).filter(isListItem).indexOf(item);
-        const newIndex = 0;
         item.moveToItems = moveToItems.filter(
-          (moveToItem) =>
-            moveToItem.element !== el &&
-            !item.contains(moveToItem.element) &&
-            (canPull?.({
-              toEl: moveToItem.element as List["el"],
-              fromEl: el,
-              dragEl: item,
-              newIndex,
-              oldIndex,
-            }) ??
-              true) &&
-            ((moveToItem.element as List["el"]).canPut?.({
-              toEl: el,
-              fromEl: moveToItem.element as List["el"],
-              dragEl: item,
-              newIndex,
-              oldIndex,
-            }) ??
-              true),
+          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
@@ -455,7 +434,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
-      ((changes.has("canPull") || changes.has("canPut")) && this.hasUpdated) ||
       (changes.has("displayMode") && this.hasUpdated) ||
       (changes.has("scale") && this.hasUpdated) ||
       (changes.has("filterPredicate") && this.hasUpdated)
@@ -961,6 +939,26 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
+      return;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex: 0,
+        oldIndex,
+      }) === false ||
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex: 0,
+        oldIndex,
+      }) === false
+    ) {
+      // todo: report error here
       return;
     }
 
