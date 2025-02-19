@@ -351,13 +351,10 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        if (isDirectionLeft) {
-          this.nextMonthAction.disabled = false;
-          await this.nextMonthAction.setFocus();
-        } else {
-          this.prevMonthAction.disabled = false;
-          await this.prevMonthAction.setFocus();
-        }
+        const target = isDirectionLeft ? this.nextMonthAction : this.prevMonthAction;
+        // enabling the action to be focusable when min & max are one month apart.
+        target.disabled = false;
+        await target.setFocus();
       } else {
         this.yearInputEl.value.focus();
       }
