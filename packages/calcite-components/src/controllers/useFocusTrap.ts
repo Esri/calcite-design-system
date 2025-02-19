@@ -111,7 +111,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     });
 
     controller.onUpdate((changes) => {
-      if (changes.has("focusTrapDisabled")) {
+      if (component.hasUpdated && changes.has("focusTrapDisabled")) {
         if (component.focusTrapDisabled) {
           utils.deactivate();
         } else {
