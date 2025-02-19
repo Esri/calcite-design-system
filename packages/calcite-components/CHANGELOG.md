@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.9...@esri/calcite-components@3.1.0-next.10) (2025-02-19)
+
+### Bug Fixes
+
+- **dialog, modal, popover, sheet:** restore `focusTrapDisabled` reactiveness ([#11586](https://github.com/Esri/calcite-design-system/issues/11586)) ([87ceba4](https://github.com/Esri/calcite-design-system/commit/87ceba4533262a4f25baffa667ffc436ed777588))
+- **slider:** ensure histograms with non-zero min are displayed correctly ([#11587](https://github.com/Esri/calcite-design-system/issues/11587)) ([bf08cb8](https://github.com/Esri/calcite-design-system/commit/bf08cb880ef4c5255ba16b85db0e4afad4c56b13))
+
 ## [3.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.8...@esri/calcite-components@3.1.0-next.9) (2025-02-18)
 
 ### Features
