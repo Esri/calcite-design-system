@@ -72,7 +72,7 @@ export function translate({ width, height, min, max }: TranslateOptions): Transl
   const rangeY = max[1] - min[1];
   return (point) => {
     const x = ((point[0] - min[0]) / rangeX) * width;
-    const y = height - (point[1] / rangeY) * height;
+    const y = height - ((point[1] - min[1]) / rangeY) * height;
     return [x, y];
   };
 }

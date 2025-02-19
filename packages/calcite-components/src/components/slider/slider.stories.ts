@@ -231,65 +231,199 @@ rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+function createHistogramSlider({
+  range,
+  values,
+  histogram,
+}: {
+  range: [number, number];
+  values: [number, number];
+  histogram: HTMLCalciteSliderElement["histogram"];
+}) {
   const slider = document.createElement("calcite-slider");
-  slider.min = -100;
-  slider.minValue = -33.32;
-  slider.max = 100;
-  slider.maxValue = 30.87;
-  slider.histogram = [
-    [-90, 0],
-    [-60, 12],
-    [-20, 25],
-    [20, 55],
-    [60, 10],
-    [90, 0],
-  ] as any;
-  slider.ticks = 10;
-  slider.scale = "m";
+  slider.min = range[0];
+  slider.minValue = values[0];
+  slider.max = range[1];
+  slider.maxValue = values[1];
+  slider.histogram = histogram;
   slider.style.minWidth = "60vw";
   return slider;
-};
+}
 
-export const HistogramWithColors = (): HTMLCalciteSliderElement["el"]["el"] => {
-  const slider = document.createElement("calcite-slider");
-  slider.min = 0;
-  slider.minValue = 35;
-  slider.max = 100;
-  slider.maxValue = 55;
-  slider.histogram = [
-    [0, 0],
-    [20, 12],
-    [40, 25],
-    [60, 55],
-    [80, 10],
-    [100, 0],
-  ] as any;
-  slider.style.minWidth = "60vw";
+export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+  function createTitle(title: string) {
+    const titleElement = document.createElement("h1");
+    titleElement.textContent = title;
+    return titleElement;
+  }
+
+  const sliderContainer = document.createElement("div");
+
+  const histogramSlider = createHistogramSlider({
+    range: [-100, 100],
+    values: [-33.32, 30.87],
+    histogram: [
+      [-90, 0],
+      [-60, 12],
+      [-20, 25],
+      [20, 55],
+      [60, 10],
+      [90, 0],
+    ],
+  });
+  histogramSlider.ticks = 10;
+
+  sliderContainer.append(createTitle("Default"), histogramSlider);
+
+  const colorStopHistogramSlider = createHistogramSlider({
+    range: [0, 100],
+    values: [35, 55],
+    histogram: [
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0],
+    ],
+  });
   const colors = ["red", "green", "blue"];
   const offsets = colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`);
-  slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
-  slider.scale = "m";
-  return slider;
+  colorStopHistogramSlider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
+
+  sliderContainer.append(createTitle("Color Stops"), colorStopHistogramSlider);
+
+  const aboveZeroMinHistogramSlider = createHistogramSlider({
+    range: [1925, 2024],
+    values: [1925, 1935],
+    histogram: [
+      [1925, 2549],
+      [1926, 3125],
+      [1927, 2917],
+      [1928, 2998],
+      [1929, 2794],
+      [1930, 2606],
+      [1931, 2283],
+      [1932, 3551],
+      [1933, 3824],
+      [1934, 3780],
+      [1935, 3463],
+      [1936, 3025],
+      [1937, 2823],
+      [1938, 3232],
+      [1939, 3878],
+      [1940, 3987],
+      [1941, 3328],
+      [1942, 2791],
+      [1943, 3662],
+      [1944, 3598],
+      [1945, 3643],
+      [1946, 3390],
+      [1947, 3424],
+      [1948, 3549],
+      [1949, 4566],
+      [1950, 5147],
+      [1951, 5092],
+      [1952, 4740],
+      [1953, 4090],
+      [1954, 4360],
+      [1955, 5001],
+      [1956, 5229],
+      [1957, 4861],
+      [1958, 5705],
+      [1959, 5745],
+      [1960, 5510],
+      [1961, 6552],
+      [1962, 5771],
+      [1963, 6921],
+      [1964, 6923],
+      [1965, 6362],
+      [1966, 7224],
+      [1967, 7738],
+      [1968, 7085],
+      [1969, 5768],
+      [1970, 7967],
+      [1971, 8488],
+      [1972, 8117],
+      [1973, 7110],
+      [1974, 6973],
+      [1975, 6425],
+      [1976, 7130],
+      [1977, 5475],
+      [1978, 7231],
+      [1979, 6956],
+      [1980, 6415],
+      [1981, 6416],
+      [1982, 6629],
+      [1983, 5762],
+      [1984, 7142],
+      [1985, 7532],
+      [1986, 6842],
+      [1987, 6191],
+      [1988, 5919],
+      [1989, 7412],
+      [1990, 7824],
+      [1991, 6736],
+      [1992, 8139],
+      [1993, 6651],
+      [1994, 8129],
+      [1995, 6756],
+      [1996, 9009],
+      [1997, 8660],
+      [1998, 6604],
+      [1999, 5776],
+      [2000, 6612],
+      [2001, 5963],
+      [2002, 5820],
+      [2003, 6799],
+      [2004, 6766],
+      [2005, 6778],
+      [2006, 5958],
+      [2007, 5357],
+      [2008, 5955],
+      [2009, 5886],
+      [2010, 4839],
+      [2011, 5659],
+      [2012, 6227],
+      [2013, 5931],
+      [2014, 6137],
+      [2015, 7208],
+      [2016, 5788],
+      [2017, 5590],
+      [2018, 7608],
+      [2019, 6845],
+      [2020, 6278],
+      [2021, 6388],
+      [2022, 5931],
+      [2023, 6167],
+      [2024, 4688],
+    ],
+  });
+
+  aboveZeroMinHistogramSlider.histogramStops = [{ offset: 0, color: "#52aeb7" }];
+  aboveZeroMinHistogramSlider.labelTicks = true;
+  aboveZeroMinHistogramSlider.step = 10;
+  aboveZeroMinHistogramSlider.ticks = 5;
+
+  sliderContainer.append(createTitle("Above Zero Min (e.g., Yearly Data)"), aboveZeroMinHistogramSlider);
+
+  return sliderContainer;
 };
 
 export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"]["el"] => {
-  const slider = document.createElement("calcite-slider");
-  slider.min = 0;
-  slider.minValue = 25;
-  slider.max = 100;
-  slider.maxValue = 75;
-  slider.histogram = [
-    [0, 0],
-    [20, 12],
-    [40, 25],
-    [60, 55],
-    [80, 10],
-    [100, 0],
-  ];
+  const slider = createHistogramSlider({
+    range: [0, 100],
+    values: [25, 75],
+    histogram: [
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0],
+    ],
+  });
   slider.ticks = 10;
-  slider.scale = "m";
-  slider.style.minWidth = "60vw";
   slider.className = "calcite-mode-dark";
   return slider;
 };
