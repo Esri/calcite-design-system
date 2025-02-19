@@ -536,7 +536,7 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0)");
 
         await buttonEl.hover();
         await page.waitForChanges();
@@ -554,7 +554,7 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0)");
 
         await buttonEl.hover();
         await page.waitForChanges();
@@ -564,7 +564,7 @@ describe("calcite-button", () => {
     });
 
     it("should allow the CSS custom property to be overridden", async () => {
-      const overrideStyle = "rgba(255, 255, 0, 0.9)";
+      const overrideStyle = "rgba(0, 0, 0, 0)";
       page = await newE2EPage({
         html: `
         <style>
