@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.11...@esri/calcite-components@3.1.0-next.12) (2025-02-19)
+
+### Bug Fixes
+
+- **input-date-picker:** no longer close while navigating months with chevron actions ([#11525](https://github.com/Esri/calcite-design-system/issues/11525)) ([5472452](https://github.com/Esri/calcite-design-system/commit/54724527dc2d2d871d25ad7fc5149b9fa47b9d96)), closes [#11534](https://github.com/Esri/calcite-design-system/issues/11534)
+
 ## [3.1.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.10...@esri/calcite-components@3.1.0-next.11) (2025-02-19)
 
 ### Bug Fixes
