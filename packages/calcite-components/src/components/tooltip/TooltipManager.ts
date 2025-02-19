@@ -96,6 +96,10 @@ export default class TooltipManager {
     }
   };
 
+  private pointerLeaveHandler = (): void => {
+    this.closeHoveredTooltip();
+  };
+
   private pointerMoveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       this.closeHoveredTooltip();
@@ -210,6 +214,7 @@ export default class TooltipManager {
     window.addEventListener("click", this.clickHandler);
     window.addEventListener("focusin", this.focusInHandler);
     window.addEventListener("blur", this.blurHandler);
+    document.addEventListener("pointerleave", this.pointerLeaveHandler);
   }
 
   private removeListeners(): void {
@@ -218,6 +223,7 @@ export default class TooltipManager {
     window.removeEventListener("click", this.clickHandler);
     window.removeEventListener("focusin", this.focusInHandler);
     window.removeEventListener("blur", this.blurHandler);
+    document.removeEventListener("pointerleave", this.pointerLeaveHandler);
   }
 
   private clearHoverOpenTimeout(): void {
