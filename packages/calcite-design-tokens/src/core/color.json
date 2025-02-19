@@ -5440,6 +5440,80 @@
             "type": "color"
           }
         }
+      },
+      "low-saturation": {
+        "blue": {
+          "l-bb-010": {
+            "value": "#edf3f7",
+            "type": "color"
+          }
+        },
+        "green-blue": {
+          "l-gb-010": {
+            "value": "#e8f2f2",
+            "type": "color"
+          }
+        },
+        "green": {
+          "l-gg-010": {
+            "value": "#f0f7f0",
+            "type": "color"
+          }
+        },
+        "yellow-green": {
+          "l-yg-010": {
+            "value": "#f4f7eb",
+            "type": "color"
+          }
+        },
+        "brown": {
+          "l-br-010": {
+            "value": "#f7f1eb",
+            "type": "color"
+          }
+        },
+        "yellow": {
+          "l-yy-010": {
+            "value": "#f7f5e6",
+            "type": "color"
+          }
+        },
+        "orange-yellow": {
+          "l-oy-010": {
+            "value": "#faf3eb",
+            "type": "color"
+          }
+        },
+        "orange": {
+          "l-oo-010": {
+            "value": "#faf1eb",
+            "type": "color"
+          }
+        },
+        "red": {
+          "l-rr-010": {
+            "value": "#faf1f0",
+            "type": "color"
+          }
+        },
+        "pink": {
+          "l-rr-010": {
+            "value": "#faf0f6",
+            "type": "color"
+          }
+        },
+        "violet-red": {
+          "l-vr-010": {
+            "value": "#f5edf7",
+            "type": "color"
+          }
+        },
+        "violet": {
+          "l-vv-010": {
+            "value": "#f0edf7",
+            "type": "color"
+          }
+        }
       }
     }
   }
