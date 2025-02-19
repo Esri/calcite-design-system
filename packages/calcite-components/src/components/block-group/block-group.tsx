@@ -133,6 +133,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     focusFirstTabbable(this.el);
   }
 
+  /**
+   * Emits a `calciteBlockGroupPutFail` event.
+   *
+   * @private
+   * @param dragDetail
+   */
+  @method()
+  putFailed(dragDetail: BlockDragDetail): void {
+    this.calciteBlockGroupPutFail.emit(dragDetail);
+  }
+
   // #endregion
 
   // #region Events
@@ -321,7 +332,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         oldIndex,
       }) === false
     ) {
-      this.calciteBlockGroupPutFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 

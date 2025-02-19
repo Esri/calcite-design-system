@@ -331,6 +331,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   // #region Public Methods
 
   /**
+   * Emits a `calciteListPutFail` event.
+   *
+   * @private
+   * @param dragDetail
+   */
+  @method()
+  putFailed(dragDetail: ListDragDetail): void {
+    this.calciteListPutFail.emit(dragDetail);
+  }
+
+  /**
    * Sets focus on the component's first focusable element.
    *
    * @returns {Promise<void>}
@@ -971,7 +982,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      this.calciteListPutFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
