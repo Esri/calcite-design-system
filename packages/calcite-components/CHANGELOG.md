@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.2...@esri/calcite-components@3.0.3) (2025-02-19)
+
+
+### Bug Fixes
+
+* **dialog, modal, popover, sheet:** Restore `focusTrapDisabled` reactiveness ([#11586](https://github.com/Esri/calcite-design-system/issues/11586)) ([a32dd7e](https://github.com/Esri/calcite-design-system/commit/a32dd7e3df906c0c7b48e82e455d8e40f6f60dcc))
+* **input-date-picker:** No longer close while navigating months with chevron actions ([#11525](https://github.com/Esri/calcite-design-system/issues/11525)) ([acf5824](https://github.com/Esri/calcite-design-system/commit/acf58248d1a3565cb5a02c99542ee73aaa895221))
+* **slider:** Ensure histograms with non-zero min are displayed correctly ([#11587](https://github.com/Esri/calcite-design-system/issues/11587)) ([9bb32f6](https://github.com/Esri/calcite-design-system/commit/9bb32f6e9d887cffbb7de6aaf3ea8557f8aadbe6))
+* **tooltip:** Close tooltips on prevented pointer move events ([#11557](https://github.com/Esri/calcite-design-system/issues/11557)) ([470df20](https://github.com/Esri/calcite-design-system/commit/470df202ffcaa8cac1847950404f0571f6489d0a))
+
 ## [3.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.1...@esri/calcite-components@3.0.2) (2025-02-14)
 
 
