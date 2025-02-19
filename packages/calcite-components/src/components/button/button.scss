@@ -336,10 +336,10 @@
     @apply border-solid;
     border-width: var(--calcite-button-border-size, 1px);
     &:hover {
-      @apply bg-foreground-2;
+      --calcite-internal-button-background-color: var(--calcite-color-foreground-2);
     }
     &:active {
-      @apply bg-foreground-3;
+      --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
     }
   }
 }
@@ -406,14 +406,14 @@
 
     &:hover {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
-      stroke: var(--calcite-color-border-input);
+      --calcite-internal-button-border-color: var(--calcite-color-border-input);
     }
     &:focus {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
     }
     &:active {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
-      stroke: var(--calcite-color-text-3);
+      --calcite-internal-button-border-color: var(--calcite-color-text-3);
     }
   }
 }
@@ -421,10 +421,10 @@
   button,
   a {
     &:hover {
-      background-color: var(--calcite-color-border-3);
+      --calcite-internal-button-background-color: var(--calcite-color-border-3);
     }
     &:active {
-      background-color: var(--calcite-color-border-2);
+      --calcite-internal-button-background-color: var(--calcite-color-border-2);
     }
   }
 }
@@ -458,10 +458,10 @@
     border-width: var(--calcite-button-border-size, 1px);
 
     &:hover {
-      background-color: var(--calcite-color-transparent-hover);
+      --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
     }
     &:active {
-      background-color: var(--calcite-color-transparent-press);
+      --calcite-internal-button-background-color: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -528,14 +528,14 @@
 
     &:hover {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
-      stroke: var(--calcite-color-border-input);
+      --calcite-internal-button-border-color: var(--calcite-color-border-input);
     }
     &:focus {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
     }
     &:active {
       --calcite-internal-button-shadow-color: var(--calcite-color-foreground-3);
-      stroke: var(--calcite-color-text-3);
+      --calcite-internal-button-border-color: var(--calcite-color-text-3);
     }
   }
 }
