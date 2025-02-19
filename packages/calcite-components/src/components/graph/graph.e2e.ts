@@ -29,7 +29,7 @@ async function createGraphWithData(): Promise<E2EPage> {
 
 describe("calcite-graph", () => {
   describe("renders", () => {
-    renders(`<calcite-graph></calcite-graph>`, { display: "block" });
+    renders(`calcite-graph`, { display: "block" });
   });
 
   describe("honors hidden attribute", () => {
