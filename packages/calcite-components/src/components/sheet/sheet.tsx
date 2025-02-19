@@ -229,7 +229,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   async updateFocusTrapElements(
     extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
-    this.focusTrap.updateContainerElements(extraContainers);
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
@@ -580,7 +581,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion

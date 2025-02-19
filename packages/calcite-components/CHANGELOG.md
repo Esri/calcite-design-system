@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.10...@esri/calcite-components@3.1.0-next.11) (2025-02-19)
+
+### Bug Fixes
+
+- set floating-ui elements max size set to the view ([#11577](https://github.com/Esri/calcite-design-system/issues/11577)) ([849d04a](https://github.com/Esri/calcite-design-system/commit/849d04aab1e5abe3f85e130901e1a07d30569d23)), closes [#11579](https://github.com/Esri/calcite-design-system/issues/11579)
+
+## [3.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.9...@esri/calcite-components@3.1.0-next.10) (2025-02-19)
+
+### Bug Fixes
+
+- **dialog, modal, popover, sheet:** restore `focusTrapDisabled` reactiveness ([#11586](https://github.com/Esri/calcite-design-system/issues/11586)) ([87ceba4](https://github.com/Esri/calcite-design-system/commit/87ceba4533262a4f25baffa667ffc436ed777588))
+- **slider:** ensure histograms with non-zero min are displayed correctly ([#11587](https://github.com/Esri/calcite-design-system/issues/11587)) ([bf08cb8](https://github.com/Esri/calcite-design-system/commit/bf08cb880ef4c5255ba16b85db0e4afad4c56b13))
+
+## [3.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.8...@esri/calcite-components@3.1.0-next.9) (2025-02-18)
+
+### Features
+
+- **chip:** deprecate `pressed` in favor of `press` ([#11389](https://github.com/Esri/calcite-design-system/issues/11389)) ([ebe29dc](https://github.com/Esri/calcite-design-system/commit/ebe29dcb19dfefd3301779f8e57a785ebbfd6198)), closes [#10832](https://github.com/Esri/calcite-design-system/issues/10832) [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.7...@esri/calcite-components@3.1.0-next.8) (2025-02-15)
+
+### Features
+
+- **chip:** enhance component's interactivity states ([#11538](https://github.com/Esri/calcite-design-system/issues/11538)) ([fcc129a](https://github.com/Esri/calcite-design-system/commit/fcc129acfb046199a93c5be87870c426343507bc)), closes [#10005](https://github.com/Esri/calcite-design-system/issues/10005)
+
+## [3.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.6...@esri/calcite-components@3.1.0-next.7) (2025-02-14)
+
+### Bug Fixes
+
+- **tooltip:** close tooltips on prevented pointer move events ([#11557](https://github.com/Esri/calcite-design-system/issues/11557)) ([0b19cef](https://github.com/Esri/calcite-design-system/commit/0b19cefaaed335e9817a7c52c37d9d62f3fff759)), closes [#11541](https://github.com/Esri/calcite-design-system/issues/11541)
+
+## [3.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.5...@esri/calcite-components@3.1.0-next.6) (2025-02-14)
+
+### Bug Fixes
+
+- **dialog, modal, popover, sheet:** fixes an issue that caused extra containers to be lost after internal trap updates ([#11556](https://github.com/Esri/calcite-design-system/issues/11556)) ([455cb5a](https://github.com/Esri/calcite-design-system/commit/455cb5acd9c1f4847623404dac21aa6d314dc35e)), closes [#11523](https://github.com/Esri/calcite-design-system/issues/11523)
+
+### Reverts
+
+- build(deps): update arcgis to ^4.33.0-next.13 ([#11539](https://github.com/Esri/calcite-design-system/issues/11539)) ([#11559](https://github.com/Esri/calcite-design-system/issues/11559)) ([fa202cc](https://github.com/Esri/calcite-design-system/commit/fa202cc01bc50eda9f6e07e776b323a8dd7f4414))
+
+## [3.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.4...@esri/calcite-components@3.1.0-next.5) (2025-02-14)
+
+### Bug Fixes
+
+- **input-date-picker:** allow navigating between months using chevron actions in Safari ([#11547](https://github.com/Esri/calcite-design-system/issues/11547)) ([e248837](https://github.com/Esri/calcite-design-system/commit/e248837ba9078b7884d033c61fc0c0e45ac765ae)), closes [#11544](https://github.com/Esri/calcite-design-system/issues/11544)
+
+## [3.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.3...@esri/calcite-components@3.1.0-next.4) (2025-02-14)
+
+### Bug Fixes
+
+- **dialog, modal, sheet:** preserve focus-trap extra containers across internal trap updates ([#11548](https://github.com/Esri/calcite-design-system/issues/11548)) ([4f9c448](https://github.com/Esri/calcite-design-system/commit/4f9c4481d5ed1de4136408087eb88685ccf1dd25)), closes [#11523](https://github.com/Esri/calcite-design-system/issues/11523)
+
 ## [3.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.2...@esri/calcite-components@3.1.0-next.3) (2025-02-13)
 
 ### Features
