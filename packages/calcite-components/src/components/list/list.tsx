@@ -103,7 +103,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       displayMode,
       scale,
       canPull,
-      canPut,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -128,7 +127,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
               oldIndex,
             }) ??
               true) &&
-            (canPut?.({
+            ((moveToItem.element as List["el"]).canPut?.({
               toEl: el,
               fromEl: moveToItem.element as List["el"],
               dragEl: item,
@@ -456,6 +455,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
+      ((changes.has("canPull") || changes.has("canPut")) && this.hasUpdated) ||
       (changes.has("displayMode") && this.hasUpdated) ||
       (changes.has("scale") && this.hasUpdated) ||
       (changes.has("filterPredicate") && this.hasUpdated)

@@ -58,7 +58,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems, canPull, canPut } = this;
+    const { dragEnabled, el, moveToItems, canPull } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
@@ -78,7 +78,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
               oldIndex,
             }) ??
               true) &&
-            (canPut?.({
+            ((moveToItem.element as BlockGroup["el"]).canPut?.({
               toEl: el,
               fromEl: moveToItem.element as BlockGroup["el"],
               dragEl: item,
@@ -191,6 +191,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      ((changes.has("canPull") || changes.has("canPut")) && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
       this.updateBlockItems();
