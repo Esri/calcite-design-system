@@ -372,6 +372,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
+  /** Fires when a user attempts to move an element using the sort menu and 'canPull' returns falsy. */
+  calciteListPullFail = createEvent<ListDragDetail>({ cancelable: false });
+
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' returns falsy. */
+  calciteListPutFail = createEvent<ListDragDetail>({ cancelable: false });
+
   // #endregion
 
   // #region Lifecycle
@@ -937,6 +943,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
     if (!fromEl) {
       return;
@@ -947,18 +954,24 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         toEl,
         fromEl,
         dragEl,
-        newIndex: 0,
+        newIndex,
         oldIndex,
-      }) === false ||
+      }) === false
+    ) {
+      this.calciteListPullFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return;
+    }
+
+    if (
       toEl.canPut?.({
         toEl,
         fromEl,
         dragEl,
-        newIndex: 0,
+        newIndex,
         oldIndex,
       }) === false
     ) {
-      // todo: report error here
+      this.calciteListPutFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
@@ -968,8 +981,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     toEl.prepend(dragEl);
     openAncestors(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isListItem);
-    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateListItems();
     this.connectObserver();

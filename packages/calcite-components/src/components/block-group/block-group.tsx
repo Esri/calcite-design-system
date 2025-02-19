@@ -146,6 +146,12 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
+  /** Fires when a user attempts to move an element using the sort menu and 'canPull' returns falsy. */
+  calciteBlockGroupPullFail = createEvent<BlockDragDetail>({ cancelable: false });
+
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' returns falsy. */
+  calciteBlockGroupPutFail = createEvent<BlockDragDetail>({ cancelable: false });
+
   // #endregion
 
   // #region Lifecycle
@@ -287,6 +293,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const toEl = moveTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
     if (!fromEl) {
       return;
@@ -297,18 +304,24 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         toEl,
         fromEl,
         dragEl,
-        newIndex: 0,
+        newIndex,
         oldIndex,
-      }) === false ||
+      }) === false
+    ) {
+      this.calciteBlockGroupPullFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return;
+    }
+
+    if (
       toEl.canPut?.({
         toEl,
         fromEl,
         dragEl,
-        newIndex: 0,
+        newIndex,
         oldIndex,
       }) === false
     ) {
-      // todo: report error here
+      this.calciteBlockGroupPutFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
@@ -317,8 +330,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isBlock);
-    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateBlockItems();
     this.connectObserver();
