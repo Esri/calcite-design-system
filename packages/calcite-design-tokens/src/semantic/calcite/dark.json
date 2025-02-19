@@ -1,35 +1,35 @@
 {
   "background": {
     "default": {
-      "value": "{core.color.neutral.blk-190}",
+      "value": "{color.neutral.blk-190}",
       "type": "color"
     }
   },
   "foreground": {
     "1": {
-      "value": "{core.color.neutral.blk-200}",
+      "value": "{color.neutral.blk-200}",
       "type": "color"
     },
     "2": {
-      "value": "{core.color.neutral.blk-210}",
+      "value": "{color.neutral.blk-210}",
       "type": "color"
     },
     "3": {
-      "value": "{core.color.neutral.blk-220}",
+      "value": "{color.neutral.blk-220}",
       "type": "color"
     },
     "current": {
-      "value": "{core.color.medium-saturation.blue.m-bb-090}",
+      "value": "{color.medium-saturation.blue.m-bb-090}",
       "type": "color"
     },
     "scrim": {
-      "value": "{core.color.neutral.blk-240}",
+      "value": "{color.neutral.blk-240}",
       "type": "color"
     }
   },
   "transparent": {
     "default": {
-      "value": "{core.color.neutral.blk-000}",
+      "value": "{color.neutral.blk-000}",
       "type": "color",
       "$extensions": {
         "studio.tokens": {
@@ -42,7 +42,7 @@
       }
     },
     "hover": {
-      "value": "{core.color.neutral.blk-000}",
+      "value": "{color.neutral.blk-000}",
       "type": "color",
       "$extensions": {
         "studio.tokens": {
@@ -55,7 +55,7 @@
       }
     },
     "press": {
-      "value": "{core.color.neutral.blk-000}",
+      "value": "{color.neutral.blk-000}",
       "type": "color",
       "$extensions": {
         "studio.tokens": {
@@ -68,7 +68,7 @@
       }
     },
     "scrim": {
-      "value": "{core.color.neutral.blk-240}",
+      "value": "{color.neutral.blk-240}",
       "type": "color",
       "$extensions": {
         "studio.tokens": {
@@ -83,141 +83,141 @@
   },
   "brand": {
     "default": {
-      "value": "{core.color.vibrant.blue.v-bb-160}",
+      "value": "{color.vibrant.blue.v-bb-160}",
       "type": "color"
     },
     "hover": {
-      "value": "{core.color.high-saturation.blue.h-bb-060}",
+      "value": "{color.high-saturation.blue.h-bb-060}",
       "type": "color"
     },
     "press": {
-      "value": "{core.color.high-saturation.blue.h-bb-070}",
+      "value": "{color.high-saturation.blue.h-bb-070}",
       "type": "color"
     }
   },
   "status": {
     "info": {
       "default": {
-        "value": "{core.color.dark.blue.d-bb-420}",
+        "value": "{color.dark.blue.d-bb-420}",
         "type": "color"
       },
       "hover": {
-        "value": "{core.color.vibrant.blue.v-bb-140}",
+        "value": "{color.vibrant.blue.v-bb-140}",
         "type": "color"
       },
       "press": {
-        "value": "{core.color.vibrant.blue.v-bb-160}",
+        "value": "{color.vibrant.blue.v-bb-160}",
         "type": "color"
       }
     },
     "success": {
       "default": {
-        "value": "{core.color.dark.green.d-gg-420}",
+        "value": "{color.dark.green.d-gg-420}",
         "type": "color"
       },
       "hover": {
-        "value": "{core.color.vibrant.green.v-gg-140}",
+        "value": "{color.vibrant.green.v-gg-140}",
         "type": "color"
       },
       "press": {
-        "value": "{core.color.vibrant.green.v-gg-160}",
+        "value": "{color.vibrant.green.v-gg-160}",
         "type": "color"
       }
     },
     "warning": {
       "default": {
-        "value": "{core.color.dark.yellow.d-yy-420}",
+        "value": "{color.dark.yellow.d-yy-420}",
         "type": "color"
       },
       "hover": {
-        "value": "{core.color.vibrant.yellow.v-yy-140}",
+        "value": "{color.vibrant.yellow.v-yy-140}",
         "type": "color"
       },
       "press": {
-        "value": "{core.color.vibrant.yellow.v-yy-160}",
+        "value": "{color.vibrant.yellow.v-yy-160}",
         "type": "color"
       }
     },
     "danger": {
       "default": {
-        "value": "{core.color.dark.red.d-rr-420}",
+        "value": "{color.dark.red.d-rr-420}",
         "type": "color"
       },
       "hover": {
-        "value": "{core.color.vibrant.red.v-rr-140}",
+        "value": "{color.vibrant.red.v-rr-140}",
         "type": "color"
       },
       "press": {
-        "value": "{core.color.vibrant.red.v-rr-160}",
+        "value": "{color.vibrant.red.v-rr-160}",
         "type": "color"
       }
     }
   },
   "inverse": {
     "default": {
-      "value": "{core.color.neutral.blk-005}",
+      "value": "{color.neutral.blk-005}",
       "type": "color"
     },
     "hover": {
-      "value": "{core.color.neutral.blk-000}",
+      "value": "{color.neutral.blk-000}",
       "type": "color"
     },
     "press": {
-      "value": "{core.color.neutral.blk-010}",
+      "value": "{color.neutral.blk-010}",
       "type": "color"
     }
   },
   "text": {
     "1": {
-      "value": "{core.color.neutral.blk-000}",
+      "value": "{color.neutral.blk-000}",
       "type": "color"
     },
     "2": {
-      "value": "{core.color.neutral.blk-060}",
+      "value": "{color.neutral.blk-060}",
       "type": "color"
     },
     "3": {
-      "value": "{core.color.neutral.blk-090}",
+      "value": "{color.neutral.blk-090}",
       "type": "color"
     },
     "inverse": {
-      "value": "{core.color.neutral.blk-220}",
+      "value": "{color.neutral.blk-220}",
       "type": "color"
     },
     "link": {
-      "value": "{core.color.dark.blue.d-bb-420}",
+      "value": "{color.dark.blue.d-bb-420}",
       "type": "color"
     }
   },
   "border": {
     "1": {
-      "value": "{core.color.neutral.blk-160}",
+      "value": "{color.neutral.blk-160}",
       "type": "color"
     },
     "2": {
-      "value": "{core.color.neutral.blk-170}",
+      "value": "{color.neutral.blk-170}",
       "type": "color"
     },
     "3": {
-      "value": "{core.color.neutral.blk-180}",
+      "value": "{color.neutral.blk-180}",
       "type": "color"
     },
     "input": {
-      "value": "{core.color.neutral.blk-130}",
+      "value": "{color.neutral.blk-130}",
       "type": "color"
     }
   },
   "shadow": {
     "1": {
-      "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
+      "value": "rgba({color.neutral.blk-240}, {core.opacity.12})",
       "type": "color"
     },
     "2": {
-      "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
+      "value": "rgba({color.neutral.blk-240}, {core.opacity.12})",
       "type": "color"
     },
     "3": {
-      "value": "rgba({core.color.neutral.blk-240}, {core.opacity.16})",
+      "value": "rgba({color.neutral.blk-240}, {core.opacity.16})",
       "type": "color"
     }
   }
