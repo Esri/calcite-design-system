@@ -2,7 +2,7 @@
   "size": {
     "default": {
       "1": {
-        "value": "1px",
+        "value": "1",
         "type": "size",
         "attributes": {
           "calcite-schema": {
