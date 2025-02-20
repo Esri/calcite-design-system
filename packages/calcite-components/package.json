@@ -68,9 +68,9 @@
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.0-next.136",
-    "@arcgis/components-utils": "^4.32.0-next.136",
-    "@arcgis/lumina": "^4.32.0-next.136",
+    "@arcgis/components-controllers": "^4.32.0-next.139",
+    "@arcgis/components-utils": "^4.32.0-next.139",
+    "@arcgis/lumina": "^4.32.0-next.139",
     "@esri/calcite-ui-icons": "4.0.1-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
