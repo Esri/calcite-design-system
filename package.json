@@ -133,8 +133,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.4.2",
-    "@nx/nx-linux-x64-gnu": "20.4.2",
-    "@nx/nx-win32-x64-msvc": "20.4.2"
+    "@nx/nx-darwin-arm64": "20.4.4",
+    "@nx/nx-linux-x64-gnu": "20.4.4",
+    "@nx/nx-win32-x64-msvc": "20.4.4"
   }
 }
