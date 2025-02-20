@@ -76,7 +76,7 @@
     "@floating-ui/utils": "^0.2.8",
     "@types/color": "^4.2.0",
     "@types/sortablejs": "^1.15.8",
-    "color": "^4.2.3",
+    "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
     "dayjs": "^1.11.13",
     "focus-trap": "^7.6.2",
