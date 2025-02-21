@@ -71,6 +71,56 @@ export default {
         },
       ],
     },
+    // js: {
+    //   transformGroup: transformers.TransformCalciteGroup,
+    //   transforms: transformers.platformTransforms.es6,
+    //   buildPath: "dist/js/",
+    //   prefix: "calcite",
+    //   options: {
+    //     fileExtension: ".js",
+    //     fileHeader: headers.HeaderCalciteDefault,
+    //   },
+    //   files: [
+    //     {
+    //       destination: "light.js",
+    //       format: sdFormats.javascriptJSON,
+    //       filter: filters.FilterSourceTokens,
+    //     },
+    //     {
+    //       destination: "global.js",
+    //       format: formats.FormatJSONMerge,
+    //       filter: filters.FilterSourceTokens,
+    //       options: {
+    //         suffix: "Light",
+    //       },
+    //     },
+    //   ],
+    // },
+    docs: {
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
+      buildPath: "dist/docs/",
+      prefix: "calcite",
+      options: {
+        fileExtension: ".json",
+        fileHeader: headers.HeaderCalciteDefault,
+      },
+      files: [
+        {
+          destination: "light.json",
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterSourceTokens,
+        },
+        // {
+        //   destination: "global.json",
+        //   format: formats.FormatJSONMerge,
+        //   filter: filters.FilterSourceTokens,
+        //   options: {
+        //     suffix: "Light",
+        //   },
+        // },
+      ],
+    },
   },
   log: {
     warnings: logWarningLevels.warn,
