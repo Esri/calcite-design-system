@@ -1,33 +1,56 @@
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import StyleDictionary from "style-dictionary";
 import { FormatFnArguments } from "style-dictionary/types";
 
-export async function getFileContents(theme: string, args: FormatFnArguments): Promise<string> {
-  console.log(theme, args);
-  return "";
+export async function getFileContents(theme: string, args: FormatFnArguments, count?: number): Promise<string> {
+  try {
+    const content = readFileSync(
+      resolve(process.cwd(), args.platform.buildPath, `${theme}${args.options.fileExtension}`),
+      "utf8",
+    );
+    const regex = /((--|\$)[\w-\d]+:\s?[\w\d#-_\(\) ]+)/g;
+    const variables = Array.from(content.matchAll(regex)).map((v) => v[0]);
+    return variables.join("\n\t");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error: any) {
+    if (count > 3) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await getFileContents(theme, args, count ? count + 1 : 1);
+    } else {
+      console.error(`Error reading file ${theme}${args.options.fileExtension}`);
+    }
+  }
 }
 
-export function formatImports(imports: string[], fileExtension: string): string {
-  const importString = imports.map((i) => `@import "${i}${fileExtension}";`).join("\n");
-  return importString;
-}
-
-export async function formatIndexFile(args: FormatFnArguments): string {
+export async function formatIndexFile(args: FormatFnArguments): Promise<string> {
   const {
     options: { fileExtension },
   } = args;
-  const imports = ["semantic"];
+  const themes = ["light", "dark"];
+  const themedVars = await Promise.all(themes.map((theme) => getFileContents(theme, args))).then((res) => ({
+    light: res[0],
+    dark: res[1],
+  }));
+  const platformClass = args.options.fileExtension === ".scss" ? "@mixin " : ".";
 
-  if (fileExtension === ".scss") {
-    imports.push("mixins");
-  }
+  const importUrl = (fileName, fileExtension) =>
+    fileExtension === ".css"
+      ? `@import url("./${fileName}${fileExtension}");`
+      : `@import "./${fileName}${fileExtension}";`;
+  const includePlatformClasses = themes
+    .map((theme) => `${platformClass}calcite-mode-${theme} {\n\t${themedVars[theme]}\n}`)
+    .join("\n\n");
+  const atMedia =
+    args.options.fileExtension === ".css"
+      ? themes
+          .map((theme) => `@media (prefers-color-scheme: ${theme}) {\n.calcite-mode-auto {\n\t${themedVars[theme]}\n}}`)
+          .join("\n\n")
+      : "";
+  const root = args.options.fileExtension === ".css" ? `:root {\n\t${themedVars.light}\n}` : "";
+  const imports = args.options.imports.map((imp) => importUrl(imp, fileExtension)).join("\n") + "\n";
 
-  if (fileExtension === ".css") {
-    imports.push("classes");
-  }
-
-  const [lightVars, darkVars] = await Promise.all([getFileContents("light", args), getFileContents("dark", args)]);
-
-  return `${formatImports(imports, fileExtension)}\n\n :root {\n${lightVars}\n}\n\n @media (prefers-color-scheme: light) {\n${lightVars}\n\n @media (prefers-color-scheme: dark) {\n${darkVars}} .calcite-mode-light {\n${lightVars}\n}\n\n .calcite-mode-dark {\n${darkVars}\n}\n`;
+  return [imports, root, atMedia, includePlatformClasses].filter((i) => i && i !== "").join("\n\n");
 }
 
 export async function registerFormatIndex(sd: typeof StyleDictionary): Promise<void> {

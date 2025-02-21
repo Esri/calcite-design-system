@@ -48,6 +48,13 @@ export default {
           format: formats.FormatTypography,
           filter: filters.FilterTypographyTokens,
         },
+        {
+          destination: "index.scss",
+          format: formats.FormatIndex,
+          options: {
+            imports: ["semantic", "breakpoints", "mixins"],
+          },
+        },
       ],
       options: {
         fileExtension: ".scss",
@@ -91,6 +98,9 @@ export default {
         {
           destination: "index.css",
           format: formats.FormatIndex,
+          options: {
+            imports: ["semantic", "classes"],
+          },
         },
       ],
       options: {
@@ -148,9 +158,6 @@ export default {
           destination: "global.json",
           format: formats.FormatCalciteDocs,
           filter: filters.FilterSourceTokens,
-          options: {
-            fileHeader: headers.HeaderCalciteDeprecate,
-          },
         },
         {
           destination: "semantic.json",
