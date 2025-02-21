@@ -28,3 +28,4 @@ export { FilterLightColorTokens } from "./light.js";
 export { FilterDarkColorTokens } from "./dark.js";
 export { FilterSourceTokens } from "./source.js";
 export { FilterIncludeTokens } from "./include.js";
+export { FilterTypographyTokens } from "./typography.js";

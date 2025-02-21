@@ -7,6 +7,7 @@ import * as prettierPluginBabel from "prettier/plugins/babel";
 import * as prettierPluginEstree from "prettier/plugins/estree";
 import * as prettierPluginTypescript from "prettier/plugins/typescript";
 import { fileHeader } from "style-dictionary/utils";
+import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
 
 /**
  * Prettier format JS contents
@@ -19,18 +20,6 @@ async function formatJS(content, ts = false) {
     parser: ts ? `typescript` : `babel`,
     plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginTypescript],
   });
-}
-
-/**
- * Remove prefix because the prefix option for createPropertyFormatter
- * is not the same as the prefix inside header comment
- *
- * @param {FormattingOverrides} [formatting]
- */
-function getFormattingCloneWithoutPrefix(formatting) {
-  const formattingWithoutPrefix = structuredClone(formatting) ?? {};
-  delete formattingWithoutPrefix.prefix;
-  return formattingWithoutPrefix;
 }
 
 async function formatES6Merge(args): Promise<string> {
@@ -72,7 +61,7 @@ async function formatES6Merge(args): Promise<string> {
         currentFile = currentFile.trim() + "\n" + newExport + "\n";
       }
     });
-  } catch (error) {
+  } catch (error: Error) {
     console.debug("Error reading file", error);
     const variables = dictionary.allTokens.map((token) => {
       const value = JSON.stringify(

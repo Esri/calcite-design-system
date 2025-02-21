@@ -7,6 +7,7 @@ import {
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../../support/index.js";
+import { outputReferencesFilter } from "style-dictionary/utils";
 
 export default {
   // configuration
@@ -42,10 +43,16 @@ export default {
           format: sdFormats.scssVariables,
           filter: filters.FilterBreakpointTokens,
         },
+        {
+          destination: "mixins.scss",
+          format: formats.FormatTypography,
+          filter: filters.FilterTypographyTokens,
+        },
       ],
       options: {
         fileExtension: ".scss",
         fileHeader: headers.HeaderCalciteDefault,
+        outputReferences: outputReferencesFilter,
       },
     },
     css: {
@@ -76,10 +83,20 @@ export default {
           format: sdFormats.cssVariables,
           filter: filters.FilterBreakpointTokens,
         },
+        {
+          destination: "classes.css",
+          format: formats.FormatTypography,
+          filter: filters.FilterTypographyTokens,
+        },
+        {
+          destination: "index.css",
+          format: formats.FormatIndex,
+        },
       ],
       options: {
         fileExtension: ".css",
         fileHeader: headers.HeaderCalciteDefault,
+        outputReferences: outputReferencesFilter,
       },
     },
     es6: {
@@ -119,7 +136,7 @@ export default {
     },
     docs: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: transformers.platformTransforms.es6,
+      // transforms: transformers.platformTransforms.es6,
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
@@ -149,7 +166,7 @@ export default {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: transformers.platformTransforms.es6,
+      // transforms: transformers.platformTransforms.es6,
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {

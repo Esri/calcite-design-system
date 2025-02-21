@@ -1,14 +1,19 @@
 import StyleDictionary, { TransformedToken } from "style-dictionary";
 
 export function transformNameRemoveDefault(token: TransformedToken): string {
-  const regex = /(-?default$)|(default-?)/gi;
-  const findDefault = regex.exec(token.name);
+  let name = token.name;
 
-  if (findDefault) {
-    return token.name.replace(findDefault[0], "");
-  }
+  token.path.forEach((path, idx) => {
+    if (path === "default") {
+      name = name.replace(/-?default-?/, idx === token.path.length - 1 ? "" : "-");
+    }
+  });
 
-  return token.name;
+  return name;
+}
+
+function filterByPathIncludesDefault(token: TransformedToken): boolean {
+  return token.path.includes("default");
 }
 
 export async function registerNameRemoveDefault(sd: typeof StyleDictionary): Promise<void> {
@@ -16,6 +21,7 @@ export async function registerNameRemoveDefault(sd: typeof StyleDictionary): Pro
     name: TransformNameRemoveDefault,
     transform: transformNameRemoveDefault,
     type: "name",
+    filter: filterByPathIncludesDefault,
   });
 }
 
