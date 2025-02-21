@@ -2,7 +2,7 @@
   "semantic": {
     "opacity": {
       "light": {
-        "value": "{core.opacity.40}",
+        "value": "{opacity.40}",
         "type": "opacity",
         "attributes": {
           "calcite-schema": {
@@ -26,7 +26,7 @@
         }
       },
       "half": {
-        "value": "{core.opacity.50}",
+        "value": "{opacity.50}",
         "type": "opacity",
         "attributes": {
           "calcite-schema": {
@@ -50,7 +50,7 @@
         }
       },
       "dark": {
-        "value": "{core.opacity.85}",
+        "value": "{opacity.85}",
         "type": "opacity",
         "attributes": {
           "calcite-schema": {
@@ -74,7 +74,7 @@
         }
       },
       "full": {
-        "value": "{core.opacity.100}",
+        "value": "{opacity.100}",
         "type": "opacity",
         "attributes": {
           "calcite-schema": {
@@ -98,7 +98,7 @@
         }
       },
       "disabled": {
-        "value": "{core.opacity.50}",
+        "value": "{opacity.50}",
         "type": "opacity",
         "attributes": {
           "calcite-schema": {

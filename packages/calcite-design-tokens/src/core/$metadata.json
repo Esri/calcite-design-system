@@ -1,0 +1,11 @@
+{
+  "tokenSetOrder": [
+    "color",
+    "container-size",
+    "font",
+    "opacity",
+    "shadow",
+    "size",
+    "z-index"
+  ]
+}

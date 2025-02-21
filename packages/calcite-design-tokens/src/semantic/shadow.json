@@ -1,146 +1,168 @@
 {
-  "semantic": {
-    "shadow": {
-      "none": {
-        "value": "{core.shadow.0}",
-        "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "none",
-            "context": "",
-            "mode": ""
-          }
+  "shadow": {
+    "none": {
+      "value": "{shadow.0}",
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "none",
+          "context": "",
+          "mode": ""
         }
-      },
-      "sm": {
-        "value": [
-          {
-            "0": "{",
-            "1": "c",
-            "2": "o",
-            "3": "r",
-            "4": "e",
-            "5": ".",
-            "6": "s",
-            "7": "h",
-            "8": "a",
-            "9": "d",
-            "10": "o",
-            "11": "w",
-            "12": ".",
-            "13": "1",
-            "14": "}"
-          },
-          {
-            "0": "{",
-            "1": "c",
-            "2": "o",
-            "3": "r",
-            "4": "e",
-            "5": ".",
-            "6": "s",
-            "7": "h",
-            "8": "a",
-            "9": "d",
-            "10": "o",
-            "11": "w",
-            "12": ".",
-            "13": "2",
-            "14": "}"
-          }
-        ],
-        "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "sm",
-            "context": "",
-            "mode": ""
-          }
+      }
+    },
+    "sm": {
+      "value": [
+        {
+          "0": "{",
+          "1": "c",
+          "2": "o",
+          "3": "r",
+          "4": "e",
+          "5": ".",
+          "6": "s",
+          "7": "h",
+          "8": "a",
+          "9": "d",
+          "10": "o",
+          "11": "w",
+          "12": ".",
+          "13": "1",
+          "14": "}",
+          "type": "dropShadow",
+          "color": "{shadow.3}",
+          "y": "2",
+          "blur": "8",
+          "x": "0",
+          "spread": "0"
+        },
+        {
+          "0": "{",
+          "1": "c",
+          "2": "o",
+          "3": "r",
+          "4": "e",
+          "5": ".",
+          "6": "s",
+          "7": "h",
+          "8": "a",
+          "9": "d",
+          "10": "o",
+          "11": "w",
+          "12": ".",
+          "13": "2",
+          "14": "}",
+          "type": "dropShadow",
+          "y": "2",
+          "blur": "8",
+          "color": "{shadow.1}",
+          "x": "0",
+          "spread": "0"
         }
-      },
-      "md": {
-        "value": [
-          {
-            "0": "{",
-            "1": "c",
-            "2": "o",
-            "3": "r",
-            "4": "e",
-            "5": ".",
-            "6": "s",
-            "7": "h",
-            "8": "a",
-            "9": "d",
-            "10": "o",
-            "11": "w",
-            "12": ".",
-            "13": "3",
-            "14": "}"
-          },
-          {
-            "0": "{",
-            "1": "c",
-            "2": "o",
-            "3": "r",
-            "4": "e",
-            "5": ".",
-            "6": "s",
-            "7": "h",
-            "8": "a",
-            "9": "d",
-            "10": "o",
-            "11": "w",
-            "12": ".",
-            "13": "4",
-            "14": "}"
-          }
-        ],
-        "type": "boxShadow",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "md",
-            "context": "",
-            "mode": ""
-          }
+      ],
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "sm",
+          "context": "",
+          "mode": ""
+        }
+      }
+    },
+    "md": {
+      "value": [
+        {
+          "0": "{",
+          "1": "c",
+          "2": "o",
+          "3": "r",
+          "4": "e",
+          "5": ".",
+          "6": "s",
+          "7": "h",
+          "8": "a",
+          "9": "d",
+          "10": "o",
+          "11": "w",
+          "12": ".",
+          "13": "3",
+          "14": "}",
+          "y": "6",
+          "blur": "20",
+          "spread": "-4",
+          "color": "{shadow.3}",
+          "x": "0",
+          "type": "dropShadow"
+        },
+        {
+          "0": "{",
+          "1": "c",
+          "2": "o",
+          "3": "r",
+          "4": "e",
+          "5": ".",
+          "6": "s",
+          "7": "h",
+          "8": "a",
+          "9": "d",
+          "10": "o",
+          "11": "w",
+          "12": ".",
+          "13": "4",
+          "14": "}",
+          "y": "4",
+          "blur": "12",
+          "spread": "-2",
+          "color": "{shadow.2}",
+          "x": "0",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow",
+      "attributes": {
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "domain": "",
+          "component": "",
+          "pattern": "",
+          "element": "",
+          "category": "shadow",
+          "group": "",
+          "kind": "",
+          "appearance": "",
+          "property": "",
+          "variant": "",
+          "state": "",
+          "scale": "md",
+          "context": "",
+          "mode": ""
         }
       }
     }

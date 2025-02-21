@@ -16,7 +16,7 @@
               "kind": "default"
             }
           },
-          "value": "{core.font.family.avenir}",
+          "value": "{font.family.avenir}",
           "description": "Primary font with fallbacks",
           "type": "fontFamilies"
         },
@@ -36,14 +36,14 @@
               "kind": "code"
             }
           },
-          "value": "{core.font.family.monaco}",
+          "value": "{font.family.monaco}",
           "description": "Font family for code with fallbacks",
           "type": "fontFamilies"
         }
       },
       "weight": {
         "light": {
-          "value": "{core.font.weight.light}",
+          "value": "{font.weight.light}",
           "type": "fontWeights",
           "description": "For Avenir Next World (secondary font family)",
           "$extensions": {
@@ -56,7 +56,7 @@
           }
         },
         "normal": {
-          "value": "{core.font.weight.regular}",
+          "value": "{font.weight.regular}",
           "type": "fontWeights",
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
           "$extensions": {
@@ -70,7 +70,7 @@
           }
         },
         "regular": {
-          "value": "{core.font.weight.regular}",
+          "value": "{font.weight.regular}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -82,7 +82,7 @@
           }
         },
         "medium": {
-          "value": "{core.font.weight.medium}",
+          "value": "{font.weight.medium}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -94,7 +94,7 @@
           }
         },
         "semibold": {
-          "value": "{core.font.weight.demi}",
+          "value": "{font.weight.demi}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -106,7 +106,7 @@
           }
         },
         "bold": {
-          "value": "{core.font.weight.demi}",
+          "value": "{font.weight.demi}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -120,7 +120,7 @@
       },
       "size": {
         "xs": {
-          "value": "{core.size.default.10}",
+          "value": "{size.default.10}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -132,7 +132,7 @@
           }
         },
         "sm": {
-          "value": "{core.size.default.12}",
+          "value": "{size.default.12}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -144,7 +144,7 @@
           }
         },
         "default": {
-          "value": "{core.size.default.14}",
+          "value": "{size.default.14}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -156,7 +156,7 @@
           }
         },
         "md": {
-          "value": "{core.size.default.16}",
+          "value": "{size.default.16}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -168,7 +168,7 @@
           }
         },
         "lg": {
-          "value": "{core.size.default.2} * 9",
+          "value": "{size.default.2} * 9",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -180,7 +180,7 @@
           }
         },
         "xl": {
-          "value": "{core.size.default.20}",
+          "value": "{size.default.20}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -192,7 +192,7 @@
           }
         },
         "xxl": {
-          "value": "{core.size.default.24}",
+          "value": "{size.default.24}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -206,7 +206,7 @@
       },
       "style": {
         "emphasis": {
-          "value": "{core.font.style.italic}",
+          "value": "{font.style.italic}",
           "type": "fontStyle",
           "description": "used in ratings",
           "$extensions": {
@@ -222,7 +222,7 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{core.size.default.12}",
+            "value": "{size.default.12}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -235,7 +235,7 @@
             }
           },
           "base": {
-            "value": "{core.size.default.16}",
+            "value": "{size.default.16}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -248,7 +248,7 @@
             }
           },
           "lg": {
-            "value": "{core.size.default.20}",
+            "value": "{size.default.20}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -261,7 +261,7 @@
             }
           },
           "xl": {
-            "value": "{core.size.default.24}",
+            "value": "{size.default.24}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -276,7 +276,7 @@
         },
         "relative": {
           "default": {
-            "value": "{core.size.relative.auto}",
+            "value": "{size.relative.auto}",
             "type": "lineHeights",
             "description": "1",
             "$extensions": {
@@ -290,7 +290,7 @@
             }
           },
           "tight": {
-            "value": "{core.size.relative.125}",
+            "value": "{size.relative.125}",
             "type": "lineHeights",
             "description": "1.25",
             "$extensions": {
@@ -304,7 +304,7 @@
             }
           },
           "snug": {
-            "value": "{core.size.relative.137}",
+            "value": "{size.relative.137}",
             "type": "lineHeights",
             "description": "1.375",
             "$extensions": {
@@ -318,7 +318,7 @@
             }
           },
           "normal": {
-            "value": "{core.size.relative.150}",
+            "value": "{size.relative.150}",
             "type": "lineHeights",
             "description": "1.5",
             "$extensions": {
@@ -332,7 +332,7 @@
             }
           },
           "relaxed": {
-            "value": "{core.size.relative.162}",
+            "value": "{size.relative.162}",
             "type": "lineHeights",
             "description": "1.625",
             "$extensions": {
@@ -346,7 +346,7 @@
             }
           },
           "loose": {
-            "value": "{core.size.relative.200}",
+            "value": "{size.relative.200}",
             "type": "lineHeights",
             "description": "2",
             "$extensions": {
@@ -363,7 +363,7 @@
       },
       "letter-spacing": {
         "tight": {
-          "value": "{core.size.default.none} - .4 ",
+          "value": "{size.default.none} - .4 ",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -377,7 +377,7 @@
           }
         },
         "normal": {
-          "value": "{core.size.default.none}",
+          "value": "{size.default.none}",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -391,7 +391,7 @@
           }
         },
         "wide": {
-          "value": "{core.size.default.none} + .4",
+          "value": "{size.default.none} + .4",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -407,7 +407,7 @@
       },
       "paragraph-spacing": {
         "normal": {
-          "value": "{core.size.default.4}",
+          "value": "{size.default.4}",
           "type": "paragraphSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -423,7 +423,7 @@
       },
       "text-decoration": {
         "none": {
-          "value": "{core.font.text-decoration.none}",
+          "value": "{font.text-decoration.none}",
           "type": "textDecoration",
           "description": "Deprecated",
           "$extensions": {
@@ -437,7 +437,7 @@
           }
         },
         "underline": {
-          "value": "{core.font.text-decoration.underline}",
+          "value": "{font.text-decoration.underline}",
           "type": "textDecoration",
           "description": "Deprecated",
           "$extensions": {
@@ -453,7 +453,7 @@
       },
       "text-case": {
         "none": {
-          "value": "{core.font.text-case.none}",
+          "value": "{font.text-case.none}",
           "type": "textCase",
           "description": "Deprecated",
           "$extensions": {
@@ -467,7 +467,7 @@
           }
         },
         "uppercase": {
-          "value": "{core.font.text-case.uppercase}",
+          "value": "{font.text-case.uppercase}",
           "type": "textCase",
           "description": "Deprecated",
           "$extensions": {
@@ -481,7 +481,7 @@
           }
         },
         "lowercase": {
-          "value": "{core.font.text-case.lowercase}",
+          "value": "{font.text-case.lowercase}",
           "type": "textCase",
           "description": "Deprecated",
           "$extensions": {
@@ -495,7 +495,7 @@
           }
         },
         "capitalize": {
-          "value": "{core.font.text-case.capitalize}",
+          "value": "{font.text-case.capitalize}",
           "type": "textCase",
           "description": "Deprecated",
           "$extensions": {
