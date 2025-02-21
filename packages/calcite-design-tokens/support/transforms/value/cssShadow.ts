@@ -11,12 +11,23 @@ function transformShadow(
 }
 
 export function transformValueCSSShadow(token: any): any {
-  if (Array.isArray(token.value)) {
-    return token.value.map((shadow) => transformShadow(shadow)).join(", ");
+  // if (!token.isSource) {
+  //   debugger;
+  // }
+  if (Array.isArray(token.original.value)) {
+    return token.original.value
+      .map((shadow) => {
+        if (shadow[0] === "{") {
+          const newShadow = Object.values(shadow).join("");
+          return transformShadow(newShadow);
+        }
+        return transformShadow(shadow);
+      })
+      .join(", ");
   }
 
-  if (typeof token.value === "object") {
-    return transformShadow(token.value);
+  if (typeof token.original.value === "object") {
+    return transformShadow(token.original.value);
   }
 
   return token.value;
@@ -27,7 +38,7 @@ export async function registerValueCSSShadow(sd: typeof StyleDictionary): Promis
     name: TransformValueCSSShadow,
     transform: transformValueCSSShadow,
     transitive: true,
-    filter: (token) => (token.type === "boxShadow" || token.type === "shadow") && token.isSource,
+    filter: (token) => token.type === "boxShadow" || token.type === "shadow",
     type: "value",
   });
 }
