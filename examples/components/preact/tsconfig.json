@@ -2,21 +2,17 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "jsx": "react",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
-    "skipLibCheck": true,
-    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "paths": {
       "react": ["./node_modules/preact/compat"],
       "react-dom": ["./node_modules/preact/compat"]
     }
   },
   "include": ["src/**/*"],
-  "files": ["node_modules/@esri/calcite-components/dist/types/preact.d.ts"]
+  "files": ["node_modules/@esri/calcite-components/dist/types/preact.d.ts", "node_modules/vite/client.d.ts"]
 }
