@@ -302,7 +302,7 @@
       }
     },
     "weight": {
-      "ultralight": {
+      "ul": {
         "value": "UltraLight",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)",
@@ -327,7 +327,7 @@
           }
         }
       },
-      "thin": {
+      "t": {
         "value": "Thin",
         "type": "fontWeights",
         "attributes": {
@@ -351,12 +351,12 @@
           }
         }
       },
-      "light": {
+      "l": {
         "value": "Light",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)"
       },
-      "regular": {
+      "r": {
         "value": "Regular",
         "type": "fontWeights",
         "attributes": {
@@ -380,7 +380,7 @@
           }
         }
       },
-      "medium": {
+      "m": {
         "value": "Medium",
         "type": "fontWeights",
         "attributes": {
@@ -404,7 +404,7 @@
           }
         }
       },
-      "medium-italic": {
+      "mi": {
         "value": "Medium Italic",
         "type": "fontWeights",
         "attributes": {
@@ -428,7 +428,7 @@
           }
         }
       },
-      "demi": {
+      "d": {
         "value": "Demi",
         "type": "fontWeights",
         "attributes": {
@@ -452,7 +452,7 @@
           }
         }
       },
-      "bold": {
+      "b": {
         "value": "Bold",
         "type": "fontWeights",
         "attributes": {
@@ -476,7 +476,7 @@
           }
         }
       },
-      "extrabold": {
+      "eb": {
         "value": "ExtraBold",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)",
@@ -501,7 +501,7 @@
           }
         }
       },
-      "black": {
+      "bb": {
         "value": "Black",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)",
@@ -526,7 +526,7 @@
           }
         }
       },
-      "heavy": {
+      "h": {
         "value": "Heavy",
         "type": "fontWeights",
         "attributes": {

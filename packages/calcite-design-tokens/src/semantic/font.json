@@ -5,9 +5,9 @@
         "default": {
           "$extensions": {
             "org.esri.calcite.fontFallbacks": [
-              "{core.font.family.avenir}",
-              "{core.font.family.helveticaNeue}",
-              "{core.font.family.sansSerif}"
+              "{font.family.avenir}",
+              "{font.family.helveticaNeue}",
+              "{font.family.sansSerif}"
             ],
             "org.esri.calcite.schema": {
               "system": "calcite",
@@ -23,11 +23,11 @@
         "code": {
           "$extensions": {
             "org.esri.calcite.fontFallbacks": [
-              "{core.font.family.monaco}",
-              "{core.font.family.consolas}",
-              "{core.font.family.andaleMono}",
-              "{core.font.family.lucidaConsole}",
-              "{core.font.family.monospace}"
+              "{font.family.monaco}",
+              "{font.family.consolas}",
+              "{font.family.andaleMono}",
+              "{font.family.lucidaConsole}",
+              "{font.family.monospace}"
             ],
             "org.esri.calcite.schema": {
               "system": "calcite",
@@ -43,7 +43,7 @@
       },
       "weight": {
         "light": {
-          "value": "{font.weight.light}",
+          "value": "{font.weight.l}",
           "type": "fontWeights",
           "description": "For Avenir Next World (secondary font family)",
           "$extensions": {
@@ -56,7 +56,7 @@
           }
         },
         "normal": {
-          "value": "{font.weight.regular}",
+          "value": "{font.weight.r}",
           "type": "fontWeights",
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
           "$extensions": {
@@ -70,7 +70,7 @@
           }
         },
         "regular": {
-          "value": "{font.weight.regular}",
+          "value": "{font.weight.r}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -82,7 +82,7 @@
           }
         },
         "medium": {
-          "value": "{font.weight.medium}",
+          "value": "{font.weight.m}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -94,7 +94,7 @@
           }
         },
         "semibold": {
-          "value": "{font.weight.demi}",
+          "value": "{font.weight.d}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -106,7 +106,7 @@
           }
         },
         "bold": {
-          "value": "{font.weight.demi}",
+          "value": "{font.weight.d}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
