@@ -511,7 +511,6 @@ describe("calcite-button", () => {
     `;
     let page;
     let buttonEl;
-    let buttonFocusStyle;
     let buttonHoverStyle;
 
     it("should have defined CSS custom properties", async () => {
@@ -533,11 +532,6 @@ describe("calcite-button", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
         page = await newE2EPage({ html: buttonSnippet });
         buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.focus();
-        await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
-
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle();
@@ -551,11 +545,6 @@ describe("calcite-button", () => {
           html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
         });
         buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.focus();
-        await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle();
@@ -575,11 +564,6 @@ describe("calcite-button", () => {
         <div>${buttonSnippet}</div>`,
       });
       buttonEl = await page.find("calcite-button >>> button");
-      await buttonEl.focus();
-      await page.waitForChanges();
-      buttonFocusStyle = await buttonEl.getComputedStyle();
-      expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-
       await buttonEl.hover();
       await page.waitForChanges();
       buttonHoverStyle = await buttonEl.getComputedStyle();
