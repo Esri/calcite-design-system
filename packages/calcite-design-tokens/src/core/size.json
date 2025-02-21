@@ -3,747 +3,127 @@
     "default": {
       "1": {
         "value": "1",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "1",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "2": {
         "value": "2px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "2",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "4": {
         "value": "4px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "4",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "6": {
         "value": "6px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "6",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "8": {
         "value": "8px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "8",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "10": {
         "value": "10px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "10",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "12": {
         "value": "12px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "12",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "14": {
         "value": "14px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "14",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "16": {
         "value": "16px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "16",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "20": {
         "value": "20px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "20",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "24": {
         "value": "24px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "24",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "28": {
         "value": "28px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "28",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "32": {
         "value": "32px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "32",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "36": {
         "value": "36px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "36",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "40": {
         "value": "40px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "40",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "44": {
         "value": "44px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "44",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "48": {
         "value": "48px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "48",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "56": {
         "value": "56px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "56",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "64": {
         "value": "64px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "64",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "72": {
         "value": "72px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "72",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "80": {
         "value": "80px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "80",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "96": {
         "value": "96px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "96",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "112": {
         "value": "112px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "112",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "128": {
         "value": "128px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "128",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "144": {
         "value": "144px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "144",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "160": {
         "value": "160px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "160",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "192": {
         "value": "192px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "162",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "224": {
         "value": "224px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "224",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "256": {
         "value": "256px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "256",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "288": {
         "value": "288px",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "288",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "none": {
         "value": "0",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "default",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "none",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       }
     },
     "relative": {
@@ -773,27 +153,7 @@
       },
       "100": {
         "value": "100%",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "relative",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "1",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "125": {
         "value": "125%",
@@ -893,51 +253,11 @@
       },
       "200": {
         "value": "200%",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "relative",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "2",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       },
       "auto": {
         "value": "auto",
-        "type": "size",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "size",
-            "group": "relative",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "auto",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "size"
       }
     }
   }

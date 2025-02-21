@@ -4,301 +4,61 @@
       "andaleMono": {
         "value": "Andale Mono",
         "type": "fontFamilies",
-        "description": "Fallback for Monaco",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "andaleMono",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Monaco"
       },
       "avenirNextPro": {
         "value": "Avenir Next LT Pro",
-        "type": "fontFamilies",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "avenirNextPro",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontFamilies"
       },
       "avenirNextWorld": {
         "value": "Avenir Next World",
-        "type": "fontFamilies",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "avenirNextWorld",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontFamilies"
       },
       "avenirNext": {
         "value": "Avenir Next",
         "type": "fontFamilies",
-        "description": "Primary font family",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "avenirNext",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Primary font family"
       },
       "avenir": {
         "value": "Avenir",
         "type": "fontFamilies",
-        "description": "Fallback for Avenir Next",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "avenir",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Avenir Next"
       },
       "consolas": {
         "value": "Consolas",
         "type": "fontFamilies",
-        "description": "Fallback for Monaco",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "consolas",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Monaco"
       },
       "helveticaNeue": {
         "value": "Helvetica Neue",
         "type": "fontFamilies",
-        "description": "Fallback for Avenir Next",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "helveticaNeue",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Avenir Next"
       },
       "lucidaConsole": {
         "value": "Lucida Console",
         "type": "fontFamilies",
-        "description": "Fallback for Monaco",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "lucidaConsole",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Monaco"
       },
       "monaco": {
         "value": "Monaco",
-        "type": "fontFamilies",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "monaco",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontFamilies"
       },
       "monospace": {
         "value": "monospace",
         "type": "fontFamilies",
-        "description": "Fallback for Monaco",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "monospace",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Monaco"
       },
       "sansSerif": {
         "value": "sans-serif",
         "type": "fontFamilies",
-        "description": "Fallback for Avenir Next",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "family",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "sansSerif",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "Fallback for Avenir Next"
       }
     },
     "style": {
       "italic": {
         "value": "italic",
         "type": "fontStyle",
-        "description": "used in ratings",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "style",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "italic",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "used in ratings"
       }
     },
     "weight": {
@@ -329,27 +89,7 @@
       },
       "t": {
         "value": "Thin",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "thin",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       },
       "l": {
         "value": "Light",
@@ -358,51 +98,11 @@
       },
       "r": {
         "value": "Regular",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "regular",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       },
       "m": {
         "value": "Medium",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "medium",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       },
       "mi": {
         "value": "Medium Italic",
@@ -430,51 +130,11 @@
       },
       "d": {
         "value": "Demi",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "demi",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       },
       "b": {
         "value": "Bold",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "property": "weight",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "variant": "bold",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       },
       "eb": {
         "value": "ExtraBold",
@@ -504,51 +164,11 @@
       "bb": {
         "value": "Black",
         "type": "fontWeights",
-        "description": "only for Avenir Next World (secondary font family)",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "black",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "description": "only for Avenir Next World (secondary font family)"
       },
       "h": {
         "value": "Heavy",
-        "type": "fontWeights",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "font",
-            "group": "weight",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "heavy",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "fontWeights"
       }
     },
     "text-decoration": {

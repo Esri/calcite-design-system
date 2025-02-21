@@ -5,348 +5,68 @@
         "xxs": {
           "value": "{size.default.4}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xs": {
           "value": "{size.default.6}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "sm": {
           "value": "{size.default.8}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "md": {
           "value": "{size.default.12}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "lg": {
           "value": "{size.default.14}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xl": {
           "value": "{size.default.16}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xxl": {
           "value": "{size.default.20}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xxxl": {
           "value": "{size.default.32}",
           "type": "space",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         }
       },
       "default": {
         "none": {
           "value": "{size.default.none}",
-          "type": "space",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "space"
         },
         "px": {
           "value": "{size.default.1}",
-          "type": "space",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "space"
         },
         "base": {
           "value": "{size.default.2}",
-          "type": "space",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "space"
         },
         "xxs": {
           "value": "{size.default.4}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xs": {
           "value": "{size.default.6}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "sm": {
           "value": "{size.default.8}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "sm+": {
           "value": "{size.default.10}",
@@ -374,27 +94,7 @@
         },
         "md": {
           "value": "{size.default.12}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "md+": {
           "value": "{size.default.14}",
@@ -422,99 +122,19 @@
         },
         "lg": {
           "value": "{size.default.16}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xl": {
           "value": "{size.default.20}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xxl": {
           "value": "{size.default.24}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xxxl": {
           "value": "{size.default.32}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "space",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         }
       }
     }

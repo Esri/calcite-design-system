@@ -11,27 +11,7 @@
         "offsetX": "0",
         "offsetY": "0"
       },
-      "type": "boxShadow",
-      "attributes": {
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core",
-          "domain": "",
-          "component": "",
-          "pattern": "",
-          "element": "",
-          "category": "shadow",
-          "group": "",
-          "kind": "",
-          "appearance": "",
-          "property": "",
-          "variant": "",
-          "state": "",
-          "scale": "0",
-          "context": "",
-          "mode": ""
-        }
-      }
+      "type": "boxShadow"
     },
     "1": {
       "value": {
@@ -44,27 +24,7 @@
         "offsetX": "0",
         "offsetY": "2"
       },
-      "type": "boxShadow",
-      "attributes": {
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core",
-          "domain": "",
-          "component": "",
-          "pattern": "",
-          "element": "",
-          "category": "shadow",
-          "group": "",
-          "kind": "",
-          "appearance": "",
-          "property": "",
-          "variant": "",
-          "state": "",
-          "scale": "1",
-          "context": "",
-          "mode": ""
-        }
-      }
+      "type": "boxShadow"
     },
     "2": {
       "value": {
@@ -77,27 +37,7 @@
         "offsetX": "0",
         "offsetY": "4"
       },
-      "type": "boxShadow",
-      "attributes": {
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core",
-          "domain": "",
-          "component": "",
-          "pattern": "",
-          "element": "",
-          "category": "shadow",
-          "group": "",
-          "kind": "",
-          "appearance": "",
-          "property": "",
-          "variant": "",
-          "state": "",
-          "scale": "2",
-          "context": "",
-          "mode": ""
-        }
-      }
+      "type": "boxShadow"
     },
     "3": {
       "value": {
@@ -110,27 +50,7 @@
         "offsetX": "0",
         "offsetY": "4"
       },
-      "type": "boxShadow",
-      "attributes": {
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core",
-          "domain": "",
-          "component": "",
-          "pattern": "",
-          "element": "",
-          "category": "shadow",
-          "group": "",
-          "kind": "",
-          "appearance": "",
-          "property": "",
-          "variant": "",
-          "state": "",
-          "scale": "3",
-          "context": "",
-          "mode": ""
-        }
-      }
+      "type": "boxShadow"
     },
     "4": {
       "value": {
@@ -143,27 +63,7 @@
         "offsetX": "0",
         "offsetY": "12"
       },
-      "type": "boxShadow",
-      "attributes": {
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core",
-          "domain": "",
-          "component": "",
-          "pattern": "",
-          "element": "",
-          "category": "shadow",
-          "group": "",
-          "kind": "",
-          "appearance": "",
-          "property": "",
-          "variant": "",
-          "state": "",
-          "scale": "4",
-          "context": "",
-          "mode": ""
-        }
-      }
+      "type": "boxShadow"
     }
   }
 }

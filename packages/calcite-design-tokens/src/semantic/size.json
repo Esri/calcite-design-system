@@ -5,102 +5,22 @@
         "xxxs": {
           "value": "{size.default.2}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xxs": {
           "value": "{size.default.4}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xs": {
           "value": "{size.default.6}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "sm": {
           "value": "{size.default.8}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "sm+": {
           "value": "{size.default.10}",
@@ -130,27 +50,7 @@
         "md": {
           "value": "{size.default.12}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "md+": {
           "value": "{size.default.14}",
@@ -180,340 +80,64 @@
         "lg": {
           "value": "{size.default.16}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xl": {
           "value": "{size.default.20}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xxl": {
           "value": "{size.default.24}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         },
         "xxxl": {
           "value": "{size.default.32}",
           "type": "spacing",
-          "description": "deprecated",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "fixed",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "deprecated"
         }
       },
       "default": {
         "px": {
           "value": "{size.default.1}",
-          "type": "size",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "px",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "size"
         },
         "xxxs": {
           "value": "{size.default.12}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xxs": {
           "value": "{size.default.14}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xs": {
           "value": "{size.default.16}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "sm": {
           "value": "{size.default.24}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "md": {
           "value": "{size.default.32}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "lg": {
           "value": "{size.default.44}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xl": {
           "value": "{size.default.48}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xxl": {
           "value": "{size.default.64}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "state": "",
-              "scale": "xxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         },
         "xxxl": {
           "value": "{size.default.96}",
-          "type": "dimension",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "",
-              "kind": "",
-              "appearance": "",
-              "state": "",
-              "scale": "xxxl",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "type": "dimension"
         }
       }
     }
