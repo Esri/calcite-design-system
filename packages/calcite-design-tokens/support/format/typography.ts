@@ -67,12 +67,12 @@ function formatTokensGroupByFiletype(fileExtension: string, token: any, value: s
   const filteredValue = value.filter((v) => v !== "");
   switch (fileExtension) {
     case ".css":
-      return `.${token.name} { ${filteredValue.join("; ")}; }${comment ? ` /* ${comment} */` : ""}`;
+      return `${comment ? ` /* ${comment} */\n` : ""}.${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
     case ".scss":
-      return `@mixin ${token.name} { ${filteredValue.join("; ")}; }${comment ? ` /* ${comment} */` : ""}`;
+      return `${comment ? ` /* ${comment} */\n` : ""}@mixin ${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
 
     default:
-      return `const ${token.name} { ${filteredValue.join("; ")}; }${comment ? ` // ${comment}` : ""}`;
+      return `${comment ? ` /* ${comment} */\n` : ""}const ${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
   }
 }
 
@@ -98,7 +98,7 @@ export async function formatTypography(args: FormatFnArguments): Promise<string>
     formatting: getFormattingCloneWithoutPrefix(formatting),
     options,
   });
-  const currentFile = `${header}\n ${formatTokensByFiletype(fileExtension, args)}`;
+  const currentFile = `${header}${formatTokensByFiletype(fileExtension, args)}`;
   return currentFile;
 }
 

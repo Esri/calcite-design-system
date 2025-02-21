@@ -61,8 +61,8 @@ async function formatES6Merge(args): Promise<string> {
         currentFile = currentFile.trim() + "\n" + newExport + "\n";
       }
     });
-  } catch (error: Error) {
-    console.debug("Error reading file", error);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error: any) {
     const variables = dictionary.allTokens.map((token) => {
       const value = JSON.stringify(
         options.suffix
