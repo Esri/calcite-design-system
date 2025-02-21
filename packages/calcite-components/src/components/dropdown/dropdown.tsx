@@ -5,6 +5,7 @@ import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../uti
 import {
   connectFloatingUI,
   defaultMenuPlacement,
+  defaultOffsetDistance,
   disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
@@ -118,6 +119,16 @@ export class Dropdown
    */
   @property({ reflect: true }) maxItems = 0;
 
+  /**
+   * Offset the position of the component away from the `referenceElement`.
+   *
+   * @default 6
+   */
+  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
+
+  /** Offset the position of the component along the `referenceElement`. */
+  @property({ reflect: true }) offsetSkidding = 0;
+
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
@@ -171,13 +182,23 @@ export class Dropdown
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
+    const {
+      filteredFlipPlacements,
+      floatingEl,
+      offsetDistance,
+      offsetSkidding,
+      overlayPositioning,
+      placement,
+      referenceEl,
+    } = this;
 
     return reposition(
       this,
       {
         floatingEl,
         referenceEl,
+        offsetDistance,
+        offsetSkidding,
         overlayPositioning,
         placement,
         flipPlacements: filteredFlipPlacements,
@@ -257,9 +278,11 @@ export class Dropdown
     }
 
     if (
-      (changes.has("overlayPositioning") &&
-        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
-      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
+      this.hasUpdated &&
+      ((changes.has("offsetDistance") && this.offsetDistance !== defaultOffsetDistance) ||
+        (changes.has("offsetSkidding") && this.offsetSkidding !== 0) ||
+        (changes.has("overlayPositioning") && this.overlayPositioning !== "absolute") ||
+        (changes.has("placement") && this.placement !== "auto"))
     ) {
       this.reposition(true);
     }
