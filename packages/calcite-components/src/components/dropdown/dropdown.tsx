@@ -282,7 +282,7 @@ export class Dropdown
       ((changes.has("offsetDistance") && this.offsetDistance !== defaultOffsetDistance) ||
         (changes.has("offsetSkidding") && this.offsetSkidding !== 0) ||
         (changes.has("overlayPositioning") && this.overlayPositioning !== "absolute") ||
-        (changes.has("placement") && this.placement !== "auto"))
+        (changes.has("placement") && this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
