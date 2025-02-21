@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.14...@esri/calcite-components@3.1.0-next.15) (2025-02-21)
+
+### Bug Fixes
+
+- **dropdown-group:** fix error caused by early removal ([#11612](https://github.com/Esri/calcite-design-system/issues/11612)) ([c4002e5](https://github.com/Esri/calcite-design-system/commit/c4002e50452f1447567b13e58b831147a16eab0a)), closes [#10028](https://github.com/Esri/calcite-design-system/issues/10028)
+
 ## [3.1.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.13...@esri/calcite-components@3.1.0-next.14) (2025-02-21)
 
 ### Features
