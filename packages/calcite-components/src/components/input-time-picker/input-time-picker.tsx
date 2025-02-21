@@ -35,7 +35,6 @@ import {
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import {
   formatTimePart,
-  formatTimeString,
   FractionalSecondDigits,
   getLocaleHourFormat,
   getMeridiemOrder,
@@ -665,7 +664,7 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
-    this.setValueDeprecated(toISOTimeString(value, this.showSecond));
+    this.setValueDeprecated(toISOTimeString(value, this.step));
     this.setLocalizedInputValue({ isoTimeString: value });
   }
 
@@ -1035,7 +1034,7 @@ export class InputTimePicker
       this.meridiem = undefined;
       this.minute = undefined;
       this.second = undefined;
-      this.value = "";
+      this.value = undefined;
     }
   }
 
@@ -1047,7 +1046,7 @@ export class InputTimePicker
    */
   private setValueDeprecated(value: string): void {
     const oldValue = this.value;
-    const newValue = formatTimeString(value) || "";
+    const newValue = toISOTimeString(value, this.step) || "";
 
     if (newValue === oldValue) {
       return;
@@ -1072,7 +1071,7 @@ export class InputTimePicker
    * @param value The new value
    */
   private setValueDirectly(value: string): void {
-    this.value = toISOTimeString(value, this.showSecond);
+    this.value = toISOTimeString(value, this.step);
   }
 
   private setValuePart(key: TimePart, value: number | string | Meridiem): void {
