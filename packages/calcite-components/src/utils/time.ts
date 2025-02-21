@@ -556,11 +556,7 @@ export function toISOTimeString(value: string, step: number = 60): string {
   if (step < 60) {
     isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
     if (step < 1) {
-      const formattedFractionalSecond = parseFloat(`0.${fractionalSecond}`)
-        .toFixed(decimalPlaces(step))
-        .replace("0.", "");
-
-      isoTimeString += `.${formattedFractionalSecond}`;
+      isoTimeString += `.${parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(step)).replace("0.", "")}`;
     }
   }
 
