@@ -311,7 +311,7 @@ export class Dropdown
 
   private handlePropsChange(): void {
     this.updateItems();
-    this.updateGroupScale();
+    this.updateGroupProps();
   }
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
@@ -431,11 +431,14 @@ export class Dropdown
     this.groups = groups;
 
     this.updateItems();
-    this.updateGroupScale();
+    this.updateGroupProps();
   }
 
-  private updateGroupScale(): void {
-    this.groups?.forEach((group) => (group.scale = this.scale));
+  private updateGroupProps(): void {
+    this.groups.forEach((group, index) => {
+      group.scale = this.scale;
+      group.position = index;
+    });
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {

@@ -76,6 +76,23 @@ describe("calcite-dropdown-group", () => {
     }
   });
 
+  it("does not throw if removed right after append", async () => {
+    async function runTest(): Promise<void> {
+      const page = await newE2EPage();
+      // group needs to load early for error to occur
+      await page.setContent(html`<calcite-dropdown-group></calcite-dropdown-group>`);
+
+      await page.evaluate(() => {
+        const dropdownGroup = document.createElement("calcite-dropdown-group");
+        document.body.append(dropdownGroup);
+        dropdownGroup.remove();
+      });
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
+
   describe("theme", () => {
     const tokens: ComponentTestTokens = {
       "--calcite-dropdown-group-border-color": [
