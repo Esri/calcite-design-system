@@ -74,7 +74,6 @@
     "@esri/calcite-ui-icons": "4.0.1-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
-    "@types/color": "^4.2.0",
     "@types/sortablejs": "^1.15.8",
     "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
