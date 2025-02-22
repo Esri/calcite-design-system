@@ -8,7 +8,7 @@ import { useLumina } from "@arcgis/lumina-compiler";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
-const nonEsmDependencies = ["color", "interactjs"];
+const nonEsmDependencies = ["interactjs"];
 
 export default defineConfig({
   ssr: {
