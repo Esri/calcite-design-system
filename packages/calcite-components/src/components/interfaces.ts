@@ -1,4 +1,3 @@
-/* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export interface Dimensions {
