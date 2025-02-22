@@ -67,6 +67,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
+import { TimeController } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, TEXT } from "./resources";
@@ -334,6 +335,8 @@ export class InputTimePicker
     }
   }
 
+  time = new TimeController(this.value);
+
   // #endregion
 
   // #region Public Methods
@@ -393,6 +396,7 @@ export class InputTimePicker
 
   override connectedCallback(): void {
     this.setValue(this.value);
+    this.time.setValue(this.value);
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
@@ -511,11 +515,13 @@ export class InputTimePicker
   private decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
+    this.time.setValuePart("hour", newHour);
   }
 
   private decrementMeridiem(): void {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setValuePart("meridiem", newMeridiem);
+    this.time.setValuePart("meridiem", newMeridiem);
   }
 
   private decrementMinute(): void {
@@ -531,6 +537,7 @@ export class InputTimePicker
       newValue = 59;
     }
     this.setValuePart(key, newValue);
+    this.time.setValuePart(key, newValue);
   }
 
   private decrementSecond(): void {
@@ -556,11 +563,16 @@ export class InputTimePicker
       }
 
       this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
+      this.time.setValuePart(
+        "fractionalSecond",
+        parseFloat(`0.${newFractionalSecondAsIntegerString}`),
+      );
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
           this.setValuePart("fractionalSecond", null);
+          this.time.setValuePart("fractionalSecond", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -607,11 +619,13 @@ export class InputTimePicker
         newHour = keyAsNumber;
       }
       this.setValuePart("hour", newHour);
+      this.time.setValuePart("hour", newHour);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
           this.setValuePart("hour", null);
+          this.time.setValuePart("hour", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -636,11 +650,13 @@ export class InputTimePicker
         : parseInt(this.hour) + 1
       : 1;
     this.setValuePart("hour", newHour);
+    this.time.setValuePart("hour", newHour);
   }
 
   private incrementMeridiem(): void {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
     this.setValuePart("meridiem", newMeridiem);
+    this.time.setValuePart("meridiem", newMeridiem);
   }
 
   private incrementMinute(): void {
@@ -654,6 +670,7 @@ export class InputTimePicker
         : parseInt(this[key]) + 1
       : 0;
     this.setValuePart(key, newValue);
+    this.time.setValuePart(key, newValue);
   }
 
   private incrementSecond(): void {
@@ -692,11 +709,13 @@ export class InputTimePicker
         newMinute = keyAsNumber;
       }
       this.setValuePart("minute", newMinute);
+      this.time.setValuePart("minute", newMinute);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
           this.setValuePart("minute", null);
+          this.time.setValuePart("minute", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -747,6 +766,7 @@ export class InputTimePicker
           : "".padStart(stepPrecision, "0");
     }
     this.setValuePart("fractionalSecond", newFractionalSecond);
+    this.time.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
@@ -862,13 +882,16 @@ export class InputTimePicker
     switch (event.key) {
       case "a":
         this.setValuePart("meridiem", "AM");
+        this.time.setValuePart("meridiem", "AM");
         break;
       case "p":
         this.setValuePart("meridiem", "PM");
+        this.time.setValuePart("meridiem", "PM");
         break;
       case "Backspace":
       case "Delete":
         this.setValuePart("meridiem", null);
+        this.time.setValuePart("meridiem", null);
         break;
       case "ArrowUp":
         event.preventDefault();
@@ -913,11 +936,13 @@ export class InputTimePicker
         newSecond = keyAsNumber;
       }
       this.setValuePart("second", newSecond);
+      this.time.setValuePart("second", newSecond);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
           this.setValuePart("second", null);
+          this.time.setValuePart("second", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -1166,6 +1191,13 @@ export class InputTimePicker
   // #region Rendering
 
   override render(): JsxNode {
+    console.log(
+      this.time.hour,
+      this.time.minute,
+      this.time.second,
+      this.time.fractionalSecond,
+      this.time.value,
+    );
     const { messages, readOnly } = this;
     const emptyValue = "--";
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
