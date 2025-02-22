@@ -41,7 +41,7 @@ describe("calcite-dropdown", () => {
     defaults("calcite-dropdown", [
       {
         propertyName: "offsetDistance",
-        defaultValue: 6,
+        defaultValue: 0,
       },
       {
         propertyName: "offsetSkidding",

@@ -5,7 +5,6 @@ import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../uti
 import {
   connectFloatingUI,
   defaultMenuPlacement,
-  defaultOffsetDistance,
   disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
@@ -122,9 +121,9 @@ export class Dropdown
   /**
    * Offset the position of the component away from the `referenceElement`.
    *
-   * @default 6
+   * @default 0
    */
-  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number, reflect: true }) offsetDistance = 0;
 
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
@@ -279,7 +278,7 @@ export class Dropdown
 
     if (
       this.hasUpdated &&
-      ((changes.has("offsetDistance") && this.offsetDistance !== defaultOffsetDistance) ||
+      ((changes.has("offsetDistance") && this.offsetDistance !== 0) ||
         (changes.has("offsetSkidding") && this.offsetSkidding !== 0) ||
         (changes.has("overlayPositioning") && this.overlayPositioning !== "absolute") ||
         (changes.has("placement") && this.placement !== defaultMenuPlacement))
