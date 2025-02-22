@@ -8,6 +8,7 @@ import { registerValueSizePxToRem } from "./value/pxToRem.js";
 import { registerNameRemoveDefault } from "./name/removeDefault.js";
 import { registerTransformCalciteGroup } from "./group/calcite.js";
 import { registerValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
+import { registerAttributePlatformNames } from "./attribute/platformNames.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   registerValueCSSShadow(sd);
@@ -19,6 +20,7 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
   registerValueSizePxToRem(sd);
   registerValueSizeUnitlessToPx(sd);
   registerTransformCalciteGroup(sd);
+  registerAttributePlatformNames(sd);
 }
 
 export { TransformValueCSSShadow } from "./value/cssShadow.js";
@@ -30,3 +32,4 @@ export { TransformNameRemoveDefault } from "./name/removeDefault.js";
 export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";
 export { TransformNameIncludePlusMinus } from "./name/includePlusMinus.js";
 export { TransformCalciteGroup, platformTransforms } from "./group/calcite.js";
+export { TransformAttributePlatformNames } from "./attribute/platformNames.js";
