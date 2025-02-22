@@ -88,6 +88,10 @@ function createLocaleDateTimeFormatter({
   return getDateTimeFormat(locale, options);
 }
 
+function formatFractionalSecond(fractionalSecondAsInteger: string, step: number): string {
+  return `.${parseFloat(`0.${fractionalSecondAsInteger}`).toFixed(decimalPlaces(step)).replace("0.", "")}`;
+}
+
 export function formatTimePart(number: number, minLength?: number): string {
   if (number === null || number === undefined) {
     return;
@@ -522,13 +526,16 @@ export function getTimeParts({
   return null;
 }
 
-export function parseTimeString(value: string): Time {
+export function parseTimeString(value: string, step?: number): Time {
   if (isValidTime(value)) {
     const [hour, minute, secondDecimal] = value.split(":");
     let second = secondDecimal;
     let fractionalSecond = null;
     if (secondDecimal?.includes(".")) {
       [second, fractionalSecond] = secondDecimal.split(".");
+      if (step) {
+        fractionalSecond = formatFractionalSecond(fractionalSecond, step);
+      }
     }
     return {
       fractionalSecond,
@@ -547,7 +554,7 @@ export function parseTimeString(value: string): Time {
 
 export function toISOTimeString(value: string, step: number = 60): string {
   if (!isValidTime(value)) {
-    return "";
+    return null;
   }
   const { hour, minute, second, fractionalSecond } = parseTimeString(value);
 
@@ -556,9 +563,13 @@ export function toISOTimeString(value: string, step: number = 60): string {
   if (step < 60) {
     isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
     if (step < 1) {
-      isoTimeString += `.${parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(step)).replace("0.", "")}`;
+      isoTimeString += formatFractionalSecond(fractionalSecond, step);
     }
   }
 
   return isoTimeString;
+}
+
+export function toISOTimeStringFromParts(parts: Time, step: number): string {
+  return toISOTimeString(`${parts?.hour}:${parts?.minute}:${parts?.second}.${parts?.fractionalSecond}`, step);
 }

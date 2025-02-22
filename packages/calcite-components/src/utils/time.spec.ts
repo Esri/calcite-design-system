@@ -521,6 +521,6 @@ describe("toISOTimeString", () => {
 
   it("returns empty value with invalid time", () => {
     const result = toISOTimeString("25:34");
-    expect(result).toBe("");
+    expect(result).toBeNull();
   });
 });
