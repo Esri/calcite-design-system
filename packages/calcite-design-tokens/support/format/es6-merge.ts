@@ -34,15 +34,15 @@ async function formatES6Merge(args): Promise<string> {
 
   try {
     currentFile = readFileSync(resolve(process.cwd(), platform.buildPath, file.destination), "utf8");
-    dictionary.allTokens.map((token) => {
+    dictionary.allTokens.forEach((token) => {
       const regexPatternMatchObject = new RegExp(
-        `export const (${token.name})\\s?=\\s?(?<value>{(["\\w]+\\s?:\\s?["#\\w(\\s\\/.)]+,?)+});`,
+        `export const (${token.name}) = (?<value>{ '"\\w+"': "[#\\/\\w\\d-,\\(\\) \\.]+" });`,
         "gm",
       );
       const foundExport = regexPatternMatchObject.exec(currentFile);
 
       if (foundExport) {
-        const oldValue = JSON.parse(foundExport.groups.value);
+        const oldValue = JSON.parse(foundExport.groups.value.replaceAll(/'"|"'/g, '"'));
         const value = JSON.stringify(
           options.suffix
             ? { ...oldValue, [options.suffix.toLowerCase()]: options.usesDtcg ? token.$value : token.value }
@@ -51,10 +51,12 @@ async function formatES6Merge(args): Promise<string> {
               : token.value,
         );
         const comment = options.usesDtcg ? token.$description : token.comment;
-        const newExport = `export const ${token.name} = ${value};${comment ? ` // ${comment}` : ""}`;
+        const newExport = `${comment ? ` // ${comment}\n` : ""}export const ${token.name} = ${value};`;
         currentFile = currentFile.replace(foundExport[0], newExport);
       } else {
-        const value = JSON.stringify({ [options.suffix.toLowerCase()]: options.usesDtcg ? token.$value : token.value });
+        const value = JSON.stringify({
+          [`"${options.suffix.toLowerCase()}"`]: options.usesDtcg ? token.$value : token.value,
+        });
         const comment = options.usesDtcg ? token.$description : token.comment;
         const newExport = `export const ${token.name} = ${value};${comment ? ` // ${comment}` : ""}`;
 
