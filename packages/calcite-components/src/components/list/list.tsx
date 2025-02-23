@@ -797,6 +797,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private setFilterEl(el: Filter["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.filterEl = el;
     this.performFilter();
   }

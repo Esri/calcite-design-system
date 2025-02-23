@@ -239,7 +239,7 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   private clickHandler(): void {
     if (!this.interactive && this.closable) {
-      this.closeButtonEl.value.focus();
+      this.closeButtonEl.value?.focus();
     }
   }
 
