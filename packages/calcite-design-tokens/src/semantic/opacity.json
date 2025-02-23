@@ -2,8 +2,6 @@
   "semantic": {
     "opacity": {
       "light": {
-        "value": "{core.opacity.40}",
-        "type": "opacity",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -23,11 +21,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "opacity",
+        "$value": "{core.opacity.40}"
       },
       "half": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -47,11 +45,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "opacity",
+        "$value": "{core.opacity.50}"
       },
       "dark": {
-        "value": "{core.opacity.85}",
-        "type": "opacity",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -71,11 +69,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "opacity",
+        "$value": "{core.opacity.85}"
       },
       "full": {
-        "value": "{core.opacity.100}",
-        "type": "opacity",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -95,11 +93,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "opacity",
+        "$value": "{core.opacity.100}"
       },
       "disabled": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -119,7 +117,9 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "opacity",
+        "$value": "{core.opacity.50}"
       }
     }
   }
