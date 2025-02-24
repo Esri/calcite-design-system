@@ -524,3 +524,19 @@ export const openInAllScales = (): string => html`
     </calcite-dropdown>
   </div>
 `;
+
+export const offsetPlacement = (): string => html`
+  <calcite-dropdown offset-skidding="10" offset-distance="10" open placement="leading">
+    <calcite-button icon-start="rectangle-plus" slot="trigger"></calcite-button>
+    <calcite-dropdown-group group-title="Add to new...">
+      <calcite-dropdown-item icon-start="nodes-link" selected>Link Chart</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">Map</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Add to existing...">
+      <calcite-dropdown-item icon-start="nodes-link" selected>My Link Chart 1</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="nodes-link" selected>My Link Chart 2</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">My Map 1</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">My Map 2</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
