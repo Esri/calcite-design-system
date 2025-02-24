@@ -94,7 +94,7 @@
     "eslint-plugin-unicorn": "56.0.1",
     "globals": "15.15.0",
     "globby": "14.1.0",
-    "happy-dom": "17.1.0",
+    "happy-dom": "17.1.1",
     "husky": "9.1.7",
     "jest-axe": "9.0.0",
     "lerna": "8.1.9",
