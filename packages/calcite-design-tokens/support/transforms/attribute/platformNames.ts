@@ -3,6 +3,7 @@ import StyleDictionary, { TransformedToken } from "style-dictionary";
 
 export function transformAttributePlatformNames(token: TransformedToken): Record<"names", Record<string, string>> {
   return {
+    ...token.attributes,
     names: {
       scss: `$${kebabCase(token.name)}`,
       css: `var(--${kebabCase(token.name)})`,
@@ -21,4 +22,4 @@ export async function registerAttributePlatformNames(sd: typeof StyleDictionary)
   });
 }
 
-export const TransformAttributePlatformNames = "calcite/transform/platform-name";
+export const TransformAttributePlatformNames = "calcite/transform/attribute-platform-name";

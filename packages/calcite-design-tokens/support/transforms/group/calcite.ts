@@ -10,6 +10,8 @@ import { TransformNameRemoveColorMode } from "../name/removeColorMode.js";
 import { TransformNameIncludePlusMinus } from "../name/includePlusMinus.js";
 import { TransformValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
 import { TransformValueMathSum } from "../value/mathSum.js";
+import { TransformAttributePlatformNames } from "../attribute/platformNames.js";
+import { TransformAttributeCalciteSchema } from "../attribute/calciteSchema.js";
 
 export const platformTransforms = {
   css: [
@@ -21,6 +23,8 @@ export const platformTransforms = {
     TransformNameRemoveDefault,
     TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
+    TransformAttributePlatformNames,
+    TransformAttributeCalciteSchema,
   ],
   es6: [
     transforms.nameCamel,

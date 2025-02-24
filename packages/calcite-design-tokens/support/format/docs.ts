@@ -16,6 +16,7 @@ export async function formatDocsPlatform({
     tokens: dictionary.allTokens.map((token) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
       token.filePath = relative(resolve(__dirname, "..", "..", "..", "..", ""), token.filePath);
+
       delete token.original;
       return token;
     }),

@@ -3,17 +3,18 @@
     "typography": {
       "default": {
         "default": {
-          "type": "typography",
           "value": {
             "fontFamily": "{semantic.font.family.default}",
-            "fontSize": "{semantic.font.size.default}",
             "fontWeight": "{semantic.font.weight.regular}",
-            "letterSpacing": "{semantic.font.letter-spacing.normal}",
             "lineHeight": "{semantic.font.line-height.fixed.base}",
+            "fontSize": "{semantic.font.size.default}",
+            "letterSpacing": "{semantic.font.letter-spacing.normal}",
             "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
             "textCase": "{semantic.font.text-case.none}",
             "textDecoration": "{semantic.font.text-decoration.none}"
-          }
+          },
+          "type": "typography",
+          "description": "A test text"
         },
         "light": {
           "-3h": {
