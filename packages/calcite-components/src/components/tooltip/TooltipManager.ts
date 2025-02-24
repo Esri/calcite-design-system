@@ -97,6 +97,7 @@ export default class TooltipManager {
   };
 
   private pointerLeaveHandler = (): void => {
+    this.clearHoverTimeout();
     this.closeHoveredTooltip();
   };
 
