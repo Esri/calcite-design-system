@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.15...@esri/calcite-components@3.1.0-next.16) (2025-02-24)
+
+### Features
+
+- **dropdown:** add `offsetDistance` and `offsetSkidding` properties ([#11614](https://github.com/Esri/calcite-design-system/issues/11614)) ([3feea79](https://github.com/Esri/calcite-design-system/commit/3feea796bef8851b610885b1e91c367d4194f11d)), closes [#7224](https://github.com/Esri/calcite-design-system/issues/7224)
+
 ## [3.1.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.14...@esri/calcite-components@3.1.0-next.15) (2025-02-21)
 
 ### Bug Fixes
