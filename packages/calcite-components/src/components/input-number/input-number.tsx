@@ -13,6 +13,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
+import { debounce } from "lodash-es";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -602,7 +603,7 @@ export class InputNumber
     this.calciteInternalInputNumberFocus.emit();
   }
 
-  private inputNumberInputHandler(nativeEvent: InputEvent): void {
+  private inputNumberInputHandler = debounce((nativeEvent: InputEvent): void => {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -638,7 +639,7 @@ export class InputNumber
         value: delocalizedValue,
       });
     }
-  }
+  }, 1000);
 
   private inputNumberKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
