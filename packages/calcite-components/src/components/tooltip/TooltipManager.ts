@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
 import type { Tooltip } from "./tooltip";
 
@@ -25,6 +25,8 @@ export default class TooltipManager {
   private registeredElementCount = 0;
 
   private clickedTooltip: Tooltip["el"] = null;
+
+  private hoveredTooltip: Tooltip["el"] = null;
 
   // --------------------------------------------------------------------------
   //
@@ -115,6 +117,12 @@ export default class TooltipManager {
     if (tooltip === this.clickedTooltip) {
       return;
     }
+
+    if (tooltip !== this.hoveredTooltip) {
+      this.clearHoverOpenTimeout();
+    }
+
+    this.hoveredTooltip = tooltip;
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
@@ -266,7 +274,7 @@ export default class TooltipManager {
   private openHoveredTooltip = (tooltip: Tooltip["el"]): void => {
     this.hoverOpenTimeout = window.setTimeout(
       () => {
-        if (this.hoverOpenTimeout === null) {
+        if (this.hoverOpenTimeout === null || tooltip !== this.hoveredTooltip) {
           return;
         }
 
@@ -274,7 +282,7 @@ export default class TooltipManager {
         this.closeTooltipIfNotActive(tooltip);
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip?.open ? 0 : TOOLTIP_OPEN_DELAY_MS,
+      this.activeTooltip?.open ? TOOLTIP_QUICK_OPEN_DELAY_MS : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 
