@@ -1,0 +1,23 @@
+name: Close Need More Info Issues
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight UTC
+
+permissions:
+  issues: write
+
+jobs:
+  close-needs-more-info-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Close issue if more info is not provided
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/closeNeedMoreInfoIssues.js')
+            await action({github, context, core})
