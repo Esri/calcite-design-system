@@ -5,7 +5,7 @@ import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, them
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
 import { FloatingCSS } from "../../utils/floating-ui";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS } from "./resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
 interface PointerMoveOptions {
@@ -1236,7 +1236,7 @@ describe("calcite-tooltip", () => {
     });
   });
 
-  it("should open tooltip instantly if another tooltip is already visible", async () => {
+  it("should open tooltip faster if another tooltip is already visible", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -1260,7 +1260,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip2.getProperty("open")).toBe(false);
 
     await dispatchPointerEvent(page, "#ref2");
-    await page.waitForTimeout(0);
+    await page.waitForTimeout(TOOLTIP_QUICK_OPEN_DELAY_MS);
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
   });
