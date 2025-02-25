@@ -1,0 +1,1 @@
+{"invalid":"Érvénytelen","tooLong":"Az aktuális karakterhossz {currentLength}, ami meghaladja a maximális {maxLength} karakterhosszúságot.","tooShort":"Az aktuális karakterhossz {currentLength}, ami kevesebb, mint a(z) {minLength} maximális karakterhosszúsága."}
