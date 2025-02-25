@@ -1396,6 +1396,29 @@ describe("calcite-tooltip", () => {
     });
   });
 
+  it("closes tooltip when pointer leaves document (simulates iframe use case)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-tooltip id="tooltip" reference-element="trigger">Awesome tooltip!</calcite-tooltip>
+      <button id="trigger">Hover me</button>
+    `);
+    const button = await page.find("#trigger");
+    const tooltip = await page.find("calcite-tooltip");
+
+    await button.hover();
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    const viewport = page.viewport();
+    await page.mouse.move(viewport.width + 100, viewport.height + 100);
+    await page.waitForChanges();
+
+    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
   describe("theme", () => {
     describe("default", () => {
       themed(
