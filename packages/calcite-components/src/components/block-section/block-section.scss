@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-block-section-background-color: Specifies the component's background color.
- * @prop --calcite-block-section-border-color: Specifies the component's border color. When `open`, applies to the component's bottom border.
+ * @prop --calcite-block-section-border-color: Specifies the component's border color. When `expanded`, applies to the component's bottom border.
  * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
  * @prop --calcite-block-section-text-color: Specifies the component's text color.
  * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
@@ -26,7 +26,7 @@ calcite-switch {
   // --calcite-switch-handle-shadow: var(--calcite-block-section-switch-handle-shadow);
 }
 
-:host([open]) {
+:host([expanded]) {
   @apply border-0
     border-b
     border-solid;
