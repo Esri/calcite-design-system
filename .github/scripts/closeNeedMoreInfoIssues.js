@@ -10,7 +10,6 @@ module.exports = async ({ github, context }) => {
 
   console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
 
-  // Get all issues with the specific label
   const { data: issues } = await github.rest.issues.listForRepo({
     owner: owner,
     repo: repo,
@@ -24,9 +23,6 @@ module.exports = async ({ github, context }) => {
   for (const issue of issues) {
     const lastUpdated = new Date(issue.updated_at);
     const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
-
-    //remove this later
-    console.log(`Days since update: ${daysSinceUpdate}`);
 
     if (daysSinceUpdate >= DAYS_BEFORE_CLOSE) {
       console.log(`Closing issue #${issue.number} - No updates for ${Math.round(daysSinceUpdate)} days`);
