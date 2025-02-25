@@ -3,7 +3,7 @@ name: Close Need More Info Issues
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *" # Runs daily at midnight UTC
+    - cron: "0 0 * * 1" # Runs every Monday at midnight UTC
 
 permissions:
   issues: write

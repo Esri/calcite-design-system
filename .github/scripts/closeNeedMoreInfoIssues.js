@@ -7,6 +7,7 @@ const {
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
   const DAYS_BEFORE_CLOSE = 14;
+  const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
   console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
 
@@ -22,7 +23,7 @@ module.exports = async ({ github, context }) => {
 
   for (const issue of issues) {
     const lastUpdated = new Date(issue.updated_at);
-    const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
+    const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / MILLISECONDS_IN_A_DAY);
 
     if (daysSinceUpdate >= DAYS_BEFORE_CLOSE) {
       console.log(`Closing issue #${issue.number} - No updates for ${Math.round(daysSinceUpdate)} days`);
@@ -31,7 +32,7 @@ module.exports = async ({ github, context }) => {
         owner: owner,
         repo: repo,
         issue_number: issue.number,
-        body: "Closing this issue due to inactivity. If this is still an issue, it can be reopened once additional information has been provided.",
+        body: "Closing this issue due to inactivity. If the issue persists, feel free to reopen it with additional details.",
       });
 
       await github.rest.issues.update({
