@@ -1070,9 +1070,11 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
   }
