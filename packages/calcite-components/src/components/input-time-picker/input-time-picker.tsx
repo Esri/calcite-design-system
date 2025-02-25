@@ -33,12 +33,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   localizedTwentyFourHourMeridiems,
   getSupportedLocale,
@@ -159,7 +154,7 @@ interface GetLocalizedTimeStringParameters {
 
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent
 {
   // #region Static Members
 
@@ -401,7 +396,6 @@ export class InputTimePicker
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.updateLocale();
   }
@@ -449,7 +443,6 @@ export class InputTimePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     if (isValidTime(this.value)) {
       this.setLocalizedInputValue();
     }

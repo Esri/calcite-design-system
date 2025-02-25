@@ -22,12 +22,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -51,7 +46,7 @@ declare global {
  */
 export class Dropdown
   extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
+  implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent
 {
   // #region Static Members
 
@@ -123,6 +118,16 @@ export class Dropdown
    */
   @property({ reflect: true }) maxItems = 0;
 
+  /**
+   * Offset the position of the component away from the `referenceElement`.
+   *
+   * @default 0
+   */
+  @property({ type: Number, reflect: true }) offsetDistance = 0;
+
+  /** Offset the position of the component along the `referenceElement`. */
+  @property({ reflect: true }) offsetSkidding = 0;
+
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
@@ -176,13 +181,23 @@ export class Dropdown
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
+    const {
+      filteredFlipPlacements,
+      floatingEl,
+      offsetDistance,
+      offsetSkidding,
+      overlayPositioning,
+      placement,
+      referenceEl,
+    } = this;
 
     return reposition(
       this,
       {
         floatingEl,
         referenceEl,
+        offsetDistance,
+        offsetSkidding,
         overlayPositioning,
         placement,
         flipPlacements: filteredFlipPlacements,
@@ -240,10 +255,6 @@ export class Dropdown
     connectFloatingUI(this);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -266,9 +277,11 @@ export class Dropdown
     }
 
     if (
-      (changes.has("overlayPositioning") &&
-        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
-      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
+      this.hasUpdated &&
+      ((changes.has("offsetDistance") && this.offsetDistance !== 0) ||
+        (changes.has("offsetSkidding") && this.offsetSkidding !== 0) ||
+        (changes.has("overlayPositioning") && this.overlayPositioning !== "absolute") ||
+        (changes.has("placement") && this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
@@ -284,7 +297,6 @@ export class Dropdown
 
   loaded(): void {
     this.updateSelectedItems();
-    setComponentLoaded(this);
     connectFloatingUI(this);
   }
 
@@ -321,7 +333,7 @@ export class Dropdown
 
   private handlePropsChange(): void {
     this.updateItems();
-    this.updateGroupScale();
+    this.updateGroupProps();
   }
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
@@ -441,11 +453,14 @@ export class Dropdown
     this.groups = groups;
 
     this.updateItems();
-    this.updateGroupScale();
+    this.updateGroupProps();
   }
 
-  private updateGroupScale(): void {
-    this.groups?.forEach((group) => (group.scale = this.scale));
+  private updateGroupProps(): void {
+    this.groups.forEach((group, index) => {
+      group.scale = this.scale;
+      group.position = index;
+    });
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {

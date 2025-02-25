@@ -1,11 +1,11 @@
-import type Color from "color";
+import type { ColorInstance } from "color";
 
 export type ColorMode = "rgb" | "hsv";
 
 export type Channels = [number, number, number, number];
 
 // need to do this otherwise, stencil build doesn't pick up the type import
-export type InternalColor = Color;
+export type InternalColor = ColorInstance;
 
 export type ColorValue = string | RGB | RGBA | HSV | HSVA | HSL | HSLA;
 

@@ -289,7 +289,7 @@ describe("calcite-chip", () => {
       });
       describe("selected", () => {
         themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
-          "--calcite-chip-select-icon-color-pressed": {
+          "--calcite-chip-select-icon-color-press": {
             shadowSelector: `.${CSS.selectIcon}`,
             targetProp: "color",
           },
@@ -301,6 +301,15 @@ describe("calcite-chip", () => {
       themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
         "--calcite-chip-icon-color": {
           shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
+        "--calcite-chip-select-icon-color-pressed": {
+          shadowSelector: `.${CSS.selectIcon}`,
           targetProp: "color",
         },
       });

@@ -9,12 +9,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
@@ -29,7 +24,7 @@ declare global {
   }
 }
 
-export class Filter extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Filter extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -152,7 +147,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   // #region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
   }
 
@@ -171,10 +165,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

@@ -12,12 +12,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -57,7 +52,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Panel extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Panel extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -227,7 +222,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.isClosed = this.closed;
   }
 
@@ -247,10 +241,6 @@ export class Panel extends LitElement implements InteractiveComponent, LoadableC
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

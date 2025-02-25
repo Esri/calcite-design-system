@@ -18,12 +18,7 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -57,7 +52,7 @@ declare global {
 
 export class InputTimeZone
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent
 {
   // #region Static Members
 
@@ -272,8 +267,6 @@ export class InputTimeZone
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
     const initialValue = this.value;
@@ -313,7 +306,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }

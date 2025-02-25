@@ -14,7 +14,7 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { componentFocusable } from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
@@ -86,7 +86,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element is sortable in the component. */
+  /** When provided, the method will be called to determine whether the element can move from the component. */
   @property() canPull: (detail: BlockDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
@@ -204,7 +204,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.moveToItems = blockGroups.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
   }
 

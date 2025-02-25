@@ -3,12 +3,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
@@ -22,7 +17,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-flow-item` elements to the component. */
-export class Flow extends LitElement implements LoadableComponent {
+export class Flow extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -123,10 +118,6 @@ export class Flow extends LitElement implements LoadableComponent {
     this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -138,7 +129,6 @@ export class Flow extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.updateItemsAndProps();
   }
 

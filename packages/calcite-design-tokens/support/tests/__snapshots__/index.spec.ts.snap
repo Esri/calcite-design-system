@@ -468,9 +468,10 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
-  --calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-    monospace; /* Font family for code with fallbacks */
-  --calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
+  --calcite-font-family-code:
+    Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; /* Font family for code with fallbacks */
+  --calcite-font-family:
+    "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
   --calcite-corner-radius-pill: 100%;
   --calcite-corner-radius-round: 4px;
   --calcite-corner-radius-sharp: 0;
@@ -483,10 +484,10 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-border-width-md: 2px;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-none: 0;
-  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
-    0 12px 30px rgba(0, 0, 0, 0.1);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
-    0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  --calcite-shadow-md:
+    0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-sm:
+    0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-corner-radius: var(--calcite-corner-radius-sharp);
 }
@@ -2159,9 +2160,10 @@ $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-  monospace; // Font family for code with fallbacks
-$calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
+$calcite-font-family-code:
+  Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; // Font family for code with fallbacks
+$calcite-font-family:
+  "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
 $calcite-corner-radius-pill: 100%;
 $calcite-corner-radius-round: 4px;
 $calcite-corner-radius-sharp: 0;
