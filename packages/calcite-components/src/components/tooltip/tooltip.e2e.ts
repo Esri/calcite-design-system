@@ -1396,7 +1396,7 @@ describe("calcite-tooltip", () => {
     });
   });
 
-  it.only("closes tooltip when pointer leaves document (simulates iframe use case)", async () => {
+  it("closes tooltip when pointer leaves document (simulates iframe use case)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-tooltip id="tooltip" reference-element="trigger">Awesome tooltip!</calcite-tooltip>
