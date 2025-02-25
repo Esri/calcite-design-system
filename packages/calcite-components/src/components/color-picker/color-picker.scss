@@ -1,15 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-size: Specifies the component's width.
+ */
+
 :host {
   @apply text-n2h inline-block font-normal;
 
-  inline-size: var(--calcite-internal-color-picker-min-width);
-  min-inline-size: var(--calcite-internal-color-picker-min-width);
+  inline-size: var(--calcite-color-picker-size, var(--calcite-internal-color-picker-min-size));
+  min-inline-size: var(--calcite-color-picker-size, var(--calcite-internal-color-picker-min-size));
 }
 
 @include disabled();
 
 :host([scale="s"]) {
-  --calcite-internal-color-picker-min-width: 200px;
-  --calcite-color-picker-spacing: 8px;
+  --calcite-internal-color-picker-min-size: 200px;
+  --calcite-internal-color-picker-space: 8px;
 
   .saved-colors {
     @apply gap-1;
@@ -18,19 +26,19 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-color-picker-min-width: 240px;
-  --calcite-color-picker-spacing: 12px;
+  --calcite-internal-color-picker-min-size: 240px;
+  --calcite-internal-color-picker-space: 12px;
 }
 
 :host([scale="l"]) {
-  --calcite-internal-color-picker-min-width: 304px;
-  --calcite-color-picker-spacing: 16px;
+  --calcite-internal-color-picker-min-size: 304px;
+  --calcite-internal-color-picker-space: 16px;
 
   @apply text-n1h;
 
   .section {
     &:first-of-type {
-      padding-block-start: var(--calcite-color-picker-spacing);
+      padding-block-start: var(--calcite-internal-color-picker-space);
     }
   }
 
@@ -94,23 +102,23 @@
 }
 
 .section {
-  padding-block: 0 var(--calcite-color-picker-spacing);
-  padding-inline: var(--calcite-color-picker-spacing);
+  padding-block: 0 var(--calcite-internal-color-picker-space);
+  padding-inline: var(--calcite-internal-color-picker-space);
 
   &:first-of-type {
-    padding-block-start: var(--calcite-color-picker-spacing);
+    padding-block-start: var(--calcite-internal-color-picker-space);
   }
 }
 
 .sliders {
   @apply flex flex-col justify-between;
-  margin-inline-start: var(--calcite-color-picker-spacing);
+  margin-inline-start: var(--calcite-internal-color-picker-space);
   gap: var(--calcite-spacing-xxs);
 }
 
 .preview-and-sliders {
   @apply flex items-center;
-  padding: var(--calcite-color-picker-spacing);
+  padding: var(--calcite-internal-color-picker-space);
 }
 
 .color-hex-options,
@@ -126,7 +134,7 @@
 }
 
 .color-mode-container {
-  padding-block-start: var(--calcite-color-picker-spacing);
+  padding-block-start: var(--calcite-internal-color-picker-space);
 }
 
 .channels {
@@ -159,7 +167,7 @@
 
 .saved-colors {
   @apply grid gap-2;
-  padding-block-start: var(--calcite-color-picker-spacing);
+  padding-block-start: var(--calcite-internal-color-picker-space);
   grid-template-columns: repeat(auto-fill, 24px);
 }
 
