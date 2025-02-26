@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { FocusTrap } from "focus-trap";
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -11,6 +10,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -59,12 +59,6 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
@@ -92,7 +86,6 @@ export class InputDatePicker
   extends LitElement
   implements
     FloatingUIComponent,
-    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
@@ -130,11 +123,27 @@ export class InputDatePicker
 
   private focusOnOpen = false;
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.datePickerEl?.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+      allowOutsideClick: true,
+      // Allow outside click and let the popover manager take care of closing the popover.
+      clickOutsideDeactivates: false,
+      initialFocus: false,
+      setReturnFocus: false,
+      onDeactivate: this.focusTrapDeactivates,
+    },
+  })(this);
 
-  private focusTrapDeactivates = (): void => {
+  private focusTrapDeactivates(): void {
     this.open = false;
-  };
+  }
 
   formEl: HTMLFormElement;
 
@@ -453,10 +462,6 @@ export class InputDatePicker
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
     }
@@ -515,7 +520,6 @@ export class InputDatePicker
   }
 
   override disconnectedCallback(): void {
-    deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
@@ -524,18 +528,6 @@ export class InputDatePicker
   // #endregion
 
   // #region Private Methods
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
@@ -695,14 +687,7 @@ export class InputDatePicker
   }
 
   onOpen(): void {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.datePickerEl?.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
+    this.focusTrap.activate();
     this.calciteInputDatePickerOpen.emit();
   }
 
@@ -713,7 +698,7 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     hideFloatingUI(this);
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
   }
@@ -836,17 +821,12 @@ export class InputDatePicker
   }
 
   private setDatePickerRef(el: DatePicker["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.datePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        allowOutsideClick: true,
-        clickOutsideDeactivates: false,
-        initialFocus: false,
-        setReturnFocus: false,
-        onDeactivate: this.focusTrapDeactivates,
-      },
-    });
+    this.focusTrap.overrideFocusTrapEl(el);
   }
 
   private async loadLocaleData(): Promise<void> {
