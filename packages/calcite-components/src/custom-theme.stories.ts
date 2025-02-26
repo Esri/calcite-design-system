@@ -54,6 +54,12 @@ import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import {
+  comboboxTokens,
+  comboboxWithPlaceHolderIcon,
+  defaultCombobox,
+  singleSelectCombobox,
+} from "./custom-theme/combobox";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -150,6 +156,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
+      <div class="demo-column">${defaultCombobox} ${singleSelectCombobox} ${comboboxWithPlaceHolderIcon}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${datePicker}</div>
@@ -174,6 +181,7 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...comboboxTokens,
   ...datePickerTokens,
   ...DropdownTokens,
   ...DropdownItemTokens,
