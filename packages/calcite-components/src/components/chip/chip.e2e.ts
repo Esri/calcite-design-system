@@ -1,13 +1,57 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   describe("renders", () => {
     renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-chip", [
+      { propertyName: "appearance", defaultValue: "solid" },
+      { propertyName: "closable", defaultValue: false },
+      { propertyName: "closed", defaultValue: false },
+      { propertyName: "closeOnDelete", defaultValue: false },
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "icon", defaultValue: undefined },
+      { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "kind", defaultValue: "neutral" },
+      { propertyName: "label", defaultValue: undefined },
+      { propertyName: "messageOverrides", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "selected", defaultValue: false },
+      { propertyName: "value", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-chip", [
+      { propertyName: "appearance", value: "solid" },
+      { propertyName: "closable", value: true },
+      { propertyName: "closed", value: true },
+      { propertyName: "closeOnDelete", value: true },
+      { propertyName: "disabled", value: true },
+      { propertyName: "icon", value: "banana" },
+      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "kind", value: "neutral" },
+      { propertyName: "scale", value: "m" },
+      { propertyName: "selected", value: true },
+    ]);
   });
 
   describe("honors hidden attribute", () => {
@@ -76,39 +120,6 @@ describe("calcite-chip", () => {
     await chip1.click();
     await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
-  });
-
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("kind", "neutral");
-    expect(element).toEqualAttribute("scale", "m");
-
-    const close = await page.find(`calcite-chip >>> .${CSS.close}`);
-    expect(close).toBeNull();
-  });
-
-  it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "outline");
-    expect(element).toEqualAttribute("kind", "brand");
-    expect(element).toEqualAttribute("scale", "l");
-  });
-
-  it("renders outline-fill chip when appearance='outline-fill'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "outline-fill");
-    expect(element).toEqualAttribute("kind", "brand");
-    expect(element).toEqualAttribute("scale", "l");
   });
 
   describe("closing", () => {
