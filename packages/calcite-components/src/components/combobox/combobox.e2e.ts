@@ -2975,7 +2975,7 @@ describe("calcite-combobox", () => {
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 
-  describe.only("theme", () => {
+  describe("theme", () => {
     describe("default", () => {
       const singleSelectComboboxHTML = html` <calcite-combobox
         id="labelOne"
