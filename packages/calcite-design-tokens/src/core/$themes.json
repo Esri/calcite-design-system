@@ -1,38 +1,11 @@
-[
-  {
-    "id": "8d8697394d6ee98ed8c60aac7ebf9fbe8990e37e",
-    "name": "Mode 1",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "color": "enabled"
-    },
-    "group": "color"
-  },
-  {
-    "id": "c4a9ca79506cc63cdf3d8fe919ed641c217be429",
-    "name": "Mode 1",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "container-size": "enabled"
-    },
-    "group": "container-size"
-  },
-  {
-    "id": "7f90ae210c05b068ff04cd5766c2fa7776a79a62",
-    "name": "Mode 1",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "opacity": "enabled"
-    },
-    "group": "opacity"
-  },
-  {
+{
+  "Mode 1": {
     "id": "181a5a74c917af6cc35518ff1e32b3033455162f",
-    "name": "Mode 1",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
       "size": "enabled"
     },
-    "group": "size"
+    "group": "size",
+    "type": "other"
   }
-]
+}

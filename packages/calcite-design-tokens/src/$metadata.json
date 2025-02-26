@@ -7,8 +7,8 @@
     "core/shadow",
     "core/size",
     "core/z-index",
-    "semantic-old/color",
-    "semantic-old/typography",
+    "core/$metadata",
+    "core/$themes",
     "semantic/border",
     "semantic/container-size",
     "semantic/corner",
@@ -19,6 +19,7 @@
     "semantic/space",
     "semantic/z-index",
     "semantic/calcite/dark",
-    "semantic/calcite/light"
+    "semantic/calcite/light",
+    "semantic/typography"
   ]
 }

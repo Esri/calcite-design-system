@@ -5011,6 +5011,52 @@
           "type": "color"
         }
       }
+    },
+    "opacity": {
+      "blk-240": {
+        "30": {
+          "value": "#00000030",
+          "type": "color"
+        },
+        "85": {
+          "value": "#00000085",
+          "type": "color"
+        },
+        "00": {
+          "value": "#00000000",
+          "type": "color"
+        },
+        "04": {
+          "value": "#00000004",
+          "type": "color"
+        },
+        "08": {
+          "value": "#00000008",
+          "type": "color"
+        }
+      },
+      "blk-000": {
+        "30": {
+          "value": "#ffffff30",
+          "type": "color"
+        },
+        "85": {
+          "value": "#ffffff85",
+          "type": "color"
+        },
+        "00": {
+          "value": "#ffffff00",
+          "type": "color"
+        },
+        "04": {
+          "value": "#ffffff04",
+          "type": "color"
+        },
+        "08": {
+          "value": "#ffffff08",
+          "type": "color"
+        }
+      }
     }
   }
 }
