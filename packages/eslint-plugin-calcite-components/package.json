@@ -10,14 +10,16 @@
   "license": "SEE LICENSE.md",
   "main": "dist/index.js",
   "files": [
-    "dist/index.js"
+    "dist/index.js",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
-    "test": "vitest"
+    "test": "vitest",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",
