@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.18...@esri/calcite-components@3.1.0-next.19) (2025-02-26)
+
+### Bug Fixes
+
+- **panel:** apply custom styles correctly to header actions ([#11495](https://github.com/Esri/calcite-design-system/issues/11495)) ([fd64b84](https://github.com/Esri/calcite-design-system/commit/fd64b84ab00e3292bd358a2772e0b57b4bae2c44)), closes [#11491](https://github.com/Esri/calcite-design-system/issues/11491) [#8675](https://github.com/Esri/calcite-design-system/issues/8675) [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.1.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.17...@esri/calcite-components@3.1.0-next.18) (2025-02-25)
 
 ### Bug Fixes
