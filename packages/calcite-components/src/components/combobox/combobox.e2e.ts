@@ -2977,12 +2977,12 @@ describe("calcite-combobox", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      const comboboxHTML = html` <calcite-combobox label="test" max-items="6" open>
-        <calcite-combobox-item value="Trees" text-label="Trees">
+      const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
+        <calcite-combobox-item-group value="Trees" label="Trees">
           <calcite-combobox-item value="Pine" text-label="Pine">
             <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-        </calcite-combobox-item>
+        </calcite-combobox-item-group>
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
       </calcite-combobox>`;
@@ -3048,6 +3048,16 @@ describe("calcite-combobox", () => {
           shadowSelector: `.${CSS.chip}`,
           selector: "calcite-combobox",
           targetProp: "--calcite-chip-text-color",
+        },
+        "--calcite-combobox-item-group-text-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".title",
+          targetProp: "color",
+        },
+        "--calcite-combobox-item-group-border-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".title",
+          targetProp: "borderBottomColor",
         },
       };
       themed(comboboxHTML, comboboxTokens);
