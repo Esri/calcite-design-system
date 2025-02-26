@@ -89,7 +89,6 @@
 }
 
 .container {
-  --calcite-internal-panel-corner-radius: inherit;
   @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border text-n1 text-color-2;
   transition:
     max-block-size var(--calcite-animation-timing),
