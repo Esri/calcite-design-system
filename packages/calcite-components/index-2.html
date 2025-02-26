@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos</title>
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p>
+      Notice in the console how <code>component.componentOnReady()</code> is not available when called early (needs
+      short interval and no throttling to repro). based on
+      <a href="https://github.com/Esri/calcite-design-system/issues/11514">#11514</a>
+    </p>
+    <div class="container"></div>
+    <script>
+      const container = document.querySelector(".container");
+
+      function toggleTest() {
+        if (container.matches(":empty")) {
+          const testComponent = document.createElement("calcite-test");
+          container.append(testComponent);
+        } else {
+          container.innerHTML = "";
+        }
+      }
+
+      let testComponentReady;
+
+      const intervalId = setInterval(async () => {
+        toggleTest();
+
+        const test = document.querySelector("calcite-test");
+        if (!test) {
+          return;
+        }
+
+        testComponentReady ||= customElements
+          .whenDefined("calcite-test")
+          .then(
+            // 💥
+            () => test.componentOnReady(),
+          )
+          .finally(() => {
+            console.log("interval cleared");
+            clearInterval(intervalId);
+          });
+      }, 10);
+    </script>
+  </body>
+</html>
