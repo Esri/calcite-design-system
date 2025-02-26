@@ -32,6 +32,10 @@
   );
 }
 
+.interaction-container {
+  border-radius: inherit;
+}
+
 :host([drag-handle]) {
   @apply cursor-move;
   --calcite-internal-action-text-color: var(--calcite-color-border-input);
