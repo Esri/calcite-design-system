@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.19...@esri/calcite-components@3.1.0-next.20) (2025-02-27)
+
+### Bug Fixes
+
+- **card-group:** Restore default gap spacing ([#11638](https://github.com/Esri/calcite-design-system/issues/11638)) ([192dc92](https://github.com/Esri/calcite-design-system/commit/192dc92533acf544cc6066c42eb4cc3c30592adc)), closes [#11637](https://github.com/Esri/calcite-design-system/issues/11637)
+
 ## [3.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.18...@esri/calcite-components@3.1.0-next.19) (2025-02-26)
 
 ### Bug Fixes
