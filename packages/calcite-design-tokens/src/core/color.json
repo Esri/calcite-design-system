@@ -5015,45 +5015,45 @@
     "opacity": {
       "blk-240": {
         "30": {
-          "value": "#00000030",
+          "value": "rgba(0,0,0,0.3)",
           "type": "color"
         },
         "85": {
-          "value": "#00000085",
+          "value": "rgba(0,0,0,0.85)",
           "type": "color"
         },
         "00": {
-          "value": "#00000000",
+          "value": "rgba(0,0,0,0)",
           "type": "color"
         },
         "04": {
-          "value": "#00000004",
+          "value": "rgba(0,0,0,0.04)",
           "type": "color"
         },
         "08": {
-          "value": "#00000008",
+          "value": "rgba(0,0,0,0.08)",
           "type": "color"
         }
       },
       "blk-000": {
         "30": {
-          "value": "#ffffff30",
+          "value": "rgba(255,255,255,0.3)",
           "type": "color"
         },
         "85": {
-          "value": "#ffffff85",
+          "value": "rgba(255,255,255,0.85)",
           "type": "color"
         },
         "00": {
-          "value": "#ffffff00",
+          "value": "rgba(255,255,255,0)",
           "type": "color"
         },
         "04": {
-          "value": "#ffffff04",
+          "value": "rgba(255,255,255,0.04)",
           "type": "color"
         },
         "08": {
-          "value": "#ffffff08",
+          "value": "rgba(255,255,255,0.08)",
           "type": "color"
         }
       }
