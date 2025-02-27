@@ -86,7 +86,7 @@ ul:focus {
 
 .label:hover,
 .label:active {
-  @apply text-color-1
+  @apply text-color-2
     bg-foreground-2
     no-underline
     shadow-none;
@@ -136,7 +136,6 @@ ul:focus {
 }
 
 .short-text {
-  color: var(--calcite-color-text-3);
   white-space: nowrap;
 }
 
