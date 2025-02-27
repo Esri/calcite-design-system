@@ -1,7 +1,17 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import {
   findAll,
   getElementRect,
@@ -2505,5 +2515,14 @@ describe("calcite-color-picker", () => {
     }
 
     await expect(doTest()).resolves.toBeUndefined();
+  });
+
+  describe.skip("theme", () => {
+    themed(html`<calcite-color-picker></calcite-color-picker>`, {
+      "--calcite-color-picker-size": {
+        selector: `calcite-color-picker`,
+        targetProp: "inlineSize",
+      },
+    });
   });
 });
