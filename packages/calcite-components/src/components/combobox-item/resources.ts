@@ -4,7 +4,7 @@ export const CSS = {
   active: "label--active",
   centerContent: "center-content",
   container: "container",
-  custom: "icon--custom",
+  iconCustom: "icon--custom",
   description: "description",
   icon: "icon",
   iconSelected: "icon--selected",

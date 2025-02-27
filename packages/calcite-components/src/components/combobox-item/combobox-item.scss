@@ -3,16 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-item-text-color: Specifies the text color of the combobox item.
- * @prop --calcite-combobox-item-text-color-hover: Specifies the text color of the combobox item when hovered.
- * @prop --calcite-combobox-item-text-color-selected: Specifies the text color of the combobox item when selected.
- * @prop --calcite-combobox-item-background-color-active: Specifies the background color of the combobox item when active.
- * @prop --calcite-combobox-item-background-color-hover: Specifies the background color of the combobox item when hovered.
+ * @prop --calcite-combobox-item-text-color: Specifies the text color of the component.
+ * @prop --calcite-combobox-item-text-color-hover: Specifies the text color of the component when hovered.
+ * @prop --calcite-combobox-item-text-color-selected: Specifies the text color of the component when selected.
+ * @prop --calcite-combobox-item-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-combobox-item-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-combobox-item-selected-indicator-icon-color: Specifies the color of the selected indicator icon.
- * @prop --calcite-combobox-item-icon-selected: Specifies the color of the combobox item icon when selected.
- * @prop --calcite-combobox-item-description-text-color: Specifies the text color of the combobox item description.
- * @prop --calcite-combobox-item-description-text-color-hover: Specifies the text color of the combobox item description when hovered.
- * @prop --calcite-combobox-item-heading-text-color: Specifies the text color of the combobox item heading.
+ * @prop --calcite-combobox-item-icon-selected: Specifies the color of the component's icon when selected.
+ * @prop --calcite-combobox-item-description-text-color: Specifies the text color of the component's description.
+ * @prop --calcite-combobox-item-description-text-color-hover: Specifies the text color of the component's description when hovered.
+ * @prop --calcite-combobox-item-heading-text-color: Specifies the text color of the component heading.
  */
 
 @include base-component();
@@ -116,19 +116,19 @@ ul:focus {
   background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-3));
 }
 
+.icon {
+  @apply inline-flex
+    opacity-0
+    duration-150
+    ease-in-out;
+}
+
 .icon--custom {
   margin-block-start: -1px;
 }
 
 .icon--selected {
   color: var(--calcite-combobox-item-icon-selected, var(--calcite-color-text-1));
-}
-
-.icon {
-  @apply inline-flex
-    opacity-0
-    duration-150
-    ease-in-out;
 }
 
 .label--selected .icon {
