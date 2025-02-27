@@ -14,7 +14,7 @@ export const CSS = {
   shortText: "short-text",
   single: "label--single",
   textContainer: "text-container",
-  title: "title",
+  heading: "heading",
 };
 
 export const SLOTS = {

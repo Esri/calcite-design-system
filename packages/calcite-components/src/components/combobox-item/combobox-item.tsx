@@ -251,7 +251,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={icon}
@@ -313,7 +312,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
-              <div class={CSS.title}>
+              <div class={CSS.heading}>
                 {highlightText({
                   text: headingText,
                   pattern: filterTextMatchPattern,

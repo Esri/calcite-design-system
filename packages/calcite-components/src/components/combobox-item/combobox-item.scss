@@ -1,3 +1,20 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-item-text-color: Specifies the text color of the combobox item.
+ * @prop --calcite-combobox-item-text-color-hover: Specifies the text color of the combobox item when hovered.
+ * @prop --calcite-combobox-item-text-color-selected: Specifies the text color of the combobox item when selected.
+ * @prop --calcite-combobox-item-background-color-active: Specifies the background color of the combobox item when active.
+ * @prop --calcite-combobox-item-background-color-hover: Specifies the background color of the combobox item when hovered.
+ * @prop --calcite-combobox-item-selected-indicator-icon-color: Specifies the color of the selected indicator icon.
+ * @prop --calcite-combobox-item-icon-selected: Specifies the color of the combobox item icon when selected.
+ * @prop --calcite-combobox-item-description-text-color: Specifies the text color of the combobox item description.
+ * @prop --calcite-combobox-item-description-text-color-hover: Specifies the text color of the combobox item description when hovered.
+ * @prop --calcite-combobox-item-heading-text-color: Specifies the text color of the combobox item heading.
+ */
+
 @include base-component();
 
 .scale--s {
@@ -47,8 +64,7 @@ ul:focus {
 }
 
 .label {
-  @apply text-color-3
-  focus-base
+  @apply focus-base
   relative
   box-border
   flex
@@ -57,7 +73,6 @@ ul:focus {
   cursor-pointer
   items-center
   no-underline
-  duration-150
   ease-in-out;
   @include word-break();
   justify-content: space-around;
@@ -65,6 +80,9 @@ ul:focus {
   padding-block: var(--calcite-combobox-item-spacing-unit-s);
   padding-inline-end: var(--calcite-combobox-item-spacing-unit-l);
   padding-inline-start: var(--calcite-combobox-item-indent-value);
+
+  color: var(--calcite-combobox-item-text-color, var(--calcite-color-text-3));
+  transition-duration: var(--calcite-animation-timing);
 }
 
 :host([disabled]) .label {
@@ -73,9 +91,9 @@ ul:focus {
 
 // selected state
 .label--selected {
-  @apply text-color-1;
+  color: var(--calcite-combobox-item-text-color-selected, var(--calcite-color-text-1));
 
-  .title {
+  .heading {
     @apply font-medium;
   }
 }
@@ -86,22 +104,16 @@ ul:focus {
 
 .label:hover,
 .label:active {
-  @apply text-color-1
-    bg-foreground-2
-    no-underline
-    shadow-none;
+  @apply no-underline shadow-none;
+  color: var(--calcite-combobox-item-text-color-hover, var(--calcite-color-text-1));
+}
+
+.label:hover {
+  background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-foreground-2));
 }
 
 .label:active {
-  background-color: var(--calcite-color-foreground-3);
-}
-
-.icon {
-  @apply inline-flex
-    opacity-0
-    duration-150
-    ease-in-out;
-  color: theme("borderColor.color.1");
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-3));
 }
 
 .icon--custom {
@@ -109,12 +121,19 @@ ul:focus {
 }
 
 .icon--selected {
-  @apply text-color-1;
+  color: var(--calcite-combobox-item-icon-selected, var(--calcite-color-text-1));
+}
+
+.icon {
+  @apply inline-flex
+    opacity-0
+    duration-150
+    ease-in-out;
 }
 
 .label--selected .icon {
   @apply opacity-100;
-  color: theme("backgroundColor.brand");
+  color: var(--calcite-combobox-item-selected-indicator-icon-color, var(--calcite-color-brand));
 }
 
 .center-content {
@@ -131,20 +150,24 @@ ul:focus {
 :host([selected]),
 :host(:hover) {
   .description {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-combobox-item-description-text-color-hover, var(--calcite-color-text-2));
   }
 }
 
 .short-text {
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-combobox-item-short-heading-text-color, var(--calcite-color-text-3));
   white-space: nowrap;
 }
 
-.title {
-  color: var(--calcite-color-text-1);
+.heading {
+  color: var(--calcite-combobox-item-heading-text-color, var(--calcite-color-text-1));
 }
 
-.title,
+.description {
+  color: var(--calcite-combobox-item-description-text-color, var(--calcite-color-text-3));
+}
+
+.heading,
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);
