@@ -107,6 +107,10 @@ ul:focus {
   margin-block-start: -1px;
 }
 
+:host([selected]) .icon--custom {
+  @apply text-color-1;
+}
+
 .center-content {
   display: flex;
   flex-direction: column;
