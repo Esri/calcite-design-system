@@ -1,4 +1,5 @@
-import { resolve } from "path";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
 import { describe, it, expect } from "vitest";
 
