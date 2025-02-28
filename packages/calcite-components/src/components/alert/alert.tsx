@@ -17,12 +17,7 @@ import {
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -52,7 +47,7 @@ const manager = new AlertManager();
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
-export class Alert extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Alert extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -69,7 +64,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private lastMouseOverBegin: number;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private totalHoverTime = 0;
 
@@ -217,24 +212,17 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     };
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
-      this.handleActiveChange();
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
+    }
+
+    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
+      this.handleActiveChange();
     }
 
     if (
@@ -257,10 +245,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     manager.unregisterElement(this.el);
     this.clearAutoCloseTimeout();
@@ -272,6 +256,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   // #region Private Methods
 
   private handleActiveChange(): void {
+    onToggleOpenCloseComponent(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
@@ -283,7 +268,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
     if (this.open) {
       manager.registerElement(this.el);
     } else {
@@ -342,6 +326,10 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

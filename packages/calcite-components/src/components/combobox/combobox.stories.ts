@@ -80,7 +80,7 @@ export const single = (): string => html`
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
       <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
       <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
-      <calcite-combobox-item icon="battery3" value="battery" text-label="Batterycharging"></calcite-combobox-item>
+      <calcite-combobox-item icon="battery3" value="battery" text-label="Battery Charging"></calcite-combobox-item>
       <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
       <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
       <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>
@@ -92,6 +92,34 @@ export const single = (): string => html`
     </calcite-combobox>
   </div>
 `;
+
+export const smallViewport = (): string => html`
+  <calcite-combobox
+    selection-display="all"
+    selection-mode="single"
+    label="demo"
+    open
+    max-items="0"
+    placeholder="placeholder"
+    scale="m"
+    status="idle"
+  >
+    <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
+    <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
+    <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
+    <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
+    <calcite-combobox-item icon="battery3" value="battery" text-label="Battery Charging"></calcite-combobox-item>
+    <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
+    <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
+    <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>
+    <calcite-combobox-item icon="brightness" value="brightness" text-label="Brightness"></calcite-combobox-item>
+    <calcite-combobox-item icon="calendar" value="calendar" text-label="Calendar"></calcite-combobox-item>
+    <calcite-combobox-item icon="camera" value="camera" text-label="Camera"></calcite-combobox-item>
+    <calcite-combobox-item icon="car" value="car" text-label="Car"></calcite-combobox-item>
+    <calcite-combobox-item icon="clock" value="clock" text-label="Clock"></calcite-combobox-item>
+  </calcite-combobox>
+`;
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
@@ -384,12 +412,12 @@ const style = html`
 
 export const longItemsAllSelectionModes = (): string => html`
   ${style}
-  <div style="display: flex; flex-direction: column;"> 
-    <div style="display: flex; flex-direction: row; margin-block-end: 160px;"> 
+  <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: row; margin-block-end: 160px;">
       <calcite-combobox open selection-mode="single" style="margin-right: 20px;">
         <calcite-combobox-item text-label="Layers">
         <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
-        <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>ß</calcite-combobox-item>
+        <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item></calcite-combobox-item>
       </calcite-combobox>
 
       <calcite-combobox open selection-mode="single-persist">
@@ -399,7 +427,7 @@ export const longItemsAllSelectionModes = (): string => html`
       </calcite-combobox>
     </div>
 
-    <div style="display: flex; flex-direction: row;"> 
+    <div style="display: flex; flex-direction: row;">
       <calcite-combobox open selection-mode="multiple" style="margin-right: 20px;">
         <calcite-combobox-item-group label="First item group">
           <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
@@ -418,8 +446,8 @@ export const longItemsAllSelectionModes = (): string => html`
           </calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
-    </div> 
-  <div> 
+    </div>
+  <div>
 `;
 
 export const disabled_TestOnly = (): string =>
@@ -901,7 +929,43 @@ export const filterHighlighting = (): string => html`
   </calcite-combobox>
 `;
 
-export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
+export const withDescriptionIconsAndContentSlots = (): string => html`
+  <calcite-combobox open>
+    <calcite-combobox-item
+      icon="layer"
+      description="the first installment in this thrilling series"
+      selected
+      short-heading="#1"
+      text-label="1ne"
+      value="one"
+    >
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+    <calcite-combobox-item
+      icon="layer"
+      description="the sequel to the smash hit 'one'"
+      short-heading="#2"
+      text-label="2woo"
+      value="two"
+    >
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+    <calcite-combobox-item
+      icon="layer"
+      description="the thrilling conclusion to the number series"
+      short-heading="#3"
+      text-label="Thr333"
+      value="three"
+    >
+      <calcite-icon icon="arrow-left" slot="content-start" scale="s"></calcite-icon>
+      <calcite-icon icon="arrow-right" slot="content-end" scale="s"></calcite-icon>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const withDescriptionShortLabelAndContentSlots = (): string => html`
   <calcite-combobox-item
     description="the first installment in this thrilling series"
     selected
@@ -909,7 +973,8 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="1ne"
     value="one"
   >
-    <calcite-icon icon="number-circle-1" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-1" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-2" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
     description="the sequel to the smash hit 'one'"
@@ -917,7 +982,8 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="2woo"
     value="two"
   >
-    <calcite-icon icon="number-circle-2" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-3" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-4" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
     description="the thrilling conclusion to the number series"
@@ -925,13 +991,14 @@ export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
     text-label="Thr333"
     value="three"
   >
-    <calcite-icon icon="number-circle-3" slot="content-end"></calcite-icon>
+    <calcite-icon icon="number-circle-5" slot="content-start" scale="s"></calcite-icon>
+    <calcite-icon icon="number-circle-6" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
 `;
-withDescriptionShortLabelAndContentEndSlot.args = {
+withDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };
-withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder];
-withDescriptionShortLabelAndContentEndSlot.parameters = {
+withDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
+withDescriptionShortLabelAndContentSlots.parameters = {
   chromatic: { delay: 1000 },
 };

@@ -24,7 +24,7 @@
         Object.keys(messagesFileMain).forEach((key) => (data[component][key] = {}));
 
         const messagesFilenames = (await readdir(t9nPath, { withFileTypes: true })).map((dirent) => dirent.name);
-        const messagesFilenameRegex = new RegExp(`${component}\\.t9n\\.(.*)\\.json`);
+        const messagesFilenameRegex = new RegExp(`messages\\.(.*)\\.json`);
 
         for (const messagesFilename of messagesFilenames) {
           const messagesFilenameMatch = messagesFilename.match(messagesFilenameRegex);

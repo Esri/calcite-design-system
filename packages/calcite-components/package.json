@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.0.0-next.88",
+  "version": "3.1.0-next.18",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -19,6 +19,7 @@
     "./types/*": "./dist/types/*.d.ts",
     "./hydrate": "./hydrate/index.js",
     "./calcite/calcite.css": "./dist/calcite/calcite.css",
+    "./docs/*": "./dist/docs/*",
     "./dist/calcite/calcite.css": "./dist/calcite/calcite.css",
     "./dist/loader": "./dist/loader.js",
     "./dist/components": "./dist/index.js",
@@ -35,12 +36,12 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
-    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json && npm run util:clean-readmes && npm run util:copy-legacy-vscode-data",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json && npm run util:copy-legacy-vscode-data",
     "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
     "build:watch-dev": "npm run util:prep-build-reqs && vite --mode development",
-    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist hydrate docs .turbo",
+    "clean": "npm run util:clean-js-files && rimraf node_modules dist hydrate docs .turbo",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
@@ -51,11 +52,10 @@
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
-    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
+    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "vitest run",
     "test:watch": "vitest",
-    "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
-    "util:clean-readmes": "git restore src/components/*/readme.md",
+    "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
@@ -68,15 +68,14 @@
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.0-next.69",
-    "@arcgis/components-utils": "^4.32.0-next.69",
-    "@arcgis/lumina": "^4.32.0-next.69",
-    "@esri/calcite-ui-icons": "4.0.0-next.6",
+    "@arcgis/components-controllers": "^4.32.1",
+    "@arcgis/components-utils": "^4.32.1",
+    "@arcgis/lumina": "^4.32.1",
+    "@esri/calcite-ui-icons": "4.0.1-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
-    "@types/color": "^4.2.0",
     "@types/sortablejs": "^1.15.8",
-    "color": "^4.2.3",
+    "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
     "dayjs": "^1.11.13",
     "focus-trap": "^7.6.2",
@@ -87,9 +86,8 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "3.0.0-next.4",
-    "@esri/eslint-plugin-calcite-components": "2.0.0-next.3",
-    "vitest": "2.1.8"
+    "@esri/calcite-design-tokens": "3.0.1-next.1",
+    "@esri/eslint-plugin-calcite-components": "2.0.1-next.0"
   },
   "volta": {
     "extends": "../../package.json"

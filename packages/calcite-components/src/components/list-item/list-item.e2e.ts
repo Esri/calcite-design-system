@@ -73,6 +73,10 @@ describe("calcite-list-item", () => {
         propertyName: "iconFlipRtl",
         defaultValue: undefined,
       },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -80,6 +84,10 @@ describe("calcite-list-item", () => {
     reflects("calcite-list-item", [
       {
         propertyName: "unavailable",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
         value: true,
       },
     ]);
@@ -493,7 +501,7 @@ describe("calcite-list-item", () => {
           "--calcite-list-background-color-press": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: CSS.content } },
+            state: { press: `calcite-list-item >>> .${CSS.content}` },
           },
           "--calcite-list-border-color": {
             shadowSelector: `.${CSS.contentContainerWrapper}`,
@@ -534,8 +542,8 @@ describe("calcite-list-item", () => {
         ></calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "boxShadow",
+            shadowSelector: `.${CSS.container}::before`,
+            targetProp: "backgroundColor",
           },
         },
       );

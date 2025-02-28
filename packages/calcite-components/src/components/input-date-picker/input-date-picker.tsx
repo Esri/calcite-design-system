@@ -49,12 +49,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -101,7 +96,6 @@ export class InputDatePicker
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent
 {
   // #region Static Members
@@ -146,7 +140,7 @@ export class InputDatePicker
 
   labelEl: Label["el"];
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
@@ -202,7 +196,10 @@ export class InputDatePicker
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
-  /** Specifies the latest allowed date ("yyyy-mm-dd"). */
+  /**
+   * When the component resides in a form,
+   * specifies the latest allowed date ("yyyy-mm-dd").
+   */
   @property({ reflect: true }) max: string;
 
   /** Specifies the latest allowed date as a full date object. */
@@ -218,7 +215,10 @@ export class InputDatePicker
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
+  /**
+   * When the component resides in a form,
+   * specifies the earliest allowed date ("yyyy-mm-dd").
+   */
   @property({ reflect: true }) min: string;
 
   /** Specifies the earliest allowed date as a full date object. */
@@ -272,7 +272,10 @@ export class InputDatePicker
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -435,15 +438,10 @@ export class InputDatePicker
       useGrouping: false,
     };
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -512,7 +510,6 @@ export class InputDatePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }
@@ -682,6 +679,10 @@ export class InputDatePicker
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -840,7 +841,6 @@ export class InputDatePicker
       focusTrapEl: el,
       focusTrapOptions: {
         allowOutsideClick: true,
-        // Allow outside click and let the popover manager take care of closing the popover.
         clickOutsideDeactivates: false,
         initialFocus: false,
         setReturnFocus: false,

@@ -8,8 +8,6 @@ export const CSS = {
   assistiveText: "assistive-text",
 };
 
-export const debounceTimeout = 0;
-
 export type SelectionAppearance = "border" | "icon";
 
 export const SLOTS = {

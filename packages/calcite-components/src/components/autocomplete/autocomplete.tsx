@@ -30,11 +30,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -60,7 +55,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -83,7 +78,6 @@ export class Autocomplete
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent,
     TextualInputComponent
 {
@@ -125,7 +119,7 @@ export class Autocomplete
    */
   messages = useT9n<typeof T9nStrings>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: Input["el"];
 
@@ -203,7 +197,8 @@ export class Autocomplete
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -213,7 +208,8 @@ export class Autocomplete
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
@@ -241,7 +237,8 @@ export class Autocomplete
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -272,7 +269,10 @@ export class Autocomplete
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -420,24 +420,12 @@ export class Autocomplete
     connectLabel(this);
     connectForm(this);
     this.defaultInputValue = this.inputValue || "";
-
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -496,7 +484,6 @@ export class Autocomplete
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
     this.defaultInputValue = this.inputValue || "";
-    setComponentLoaded(this);
     connectFloatingUI(this);
   }
 
@@ -617,7 +604,12 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant: string = null;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
+      item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
+    });
+
+    this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
       if (isActive) {
@@ -625,8 +617,6 @@ export class Autocomplete
       }
 
       item.active = isActive;
-      item.scale = this.scale;
-      item.inputValueMatchPattern = this.inputValueMatchPattern;
     });
 
     this.activeDescendant = activeDescendant;
@@ -652,12 +642,6 @@ export class Autocomplete
     this.items = Array.from(el.querySelectorAll(itemSelector));
     this.updateItems();
     this.updateGroups();
-  }
-
-  private getIcon(): IconNameOrString {
-    const { icon } = this;
-
-    return icon === true ? ICONS.search : icon || ICONS.search;
   }
 
   private setReferenceEl(el: Input["el"]): void {
@@ -772,6 +756,10 @@ export class Autocomplete
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -804,7 +792,7 @@ export class Autocomplete
             disabled={disabled}
             enterKeyHint={enterKeyHint}
             form={this.form}
-            icon={this.getIcon()}
+            icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
             inputMode={inputMode}

@@ -24,12 +24,7 @@ import {
   TimePart,
 } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
@@ -47,7 +42,7 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export class TimePicker extends LitElement implements LoadableComponent {
+export class TimePicker extends LitElement {
   // #region Static Members
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -164,8 +159,8 @@ export class TimePicker extends LitElement implements LoadableComponent {
 
   // #region Events
 
-  /** @private */
-  calciteInternalTimePickerChange = createEvent({ cancelable: false });
+  /** Fires when a user changes the component's time */
+  calciteTimePickerChange = createEvent({ cancelable: false });
 
   // #endregion
 
@@ -181,10 +176,6 @@ export class TimePicker extends LitElement implements LoadableComponent {
   override connectedCallback(): void {
     this.updateLocale();
     this.toggleSecond();
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -203,10 +194,6 @@ export class TimePicker extends LitElement implements LoadableComponent {
     if (changes.has("hourFormat") || changes.has("messages")) {
       this.updateLocale();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -777,6 +764,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
       messages: { _lang: locale },
       numberingSystem,
     } = this;
+    const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -798,6 +786,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
           part: "hour",
           locale,
           numberingSystem,
+          hour12,
         });
       }
     } else if (key === "fractionalSecond") {
@@ -813,6 +802,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: "fractionalSecond",
         locale,
         numberingSystem,
+        hour12,
       });
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
@@ -821,6 +811,7 @@ export class TimePicker extends LitElement implements LoadableComponent {
         part: key,
         locale,
         numberingSystem,
+        hour12,
       });
     }
     let emit = false;
@@ -842,14 +833,14 @@ export class TimePicker extends LitElement implements LoadableComponent {
     this.value = newValue;
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts({
-          hour12: effectiveHourFormat === "12",
+          hour12,
           locale,
           numberingSystem,
           value: this.value,
         })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteTimePickerChange.emit();
     }
   }
 

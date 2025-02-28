@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generated tokens CSS core should match 1`] = `
+exports[`generated tokens > CSS > core should match 1`] = `
 "/
 
 :root {
@@ -324,7 +324,7 @@ exports[`generated tokens CSS core should match 1`] = `
 "
 `;
 
-exports[`generated tokens CSS dark should match 1`] = `
+exports[`generated tokens > CSS > dark should match 1`] = `
 "/
 
 :root {
@@ -373,7 +373,7 @@ exports[`generated tokens CSS dark should match 1`] = `
 "
 `;
 
-exports[`generated tokens CSS global should match 1`] = `
+exports[`generated tokens > CSS > global should match 1`] = `
 "/
 
 :root {
@@ -468,9 +468,10 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
-  --calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-    monospace; /* Font family for code with fallbacks */
-  --calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
+  --calcite-font-family-code:
+    Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; /* Font family for code with fallbacks */
+  --calcite-font-family:
+    "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
   --calcite-corner-radius-pill: 100%;
   --calcite-corner-radius-round: 4px;
   --calcite-corner-radius-sharp: 0;
@@ -483,17 +484,17 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-border-width-md: 2px;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-none: 0;
-  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
-    0 12px 30px rgba(0, 0, 0, 0.1);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
-    0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  --calcite-shadow-md:
+    0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-sm:
+    0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-corner-radius: var(--calcite-corner-radius-sharp);
 }
 "
 `;
 
-exports[`generated tokens CSS light should match 1`] = `
+exports[`generated tokens > CSS > light should match 1`] = `
 "/
 
 :root {
@@ -542,7 +543,7 @@ exports[`generated tokens CSS light should match 1`] = `
 "
 `;
 
-exports[`generated tokens ES6 core should match 1`] = `
+exports[`generated tokens > ES6 > core should match 1`] = `
 "/
 
 export const calciteColorNeutralBlk000 = "#ffffff";
@@ -860,7 +861,7 @@ export const calciteZIndex9 = "900";
 "
 `;
 
-exports[`generated tokens ES6 global should match 1`] = `
+exports[`generated tokens > ES6 > global should match 1`] = `
 "/
 
 export const calciteBorderWidthNone = "0";
@@ -1084,7 +1085,7 @@ export const calciteZIndexTooltip = "901";
 "
 `;
 
-exports[`generated tokens ES6 types should match 1`] = `
+exports[`generated tokens > ES6 > types should match 1`] = `
 "/
 
 export const calciteBorderWidthNone : string;
@@ -1362,7 +1363,7 @@ export const calciteZIndexTooltip : string;
 "
 `;
 
-exports[`generated tokens ES6 types should match 2`] = `
+exports[`generated tokens > ES6 > types should match 2`] = `
 "/
 
 export const calciteColorNeutralBlk000 : string;
@@ -1699,7 +1700,7 @@ export const calciteZIndex9 : string;
 "
 `;
 
-exports[`generated tokens SCSS core should match 1`] = `
+exports[`generated tokens > SCSS > core should match 1`] = `
 "/
 
 $calcite-z-index-9: 900;
@@ -2018,7 +2019,7 @@ $calcite-shadow-0: 0 0 0 0 rgba(var(--calcite-color-neutral-blk-240), 0);
 "
 `;
 
-exports[`generated tokens SCSS dark should match 1`] = `
+exports[`generated tokens > SCSS > dark should match 1`] = `
 "/
 
 $calcite-color-border-white: #f8f8f8;
@@ -2065,7 +2066,7 @@ $calcite-color-focus: #009af2;
 "
 `;
 
-exports[`generated tokens SCSS global should match 1`] = `
+exports[`generated tokens > SCSS > global should match 1`] = `
 "/
 
 $calcite-z-index-tooltip: 901;
@@ -2159,9 +2160,10 @@ $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-  monospace; // Font family for code with fallbacks
-$calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
+$calcite-font-family-code:
+  Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; // Font family for code with fallbacks
+$calcite-font-family:
+  "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
 $calcite-corner-radius-pill: 100%;
 $calcite-corner-radius-round: 4px;
 $calcite-corner-radius-sharp: 0;
@@ -2185,7 +2187,7 @@ $calcite-corner-radius: var(--calcite-corner-radius-sharp);
 "
 `;
 
-exports[`generated tokens SCSS light should match 1`] = `
+exports[`generated tokens > SCSS > light should match 1`] = `
 "/
 
 $calcite-color-border-white: #ffffff;

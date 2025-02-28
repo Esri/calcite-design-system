@@ -13,6 +13,7 @@ export const CSS = {
   placeholderIcon: "placeholder-icon",
   selectedIcon: "selected-icon",
   floatingUIContainer: "floating-ui-container",
+  screenReadersOnly: "screen-readers-only",
 };
 
 export const IDS = {

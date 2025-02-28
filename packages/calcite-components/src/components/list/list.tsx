@@ -13,6 +13,7 @@ import { createObserver } from "../../utils/observers";
 import { SelectionMode, InteractionMode, Scale } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import {
+  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -25,12 +26,7 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
@@ -38,7 +34,8 @@ import { useT9n } from "../../controllers/useT9n";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
-import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
+import { DEBOUNCE } from "../../utils/resources";
+import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
 import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
@@ -60,10 +57,7 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponent
-{
+export class List extends LitElement implements InteractiveComponent, SortableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -148,7 +142,7 @@ export class List
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
-  }, debounceTimeout);
+  }, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
 
@@ -196,7 +190,7 @@ export class List
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can  move from the list. */
+  /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
@@ -416,7 +410,6 @@ export class List
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleInteractionModeWarning();
   }
 
@@ -451,10 +444,6 @@ export class List
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -844,15 +833,15 @@ export class List
     const rootNode = getRootNode(el);
 
     const lists = group
-      ? Array.from(rootNode.querySelectorAll<List["el"]>(`calcite-list[group="${group}"]`)).filter(
-          (list) => !list.disabled && list.dragEnabled,
-        )
+      ? Array.from(
+          rootNode.querySelectorAll<List["el"]>(`${listSelector}[group="${group}"]`),
+        ).filter((list) => !list.disabled && list.dragEnabled)
       : [];
 
     this.moveToItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
 
     const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
@@ -945,8 +934,9 @@ export class List
 
     const dragEl = event.target as ListItem["el"];
     const fromEl = dragEl?.parentElement as List["el"];
-    const oldIndex = Array.from(fromEl.children).indexOf(dragEl);
     const toEl = moveTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
 
     if (!fromEl) {
       return;
@@ -958,7 +948,8 @@ export class List
 
     toEl.prepend(dragEl);
     openAncestors(dragEl);
-    const newIndex = Array.from(toEl.children).indexOf(dragEl);
+    const toElItems = Array.from(toEl.children).filter(isListItem);
+    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateListItems();
     this.connectObserver();
@@ -984,7 +975,7 @@ export class List
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.filteredItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = Array.from(parentEl.children).filter(isListItem);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);

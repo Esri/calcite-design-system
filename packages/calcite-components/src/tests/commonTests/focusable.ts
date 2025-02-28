@@ -1,11 +1,9 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import {} from "../utils";
 import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 export interface FocusableOptions {
   /**

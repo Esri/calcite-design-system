@@ -1,9 +1,9 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
 import type { TabTitle } from "../tab-title/tab-title";
@@ -75,8 +75,8 @@ describe("calcite-tabs", () => {
 
     await page.waitForChanges();
 
-    const tabs = await page.findAll("calcite-tab");
-    const titles = await page.findAll("calcite-tab-title");
+    const tabs = await findAll(page, "calcite-tab");
+    const titles = await findAll(page, "calcite-tab-title");
 
     expect(titles[0]).toEqualAttribute("aria-selected", "true");
     expect(titles[1]).toEqualAttribute("aria-selected", "false");
@@ -122,8 +122,8 @@ describe("calcite-tabs", () => {
 
     await page.waitForChanges();
 
-    const tabs = await page.findAll("calcite-tab");
-    const titles = await page.findAll("calcite-tab-title");
+    const tabs = await findAll(page, "calcite-tab");
+    const titles = await findAll(page, "calcite-tab-title");
 
     for (let index = 0; index < tabs.length; index++) {
       const tab = tabs[index];
@@ -334,8 +334,8 @@ describe("calcite-tabs", () => {
         </calcite-tabs>
       `);
 
-      allTabTitles = await page.findAll("calcite-tab-title");
-      allTabs = await page.findAll("calcite-tab");
+      allTabTitles = await findAll(page, "calcite-tab-title");
+      allTabs = await findAll(page, "calcite-tab");
 
       const tabNav = await page.find("calcite-tab-nav");
       const tabs = await page.find("calcite-tabs");

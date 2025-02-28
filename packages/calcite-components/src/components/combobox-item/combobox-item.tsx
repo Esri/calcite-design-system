@@ -26,6 +26,7 @@ declare global {
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
+ * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
 export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region Static Members
@@ -37,6 +38,12 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() hasContent = false;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private _selected = false;
 
   // #endregion
 
@@ -90,7 +97,18 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected: boolean = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      // we emit directly to avoid delays updating the parent combobox
+      this.emitItemChange();
+    }
+  }
 
   /**
    * Specifies the selection mode of the component, where:
@@ -133,6 +151,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   @property() value: any;
 
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
+
   // #endregion
 
   // #region Events
@@ -160,16 +185,14 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
-      changes.has("textLabel")
+      this.hasUpdated &&
+      (changes.has("disabled") ||
+        changes.has("heading") ||
+        changes.has("label") ||
+        changes.has("textLabel"))
     ) {
-      this.calciteInternalComboboxItemChange.emit();
+      this.emitItemChange();
     }
   }
 
@@ -180,6 +203,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
+  private emitItemChange(): void {
+    this.calciteInternalComboboxItemChange.emit();
+  }
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
@@ -283,6 +310,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}
+            <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
               <div class={CSS.title}>

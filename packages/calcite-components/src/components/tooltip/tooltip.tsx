@@ -55,7 +55,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private guid = `calcite-tooltip-${guid()}`;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -174,15 +174,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   override connectedCallback(): void {
     this.setUpReferenceElement(true);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  load(): void {
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -255,6 +246,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

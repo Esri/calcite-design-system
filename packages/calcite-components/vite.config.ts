@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -6,11 +5,10 @@ import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
-import replace from "@rollup/plugin-replace";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
-const nonEsmDependencies = ["color", "interactjs"];
+const nonEsmDependencies = ["interactjs"];
 
 export default defineConfig({
   ssr: {
@@ -53,23 +51,13 @@ export default defineConfig({
         },
       },
     }),
-    process.env.NODE_ENV !== "test" &&
-      replace({
-        values: {
-          __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
-          __CALCITE_REVISION__: execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim(),
-          __CALCITE_VERSION__: version,
-        },
-        include: ["src/utils/config.ts"],
-        preventAssignment: true,
-      }),
   ],
 
   css: {
     preprocessorOptions: {
       scss: {
         // Add "includes.scss" import to each scss file
-        additionalData(code, id) {
+        additionalData(code: string, id: string) {
           const globalCss = "/src/assets/styles/includes";
           if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
             return undefined;
@@ -95,7 +83,19 @@ export default defineConfig({
       ],
     },
   },
+
+  define: {
+    __CALCITE_BUILD_DATE__: JSON.stringify(new Date().toISOString().split("T")[0]),
+    __CALCITE_REVISION__: JSON.stringify(execSync("git rev-parse --short HEAD", { encoding: "utf-8" }).trim()),
+    __CALCITE_VERSION__: JSON.stringify(version),
+  },
+
   test: {
+    // workaround for lumina puppeteer testing issue
+    browser: {
+      name: "chromium",
+      enabled: false,
+    },
     setupFiles: ["src/tests/setupTests.ts"],
     include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },

@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { KebabCase } from "type-fest";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -9,17 +10,15 @@ export interface OpenCloseComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
-  /** When true, the component opens. */
-  open?: boolean;
+  /**
+   * Specifies property on which active transition is watched for.
+   *
+   * This should be used if the component uses a property other than `open` to trigger a transition.
+   */
+  openProp?: string;
 
-  /** When true, the component is open. */
-  opened?: boolean;
-
-  /** Specifies the name of transitionProp. */
-  transitionProp?: string;
-
-  /** Specifies property on which active transition is watched for. */
-  openTransitionProp: string;
+  /** Specifies the name of CSS transition property. */
+  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement;
@@ -38,24 +37,22 @@ export interface OpenCloseComponent {
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
-  return "opened" in component ? component.opened : component.open;
+  return component[component.openProp || "open"];
 }
 
 /**
- * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the `@Watch`("open").
- * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
+ * This util helps emit (before)open/close events consistently based on the associated CSS transition property.
+ *
+ * Note: this should be called whenever the component's toggling property changes and would trigger a transition.
  *
  * @example
  * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
  *
- * async componentWillLoad() {
- * // When component initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
- * if (this.open) {
- *    onToggleOpenCloseComponent(this);
- * }
- * @Watch ("open")
- * async toggleModal(value: boolean): Promise<void> {
- *    onToggleOpenCloseComponent(this);
+ * override willUpdate(changes: PropertyValues<this>): void {
+ *   if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+ *     onToggleOpenCloseComponent(this);
+ *   }
+ *   // ...
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
@@ -67,7 +64,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
 
     whenTransitionDone(
       component.transitionEl,
-      component.openTransitionProp,
+      component.transitionProp,
       () => {
         if (isOpen(component)) {
           component.onBeforeOpen();

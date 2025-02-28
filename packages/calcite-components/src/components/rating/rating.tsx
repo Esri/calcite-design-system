@@ -23,12 +23,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 import { Validation } from "../functional/Validation";
@@ -49,7 +44,7 @@ declare global {
 
 export class Rating
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -126,7 +121,8 @@ export class Rating
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -220,7 +216,6 @@ export class Rating
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestUpdate("value");
   }
 
@@ -255,7 +250,6 @@ export class Rating
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -350,8 +344,8 @@ export class Rating
     target.focus();
   }
 
-  private handleLabelClick(event: Event) {
-    //preventing pointerdown event will supress any compatability mouse events except for click event.
+  private handleLabelClick(event: MouseEvent) {
+    //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
 
@@ -430,7 +424,7 @@ export class Rating
                       type="radio"
                       value={value}
                     />
-                    <StarIcon full={selected || average} scale={this.scale} />
+                    <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
                       <div class="fraction" style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />

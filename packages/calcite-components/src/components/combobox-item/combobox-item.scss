@@ -117,12 +117,6 @@ ul:focus {
   color: theme("backgroundColor.brand");
 }
 
-.text-match {
-  font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-color-text-1);
-  background-color: var(--calcite-color-foreground-current);
-}
-
 .center-content {
   display: flex;
   flex-direction: column;
@@ -155,3 +149,6 @@ ul:focus {
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);
 }
+
+@include item-hidden();
+@include text-highlight-item();

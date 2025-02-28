@@ -7,6 +7,7 @@
  */
 export function getTokenValue(token: string): string {
   const tokenValueMap = {
+    spacing: "42px",
     // granular patterns for the same token must be listed first to match correctly
     background$: "rgb(252, 244, 52)",
     "text-color$": "rgb(239, 118, 39)",

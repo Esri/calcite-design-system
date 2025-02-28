@@ -66,12 +66,6 @@
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
-.text-match {
-  font-weight: var(--calcite-font-weight-bold);
-  background-color: transparent;
-  color: inherit;
-}
-
 :host(:hover:not([disabled])) .container {
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
 
@@ -91,5 +85,6 @@
   padding-block: 0;
 }
 
+@include text-highlight-item();
 @include base-component();
 @include disabled();

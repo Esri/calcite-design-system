@@ -1,6 +1,4 @@
-import { toHaveNoViolations } from "jest-axe";
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { expect } from "vitest";
 import type {
   ComponentTag,
   TagOrHTML,
@@ -11,7 +9,6 @@ import type {
   WithBeforeContent,
   ComponentTestContent,
 } from "./interfaces";
-expect.extend(toHaveNoViolations);
 
 export const HYDRATED_ATTR = "calcite-hydrated";
 
@@ -24,10 +21,14 @@ export function getTag(tagOrHTML: string): ComponentTag {
     const calciteTagRegex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
     const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
+
     if (calciteTagMatchResult) {
       return calciteTagMatchResult[0].substring(1) as ComponentTag;
     }
-    throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
+
+    throw new Error(
+      `Could not extract tag from HTML: ${trimmedTag}. Please check that the HTML string contains a valid Calcite component tag.`,
+    );
   }
 
   return tagOrHTML as ComponentTag;

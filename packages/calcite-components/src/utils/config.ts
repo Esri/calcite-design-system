@@ -32,9 +32,9 @@ const runningInE2ETest = import.meta.env.MODE === "test" && !isServer;
 export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
 
 // the following placeholders are replaced by the build
-const version = "__CALCITE_VERSION__";
-const buildDate = "__CALCITE_BUILD_DATE__";
-const revision = "__CALCITE_REVISION__";
+const version = __CALCITE_VERSION__;
+const buildDate = __CALCITE_BUILD_DATE__;
+const revision = __CALCITE_REVISION__;
 
 /** Stamp the version onto the global config. */
 export function stampVersion(): void {

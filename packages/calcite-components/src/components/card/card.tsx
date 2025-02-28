@@ -11,12 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -47,7 +42,7 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Card extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -152,16 +147,8 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
 
   // #region Lifecycle
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

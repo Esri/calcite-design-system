@@ -27,6 +27,7 @@ const resources = {
     planning: {
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
+      needsInfo: "needs more info",
       spike: "spike",
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",

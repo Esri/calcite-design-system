@@ -5,3 +5,5 @@ export interface MenuItemCustomEvent {
   children?: MenuItem["el"][];
   isSubmenuOpen?: boolean;
 }
+
+export type Layout = "horizontal" | "vertical";

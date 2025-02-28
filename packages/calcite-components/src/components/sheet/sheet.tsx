@@ -13,20 +13,7 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -34,6 +21,7 @@ import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -45,10 +33,8 @@ declare global {
   }
 }
 
-export class Sheet
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
+/** @slot - A slot for adding custom content. */
+export class Sheet extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -61,7 +47,21 @@ export class Sheet
 
   private contentId: string;
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: false,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private ignoreOpenChange = false;
 
@@ -85,7 +85,9 @@ export class Sheet
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   };
 
-  openTransitionProp = "opacity";
+  openProp = "opened";
+
+  transitionProp = "opacity" as const;
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -134,6 +136,16 @@ export class Sheet
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
@@ -208,10 +220,17 @@ export class Sheet
     focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
@@ -241,25 +260,10 @@ export class Sheet
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // scrim closes on click, so we let it take over
-        clickOutsideDeactivates: false,
-        escapeDeactivates: (event) => {
-          if (!event.defaultPrevented && !this.escapeDisabled) {
-            this.open = false;
-            event.preventDefault();
-          }
-
-          return false;
-        },
-      },
-    });
     this.setupInteractions();
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openSheet();
@@ -271,10 +275,6 @@ export class Sheet
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       onToggleOpenCloseComponent(this);
     }
@@ -288,14 +288,9 @@ export class Sheet
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    deactivateFocusTrap(this);
     this.embedded = false;
     this.cleanupInteractions();
   }
@@ -318,18 +313,6 @@ export class Sheet
       this.open = false;
     }
   };
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
 
   private toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {
@@ -526,7 +509,7 @@ export class Sheet
 
   onOpen(): void {
     this.calciteSheetOpen.emit();
-    activateFocusTrap(this);
+    this.focusTrap.activate();
   }
 
   onBeforeClose(): void {
@@ -535,7 +518,7 @@ export class Sheet
 
   onClose(): void {
     this.calciteSheetClose.emit();
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {
@@ -549,6 +532,10 @@ export class Sheet
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -598,7 +585,7 @@ export class Sheet
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion

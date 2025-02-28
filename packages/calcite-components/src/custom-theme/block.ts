@@ -2,12 +2,11 @@ import { html } from "../../support/formatting";
 
 export const blockTokens = {
   calciteBlockBorderColor: "",
-  calciteBlockContentStartColor: "",
   calciteBlockHeaderBackgroundColor: "",
-  calciteBlockHeaderDescriptionColor: "",
-  calciteBlockHeaderIconColor: "",
-  calciteBlockIconColorEnd: "",
-  calciteBlockIconColorStart: "",
+  calciteBlockHeaderBackgroundColorHover: "",
+  calciteBlockTextColor: "",
+  calciteBlockHeadingTextColor: "",
+  calciteBlockHeadingTextColorPress: "",
 };
 
 export const block = html` <calcite-block

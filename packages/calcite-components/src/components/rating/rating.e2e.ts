@@ -11,8 +11,11 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
-import { isElementFocused } from "../../tests/utils";
+import { html } from "../../../support/formatting";
+import { findAll, isElementFocused } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -93,10 +96,10 @@ describe("calcite-rating", () => {
     it("should render a rating", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -141,10 +144,10 @@ describe("calcite-rating", () => {
     it("should render a rating with an average", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.4></calcite-rating>");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -188,10 +191,10 @@ describe("calcite-rating", () => {
     it("should render a rating with a value", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=4></calcite-rating>");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -234,10 +237,10 @@ describe("calcite-rating", () => {
     it("should render a rating with a value when an average is set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3 average=4.2></calcite-rating>");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
@@ -318,8 +321,8 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
       await element.setProperty("value", 3);
@@ -343,8 +346,8 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=4.25></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
 
       await element.setProperty("value", 3);
       await page.waitForChanges();
@@ -381,15 +384,15 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
-      const icons = await page.findAll("calcite-rating >>> .icon");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
 
       await labels[2].click();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
@@ -432,15 +435,15 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
-      const icons = await page.findAll("calcite-rating >>> .icon");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
 
       await labels[2].hover();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
@@ -451,9 +454,9 @@ describe("calcite-rating", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-      expect(icons[0]).toEqualAttribute("icon", "star");
-      expect(icons[1]).toEqualAttribute("icon", "star");
-      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
       expect(icons[3]).toEqualAttribute("icon", "star");
       expect(icons[4]).toEqualAttribute("icon", "star");
       expect(labels[0]).not.toHaveClass("selected");
@@ -481,14 +484,14 @@ describe("calcite-rating", () => {
     it("should update the UI when a hover event triggers on a rating label after a value has been set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3></calcite-rating>");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
 
       await labels[3].hover();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
       expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(hoveredElements.length).toEqual(4);
@@ -496,7 +499,7 @@ describe("calcite-rating", () => {
       expect(icons[0]).toEqualAttribute("icon", "star-f");
       expect(icons[1]).toEqualAttribute("icon", "star-f");
       expect(icons[2]).toEqualAttribute("icon", "star-f");
-      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star-f");
       expect(icons[4]).toEqualAttribute("icon", "star");
       expect(labels[0]).toHaveClass("selected");
       expect(labels[1]).toHaveClass("selected");
@@ -530,8 +533,8 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -544,14 +547,14 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
       await labels[2].click();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(await element.getProperty("value")).toBe(0);
@@ -565,15 +568,15 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating required></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
       await labels[2].click();
       await labels[2].click();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(await element.getProperty("value")).toBe(3);
@@ -592,8 +595,8 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
       expect(hoveredElements.length).toBe(0);
@@ -611,9 +614,9 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(hoveredElements.length).toBe(3);
@@ -633,8 +636,8 @@ describe("calcite-rating", () => {
       await page.waitForChanges();
       await page.waitForTimeout(200);
 
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected", { allowEmpty: true });
       expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(hoveredElements.length).toBe(0);
       expect(selectedElements.length).toBe(0);
@@ -652,9 +655,9 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
       await page.waitForChanges();
-      const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
-      const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+      const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const dataValue = labels[2].getAttribute("data-value");
 
       expect(hoveredElements.length).toBe(3);
@@ -666,13 +669,13 @@ describe("calcite-rating", () => {
     it("should select the first star when tabbing into a rating with an average set", async () => {
       const page = await newE2EPage();
       await page.setContent('<calcite-rating average="3"></calcite-rating>');
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
       expect(icons[1]).toEqualAttribute("icon", "star");
       expect(icons[2]).toEqualAttribute("icon", "star");
       expect(icons[3]).toEqualAttribute("icon", "star");
@@ -693,8 +696,8 @@ describe("calcite-rating", () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
-      const icons = await page.findAll("calcite-rating >>> .icon");
-      const labels = await page.findAll("calcite-rating >>> .star");
+      const icons = await findAll(page, "calcite-rating >>> .icon");
+      const labels = await findAll(page, "calcite-rating >>> .star");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
       await page.keyboard.press("Tab");
@@ -793,6 +796,57 @@ describe("calcite-rating", () => {
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(element).toEqualAttribute("value", "2");
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-rating></calcite-rating>`, {
+        "--calcite-rating-spacing": {
+          shadowSelector: `.${CSS.fieldSet}`,
+          targetProp: "gap",
+        },
+        "--calcite-rating-color": {
+          shadowSelector: `.${CSS.star}`,
+          targetProp: "color",
+        },
+        "--calcite-rating-color-press": {
+          shadowSelector: `.${CSS.star}`,
+          targetProp: "color",
+          state: { press: `calcite-rating >>> .${CSS.star}` },
+        },
+      });
+    });
+    describe("selected", () => {
+      themed(html`<calcite-rating value="2"></calcite-rating>`, {
+        "--calcite-rating-color-hover": {
+          shadowSelector: `.${CSS.star}[data-value='3']`,
+          targetProp: "color",
+          state: "hover",
+        },
+      });
+    });
+    describe("average", () => {
+      themed(html`<calcite-rating average="3.65" count="240" show-chip></calcite-rating>`, {
+        "--calcite-rating-average-color": [
+          {
+            shadowSelector: `.${CSS.average}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.fraction}`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-rating-average-text-color": {
+          shadowSelector: `.${CSS.numberAverage}`,
+          targetProp: "color",
+        },
+        "--calcite-rating-count-text-color": {
+          shadowSelector: `.${CSS.numberCount}`,
+          targetProp: "color",
+        },
+      });
     });
   });
 });

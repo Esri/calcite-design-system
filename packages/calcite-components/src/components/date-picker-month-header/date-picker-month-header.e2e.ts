@@ -1,8 +1,8 @@
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { DateLocaleData } from "../date-picker/utils";
 import { renders } from "../../tests/commonTests";
-import { newProgrammaticE2EPage } from "../../tests/utils";
+import { findAll, newProgrammaticE2EPage } from "../../tests/utils";
 import T9nStrings from "../date-picker/assets/t9n/messages.en.json";
 
 describe("calcite-date-picker-month-header", () => {
@@ -60,7 +60,7 @@ describe("calcite-date-picker-month-header", () => {
   renders(() => ({ tag: "calcite-date-picker-month-header", page }), { display: "block" });
 
   it("displays next/previous options", async () => {
-    const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");
+    const [prev, next] = await findAll(page, "calcite-date-picker-month-header >>> .chevron");
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
   });

@@ -37,6 +37,10 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
       {
+        propertyName: "dragDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
@@ -55,6 +59,10 @@ describe("calcite-block", () => {
       {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
       },
     ]);
   });
@@ -80,6 +88,14 @@ describe("calcite-block", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "dragDisabled",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        value: true,
       },
     ]);
   });
@@ -459,17 +475,24 @@ describe("calcite-block", () => {
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
             { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
           ],
-          "--calcite-block-text-color-hover": {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-            state: "hover",
-          },
+          "--calcite-block-heading-text-color-press": [
+            {
+              shadowSelector: `.${CSS.toggleIcon}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+              state: { press: { attribute: "class", value: CSS.heading } },
+            },
+          ],
         },
       );
     });
     describe("closed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
-        "--calcite-block-header-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
+        "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });
     });
   });

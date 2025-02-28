@@ -16,12 +16,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
@@ -36,7 +31,7 @@ declare global {
 
 export class Checkbox
   extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -107,7 +102,10 @@ export class Checkbox
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -187,16 +185,8 @@ export class Checkbox
     connectForm(this);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

@@ -10,12 +10,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
@@ -45,10 +40,7 @@ const focusMap = new Map<List["el"], number>();
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponentItem
-{
+export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
   // #region Static Members
 
   static override styles = styles;
@@ -222,7 +214,7 @@ export class ListItem
   @property() setSize: number = null;
 
   /** When `true`, displays and positions the sort handle. */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /** When `true`, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
@@ -352,10 +344,6 @@ export class ListItem
     this.setSelectionDefaults();
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
@@ -397,10 +385,6 @@ export class ListItem
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -472,22 +456,6 @@ export class ListItem
 
   private emitInternalListItemActive(): void {
     this.calciteInternalListItemActive.emit();
-  }
-
-  private focusCellHandle(): void {
-    this.handleCellFocusIn(this.handleGridEl.value);
-  }
-
-  private focusCellActionsStart(): void {
-    this.handleCellFocusIn(this.actionsStartEl.value);
-  }
-
-  private focusCellContent(): void {
-    this.handleCellFocusIn(this.contentEl.value);
-  }
-
-  private focusCellActionsEnd(): void {
-    this.handleCellFocusIn(this.actionsEndEl.value);
   }
 
   private emitCalciteInternalListItemToggle(): void {
@@ -670,10 +638,6 @@ export class ListItem
     this.focusCell(null);
   }
 
-  private handleCellFocusIn(focusEl: HTMLDivElement): void {
-    this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
-  }
-
   private setFocusCell(
     focusEl: HTMLDivElement | null,
     focusedEl: HTMLElement,
@@ -688,7 +652,7 @@ export class ListItem
     const gridCells = this.getGridCells();
 
     gridCells.forEach((tableCell) => {
-      tableCell.tabIndex = -1;
+      tableCell.removeAttribute("tabindex");
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
@@ -696,7 +660,12 @@ export class ListItem
       return;
     }
 
-    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+    if (focusEl === focusedEl) {
+      focusEl.tabIndex = 0;
+    } else {
+      focusEl.removeAttribute("tabindex");
+    }
+
     focusEl.setAttribute(activeCellTestAttribute, "");
 
     if (saveFocusIndex) {
@@ -755,7 +724,6 @@ export class ListItem
         ariaLabel={label}
         class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
-        onFocusIn={this.focusCellHandle}
         ref={this.handleGridEl}
         role="gridcell"
       >
@@ -820,7 +788,6 @@ export class ListItem
         class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        onFocusIn={this.focusCellActionsStart}
         ref={this.actionsStartEl}
         role="gridcell"
       >
@@ -837,7 +804,6 @@ export class ListItem
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
-        onFocusIn={this.focusCellActionsEnd}
         ref={this.actionsEndEl}
         role="gridcell"
       >
@@ -978,7 +944,6 @@ export class ListItem
         }}
         key="content-container"
         onClick={this.handleItemClick}
-        onFocusIn={this.focusCellContent}
         ref={this.contentEl}
         role="gridcell"
       >

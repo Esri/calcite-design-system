@@ -379,7 +379,7 @@ export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected> Watercraft </calcite-tab-title>
       <calcite-tab-title>Automobiles</calcite-tab-title>
-      <calcite-tab-title>Aircrafts</calcite-tab-title>
+      <calcite-tab-title>Aircraft</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab selected>
       <calcite-notice icon="embark" open>
@@ -413,7 +413,7 @@ export const noVerticalScrollbarInsideShellPanel_TestOnly = (): string => html`
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title selected> Watercraft </calcite-tab-title>
             <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircrafts</calcite-tab-title>
+            <calcite-tab-title>Aircraft</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab selected>
             <calcite-notice icon="embark" open>

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { toHaveNoViolations } from "jest-axe";
+
 import { KeyInput } from "puppeteer";
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -15,8 +15,6 @@ import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */
@@ -100,6 +98,7 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
+    await assertHiddenFormInputProps(page, component);
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
@@ -128,6 +127,7 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
+    await assertHiddenFormInputProps(page, component);
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
@@ -243,6 +243,23 @@ export function formAssociated(
     } else {
       expect(hiddenFormInputType).toMatch(inputType);
     }
+  }
+
+  async function assertHiddenFormInputProps(page: E2EPage, component: E2EElement): Promise<void> {
+    const name = await component.getProperty("name");
+    const { ariaHidden } = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<{ ariaHidden: string }> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
+        );
+
+        return { ariaHidden: hiddenFormInput.ariaHidden };
+      },
+      name,
+      hiddenFormInputSlotName,
+    );
+
+    expect(ariaHidden).toMatch("true");
   }
 
   async function assertValueResetOnFormReset(

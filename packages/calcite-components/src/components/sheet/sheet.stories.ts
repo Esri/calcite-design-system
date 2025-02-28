@@ -110,12 +110,12 @@ export const resizableLoremIpsum = (): string =>
     Cras volutpat eros in velit euismod, at accumsan velit pulvinar.
   </calcite-sheet>`;
 
-export const inlineStartfloat_TestOnly = (): string =>
+export const inlineStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const blockStartfloat_TestOnly = (): string =>
+export const blockStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;

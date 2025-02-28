@@ -1,6 +1,9 @@
 import { resolve } from "path";
 import { readFileSync } from "fs";
-import { __dirname } from "../utils/node.js";
+import { describe, it, expect } from "vitest";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe("generated tokens", () => {
   describe("CSS", () => {

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "3.0.0-next.4",
+  "version": "3.0.1-next.1",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -33,11 +33,8 @@
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
     "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "lint": "concurrently npm:lint:*",
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest",
-    "util:update-test-snapshots": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --updateSnapshot"
-  },
-  "devDependencies": {
-    "ts-jest-resolver": "2.0.1"
+    "test": "vitest",
+    "util:update-test-snapshots": "vitest --update"
   },
   "volta": {
     "extends": "../../package.json"
