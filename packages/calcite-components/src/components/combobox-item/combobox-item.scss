@@ -71,25 +71,20 @@ ul:focus {
   @apply cursor-default;
 }
 
-// selected state
-.label--selected {
-  @apply text-color-1;
-
-  .title {
-    @apply font-medium;
-  }
-}
-
 .label--active {
   @apply focus-inset;
 }
 
+:host([selected]) .label,
 .label:hover,
 .label:active {
   @apply text-color-2
-    bg-foreground-2
     no-underline
     shadow-none;
+}
+
+.label:hover {
+  background-color: var(--calcite-color-foreground-2);
 }
 
 .label:active {
@@ -101,20 +96,15 @@ ul:focus {
     opacity-0
     duration-150
     ease-in-out;
-  color: theme("borderColor.color.1");
+}
+
+:host([selected]) .icon {
+  @apply opacity-100;
+  color: theme("backgroundColor.brand");
 }
 
 .icon--custom {
   margin-block-start: -1px;
-}
-
-.icon--selected {
-  @apply text-color-1;
-}
-
-.label--selected .icon {
-  @apply opacity-100;
-  color: theme("backgroundColor.brand");
 }
 
 .center-content {
@@ -128,19 +118,20 @@ ul:focus {
   font-size: var(--calcite-internal-combobox-item-description-font-size);
 }
 
-:host([selected]),
-:host(:hover) {
-  .description {
-    color: var(--calcite-color-text-2);
-  }
-}
-
 .short-text {
   white-space: nowrap;
 }
 
 .title {
   color: var(--calcite-color-text-1);
+}
+
+// selected state
+:host([selected]),
+.label:active {
+  .title {
+    @apply font-medium;
+  }
 }
 
 .title,
