@@ -394,68 +394,70 @@ describe("calcite-list-item", () => {
     expect(calciteListItemClose).toHaveReceivedEventTimes(1);
   });
 
-  async function testToggleEventOpenClosed(toggleProp: string) {
-    const page = await newE2EPage({
-      html: html`<calcite-list-item id="test" display-mode="nested"
-        ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
-      ></calcite-list-item>`,
-    });
+  describe("toggleEvent", () => {
+    async function testToggleEventOpenClosed(toggleProp: string) {
+      const page = await newE2EPage({
+        html: html`<calcite-list-item id="test" display-mode="nested"
+          ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
+        ></calcite-list-item>`,
+      });
 
-    const listItem = await page.find("#test");
-    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+      const listItem = await page.find("#test");
+      const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
-    expect(await listItem.getProperty(toggleProp)).toBe(false);
+      expect(await listItem.getProperty(toggleProp)).toBe(false);
 
-    const expandedButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
+      const expandedButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
 
-    await expandedButton.click();
-    expect(await listItem.getProperty(toggleProp)).toBe(true);
-    expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
+      await expandedButton.click();
+      expect(await listItem.getProperty(toggleProp)).toBe(true);
+      expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
 
-    await expandedButton.click();
-    expect(await listItem.getProperty(toggleProp)).toBe(false);
-    expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
-  }
+      await expandedButton.click();
+      expect(await listItem.getProperty(toggleProp)).toBe(false);
+      expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
+    }
 
-  async function testNoToggleEventWithoutNestedItems(toggleProp: string) {
-    const page = await newE2EPage({
-      html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
-    });
+    async function testNoToggleEventWithoutNestedItems(toggleProp: string) {
+      const page = await newE2EPage({
+        html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
+      });
 
-    const listItem = await page.find("calcite-list-item");
-    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+      const listItem = await page.find("calcite-list-item");
+      const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
-    expect(await listItem.getProperty(toggleProp)).toBe(false);
+      expect(await listItem.getProperty(toggleProp)).toBe(false);
 
-    const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
+      const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
 
-    expect(expandedButton.getAttribute("title")).toBe(null);
+      expect(expandedButton.getAttribute("title")).toBe(null);
 
-    await expandedButton.click();
-    expect(await listItem.getProperty(toggleProp)).toBe(false);
-    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+      await expandedButton.click();
+      expect(await listItem.getProperty(toggleProp)).toBe(false);
+      expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
 
-    await expandedButton.click();
-    expect(await listItem.getProperty(toggleProp)).toBe(false);
-    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
-  }
+      await expandedButton.click();
+      expect(await listItem.getProperty(toggleProp)).toBe(false);
+      expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+    }
 
-  describe("deprecated", () => {
-    it("should fire calciteListItemToggle event when opened and closed", async () => {
-      await testToggleEventOpenClosed("open");
+    it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
+      await testToggleEventOpenClosed("expanded");
     });
 
     it("should not fire calciteListItemToggle event without nested items", async () => {
-      await testNoToggleEventWithoutNestedItems("open");
+      await testNoToggleEventWithoutNestedItems("expanded");
     });
-  });
 
-  it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
-    await testToggleEventOpenClosed("expanded");
-  });
+    describe("deprecated open/close props", () => {
+      it("should fire calciteListItemToggle event when opened and closed", async () => {
+        await testToggleEventOpenClosed("open");
+      });
 
-  it("should not fire calciteListItemToggle event without nested items", async () => {
-    await testNoToggleEventWithoutNestedItems("expanded");
+      it("should not fire calciteListItemToggle event without nested items", async () => {
+        await testNoToggleEventWithoutNestedItems("open");
+      });
+    });
   });
 
   it("should set displayMode on slotted list", async () => {
