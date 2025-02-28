@@ -103,6 +103,10 @@ describe("calcite-list-item", () => {
         value: true,
       },
       {
+        propertyName: "open",
+        value: true,
+      },
+      {
         propertyName: "expanded",
         value: true,
       },
