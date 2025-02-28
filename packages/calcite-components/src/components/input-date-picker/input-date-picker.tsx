@@ -1,13 +1,12 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
@@ -49,7 +48,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -60,7 +59,6 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
-import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
@@ -137,13 +135,11 @@ export class InputDatePicker
       clickOutsideDeactivates: false,
       initialFocus: false,
       setReturnFocus: false,
-      onDeactivate: this.focusTrapDeactivates,
+      onDeactivate: () => {
+        this.open = false;
+      },
     },
   })(this);
-
-  private focusTrapDeactivates(): void {
-    this.open = false;
-  }
 
   formEl: HTMLFormElement;
 
