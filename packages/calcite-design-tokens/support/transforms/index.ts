@@ -20,9 +20,9 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
   registerValueMathSum(sd);
   registerValueSizePxToRem(sd);
   registerValueSizeUnitlessToPx(sd);
-  registerTransformCalciteGroup(sd);
   registerAttributePlatformNames(sd);
   registerAttributeCalciteSchema(sd);
+  registerTransformCalciteGroup(sd);
 }
 
 export { TransformValueCSSShadow } from "./value/cssShadow.js";
