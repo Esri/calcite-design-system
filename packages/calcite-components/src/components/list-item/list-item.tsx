@@ -125,6 +125,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /** When `true`, the item is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
+
   /**
    * Hides the component when filtered.
    *
@@ -182,9 +185,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   set open(value: boolean) {
     this.expanded = value;
   }
-
-  /** When `true`, the item is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
 
   /**
    * Specifies the size of the component.
