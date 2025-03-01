@@ -3,7 +3,7 @@ import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-t
 import { registerCalciteTokenTransformers } from "../support/index.js";
 import calciteLightConfig from "../src/config/calcite/light.js";
 import calciteDarkConfig from "../src/config/calcite/dark.js";
-import config from "./config/index.js";
+import semanticConfig from "./config/semantic.js";
 
 await registerTokenStudioTransformers(StyleDictionary, {
   "ts/color/modifiers": {
@@ -12,7 +12,7 @@ await registerTokenStudioTransformers(StyleDictionary, {
 });
 await registerCalciteTokenTransformers(StyleDictionary);
 
-const sd = new StyleDictionary(config);
+const sd = new StyleDictionary(semanticConfig);
 await sd.buildAllPlatforms();
 
 const calciteLight = new StyleDictionary(calciteLightConfig);
