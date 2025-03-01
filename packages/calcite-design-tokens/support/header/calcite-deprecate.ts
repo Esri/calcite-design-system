@@ -1,7 +1,8 @@
+import { FileHeader } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 
-export const headerCalciteDefault = (passedMessage = [""]): Promise<string[]> | string[] => {
-  return ["Calcite Design System", "file to be deprecated in next major release", ...passedMessage];
+export const headerCalciteDefault: FileHeader = (defaultMessage = [""]) => {
+  return ["Calcite Design System", "file to be deprecated in next major release", ...defaultMessage];
 };
 
 export const registerCalciteDeprecateFileHeader: RegisterFn = async (sd) => {
