@@ -1,4 +1,4 @@
-import { relative, resolve } from "path";
+import { relative, resolve } from "node:path";
 import prettierSync from "@prettier/sync";
 import { FormatFn } from "style-dictionary/types";
 import { __dirname } from "../utils/node.js";

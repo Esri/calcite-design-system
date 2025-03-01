@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import * as prettier from "prettier/standalone";
 import * as prettierPluginEstree from "prettier/plugins/estree";
 import * as prettierPluginTypescript from "prettier/plugins/typescript";

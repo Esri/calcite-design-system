@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import StyleDictionary from "style-dictionary";
 import { fileHeader } from "style-dictionary/utils";
 import { FormatFn } from "style-dictionary/types";
