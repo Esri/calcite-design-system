@@ -10,8 +10,8 @@ import { outputReferencesFilter } from "style-dictionary/utils";
 import { transformers, filters, headers, formats } from "../../support/index.js";
 
 const config: Config = {
-  source: ["src/semantic/*.json"],
-  include: ["src/core/*.json"],
+  source: ["src/semantic/[!$]*.json"],
+  include: ["src/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
