@@ -37,7 +37,8 @@
     "index.js",
     "sprite-16.svg",
     "sprite-24.svg",
-    "sprite-32.svg"
+    "sprite-32.svg",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
     "build": "node bin/cli.js",
@@ -53,7 +54,8 @@
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
     "spriter": "node bin/spriter.js",
-    "start": "npm run copy-assets && node bin/server.js"
+    "start": "npm run copy-assets && node bin/server.js",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "devDependencies": {
     "browser-sync": "3.0.2",

@@ -12,7 +12,8 @@
   "main": "./dist/es6/global.js",
   "types": "./dist/es6/global.d.ts",
   "files": [
-    "./dist/**/*"
+    "./dist/**/*",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "vitest",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts",
     "util:update-test-snapshots": "vitest --update"
   },
   "volta": {
