@@ -4,7 +4,6 @@ import { exec } from "node:child_process";
 import { dirname, isAbsolute, join } from "node:path";
 import { promisify } from "node:util";
 import { getProjectLicenses } from "generate-license-file";
-import { format } from "prettier";
 
 (async function(): Promise<void> {
   console.info("Generating third-party licenses file");
@@ -52,11 +51,11 @@ import { format } from "prettier";
     const licenseFileContent = dedent`
 ## Third Party Licenses
 
-${licensesContent}
+${licensesContent}\n
 `;
 
     const outputLicensesFile = "./THIRD-PARTY-LICENSES.md";
-    await writeFile(outputLicensesFile, await format(licenseFileContent, { parser: "markdown" }));
+    await writeFile(outputLicensesFile, licenseFileContent);
 
     console.info(`Wrote third-party licenses to ${outputLicensesFile}`);
   } catch (error) {
