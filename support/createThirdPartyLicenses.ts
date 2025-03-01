@@ -26,7 +26,7 @@ import { format } from "prettier";
       "@esri/eslint-plugin-calcite-components",
     ];
 
-    const licenses = await getProjectLicenses(".package.json", {
+    const licenses = await getProjectLicenses("./package.json", {
       exclude: [
         ...coveredByEsriLicense
       ],
