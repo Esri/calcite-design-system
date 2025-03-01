@@ -1,10 +1,9 @@
 import StyleDictionary from "style-dictionary";
 import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
 import { registerCalciteTokenTransformers } from "../support/index.js";
-
-import config from "../src/config/semantic.js";
 import calciteLightConfig from "../src/config/calcite/light.js";
 import calciteDarkConfig from "../src/config/calcite/dark.js";
+import config from "./config/index.js";
 
 await registerTokenStudioTransformers(StyleDictionary);
 await registerCalciteTokenTransformers(StyleDictionary);

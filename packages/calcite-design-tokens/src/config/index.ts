@@ -6,8 +6,8 @@ import {
 } from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import { transformers, filters, headers, formats } from "../../support/index.js";
 import { outputReferencesFilter } from "style-dictionary/utils";
+import { transformers, filters, headers, formats } from "../../support/index.js";
 
 export default {
   // configuration
