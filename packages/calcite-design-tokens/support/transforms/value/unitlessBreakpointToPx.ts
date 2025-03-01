@@ -1,6 +1,7 @@
-import StyleDictionary, { Config, PlatformConfig } from "style-dictionary";
+import { Config, PlatformConfig } from "style-dictionary";
 import { TransformedToken } from "style-dictionary/types";
 import { getNumberAndUnit } from "../../utils/getNumberAndUnit.js";
+import { RegisterFn } from "../../types/interfaces.js";
 
 function isBreakpoint(token: TransformedToken) {
   return token.type === "breakpoint";
@@ -30,7 +31,7 @@ function transformValueSizeUnitlessToPx(token: TransformedToken, config: Platfor
   return `${parsedVal}px`;
 }
 
-export async function registerValueSizeUnitlessToPx(sd: typeof StyleDictionary): Promise<void> {
+export const registerValueSizeUnitlessToPx: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformValueSizeUnitlessToPx,
     type: "value",
@@ -38,6 +39,6 @@ export async function registerValueSizeUnitlessToPx(sd: typeof StyleDictionary):
     transitive: true,
     transform: transformValueSizeUnitlessToPx,
   });
-}
+};
 
 export const TransformValueSizeUnitlessToPx = "calcite/value/UnitlessToPx";

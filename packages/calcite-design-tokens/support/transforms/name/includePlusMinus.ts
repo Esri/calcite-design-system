@@ -1,7 +1,8 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 const regex = {
-  plusMinus: RegExp("(^[\\+-])?[0-9A-z\\-]+([\\+-]$)?", ""),
+  plusMinus: RegExp("(^[+-])?[0-9A-z\\-]+([+-]$)?", ""),
   camelCase: RegExp("([a-z])([A-Z])", ""),
   kebabCase: RegExp("([a-z])(-)([a-z])", ""),
   scss: /(scss)/,
@@ -18,7 +19,7 @@ export function transformNamePlusMinus(token: TransformedToken): string {
     if (findSymbol && (findSymbol[1] || findSymbol[2])) {
       const symbol = findSymbol[1] || findSymbol[2];
 
-      const text = findSymbol[0].replace(/(^[\+-])|([\+-]$)/, "");
+      const text = findSymbol[0].replace(/(^[+-])|([+-]$)/, "");
       let plusMinus = symbol.includes("+") ? "plus" : "minus";
       let formattedText = text;
 
@@ -47,13 +48,13 @@ function filterByPlusMinusInPath(token: TransformedToken): boolean {
   );
 }
 
-export async function registerNameIncludePlusMinus(sd: typeof StyleDictionary): Promise<void> {
+export const registerNameIncludePlusMinus: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformNameIncludePlusMinus,
     transform: transformNamePlusMinus,
     type: "name",
     filter: filterByPlusMinusInPath,
   });
-}
+};
 
 export const TransformNameIncludePlusMinus = "calcite/name/includePlusMinus";

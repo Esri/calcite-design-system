@@ -1,14 +1,15 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../types/interfaces.js";
 
 export function filterIncludeTokens(token: TransformedToken): boolean {
   return !token.isSource;
 }
 
-export function registerFilterIncludeTokens(sd: typeof StyleDictionary): void {
+export const registerFilterIncludeTokens: RegisterFn = async (sd) => {
   sd.registerFilter({
     name: FilterIncludeTokens,
     filter: filterIncludeTokens,
   });
-}
+};
 
 export const FilterIncludeTokens = "filter/includeTokens";

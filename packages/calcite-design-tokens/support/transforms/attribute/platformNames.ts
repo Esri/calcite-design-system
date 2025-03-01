@@ -1,5 +1,6 @@
 import { camelCase, kebabCase } from "lodash-es";
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export function transformAttributePlatformNames(token: TransformedToken): Record<"names", Record<string, string>> {
   return {
@@ -14,12 +15,12 @@ export function transformAttributePlatformNames(token: TransformedToken): Record
   };
 }
 
-export async function registerAttributePlatformNames(sd: typeof StyleDictionary): Promise<void> {
+export const registerAttributePlatformNames: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformAttributePlatformNames,
     transform: transformAttributePlatformNames,
     type: "attribute",
   });
-}
+};
 
 export const TransformAttributePlatformNames = "calcite/transform/attribute-platform-name";

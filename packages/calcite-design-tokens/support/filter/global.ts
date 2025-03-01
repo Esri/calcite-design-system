@@ -1,4 +1,5 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../types/interfaces.js";
 
 export function filterGlobalTokens(token: TransformedToken): boolean {
   return (
@@ -15,11 +16,10 @@ export function filterGlobalTokens(token: TransformedToken): boolean {
   );
 }
 
-export function registerFilterGlobalTokens(sd: typeof StyleDictionary): void {
-  return sd.registerFilter({
+export const registerFilterGlobalTokens: RegisterFn = async (sd) =>
+  sd.registerFilter({
     name: FilterGlobalTokens,
     filter: filterGlobalTokens,
   });
-}
 
 export const FilterGlobalTokens = "filter/GlobalTokens";

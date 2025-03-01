@@ -1,7 +1,7 @@
 import prettierSync from "@prettier/sync";
-import StyleDictionary from "style-dictionary";
 import { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
+import { RegisterFn } from "../types/interfaces.js";
 
 export const formatJsPlatform: FormatFn = async ({ dictionary, file }) => {
   const header = await fileHeader({ file });
@@ -10,7 +10,7 @@ export const formatJsPlatform: FormatFn = async ({ dictionary, file }) => {
   });
 };
 
-export const registerFormatJs = async (sd: typeof StyleDictionary): Promise<void> => {
+export const registerFormatJs: RegisterFn = async (sd) => {
   sd.registerFormat({
     name: FormatCalciteJs,
     format: formatJsPlatform,

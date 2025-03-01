@@ -1,9 +1,6 @@
-import StyleDictionary from "style-dictionary";
-import { TransformOptions } from "@tokens-studio/sd-transforms";
-
+import { transforms } from "style-dictionary/enums";
 import { TransformValueCSSShadow } from "../value/cssShadow.js";
 import { TransformValueSizePxToRem } from "../value/pxToRem.js";
-import { transforms } from "style-dictionary/enums";
 import { TransformNameRemoveTier } from "../name/removeTier.js";
 import { TransformNameRemoveDefault } from "../name/removeDefault.js";
 import { TransformNameRemoveColorMode } from "../name/removeColorMode.js";
@@ -12,6 +9,7 @@ import { TransformValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.
 import { TransformValueMathSum } from "../value/mathSum.js";
 import { TransformAttributePlatformNames } from "../attribute/platformNames.js";
 import { TransformAttributeCalciteSchema } from "../attribute/calciteSchema.js";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export const platformTransforms = {
   css: [
@@ -36,7 +34,7 @@ export const platformTransforms = {
   compose: ["ts/typography/compose/shorthand"],
 };
 
-export function getTransforms(sd: typeof StyleDictionary, transformOpts?: TransformOptions): string[] {
+export function getTransforms(): string[] {
   const agnosticTransforms = [
     "ts/descriptionToComment",
     "ts/resolveMath",
@@ -50,22 +48,16 @@ export function getTransforms(sd: typeof StyleDictionary, transformOpts?: Transf
     TransformValueMathSum,
   ];
 
-  const platform = transformOpts?.platform ?? "css";
-
-  return [...agnosticTransforms, ...(platformTransforms[platform] ?? [])];
+  return [...agnosticTransforms, ...platformTransforms["css"]];
 }
 
 export const TransformCalciteGroup = "calcite";
 
-export async function registerTransformCalciteGroup(
-  sd: typeof StyleDictionary,
-  transformOpts?: TransformOptions,
-): Promise<void> {
-  const includeBuiltinGroup = transformOpts?.withSDBuiltins ?? true;
-  const builtinTransforms = sd.hooks.transformGroups[transformOpts?.platform ?? "css"];
+export const registerTransformCalciteGroup: RegisterFn = async (sd) => {
+  const builtinTransforms = sd.hooks.transformGroups["css"];
 
   sd.registerTransformGroup({
     name: TransformCalciteGroup,
-    transforms: [...(includeBuiltinGroup ? builtinTransforms : []), ...getTransforms(sd, transformOpts)],
+    transforms: [...builtinTransforms, ...getTransforms()],
   });
-}
+};

@@ -1,6 +1,7 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
-const operatorRegex = new RegExp(/(\d+)\s*([\+\-\*x\/\%])\s*(\d+)/, "g");
+const operatorRegex = new RegExp(/(\d+)\s*([+\-*x/%])\s*(\d+)/, "g");
 
 function hasOperator(value: string): RegExpExecArray {
   return operatorRegex.exec(value);
@@ -57,7 +58,7 @@ export function transformValueMathSum(token: TransformedToken): any {
   }
 }
 
-export async function registerValueMathSum(sd: typeof StyleDictionary): Promise<void> {
+export const registerValueMathSum: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformValueMathSum,
     transform: transformValueMathSum,
@@ -67,6 +68,6 @@ export async function registerValueMathSum(sd: typeof StyleDictionary): Promise<
       return Number(token.value) === 0 || !!Number(token.value) || !!hasOperator(token.value);
     },
   });
-}
+};
 
 export const TransformValueMathSum = "calcite/value/mathSum";

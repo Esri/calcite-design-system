@@ -1,15 +1,16 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export function transformNamesRemoveTier(token: TransformedToken): string {
   return token.name.replace(/(core|semantic)-?/gi, "");
 }
 
-export async function registerNameRemoveTier(sd: typeof StyleDictionary): Promise<void> {
+export const registerNameRemoveTier: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformNameRemoveTier,
     transform: transformNamesRemoveTier,
     type: "name",
   });
-}
+};
 
 export const TransformNameRemoveTier = "calcite/name/removeTier";

@@ -1,8 +1,8 @@
-import StyleDictionary from "style-dictionary";
 import { FormatFnArguments } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
-import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
 import { kebabCase } from "lodash-es";
+import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
+import { RegisterFn } from "../types/interfaces.js";
 
 function referenceTokenByPlatform(value: string, fileExtension: string, tokenValue?: string): string {
   switch (fileExtension) {
@@ -102,7 +102,7 @@ export async function formatTypography(args: FormatFnArguments): Promise<string>
   return currentFile;
 }
 
-export const registerFormatTypography = async (sd: typeof StyleDictionary): Promise<void> => {
+export const registerFormatTypography: RegisterFn = async (sd) => {
   sd.registerFormat({
     name: FormatTypography,
     format: formatTypography,

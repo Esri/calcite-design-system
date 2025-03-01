@@ -1,4 +1,4 @@
-import StyleDictionary from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 function transformShadow(
   shadow: Record<"x" | "offsetX" | "y" | "offsetY" | "blur" | "spread" | "color", string> | string,
@@ -33,7 +33,7 @@ export function transformValueCSSShadow(token: any): any {
   return token.value;
 }
 
-export async function registerValueCSSShadow(sd: typeof StyleDictionary): Promise<void> {
+export const registerValueCSSShadow: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformValueCSSShadow,
     transform: transformValueCSSShadow,
@@ -41,6 +41,6 @@ export async function registerValueCSSShadow(sd: typeof StyleDictionary): Promis
     filter: (token) => token.type === "boxShadow" || token.type === "shadow",
     type: "value",
   });
-}
+};
 
 export const TransformValueCSSShadow = "calcite/value/CSSShadow";

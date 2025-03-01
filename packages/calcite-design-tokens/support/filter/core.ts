@@ -1,4 +1,5 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../types/interfaces.js";
 
 export function filterCoreTokens(token: TransformedToken): boolean {
   return (
@@ -7,11 +8,10 @@ export function filterCoreTokens(token: TransformedToken): boolean {
   );
 }
 
-export function registerFilterCoreTokens(sd: typeof StyleDictionary): void {
-  return sd.registerFilter({
+export const registerFilterCoreTokens: RegisterFn = async (sd) =>
+  sd.registerFilter({
     name: FilterCoreTokens,
     filter: filterCoreTokens,
   });
-}
 
 export const FilterCoreTokens = "filter/CoreTokens";

@@ -1,4 +1,5 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export function transformNamesRemoveColorMode(token: TransformedToken): string {
   const colorModeRegex = /-?(light|dark)$/;
@@ -9,13 +10,13 @@ export function transformNamesRemoveColorMode(token: TransformedToken): string {
   return token.name;
 }
 
-export async function registerNameRemoveColorMode(sd: typeof StyleDictionary): Promise<void> {
+export const registerNameRemoveColorMode: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformNameRemoveColorMode,
     transform: transformNamesRemoveColorMode,
     type: "name",
     filter: (token) => token.original.type === "color",
   });
-}
+};
 
 export const TransformNameRemoveColorMode = "calcite/name/removeColorMode";

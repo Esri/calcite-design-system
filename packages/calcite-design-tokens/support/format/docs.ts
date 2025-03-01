@@ -1,8 +1,8 @@
 import { relative, resolve } from "path";
-import StyleDictionary from "style-dictionary";
 import prettierSync from "@prettier/sync";
 import { Config, Dictionary, File, LocalOptions } from "style-dictionary/types";
 import { __dirname } from "../utils/node.js";
+import { RegisterFn } from "../types/interfaces.js";
 
 export async function formatDocsPlatform({
   dictionary,
@@ -25,7 +25,7 @@ export async function formatDocsPlatform({
   return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 }
 
-export const registerFormatDocs = async (sd: typeof StyleDictionary): Promise<void> => {
+export const registerFormatDocs: RegisterFn = async (sd) => {
   sd.registerFormat({
     name: FormatCalciteDocs,
     format: formatDocsPlatform,

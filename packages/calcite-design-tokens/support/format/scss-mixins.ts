@@ -1,6 +1,6 @@
-import StyleDictionary from "style-dictionary";
 import { Dictionary, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
+import { RegisterFn } from "../types/interfaces.js";
 
 function formatRules(value) {
   return Object.keys(value).reduce((acc, key) => {
@@ -24,11 +24,11 @@ export async function formatSCSSMixins(args: FormatFnArguments): Promise<string>
   return header + formatMixins(args.dictionary) + `\n`;
 }
 
-export async function registerFormatSCSSMixins(sd: typeof StyleDictionary): Promise<void> {
+export const registerFormatSCSSMixins: RegisterFn = async (sd) => {
   sd.registerFormat({
     name: FormatCalciteSCSSMixins,
     format: formatSCSSMixins,
   });
-}
+};
 
 export const FormatCalciteSCSSMixins = "calcite/format/scss-mixins";

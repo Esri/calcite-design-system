@@ -1,5 +1,6 @@
-import StyleDictionary, { Config, PlatformConfig } from "style-dictionary";
+import { Config, PlatformConfig } from "style-dictionary";
 import { TransformedToken } from "style-dictionary/types";
+import { RegisterFn } from "../../types/interfaces.js";
 
 function getBasePxFontSize(config) {
   return (config && config.basePxFontSize) || 16;
@@ -18,7 +19,7 @@ function isSource(token: TransformedToken) {
 }
 
 function isPxUnit(token: TransformedToken) {
-  const matcher = /(?<number>[\d\.]+)(?<unit>[a-z%]*)/g.exec(
+  const matcher = /(?<number>[\d.]+)(?<unit>[a-z%]*)/g.exec(
     token.value || token.value.value || token.original.value || token.original.value.value,
   );
 
@@ -60,14 +61,13 @@ function transformValueSizePxToRem(token: TransformedToken, config: PlatformConf
     if (value === "auto") {
       return "auto";
     }
-    debugger;
     throwSizeError(token.name, value, "rem");
   }
 
   return `${parsedVal / baseFont}rem`;
 }
 
-export async function registerValueSizePxToRem(sd: typeof StyleDictionary): Promise<void> {
+export const registerValueSizePxToRem: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformValueSizePxToRem,
     type: "value",
@@ -75,6 +75,6 @@ export async function registerValueSizePxToRem(sd: typeof StyleDictionary): Prom
     transitive: true,
     transform: transformValueSizePxToRem,
   });
-}
+};
 
 export const TransformValueSizePxToRem = "calcite/value/pxToRem";

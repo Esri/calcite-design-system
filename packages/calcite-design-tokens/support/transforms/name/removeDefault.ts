@@ -1,4 +1,5 @@
-import StyleDictionary, { TransformedToken } from "style-dictionary";
+import { TransformedToken } from "style-dictionary";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export function transformNameRemoveDefault(token: TransformedToken): string {
   let name = token.name;
@@ -16,13 +17,13 @@ function filterByPathIncludesDefault(token: TransformedToken): boolean {
   return token.path.includes("default");
 }
 
-export async function registerNameRemoveDefault(sd: typeof StyleDictionary): Promise<void> {
+export const registerNameRemoveDefault: RegisterFn = async (sd) => {
   sd.registerTransform({
     name: TransformNameRemoveDefault,
     transform: transformNameRemoveDefault,
     type: "name",
     filter: filterByPathIncludesDefault,
   });
-}
+};
 
 export const TransformNameRemoveDefault = "calcite/name/removeDefault";

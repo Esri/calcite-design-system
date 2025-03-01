@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import StyleDictionary from "style-dictionary";
 import { FormatFnArguments } from "style-dictionary/types";
+import { RegisterFn } from "../types/interfaces.js";
 
 export async function getFileContents(theme: string, args: FormatFnArguments, count?: number): Promise<string> {
   try {
@@ -9,7 +9,7 @@ export async function getFileContents(theme: string, args: FormatFnArguments, co
       resolve(process.cwd(), args.platform.buildPath, `${theme}${args.options.fileExtension}`),
       "utf8",
     );
-    const regex = /((--|\$)[\w-\d]+:\s?[\w\d#-_\(\) ]+)/g;
+    const regex = /((--|\$)[\w-\d]+:\s?[\w\d#-_() ]+)/g;
     const variables = Array.from(content.matchAll(regex)).map((v) => v[0]);
     return variables.join("\n\t");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,10 +53,10 @@ export async function formatIndexFile(args: FormatFnArguments): Promise<string> 
   return [imports, root, atMedia, includePlatformClasses].filter((i) => i && i !== "").join("\n\n");
 }
 
-export async function registerFormatIndex(sd: typeof StyleDictionary): Promise<void> {
+export const registerFormatIndex: RegisterFn = async (sd) => {
   await sd.registerFormat({
     name: FormatIndex,
     format: formatIndexFile,
   });
-}
+};
 export const FormatIndex = "calcite/format/index";

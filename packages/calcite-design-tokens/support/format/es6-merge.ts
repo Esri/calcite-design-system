@@ -1,24 +1,21 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import StyleDictionary from "style-dictionary";
-
 import * as prettier from "prettier/standalone";
-import * as prettierPluginBabel from "prettier/plugins/babel";
 import * as prettierPluginEstree from "prettier/plugins/estree";
 import * as prettierPluginTypescript from "prettier/plugins/typescript";
 import { fileHeader } from "style-dictionary/utils";
 import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
+import { RegisterFn } from "../types/interfaces.js";
 
 /**
  * Prettier format JS contents
  *
  * @param {string} content
- * @param {boolean} [ts] whether or not to use typescript
  */
-async function formatJS(content, ts = false) {
+async function formatJS(content) {
   return prettier.format(content, {
-    parser: ts ? `typescript` : `babel`,
-    plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginTypescript],
+    parser: "typescript",
+    plugins: [prettierPluginEstree, prettierPluginTypescript],
   });
 }
 
@@ -82,11 +79,11 @@ async function formatES6Merge(args): Promise<string> {
   return formatJS(currentFile);
 }
 
-export async function registerFormatESS6Merge(sd: typeof StyleDictionary): Promise<void> {
+export const registerFormatESS6Merge: RegisterFn = async (sd) => {
   await sd.registerFormat({
     name: FormatESS6Merge,
     format: formatES6Merge,
   });
-}
+};
 
 export const FormatESS6Merge = "format/calcite/es6-merge";
