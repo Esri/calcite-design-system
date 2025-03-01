@@ -1,4 +1,4 @@
-import { FormatFnArguments } from "style-dictionary/types";
+import { FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import { kebabCase } from "lodash-es";
 import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
@@ -90,7 +90,7 @@ function formatTokensByFiletype(fileExtension: string, args: FormatFnArguments):
   return formattedTokens.join("\n\n");
 }
 
-export async function formatTypography(args: FormatFnArguments): Promise<string> {
+export const formatTypography: FormatFn = async (args) => {
   const { file, options } = args;
   const { formatting, fileExtension } = options;
   const header = await fileHeader({
@@ -100,7 +100,7 @@ export async function formatTypography(args: FormatFnArguments): Promise<string>
   });
   const currentFile = `${header}${formatTokensByFiletype(fileExtension, args)}`;
   return currentFile;
-}
+};
 
 export const registerFormatTypography: RegisterFn = async (sd) => {
   sd.registerFormat({

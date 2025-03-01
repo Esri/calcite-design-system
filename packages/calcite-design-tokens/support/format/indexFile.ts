@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import { FormatFnArguments } from "style-dictionary/types";
+import { FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 
 export async function getFileContents(theme: string, args: FormatFnArguments, count?: number): Promise<string> {
@@ -23,7 +23,7 @@ export async function getFileContents(theme: string, args: FormatFnArguments, co
   }
 }
 
-export async function formatIndexFile(args: FormatFnArguments): Promise<string> {
+export const formatIndexFile: FormatFn = async (args) => {
   const {
     options: { fileExtension },
   } = args;
@@ -51,7 +51,7 @@ export async function formatIndexFile(args: FormatFnArguments): Promise<string> 
   const imports = args.options.imports.map((imp) => importUrl(imp, fileExtension)).join("\n") + "\n";
 
   return [imports, root, atMedia, includePlatformClasses].filter((i) => i && i !== "").join("\n\n");
-}
+};
 
 export const registerFormatIndex: RegisterFn = async (sd) => {
   await sd.registerFormat({

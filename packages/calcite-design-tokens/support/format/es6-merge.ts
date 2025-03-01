@@ -4,6 +4,7 @@ import * as prettier from "prettier/standalone";
 import * as prettierPluginEstree from "prettier/plugins/estree";
 import * as prettierPluginTypescript from "prettier/plugins/typescript";
 import { fileHeader } from "style-dictionary/utils";
+import { FormatFn } from "style-dictionary/types";
 import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
 import { RegisterFn } from "../types/interfaces.js";
 
@@ -19,7 +20,7 @@ async function formatJS(content) {
   });
 }
 
-async function formatES6Merge(args): Promise<string> {
+const formatES6Merge: FormatFn = async (args) => {
   const { dictionary, platform, file, options } = args;
   const { formatting } = options;
   const header = await fileHeader({
@@ -77,7 +78,7 @@ async function formatES6Merge(args): Promise<string> {
   }
 
   return formatJS(currentFile);
-}
+};
 
 export const registerFormatESS6Merge: RegisterFn = async (sd) => {
   await sd.registerFormat({

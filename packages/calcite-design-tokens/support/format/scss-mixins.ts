@@ -1,4 +1,4 @@
-import { Dictionary, FormatFnArguments } from "style-dictionary/types";
+import { Dictionary, FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import { RegisterFn } from "../types/interfaces.js";
 
@@ -15,14 +15,14 @@ function formatMixins(dictionary: Dictionary) {
   }, "");
 }
 
-export async function formatSCSSMixins(args: FormatFnArguments): Promise<string> {
+export const formatSCSSMixins: FormatFn = async (args) => {
   const header = await fileHeader({
     file: args.file,
     formatting: args.options.formatting,
     options: args.options,
   });
   return header + formatMixins(args.dictionary) + `\n`;
-}
+};
 
 export const registerFormatSCSSMixins: RegisterFn = async (sd) => {
   sd.registerFormat({

@@ -1,11 +1,11 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import StyleDictionary from "style-dictionary";
-
 import { fileHeader } from "style-dictionary/utils";
+import { FormatFn } from "style-dictionary/types";
 import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
 
-async function formatJSONMerge(args): Promise<string> {
+const formatJSONMerge: FormatFn = async (args) => {
   const { dictionary, platform, file, options } = args;
   const { formatting } = options;
   const header = await fileHeader({
@@ -29,11 +29,9 @@ async function formatJSONMerge(args): Promise<string> {
 
       if (Object.keys(obj).length === 0) {
         throw new Error(`Token ${token.name} not found in JSON file.`);
-      } else {
       }
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error: any) {
+  } catch {
     const variables = dictionary.allTokens.map((token) => {
       const value = JSON.stringify(
         options.suffix
@@ -49,7 +47,7 @@ async function formatJSONMerge(args): Promise<string> {
   }
 
   return formatJS(currentFile);
-}
+};
 
 export async function registerFormatJSONMerge(sd: typeof StyleDictionary): Promise<void> {
   await sd.registerFormat({
