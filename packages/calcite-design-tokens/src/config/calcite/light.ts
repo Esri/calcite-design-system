@@ -27,7 +27,7 @@ export default {
       ],
       options: {
         fileExtension: ".scss",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
     },
     css: {
@@ -43,7 +43,7 @@ export default {
       ],
       options: {
         fileExtension: ".css",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
     },
     es6: {
@@ -53,7 +53,7 @@ export default {
       prefix: "calcite",
       options: {
         fileExtension: ".js",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
       files: [
         {
@@ -78,7 +78,7 @@ export default {
     //   prefix: "calcite",
     //   options: {
     //     fileExtension: ".js",
-    //     fileHeader: headers.HeaderCalciteDefault,
+    //     fileHeader: headers.HeaderDefault,
     //   },
     //   files: [
     //     {
@@ -103,7 +103,7 @@ export default {
       prefix: "calcite",
       options: {
         fileExtension: ".json",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
       files: [
         {

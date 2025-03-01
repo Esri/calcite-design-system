@@ -9,7 +9,7 @@ import { registerNameRemoveDefault } from "./name/removeDefault.js";
 import { registerTransformCalciteGroup } from "./group/calcite.js";
 import { registerValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
 import { registerAttributePlatformNames } from "./attribute/platformNames.js";
-import { registerAttributeCalciteSchema } from "./attribute/calciteSchema.js";
+import { registerAttributeSchema } from "./attribute/schema.js";
 import { registerNameCapitalCase } from "./name/capitalCase.js";
 import { registerNameRemovePrefix } from "./name/removePrefix.js";
 
@@ -26,7 +26,7 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
     registerValueSizePxToRem(sd),
     registerValueSizeUnitlessToPx(sd),
     registerAttributePlatformNames(sd),
-    registerAttributeCalciteSchema(sd),
+    registerAttributeSchema(sd),
     registerTransformCalciteGroup(sd),
   ]);
 }
@@ -43,4 +43,4 @@ export { TransformNameIncludePlusMinus } from "./name/includePlusMinus.js";
 export { TransformNameCapitalCase } from "./name/capitalCase.js";
 export { TransformCalciteGroup, platformTransforms } from "./group/calcite.js";
 export { TransformAttributePlatformNames } from "./attribute/platformNames.js";
-export { TransformAttributeCalciteSchema } from "./attribute/calciteSchema.js";
+export { TransformAttributeSchema } from "./attribute/schema.js";

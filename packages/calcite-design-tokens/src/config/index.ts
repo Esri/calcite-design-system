@@ -24,7 +24,7 @@ const config: Config = {
           format: sdFormats.scssVariables,
           filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: headers.HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderDeprecate,
           },
         },
         {
@@ -57,7 +57,7 @@ const config: Config = {
       ],
       options: {
         fileExtension: ".scss",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
         outputReferences: outputReferencesFilter,
       },
     },
@@ -71,7 +71,7 @@ const config: Config = {
           format: sdFormats.cssVariables,
           filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: headers.HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderDeprecate,
           },
         },
         {
@@ -104,7 +104,7 @@ const config: Config = {
       ],
       options: {
         fileExtension: ".css",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
         outputReferences: outputReferencesFilter,
       },
     },
@@ -115,7 +115,7 @@ const config: Config = {
       prefix: "calcite",
       options: {
         fileExtension: ".js",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
       files: [
         {
@@ -123,7 +123,7 @@ const config: Config = {
           format: sdFormats.javascriptEs6,
           filter: filters.FilterGlobalTokens,
           options: {
-            fileHeader: headers.HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderDeprecate,
           },
         },
         {
@@ -150,7 +150,7 @@ const config: Config = {
       prefix: "calcite",
       options: {
         fileExtension: ".json",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
       files: [
         {
@@ -177,7 +177,7 @@ const config: Config = {
       prefix: "calcite",
       options: {
         fileExtension: ".js",
-        fileHeader: headers.HeaderCalciteDefault,
+        fileHeader: headers.HeaderDefault,
       },
       files: [
         {
@@ -185,7 +185,7 @@ const config: Config = {
           format: formats.FormatCalciteJs,
           filter: filters.FilterSourceTokens,
           options: {
-            fileHeader: headers.HeaderCalciteDeprecate,
+            fileHeader: headers.HeaderDeprecate,
           },
         },
         {

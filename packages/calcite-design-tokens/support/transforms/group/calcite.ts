@@ -8,7 +8,7 @@ import { TransformNameIncludePlusMinus } from "../name/includePlusMinus.js";
 import { TransformValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
 import { TransformValueMathSum } from "../value/mathSum.js";
 import { TransformAttributePlatformNames } from "../attribute/platformNames.js";
-import { TransformAttributeCalciteSchema } from "../attribute/calciteSchema.js";
+import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const platformTransforms = {
@@ -22,7 +22,7 @@ export const platformTransforms = {
     TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
     TransformAttributePlatformNames,
-    TransformAttributeCalciteSchema,
+    TransformAttributeSchema,
   ],
   es6: [
     transforms.nameCamel,

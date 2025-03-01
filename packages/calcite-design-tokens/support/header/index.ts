@@ -1,10 +1,10 @@
 import StyleDictionary from "style-dictionary";
-import { registerCalciteDefaultFileHeader } from "./calcite-default.js";
-import { registerCalciteDeprecateFileHeader } from "./calcite-deprecate.js";
+import { registerDefaultFileHeader } from "./default.js";
+import { registerDeprecateFileHeader } from "./deprecate.js";
 
 export async function registerCalciteFileHeaders(sd: typeof StyleDictionary): Promise<void> {
-  await Promise.all([registerCalciteDefaultFileHeader(sd), registerCalciteDeprecateFileHeader(sd)]);
+  await Promise.all([registerDefaultFileHeader(sd), registerDeprecateFileHeader(sd)]);
 }
 
-export { HeaderCalciteDefault } from "./calcite-default.js";
-export { HeaderCalciteDeprecate } from "./calcite-deprecate.js";
+export { HeaderDefault } from "./default.js";
+export { HeaderDeprecate } from "./deprecate.js";
