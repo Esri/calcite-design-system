@@ -5,7 +5,11 @@ import calciteLightConfig from "../src/config/calcite/light.js";
 import calciteDarkConfig from "../src/config/calcite/dark.js";
 import config from "./config/index.js";
 
-await registerTokenStudioTransformers(StyleDictionary);
+await registerTokenStudioTransformers(StyleDictionary, {
+  "ts/color/modifiers": {
+    format: "hex",
+  },
+});
 await registerCalciteTokenTransformers(StyleDictionary);
 
 const sd = new StyleDictionary(config);
