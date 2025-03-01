@@ -1,9 +1,11 @@
 import prettierSync from "@prettier/sync";
 import StyleDictionary from "style-dictionary";
-import { Dictionary } from "style-dictionary/types";
+import { FormatFn } from "style-dictionary/types";
+import { fileHeader } from "style-dictionary/utils";
 
-export const formatJsPlatform = ({ dictionary }: { dictionary: Dictionary }): string => {
-  return prettierSync.format("export default " + JSON.stringify(dictionary.tokens, null, 2) + ";", {
+export const formatJsPlatform: FormatFn = async ({ dictionary, file }) => {
+  const header = await fileHeader({ file });
+  return prettierSync.format(`${header}export default ${JSON.stringify(dictionary.tokens, null, 2)};`, {
     parser: "babel",
   });
 };
