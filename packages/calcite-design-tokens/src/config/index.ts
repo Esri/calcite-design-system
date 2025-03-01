@@ -146,8 +146,7 @@ export default {
     },
     docs: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: ["name/human"],
-      // transforms: transformers.platformTransforms.es6,
+      transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {

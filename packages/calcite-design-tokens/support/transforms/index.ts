@@ -10,6 +10,8 @@ import { registerTransformCalciteGroup } from "./group/calcite.js";
 import { registerValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
 import { registerAttributePlatformNames } from "./attribute/platformNames.js";
 import { registerAttributeCalciteSchema } from "./attribute/calciteSchema.js";
+import { registerNameCapitalCase } from "./name/capitalCase.js";
+import { registerNameRemovePrefix } from "./name/removePrefix.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
@@ -17,7 +19,9 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
     registerNameRemoveTier(sd),
     registerNameRemoveDefault(sd),
     registerNameRemoveColorMode(sd),
+    registerNameRemovePrefix(sd),
     registerNameIncludePlusMinus(sd),
+    registerNameCapitalCase(sd),
     registerValueMathSum(sd),
     registerValueSizePxToRem(sd),
     registerValueSizeUnitlessToPx(sd),
@@ -34,7 +38,9 @@ export { TransformValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.j
 export { TransformNameRemoveTier } from "./name/removeTier.js";
 export { TransformNameRemoveDefault } from "./name/removeDefault.js";
 export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";
+export { TransformNameRemovePrefix } from "./name/removePrefix.js";
 export { TransformNameIncludePlusMinus } from "./name/includePlusMinus.js";
+export { TransformNameCapitalCase } from "./name/capitalCase.js";
 export { TransformCalciteGroup, platformTransforms } from "./group/calcite.js";
 export { TransformAttributePlatformNames } from "./attribute/platformNames.js";
 export { TransformAttributeCalciteSchema } from "./attribute/calciteSchema.js";
