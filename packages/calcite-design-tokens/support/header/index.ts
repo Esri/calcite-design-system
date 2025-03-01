@@ -3,8 +3,7 @@ import { registerCalciteDefaultFileHeader } from "./calcite-default.js";
 import { registerCalciteDeprecateFileHeader } from "./calcite-deprecate.js";
 
 export async function registerCalciteFileHeaders(sd: typeof StyleDictionary): Promise<void> {
-  await registerCalciteDefaultFileHeader(sd);
-  await registerCalciteDeprecateFileHeader(sd);
+  await Promise.all([registerCalciteDefaultFileHeader(sd), registerCalciteDeprecateFileHeader(sd)]);
 }
 
 export { HeaderCalciteDefault } from "./calcite-default.js";

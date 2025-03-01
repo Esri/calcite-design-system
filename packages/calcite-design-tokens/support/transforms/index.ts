@@ -12,17 +12,19 @@ import { registerAttributePlatformNames } from "./attribute/platformNames.js";
 import { registerAttributeCalciteSchema } from "./attribute/calciteSchema.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
-  registerValueCSSShadow(sd);
-  registerNameRemoveTier(sd);
-  registerNameRemoveDefault(sd);
-  registerNameRemoveColorMode(sd);
-  registerNameIncludePlusMinus(sd);
-  registerValueMathSum(sd);
-  registerValueSizePxToRem(sd);
-  registerValueSizeUnitlessToPx(sd);
-  registerAttributePlatformNames(sd);
-  registerAttributeCalciteSchema(sd);
-  registerTransformCalciteGroup(sd);
+  await Promise.all([
+    registerValueCSSShadow(sd),
+    registerNameRemoveTier(sd),
+    registerNameRemoveDefault(sd),
+    registerNameRemoveColorMode(sd),
+    registerNameIncludePlusMinus(sd),
+    registerValueMathSum(sd),
+    registerValueSizePxToRem(sd),
+    registerValueSizeUnitlessToPx(sd),
+    registerAttributePlatformNames(sd),
+    registerAttributeCalciteSchema(sd),
+    registerTransformCalciteGroup(sd),
+  ]);
 }
 
 export { TransformValueCSSShadow } from "./value/cssShadow.js";

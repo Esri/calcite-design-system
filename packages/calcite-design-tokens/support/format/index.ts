@@ -7,12 +7,14 @@ import { registerFormatTypography } from "./typography.js";
 import { registerFormatIndex } from "./indexFile.js";
 
 export async function registerCalciteFormats(sd: typeof StyleDictionary): Promise<void> {
-  await registerFormatSCSSMixins(sd);
-  await registerFormatDocs(sd);
-  await registerFormatJs(sd);
-  await registerFormatESS6Merge(sd);
-  await registerFormatTypography(sd);
-  await registerFormatIndex(sd);
+  await Promise.all([
+    registerFormatSCSSMixins(sd),
+    registerFormatDocs(sd),
+    registerFormatJs(sd),
+    registerFormatESS6Merge(sd),
+    registerFormatTypography(sd),
+    registerFormatIndex(sd),
+  ]);
 }
 
 export { FormatCalciteJs } from "./javascript.js";

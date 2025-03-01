@@ -1,3 +1,3 @@
 import StyleDictionary from "style-dictionary";
 
-export type RegisterFn = (sd: typeof StyleDictionary) => void;
+export type RegisterFn = (sd: typeof StyleDictionary) => Promise<void>;
