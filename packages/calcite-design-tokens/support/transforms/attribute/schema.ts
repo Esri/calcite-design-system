@@ -5,6 +5,7 @@ export const transformAttributeSchema: AttributeTransform["transform"] = (token,
   ...token.attributes,
   "calcite-schema": {
     system: config.prefix,
+    tier: token.filePath.split("/").at(-2),
     type: token.original.type,
   },
 });
