@@ -78,9 +78,12 @@ ul:focus {
 :host([selected]) .label,
 .label:hover,
 .label:active {
-  @apply text-color-2
-    no-underline
-    shadow-none;
+  @apply text-color-1;
+
+  .description,
+  .short-text {
+    @apply text-color-2;
+  }
 }
 
 .label:hover {
@@ -107,10 +110,6 @@ ul:focus {
   margin-block-start: -1px;
 }
 
-:host([selected]) .icon--custom {
-  @apply text-color-1;
-}
-
 .center-content {
   display: flex;
   flex-direction: column;
@@ -130,9 +129,7 @@ ul:focus {
   color: var(--calcite-color-text-1);
 }
 
-// selected state
-:host([selected]),
-.label:active {
+:host([selected]) {
   .title {
     @apply font-medium;
   }
