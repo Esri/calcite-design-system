@@ -33,6 +33,7 @@ import {
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { RequiredTimeArguments, TimeController } from "../../controllers/time/time";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -47,7 +48,7 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export class TimePicker extends LitElement implements LoadableComponent {
+export class TimePicker extends LitElement implements LoadableComponent, RequiredTimeArguments {
   // #region Static Members
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -145,6 +146,13 @@ export class TimePicker extends LitElement implements LoadableComponent {
   /** Specifies the granularity the `value` must adhere to (in seconds). */
   @property({ reflect: true }) step = 60;
 
+  /**
+   * A TimeController object instance.
+   *
+   * @internal
+   */
+  @property() time: TimeController;
+
   /** The component's value in UTC (always 24-hour format). */
   @property() value: string = null;
 
@@ -180,6 +188,9 @@ export class TimePicker extends LitElement implements LoadableComponent {
   override connectedCallback(): void {
     this.updateLocale();
     this.toggleSecond();
+    if (!this.time) {
+      this.time = new TimeController(this);
+    }
   }
 
   async load(): Promise<void> {

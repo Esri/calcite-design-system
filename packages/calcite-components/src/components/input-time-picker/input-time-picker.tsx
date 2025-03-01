@@ -67,7 +67,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { TimeController } from "../../controllers/useTime";
+import { RequiredTimeArguments, TimeController } from "../../controllers/time/time";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, TEXT } from "./resources";
@@ -84,7 +84,12 @@ function capitalize(str: string): string {
 
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements
+    FormComponent,
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    RequiredTimeArguments
 {
   // #region Static Members
 
@@ -236,9 +241,9 @@ export class InputTimePicker
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
-   * Made into a prop for testing purposes only
+   * Translated messages and locale information
    *
-   * @private
+   * @internal
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -335,7 +340,7 @@ export class InputTimePicker
     }
   }
 
-  time = new TimeController(this.value);
+  time = new TimeController(this);
 
   // #endregion
 
@@ -1191,21 +1196,32 @@ export class InputTimePicker
   // #region Rendering
 
   override render(): JsxNode {
-    console.log(
-      this.time.hour,
-      this.time.minute,
-      this.time.second,
-      this.time.fractionalSecond,
-      this.time.value,
-    );
-    const { messages, readOnly } = this;
-    const emptyValue = "--";
-    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const hourIsNumber = isValidNumber(this.hour);
-    const minuteIsNumber = isValidNumber(this.minute);
-    const secondIsNumber = isValidNumber(this.second);
-    const showMeridiem = this.hourFormat === "12";
-    const meridiemStart = this.meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const { hourFormat, messages, readOnly } = this;
+    const {
+      fractionalSecond,
+      hour,
+      localizedDecimalSeparator,
+      localizedFractionalSecond,
+      localizedHour,
+      localizedHourSuffix,
+      localizedMeridiem,
+      localizedMinute,
+      localizedMinuteSuffix,
+      localizedSecond,
+      localizedSecondSuffix,
+      meridiem,
+      meridiemOrder,
+      minute,
+      second,
+      showFractionalSecond,
+    } = this.time;
+    const emptyPlaceholder = "--";
+    const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
+    const hourIsNumber = isValidNumber(hour);
+    const minuteIsNumber = isValidNumber(minute);
+    const secondIsNumber = isValidNumber(second);
+    const showMeridiem = hourFormat === "12";
+    const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
@@ -1222,10 +1238,10 @@ export class InputTimePicker
                 aria-label={this.intlMeridiem}
                 aria-valuemax="2"
                 aria-valuemin="1"
-                aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
-                aria-valuetext={this.meridiem}
+                aria-valuenow={(meridiem === "PM" && "2") || "1"}
+                aria-valuetext={meridiem}
                 class={{
-                  [CSS.empty]: !this.localizedMeridiem,
+                  [CSS.empty]: !localizedMeridiem,
                   [CSS.input]: true,
                   [CSS.meridiem]: true,
                 }}
@@ -1235,17 +1251,17 @@ export class InputTimePicker
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.localizedMeridiem || emptyValue}
+                {localizedMeridiem || emptyPlaceholder}
               </span>
             )}
             <span
               aria-label={this.intlHour}
               aria-valuemax="23"
               aria-valuemin="1"
-              aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
-              aria-valuetext={this.hour}
+              aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
+              aria-valuetext={hour}
               class={{
-                [CSS.empty]: !this.localizedHour,
+                [CSS.empty]: !localizedHour,
                 [CSS.input]: true,
               }}
               onFocus={this.timePartFocusHandler}
@@ -1254,17 +1270,17 @@ export class InputTimePicker
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedHour || emptyValue}
+              {localizedHour || emptyPlaceholder}
             </span>
-            <span>{this.localizedHourSuffix}</span>
+            <span>{localizedHourSuffix}</span>
             <span
               aria-label={this.intlMinute}
               aria-valuemax="12"
               aria-valuemin="1"
-              aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
-              aria-valuetext={this.minute}
+              aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
+              aria-valuetext={minute}
               class={{
-                [CSS.empty]: !this.localizedMinute,
+                [CSS.empty]: !localizedMinute,
                 [CSS.input]: true,
               }}
               onFocus={this.timePartFocusHandler}
@@ -1273,18 +1289,18 @@ export class InputTimePicker
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedMinute || emptyValue}
+              {localizedMinute || emptyPlaceholder}
             </span>
-            {this.showSecond && <span>{this.localizedMinuteSuffix}</span>}
+            {this.showSecond && <span>{localizedMinuteSuffix}</span>}
             {this.showSecond && (
               <span
                 aria-label={this.intlSecond}
                 aria-valuemax="59"
                 aria-valuemin="0"
-                aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
-                aria-valuetext={this.second}
+                aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
+                aria-valuetext={second}
                 class={{
-                  [CSS.empty]: !this.localizedSecond,
+                  [CSS.empty]: !localizedSecond,
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
@@ -1293,19 +1309,19 @@ export class InputTimePicker
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.localizedSecond || emptyValue}
+                {localizedSecond || emptyPlaceholder}
               </span>
             )}
-            {this.showFractionalSecond && <span>{this.localizedDecimalSeparator}</span>}
-            {this.showFractionalSecond && (
+            {showFractionalSecond && <span>{localizedDecimalSeparator}</span>}
+            {showFractionalSecond && (
               <span
                 // aria-label={this.messages.fractionalSecond}
                 aria-valuemax="999"
                 aria-valuemin="1"
-                aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
-                aria-valuetext={this.localizedFractionalSecond}
+                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
+                aria-valuetext={localizedFractionalSecond}
                 class={{
-                  [CSS.empty]: !this.localizedFractionalSecond,
+                  [CSS.empty]: !localizedFractionalSecond,
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
@@ -1314,19 +1330,19 @@ export class InputTimePicker
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+                {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
               </span>
             )}
-            {this.localizedSecondSuffix && <span>{this.localizedSecondSuffix}</span>}
+            {localizedSecondSuffix && <span>{localizedSecondSuffix}</span>}
             {showMeridiem && !meridiemStart && (
               <span
                 aria-label={this.intlMeridiem}
                 aria-valuemax="2"
                 aria-valuemin="1"
-                aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
-                aria-valuetext={this.meridiem}
+                aria-valuenow={(meridiem === "PM" && "2") || "1"}
+                aria-valuetext={meridiem}
                 class={{
-                  [CSS.empty]: !this.localizedMeridiem,
+                  [CSS.empty]: !localizedMeridiem,
                   [CSS.input]: true,
                   [CSS.meridiem]: true,
                 }}
@@ -1336,7 +1352,7 @@ export class InputTimePicker
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.localizedMeridiem || emptyValue}
+                {localizedMeridiem || emptyPlaceholder}
               </span>
             )}
           </div>
@@ -1368,6 +1384,7 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
+            time={this.time}
             value={this.value}
           />
         </calcite-popover>

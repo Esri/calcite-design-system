@@ -1,11 +1,12 @@
-import { Controller } from "@arcgis/components-controllers";
+import { GenericController, T9nMeta } from "@arcgis/components-controllers";
+import { GenericT9nStrings } from "@arcgis/components-utils";
 import {
-  EffectiveHourFormat,
   formatTimePart,
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
   getMeridiemOrder,
+  HourFormat,
   isValidTime,
   localizeTimePart,
   localizeTimeStringToParts,
@@ -13,62 +14,63 @@ import {
   parseTimeString,
   toISOTimeString,
   toISOTimeStringFromParts,
-} from "../utils/time";
-import { decimalPlaces } from "../utils/math";
-import { isValidNumber } from "../utils/number";
-import { capitalizeWord } from "../utils/text";
-import { NumberingSystem, SupportedLocale } from "../utils/locale";
+} from "../../utils/time";
+import { decimalPlaces } from "../../utils/math";
+import { isValidNumber } from "../../utils/number";
+import { capitalizeWord } from "../../utils/text";
+import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 
-export class TimeController extends Controller {
-  constructor(value: string) {
-    super();
-    this.value = value;
-  }
+export type RequiredTimeArguments = {
+  hourFormat: HourFormat;
+  messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
+  numberingSystem: NumberingSystem;
+  step: number;
+  value: string;
+};
 
+type TimeProperties = {
+  fractionalSecond: string;
+  hour: string;
+  locale: SupportedLocale;
+  localizedDecimalSeparator: string;
+  localizedFractionalSecond: string;
+  localizedHour: string;
+  localizedHourSuffix: string;
+  localizedMeridiem: string;
+  localizedMinute: string;
+  localizedMinuteSuffix: string;
+  localizedSecond: string;
+  localizedSecondSuffix: string;
+  meridiem: Meridiem;
+  meridiemOrder: number;
+  minute: string;
+  second: string;
+  showFractionalSecond: boolean;
+  showSecond: boolean;
+  value: string;
+};
+
+export class TimeController extends GenericController<void, RequiredTimeArguments> implements TimeProperties {
   // #region Public Properties
 
   fractionalSecond: string;
-
   hour: string;
-
-  hourFormat: EffectiveHourFormat;
-
   locale: SupportedLocale;
-
   localizedDecimalSeparator = ".";
-
   localizedFractionalSecond: string;
-
   localizedHour: string;
-
   localizedHourSuffix: string;
-
   localizedMeridiem: string;
-
   localizedMinute: string;
-
   localizedMinuteSuffix: string;
-
   localizedSecond: string;
-
   localizedSecondSuffix: string;
-
   meridiem: Meridiem;
-
   meridiemOrder: number;
-
   minute: string;
-
-  numberingSystem: NumberingSystem;
-
   second: string;
-
   showFractionalSecond: boolean;
-
   showSecond: boolean;
-
-  step: number;
-
   value: string;
 
   // #endregion
@@ -76,17 +78,17 @@ export class TimeController extends Controller {
   // #region Lifecycle
 
   hostConnected(): void {
-    const { locale } = this;
-    this.localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, this.numberingSystem);
-    this.meridiemOrder = getMeridiemOrder(locale);
+    this.setValue(this.component.value);
+    this.meridiemOrder = getMeridiemOrder(this.component.messages._lang as string);
   }
 
   // #endregion
 
-  // #region Private Methods
+  // #region Public Methods
 
   setValue(value: string): void {
-    const { hourFormat, locale, numberingSystem, step } = this;
+    const { hourFormat, messages, numberingSystem, step } = this.component;
+    const locale = messages._lang as string;
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(toISOTimeString(value), step);
       const {
@@ -140,15 +142,12 @@ export class TimeController extends Controller {
     }
   }
 
-  // #endregion
-
-  // #region Public Methods
-
   setValuePart(
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
   ): void {
-    const { hourFormat, locale, numberingSystem, step } = this;
+    const { hourFormat, messages, numberingSystem, step } = this.component;
+    const locale = messages._lang as string;
     const hour12 = hourFormat === "12";
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
@@ -175,7 +174,7 @@ export class TimeController extends Controller {
         });
       }
     } else if (key === "fractionalSecond") {
-      const stepPrecision = decimalPlaces(this.step);
+      const stepPrecision = decimalPlaces(step);
       if (typeof value === "number") {
         this.fractionalSecond = value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
       } else {
