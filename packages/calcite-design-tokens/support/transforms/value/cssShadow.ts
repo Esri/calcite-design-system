@@ -1,3 +1,4 @@
+import { ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
 function transformShadow(
@@ -10,7 +11,7 @@ function transformShadow(
   return `${shadow.x || shadow.offsetX} ${shadow.y || shadow.offsetY} ${shadow.blur} ${shadow.spread} ${shadow.color}`;
 }
 
-export function transformValueCSSShadow(token: any): any {
+export const transformValueCSSShadow: ValueTransform["transform"] = (token) => {
   // if (!token.isSource) {
   //   debugger;
   // }
@@ -31,7 +32,7 @@ export function transformValueCSSShadow(token: any): any {
   }
 
   return token.value;
-}
+};
 
 export const registerValueCSSShadow: RegisterFn = async (sd) => {
   sd.registerTransform({

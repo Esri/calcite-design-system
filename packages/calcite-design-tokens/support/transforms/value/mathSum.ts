@@ -1,4 +1,4 @@
-import { TransformedToken } from "style-dictionary";
+import { ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const operatorRegex = new RegExp(/(\d+)\s*([+\-*x/%])\s*(\d+)/, "g");
@@ -45,7 +45,7 @@ export function isObjectOfStringsOrNumbers(obj: any): obj is Record<string, stri
   return true;
 }
 
-export function transformValueMathSum(token: TransformedToken): any {
+export const transformValueMathSum: ValueTransform["transform"] = (token) => {
   if (typeof token.value === "string") {
     return mathSum(token.value);
   } else if (isObjectOfStringsOrNumbers(token.value)) {
@@ -56,7 +56,7 @@ export function transformValueMathSum(token: TransformedToken): any {
   } else {
     return token.value;
   }
-}
+};
 
 export const registerValueMathSum: RegisterFn = async (sd) => {
   sd.registerTransform({

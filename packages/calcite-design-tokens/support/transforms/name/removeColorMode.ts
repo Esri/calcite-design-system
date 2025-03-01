@@ -1,14 +1,14 @@
-import { TransformedToken } from "style-dictionary";
+import { NameTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
-export function transformNamesRemoveColorMode(token: TransformedToken): string {
+export const transformNamesRemoveColorMode: NameTransform["transform"] = (token) => {
   const colorModeRegex = /-?(light|dark)$/;
   if (colorModeRegex.test(token.name) || token.type === "dark" || token.type === "light") {
     return token.name.replace(colorModeRegex, "");
   }
 
   return token.name;
-}
+};
 
 export const registerNameRemoveColorMode: RegisterFn = async (sd) => {
   sd.registerTransform({

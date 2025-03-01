@@ -1,5 +1,5 @@
-import { Config, PlatformConfig } from "style-dictionary";
-import { TransformedToken } from "style-dictionary/types";
+import { Config } from "style-dictionary";
+import { TransformedToken, ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
 function getBasePxFontSize(config) {
@@ -52,7 +52,7 @@ function filter(token: TransformedToken, options: Config) {
   );
 }
 
-function transformValueSizePxToRem(token: TransformedToken, config: PlatformConfig, options: Config) {
+const transformValueSizePxToRem: ValueTransform["transform"] = (token, config, options) => {
   const value = options.usesDtcg ? token.$value : token.value;
   const parsedVal = parseFloat(value);
   const baseFont = getBasePxFontSize(config);
@@ -65,7 +65,7 @@ function transformValueSizePxToRem(token: TransformedToken, config: PlatformConf
   }
 
   return `${parsedVal / baseFont}rem`;
-}
+};
 
 export const registerValueSizePxToRem: RegisterFn = async (sd) => {
   sd.registerTransform({

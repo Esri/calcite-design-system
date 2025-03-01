@@ -1,7 +1,8 @@
 import { TransformedToken } from "style-dictionary";
+import { NameTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
-export function transformNameRemoveDefault(token: TransformedToken): string {
+export const transformNameRemoveDefault: NameTransform["transform"] = (token) => {
   let name = token.name;
 
   token.path.forEach((path, idx) => {
@@ -11,7 +12,7 @@ export function transformNameRemoveDefault(token: TransformedToken): string {
   });
 
   return name;
-}
+};
 
 function filterByPathIncludesDefault(token: TransformedToken): boolean {
   return token.path.includes("default");

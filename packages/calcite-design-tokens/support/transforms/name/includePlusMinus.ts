@@ -1,4 +1,5 @@
 import { TransformedToken } from "style-dictionary";
+import { NameTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const regex = {
@@ -10,7 +11,7 @@ const regex = {
   es6: /(es6)/,
 };
 
-export function transformNamePlusMinus(token: TransformedToken): string {
+export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
   let name = token.name;
 
   token.path.forEach((path) => {
@@ -38,7 +39,7 @@ export function transformNamePlusMinus(token: TransformedToken): string {
   });
 
   return name;
-}
+};
 
 function filterByPlusMinusInPath(token: TransformedToken): boolean {
   return (

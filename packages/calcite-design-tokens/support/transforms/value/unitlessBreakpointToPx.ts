@@ -1,5 +1,4 @@
-import { Config, PlatformConfig } from "style-dictionary";
-import { TransformedToken } from "style-dictionary/types";
+import { TransformedToken, ValueTransform } from "style-dictionary/types";
 import { getNumberAndUnit } from "../../utils/getNumberAndUnit.js";
 import { RegisterFn } from "../../types/interfaces.js";
 
@@ -24,12 +23,12 @@ function filter(token: TransformedToken) {
   return isSource(token) && isBreakpoint(token) && isUnitless(token);
 }
 
-function transformValueSizeUnitlessToPx(token: TransformedToken, config: PlatformConfig, options: Config) {
+const transformValueSizeUnitlessToPx: ValueTransform["transform"] = (token, _config, options) => {
   const value = options.usesDtcg ? token.$value : token.value;
   const parsedVal = parseFloat(value);
 
   return `${parsedVal}px`;
-}
+};
 
 export const registerValueSizeUnitlessToPx: RegisterFn = async (sd) => {
   sd.registerTransform({
