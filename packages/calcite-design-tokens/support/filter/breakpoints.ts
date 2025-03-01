@@ -1,9 +1,7 @@
-import { TransformedToken } from "style-dictionary";
+import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 
-export function filterBreakpointTokens(token: TransformedToken): boolean {
-  return token.isSource && token.type === "breakpoint";
-}
+export const filterBreakpointTokens: Filter["filter"] = (token) => token.isSource && token.type === "breakpoint";
 
 export const registerFilterBreakpointTokens: RegisterFn = async (sd) =>
   sd.registerFilter({

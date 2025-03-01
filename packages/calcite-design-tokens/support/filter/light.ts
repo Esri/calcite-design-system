@@ -1,9 +1,8 @@
-import { TransformedToken } from "style-dictionary";
+import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 
-export function filterLightColorTokens(token: TransformedToken): boolean {
-  return token.isSource && token.type === "color" && token.path[token.path.length - 1] === "light";
-}
+export const filterLightColorTokens: Filter["filter"] = (token) =>
+  token.isSource && token.type === "color" && token.path[token.path.length - 1] === "light";
 
 export const registerFilterLightColorTokens: RegisterFn = async (sd) =>
   sd.registerFilter({

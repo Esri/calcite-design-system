@@ -1,9 +1,7 @@
-import { TransformedToken } from "style-dictionary";
+import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 
-export function filterTypographyTokens(token: TransformedToken): boolean {
-  return token.isSource && token.type === "typography";
-}
+export const filterTypographyTokens: Filter["filter"] = (token) => token.isSource && token.type === "typography";
 
 export const registerFilterTypographyTokens: RegisterFn = async (sd) =>
   sd.registerFilter({
