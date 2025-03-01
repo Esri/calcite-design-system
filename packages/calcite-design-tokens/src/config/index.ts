@@ -9,8 +9,7 @@ import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { outputReferencesFilter } from "style-dictionary/utils";
 import { transformers, filters, headers, formats } from "../../support/index.js";
 
-export default {
-  // configuration
+const config: Config = {
   source: ["src/semantic/*.json"],
   include: ["src/core/*.json"],
   preprocessors: ["tokens-studio"],
@@ -222,4 +221,6 @@ export default {
       ...sdTypes,
     },
   },
-} as Config;
+};
+
+export default config;
