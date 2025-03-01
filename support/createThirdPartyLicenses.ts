@@ -1,13 +1,14 @@
 import dedent from "dedent";
 import { writeFile } from "node:fs/promises";
+import { exec } from "node:child_process";
+import { dirname, isAbsolute, join } from "node:path";
+import { promisify } from "node:util";
 import { getProjectLicenses } from "generate-license-file";
 import { format } from "prettier";
 
 (async function(): Promise<void> {
   console.info("Generating third-party licenses file");
 
-  const { exec } = await import("child_process");
-  const { promisify } = await import("util");
   const execAsync = promisify(exec);
 
   try {
