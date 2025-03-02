@@ -172,7 +172,7 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      // transforms: transformers.platformTransforms.es6,
+      transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
