@@ -2,12 +2,14 @@ import { TransformedToken } from "style-dictionary";
 import { NameTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
+const defaultPart = "default";
+
 export const transformNameRemoveDefault: NameTransform["transform"] = (token) => {
   let name = token.name;
 
-  token.path.forEach((path, idx) => {
-    if (path === "default") {
-      name = name.replace(/-?default-?/, idx === token.path.length - 1 ? "" : "-");
+  token.path.forEach((path) => {
+    if (path === defaultPart) {
+      name = name.replace(/default/i, "");
     }
   });
 
@@ -15,7 +17,7 @@ export const transformNameRemoveDefault: NameTransform["transform"] = (token) =>
 };
 
 function filterByPathIncludesDefault(token: TransformedToken): boolean {
-  return token.path.includes("default");
+  return token.path.includes(defaultPart);
 }
 
 export const registerNameRemoveDefault: RegisterFn = async (sd) => {
