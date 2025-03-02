@@ -2,124 +2,24 @@
   "semantic": {
     "opacity": {
       "light": {
-        "value": "{core.opacity.40}",
-        "type": "opacity",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "opacity",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "light",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "value": "{opacity.40}",
+        "type": "opacity"
       },
       "half": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "opacity",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "half",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "value": "{opacity.50}",
+        "type": "opacity"
       },
       "dark": {
-        "value": "{core.opacity.85}",
-        "type": "opacity",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "opacity",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "dark",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "value": "{opacity.85}",
+        "type": "opacity"
       },
       "full": {
-        "value": "{core.opacity.100}",
-        "type": "opacity",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "opacity",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "full",
-            "state": "",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "value": "{opacity.100}",
+        "type": "opacity"
       },
       "disabled": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "opacity",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "disabled",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "value": "{opacity.50}",
+        "type": "opacity"
       }
     }
   }

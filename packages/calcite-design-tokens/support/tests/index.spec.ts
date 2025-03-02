@@ -1,6 +1,6 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
-import { readFileSync } from "fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);
