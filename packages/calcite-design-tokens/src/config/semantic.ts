@@ -108,7 +108,7 @@ const config: Config = {
         outputReferences: outputReferencesFilter,
       },
     },
-    es6: {
+    ts: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
@@ -139,6 +139,30 @@ const config: Config = {
         {
           destination: "breakpoints.js",
           format: sdFormats.javascriptEs6,
+          filter: filters.FilterBreakpointTokens,
+        },
+
+        {
+          destination: "global.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterGlobalTokens,
+          options: {
+            fileHeader: headers.HeaderDeprecate,
+          },
+        },
+        {
+          destination: "semantic.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterGlobalTokens,
+        },
+        {
+          destination: "core.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterCoreTokens,
+        },
+        {
+          destination: "breakpoints.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterBreakpointTokens,
         },
       ],
