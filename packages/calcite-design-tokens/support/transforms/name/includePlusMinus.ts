@@ -1,5 +1,6 @@
 import { TransformedToken } from "style-dictionary";
 import { NameTransform } from "style-dictionary/types";
+import { capitalCase, kebabCase } from "change-case";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const regex = {
@@ -12,7 +13,7 @@ const regex = {
 };
 
 export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
-  let name = token.name;
+  let { name } = token;
 
   token.path.forEach((path) => {
     const findSymbol = regex.plusMinus.exec(path);
@@ -20,18 +21,20 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
     if (findSymbol && (findSymbol[1] || findSymbol[2])) {
       const symbol = findSymbol[1] || findSymbol[2];
 
-      const text = findSymbol[0].replace(/(^[+-])|([+-]$)/, "");
+      let text = findSymbol[0].replace(/(^[+-])|([+-]$)/, "");
       let plusMinus = symbol.includes("+") ? "plus" : "minus";
       let formattedText = text;
+      const isCamelCased = regex.camelCase.test(token.name);
 
-      if (regex.camelCase.test(token.name)) {
-        if (findSymbol[1]) {
-          formattedText = `${formattedText[0].toUpperCase()}${formattedText.slice(1)}`;
-        } else {
-          plusMinus = `${plusMinus[0].toUpperCase()}${plusMinus.slice(1)}`;
+      if (isCamelCased) {
+        text = capitalCase(text);
+        formattedText = capitalCase(formattedText);
+        if (!findSymbol[1]) {
+          plusMinus = capitalCase(plusMinus);
         }
       } else {
         formattedText = findSymbol[1] ? `-${formattedText}` : `${formattedText}-`;
+        text = kebabCase(text);
       }
 
       name = token.name.replace(text, findSymbol[1] ? `${plusMinus}${formattedText}` : `${formattedText}${plusMinus}`);
