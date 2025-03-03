@@ -7,7 +7,7 @@ export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
 export const listItemSelector = "calcite-list-item";
 
-export function openAncestors(el: ListItem["el"]): void {
+export function expandedAncestors(el: ListItem["el"]): void {
   const ancestor = el.parentElement?.closest(listItemSelector);
 
   if (!ancestor) {
@@ -15,7 +15,7 @@ export function openAncestors(el: ListItem["el"]): void {
   }
 
   ancestor.open = true;
-  openAncestors(ancestor);
+  expandedAncestors(ancestor);
 }
 
 export function getListItemChildren(slotEl: HTMLSlotElement): {

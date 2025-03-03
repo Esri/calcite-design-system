@@ -84,7 +84,7 @@
   margin-inline-start: var(--calcite-list-spacing-indent, theme("spacing.6"));
 }
 
-.nested-container--open {
+.nested-container--expanded {
   @apply flex;
 }
 
@@ -373,12 +373,12 @@
   @apply flex-initial;
 }
 
-.open-container {
+.expanded-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
   padding-inline: var(--calcite-spacing-xxs);
 }
 
-:host(:not([disabled])) .container:hover .open-container {
+:host(:not([disabled])) .container:hover .expanded-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
 }
 
@@ -388,7 +388,7 @@
 .content-end,
 .selection-container,
 .drag-container,
-.open-container {
+.expanded-container {
   @apply flex items-center;
 
   calcite-action,
@@ -397,7 +397,7 @@
   }
 }
 
-.open-container,
+.expanded-container,
 .selection-container {
   @apply cursor-pointer;
 }
