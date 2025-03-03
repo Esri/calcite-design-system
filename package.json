@@ -31,7 +31,8 @@
     "util:upload-release-assets": "tsx support/uploadReleaseAssets.ts",
     "util:update-stylelint-custom-sass-functions": "tsx support/updateStylelintCustomSassFunctions.ts",
     "util:remove-prerelease-changelog-entries": "tsx support/removePrereleaseChangelogEntries.ts",
-    "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
+    "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts",
+    "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
     "@arcgis/lumina-compiler": "^4.32.1",
@@ -92,9 +93,10 @@
     "eslint-plugin-jsdoc": "50.6.3",
     "eslint-plugin-react": "7.37.4",
     "eslint-plugin-unicorn": "56.0.1",
+    "generate-license-file": "3.7.0",
     "globals": "15.15.0",
     "globby": "14.1.0",
-    "happy-dom": "17.1.6",
+    "happy-dom": "17.1.8",
     "husky": "9.1.7",
     "jest-axe": "9.0.0",
     "lerna": "8.1.9",
