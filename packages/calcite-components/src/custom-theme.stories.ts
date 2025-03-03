@@ -138,7 +138,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -157,7 +158,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
-      <div class="demo-column">${defaultCombobox} ${singleSelectCombobox} ${comboboxWithPlaceHolderIcon}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${datePicker}</div>
