@@ -12,7 +12,6 @@ import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
-  slotChangeGetAssignedElements,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -71,6 +70,8 @@ export class TabNav extends LitElement {
   get tabTitles(): TabTitle["el"][] {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
+
+  private makeFirstVisibleTabClosable = false;
 
   // #endregion
 
@@ -367,14 +368,21 @@ export class TabNav extends LitElement {
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
   }
 
-  private onSlotChange(event: Event): void {
+  private onSlotChange(): void {
     this.intersectionObserver?.disconnect();
 
-    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
-    slottedElements.forEach((child) => {
+    const tabTitles = this.tabTitles;
+    tabTitles.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
-    this.calciteInternalTabNavSlotChange.emit(slottedElements);
+    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+    if (totalVisibleTabTitles > 1 && this.makeFirstVisibleTabClosable) {
+      tabTitles[visibleTabTitlesIndices[0]].closable = true;
+      this.makeFirstVisibleTabClosable = false;
+    }
+
+    this.calciteInternalTabNavSlotChange.emit(tabTitles);
   }
 
   private storeTabTitleWrapperRef(el: HTMLDivElement) {
@@ -517,18 +525,23 @@ export class TabNav extends LitElement {
     });
   }
 
-  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
-    const { tabTitles } = this;
-    const selectionModified = closedTabTitleEl.selected;
-
-    const visibleTabTitlesIndices = tabTitles.reduce(
+  private getVisibleTabTitlesIndices(tabTitles: TabTitle["el"][]): number[] {
+    return tabTitles.reduce(
       (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
       [],
     );
+  }
+
+  private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
+    const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
+
+    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
+      this.makeFirstVisibleTabClosable = true;
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
 
