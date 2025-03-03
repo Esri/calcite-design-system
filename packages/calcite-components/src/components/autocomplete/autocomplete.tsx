@@ -645,12 +645,11 @@ export class Autocomplete
   }
 
   private setReferenceEl(el: Input["el"]): void {
-    this.referenceEl = el;
-
     if (!el) {
       return;
     }
 
+    this.referenceEl = el;
     this.resizeObserver?.observe(el);
 
     connectFloatingUI(this);
@@ -751,6 +750,10 @@ export class Autocomplete
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.floatingEl = el;
     connectFloatingUI(this);
   }

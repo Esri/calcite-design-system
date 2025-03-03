@@ -238,11 +238,12 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
-    this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
+    if (!el) {
+      return;
     }
+
+    this.floatingEl = el;
+    requestAnimationFrame(() => this.setUpReferenceElement());
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -332,7 +333,13 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
         >
           <FloatingArrow
             floatingLayout={floatingLayout}
-            ref={(arrowEl) => (this.arrowEl = arrowEl)}
+            ref={(el) => {
+              if (!el) {
+                return;
+              }
+
+              this.arrowEl = el;
+            }}
           />
           <div class={CSS.container}>
             <slot />

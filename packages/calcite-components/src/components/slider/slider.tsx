@@ -90,7 +90,7 @@ export class Slider
   private dragProp: ActiveSliderProperty;
 
   private dragUpdate = (event: PointerEvent): void => {
-    if (this.disabled) {
+    if (this.disabled || !this.trackEl.value) {
       return;
     }
 
@@ -161,7 +161,7 @@ export class Slider
     this.dragEnd(event);
   };
 
-  private trackEl: HTMLDivElement;
+  private trackEl = createRef<HTMLDivElement>();
 
   // #endregion
 
@@ -467,7 +467,7 @@ export class Slider
   }
 
   private pointerDownHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled || !isPrimaryPointerButton(event) || !this.trackEl.value) {
       return;
     }
 
@@ -690,10 +690,6 @@ export class Slider
     this.emitInput();
   }
 
-  private storeTrackRef(node: HTMLDivElement): void {
-    this.trackEl = node;
-  }
-
   private storeThumbRef(el: HTMLDivElement): void {
     if (!el) {
       return;
@@ -736,7 +732,7 @@ export class Slider
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
+    const { left, width } = this.trackEl.value.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -1128,7 +1124,7 @@ export class Slider
           }}
         >
           {this.renderGraph()}
-          <div class={CSS.track} ref={this.storeTrackRef}>
+          <div class={CSS.track} ref={this.trackEl}>
             <div
               class={CSS.trackRange}
               onPointerDown={this.onTrackPointerDown}

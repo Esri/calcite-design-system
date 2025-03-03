@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
@@ -39,7 +40,7 @@ export class RadioButton
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerEl = createRef<HTMLDivElement>();
 
   defaultChecked: boolean;
 
@@ -128,7 +129,7 @@ export class RadioButton
     await componentFocusable(this);
 
     if (!this.disabled) {
-      focusElement(this.containerEl);
+      focusElement(this.containerEl.value);
     }
   }
 
@@ -323,10 +324,6 @@ export class RadioButton
     }
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private uncheckAllRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     radioButtons.forEach((radioButton) => {
@@ -466,7 +463,7 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
+          ref={this.containerEl}
           role="radio"
           tabIndex={tabIndex}
         >
