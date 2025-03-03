@@ -17,6 +17,10 @@ describe("calcite-block-section", () => {
   describe("reflects", () => {
     reflects("calcite-block-section", [
       {
+        propertyName: "open",
+        value: true,
+      },
+      {
         propertyName: "expanded",
         value: true,
       },
@@ -25,6 +29,10 @@ describe("calcite-block-section", () => {
 
   describe("defaults", () => {
     defaults("calcite-block-section", [
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
       {
         propertyName: "expanded",
         defaultValue: false,

@@ -170,7 +170,7 @@ export const contentSpacing_TestOnly = (): string => html`
 export const loadingWithSlottedIcon_TestOnly = (): string => html`
   <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
     <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
-    <calcite-notice expanded>
+    <calcite-notice open>
       <div slot="message">Use layer effects sparingly</div>
     </calcite-notice>
   </calcite-block>
@@ -178,7 +178,7 @@ export const loadingWithSlottedIcon_TestOnly = (): string => html`
 
 export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string => html`
   <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
-    <calcite-notice expanded>
+    <calcite-notice open>
       <div slot="message">Use layer effects sparingly</div>
     </calcite-notice>
   </calcite-block>
@@ -192,7 +192,7 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
     >
-      <calcite-notice expanded>
+      <calcite-notice open>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
       <calcite-block-section
@@ -213,7 +213,7 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
     >
-      <calcite-notice expanded>
+      <calcite-notice open>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
       <calcite-block-section
@@ -273,7 +273,7 @@ scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
 export const toggleDisplayWithLongText_TestOnly = (): string =>
   html`<calcite-block expanded heading="Calcite block" style="width:150px">
     <calcite-block-section id="block-section" expanded text="Calcite block's super long text" toggle-display="switch">
-      <calcite-notice expanded>
+      <calcite-notice open>
         <div slot="message">Some more complex options.</div>
       </calcite-notice>
     </calcite-block-section>
