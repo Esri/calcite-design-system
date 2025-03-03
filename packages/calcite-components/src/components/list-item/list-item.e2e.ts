@@ -398,70 +398,50 @@ describe("calcite-list-item", () => {
     expect(calciteListItemClose).toHaveReceivedEventTimes(1);
   });
 
-  describe("toggleEvent", () => {
-    async function testToggleEventOpenClosed(toggleProp: string) {
-      const page = await newE2EPage({
-        html: html`<calcite-list-item id="test" display-mode="nested"
-          ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
-        ></calcite-list-item>`,
-      });
-
-      const listItem = await page.find("#test");
-      const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
-
-      expect(await listItem.getProperty(toggleProp)).toBe(false);
-
-      const expandedButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
-
-      await expandedButton.click();
-      expect(await listItem.getProperty(toggleProp)).toBe(true);
-      expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
-
-      await expandedButton.click();
-      expect(await listItem.getProperty(toggleProp)).toBe(false);
-      expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
-    }
-
-    async function testNoToggleEventWithoutNestedItems(toggleProp: string) {
-      const page = await newE2EPage({
-        html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
-      });
-
-      const listItem = await page.find("calcite-list-item");
-      const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
-
-      expect(await listItem.getProperty(toggleProp)).toBe(false);
-
-      const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
-
-      expect(expandedButton.getAttribute("title")).toBe(null);
-
-      await expandedButton.click();
-      expect(await listItem.getProperty(toggleProp)).toBe(false);
-      expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
-
-      await expandedButton.click();
-      expect(await listItem.getProperty(toggleProp)).toBe(false);
-      expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
-    }
-
-    it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
-      await testToggleEventOpenClosed("expanded");
+  it("should fire calciteListItemToggle event when expanded and collapsed", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item id="test" display-mode="nested"
+        ><calcite-list display-mode="nested"><calcite-list-item></calcite-list-item></calcite-list
+      ></calcite-list-item>`,
     });
 
-    it("should not fire calciteListItemToggle event without nested items", async () => {
-      await testNoToggleEventWithoutNestedItems("expanded");
+    const listItem = await page.find("#test");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+
+    expect(await listItem.getProperty("expanded")).toBe(false);
+
+    const expandedButton = await page.find(`#test >>> .${CSS.expandedContainer}`);
+
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(true);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
+
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
+  });
+
+  it("should not fire calciteListItemToggle event without nested items", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item display-mode="nested"></calcite-list-item>`,
     });
 
-    describe("deprecated open/close props", () => {
-      it("should fire calciteListItemToggle event when opened and closed", async () => {
-        await testToggleEventOpenClosed("open");
-      });
+    const listItem = await page.find("calcite-list-item");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
-      it("should not fire calciteListItemToggle event without nested items", async () => {
-        await testNoToggleEventWithoutNestedItems("open");
-      });
-    });
+    expect(await listItem.getProperty("expanded")).toBe(false);
+
+    const expandedButton = await page.find(`calcite-list-item >>> .${CSS.expandedContainer}`);
+
+    expect(expandedButton.getAttribute("title")).toBe(null);
+
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
+
+    await expandedButton.click();
+    expect(await listItem.getProperty("expanded")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
   });
 
   it("should set displayMode on slotted list", async () => {
