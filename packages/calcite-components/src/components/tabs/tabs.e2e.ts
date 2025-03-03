@@ -406,23 +406,44 @@ describe("calcite-tabs", () => {
       expect(selectedTitleOnEmit).toBe("Tab 2 Title");
     });
 
-    it("should hide x when last closable tab and display x when > 1 closable tabs", async () => {
-      for (let i = 2; i <= 4; ++i) {
-        await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
-      }
-      let tab1 = await page.find(`#tab-title-1`);
-      expect(await tab1.getProperty("closable")).toBe(false);
-      expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+    describe("hiding/displaying X", () => {
+      it("should hide x when tabs 2 to 4 closed and display x closable tab added", async () => {
+        for (let i = 2; i <= 4; ++i) {
+          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+        }
+        let tab1 = await page.find(`#tab-title-1`);
+        expect(await tab1.getProperty("closable")).toBe(false);
+        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
 
-      await page.evaluate(() => {
-        document
-          .getElementById("tab-title-4")
-          .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
+        await page.evaluate(() => {
+          document
+            .getElementById("tab-title-4")
+            .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
+        });
+        await page.waitForChanges();
+        tab1 = await page.find(`#tab-title-1`);
+        expect(await tab1.getProperty("closable")).toBe(true);
+        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
       });
-      await page.waitForChanges();
-      tab1 = await page.find(`#tab-title-1`);
-      expect(await tab1.getProperty("closable")).toBe(true);
-      expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+
+      it("should hide x when tabs 1 to 3 closed and display x when closable tab added", async () => {
+        for (let i = 1; i <= 3; ++i) {
+          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+        }
+        let tab4 = await page.find(`#tab-title-4`);
+        expect(await tab4.getProperty("closable")).toBe(false);
+        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+
+        await page.evaluate(() => {
+          document
+            .getElementById("tab-title-4")
+            .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
+        });
+        await page.waitForChanges();
+        tab4 = await page.find(`#tab-title-4`);
+        expect(await tab4.getProperty("closable")).toBe(true);
+        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+      });
     });
   });
 });
