@@ -105,3 +105,79 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+
+export const interactivityStates = (): string => html`
+  <div>
+    <h2>appearance="solid" & kind="neutral"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="solid" kind="neutral" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="solid" kind="neutral" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="solid" kind="neutral" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="solid" kind="neutral" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="solid" & kind="inverse"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="solid" kind="inverse" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="solid" kind="inverse" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="solid" kind="inverse" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="solid" kind="inverse" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="solid" & kind="brand"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="solid" kind="brand" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="solid" kind="brand" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="solid" kind="brand" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="solid" kind="brand" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline-fill" & kind="neutral"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline-fill" kind="neutral" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="neutral" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="neutral" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="neutral" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline-fill" & kind="inverse"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline-fill" kind="inverse" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="inverse" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="inverse" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="inverse" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline-fill" & kind="brand"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline-fill" kind="brand" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="brand" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="brand" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline-fill" kind="brand" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline" & kind="neutral"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline" kind="neutral" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline" kind="neutral" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline" kind="neutral" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline" kind="neutral" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline" & kind="inverse"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline" kind="inverse" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline" kind="inverse" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline" kind="inverse" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline" kind="inverse" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+
+    <h2>appearance="outline" & kind="brand"</h2>
+    <calcite-chip-group selection-mode="single">
+      <calcite-chip appearance="outline" kind="brand" value="forest">Forest</calcite-chip>
+      <calcite-chip appearance="outline" kind="brand" value="tundra">Tundra</calcite-chip>
+      <calcite-chip appearance="outline" kind="brand" value="shore">Seashore</calcite-chip>
+      <calcite-chip appearance="outline" kind="brand" value="estuary">Estuary</calcite-chip>
+    </calcite-chip-group>
+  </div>
+`;

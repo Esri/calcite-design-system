@@ -6,10 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import '@esri/calcite-components/dist/components/calcite-button.js';
-import '@esri/calcite-components/dist/components/calcite-icon.js';
-import '@esri/calcite-components/dist/components/calcite-loader.js';
-import '@esri/calcite-components/dist/components/calcite-slider.js';
+import '@esri/calcite-components/dist/components/calcite-button';
+import '@esri/calcite-components/dist/components/calcite-icon';
+import '@esri/calcite-components/dist/components/calcite-loader';
+import '@esri/calcite-components/dist/components/calcite-slider';
 
 @Component({
   selector: 'app-root',

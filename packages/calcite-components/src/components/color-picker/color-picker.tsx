@@ -16,12 +16,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
@@ -70,7 +65,7 @@ declare global {
 
 const throttleFor60FpsInMs = 16;
 
-export class ColorPicker extends LitElement implements InteractiveComponent, LoadableComponent {
+export class ColorPicker extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -302,7 +297,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     if (!this._valueWasSet) {
       this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
     }
-    setUpLoadableComponent(this);
 
     this.handleAllowEmptyOrClearableChange();
 
@@ -370,7 +364,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.handleAlphaChannelDimensionsChange();
   }
 

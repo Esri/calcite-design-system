@@ -9,12 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -45,10 +40,7 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
-{
+export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -240,8 +232,6 @@ export class Block
   }
 
   load(): void {
-    setUpLoadableComponent(this);
-
     if (!this.heading && !this.label) {
       logger.warn(
         `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
@@ -265,10 +255,6 @@ export class Block
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

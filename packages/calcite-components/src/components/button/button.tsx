@@ -19,12 +19,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -53,7 +48,7 @@ declare global {
  */
 export class Button
   extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner
 {
   // #region Static Members
 
@@ -212,7 +207,6 @@ export class Button
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     if (isBrowser()) {
       this.updateHasContent();
     }
@@ -223,7 +217,6 @@ export class Button
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setTooltipText();
   }
 
