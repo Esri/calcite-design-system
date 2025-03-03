@@ -1164,6 +1164,56 @@
           </div>
         </div>
       </div>
+
+      <div class="parent">
+        <h3 class="child right-aligned-text">Theme</h3>
+        <div class="child" style="align-self: flex-start">
+          <demo-theme
+            tokens=" --calcite-combobox-input-height: 100px;
+          --calcite-combobox-background-color: green;
+          --calcite-combobox-border-color: orange;
+          --calcite-combobox-icon-color: yellow
+          --calcite-combobox-icon-color-hover: purple;
+          --calcite-combobox-listbox-background-color: pink;
+          --calcite-combobox-chip-background-color: yellow;
+          --calcite-combobox-chip-close-icon-color: green;
+          --calcite-combobox-chip-corner-radius: 10px;
+          --calcite-combobox-chip-icon-color: green;
+          --calcite-combobox-chip-text-color: blue;
+          --calcite-combobox-item-group-text-color:green;
+          --calcite-combobox-item-group-border-color:skyblue;
+          "
+          >
+            <calcite-combobox label="test" max-items="6" open>
+              <calcite-combobox-item-group value="Trees" label="Trees">
+                <calcite-combobox-item value="Pine" text-label="Pine">
+                  <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+                </calcite-combobox-item>
+              </calcite-combobox-item-group>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </demo-theme>
+        </div>
+        <div class="child" style="align-self: flex-start">
+          <demo-theme tokens="--calcite-combobox-text-color: red;">
+            <calcite-combobox label="test" selection-mode="single">
+              <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </demo-theme>
+        </div>
+        <div class="child" style="align-self: flex-start">
+          <demo-theme tokens="--calcite-combobox-placeholder-icon-color: skyblue;">
+            <calcite-combobox label="test" placeholder="select element" placeholder-icon="layers">
+              <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox>
+          </demo-theme>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
