@@ -6,6 +6,7 @@ import { FlipContext, Status } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -26,6 +27,9 @@ export class BlockSection extends LitElement {
   // #endregion
 
   // #region Public Properties
+
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
@@ -57,11 +61,13 @@ export class BlockSection extends LitElement {
   }
 
   set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
     this.expanded = value;
   }
-
-  /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
 
   /**
    * Displays a status-related indicator icon.

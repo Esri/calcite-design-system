@@ -267,6 +267,23 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("title")).toBe(messages.expand);
   });
 
+  it("should set expanded when open is set", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-block></calcite-block>`,
+    });
+    const block = await page.find("calcite-block");
+
+    expect(await block.getProperty("expanded")).toBe(false);
+
+    block.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(true);
+
+    block.setProperty("open", false);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(false);
+  });
+
   describe("header", () => {
     it("renders a heading", async () => {
       const page = await newE2EPage();

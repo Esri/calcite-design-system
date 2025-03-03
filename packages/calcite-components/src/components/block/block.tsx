@@ -92,6 +92,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
+
   /**
    * The component header text.
    *
@@ -152,12 +155,13 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   }
 
   set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
     this.expanded = value;
   }
-
-  /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
-
   /**
    * Determines the type of positioning to use for the overlaid content.
    *

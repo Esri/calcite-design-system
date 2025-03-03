@@ -134,6 +134,23 @@ describe("calcite-block-section", () => {
     });
   });
 
+  it("should set expanded when open is set", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-block-section></calcite-block-section>`,
+    });
+    const blockSection = await page.find("calcite-block-section");
+
+    expect(await blockSection.getProperty("expanded")).toBe(false);
+
+    blockSection.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await blockSection.getProperty("expanded")).toBe(true);
+
+    blockSection.setProperty("open", false);
+    await page.waitForChanges();
+    expect(await blockSection.getProperty("expanded")).toBe(false);
+  });
+
   describe("status = 'invalid'", () => {
     it("displays a status indicator when `status` is an accepted value", async () => {
       const page = await newE2EPage({
