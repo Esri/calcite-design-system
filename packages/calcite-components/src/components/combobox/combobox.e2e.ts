@@ -3024,31 +3024,6 @@ describe("calcite-combobox", () => {
           selector: "calcite-combobox",
           targetProp: "backgroundColor",
         },
-        "--calcite-combobox-chip-background-color": {
-          shadowSelector: `.${CSS.chip}`,
-          selector: "calcite-combobox",
-          targetProp: "--calcite-chip-background-color",
-        },
-        "--calcite-combobox-chip-close-icon-color": {
-          shadowSelector: `.${CSS.chip}`,
-          selector: "calcite-combobox",
-          targetProp: "--calcite-chip-close-icon-color",
-        },
-        "--calcite-combobox-chip-corner-radius": {
-          shadowSelector: `.${CSS.chip}`,
-          selector: "calcite-combobox",
-          targetProp: "--calcite-chip-corner-radius",
-        },
-        "--calcite-combobox-chip-icon-color": {
-          shadowSelector: `.${CSS.chip}`,
-          selector: "calcite-combobox",
-          targetProp: "--calcite-chip-icon-color",
-        },
-        "--calcite-combobox-chip-text-color": {
-          shadowSelector: `.${CSS.chip}`,
-          selector: "calcite-combobox",
-          targetProp: "--calcite-chip-text-color",
-        },
         "--calcite-combobox-item-group-text-color": {
           selector: "calcite-combobox-item-group",
           shadowSelector: ".title",
