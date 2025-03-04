@@ -517,12 +517,6 @@ export class InputTimePicker
     this.userChangedValue = false;
   }
 
-  private decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setValuePart("hour", newHour);
-    this.time.setValuePart("hour", newHour);
-  }
-
   private decrementMeridiem(): void {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setValuePart("meridiem", newMeridiem);
@@ -623,22 +617,20 @@ export class InputTimePicker
       } else {
         newHour = keyAsNumber;
       }
-      this.setValuePart("hour", newHour);
       this.time.setValuePart("hour", newHour);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValuePart("hour", null);
           this.time.setValuePart("hour", null);
           break;
         case "ArrowDown":
           event.preventDefault();
-          this.decrementHour();
+          this.time.decrementHour();
           break;
         case "ArrowUp":
           event.preventDefault();
-          this.incrementHour();
+          this.time.incrementHour();
           break;
         case " ":
         case "Spacebar":
@@ -646,16 +638,6 @@ export class InputTimePicker
           break;
       }
     }
-  }
-
-  private incrementHour(): void {
-    const newHour = isValidNumber(this.hour)
-      ? this.hour === "23"
-        ? 0
-        : parseInt(this.hour) + 1
-      : 1;
-    this.setValuePart("hour", newHour);
-    this.time.setValuePart("hour", newHour);
   }
 
   private incrementMeridiem(): void {

@@ -50,7 +50,7 @@ type TimeProperties = {
   value: string;
 };
 
-export class TimeController extends GenericController<void, RequiredTimeArguments> implements TimeProperties {
+export class TimeController extends GenericController<TimeProperties, RequiredTimeArguments> implements TimeProperties {
   // #region Public Properties
 
   fractionalSecond: string;
@@ -85,6 +85,16 @@ export class TimeController extends GenericController<void, RequiredTimeArgument
   // #endregion
 
   // #region Public Methods
+
+  decrementHour(): void {
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  incrementHour(): void {
+    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
+    this.setValuePart("hour", newHour);
+  }
 
   setValue(value: string): void {
     const { hourFormat, messages, numberingSystem, step } = this.component;
@@ -212,6 +222,7 @@ export class TimeController extends GenericController<void, RequiredTimeArgument
           value: this.value,
         })?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+    this.component.requestUpdate();
     if (emit) {
       // TODO: handle event emitting
       // this.calciteTimePickerChange.emit();
