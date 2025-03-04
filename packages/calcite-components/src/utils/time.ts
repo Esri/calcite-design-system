@@ -552,11 +552,8 @@ export function parseTimeString(value: string, step?: number): Time {
   };
 }
 
-export function toISOTimeString(value: string, step: number = 60): string {
-  if (!isValidTime(value)) {
-    return null;
-  }
-  const { hour, minute, second, fractionalSecond } = parseTimeString(value);
+export function toISOTimeString(value: string | Time, step: number = 60): string {
+  const { hour, minute, second, fractionalSecond } = typeof value === "string" ? parseTimeString(value) : value;
 
   let isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
 
@@ -567,9 +564,5 @@ export function toISOTimeString(value: string, step: number = 60): string {
     }
   }
 
-  return isoTimeString;
-}
-
-export function toISOTimeStringFromParts(parts: Time, step: number): string {
-  return toISOTimeString(`${parts?.hour}:${parts?.minute}:${parts?.second}.${parts?.fractionalSecond}`, step);
+  return isValidTime(isoTimeString) ? isoTimeString : null;
 }

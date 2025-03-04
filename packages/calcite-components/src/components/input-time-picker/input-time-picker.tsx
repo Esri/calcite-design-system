@@ -881,12 +881,9 @@ export class InputTimePicker
         this.time.setValuePart("meridiem", null);
         break;
       case "ArrowUp":
-        event.preventDefault();
-        this.incrementMeridiem();
-        break;
       case "ArrowDown":
         event.preventDefault();
-        this.decrementMeridiem();
+        this.time.toggleMeridiem();
         break;
       case " ":
       case "Spacebar":

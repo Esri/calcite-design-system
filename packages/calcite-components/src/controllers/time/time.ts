@@ -13,7 +13,6 @@ import {
   Meridiem,
   parseTimeString,
   toISOTimeString,
-  toISOTimeStringFromParts,
 } from "../../utils/time";
 import { decimalPlaces } from "../../utils/math";
 import { isValidNumber } from "../../utils/number";
@@ -207,26 +206,22 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         hour12,
       });
     }
-    let emit = false;
     const { hour, minute, second, fractionalSecond } = this;
-    const newValue = toISOTimeStringFromParts({ hour, minute, second, fractionalSecond }, step);
-    if (this.value !== newValue) {
-      emit = true;
-    }
+    const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     this.value = newValue;
-    this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({
-          hour12,
-          locale,
-          numberingSystem,
-          value: this.value,
-        })?.localizedMeridiem || null
-      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+    this.localizedMeridiem = localizeTimePart({
+      hour12,
+      value: this.meridiem,
+      part: "meridiem",
+      locale,
+      numberingSystem,
+    });
     this.component.requestUpdate();
-    if (emit) {
-      // TODO: handle event emitting
-      // this.calciteTimePickerChange.emit();
-    }
+  }
+
+  toggleMeridiem(): void {
+    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    this.setValuePart("meridiem", newMeridiem);
   }
 
   // #endregion
