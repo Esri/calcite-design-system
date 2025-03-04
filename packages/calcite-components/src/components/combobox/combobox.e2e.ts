@@ -22,6 +22,7 @@ import {
   createEventTimePropValuesAsserter,
   findAll,
   getElementXY,
+  isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
 } from "../../tests/utils";
@@ -1870,14 +1871,10 @@ describe("calcite-combobox", () => {
         await page.waitForChanges();
 
         await element.press("ArrowLeft");
-        expect(chips[0]).not.toHaveClass("chip--active");
-        expect(chips[1]).not.toHaveClass("chip--active");
-        expect(chips[2]).toHaveClass("chip--active");
+        expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-2"]`, { shadowed: true })).toBe(true);
 
         await element.press("ArrowLeft");
-        expect(chips[0]).not.toHaveClass("chip--active");
-        expect(chips[1]).toHaveClass("chip--active");
-        expect(chips[2]).not.toHaveClass("chip--active");
+        expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-1"]`, { shadowed: true })).toBe(true);
 
         await element.press("Delete");
         chips = await findAll(page, "#myCombobox >>> calcite-chip");
