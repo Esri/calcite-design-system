@@ -151,7 +151,7 @@ describe("calcite-combobox-item", () => {
           selector: "calcite-combobox-item",
           targetProp: "color",
         },
-        "--calcite-combobox-item-icon-selected": {
+        "--calcite-combobox-icon-color-selected": {
           shadowSelector: ` .${CSS.iconCustom} `,
           selector: "calcite-combobox-item",
           targetProp: "color",

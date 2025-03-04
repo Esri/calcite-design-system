@@ -7,7 +7,7 @@ export const comboboxItemTokens = {
   calciteComboboxItemBackgroundColorActive: "",
   calciteComboboxItemBackgroundColorHover: "",
   calciteComboboxItemSelectedIndicatorIconColor: "",
-  calciteComboboxItemIconSelected: "",
+  calciteComboboxIconColorSelected: "",
   calciteComboboxItemDescriptionTextColor: "",
   calciteComboboxItemDescriptionTextColorHover: "",
   calciteComboboxItemHeadingTextColor: "",
