@@ -1419,7 +1419,6 @@ export class Combobox
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         [CSS.chip]: true,
-        [CSS.chipActive]: activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const itemLabel = getLabel(item);

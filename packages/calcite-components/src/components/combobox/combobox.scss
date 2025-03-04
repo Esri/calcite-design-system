@@ -11,7 +11,6 @@
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
  * @prop --calcite-combobox-placeholder-icon-color: Specifies the component's placeholder icon color.
  * @prop --calcite-combobox-listbox-background-color: Specifies the background color of the component's listbox.
- * @prop --calcite-combobox-chip-background-color-active: Specifies the background color of the component's chips when close icon is focused with Arrow keys.
  */
 
 :host {
@@ -249,13 +248,6 @@ calcite-chip {
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   max-inline-size: 100%;
-}
-
-.chip--active {
-  --calcite-chip-background-color: var(
-    --calcite-combobox-chip-background-color-active,
-    var(--calcite-color-foreground-3)
-  );
 }
 
 .chip--invisible {

@@ -7,7 +7,6 @@ export const CSS = {
   inputHidden: "input--hidden",
   chip: "chip",
   chipInvisible: "chip--invisible",
-  chipActive: "chip--active",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   listContainer: "list-container",
