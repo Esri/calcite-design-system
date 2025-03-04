@@ -517,12 +517,6 @@ export class InputTimePicker
     this.userChangedValue = false;
   }
 
-  private decrementMeridiem(): void {
-    const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
-    this.setValuePart("meridiem", newMeridiem);
-    this.time.setValuePart("meridiem", newMeridiem);
-  }
-
   private decrementMinute(): void {
     this.decrementMinuteOrSecond("minute");
   }
@@ -638,12 +632,6 @@ export class InputTimePicker
           break;
       }
     }
-  }
-
-  private incrementMeridiem(): void {
-    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setValuePart("meridiem", newMeridiem);
-    this.time.setValuePart("meridiem", newMeridiem);
   }
 
   private incrementMinute(): void {
