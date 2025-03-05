@@ -13,6 +13,11 @@ const config: Config = {
   source: ["src/semantic/[!$]*.json"],
   include: ["src/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
+  hooks: {
+    filters: {
+      "no-medium-saturation": (token) => !token.name.includes("medium-saturation"),
+    },
+  },
   platforms: {
     scss: {
       transformGroup: transformers.TransformCalciteGroup,
