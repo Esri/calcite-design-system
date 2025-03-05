@@ -286,7 +286,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   async updateFocusTrapElements(
     extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
-    this.focusTrap.updateContainerElements(extraContainers);
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
@@ -677,6 +678,10 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
     this.setupInteractions();
   }
@@ -766,7 +771,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion

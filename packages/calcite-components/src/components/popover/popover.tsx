@@ -89,7 +89,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   private hasLoaded = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   transitionProp = "opacity" as const;
@@ -356,6 +356,10 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

@@ -326,6 +326,10 @@ export class Alert extends LitElement implements OpenCloseComponent {
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

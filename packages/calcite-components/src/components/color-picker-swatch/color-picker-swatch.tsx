@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import Color from "color";
+import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
@@ -23,7 +23,7 @@ export class ColorPickerSwatch extends LitElement {
 
   // #region Private Properties
 
-  private internalColor: Color;
+  private internalColor: ColorInstance;
 
   // #endregion
 

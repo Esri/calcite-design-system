@@ -3,6 +3,119 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.20...@esri/calcite-components@3.1.0-next.21) (2025-03-04)
+
+### Bug Fixes
+
+- **tabs:** redisplay close button when more than one tab is closable ([#11492](https://github.com/Esri/calcite-design-system/issues/11492)) ([3150fe5](https://github.com/Esri/calcite-design-system/commit/3150fe517bbc0a4580010ea39134880416c582fe)), closes [#10183](https://github.com/Esri/calcite-design-system/issues/10183)
+
+## [3.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.19...@esri/calcite-components@3.1.0-next.20) (2025-02-27)
+
+### Bug Fixes
+
+- **card-group:** Restore default gap spacing ([#11638](https://github.com/Esri/calcite-design-system/issues/11638)) ([192dc92](https://github.com/Esri/calcite-design-system/commit/192dc92533acf544cc6066c42eb4cc3c30592adc)), closes [#11637](https://github.com/Esri/calcite-design-system/issues/11637)
+
+## [3.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.18...@esri/calcite-components@3.1.0-next.19) (2025-02-26)
+
+### Bug Fixes
+
+- **panel:** apply custom styles correctly to header actions ([#11495](https://github.com/Esri/calcite-design-system/issues/11495)) ([fd64b84](https://github.com/Esri/calcite-design-system/commit/fd64b84ab00e3292bd358a2772e0b57b4bae2c44)), closes [#11491](https://github.com/Esri/calcite-design-system/issues/11491) [#8675](https://github.com/Esri/calcite-design-system/issues/8675) [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.1.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.17...@esri/calcite-components@3.1.0-next.18) (2025-02-25)
+
+### Bug Fixes
+
+- **tooltip:** close tooltip when hovering out of an iframe ([#11600](https://github.com/Esri/calcite-design-system/issues/11600)) ([ae626be](https://github.com/Esri/calcite-design-system/commit/ae626bec48592dc4f99f974abcfc3ce4aaaaf57e)), closes [#11091](https://github.com/Esri/calcite-design-system/issues/11091)
+
+## [3.1.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.16...@esri/calcite-components@3.1.0-next.17) (2025-02-25)
+
+### Bug Fixes
+
+- **tooltip:** do not open after the pointer has moved off of the reference element ([#11599](https://github.com/Esri/calcite-design-system/issues/11599)) ([bd06695](https://github.com/Esri/calcite-design-system/commit/bd066959c6c64cf92a5c5385d570f263fc3c4424)), closes [#11091](https://github.com/Esri/calcite-design-system/issues/11091)
+
+## [3.1.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.15...@esri/calcite-components@3.1.0-next.16) (2025-02-24)
+
+### Features
+
+- **dropdown:** add `offsetDistance` and `offsetSkidding` properties ([#11614](https://github.com/Esri/calcite-design-system/issues/11614)) ([3feea79](https://github.com/Esri/calcite-design-system/commit/3feea796bef8851b610885b1e91c367d4194f11d)), closes [#7224](https://github.com/Esri/calcite-design-system/issues/7224)
+
+## [3.1.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.14...@esri/calcite-components@3.1.0-next.15) (2025-02-21)
+
+### Bug Fixes
+
+- **dropdown-group:** fix error caused by early removal ([#11612](https://github.com/Esri/calcite-design-system/issues/11612)) ([c4002e5](https://github.com/Esri/calcite-design-system/commit/c4002e50452f1447567b13e58b831147a16eab0a)), closes [#10028](https://github.com/Esri/calcite-design-system/issues/10028)
+
+## [3.1.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.13...@esri/calcite-components@3.1.0-next.14) (2025-02-21)
+
+### Features
+
+- **button:** enhance component's interactivity states ([#11590](https://github.com/Esri/calcite-design-system/issues/11590)) ([146bb63](https://github.com/Esri/calcite-design-system/commit/146bb633bab4afb45ca1c587c9fa971042e855dd)), closes [#9246](https://github.com/Esri/calcite-design-system/issues/9246)
+
+## [3.1.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.12...@esri/calcite-components@3.1.0-next.13) (2025-02-20)
+
+### Features
+
+- **rating:** enhance component's interactivity states ([#11469](https://github.com/Esri/calcite-design-system/issues/11469)) ([17075a7](https://github.com/Esri/calcite-design-system/commit/17075a76d493087249d10c539fb07973163979b3)), closes [#10015](https://github.com/Esri/calcite-design-system/issues/10015)
+
+## [3.1.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.11...@esri/calcite-components@3.1.0-next.12) (2025-02-19)
+
+### Bug Fixes
+
+- **input-date-picker:** no longer close while navigating months with chevron actions ([#11525](https://github.com/Esri/calcite-design-system/issues/11525)) ([5472452](https://github.com/Esri/calcite-design-system/commit/54724527dc2d2d871d25ad7fc5149b9fa47b9d96)), closes [#11534](https://github.com/Esri/calcite-design-system/issues/11534)
+
+## [3.1.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.10...@esri/calcite-components@3.1.0-next.11) (2025-02-19)
+
+### Bug Fixes
+
+- set floating-ui elements max size set to the view ([#11577](https://github.com/Esri/calcite-design-system/issues/11577)) ([849d04a](https://github.com/Esri/calcite-design-system/commit/849d04aab1e5abe3f85e130901e1a07d30569d23)), closes [#11579](https://github.com/Esri/calcite-design-system/issues/11579)
+
+## [3.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.9...@esri/calcite-components@3.1.0-next.10) (2025-02-19)
+
+### Bug Fixes
+
+- **dialog, modal, popover, sheet:** restore `focusTrapDisabled` reactiveness ([#11586](https://github.com/Esri/calcite-design-system/issues/11586)) ([87ceba4](https://github.com/Esri/calcite-design-system/commit/87ceba4533262a4f25baffa667ffc436ed777588))
+- **slider:** ensure histograms with non-zero min are displayed correctly ([#11587](https://github.com/Esri/calcite-design-system/issues/11587)) ([bf08cb8](https://github.com/Esri/calcite-design-system/commit/bf08cb880ef4c5255ba16b85db0e4afad4c56b13))
+
+## [3.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.8...@esri/calcite-components@3.1.0-next.9) (2025-02-18)
+
+### Features
+
+- **chip:** deprecate `pressed` in favor of `press` ([#11389](https://github.com/Esri/calcite-design-system/issues/11389)) ([ebe29dc](https://github.com/Esri/calcite-design-system/commit/ebe29dcb19dfefd3301779f8e57a785ebbfd6198)), closes [#10832](https://github.com/Esri/calcite-design-system/issues/10832) [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.7...@esri/calcite-components@3.1.0-next.8) (2025-02-15)
+
+### Features
+
+- **chip:** enhance component's interactivity states ([#11538](https://github.com/Esri/calcite-design-system/issues/11538)) ([fcc129a](https://github.com/Esri/calcite-design-system/commit/fcc129acfb046199a93c5be87870c426343507bc)), closes [#10005](https://github.com/Esri/calcite-design-system/issues/10005)
+
+## [3.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.6...@esri/calcite-components@3.1.0-next.7) (2025-02-14)
+
+### Bug Fixes
+
+- **tooltip:** close tooltips on prevented pointer move events ([#11557](https://github.com/Esri/calcite-design-system/issues/11557)) ([0b19cef](https://github.com/Esri/calcite-design-system/commit/0b19cefaaed335e9817a7c52c37d9d62f3fff759)), closes [#11541](https://github.com/Esri/calcite-design-system/issues/11541)
+
+## [3.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.5...@esri/calcite-components@3.1.0-next.6) (2025-02-14)
+
+### Bug Fixes
+
+- **dialog, modal, popover, sheet:** fixes an issue that caused extra containers to be lost after internal trap updates ([#11556](https://github.com/Esri/calcite-design-system/issues/11556)) ([455cb5a](https://github.com/Esri/calcite-design-system/commit/455cb5acd9c1f4847623404dac21aa6d314dc35e)), closes [#11523](https://github.com/Esri/calcite-design-system/issues/11523)
+
+### Reverts
+
+- build(deps): update arcgis to ^4.33.0-next.13 ([#11539](https://github.com/Esri/calcite-design-system/issues/11539)) ([#11559](https://github.com/Esri/calcite-design-system/issues/11559)) ([fa202cc](https://github.com/Esri/calcite-design-system/commit/fa202cc01bc50eda9f6e07e776b323a8dd7f4414))
+
+## [3.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.4...@esri/calcite-components@3.1.0-next.5) (2025-02-14)
+
+### Bug Fixes
+
+- **input-date-picker:** allow navigating between months using chevron actions in Safari ([#11547](https://github.com/Esri/calcite-design-system/issues/11547)) ([e248837](https://github.com/Esri/calcite-design-system/commit/e248837ba9078b7884d033c61fc0c0e45ac765ae)), closes [#11544](https://github.com/Esri/calcite-design-system/issues/11544)
+
+## [3.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.3...@esri/calcite-components@3.1.0-next.4) (2025-02-14)
+
+### Bug Fixes
+
+- **dialog, modal, sheet:** preserve focus-trap extra containers across internal trap updates ([#11548](https://github.com/Esri/calcite-design-system/issues/11548)) ([4f9c448](https://github.com/Esri/calcite-design-system/commit/4f9c4481d5ed1de4136408087eb88685ccf1dd25)), closes [#11523](https://github.com/Esri/calcite-design-system/issues/11523)
+
 ## [3.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.2...@esri/calcite-components@3.1.0-next.3) (2025-02-13)
 
 ### Features

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import Color from "color";
+import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
@@ -53,7 +53,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region State Properties
 
   /** The last valid/selected color. Used as a fallback if an invalid hex code is entered. */
-  @state() internalColor: Color | undefined = DEFAULT_COLOR;
+  @state() internalColor: ColorInstance | undefined = DEFAULT_COLOR;
 
   // #endregion
 
@@ -377,11 +377,15 @@ export class ColorPickerHexInput extends LitElement {
     return hex ? hex.replace("#", "").slice(0, 6) : "";
   }
 
-  private formatOpacityForInternalInput(color: Color): string {
+  private formatOpacityForInternalInput(color: ColorInstance): string {
     return color ? `${alphaToOpacity(color.alpha())}` : "";
   }
 
-  private nudgeRGBChannels(color: Color, amount: number, context: "rgb" | "a"): Color {
+  private nudgeRGBChannels(
+    color: ColorInstance,
+    amount: number,
+    context: "rgb" | "a",
+  ): ColorInstance {
     let nudgedChannels: Channels;
     const channels = color.array();
     const rgbChannels = channels.slice(0, 3);

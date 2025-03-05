@@ -251,7 +251,7 @@ export class SegmentedControl
     }
   }
 
-  private handleSelected(event: Event): void {
+  private handleSelected(event: CustomEvent<void>): void {
     event.preventDefault();
     const el = event.target as SegmentedControlItem["el"];
     if (el.checked) {

@@ -71,6 +71,8 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-container() {
   inline-size: max-content;
   display: none;
+  max-inline-size: 100vw;
+  max-block-size: 100vh;
   inset-block-start: 0;
   /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
