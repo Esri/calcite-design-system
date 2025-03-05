@@ -2,47 +2,47 @@
   "container-size": {
     "0": {
       "value": "0",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "154": {
       "value": "154",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "320": {
       "value": "320",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "328": {
       "value": "328",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "476": {
       "value": "476",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "504": {
       "value": "504",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "678": {
       "value": "678",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "768": {
       "value": "768",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "854": {
       "value": "854",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "1152": {
       "value": "1152",
-      "type": "breakpoint"
+      "type": "sizing"
     },
     "1440": {
       "value": "1440",
-      "type": "breakpoint"
+      "type": "sizing"
     }
   }
 }
