@@ -1,0 +1,1 @@
+{"invalid":"Ungültig","tooLong":"Die aktuelle Zeichenanzahl beträgt {currentLength} und überschreitet damit die maximal zulässige Anzahl von {maxLength} Zeichen.","tooShort":"Die aktuelle Zeichenanzahl beträgt {currentLength}, was weniger ist als die minimal zulässige Anzahl von {minLength} Zeichen."}
