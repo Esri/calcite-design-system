@@ -38,8 +38,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  opened: "chevron-up",
-  closed: "chevron-down",
+  expanded: "chevron-up",
+  collapsed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 } as const;
