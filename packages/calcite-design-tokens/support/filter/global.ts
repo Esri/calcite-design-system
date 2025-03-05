@@ -9,7 +9,6 @@ export const filterGlobalTokens: Filter["filter"] = (token) =>
     token.type === "color" ||
     token.type === "dark" ||
     token.type === "light" ||
-    token.type === "breakpoint" ||
     token.type === "min" ||
     token.type === "max" ||
     token.type === "typography"

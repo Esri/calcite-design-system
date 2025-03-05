@@ -5,7 +5,7 @@ const mediumLowSaturation = /(medium|low)-{0,1}saturation/i;
 
 export const filterCoreTokens: Filter["filter"] = (token) =>
   !token.isSource &&
-  !(token.type === "breakpoint" || token.type === "min" || token.type === "max" || token.type === "typography") &&
+  !(token.type === "min" || token.type === "max" || token.type === "typography") &&
   !mediumLowSaturation.test(token.name);
 
 export const registerFilterCoreTokens: RegisterFn = async (sd) =>
