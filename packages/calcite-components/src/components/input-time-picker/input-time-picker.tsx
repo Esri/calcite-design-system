@@ -856,16 +856,13 @@ export class InputTimePicker
     }
     switch (event.key) {
       case "a":
-        this.setValuePart("meridiem", "AM");
         this.time.setValuePart("meridiem", "AM");
         break;
       case "p":
-        this.setValuePart("meridiem", "PM");
         this.time.setValuePart("meridiem", "PM");
         break;
       case "Backspace":
       case "Delete":
-        this.setValuePart("meridiem", null);
         this.time.setValuePart("meridiem", null);
         break;
       case "ArrowUp":
