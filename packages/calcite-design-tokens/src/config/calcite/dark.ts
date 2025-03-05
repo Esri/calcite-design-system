@@ -46,7 +46,7 @@ export default {
         fileHeader: headers.HeaderDefault,
       },
     },
-    es6: {
+    ts: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
@@ -69,33 +69,15 @@ export default {
             suffix: "Dark",
           },
         },
+
+        // d.ts
+        {
+          destination: "dark.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterSourceTokens,
+        },
       ],
     },
-    // js: {
-    //   transformGroup: transformers.TransformCalciteGroup,
-    //   transforms: transformers.platformTransforms.es6,
-    //   buildPath: "dist/js/",
-    //   prefix: "calcite",
-    //   options: {
-    //     fileExtension: ".js",
-    //     fileHeader: headers.HeaderDefault,
-    //   },
-    //   files: [
-    //     {
-    //       destination: "dark.js",
-    //       format: formats.FormatCalciteDocs,
-    //       filter: filters.FilterSourceTokens,
-    //     },
-    //     {
-    //       destination: "global.js",
-    //       format: formats.FormatJSONMerge,
-    //       filter: filters.FilterSourceTokens,
-    //       options: {
-    //         suffix: "Dark",
-    //       },
-    //     },
-    //   ],
-    // },
     docs: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
