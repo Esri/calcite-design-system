@@ -134,7 +134,8 @@ describe("calcite-block-section", () => {
     });
   });
 
-  it("should set expanded when open is set", async () => {
+  // Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
+  it("should map deprecated 'open' prop to 'expanded' prop", async () => {
     const page = await newE2EPage({
       html: html`<calcite-block-section></calcite-block-section>`,
     });
