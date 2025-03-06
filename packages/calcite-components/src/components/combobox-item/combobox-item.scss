@@ -86,8 +86,7 @@ ul:focus {
 }
 
 .label:hover {
-  @apply text-color-1;
-  background-color: var(--calcite-color-foreground-2);
+  @apply text-color-1 bg-foreground-2;
 }
 
 .label:active {
@@ -135,8 +134,8 @@ ul:focus {
   }
 }
 
-.label:hover,
-.label {
+.label,
+.label:hover {
   .description,
   .short-text {
     @apply text-color-3;
