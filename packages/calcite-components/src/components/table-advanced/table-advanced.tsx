@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import type { ColumnDefinition, OptionsData } from "tabulator-tables";
 import type { Input } from "../input/input";
@@ -34,11 +34,11 @@ export class TableAdvanced extends LitElement {
 
   // #region State Properties
 
-  @state() tabulator: Tabulator;
-
   // #endregion
 
   // #region Public Properties
+
+  @property() tabulator: Tabulator;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";

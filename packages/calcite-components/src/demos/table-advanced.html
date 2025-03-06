@@ -65,42 +65,52 @@
       <div class="parent">
         <div class="child title-text">Custom slot</div>
         <div class="child">
-          <calcite-table-advanced scale="s">
+          <calcite-table-advanced scale="s" height="50px" scroll-to-row-enabled row-index-prop="name">
             <table>
               <thead>
                 <tr>
-                  <th>heading</th>
-                  <th>heading 1</th>
-                  <th>heading 2</th>
-                  <th>heading 3</th>
-                  <th>heading 4</th>
-                  <th>heading 5</th>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>rating</th>
+                  <th>gender</th>
+                  <th>color</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>cell1</td>
-                  <td>cell1</td>
-                  <td>cell1</td>
-                  <td>cell1</td>
-                  <td>cell1</td>
-                  <td>cell1</td>
+                  <td>John Doe</td>
+                  <td>0</td>
+                  <td>10</td>
+                  <td>male</td>
+                  <td>black</td>
                 </tr>
                 <tr>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
+                  <td>Mary Jane</td>
+                  <td>4</td>
+                  <td>20</td>
+                  <td>female</td>
+                  <td>green</td>
                 </tr>
                 <tr>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
-                  <td>cell</td>
+                  <td>Neil Young</td>
+                  <td>65</td>
+                  <td>99</td>
+                  <td>male</td>
+                  <td>yellow</td>
+                </tr>
+                <tr>
+                  <td>Juan Carlos Franco</td>
+                  <td>25</td>
+                  <td>100</td>
+                  <td>male</td>
+                  <td>blue</td>
+                </tr>
+                <tr>
+                  <td>Luigi Mangione</td>
+                  <td>30</td>
+                  <td>NaN</td>
+                  <td>male</td>
+                  <td>red</td>
                 </tr>
               </tbody>
             </table>
