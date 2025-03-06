@@ -845,11 +845,17 @@ export class InputNumber
       );
     }
 
-    // adds localized trailing decimal separator
-    this.displayedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-        : newLocalizedValue;
+    const re = new RegExp(`^-?0+\\d*${numberStringFormatter.decimal}?$`);
+    if (re.test(valueHandleInteger)) {
+      //Allows editing of numbers that start with zeros
+      this.displayedValue = valueHandleInteger;
+    } else {
+      //adds localized trailing decimal separator
+      this.displayedValue =
+        hasTrailingDecimalSeparator && isValueDeleted
+          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+          : newLocalizedValue;
+    }
 
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
