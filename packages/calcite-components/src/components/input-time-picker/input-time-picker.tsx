@@ -34,29 +34,16 @@ import {
 } from "../../utils/loadable";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import {
-  formatTimePart,
-  FractionalSecondDigits,
   getLocaleHourFormat,
-  getMeridiemOrder,
   EffectiveHourFormat,
   isValidTime,
-  localizeTimeString,
-  toISOTimeString,
   HourFormat,
   TimePart,
-  Meridiem,
-  localizeTimePart,
-  localizeTimeStringToParts,
-  MinuteOrSecond,
   maxTenthForMinuteAndSecond,
-  parseTimeString,
-  getMeridiem,
-  getLocalizedTimePartSuffix,
-  getLocalizedDecimalSeparator,
-  LocalizedTime,
+  toISOTimeString,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
-import { decimalPlaces, getDecimals } from "../../utils/math";
+import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { focusFirstTabbable, getElementDir } from "../../utils/dom";
@@ -76,10 +63,6 @@ declare global {
   interface DeclareElements {
     "calcite-input-time-picker": InputTimePicker;
   }
-}
-
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export class InputTimePicker
@@ -121,8 +104,6 @@ export class InputTimePicker
 
   labelEl: Label["el"];
 
-  private meridiemOrder: number;
-
   private popoverEl: Popover["el"];
 
   private secondEl: HTMLSpanElement;
@@ -130,45 +111,11 @@ export class InputTimePicker
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
 
-  private _value = null;
-
   // #endregion
 
   // #region State Properties
 
   @state() effectiveHourFormat: EffectiveHourFormat;
-
-  @state() fractionalSecond: string;
-
-  @state() hour: string;
-
-  @state() localizedDecimalSeparator = ".";
-
-  @state() localizedFractionalSecond: string;
-
-  @state() localizedHour: string;
-
-  @state() localizedHourSuffix: string;
-
-  @state() localizedMeridiem: string;
-
-  @state() localizedMinute: string;
-
-  @state() localizedMinuteSuffix: string;
-
-  @state() localizedSecond: string;
-
-  @state() localizedSecondSuffix: string;
-
-  @state() meridiem: Meridiem;
-
-  @state() minute: string;
-
-  @state() second: string;
-
-  @state() showFractionalSecond: boolean;
-
-  @state() showSecond: boolean;
 
   // #endregion
 
@@ -296,7 +243,7 @@ export class InputTimePicker
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
-  @property() step = 60;
+  @property({ reflect: true }) step = 60;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
@@ -327,17 +274,12 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  @property()
+  @property({ reflect: true })
   get value(): string {
-    return this._value;
+    return this.time.value;
   }
-
   set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.valueWatcher(value);
-    }
+    this.time.setValue(value);
   }
 
   time = new TimeController(this);
@@ -400,19 +342,9 @@ export class InputTimePicker
   }
 
   override connectedCallback(): void {
-    this.setValue(this.value);
     this.time.setValue(this.value);
-
-    if (isValidTime(this.value)) {
-      this.setValueDirectly(this.value);
-    } else {
-      this.value = undefined;
-    }
-
     connectLabel(this);
     connectForm(this);
-
-    this.toggleSecond();
   }
 
   async load(): Promise<void> {
@@ -453,7 +385,7 @@ export class InputTimePicker
 
     if (changes.has("numberingSystem")) {
       // TODO: relocalize input value
-      this.setLocalizedInputValue({ numberingSystem: changes.get("numberingSystem") });
+      // this.setLocalizedInputValue({ numberingSystem: changes.get("numberingSystem") });
     }
 
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
@@ -462,7 +394,7 @@ export class InputTimePicker
 
     if (changes.has("value")) {
       // TODO: relocalize input value
-      this.setLocalizedInputValue({ isoTimeString: changes.get("value") });
+      // this.setLocalizedInputValue({ isoTimeString: changes.get("value") });
     }
   }
 
@@ -506,42 +438,15 @@ export class InputTimePicker
       (oldStep >= 60 && newStep > 0 && newStep < 60) ||
       (newStep >= 60 && oldStep > 0 && oldStep < 60)
     ) {
-      this.setValueDirectly(this.value);
+      this.time.setValue(this.value);
     }
-  }
-
-  private valueWatcher(newValue: string): void {
-    if (!this.userChangedValue) {
-      this.setValueDirectly(newValue);
-    }
-    this.userChangedValue = false;
-  }
-
-  private decrementMinute(): void {
-    this.decrementMinuteOrSecond("minute");
-  }
-
-  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
-    let newValue;
-    if (isValidNumber(this[key])) {
-      const valueAsNumber = parseInt(this[key]);
-      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
-    } else {
-      newValue = 59;
-    }
-    this.setValuePart(key, newValue);
-    this.time.setValuePart(key, newValue);
-  }
-
-  private decrementSecond(): void {
-    this.decrementMinuteOrSecond("second");
   }
 
   private fractionalSecondKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const stepPrecision = decimalPlaces(this.step);
-      const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+      const fractionalSecondAsInteger = parseInt(this.time.fractionalSecond);
       const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
 
       let newFractionalSecondAsIntegerString;
@@ -555,7 +460,6 @@ export class InputTimePicker
         );
       }
 
-      this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
       this.time.setValuePart(
         "fractionalSecond",
         parseFloat(`0.${newFractionalSecondAsIntegerString}`),
@@ -564,16 +468,15 @@ export class InputTimePicker
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValuePart("fractionalSecond", null);
           this.time.setValuePart("fractionalSecond", null);
           break;
         case "ArrowDown":
           event.preventDefault();
-          this.nudgeFractionalSecond("down");
+          this.time.nudgeFractionalSecond("down");
           break;
         case "ArrowUp":
           event.preventDefault();
-          this.nudgeFractionalSecond("up");
+          this.time.nudgeFractionalSecond("up");
           break;
         case " ":
           event.preventDefault();
@@ -590,18 +493,18 @@ export class InputTimePicker
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
-      if (isValidNumber(this.hour)) {
+      if (isValidNumber(this.time.hour)) {
         switch (this.hourFormat) {
           case "12":
             newHour =
-              this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
+              this.time.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
                 ? `1${keyAsNumber}`
                 : keyAsNumber;
             break;
           case "24":
-            if (this.hour === "01") {
+            if (this.time.hour === "01") {
               newHour = `1${keyAsNumber}`;
-            } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
+            } else if (this.time.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
               newHour = `2${keyAsNumber}`;
             } else {
               newHour = keyAsNumber;
@@ -634,28 +537,11 @@ export class InputTimePicker
     }
   }
 
-  private incrementMinute(): void {
-    this.incrementMinuteOrSecond("minute");
-  }
-
-  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
-    const newValue = isValidNumber(this[key])
-      ? this[key] === "59"
-        ? 0
-        : parseInt(this[key]) + 1
-      : 0;
-    this.setValuePart(key, newValue);
-    this.time.setValuePart(key, newValue);
-  }
-
-  private incrementSecond(): void {
-    this.incrementMinuteOrSecond("second");
-  }
-
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
+    // TODO: set value on time picker change
     this.setValueDeprecated(toISOTimeString(value, this.step));
     this.setLocalizedInputValue({ isoTimeString: value });
   }
@@ -674,8 +560,8 @@ export class InputTimePicker
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
-      if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
-        const minuteAsNumber = parseInt(this.minute);
+      if (isValidNumber(this.time.minute) && this.time.minute.startsWith("0")) {
+        const minuteAsNumber = parseInt(this.time.minute);
         newMinute =
           minuteAsNumber > maxTenthForMinuteAndSecond
             ? keyAsNumber
@@ -683,22 +569,20 @@ export class InputTimePicker
       } else {
         newMinute = keyAsNumber;
       }
-      this.setValuePart("minute", newMinute);
       this.time.setValuePart("minute", newMinute);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValuePart("minute", null);
           this.time.setValuePart("minute", null);
           break;
         case "ArrowDown":
           event.preventDefault();
-          this.decrementMinute();
+          this.time.decrementMinute();
           break;
         case "ArrowUp":
           event.preventDefault();
-          this.incrementMinute();
+          this.time.incrementMinute();
           break;
         case " ":
         case "Spacebar":
@@ -706,42 +590,6 @@ export class InputTimePicker
           break;
       }
     }
-  }
-
-  private nudgeFractionalSecond(direction: "up" | "down"): void {
-    const stepDecimal = getDecimals(this.step);
-    const stepPrecision = decimalPlaces(this.step);
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue;
-    let nudgedValueRounded;
-    let nudgedValueRoundedDecimals;
-    let newFractionalSecond;
-    if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    if (direction === "down") {
-      nudgedValue =
-        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - stepDecimal
-          : fractionalSecondAsFloat - stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
-        Math.sign(nudgedValueRoundedDecimals) === 1
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    this.setValuePart("fractionalSecond", newFractionalSecond);
-    this.time.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
@@ -815,7 +663,7 @@ export class InputTimePicker
               this.setFocus("minute");
               break;
             case "ArrowRight":
-              if (this.showFractionalSecond) {
+              if (decimalPlaces(this.step) > 0) {
                 this.setFocus("fractionalSecond");
               } else if (this.effectiveHourFormat === "12") {
                 this.setFocus("meridiem");
@@ -881,12 +729,6 @@ export class InputTimePicker
     this.setFocus();
   }
 
-  private sanitizeFractionalSecond(fractionalSecond: string): string {
-    return fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
-      ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
-      : fractionalSecond;
-  }
-
   private secondKeyDownHandler(event: KeyboardEvent): void {
     if (this.disabled || this.readOnly) {
       return;
@@ -895,8 +737,8 @@ export class InputTimePicker
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;
-      if (isValidNumber(this.second) && this.second.startsWith("0")) {
-        const secondAsNumber = parseInt(this.second);
+      if (isValidNumber(this.time.second) && this.time.second.startsWith("0")) {
+        const secondAsNumber = parseInt(this.time.second);
         newSecond =
           secondAsNumber > maxTenthForMinuteAndSecond
             ? keyAsNumber
@@ -904,22 +746,20 @@ export class InputTimePicker
       } else {
         newSecond = keyAsNumber;
       }
-      this.setValuePart("second", newSecond);
       this.time.setValuePart("second", newSecond);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValuePart("second", null);
           this.time.setValuePart("second", null);
           break;
         case "ArrowDown":
           event.preventDefault();
-          this.decrementSecond();
+          this.time.decrementSecond();
           break;
         case "ArrowUp":
           event.preventDefault();
-          this.incrementSecond();
+          this.time.incrementSecond();
           break;
         case " ":
         case "Spacebar":
@@ -969,69 +809,6 @@ export class InputTimePicker
     this.meridiemEl = el;
   }
 
-  private setValue(value: string): void {
-    const {
-      hourFormat: effectiveHourFormat,
-      messages: { _lang: locale },
-      numberingSystem,
-    } = this;
-    if (isValidTime(value)) {
-      const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-      const hour12 = effectiveHourFormat === "12";
-      const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedDecimalSeparator,
-        localizedFractionalSecond,
-        localizedSecondSuffix,
-        localizedMeridiem,
-      } = localizeTimeString({
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        hour12,
-        locale,
-        numberingSystem,
-        parts: true,
-        value,
-      }) as LocalizedTime;
-      this.hour = hour;
-      this.minute = minute;
-      this.second = second;
-      this.fractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
-      this.localizedHour = localizedHour;
-      this.localizedHourSuffix = localizedHourSuffix;
-      this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = localizedMinuteSuffix;
-      this.localizedSecond = localizedSecond;
-      this.localizedDecimalSeparator = localizedDecimalSeparator;
-      this.localizedFractionalSecond = localizedFractionalSecond;
-      this.localizedSecondSuffix = localizedSecondSuffix;
-      if (localizedMeridiem) {
-        this.localizedMeridiem = localizedMeridiem;
-        this.meridiem = getMeridiem(this.hour);
-        this.meridiemOrder = getMeridiemOrder(locale);
-      }
-    } else {
-      this.hour = undefined;
-      this.fractionalSecond = undefined;
-      this.localizedHour = undefined;
-      this.localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale, numberingSystem);
-      this.localizedMeridiem = undefined;
-      this.localizedMinute = undefined;
-      this.localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale, numberingSystem);
-      this.localizedSecond = undefined;
-      this.localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
-      this.localizedFractionalSecond = undefined;
-      this.localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale, numberingSystem);
-      this.meridiem = undefined;
-      this.minute = undefined;
-      this.second = undefined;
-      this.value = undefined;
-    }
-  }
-
   /**
    * Sets the value and emits a change event.
    * This is used to update the value as a result of user interaction.
@@ -1058,101 +835,12 @@ export class InputTimePicker
     }
   }
 
-  /**
-   * Sets the value directly without emitting a change event.
-   * This is used to update the value on initial load and when props change that are not the result of user interaction.
-   *
-   * @param value The new value
-   */
-  private setValueDirectly(value: string): void {
-    this.value = toISOTimeString(value, this.step);
-  }
-
-  private setValuePart(key: TimePart, value: number | string | Meridiem): void {
-    const {
-      effectiveHourFormat,
-      messages: { _lang: locale },
-      numberingSystem,
-    } = this;
-    const hour12 = effectiveHourFormat === "12";
-    if (key === "meridiem") {
-      this.meridiem = value as Meridiem;
-      if (isValidNumber(this.hour)) {
-        const hourAsNumber = parseInt(this.hour);
-        switch (value) {
-          case "AM":
-            if (hourAsNumber >= 12) {
-              this.hour = formatTimePart(hourAsNumber - 12);
-            }
-            break;
-          case "PM":
-            if (hourAsNumber < 12) {
-              this.hour = formatTimePart(hourAsNumber + 12);
-            }
-            break;
-        }
-        this.localizedHour = localizeTimePart({
-          hour12,
-          value: this.hour,
-          part: "hour",
-          locale,
-          numberingSystem,
-        });
-      }
-    } else {
-      this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart({
-        hour12,
-        value: this[key],
-        part: key,
-        locale,
-        numberingSystem,
-      });
-    }
-
-    let emit = false;
-    let newValue;
-    if (this.hour && this.minute) {
-      newValue = `${this.hour}:${this.minute}`;
-      if (this.showSecond) {
-        newValue = `${newValue}:${this.second ?? "00"}`;
-        if (this.showFractionalSecond && this.fractionalSecond) {
-          newValue = `${newValue}.${this.fractionalSecond}`;
-        }
-      }
-    } else {
-      newValue = "";
-    }
-    if (this.value !== newValue) {
-      emit = true;
-    }
-    this.value = newValue;
-    this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({ hour12, value: this.value, locale, numberingSystem })
-          ?.localizedMeridiem || null
-      : localizeTimePart({
-          hour12,
-          value: this.meridiem,
-          part: "meridiem",
-          locale,
-          numberingSystem,
-        });
-    if (emit) {
-      this.calciteInputTimePickerChange.emit();
-    }
-  }
-
   private timePartFocusHandler(event: FocusEvent): void {
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
   private toggleIconClickHandler() {
     this.open = !this.open;
-  }
-
-  private toggleSecond(): void {
-    this.showSecond = this.step < 60;
-    this.showFractionalSecond = decimalPlaces(this.step) > 0;
   }
 
   // #endregion
@@ -1177,14 +865,17 @@ export class InputTimePicker
       meridiemOrder,
       minute,
       second,
-      showFractionalSecond,
+      value,
     } = this.time;
+    console.log("render", value, this.value);
     const emptyPlaceholder = "--";
     const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
     const hourIsNumber = isValidNumber(hour);
     const minuteIsNumber = isValidNumber(minute);
     const secondIsNumber = isValidNumber(second);
+    const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
+    const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -1255,8 +946,8 @@ export class InputTimePicker
             >
               {localizedMinute || emptyPlaceholder}
             </span>
-            {this.showSecond && <span>{localizedMinuteSuffix}</span>}
-            {this.showSecond && (
+            {showSecond && <span>{localizedMinuteSuffix}</span>}
+            {showSecond && (
               <span
                 aria-label={this.intlSecond}
                 aria-valuemax="59"
@@ -1279,6 +970,7 @@ export class InputTimePicker
             {showFractionalSecond && <span>{localizedDecimalSeparator}</span>}
             {showFractionalSecond && (
               <span
+                // TODO: add translated message fractionalSecond and others from time-picker
                 // aria-label={this.messages.fractionalSecond}
                 aria-valuemax="999"
                 aria-valuemin="1"

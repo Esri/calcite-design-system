@@ -136,14 +136,6 @@ export function getLocaleHourFormat(locale: SupportedLocale): EffectiveHourForma
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
-export function getLocaleOppositeHourFormat(locale: SupportedLocale): EffectiveHourFormat {
-  const localeDefaultHourFormat = getLocaleHourFormat(locale);
-  if (localeDefaultHourFormat === "24") {
-    return "12";
-  }
-  return "24";
-}
-
 /**
  * To reference the CLDR meridiems for each supported locale navigate to:
  * https://github.com/unicode-org/cldr-json/tree/main/cldr-json/cldr-dates-full/main,
@@ -228,32 +220,6 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
-export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a " | " a" | " A" | "A " {
-  const localizedAM = getLocalizedMeridiem(locale, "AM");
-  const localizedPM = getLocalizedMeridiem(locale, "PM");
-  const meridiemOrder = getMeridiemOrder(locale);
-  const timeParts = getTimeParts({
-    hour12: true,
-    value: "00:00:00",
-    locale,
-    numberingSystem: "latn",
-  });
-  const separator =
-    timeParts[meridiemOrder === 0 ? 1 : meridiemOrder - 1].type === "hour" ||
-    timeParts[meridiemOrder - 1]?.type === "second"
-      ? ""
-      : " ";
-  if (
-    // Unknown dayjs parsing bug with norwegian.  Dayjs only accepts uppercase meridiems for some reason, despite the LT/LTS config
-    locale !== "no" &&
-    localizedAM === localizedAM.toLocaleLowerCase(locale) &&
-    localizedPM === localizedPM.toLocaleLowerCase(locale)
-  ) {
-    return meridiemOrder === 0 ? `a${separator}` : `${separator}a`;
-  }
-  return meridiemOrder === 0 ? `A${separator}` : `${separator}A`;
-}
-
 export function getMeridiemOrder(locale: SupportedLocale): number {
   const timeParts = getTimeParts({
     hour12: true,
@@ -264,23 +230,34 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
   return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
-export function isLocaleHourFormatOpposite(hourFormat: EffectiveHourFormat, locale: SupportedLocale): boolean {
-  return hourFormat === getLocaleOppositeHourFormat(locale);
-}
-
-export function isValidTime(value: string): boolean {
-  if (!value || value.startsWith(":") || value.endsWith(":")) {
+export function isValidTime(value: string | Time): boolean {
+  if (
+    !value ||
+    (typeof value === "string" && (value.startsWith(":") || value.endsWith(":"))) ||
+    (typeof value !== "string" && !value.hour) ||
+    (typeof value !== "string" && !value.minute)
+  ) {
     return false;
   }
-  const splitValue = value.split(":");
-  const validLength = splitValue.length > 1 && splitValue.length < 4;
-  if (!validLength) {
+  let hour;
+  let minute;
+  let second;
+  if (typeof value === "string") {
+    const splitValue = value.split(":");
+    hour = splitValue[0];
+    minute = splitValue[1];
+    second = splitValue[2];
+  } else {
+    hour = value.hour;
+    minute = value.minute;
+    second = value && value.second;
+  }
+  if (!hour || !minute) {
     return false;
   }
-  const [hour, minute, second] = splitValue;
-  const hourAsNumber = parseInt(splitValue[0]);
-  const minuteAsNumber = parseInt(splitValue[1]);
-  const secondAsNumber = parseInt(splitValue[2]);
+  const hourAsNumber = parseInt(hour);
+  const minuteAsNumber = parseInt(minute);
+  const secondAsNumber = parseInt(second);
   const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
   const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
   const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
@@ -507,6 +484,7 @@ interface GetTimePartsParameters {
   locale: SupportedLocale;
   numberingSystem: NumberingSystem;
 }
+
 export function getTimeParts({
   hour12,
   value,
@@ -533,9 +511,9 @@ export function parseTimeString(value: string, step?: number): Time {
     let fractionalSecond = null;
     if (secondDecimal?.includes(".")) {
       [second, fractionalSecond] = secondDecimal.split(".");
-      if (step) {
-        fractionalSecond = formatFractionalSecond(fractionalSecond, step);
-      }
+    }
+    if (step) {
+      fractionalSecond = formatFractionalSecond(fractionalSecond, step);
     }
     return {
       fractionalSecond,
@@ -553,16 +531,37 @@ export function parseTimeString(value: string, step?: number): Time {
 }
 
 export function toISOTimeString(value: string | Time, step: number = 60): string {
-  const { hour, minute, second, fractionalSecond } = typeof value === "string" ? parseTimeString(value) : value;
-
-  let isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
-
-  if (step < 60) {
-    isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
-    if (step < 1) {
-      isoTimeString += formatFractionalSecond(fractionalSecond, step);
+  if (!isValidTime(value)) {
+    return null;
+  }
+  let isoTimeString;
+  if (typeof value === "string") {
+    const [hour, minute, secondDecimal] = value.split(":");
+    let second = secondDecimal;
+    let fractionalSecond = null;
+    if (secondDecimal?.includes(".")) {
+      [second, fractionalSecond] = secondDecimal.split(".");
+    }
+    isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+    if (step < 60) {
+      isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
+      if (step < 1) {
+        isoTimeString += formatFractionalSecond(fractionalSecond, step);
+      }
+    }
+  } else {
+    const { hour, minute } = value;
+    if (hour && minute) {
+      isoTimeString = `${formatTimePart(parseInt(value.hour))}:${formatTimePart(parseInt(value.minute))}`;
+      if (step < 60) {
+        isoTimeString += `:${formatTimePart(parseInt(value.second || "0"))}`;
+        if (step < 1) {
+          isoTimeString += formatFractionalSecond(value.fractionalSecond || "0", step);
+        }
+      }
+    } else {
+      isoTimeString = null;
     }
   }
-
-  return isValidTime(isoTimeString) ? isoTimeString : null;
+  return isoTimeString;
 }

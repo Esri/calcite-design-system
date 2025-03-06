@@ -11,10 +11,11 @@ import {
   localizeTimePart,
   localizeTimeStringToParts,
   Meridiem,
+  MinuteOrSecond,
   parseTimeString,
   toISOTimeString,
 } from "../../utils/time";
-import { decimalPlaces } from "../../utils/math";
+import { decimalPlaces, getDecimals } from "../../utils/math";
 import { isValidNumber } from "../../utils/number";
 import { capitalizeWord } from "../../utils/text";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
@@ -44,8 +45,6 @@ type TimeProperties = {
   meridiemOrder: number;
   minute: string;
   second: string;
-  showFractionalSecond: boolean;
-  showSecond: boolean;
   value: string;
 };
 
@@ -68,8 +67,6 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
   meridiemOrder: number;
   minute: string;
   second: string;
-  showFractionalSecond: boolean;
-  showSecond: boolean;
   value: string;
 
   // #endregion
@@ -83,6 +80,26 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
 
   // #endregion
 
+  // #region Private Methods
+
+  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
+    let newValue;
+    if (isValidNumber(this[key])) {
+      const valueAsNumber = parseInt(this[key]);
+      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
+    } else {
+      newValue = 59;
+    }
+    this.setValuePart(key, newValue);
+  }
+
+  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
+    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
+    this.setValuePart(key, newValue);
+  }
+
+  // #endregion
+
   // #region Public Methods
 
   decrementHour(): void {
@@ -90,16 +107,68 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     this.setValuePart("hour", newHour);
   }
 
+  decrementMinute(): void {
+    this.decrementMinuteOrSecond("minute");
+  }
+
+  decrementSecond(): void {
+    this.decrementMinuteOrSecond("second");
+  }
+
   incrementHour(): void {
     const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
     this.setValuePart("hour", newHour);
+  }
+
+  incrementMinute(): void {
+    this.incrementMinuteOrSecond("minute");
+  }
+
+  incrementSecond(): void {
+    this.incrementMinuteOrSecond("second");
+  }
+
+  nudgeFractionalSecond(direction: "up" | "down"): void {
+    const stepDecimal = getDecimals(this.component.step);
+    const stepPrecision = decimalPlaces(this.component.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue;
+    let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
+    let newFractionalSecond;
+    if (direction === "up") {
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    if (direction === "down") {
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
   setValue(value: string): void {
     const { hourFormat, messages, numberingSystem, step } = this.component;
     const locale = messages._lang as string;
     if (isValidTime(value)) {
-      const { hour, minute, second, fractionalSecond } = parseTimeString(toISOTimeString(value), step);
+      const newValue = toISOTimeString(value, step);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
         localizedHour,
         localizedHourSuffix,
@@ -132,6 +201,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
       }
+      this.value = newValue;
     } else {
       this.hour = null;
       this.fractionalSecond = null;
@@ -149,6 +219,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
       this.second = null;
       this.value = null;
     }
+    this.component.requestUpdate();
   }
 
   setValuePart(
