@@ -1418,8 +1418,7 @@ export class Combobox
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
-        chip: true,
-        "chip--active": activeChipIndex === i,
+        [CSS.chip]: true,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const itemLabel = getLabel(item);
@@ -1739,9 +1738,9 @@ export class Combobox
         <div
           ariaLive="polite"
           class={{
-            wrapper: true,
-            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-            "wrapper--active": open,
+            [CSS.wrapper]: true,
+            [CSS.wrapperSingle]: singleSelectionMode || !this.selectedItems.length,
+            [CSS.wrapperActive]: open,
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
