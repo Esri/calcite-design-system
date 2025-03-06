@@ -27,9 +27,6 @@ export class DropdownGroup extends LitElement {
 
   // #region Private Properties
 
-  /** position of group within a dropdown */
-  private groupPosition: number;
-
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   /** the requested group */
@@ -44,6 +41,13 @@ export class DropdownGroup extends LitElement {
 
   /** Specifies and displays a group title. */
   @property({ reflect: true }) groupTitle: string;
+
+  /**
+   * The position of the group in the dropdown menu.
+   *
+   * @internal
+   */
+  @property() position: number = -1;
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
@@ -87,10 +91,6 @@ export class DropdownGroup extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true });
   }
 
-  load(): void {
-    this.groupPosition = this.getGroupPosition();
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -123,13 +123,6 @@ export class DropdownGroup extends LitElement {
     );
   }
 
-  private getGroupPosition(): number {
-    return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
-      this.el,
-    );
-  }
-
   // #endregion
 
   // #region Rendering
@@ -142,7 +135,7 @@ export class DropdownGroup extends LitElement {
     ) : null;
 
     const dropdownSeparator =
-      this.groupPosition > 0 ? <div class={CSS.separator} role="separator" /> : null;
+      this.position > 0 ? <div class={CSS.separator} role="separator" /> : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.groupTitle;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

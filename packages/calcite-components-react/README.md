@@ -1,33 +1,30 @@
 # Calcite Components React
 
-A set of React components that wrap [Calcite Components](https://developers.arcgis.com/calcite-design-system/components/). An application using this package is provided in the [`calcite-components-examples`](https://github.com/Esri/calcite-components-examples) repo.
+This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). Refer to the [React example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react) for a minimal application using this package.
 
 ## Installation
 
 ```sh
-npm install --save @esri/calcite-components-react
+npm install @esri/calcite-components-react
 ```
 
-This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
+This package includes the compatible version of the standard `@esri/calcite-components` package, so you do not need to install it separately.
 
 ## Choose a build
 
-There are two builds that are provided by the standard `calcite-components` package.
+There are two builds provided by the standard components package.
 
 ### Custom Elements build
 
-[Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
+[Custom Elements](developers.arcgis.com/calcite-design-system/get-started#custom-elements) is the recommended build when using frontend frameworks, such as React. Assets from the CDN are used by default, but you can specify a local asset path with `setAssetPath`. Additional setup for using local assets will be explained in a subsequent step.
 
 ```jsx
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-// Local assets
-setAssetPath(window.location.href);
+import { setAssetPath } from "@esri/calcite-components";
 
-// CDN hosted assets
-// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+setAssetPath(window.location.href);
 ```
 
-Next, you need to import each component you use from the standard `calcite-component` package's custom elements build. This will automatically define the custom elements on the window. Then import the same components from `calcite-components-react`.
+Next, you need to import each component you use from the standard components package's custom elements build. This will automatically define the custom elements on the window. Then, import the same components from `@esri/calcite-components-react`.
 
 ```jsx
 import "@esri/calcite-components/dist/components/calcite-button";
@@ -38,20 +35,15 @@ import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-compone
 
 ### Dist build
 
-When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#distribution) build, you'll need to manually define the custom elements on the window. You can also choose between local and CDN hosted assets.
+When using the [Dist](developers.arcgis.com/calcite-design-system/get-started#distribution) build, you'll need to manually define the custom elements on the window:
 
 ```jsx
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
-// Local assets
-defineCustomElements(window);
 
-// CDN hosted assets
-// defineCustomElements(window, {
-//   resourcesUrl: "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
-// });
+defineCustomElements();
 ```
 
-Since you manually defined the custom elements on the window, you only need to import the individual components from `calcite-components-react`.
+Since you manually defined the custom elements on the window, you only need to import the individual components from `@esri/calcite-components-react`.
 
 ```jsx
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
@@ -75,7 +67,7 @@ cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/asset
 
 ## Why not just use the web components directly?
 
-Because React uses a synthetic event system, the custom events emitted from calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
+Because React uses a synthetic event system, the custom events emitted from Calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
 
 ```jsx
 const sliderEl = useRef(null);
@@ -85,7 +77,7 @@ function onUpdate(event) {
   setSliderValue(event.target.value);
 }
 
-// need to access the dom node to set custom event listeners for props that aren't strings / numbers
+// need to access the DOM node to set custom event listeners for props that aren't strings or numbers
 // lit.dev/docs/frameworks/react#why-are-wrappers-needed
 useEffect(
   (_) => {
@@ -95,7 +87,7 @@ useEffect(
 );
 ```
 
-Using `calcite-components-react`, these events are connected for you:
+Using `@esri/calcite-components-react`, these events are connected for you:
 
 ```jsx
 const [sliderValue, setSliderValue] = useState(50);
@@ -106,7 +98,7 @@ If you're using TypeScript, you'll also get increased type safety for your event
 
 ## Contributing
 
-We welcome contributions to this project. See the main [calcite-components CONTRIBUTING.md](../../../../CONTRIBUTING.md) for an overview of contribution guidelines.
+We welcome contributions to this project. See the [CONTRIBUTING.md](https://github.com/Esri/calcite-design-system/blob/dev/CONTRIBUTING.md) for an overview of contribution guidelines.
 
 ## License
 
@@ -121,3 +113,7 @@ See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
+
+## Third-party licenses
+
+See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).

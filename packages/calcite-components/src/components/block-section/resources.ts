@@ -22,8 +22,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  menuOpen: "chevron-up",
-  menuClosed: "chevron-down",
+  menuExpanded: "chevron-up",
+  menuCollapsed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 } as const;

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import Color from "color";
+import Color, { type ColorInstance } from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
@@ -86,7 +86,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       }
     | undefined;
 
-  private get baseColorFieldColor(): Color {
+  private get baseColorFieldColor(): ColorInstance {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
@@ -515,7 +515,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.drawColorControls();
   }
 
-  private handleColorChange(color: Color | null, oldColor: Color | null): void {
+  private handleColorChange(color: ColorInstance | null, oldColor: ColorInstance | null): void {
     this.drawColorControls();
     this.updateChannelsFromColor(color);
     this.previousColor = oldColor;
@@ -920,7 +920,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private internalColorSet(
-    color: Color | null,
+    color: ColorInstance | null,
     skipEqual = true,
     context: ColorPicker["internalColorUpdateContext"] = "user-interaction",
   ): void {
@@ -934,7 +934,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.internalColorUpdateContext = null;
   }
 
-  private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {
+  private toValue(
+    color: ColorInstance | null,
+    format: SupportedMode = this.mode,
+  ): ColorValue | null {
     if (!color) {
       return null;
     }
@@ -1175,7 +1178,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     radius: number,
     x: number,
     y: number,
-    color: Color,
+    color: ColorInstance,
     applyAlpha: boolean,
   ): void {
     const startAngle = 0;
@@ -1431,11 +1434,11 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.internalColorSet(Color(channels, this.channelMode));
   }
 
-  private updateChannelsFromColor(color: Color | null): void {
+  private updateChannelsFromColor(color: ColorInstance | null): void {
     this.channels = color ? this.toChannels(color) : [null, null, null, null];
   }
 
-  private toChannels(color: Color): Channels {
+  private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
 
     const channels = color[channelMode]()

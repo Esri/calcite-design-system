@@ -1070,9 +1070,11 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
   }
@@ -1357,7 +1359,7 @@ export class Combobox
 
   private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
     const item =
-      scrollToSelected && this.selectedItems && this.selectedItems.length
+      scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
         : this.filteredItems[this.activeItemIndex];
 
