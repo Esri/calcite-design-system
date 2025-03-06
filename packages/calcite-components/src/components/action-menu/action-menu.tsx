@@ -323,11 +323,12 @@ export class ActionMenu extends LitElement {
   }
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
-    this.defaultMenuButtonEl = el;
-
-    if (el) {
-      this.connectMenuButtonEl();
+    if (!el) {
+      return;
     }
+
+    this.defaultMenuButtonEl = el;
+    this.connectMenuButtonEl();
   }
 
   private setPopoverEl(el: Popover["el"]): void {

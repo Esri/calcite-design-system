@@ -647,9 +647,13 @@ export class DatePickerMonth extends LitElement {
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
           ref={(el) => {
+            if (!el) {
+              return;
+            }
+
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
-              el?.setFocus();
+              el.setFocus();
             }
           }}
           scale={this.scale}

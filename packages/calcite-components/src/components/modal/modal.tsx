@@ -58,8 +58,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   // #region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
-
   private contentId: string;
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -578,7 +576,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
         class={CSS.close}
         key="button"
         onClick={this.handleCloseClick}
-        ref={this.closeButtonEl}
         title={this.messages.close}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
