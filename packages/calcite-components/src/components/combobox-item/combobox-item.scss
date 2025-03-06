@@ -76,7 +76,6 @@ ul:focus {
 }
 
 :host([selected]) .label,
-.label:hover,
 .label:active {
   @apply text-color-1;
 
@@ -87,6 +86,7 @@ ul:focus {
 }
 
 .label:hover {
+  @apply text-color-1;
   background-color: var(--calcite-color-foreground-2);
 }
 
@@ -132,6 +132,14 @@ ul:focus {
 :host([selected]) {
   .title {
     @apply font-medium;
+  }
+}
+
+.label:hover,
+.label {
+  .description,
+  .short-text {
+    @apply text-color-3;
   }
 }
 
