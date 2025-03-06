@@ -25,6 +25,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Position, Scale } from "../interfaces";
 import type { Action } from "../action/action";
+// import { Button } from "../button/button";
 import type { Option } from "../option/option";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { Select } from "../select/select";
@@ -50,9 +51,13 @@ export class DatePickerMonthHeader extends LitElement {
 
   private nextMonthAction: Action["el"];
 
-  private parentDatePickerEl: DatePicker["el"];
-
   private prevMonthAction: Action["el"];
+
+  // private nextMonthAction: HTMLDivElement;
+
+  // private prevMonthAction: HTMLDivElement;
+
+  private parentDatePickerEl: DatePicker["el"];
 
   private yearInputEl = createRef<HTMLInputElement>();
 
@@ -65,6 +70,10 @@ export class DatePickerMonthHeader extends LitElement {
   @state() nextMonthDate: Date;
 
   @state() prevMonthDate: Date;
+
+  @state() isNextMonthDisabled: boolean;
+
+  @state() isPreviousMonthDisabled: boolean;
 
   // #endregion
 
@@ -150,16 +159,23 @@ export class DatePickerMonthHeader extends LitElement {
     this.setYearSelectWidthOffset();
   }
 
+  override async updated(): Promise<void> {}
+
   // #endregion
 
   // #region Private Methods
-  private setNextPrevMonthDates(): void {
+  private async setNextPrevMonthDates(): Promise<void> {
     if (!this.activeDate) {
       return;
     }
 
     this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    const isDateInRange = inRange(this.activeDate, this.min, this.max);
+    this.isPreviousMonthDisabled =
+      !isDateInRange || hasSameMonthAndYear(this.prevMonthDate, this.activeDate);
+    this.isNextMonthDisabled =
+      !isDateInRange || hasSameMonthAndYear(this.nextMonthDate, this.activeDate);
   }
 
   /**
@@ -226,9 +242,9 @@ export class DatePickerMonthHeader extends LitElement {
 
   private async handleArrowClick(event: MouseEvent | KeyboardEvent, date: Date): Promise<void> {
     event.preventDefault();
-
-    await this.handlePenultimateValidMonth(event);
     this.calciteInternalDatePickerMonthHeaderSelectChange.emit(date);
+    await this.updateComplete;
+    await this.handlePenultimateValidMonth(event);
   }
 
   private handleMonthChange(event: CustomEvent): void {
@@ -335,25 +351,23 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private async handlePenultimateValidMonth(event: MouseEvent | KeyboardEvent): Promise<void> {
-    const target = event.target as Action["el"];
-    const direction = target.getAttribute("data-direction");
+    const direction = (event.target as HTMLDivElement).getAttribute("data-direction");
     const isDirectionLeft = direction === "left";
 
     let isTargetLastValidMonth: boolean;
 
     if (isDirectionLeft && this.min) {
-      const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
-      isTargetLastValidMonth = hasSameMonthAndYear(prevMonthDate, this.min);
+      isTargetLastValidMonth = hasSameMonthAndYear(this.prevMonthDate, this.min);
     } else if (this.max) {
-      const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
-      isTargetLastValidMonth = hasSameMonthAndYear(nextMonthDate, this.max);
+      isTargetLastValidMonth = hasSameMonthAndYear(this.nextMonthDate, this.max);
     }
 
+    await this.updateComplete;
     if (isTargetLastValidMonth) {
       if (!this.position) {
         const target = isDirectionLeft ? this.nextMonthAction : this.prevMonthAction;
-        // enabling the action to be focusable when min & max are one month apart.
-        target.disabled = false;
+        target.manager.component.requestUpdate("disabled", false);
+        await target.manager.component.updateComplete;
         await target.setFocus();
       } else {
         this.yearInputEl.value.focus();
@@ -501,21 +515,40 @@ export class DatePickerMonthHeader extends LitElement {
 
   private renderChevron(direction: "left" | "right"): JsxNode {
     const isDirectionRight = direction === "right";
-    const isDisabled =
-      hasSameMonthAndYear(
-        isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
-        this.activeDate,
-      ) || !inRange(this.activeDate, this.min, this.max);
+    // const isChevronDisabled =
+    //   hasSameMonthAndYear(
+    //     isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
+    //     this.activeDate,
+    //   ) || !inRange(this.activeDate, this.min, this.max);
 
     return (
+      // <div
+      //   ariaDisabled={isChevronDisabled}
+      //   ariaLabel={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
+      //   class={{ chevron: true, "chevron-disabled": isChevronDisabled }}
+      //   data-direction={direction}
+      //   key={direction}
+      //   onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
+      //   onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
+      //   ref={(el) => (isDirectionRight ? (this.nextMonthAction = el) : (this.prevMonthAction = el))}
+      //   role="button"
+      //   tabIndex={isChevronDisabled ? null : 0}
+      // >
+      //   <calcite-icon
+      //     flipRtl={true}
+      //     icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
+      //     scale={this.scale === "l" ? "m" : "s"}
+      //   />
+      // </div>
+
       <calcite-action
         alignment="center"
-        ariaDisabled={isDisabled}
+        ariaDisabled={isDirectionRight ? this.isNextMonthDisabled : this.isPreviousMonthDisabled}
         ariaLabel={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
         data-direction={direction}
-        disabled={isDisabled}
+        disabled={isDirectionRight ? this.isNextMonthDisabled : this.isPreviousMonthDisabled}
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
