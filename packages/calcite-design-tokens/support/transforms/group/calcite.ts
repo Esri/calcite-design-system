@@ -31,7 +31,6 @@ export const platformTransforms = {
     TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
   ],
-  compose: ["ts/typography/compose/shorthand"],
 };
 
 export function getTransforms(): string[] {
