@@ -4,6 +4,13 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-background-color: Specifies the component's input background color.
+ * @prop --calcite-combobox-text-color: Specifies the component's text color.
+ * @prop --calcite-combobox-border-color: Specifies the component's border color.
+ * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
+ * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
+ * @prop --calcite-combobox-placeholder-icon-color: Specifies the component's placeholder icon color.
+ * @prop --calcite-combobox-listbox-background-color: Specifies the background color of the component's listbox.
  */
 
 :host {
@@ -50,19 +57,20 @@
 }
 
 .wrapper {
-  @apply bg-foreground-1
-    text-color-1
-    focus-base
+  @apply focus-base
     flex
-    border-color-input
     border
     border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 
+  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-1));
+  border-color: var(--calcite-combobox-border-color, var(--calcite-color-border-input));
+
   &:hover {
     .icon {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-combobox-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -161,7 +169,7 @@
 }
 
 .placeholder-icon {
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-combobox-placeholder-icon-color, var(--calcite-color-text-3));
 }
 
 .input-wrap {
@@ -196,7 +204,7 @@
   @apply flex-none;
 
   .icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -219,10 +227,10 @@
 }
 
 .list-container {
-  @apply bg-foreground-1
-    max-h-menu
+  @apply max-h-menu
     overflow-y-auto;
   inline-size: var(--calcite-dropdown-width, 100%);
+  background-color: var(--calcite-combobox-listbox-background-color, var(--calcite-color-foreground-1));
 }
 
 .list {
@@ -240,10 +248,6 @@ calcite-chip {
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   max-inline-size: 100%;
-}
-
-.chip--active {
-  @apply bg-foreground-3;
 }
 
 .chip--invisible {
