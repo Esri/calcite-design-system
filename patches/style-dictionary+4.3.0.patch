@@ -1,0 +1,12 @@
+diff --git a/node_modules/style-dictionary/package.json b/node_modules/style-dictionary/package.json
+index 19f3713..ac3893e 100644
+--- a/node_modules/style-dictionary/package.json
++++ b/node_modules/style-dictionary/package.json
+@@ -25,6 +25,7 @@
+       "node": "./lib/fs-node.js",
+       "default": "./lib/fs.js"
+     },
++    "./common/*": "./lib/common/*.js",
+     "./utils": "./lib/utils/index.js",
+     "./enums": "./lib/enums/index.js",
+     "./types": "./types/index.d.ts"
