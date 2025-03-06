@@ -18,7 +18,7 @@ jobs:
         with:
           readme_path: readme.md
           no_commit_or_push: true
-      - uses: gr2m/create-or-update-pull-request-action@v1.x
+      - uses: gr2m/create-or-update-pull-request-action@v1.10.1
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         with:
