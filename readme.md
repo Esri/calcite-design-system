@@ -14,7 +14,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ### Contributors
 
-<!-- readme: contributors -start -->
+<!-- readme: contributors,calcite-admin/- -start -->
 <table>
 	<tbody>
 		<tr>
@@ -438,7 +438,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 		</tr>
 	<tbody>
 </table>
-<!-- readme: contributors -end -->
+<!-- readme: contributors,calcite-admin/- -end -->
 
 ## License
 
