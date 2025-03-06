@@ -26,6 +26,7 @@ export type RequiredTimeArguments = {
   numberingSystem: NumberingSystem;
   step: number;
   value: string;
+  valueChangeHandler: () => void;
 };
 
 type TimeProperties = {
@@ -163,12 +164,13 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
-  setValue(value: string): void {
-    const { hourFormat, messages, numberingSystem, step } = this.component;
+  setValue(value: string, step?: number): void {
+    const { hourFormat, messages, numberingSystem } = this.component;
+    const effectiveStep = step || this.component.step || 60;
     const locale = messages._lang as string;
     if (isValidTime(value)) {
-      const newValue = toISOTimeString(value, step);
-      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
+      const newValue = toISOTimeString(value, effectiveStep);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, effectiveStep);
       const {
         localizedHour,
         localizedHourSuffix,
@@ -279,15 +281,19 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     }
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
-    this.value = newValue;
-    this.localizedMeridiem = localizeTimePart({
-      hour12,
-      value: this.meridiem,
-      part: "meridiem",
-      locale,
-      numberingSystem,
-    });
-    this.component.requestUpdate();
+    const previousValue = this.value;
+    if (previousValue !== newValue) {
+      this.value = newValue;
+      this.localizedMeridiem = localizeTimePart({
+        hour12,
+        value: this.meridiem,
+        part: "meridiem",
+        locale,
+        numberingSystem,
+      });
+      this.component.requestUpdate();
+      this.component.valueChangeHandler();
+    }
   }
 
   toggleMeridiem(): void {

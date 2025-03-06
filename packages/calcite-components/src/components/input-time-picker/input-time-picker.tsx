@@ -243,7 +243,7 @@ export class InputTimePicker
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
-  @property({ reflect: true }) step = 60;
+  @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
@@ -279,7 +279,7 @@ export class InputTimePicker
     return this.time.value;
   }
   set value(value: string) {
-    this.time.setValue(value);
+    this.time.setValue(value, parseFloat(this.el.getAttribute("step")));
   }
 
   time = new TimeController(this);
@@ -342,7 +342,6 @@ export class InputTimePicker
   }
 
   override connectedCallback(): void {
-    this.time.setValue(this.value);
     connectLabel(this);
     connectForm(this);
   }
@@ -391,11 +390,6 @@ export class InputTimePicker
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.stepWatcher(this.step, changes.get("step"));
     }
-
-    if (changes.has("value")) {
-      // TODO: relocalize input value
-      // this.setLocalizedInputValue({ isoTimeString: changes.get("value") });
-    }
   }
 
   override updated(): void {
@@ -412,6 +406,15 @@ export class InputTimePicker
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  // #endregion
+
+  // #region Internal Methods
+
+  /** @internal */
+  valueChangeHandler(): void {
+    this.calciteInputTimePickerChange.emit();
   }
 
   // #endregion
@@ -865,9 +868,7 @@ export class InputTimePicker
       meridiemOrder,
       minute,
       second,
-      value,
     } = this.time;
-    console.log("render", value, this.value);
     const emptyPlaceholder = "--";
     const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
     const hourIsNumber = isValidNumber(hour);

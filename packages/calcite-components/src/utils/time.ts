@@ -89,7 +89,7 @@ function createLocaleDateTimeFormatter({
 }
 
 function formatFractionalSecond(fractionalSecondAsInteger: string, step: number): string {
-  return `.${parseFloat(`0.${fractionalSecondAsInteger}`).toFixed(decimalPlaces(step)).replace("0.", "")}`;
+  return parseFloat(`0.${fractionalSecondAsInteger}`).toFixed(decimalPlaces(step)).replace("0.", "");
 }
 
 export function formatTimePart(number: number, minLength?: number): string {
@@ -546,7 +546,7 @@ export function toISOTimeString(value: string | Time, step: number = 60): string
     if (step < 60) {
       isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
       if (step < 1) {
-        isoTimeString += formatFractionalSecond(fractionalSecond, step);
+        isoTimeString += `.${formatFractionalSecond(fractionalSecond, step)}`;
       }
     }
   } else {
@@ -556,7 +556,7 @@ export function toISOTimeString(value: string | Time, step: number = 60): string
       if (step < 60) {
         isoTimeString += `:${formatTimePart(parseInt(value.second || "0"))}`;
         if (step < 1) {
-          isoTimeString += formatFractionalSecond(value.fractionalSecond || "0", step);
+          isoTimeString += `.${formatFractionalSecond(value.fractionalSecond || "0", step)}`;
         }
       }
     } else {
