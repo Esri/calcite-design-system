@@ -1,7 +1,6 @@
 import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
-
-const mediumLowSaturation = /(medium|low)-{0,1}saturation/i;
+import { mediumLowSaturation } from "./utils/index.js";
 
 export const filterCoreTokens: Filter["filter"] = (token) =>
   !token.isSource && token.type !== "typography" && !mediumLowSaturation.test(token.name);
