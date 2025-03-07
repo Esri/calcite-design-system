@@ -7,11 +7,11 @@
           "type": "borderRadius"
         },
         "sharp": {
-          "value": "{size.default.none}",
+          "value": "{size.none}",
           "type": "borderRadius"
         },
         "round": {
-          "value": "{size.default.4}",
+          "value": "{size.4}",
           "type": "borderRadius"
         },
         "pill": {

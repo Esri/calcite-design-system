@@ -3,19 +3,19 @@
     "border": {
       "width": {
         "none": {
-          "value": "{size.default.none}",
+          "value": "{size.none}",
           "type": "borderWidth"
         },
         "sm": {
-          "value": "{size.default.1}",
+          "value": "{size.1}",
           "type": "borderWidth"
         },
         "md": {
-          "value": "{size.default.2}",
+          "value": "{size.2}",
           "type": "borderWidth"
         },
         "lg": {
-          "value": "{size.default.4}",
+          "value": "{size.4}",
           "type": "borderWidth"
         }
       }

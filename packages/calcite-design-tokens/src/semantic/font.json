@@ -120,7 +120,7 @@
       },
       "size": {
         "xs": {
-          "value": "{size.default.10}",
+          "value": "{size.10}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -132,7 +132,7 @@
           }
         },
         "sm": {
-          "value": "{size.default.12}",
+          "value": "{size.12}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -144,7 +144,7 @@
           }
         },
         "default": {
-          "value": "{size.default.14}",
+          "value": "{size.14}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -156,7 +156,7 @@
           }
         },
         "md": {
-          "value": "{size.default.16}",
+          "value": "{size.16}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -168,7 +168,7 @@
           }
         },
         "lg": {
-          "value": "{size.default.2} * 9",
+          "value": "{size.2} * 9",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -180,7 +180,7 @@
           }
         },
         "xl": {
-          "value": "{size.default.20}",
+          "value": "{size.20}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -192,7 +192,7 @@
           }
         },
         "xxl": {
-          "value": "{size.default.24}",
+          "value": "{size.24}",
           "type": "fontSizes",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -222,7 +222,7 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{size.default.12}",
+            "value": "{size.12}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -235,7 +235,7 @@
             }
           },
           "base": {
-            "value": "{size.default.16}",
+            "value": "{size.16}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -248,7 +248,7 @@
             }
           },
           "lg": {
-            "value": "{size.default.20}",
+            "value": "{size.20}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -261,7 +261,7 @@
             }
           },
           "xl": {
-            "value": "{size.default.24}",
+            "value": "{size.24}",
             "type": "lineHeights",
             "$extensions": {
               "org.esri.calcite.schema": {
@@ -363,7 +363,7 @@
       },
       "letter-spacing": {
         "tight": {
-          "value": "{size.default.none} - .4 ",
+          "value": "{size.none} - .4 ",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -377,7 +377,7 @@
           }
         },
         "normal": {
-          "value": "{size.default.none}",
+          "value": "{size.none}",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -391,7 +391,7 @@
           }
         },
         "wide": {
-          "value": "{size.default.none} + .4",
+          "value": "{size.none} + .4",
           "type": "letterSpacing",
           "description": "Deprecated",
           "$extensions": {
@@ -407,7 +407,7 @@
       },
       "paragraph-spacing": {
         "normal": {
-          "value": "{size.default.4}",
+          "value": "{size.4}",
           "type": "paragraphSpacing",
           "description": "Deprecated",
           "$extensions": {

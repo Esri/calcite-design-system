@@ -140,11 +140,11 @@
         }
       },
       "margin": {
-        "value": "{size.default.24}",
+        "value": "{size.24}",
         "type": "spacing"
       },
       "gutter": {
-        "value": "{size.default.16}",
+        "value": "{size.16}",
         "type": "spacing"
       },
       "content": {
