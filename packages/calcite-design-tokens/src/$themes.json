@@ -12,7 +12,8 @@
       "semantic/shadow": "enabled",
       "semantic/size": "enabled",
       "semantic/space": "enabled",
-      "semantic/calcite/light": "enabled"
+      "semantic/calcite/light": "enabled",
+      "core/size": "source"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
