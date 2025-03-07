@@ -10,6 +10,15 @@ export interface OpenCloseComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
+  /** When true, the component closes. */
+  closed?: boolean;
+
+  /** When true, the component collapses. */
+  collapsed?: boolean;
+
+  /** When true, the component is expanded. */
+  expanded?: boolean;
+
   /**
    * Specifies property on which active transition is watched for.
    *
@@ -24,16 +33,28 @@ export interface OpenCloseComponent {
   transitionEl: HTMLElement;
 
   /** Defines method for `beforeOpen` event handler. */
-  onBeforeOpen: () => void;
+  onBeforeOpen?: () => void;
 
   /** Defines method for `open` event handler: */
-  onOpen: () => void;
+  onOpen?: () => void;
 
   /** Defines method for `beforeClose` event handler: */
-  onBeforeClose: () => void;
+  onBeforeClose?: () => void;
 
   /** Defines method for `close` event handler: */
-  onClose: () => void;
+  onClose?: () => void;
+
+  /** Defines method for `beforeExpanded` event handler. */
+  onBeforeExpanded?: () => void;
+
+  /** Defines method for `expanded` event handler: */
+  onExpanded?: () => void;
+
+  /** Defines method for `beforeCollapsed` event handler: */
+  onBeforeCollapsed?: () => void;
+
+  /** Defines method for `collapsed` event handler: */
+  onCollapsed?: () => void;
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
@@ -54,7 +75,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  *   }
  *   // ...
  * }
- * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
+ * @param component - OpenCloseComponent uses `open`/`close` or `expanded`/`collapsed` props to emit (before)open/close or (before)expanded/collapsed respectively.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
   requestAnimationFrame((): void => {
