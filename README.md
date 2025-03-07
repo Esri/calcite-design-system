@@ -2,7 +2,7 @@
 
 This is a monorepo containing [Calcite Design System](https://developers.arcgis.com/calcite-design-system/) packages. Please see the package-specific READMEs for more information:
 
-- [`@esri/calcite-components`](./packages/calcite-components/readme.md)
+- [`@esri/calcite-components`](./packages/calcite-components/README.md)
 - [`@esri/calcite-components-react`](./packages/calcite-components-react/README.md)
 - [`@esri/calcite-design-tokens`](./packages/calcite-design-tokens/README.md)
 - [`@esri/calcite-ui-icons`](./packages/calcite-ui-icons/README.md)
