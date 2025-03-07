@@ -5,7 +5,7 @@ import { registerCalciteFormats } from "./format/index.js";
 import { registerCalciteFilters } from "./filter/index.js";
 
 export async function registerCalciteTokenTransformers(sd: typeof StyleDictionary): Promise<void> {
-  Promise.all([
+  await Promise.all([
     registerCalciteFileHeaders(sd),
     registerCalciteFilters(sd),
     registerCalciteFormats(sd),
