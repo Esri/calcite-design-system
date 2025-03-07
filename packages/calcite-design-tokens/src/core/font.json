@@ -3,9 +3,6 @@
     "font": {
       "family": {
         "andaleMono": {
-          "value": "Andale Mono",
-          "type": "fontFamilies",
-          "description": "Fallback for Monaco",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -25,11 +22,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Andale Mono",
+          "$description": "Fallback for Monaco"
         },
         "avenirNextPro": {
-          "value": "Avenir Next LT Pro",
-          "type": "fontFamilies",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -49,11 +47,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next LT Pro"
         },
         "avenirNextWorld": {
-          "value": "Avenir Next World",
-          "type": "fontFamilies",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -73,12 +71,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next World"
         },
         "avenirNext": {
-          "value": "Avenir Next",
-          "type": "fontFamilies",
-          "description": "Primary font family",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -98,12 +95,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next",
+          "$description": "Primary font family"
         },
         "avenir": {
-          "value": "Avenir",
-          "type": "fontFamilies",
-          "description": "Fallback for Avenir Next",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -123,12 +120,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir",
+          "$description": "Fallback for Avenir Next"
         },
         "consolas": {
-          "value": "Consolas",
-          "type": "fontFamilies",
-          "description": "Fallback for Monaco",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -148,12 +145,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Consolas",
+          "$description": "Fallback for Monaco"
         },
         "helveticaNeue": {
-          "value": "Helvetica Neue",
-          "type": "fontFamilies",
-          "description": "Fallback for Avenir Next",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -173,12 +170,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Helvetica Neue",
+          "$description": "Fallback for Avenir Next"
         },
         "lucidaConsole": {
-          "value": "Lucida Console",
-          "type": "fontFamilies",
-          "description": "Fallback for Monaco",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -198,11 +195,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Lucida Console",
+          "$description": "Fallback for Monaco"
         },
         "monaco": {
-          "value": "Monaco",
-          "type": "fontFamilies",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -222,12 +220,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "Monaco"
         },
         "monospace": {
-          "value": "monospace",
-          "type": "fontFamilies",
-          "description": "Fallback for Monaco",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -247,12 +244,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "monospace",
+          "$description": "Fallback for Monaco"
         },
         "sansSerif": {
-          "value": "sans-serif",
-          "type": "fontFamilies",
-          "description": "Fallback for Avenir Next",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -272,14 +269,14 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontFamilies",
+          "$value": "sans-serif",
+          "$description": "Fallback for Avenir Next"
         }
       },
       "style": {
         "italic": {
-          "value": "italic",
-          "type": "fontStyle",
-          "description": "used in ratings",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -299,14 +296,14 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontStyle",
+          "$value": "italic",
+          "$description": "used in ratings"
         }
       },
       "weight": {
         "ultralight": {
-          "value": "UltraLight",
-          "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -326,11 +323,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "UltraLight",
+          "$description": "only for Avenir Next World (secondary font family)"
         },
         "thin": {
-          "value": "Thin",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -350,16 +348,16 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Thin"
         },
         "light": {
-          "value": "Light",
-          "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "$type": "fontWeights",
+          "$value": "Light",
+          "$description": "only for Avenir Next World (secondary font family)"
         },
         "regular": {
-          "value": "Regular",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -379,11 +377,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Regular"
         },
         "medium": {
-          "value": "Medium",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -403,11 +401,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Medium"
         },
         "medium-italic": {
-          "value": "Medium Italic",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -427,11 +425,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Medium Italic"
         },
         "demi": {
-          "value": "Demi",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -451,11 +449,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Demi"
         },
         "bold": {
-          "value": "Bold",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -475,12 +473,11 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Bold"
         },
         "extrabold": {
-          "value": "ExtraBold",
-          "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -500,12 +497,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "ExtraBold",
+          "$description": "only for Avenir Next World (secondary font family)"
         },
         "black": {
-          "value": "Black",
-          "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -525,11 +522,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Black",
+          "$description": "only for Avenir Next World (secondary font family)"
         },
         "heavy": {
-          "value": "Heavy",
-          "type": "fontWeights",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -549,14 +547,13 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "Heavy"
         }
       },
       "text-decoration": {
         "none": {
-          "value": "none",
-          "type": "textDecoration",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -576,12 +573,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textDecoration",
+          "$value": "none",
+          "$description": "Deprecated"
         },
         "underline": {
-          "value": "underline",
-          "type": "textDecoration",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -601,14 +598,14 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textDecoration",
+          "$value": "underline",
+          "$description": "Deprecated"
         }
       },
       "text-case": {
         "none": {
-          "value": "none",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -628,12 +625,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textCase",
+          "$value": "none",
+          "$description": "Deprecated"
         },
         "uppercase": {
-          "value": "uppercase",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -653,12 +650,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textCase",
+          "$value": "uppercase",
+          "$description": "Deprecated"
         },
         "lowercase": {
-          "value": "lowercase",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -678,12 +675,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textCase",
+          "$value": "lowercase",
+          "$description": "Deprecated"
         },
         "capitalize": {
-          "value": "capitalize",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -703,7 +700,10 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "textCase",
+          "$value": "capitalize",
+          "$description": "Deprecated"
         }
       }
     }

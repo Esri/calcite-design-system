@@ -3,12 +3,6 @@
     "container-size": {
       "height": {
         "xxs": {
-          "value": {
-            "min": "0",
-            "max": "{core.container-size.154}"
-          },
-          "type": "breakpoint",
-          "description": "Small handheld devices and mini-windows",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -28,15 +22,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "0",
+            "max": "{core.container-size.154}"
+          },
+          "$description": "Small handheld devices and mini-windows"
         },
         "xs": {
-          "value": {
-            "min": "{core.container-size.154} + 1",
-            "max": "{core.container-size.328}"
-          },
-          "type": "breakpoint",
-          "description": "Handheld devices",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -56,15 +50,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.154} + 1",
+            "max": "{core.container-size.328}"
+          },
+          "$description": "Handheld devices"
         },
         "sm": {
-          "value": {
-            "min": "{core.container-size.328} + 1",
-            "max": "{core.container-size.504}"
-          },
-          "type": "breakpoint",
-          "description": "Small tablets",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -84,15 +78,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.328} + 1",
+            "max": "{core.container-size.504}"
+          },
+          "$description": "Small tablets"
         },
         "md": {
-          "value": {
-            "min": "{core.container-size.504} + 1",
-            "max": "{core.container-size.678}"
-          },
-          "type": "breakpoint",
-          "description": "Small laptops",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -112,15 +106,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.504} + 1",
+            "max": "{core.container-size.678}"
+          },
+          "$description": "Small laptops"
         },
         "lg": {
-          "value": {
-            "min": "{core.container-size.678} + 1",
-            "max": "{core.container-size.854}"
-          },
-          "type": "breakpoint",
-          "description": "Large laptops and desktop computers",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -140,14 +134,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.678} + 1",
+            "max": "{core.container-size.854}"
+          },
+          "$description": "Large laptops and desktop computers"
         },
         "xl": {
-          "value": {
-            "min": "{core.container-size.854} + 1"
-          },
-          "type": "breakpoint",
-          "description": "Projectors and televisions",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -167,17 +162,16 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.854} + 1"
+          },
+          "$description": "Projectors and televisions"
         }
       },
       "width": {
         "xxs": {
-          "value": {
-            "min": 0,
-            "max": "{core.container-size.320}"
-          },
-          "type": "breakpoint",
-          "description": "Small handheld devices and mini-windows",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -197,15 +191,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": 0,
+            "max": "{core.container-size.320}"
+          },
+          "$description": "Small handheld devices and mini-windows"
         },
         "xs": {
-          "value": {
-            "min": "{core.container-size.320} + 1",
-            "max": "{core.container-size.476}"
-          },
-          "type": "breakpoint",
-          "description": "Handheld devices",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -225,15 +219,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.320} + 1",
+            "max": "{core.container-size.476}"
+          },
+          "$description": "Handheld devices"
         },
         "sm": {
-          "value": {
-            "min": "{core.container-size.476} + 1",
-            "max": "{core.container-size.768}"
-          },
-          "type": "breakpoint",
-          "description": "Small tablets",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -253,15 +247,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.476} + 1",
+            "max": "{core.container-size.768}"
+          },
+          "$description": "Small tablets"
         },
         "md": {
-          "value": {
-            "min": "{core.container-size.768} + 1",
-            "max": "{core.container-size.1152}"
-          },
-          "type": "breakpoint",
-          "description": "Small laptops",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -281,15 +275,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.768} + 1",
+            "max": "{core.container-size.1152}"
+          },
+          "$description": "Small laptops"
         },
         "lg": {
-          "value": {
-            "min": "{core.container-size.1152} + 1",
-            "max": "{core.container-size.1440}"
-          },
-          "type": "breakpoint",
-          "description": "Large laptops and desktop computers",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -309,14 +303,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.1152} + 1",
+            "max": "{core.container-size.1440}"
+          },
+          "$description": "Large laptops and desktop computers"
         },
         "xl": {
-          "value": {
-            "min": "{core.container-size.1440} + 1"
-          },
-          "type": "breakpoint",
-          "description": "Projectors and televisions",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -336,12 +331,15 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "breakpoint",
+          "$value": {
+            "min": "{core.container-size.1440} + 1"
+          },
+          "$description": "Projectors and televisions"
         }
       },
       "margin": {
-        "value": "{core.size.default.24}",
-        "type": "spacing",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -361,11 +359,11 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "spacing",
+        "$value": "{core.size.default.24}"
       },
       "gutter": {
-        "value": "{core.size.default.16}",
-        "type": "spacing",
         "attributes": {
           "calcite-schema": {
             "system": "calcite",
@@ -385,13 +383,12 @@
             "context": "",
             "mode": ""
           }
-        }
+        },
+        "$type": "spacing",
+        "$value": "{core.size.default.16}"
       },
       "content": {
         "fluid": {
-          "value": "{core.size.relative.100}",
-          "type": "sizing",
-          "description": "for fluid grid widths",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -411,12 +408,12 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "sizing",
+          "$value": "{core.size.relative.100}",
+          "$description": "for fluid grid widths"
         },
         "fixed": {
-          "value": "{core.container-size.1440}",
-          "type": "sizing",
-          "description": "only for lg breakpoint fixed grid width",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -436,7 +433,10 @@
               "context": "",
               "mode": ""
             }
-          }
+          },
+          "$type": "sizing",
+          "$value": "{core.container-size.1440}",
+          "$description": "only for lg breakpoint fixed grid width"
         }
       }
     }
