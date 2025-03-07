@@ -3,17 +3,21 @@ export const ComboboxItemGroupSelector = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`;
 
 export const CSS = {
+  checkbox: "checkbox",
+  chipInvisible: "chip--invisible",
+  floatingUIContainer: "floating-ui-container",
+  icon: "icon",
   input: "input",
   inputHidden: "input--hidden",
-  chipInvisible: "chip--invisible",
+  label: "label",
+  labelIcon: "label--icon",
+  listContainer: "list-container",
+  placeholderIcon: "placeholder-icon",
+  screenReadersOnly: "screen-readers-only",
+  selectAllcheckbox: "select-all-checkbox",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
-  listContainer: "list-container",
-  icon: "icon",
-  placeholderIcon: "placeholder-icon",
   selectedIcon: "selected-icon",
-  floatingUIContainer: "floating-ui-container",
-  screenReadersOnly: "screen-readers-only",
 };
 
 export const IDS = {

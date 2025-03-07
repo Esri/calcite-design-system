@@ -242,6 +242,8 @@ export class Combobox
     this.refreshSelectionDisplay();
   });
 
+  private selectAllChecked: boolean = false;
+
   private selectedIndicatorChipEl: Chip["el"];
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
@@ -372,7 +374,7 @@ export class Combobox
   @property({ reflect: true }) placeholderIcon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) placeholderIconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -385,6 +387,9 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** When true, selects all items */
+  @property({ reflect: true }) selectAll = false;
 
   /**
    * Specifies the component's selected items.
@@ -638,6 +643,10 @@ export class Combobox
     }
 
     this.setMaxScrollerHeight();
+  }
+
+  private selectAllChangeHandler(): void {
+    this.selectAllChecked = !this.selectAllChecked;
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -1379,6 +1388,7 @@ export class Combobox
 
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
+
     let activeDescendant: string = null;
     this.filteredItems.forEach((el, i) => {
       if (i === index) {
@@ -1389,6 +1399,7 @@ export class Combobox
       }
     });
     this.activeDescendant = activeDescendant;
+
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
     }
@@ -1615,8 +1626,8 @@ export class Combobox
         {showLabel && (
           <span
             class={{
-              label: true,
-              "label--icon": !!selectedItem?.icon,
+              [CSS.label]: true,
+              [CSS.labelIcon]: !!selectedItem?.icon,
             }}
             key="label"
           >
@@ -1683,6 +1694,21 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
+            {this.selectAll && (
+              <li
+                class={{ [CSS.label]: true, [CSS.selectAllcheckbox]: true }}
+                id={this.guid}
+                role="checkbox"
+              >
+                <input
+                  checked={this.selectAllChecked}
+                  id={`${this.guid}-select-all`}
+                  onChange={this.selectAllChangeHandler}
+                  type="checkbox"
+                />
+                <label htmlFor={`${this.guid}-select-all`}>Select all</label>
+              </li>
+            )}
             <slot />
           </ul>
         </div>
@@ -1691,7 +1717,7 @@ export class Combobox
   }
 
   private renderSelectedOrPlaceholderIcon(): JsxNode {
-    const { open, placeholderIcon, placeholderIconFlipRtl, selectedItems } = this;
+    const { open, placeholderIcon, iconFlipRtl, selectedItems } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
     const showPlaceholder = placeholderIcon && (open || !selectedItem);
@@ -1704,7 +1730,7 @@ export class Combobox
               [CSS.selectedIcon]: !showPlaceholder,
               [CSS.placeholderIcon]: showPlaceholder,
             }}
-            flipRtl={showPlaceholder ? placeholderIconFlipRtl : selectedItem.iconFlipRtl}
+            flipRtl={showPlaceholder ? iconFlipRtl : selectedItem.iconFlipRtl}
             icon={showPlaceholder ? placeholderIcon : selectedIcon}
             scale={getIconScale(this.scale)}
           />

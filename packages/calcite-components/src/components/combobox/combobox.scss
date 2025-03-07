@@ -187,6 +187,21 @@
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
+.select-all-checkbox {
+  display: flex;
+  padding-block: 8px;
+  padding-inline: 12px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+
+  border-block-end: 1px solid var(--calcite-color-border-3);
+  background: var(--calcite-color-foreground-1);
+}
+
 .icon-end,
 .icon-start {
   @apply flex cursor-pointer items-center;
@@ -252,6 +267,11 @@ calcite-chip {
 
 .item {
   @apply block;
+}
+
+.checkbox {
+  line-height: 0;
+  color: var(--calcite-color-border-input);
 }
 
 @include form-validation-message();
