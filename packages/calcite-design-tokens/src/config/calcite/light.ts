@@ -10,7 +10,7 @@ import { transformers, filters, headers, formats } from "../../../support/index.
 
 const config: Config = {
   source: ["src/semantic/calcite/light.json"],
-  include: ["src/core/*.json"],
+  include: ["src/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
