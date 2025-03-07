@@ -8,8 +8,7 @@ import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../../../support/index.js";
 
-export default {
-  // configuration
+const config: Config = {
   source: ["src/semantic/calcite/light.json"],
   include: ["src/core/*.json"],
   preprocessors: ["tokens-studio"],
@@ -114,4 +113,6 @@ export default {
   expand: {
     typesMap: sdTypes,
   },
-} as Config;
+};
+
+export default config;
