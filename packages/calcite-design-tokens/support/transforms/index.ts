@@ -12,10 +12,12 @@ import { registerAttributePlatformNames } from "./attribute/platformNames.js";
 import { registerAttributeSchema } from "./attribute/schema.js";
 import { registerNameCapitalCase } from "./name/capitalCase.js";
 import { registerNameRemovePrefix } from "./name/removePrefix.js";
+import { registerValueMergeValues } from "./value/mergeValue.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
     registerValueCSSShadow(sd),
+    registerValueMergeValues(sd),
     registerNameRemoveTier(sd),
     registerNameRemoveDefault(sd),
     registerNameRemoveColorMode(sd),
@@ -35,6 +37,7 @@ export { TransformValueCSSShadow } from "./value/cssShadow.js";
 export { TransformValueMathSum } from "./value/mathSum.js";
 export { TransformValueSizePxToRem } from "./value/pxToRem.js";
 export { TransformValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
+export { TransformValueMergeValues } from "./value/mergeValue.js";
 export { TransformNameRemoveTier } from "./name/removeTier.js";
 export { TransformNameRemoveDefault } from "./name/removeDefault.js";
 export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";

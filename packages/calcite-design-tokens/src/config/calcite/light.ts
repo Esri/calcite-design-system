@@ -60,15 +60,30 @@ const config: Config = {
           format: sdFormats.javascriptEs6,
           filter: filters.FilterSourceTokens,
         },
-        {
-          destination: "global.js",
-          format: formats.FormatESS6Merge,
-          filter: filters.FilterSourceTokens,
-          options: {
-            suffix: "Light",
-          },
-        },
 
+        // d.ts
+        {
+          destination: "light.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterSourceTokens,
+        },
+      ],
+    },
+    js: {
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: transformers.platformTransforms.es6,
+      buildPath: "dist/js/",
+      prefix: "calcite",
+      options: {
+        fileExtension: ".js",
+        fileHeader: headers.HeaderDefault,
+      },
+      files: [
+        {
+          destination: "light.js",
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterSourceTokens,
+        },
         // d.ts
         {
           destination: "light.d.ts",
@@ -92,14 +107,6 @@ const config: Config = {
           format: formats.FormatCalciteDocs,
           filter: filters.FilterSourceTokens,
         },
-        // {
-        //   destination: "global.json",
-        //   format: formats.FormatJSONMerge,
-        //   filter: filters.FilterSourceTokens,
-        //   options: {
-        //     suffix: "Light",
-        //   },
-        // },
       ],
     },
   },

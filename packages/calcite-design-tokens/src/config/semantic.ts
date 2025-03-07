@@ -11,7 +11,7 @@ import { transformers, filters, headers, formats } from "../../support/index.js"
 
 const config: Config = {
   source: ["src/semantic/[!$]*.json"],
-  include: ["src/core/[!$]*.json"],
+  include: ["src/core/[!$]*.json", "src/semantic/calcite/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   hooks: {
     filters: {
@@ -35,7 +35,7 @@ const config: Config = {
         {
           destination: "semantic.scss",
           format: sdFormats.scssVariables,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.scss",
@@ -82,7 +82,7 @@ const config: Config = {
         {
           destination: "semantic.css",
           format: sdFormats.cssVariables,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.css",
@@ -115,10 +115,11 @@ const config: Config = {
     },
     ts: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: transformers.platformTransforms.es6,
+      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueMergeValues],
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
+        platform: "ts",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -134,7 +135,7 @@ const config: Config = {
         {
           destination: "semantic.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.js",
@@ -158,7 +159,7 @@ const config: Config = {
         {
           destination: "semantic.d.ts",
           format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.d.ts",
@@ -174,10 +175,15 @@ const config: Config = {
     },
     docs: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
+      transforms: [
+        transformers.TransformNameRemovePrefix,
+        transformers.TransformNameCapitalCase,
+        transformers.TransformValueMergeValues,
+      ],
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
+        platform: "docs",
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },
@@ -185,12 +191,12 @@ const config: Config = {
         {
           destination: "global.json",
           format: formats.FormatCalciteDocs,
-          filter: filters.FilterSourceTokens,
+          filter: filters.FilterGlobalTokens,
         },
         {
           destination: "semantic.json",
           format: formats.FormatCalciteDocs,
-          filter: filters.FilterSourceTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.json",
@@ -201,10 +207,11 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
+      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueMergeValues],
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
+        platform: "js",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -212,7 +219,7 @@ const config: Config = {
         {
           destination: "global.js",
           format: formats.FormatCalciteJs,
-          filter: filters.FilterSourceTokens,
+          filter: filters.FilterGlobalTokens,
           options: {
             fileHeader: headers.HeaderDeprecate,
           },
@@ -220,11 +227,31 @@ const config: Config = {
         {
           destination: "semantic.js",
           format: formats.FormatCalciteJs,
-          filter: filters.FilterSourceTokens,
+          filter: filters.FilterSemanticTokens,
         },
         {
           destination: "core.js",
           format: formats.FormatCalciteJs,
+          filter: filters.FilterIncludeTokens,
+        },
+
+        // d.ts
+        {
+          destination: "global.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterGlobalTokens,
+          options: {
+            fileHeader: headers.HeaderDeprecate,
+          },
+        },
+        {
+          destination: "semantic.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterSemanticTokens,
+        },
+        {
+          destination: "core.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterIncludeTokens,
         },
       ],
