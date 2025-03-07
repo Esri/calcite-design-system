@@ -147,9 +147,10 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   }
 
   private updateSlottedItems(target: HTMLSlotElement): void {
-    this.items = target
-      .assignedElements({ flatten: true })
-      .filter((el): el is Card["el"] => el?.matches("calcite-card"));
+    this.items =
+      target
+        ?.assignedElements({ flatten: true })
+        .filter((el): el is Card["el"] => el?.matches("calcite-card")) || [];
   }
 
   private updateSelectedItems(): void {

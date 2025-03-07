@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -50,9 +51,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private backButtonEl: Action["el"];
+  private backButtonEl = createRef<Action["el"]>();
 
-  private containerEl: Panel["el"];
+  private containerEl = createRef<Panel["el"]>();
 
   // #endregion
 
@@ -151,7 +152,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    await this.containerEl?.scrollContentTo(options);
+    await this.containerEl.value?.scrollContentTo(options);
   }
 
   /**
@@ -163,12 +164,10 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    const { backButtonEl, containerEl } = this;
+    const focusTarget = this.backButtonEl.value || this.containerEl.value;
 
-    if (backButtonEl) {
-      return backButtonEl.setFocus();
-    } else if (containerEl) {
-      return containerEl.setFocus();
+    if (focusTarget) {
+      return focusTarget.setFocus();
     }
   }
 
@@ -213,7 +212,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   // #region Private Methods
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerEl.value) {
       return;
     }
 
@@ -222,7 +221,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelClose(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerEl.value) {
       return;
     }
 
@@ -232,7 +231,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerEl.value) {
       return;
     }
 
@@ -243,14 +242,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   private backButtonClick(): void {
     this.calciteFlowItemBack.emit();
-  }
-
-  private setBackRef(node: Action["el"]): void {
-    this.backButtonEl = node;
-  }
-
-  private setContainerRef(node: Panel["el"]): void {
-    this.containerEl = node;
   }
 
   // #endregion
@@ -272,7 +263,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.setBackRef}
+        ref={this.backButtonEl}
         scale="s"
         slot="header-actions-start"
         text={label}
@@ -318,7 +309,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}
           overlayPositioning={overlayPositioning}
-          ref={this.setContainerRef}
+          ref={this.containerEl}
           scale={this.scale}
         >
           {this.renderBackButton()}

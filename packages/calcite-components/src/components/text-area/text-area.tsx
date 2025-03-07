@@ -89,7 +89,7 @@ export class TextArea
     await this.componentOnReady();
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
       this.getHeightAndWidthOfElements();
-    if (footerWidth > 0 && footerWidth !== textAreaWidth) {
+    if (footerWidth > 0 && footerWidth !== textAreaWidth && this.footerEl.value) {
       this.footerEl.value.style.width = `${textAreaWidth}px`;
     }
     if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
