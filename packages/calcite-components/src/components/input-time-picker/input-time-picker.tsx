@@ -36,11 +36,9 @@ import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import {
   getLocaleHourFormat,
   EffectiveHourFormat,
-  isValidTime,
   HourFormat,
   TimePart,
   maxTenthForMinuteAndSecond,
-  toISOTimeString,
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
@@ -384,7 +382,6 @@ export class InputTimePicker
 
     if (changes.has("numberingSystem")) {
       // TODO: relocalize input value
-      // this.setLocalizedInputValue({ numberingSystem: changes.get("numberingSystem") });
     }
 
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
@@ -398,9 +395,6 @@ export class InputTimePicker
 
   loaded(): void {
     setComponentLoaded(this);
-    if (isValidTime(this.value)) {
-      this.setLocalizedInputValue();
-    }
   }
 
   override disconnectedCallback(): void {
@@ -540,19 +534,18 @@ export class InputTimePicker
     }
   }
 
+  // TODO: possibly remove this after updating time-picker to change the value directly from the time property this component will pass in.
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
-    // TODO: set value on time picker change
-    this.setValueDeprecated(toISOTimeString(value, this.step));
-    this.setLocalizedInputValue({ isoTimeString: value });
+    this.time.setValue(value);
   }
 
   private updateLocale(locale: SupportedLocale = this.messages._lang): void {
     this.effectiveHourFormat =
-      this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
-    this.setLocalizedInputValue({ locale });
+      this.hourFormat === "user" ? getLocaleHourFormat(locale) : this.hourFormat;
+    // TODO: update value in response to locale change
   }
 
   private minuteKeyDownHandler(event: KeyboardEvent): void {
@@ -810,32 +803,6 @@ export class InputTimePicker
 
   private setMeridiemEl(el: HTMLSpanElement): void {
     this.meridiemEl = el;
-  }
-
-  /**
-   * Sets the value and emits a change event.
-   * This is used to update the value as a result of user interaction.
-   *
-   * @param value The new value
-   */
-  private setValueDeprecated(value: string): void {
-    const oldValue = this.value;
-    const newValue = toISOTimeString(value, this.step) || "";
-
-    if (newValue === oldValue) {
-      return;
-    }
-
-    this.userChangedValue = true;
-    this.value = newValue || "";
-
-    const changeEvent = this.calciteInputTimePickerChange.emit();
-
-    if (changeEvent.defaultPrevented) {
-      this.userChangedValue = false;
-      this.value = oldValue;
-      this.setLocalizedInputValue({ isoTimeString: oldValue });
-    }
   }
 
   private timePartFocusHandler(event: FocusEvent): void {
