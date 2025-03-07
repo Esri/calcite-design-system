@@ -10,6 +10,7 @@ import { TransformValueMathSum } from "../value/mathSum.js";
 import { TransformAttributePlatformNames } from "../attribute/platformNames.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../types/interfaces.js";
+import { TransformValueEnsureType } from "../value/ensureType.js";
 
 export const platformTransforms = {
   css: [
@@ -45,6 +46,7 @@ export function getTransforms(): string[] {
     TransformValueSizePxToRem,
     TransformValueSizeUnitlessToPx,
     TransformValueMathSum,
+    TransformValueEnsureType,
   ];
 
   return [...agnosticTransforms, ...platformTransforms["css"]];

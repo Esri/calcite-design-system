@@ -13,6 +13,7 @@ import { registerAttributeSchema } from "./attribute/schema.js";
 import { registerNameCapitalCase } from "./name/capitalCase.js";
 import { registerNameRemovePrefix } from "./name/removePrefix.js";
 import { registerValueMergeValues } from "./value/mergeValue.js";
+import { registerValueEnsureType } from "./value/ensureType.js";
 
 export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
@@ -27,6 +28,7 @@ export async function registerCalciteTransformers(sd: typeof StyleDictionary): P
     registerValueMathSum(sd),
     registerValueSizePxToRem(sd),
     registerValueSizeUnitlessToPx(sd),
+    registerValueEnsureType(sd),
     registerAttributePlatformNames(sd),
     registerAttributeSchema(sd),
     registerTransformCalciteGroup(sd),
@@ -38,6 +40,7 @@ export { TransformValueMathSum } from "./value/mathSum.js";
 export { TransformValueSizePxToRem } from "./value/pxToRem.js";
 export { TransformValueSizeUnitlessToPx } from "./value/unitlessBreakpointToPx.js";
 export { TransformValueMergeValues } from "./value/mergeValue.js";
+export { TransformValueEnsureType } from "./value/ensureType.js";
 export { TransformNameRemoveTier } from "./name/removeTier.js";
 export { TransformNameRemoveDefault } from "./name/removeDefault.js";
 export { TransformNameRemoveColorMode } from "./name/removeColorMode.js";
