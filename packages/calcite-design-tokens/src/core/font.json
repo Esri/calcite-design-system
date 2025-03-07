@@ -62,7 +62,7 @@
       }
     },
     "weight": {
-      "ul": {
+      "ultralight": {
         "value": "UltraLight",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)",
@@ -87,24 +87,24 @@
           }
         }
       },
-      "t": {
+      "thin": {
         "value": "Thin",
         "type": "fontWeights"
       },
-      "l": {
+      "light": {
         "value": "Light",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)"
       },
-      "r": {
+      "regular": {
         "value": "Regular",
         "type": "fontWeights"
       },
-      "m": {
+      "medium": {
         "value": "Medium",
         "type": "fontWeights"
       },
-      "mi": {
+      "medium-italic": {
         "value": "Medium Italic",
         "type": "fontWeights",
         "attributes": {
@@ -128,15 +128,15 @@
           }
         }
       },
-      "d": {
+      "demi": {
         "value": "Demi",
         "type": "fontWeights"
       },
-      "b": {
+      "bold": {
         "value": "Bold",
         "type": "fontWeights"
       },
-      "eb": {
+      "extrabold": {
         "value": "ExtraBold",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)",
@@ -161,12 +161,12 @@
           }
         }
       },
-      "bb": {
+      "black": {
         "value": "Black",
         "type": "fontWeights",
         "description": "only for Avenir Next World (secondary font family)"
       },
-      "h": {
+      "heavy": {
         "value": "Heavy",
         "type": "fontWeights"
       }
