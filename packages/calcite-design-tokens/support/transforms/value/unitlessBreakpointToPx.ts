@@ -8,7 +8,7 @@ function isBreakpoint(token: TransformedToken) {
 
 function isUnitless(token: TransformedToken) {
   const matcher = getNumberAndUnit(token);
-  if (!matcher || matcher.groups.number === "0" || matcher.groups.unit) {
+  if (!matcher || !matcher.groups || matcher.groups.number === "0" || matcher.groups.unit) {
     return false;
   }
 

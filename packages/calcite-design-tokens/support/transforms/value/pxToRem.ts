@@ -1,8 +1,8 @@
 import { Config } from "style-dictionary";
-import { TransformedToken, ValueTransform } from "style-dictionary/types";
+import { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 
-function getBasePxFontSize(config) {
+function getBasePxFontSize(config: PlatformConfig) {
   return (config && config.basePxFontSize) || 16;
 }
 
@@ -23,14 +23,14 @@ function isPxUnit(token: TransformedToken) {
     token.value || token.value.value || token.original.value || token.original.value.value,
   );
 
-  if (!matcher || !matcher.groups.unit || ["", "rem", "%"].includes(matcher.groups?.unit)) {
+  if (!matcher || !matcher.groups || !matcher.groups.unit || ["", "rem", "%"].includes(matcher.groups.unit)) {
     return false;
   }
 
   return true;
 }
 
-function throwSizeError(name, value, unitType) {
+function throwSizeError(name: string, value: string, unitType: string) {
   throw `Invalid Number: '${name}: ${value}' is not a valid number, cannot transform to '${unitType}' \n`;
 }
 
