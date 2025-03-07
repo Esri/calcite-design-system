@@ -113,7 +113,7 @@ const config: Config = {
         outputReferences: outputReferencesFilter,
       },
     },
-    ts: {
+    es6: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [...transformers.platformTransforms.es6, transformers.TransformValueMergeValues],
       buildPath: "dist/es6/",

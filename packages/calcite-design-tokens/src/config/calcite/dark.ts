@@ -45,7 +45,7 @@ const config: Config = {
         fileHeader: headers.HeaderDefault,
       },
     },
-    ts: {
+    es6: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
