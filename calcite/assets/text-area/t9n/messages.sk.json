@@ -1,0 +1,1 @@
+{"invalid":"Neplatné","tooLong":"Aktuálna dĺžka znaku je {currentLength}, čo presahuje maximálnu dĺžku {maxLength}.","tooShort":"Aktuálna dĺžka znaku je {currentLength}, čo je menej ako minimálna dĺžka znaku {minLength}."}

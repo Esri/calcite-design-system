@@ -1,0 +1,1 @@
+{"invalid":"Không hợp lệ","tooLong":"Độ dài ký tự hiện tại là {currentLength}, vượt quá độ dài ký tự tối đa {maxLength}.","tooShort":"Độ dài ký tự hiện tại là {currentLength}, ít hơn độ dài ký tự tối thiểu là {minLength}."}
