@@ -1,22 +1,5 @@
-import StyleDictionary from "style-dictionary";
-import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
-import { registerCalciteTokenTransformers } from "../support/index.js";
-import calciteLightConfig from "../src/config/calcite/light.js";
-import calciteDarkConfig from "../src/config/calcite/dark.js";
-import semanticConfig from "./config/semantic.js";
+import { dark, light, semantic } from "./dictionaries.js";
 
-await registerTokenStudioTransformers(StyleDictionary, {
-  "ts/color/modifiers": {
-    format: "hex",
-  },
-});
-await registerCalciteTokenTransformers(StyleDictionary);
-
-const sd = new StyleDictionary(semanticConfig);
-await sd.buildAllPlatforms();
-
-const calciteLight = new StyleDictionary(calciteLightConfig);
-await calciteLight.buildAllPlatforms();
-
-const calciteDark = new StyleDictionary(calciteDarkConfig);
-await calciteDark.buildAllPlatforms();
+await light.buildAllPlatforms();
+await dark.buildAllPlatforms();
+await semantic.buildAllPlatforms();
