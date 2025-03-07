@@ -292,6 +292,9 @@ export function localizeTimePart({
   numberingSystem = "latn",
   hour12,
 }: LocalizeTimePartParameters): string {
+  if (!isValidTimePart(value, part)) {
+    return;
+  }
   if (part === "fractionalSecond") {
     const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
     let localizedFractionalSecond = null;
@@ -315,9 +318,6 @@ export function localizeTimePart({
     return localizedFractionalSecond;
   }
 
-  if (!isValidTimePart(value, part)) {
-    return;
-  }
   const valueAsNumber = parseInt(value);
   const date = new Date(
     Date.UTC(
@@ -334,6 +334,15 @@ export function localizeTimePart({
   }
   const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
   const parts = formatter.formatToParts(date);
+
+  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+  // @see https://issues.chromium.org/issues/40172622
+  // @see https://issues.chromium.org/issues/40676973
+  if (part === "meridiem" && hour12 && (locale === "bs" || locale === "mk")) {
+    const localeData = localizedTwentyFourHourMeridiems.get(locale);
+    return date.getHours() > 11 ? localeData.am : localeData.pm;
+  }
+
   return getLocalizedTimePart(part, parts);
 }
 
