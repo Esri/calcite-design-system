@@ -21,4 +21,4 @@ export const registerFilterGlobalTokens: RegisterFn = async (sd) =>
     filter: filterGlobalTokens,
   });
 
-export const FilterGlobalTokens = "filter/GlobalTokens";
+export const FilterGlobalTokens = "filter/tokens/global";

@@ -14,4 +14,4 @@ export const registerFilterCoreTokens: RegisterFn = async (sd) =>
     filter: filterCoreTokens,
   });
 
-export const FilterCoreTokens = "filter/CoreTokens";
+export const FilterCoreTokens = "filter/tokens/core";

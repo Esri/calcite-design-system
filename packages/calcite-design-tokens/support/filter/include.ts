@@ -10,4 +10,4 @@ export const registerFilterIncludeTokens: RegisterFn = async (sd) => {
   });
 };
 
-export const FilterIncludeTokens = "filter/includeTokens";
+export const FilterIncludeTokens = "filter/tokens/include";

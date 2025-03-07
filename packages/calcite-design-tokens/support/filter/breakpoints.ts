@@ -9,4 +9,4 @@ export const registerFilterBreakpointTokens: RegisterFn = async (sd) =>
     filter: filterBreakpointTokens,
   });
 
-export const FilterBreakpointTokens = "filter/breakpoint-tokens";
+export const FilterBreakpointTokens = "filter/tokens/breakpoint";

@@ -10,4 +10,4 @@ export const registerFilterSourceTokens: RegisterFn = async (sd) => {
   });
 };
 
-export const FilterSourceTokens = "filter/sourceTokens";
+export const FilterSourceTokens = "filter/tokens/source";

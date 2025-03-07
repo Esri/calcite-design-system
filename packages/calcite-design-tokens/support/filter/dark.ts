@@ -10,4 +10,4 @@ export const registerFilterDarkColorTokens: RegisterFn = async (sd) =>
     filter: filterDarkColorTokens,
   });
 
-export const FilterDarkColorTokens = "filter/DarkColorTokens";
+export const FilterDarkColorTokens = "filter/tokens/color/dark";
