@@ -75,7 +75,6 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
   // #region Lifecycle
 
   hostConnected(): void {
-    this.setValue(this.component.value);
     this.meridiemOrder = getMeridiemOrder(this.component.messages._lang as string);
   }
 
@@ -182,10 +181,11 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({
-        value,
+        hour12: hourFormat === "12",
         locale,
         numberingSystem,
-        hour12: hourFormat === "12",
+        step: effectiveStep,
+        value: newValue,
       });
       this.hour = hour;
       this.minute = minute;

@@ -356,6 +356,7 @@ interface LocalizeTimeStringParameters {
   value: string;
 }
 
+// TODO: remove this function after updating input-time-picker tests that rely on it
 export function localizeTimeString({
   fractionalSecondDigits,
   hour12,
@@ -437,25 +438,34 @@ export function localizeTimeString({
 }
 
 interface LocalizeTimeStringToPartsParameters {
-  value: string;
+  hour12?: boolean;
   locale: SupportedLocale;
   numberingSystem?: NumberingSystem;
-  hour12?: boolean;
+  step: number;
+  value: string;
 }
 
 export function localizeTimeStringToParts({
-  value,
+  hour12,
   locale,
   numberingSystem = "latn",
-  hour12,
+  step = 60,
+  value,
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
+  const { hour, minute, second = "0", fractionalSecond = "0" } = parseTimeString(value, step);
+  const dateFromTimeString = new Date(
+    Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second), parseInt(fractionalSecond)),
+  );
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, hour12 });
+    const formatter = createLocaleDateTimeFormatter({
+      fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
+      hour12,
+      locale,
+      numberingSystem,
+    });
     const parts = formatter.formatToParts(dateFromTimeString);
     let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
@@ -474,12 +484,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: localizeTimePart({
-        value: fractionalSecond,
-        part: "fractionalSecond",
-        locale,
-        numberingSystem,
-      }),
+      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem,
     };

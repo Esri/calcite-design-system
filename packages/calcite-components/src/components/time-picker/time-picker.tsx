@@ -207,7 +207,8 @@ export class TimePicker extends LitElement implements LoadableComponent, Require
     }
 
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      this.setValue(this.value);
+      // TODO:
+      // this.setValue(this.value);
     }
 
     if (changes.has("hourFormat") || changes.has("messages")) {
@@ -880,7 +881,7 @@ export class TimePicker extends LitElement implements LoadableComponent, Require
       this.numberingSystem,
     );
     this.meridiemOrder = getMeridiemOrder(this.messages._lang);
-    this.setValue(this.sanitizeValue(this.value));
+    // this.setValue(this.sanitizeValue(this.value));
   }
 
   // #endregion

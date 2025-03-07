@@ -272,10 +272,10 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  @property({ reflect: true })
   get value(): string {
     return this.time.value;
   }
+  @property({ reflect: true })
   set value(value: string) {
     this.time.setValue(value, parseFloat(this.el.getAttribute("step")));
   }
@@ -796,10 +796,6 @@ export class InputTimePicker
     }
     this.calciteTimePickerEl = el;
   }
-
-  private setLocalizedInputValue = (): void => {
-    // TODO: figure out what this means
-  };
 
   private setMeridiemEl(el: HTMLSpanElement): void {
     this.meridiemEl = el;
