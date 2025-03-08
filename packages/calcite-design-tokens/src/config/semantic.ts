@@ -61,6 +61,7 @@ const config: Config = {
         },
       ],
       options: {
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
         outputReferences: outputReferencesFilter,
@@ -108,6 +109,7 @@ const config: Config = {
         },
       ],
       options: {
+        platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
         outputReferences: outputReferencesFilter,
@@ -119,7 +121,7 @@ const config: Config = {
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        platform: "ts",
+        platform: "es6",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },

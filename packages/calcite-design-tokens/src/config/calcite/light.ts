@@ -25,6 +25,7 @@ const config: Config = {
         },
       ],
       options: {
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
       },
@@ -35,6 +36,7 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
+          platform: "css",
           destination: "light.css",
           format: sdFormats.cssVariables,
           filter: filters.FilterSourceTokens,
@@ -51,6 +53,7 @@ const config: Config = {
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
+        platform: "es6",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -75,6 +78,7 @@ const config: Config = {
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
+        platform: "js",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -98,6 +102,7 @@ const config: Config = {
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
+        platform: "docs",
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },
