@@ -73,27 +73,7 @@
       },
       "sm+": {
         "value": "{size.10}",
-        "type": "dimension",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "space",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "sm+",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "dimension"
       },
       "md": {
         "value": "{size.12}",
@@ -101,27 +81,7 @@
       },
       "md+": {
         "value": "{size.14}",
-        "type": "dimension",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "space",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "md+",
-            "context": "",
-            "mode": ""
-          }
-        }
+        "type": "dimension"
       },
       "lg": {
         "value": "{size.16}",
