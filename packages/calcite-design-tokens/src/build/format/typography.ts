@@ -63,7 +63,12 @@ function parseTokenValueForReferences(tokenOriginalValue: any, args: FormatFnArg
   }
 }
 
-function formatTokensGroupByFiletype(fileExtension: string, token: any, value: string[], comment: string): string {
+function formatTokensGroupByFiletype(
+  fileExtension: string,
+  token: any,
+  value: string[],
+  comment: string | undefined,
+): string {
   const filteredValue = value.filter((v) => v !== "");
   switch (fileExtension) {
     case ".css":
@@ -82,9 +87,8 @@ function formatTokensByFiletype(fileExtension: string, args: FormatFnArguments):
       const v = parseTokenValueForReferences(lookup, args);
       return v ? `${kebabCase(prop)}: ${parseTokenValueForReferences(lookup, args)}` : "";
     });
-    const comment = token.comment;
 
-    return formatTokensGroupByFiletype(fileExtension, token, value, comment);
+    return formatTokensGroupByFiletype(fileExtension, token, value, token.comment);
   });
 
   return formattedTokens.join("\n\n");
@@ -98,8 +102,8 @@ export const formatTypography: FormatFn = async (args) => {
     formatting: getFormattingCloneWithoutPrefix(formatting),
     options,
   });
-  const currentFile = `${header}${formatTokensByFiletype(fileExtension, args)}`;
-  return currentFile;
+
+  return `${header}${formatTokensByFiletype(fileExtension, args)}`;
 };
 
 export const registerFormatTypography: RegisterFn = async (sd) => {

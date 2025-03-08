@@ -11,7 +11,7 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
       token.filePath = relative(resolve(__dirname, "..", "..", "..", "..", ""), token.filePath);
 
-      delete token.original;
+      delete (token as Partial<Pick<TransformedToken, "original">>).original;
       return token;
     }),
   };
