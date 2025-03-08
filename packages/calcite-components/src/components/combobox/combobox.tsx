@@ -1056,6 +1056,15 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
+    if (this.selectAllChecked) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.closable,
@@ -1443,6 +1452,26 @@ export class Combobox
 
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
+
+    if (this.selectAllChecked) {
+      return (
+        <calcite-chip
+          appearance={readOnly ? "outline" : "solid"}
+          class="chip"
+          closable={readOnly}
+          data-test-id="chip-all-selected"
+          id="chip-all-selected"
+          key="all-selected"
+          label={messages.allSelected}
+          scale={scale}
+          title={messages.allSelected}
+          value="all-selected"
+        >
+          {messages.allSelected}
+        </calcite-chip>
+      );
+    }
+
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
