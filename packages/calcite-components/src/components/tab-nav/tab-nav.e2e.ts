@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils";
 import { CSS } from "./resources";
@@ -239,6 +239,29 @@ describe("calcite-tab-nav", () => {
       await scrollEnd;
 
       await assertScrollButtonVisibility(true, false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-tab-nav bordered"></calcite-tab-nav>`, {
+        "--calcite-tab-border-color": {
+          shadowSelector: `.${CSS.scrollButton}`,
+          targetProp: "--calcite-button-border-color",
+        },
+        "--calcite-tab-text-color": {
+          shadowSelector: `.${CSS.scrollButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html`<calcite-tabs bordered></calcite-tabs>`, {
+        "--calcite-tab-background-color": {
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });
