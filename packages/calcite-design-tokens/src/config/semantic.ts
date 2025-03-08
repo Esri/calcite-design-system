@@ -265,7 +265,7 @@ const config: Config = {
     },
   },
   expand: {
-    include: ["color", "breakpoint"],
+    include: ["color"],
     typesMap: {
       light: "color",
       dark: "color",
