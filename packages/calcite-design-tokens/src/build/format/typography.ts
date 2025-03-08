@@ -1,7 +1,7 @@
 import { FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import { kebabCase } from "lodash-es";
-import { getFormattingCloneWithoutPrefix } from "../utils/formattingWithoutPrefix.js";
+import { getFormattingCloneWithoutPrefix } from "../utils/formatting-without-prefix.js";
 import { RegisterFn } from "../types/interfaces.js";
 
 function referenceTokenByPlatform(value: string, fileExtension: string, tokenValue?: string): string {

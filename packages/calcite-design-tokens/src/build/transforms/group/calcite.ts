@@ -1,16 +1,16 @@
 import { transforms } from "style-dictionary/enums";
-import { TransformValueCSSShadow } from "../value/cssShadow.js";
-import { TransformValueSizePxToRem } from "../value/pxToRem.js";
-import { TransformNameRemoveTier } from "../name/removeTier.js";
-import { TransformNameRemoveDefault } from "../name/removeDefault.js";
-import { TransformNameRemoveColorMode } from "../name/removeColorMode.js";
-import { TransformNameIncludePlusMinus } from "../name/includePlusMinus.js";
-import { TransformValueSizeUnitlessToPx } from "../value/unitlessBreakpointToPx.js";
-import { TransformValueMathSum } from "../value/mathSum.js";
-import { TransformAttributePlatformNames } from "../attribute/platformNames.js";
+import { TransformValueCSSShadow } from "../value/css-shadow.js";
+import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
+import { TransformNameRemoveTier } from "../name/remove-tier.js";
+import { TransformNameRemoveDefault } from "../name/remove-default.js";
+import { TransformNameRemoveColorMode } from "../name/remove-color-mode.js";
+import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
+import { TransformValueSizeUnitlessToPx } from "../value/unitless-breakpoint-to-px.js";
+import { TransformValueMathSum } from "../value/math-sum.js";
+import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../types/interfaces.js";
-import { TransformValueEnsureType } from "../value/ensureType.js";
+import { TransformValueEnsureType } from "../value/ensure-type.js";
 
 export const platformTransforms = {
   css: [

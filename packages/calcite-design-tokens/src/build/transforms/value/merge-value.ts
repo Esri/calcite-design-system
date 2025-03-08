@@ -1,7 +1,7 @@
 import { TransformedToken, ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
-import { filterLightOrDarkColorTokens } from "../../filter/lightOrDark.js";
+import { filterLightOrDarkColorTokens } from "../../filter/light-or-dark.js";
 
 let dictionaries: any;
 

@@ -1,5 +1,5 @@
 import { TransformedToken, ValueTransform } from "style-dictionary/types";
-import { getNumberAndUnit } from "../../utils/getNumberAndUnit.js";
+import { getNumberAndUnit } from "../../utils/get-number-and-unit.js";
 import { RegisterFn } from "../../types/interfaces.js";
 
 function isBreakpoint(token: TransformedToken) {
