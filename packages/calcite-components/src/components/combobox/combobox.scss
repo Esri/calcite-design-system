@@ -10,15 +10,13 @@
   @apply relative block;
 }
 
-@include disabled();
-@include x-button();
-
 :host([scale="s"]) {
   @apply text-n2;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 1rem;
 
   .x-button {
     margin-inline: theme("spacing.2");
@@ -31,6 +29,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 1.5rem;
 
   .x-button {
     margin-inline-end: theme("spacing.3");
@@ -43,10 +42,15 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-input-height: theme("spacing.6");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 2rem;
 
   .x-button {
     margin-inline-end: theme("spacing.4");
   }
+}
+
+.x-button {
+  align-self: center;
 }
 
 .wrapper {
@@ -254,6 +258,12 @@ calcite-chip {
   @apply block;
 }
 
+@include disabled();
+@include x-button(
+  $backgroundColor: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
+  $backgroundColorHover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
+  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-3))"
+);
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

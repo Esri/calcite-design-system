@@ -1,9 +1,19 @@
 import { html } from "../../support/formatting";
 
 export const tabsTokens = {
-  // additional tokens will be added in https://github.com/Esri/calcite-design-system/pull/10532/
+  calciteTabBackgroundColor: "",
+  calciteTabBorderColor: "",
+  calciteTabTextColor: "",
+  calciteTabAccentColor: "",
+  calciteTabAccentColorHover: "",
+  calciteTabAccentColorPress: "",
   calciteTabIconColorEnd: "",
   calciteTabIconColorStart: "",
+  calciteTabCloseIconColor: "",
+  calciteTabCloseIconColorPress: "",
+  calciteTabCloseBackgroundColor: "",
+  calciteTabCloseBackgroundPress: "",
+  calciteTabContentSpaceY: "",
 };
 
 export const tabs = html`

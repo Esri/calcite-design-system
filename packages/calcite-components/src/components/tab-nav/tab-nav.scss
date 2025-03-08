@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tab-background-color: Specifies background color of the component.
+ * @prop --calcite-tab-border-color: Specifies border color of the component. Used for "bordered" tabs.
+ * @prop --calcite-tab-text-color: Specifies the icon and text color of the component.
+ */
+
 :host {
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
@@ -5,18 +15,24 @@
   @apply relative flex;
 }
 
+:host([bordered]) {
+  .container {
+    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+  }
+}
+
 .scale-s {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-24};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-44};
+  --calcite-internal-tab-nav-button-width: #{$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
@@ -32,8 +48,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-end-side),
       transparent,
-      transparent var(--calcite-internal-tab-nav-scroller-button-width),
-      white var(--calcite-internal-tab-nav-scroller-button-width),
+      transparent var(--calcite-internal-tab-nav-button-width),
+      white var(--calcite-internal-tab-nav-button-width),
       white $last-mask-color-stop-position
     );
   }
@@ -44,8 +60,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-start-side),
       transparent,
-      transparent var(--calcite-internal-tab-nav-scroller-button-width),
-      white var(--calcite-internal-tab-nav-scroller-button-width),
+      transparent var(--calcite-internal-tab-nav-button-width),
+      white var(--calcite-internal-tab-nav-button-width),
       white $last-mask-color-stop-position
     );
   }
@@ -53,19 +69,20 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 
 .tab-nav--start-overflow.tab-nav--end-overflow {
   .tab-titles-slot-wrapper {
-    mask-image: linear-gradient(
+    mask-image:
+      linear-gradient(
         to var(--calcite-internal-tab-nav-gradient-end-side),
         transparent,
-        transparent var(--calcite-internal-tab-nav-scroller-button-width),
-        white var(--calcite-internal-tab-nav-scroller-button-width),
+        transparent var(--calcite-internal-tab-nav-button-width),
+        white var(--calcite-internal-tab-nav-button-width),
         white $last-mask-color-stop-position,
         transparent $last-mask-color-stop-position
       ),
       linear-gradient(
         to var(--calcite-internal-tab-nav-gradient-start-side),
         transparent,
-        transparent var(--calcite-internal-tab-nav-scroller-button-width),
-        white var(--calcite-internal-tab-nav-scroller-button-width),
+        transparent var(--calcite-internal-tab-nav-button-width),
+        white var(--calcite-internal-tab-nav-button-width),
         white $last-mask-color-stop-position,
         transparent $last-mask-color-stop-position
       );
@@ -127,15 +144,19 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   @apply absolute bottom-0 top-0;
 
   calcite-button {
+    --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
+    --calcite-button-background-color: var(--calcite-color-transparent);
+    --calcite-button-border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
     --calcite-offset-invert-focus: 1;
-    --calcite-color-text-1: var(--calcite-color-text-3);
 
-    block-size: 100%;
+    block-size: var(--calcite-container-size-content-fluid);
 
-    &:hover {
-      --calcite-color-text-1: unset;
-      --calcite-color-foreground-1: var(--calcite-color-transparent-hover);
-      --calcite-color-foreground-3: var(--calcite-color-transparent);
+    &:hover &:focus {
+      --calcite-button-background-color: var(--calcite-color-transparent-hover);
+    }
+
+    &:active {
+      --calcite-button-background-color: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -154,7 +175,8 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   .scroll-button-container--backward,
   .scroll-button-container--forward {
     &::before {
-      background-color: var(--calcite-color-border-3);
+      background-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+      opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
       inset-block-start: var(--calcite-border-width-md);
