@@ -274,7 +274,13 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     return false;
   }
   const valueAsNumber = Number(value);
-  return part === "hour" ? valueAsNumber >= 0 && valueAsNumber < 24 : valueAsNumber >= 0 && valueAsNumber < 60;
+  if (part === "hour") {
+    return valueAsNumber >= 0 && valueAsNumber < 24;
+  }
+  if (part === "fractionalSecond") {
+    return valueAsNumber >= 0 && valueAsNumber <= 999;
+  }
+  return valueAsNumber >= 0 && valueAsNumber < 60;
 }
 
 interface LocalizeTimePartParameters {
