@@ -654,6 +654,15 @@ export class Combobox
 
   private selectAllChangeHandler(): void {
     this.selectAllChecked = !this.selectAllChecked;
+    this.toggleSelectAll(this.selectAllChecked);
+  }
+
+  private toggleSelectAll(selectAll: boolean): void {
+    this.items.forEach((item) => {
+      item.selected = selectAll;
+    });
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
   }
 
   private handleDisabledChange(value: boolean): void {
