@@ -20,10 +20,14 @@ export default createRule({
         return {
             JSXElement(node: TSESTree.JSXElement) {
                 const { openingElement } = node;
-                const { name } = openingElement;
-                if (name.type === "JSXIdentifier" && name.name === "button") {
+                const el = openingElement.name;
+                if (el.type === "JSXIdentifier" && el.name === "button") {
                     const tabIndexAttribute = openingElement.attributes.find((attr) => {
-                        return attr.type === "JSXAttribute" && attr.name.type === "JSXIdentifier" && attr.name.name === "tabIndex";
+                        if (attr.type === "JSXAttribute") {
+                            const { name: { type, name } } = attr;
+                            return type === "JSXIdentifier" && name === "tabIndex"
+                        };
+                        return false;
                     });
                     if (!tabIndexAttribute) {
                         context.report({
