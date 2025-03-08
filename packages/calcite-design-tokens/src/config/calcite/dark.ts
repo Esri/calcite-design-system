@@ -6,11 +6,11 @@ import {
 } from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import { transformers, filters, headers, formats } from "../../../support/index.js";
+import { transformers, filters, headers, formats } from "../../build/registry/index.js";
 
 const config: Config = {
-  source: ["src/semantic/calcite/dark.json"],
-  include: ["src/core/[!$]*.json"],
+  source: ["src/tokens/semantic/calcite/dark.json"],
+  include: ["src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {

@@ -7,11 +7,11 @@ import {
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { outputReferencesFilter } from "style-dictionary/utils";
-import { transformers, filters, headers, formats } from "../../support/index.js";
+import { transformers, filters, headers, formats } from "../build/registry/index.js";
 
 const config: Config = {
-  source: ["src/semantic/[!$]*.json"],
-  include: ["src/core/[!$]*.json", "src/semantic/calcite/[!$]*.json"],
+  source: ["src/tokens/semantic/[!$]*.json"],
+  include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/calcite/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   hooks: {
     filters: {
