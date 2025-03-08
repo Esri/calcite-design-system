@@ -242,8 +242,6 @@ export class Combobox
     this.refreshSelectionDisplay();
   });
 
-  private selectAllChecked: boolean = false;
-
   private selectedIndicatorChipEl: Chip["el"];
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
@@ -280,6 +278,8 @@ export class Combobox
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
+
+  @state() selectAllCheckedState: boolean = false;
 
   // #endregion
 
@@ -388,8 +388,11 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When true, selects all items */
+  /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
   @property({ reflect: true }) selectAll = false;
+
+  /** When `true`, selects all items. Does not apply to `selection-mode single`. */
+  @property({ reflect: true }) selectAllChecked = false;
 
   /**
    * Specifies the component's selected items.
@@ -598,6 +601,10 @@ export class Combobox
 
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
+    }
+
+    if (changes.has("selectAllChecked")) {
+      this.selectAllCheckedState = this.selectAllChecked;
     }
   }
 
@@ -1701,7 +1708,7 @@ export class Combobox
                 role="checkbox"
               >
                 <input
-                  checked={this.selectAllChecked}
+                  checked={this.selectAllCheckedState}
                   id={`${this.guid}-select-all`}
                   onChange={this.selectAllChangeHandler}
                   type="checkbox"

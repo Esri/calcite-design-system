@@ -173,8 +173,7 @@
 }
 
 .label {
-  @apply pointer-events-none
-    max-w-full
+  @apply max-w-full
     flex-auto
     truncate
     p-0
