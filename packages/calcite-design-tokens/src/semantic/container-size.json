@@ -1,163 +1,163 @@
 {
-  "semantic": {
-    "container-size": {
-      "height": {
-        "xxs": {
-          "min": {
-            "value": "{container-size.0}",
-            "type": "breakpoint",
-            "description": "Small handheld devices and mini-windows"
-          },
-          "max": {
-            "value": "{container-size.154}",
-            "type": "breakpoint",
-            "description": "Small handheld devices and mini-windows"
-          }
+  "breakpoint": {
+    "height": {
+      "xxs": {
+        "min": {
+          "value": "{container-size.0}",
+          "type": "dimension",
+          "description": "Small handheld devices and mini-windows"
         },
-        "xs": {
-          "min": {
-            "value": "{container-size.154} + 1",
-            "type": "breakpoint",
-            "description": "Handheld devices"
-          },
-          "max": {
-            "value": "{container-size.328}",
-            "type": "breakpoint",
-            "description": "Handheld devices"
-          }
-        },
-        "sm": {
-          "min": {
-            "value": "{container-size.328} + 1",
-            "type": "breakpoint",
-            "description": "Small tablets"
-          },
-          "max": {
-            "value": "{container-size.504}",
-            "type": "breakpoint",
-            "description": "Small tablets"
-          }
-        },
-        "md": {
-          "min": {
-            "value": "{container-size.504} + 1",
-            "type": "breakpoint",
-            "description": "Small laptops"
-          },
-          "max": {
-            "value": "{container-size.678}",
-            "type": "breakpoint",
-            "description": "Small laptops"
-          }
-        },
-        "lg": {
-          "min": {
-            "value": "{container-size.678} + 1",
-            "type": "breakpoint",
-            "description": "Large laptops and desktop computers"
-          },
-          "max": {
-            "value": "{container-size.854}",
-            "type": "breakpoint",
-            "description": "Large laptops and desktop computers"
-          }
-        },
-        "xl": {
-          "min": {
-            "value": "{container-size.854} + 1",
-            "type": "breakpoint",
-            "description": "Projectors and televisions"
-          }
+        "max": {
+          "value": "{container-size.154}",
+          "type": "dimension",
+          "description": "Small handheld devices and mini-windows"
         }
       },
-      "width": {
-        "xxs": {
-          "min": {
-            "value": "0",
-            "type": "breakpoint",
-            "description": "Small handheld devices and mini-windows"
-          },
-          "max": {
-            "value": "{container-size.320}",
-            "type": "breakpoint",
-            "description": "Small handheld devices and mini-windows"
-          }
+      "xs": {
+        "min": {
+          "value": "{container-size.154} + 1px",
+          "type": "dimension",
+          "description": "Handheld devices"
         },
-        "xs": {
-          "min": {
-            "value": "{container-size.320} + 1",
-            "type": "breakpoint",
-            "description": "Handheld devices"
-          },
-          "max": {
-            "value": "{container-size.476}",
-            "type": "breakpoint",
-            "description": "Handheld devices"
-          }
-        },
-        "sm": {
-          "min": {
-            "value": "{container-size.476} + 1",
-            "type": "breakpoint",
-            "description": "Small tablets"
-          },
-          "max": {
-            "value": "{container-size.768}",
-            "type": "breakpoint",
-            "description": "Small tablets"
-          }
-        },
-        "md": {
-          "min": {
-            "value": "{container-size.768} + 1",
-            "type": "breakpoint",
-            "description": "Small laptops"
-          },
-          "max": {
-            "value": "{container-size.1152}",
-            "type": "breakpoint",
-            "description": "Small laptops"
-          }
-        },
-        "lg": {
-          "min": {
-            "value": "{container-size.1152} + 1",
-            "type": "breakpoint",
-            "description": "Large laptops and desktop computers"
-          },
-          "max": {
-            "value": "{container-size.1440}",
-            "type": "breakpoint",
-            "description": "Large laptops and desktop computers"
-          }
-        },
-        "xl": {
-          "min": {
-            "value": "{container-size.1440} + 1",
-            "type": "breakpoint",
-            "description": "Projectors and televisions"
-          }
+        "max": {
+          "value": "{container-size.328}",
+          "type": "dimension",
+          "description": "Handheld devices"
         }
       },
-      "margin": {
-        "value": "{size.default.24}",
-        "type": "spacing"
-      },
-      "gutter": {
-        "value": "{size.default.16}",
-        "type": "spacing"
-      },
-      "content": {
-        "fluid": {
-          "value": "{size.relative.100}",
-          "type": "sizing",
-          "description": "for fluid grid widths"
+      "sm": {
+        "min": {
+          "value": "{container-size.328} + 1px",
+          "type": "dimension",
+          "description": "Small tablets"
         },
-        "fixed": {
+        "max": {
+          "value": "{container-size.504}",
+          "type": "dimension",
+          "description": "Small tablets"
+        }
+      },
+      "md": {
+        "min": {
+          "value": "{container-size.504} + 1px",
+          "type": "dimension",
+          "description": "Small laptops"
+        },
+        "max": {
+          "value": "{container-size.678}",
+          "type": "dimension",
+          "description": "Small laptops"
+        }
+      },
+      "lg": {
+        "min": {
+          "value": "{container-size.678} + 1px",
+          "type": "dimension",
+          "description": "Large laptops and desktop computers"
+        },
+        "max": {
+          "value": "{container-size.854}",
+          "type": "dimension",
+          "description": "Large laptops and desktop computers"
+        }
+      },
+      "xl": {
+        "min": {
+          "value": "{container-size.854} + 1px",
+          "type": "dimension",
+          "description": "Projectors and televisions"
+        }
+      }
+    },
+    "width": {
+      "xxs": {
+        "min": {
+          "value": "0",
+          "type": "dimension",
+          "description": "Small handheld devices and mini-windows"
+        },
+        "max": {
+          "value": "{container-size.320}",
+          "type": "dimension",
+          "description": "Small handheld devices and mini-windows"
+        }
+      },
+      "xs": {
+        "min": {
+          "value": "{container-size.320} + 1px",
+          "type": "dimension",
+          "description": "Handheld devices"
+        },
+        "max": {
+          "value": "{container-size.476}",
+          "type": "dimension",
+          "description": "Handheld devices"
+        }
+      },
+      "sm": {
+        "min": {
+          "value": "{container-size.476} + 1px",
+          "type": "dimension",
+          "description": "Small tablets"
+        },
+        "max": {
+          "value": "{container-size.768}",
+          "type": "dimension",
+          "description": "Small tablets"
+        }
+      },
+      "md": {
+        "min": {
+          "value": "{container-size.768} + 1px",
+          "type": "dimension",
+          "description": "Small laptops"
+        },
+        "max": {
+          "value": "{container-size.1152}",
+          "type": "dimension",
+          "description": "Small laptops"
+        }
+      },
+      "lg": {
+        "min": {
+          "value": "{container-size.1152} + 1px",
+          "type": "dimension",
+          "description": "Large laptops and desktop computers"
+        },
+        "max": {
           "value": "{container-size.1440}",
-          "type": "sizing",
-          "description": "only for lg breakpoint fixed grid width"
+          "type": "dimension",
+          "description": "Large laptops and desktop computers"
         }
+      },
+      "xl": {
+        "min": {
+          "value": "{container-size.1440} + 1px",
+          "type": "dimension",
+          "description": "Projectors and televisions"
+        }
+      }
+    }
+  },
+  "container-size": {
+    "margin": {
+      "value": "{size.24}",
+      "type": "spacing"
+    },
+    "gutter": {
+      "value": "{size.16}",
+      "type": "spacing"
+    },
+    "content": {
+      "fluid": {
+        "value": "{size.relative.100}",
+        "type": "sizing",
+        "description": "for fluid grid widths"
+      },
+      "fixed": {
+        "value": "{container-size.1440}",
+        "type": "sizing",
+        "description": "only for lg breakpoint fixed grid width"
       }
     }
   }
