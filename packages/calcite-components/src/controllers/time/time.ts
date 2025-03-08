@@ -291,7 +291,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         locale,
         numberingSystem,
       });
-      this.component.requestUpdate();
+      this.component.requestUpdate("value", previousValue);
       this.component.valueChangeHandler();
     }
   }

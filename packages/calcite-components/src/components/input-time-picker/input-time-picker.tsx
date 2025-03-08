@@ -106,9 +106,6 @@ export class InputTimePicker
 
   private secondEl: HTMLSpanElement;
 
-  /** whether the value of the input was changed as a result of user typing or not */
-  private userChangedValue = false;
-
   // #endregion
 
   // #region State Properties
