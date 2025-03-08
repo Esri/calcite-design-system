@@ -2,24 +2,124 @@
   "semantic": {
     "opacity": {
       "light": {
-        "value": "{opacity.40}",
-        "type": "opacity"
+        "value": "{core.opacity.40}",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "light",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "half": {
-        "value": "{opacity.50}",
-        "type": "opacity"
+        "value": "{core.opacity.50}",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "half",
+            "state": "",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "dark": {
-        "value": "{opacity.85}",
-        "type": "opacity"
+        "value": "{core.opacity.85}",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "dark",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "full": {
-        "value": "{opacity.100}",
-        "type": "opacity"
+        "value": "{core.opacity.100}",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "full",
+            "state": "",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "disabled": {
-        "value": "{opacity.50}",
-        "type": "opacity"
+        "value": "{core.opacity.50}",
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "opacity",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "disabled",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       }
     }
   }

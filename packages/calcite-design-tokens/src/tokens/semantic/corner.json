@@ -4,19 +4,99 @@
       "radius": {
         "default": {
           "value": "{semantic.corner.radius.sharp}",
-          "type": "borderRadius"
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "default",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "sharp": {
-          "value": "{size.none}",
-          "type": "borderRadius"
+          "value": "{core.size.default.none}",
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "sharp",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "round": {
-          "value": "{size.4}",
-          "type": "borderRadius"
+          "value": "{core.size.default.4}",
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "round",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "pill": {
-          "value": "{size.relative.100}",
-          "type": "borderRadius"
+          "value": "{core.size.relative.100}",
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "pill",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       }
     }

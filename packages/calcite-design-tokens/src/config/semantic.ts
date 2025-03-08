@@ -115,7 +115,7 @@ const config: Config = {
     },
     es6: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueMergeValues],
+      transforms: [...transformers.platformTransforms.es6 /*, transformers.TransformValueMergeValues*/],
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
@@ -178,7 +178,7 @@ const config: Config = {
       transforms: [
         transformers.TransformNameRemovePrefix,
         transformers.TransformNameCapitalCase,
-        transformers.TransformValueMergeValues,
+        // transformers.TransformValueMergeValues,
       ],
       buildPath: "dist/docs/",
       prefix: "calcite",
@@ -207,7 +207,7 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueMergeValues],
+      transforms: [...transformers.platformTransforms.es6 /*transformers.TransformValueMergeValues*/],
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {

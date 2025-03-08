@@ -3,20 +3,100 @@
     "border": {
       "width": {
         "none": {
-          "value": "{size.none}",
-          "type": "borderWidth"
+          "value": "{core.size.default.none}",
+          "type": "borderWidth",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "border",
+              "group": "width",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "none",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "sm": {
-          "value": "{size.1}",
-          "type": "borderWidth"
+          "value": "{core.size.default.1}",
+          "type": "borderWidth",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "border",
+              "group": "width",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "sm",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "md": {
-          "value": "{size.2}",
-          "type": "borderWidth"
+          "value": "{core.size.default.2}",
+          "type": "borderWidth",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "border",
+              "group": "width",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "md",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "lg": {
-          "value": "{size.4}",
-          "type": "borderWidth"
+          "value": "{core.size.default.4}",
+          "type": "borderWidth",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "border",
+              "group": "width",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "lg",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       }
     }

@@ -2,7 +2,7 @@
   "semantic": {
     "z-index": {
       "deep": {
-        "value": "{z-index.0}",
+        "value": "{core.z-index.0}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -26,7 +26,7 @@
         }
       },
       "default": {
-        "value": "{z-index.1}",
+        "value": "{core.z-index.1}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -50,7 +50,7 @@
         }
       },
       "sticky": {
-        "value": "{z-index.3}",
+        "value": "{core.z-index.3}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -74,7 +74,7 @@
         }
       },
       "header": {
-        "value": "{z-index.4}",
+        "value": "{core.z-index.4}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -98,7 +98,7 @@
         }
       },
       "toast": {
-        "value": "{z-index.5}",
+        "value": "{core.z-index.5}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -122,7 +122,7 @@
         }
       },
       "dropdown": {
-        "value": "{z-index.6}",
+        "value": "{core.z-index.6}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -146,7 +146,7 @@
         }
       },
       "overlay": {
-        "value": "{z-index.7}",
+        "value": "{core.z-index.7}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -170,7 +170,7 @@
         }
       },
       "modal": {
-        "value": "{z-index.8}",
+        "value": "{core.z-index.8}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -194,7 +194,7 @@
         }
       },
       "popup": {
-        "value": "{z-index.9}",
+        "value": "{core.z-index.9}",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {
@@ -218,7 +218,7 @@
         }
       },
       "tooltip": {
-        "value": "{z-index.9} + 1",
+        "value": "{core.z-index.9} + 1",
         "type": "z-index",
         "attributes": {
           "calcite-schema": {

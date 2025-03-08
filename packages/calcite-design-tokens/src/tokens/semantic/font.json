@@ -3,218 +3,411 @@
     "font": {
       "family": {
         "default": {
-          "$extensions": {
-            "org.esri.calcite.fontFallbacks": [
-              "{font.family.avenir}",
-              "{font.family.helveticaNeue}",
-              "{font.family.sansSerif}"
-            ],
-            "org.esri.calcite.schema": {
+          "value": [
+            "{core.font.family.avenirNext}",
+            "{core.font.family.avenir}",
+            "{core.font.family.helveticaNeue}",
+            "{core.font.family.sansSerif}"
+          ],
+          "type": "fontFamilies",
+          "description": "Primary font with fallbacks",
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-family",
-              "kind": "default"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
-          },
-          "value": "{font.family.avenir}",
-          "description": "Primary font with fallbacks",
-          "type": "fontFamilies"
+          }
         },
         "code": {
-          "$extensions": {
-            "org.esri.calcite.fontFallbacks": [
-              "{font.family.monaco}",
-              "{font.family.consolas}",
-              "{font.family.andaleMono}",
-              "{font.family.lucidaConsole}",
-              "{font.family.monospace}"
-            ],
-            "org.esri.calcite.schema": {
+          "value": [
+            "{core.font.family.monaco}",
+            "{core.font.family.consolas}",
+            "{core.font.family.andaleMono}",
+            "{core.font.family.lucidaConsole}",
+            "{core.font.family.monospace}"
+          ],
+          "type": "fontFamilies",
+          "description": "Font family for code with fallbacks",
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-family",
-              "kind": "code"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "code",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
-          },
-          "value": "{font.family.monaco}",
-          "description": "Font family for code with fallbacks",
-          "type": "fontFamilies"
+          }
         }
       },
       "weight": {
         "light": {
-          "value": "{font.weight.light}",
+          "value": "{core.font.weight.light}",
           "type": "fontWeights",
           "description": "For Avenir Next World (secondary font family)",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "light"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "light",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "normal": {
-          "value": "{font.weight.regular}",
+          "value": "{core.font.weight.regular}",
           "type": "fontWeights",
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "extensions": {
+            "calcite.deprecated": true
+          },
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "normal"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "normal",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "regular": {
-          "value": "{font.weight.regular}",
+          "value": "{core.font.weight.regular}",
           "type": "fontWeights",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "regular"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "regular",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "medium": {
-          "value": "{font.weight.medium}",
+          "value": "{core.font.weight.medium}",
           "type": "fontWeights",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "medium"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "medium",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "semibold": {
-          "value": "{font.weight.demi}",
+          "value": "{core.font.weight.demi}",
           "type": "fontWeights",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "semibold"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "semibold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "bold": {
-          "value": "{font.weight.demi}",
+          "value": "{core.font.weight.demi}",
           "type": "fontWeights",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-weight",
-              "scale": "bold"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "bold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         }
       },
       "size": {
         "xs": {
-          "value": "{size.10}",
+          "value": "{core.size.default.10}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "xs"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xs",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "sm": {
-          "value": "{size.12}",
+          "value": "{core.size.default.12}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "sm"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "sm",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "default": {
-          "value": "{size.14}",
+          "value": "{core.size.default.14}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "default"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "default",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "md": {
-          "value": "{size.16}",
+          "value": "{core.size.default.16}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "default"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "md",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "lg": {
-          "value": "{size.2} * 9",
+          "value": "{core.size.default.2} * 9",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "lg"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "lg",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "xl": {
-          "value": "{size.20}",
+          "value": "{core.size.default.20}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "xl"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xl",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "xxl": {
-          "value": "{size.24}",
+          "value": "{core.size.default.24}",
           "type": "fontSizes",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-size",
-              "scale": "xxl"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xxl",
+              "context": "",
+              "mode": ""
             }
           }
         }
       },
       "style": {
         "emphasis": {
-          "value": "{font.style.italic}",
+          "value": "{core.font.style.italic}",
           "type": "fontStyle",
           "description": "used in ratings",
-          "$extensions": {
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "font-style",
-              "group": "emphasis"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "style",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "emphasis",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         }
@@ -222,140 +415,250 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{size.12}",
+            "value": "{core.size.default.12}",
             "type": "lineHeights",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "fixed",
-                "scale": "sm"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "base": {
-            "value": "{size.16}",
+            "value": "{core.size.default.16}",
             "type": "lineHeights",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "fixed",
-                "scale": "base"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "base",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "lg": {
-            "value": "{size.20}",
+            "value": "{core.size.default.20}",
             "type": "lineHeights",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "fixed",
-                "scale": "lg"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "xl": {
-            "value": "{size.24}",
+            "value": "{core.size.default.24}",
             "type": "lineHeights",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "fixed",
-                "scale": "xl"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "xl",
+                "context": "",
+                "mode": ""
               }
             }
           }
         },
         "relative": {
           "default": {
-            "value": "{size.relative.auto}",
+            "value": "{core.size.relative.auto}",
             "type": "lineHeights",
             "description": "1",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "default"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "default",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "tight": {
-            "value": "{size.relative.125}",
+            "value": "{core.size.relative.125}",
             "type": "lineHeights",
             "description": "1.25",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "tight"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "tight",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "snug": {
-            "value": "{size.relative.137}",
+            "value": "{core.size.relative.137}",
             "type": "lineHeights",
             "description": "1.375",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "snug"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "snug",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "normal": {
-            "value": "{size.relative.150}",
+            "value": "{core.size.relative.150}",
             "type": "lineHeights",
             "description": "1.5",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "normal"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "normal",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "relaxed": {
-            "value": "{size.relative.162}",
+            "value": "{core.size.relative.162}",
             "type": "lineHeights",
             "description": "1.625",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "relaxed"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "relaxed",
+                "context": "",
+                "mode": ""
               }
             }
           },
           "loose": {
-            "value": "{size.relative.200}",
+            "value": "{core.size.relative.200}",
             "type": "lineHeights",
             "description": "2",
-            "$extensions": {
-              "org.esri.calcite.schema": {
+            "attributes": {
+              "calcite-schema": {
                 "system": "calcite",
                 "tier": "semantic",
-                "type": "line-height",
-                "group": "relative",
-                "scale": "loose"
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "loose",
+                "context": "",
+                "mode": ""
               }
             }
           }
@@ -363,148 +666,258 @@
       },
       "letter-spacing": {
         "tight": {
-          "value": "{size.none} - .4 ",
+          "value": "{core.size.default.none} - .4 ",
           "type": "letterSpacing",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "letter-spacing",
-              "scale": "tight"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "tight",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "normal": {
-          "value": "{size.none}",
+          "value": "{core.size.default.none}",
           "type": "letterSpacing",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "letter-spacing",
-              "scale": "normal"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "normal",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "wide": {
-          "value": "{size.none} + .4",
+          "value": "{core.size.default.none} + .4 ",
           "type": "letterSpacing",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "letter-spacing",
-              "scale": "wide"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "wide",
+              "context": "",
+              "mode": ""
             }
           }
         }
       },
       "paragraph-spacing": {
         "normal": {
-          "value": "{size.4}",
+          "value": "{core.size.default.4}",
           "type": "paragraphSpacing",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "paragraph-spacing",
-              "scale": "normal"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "paragraph-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "normal",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         }
       },
       "text-decoration": {
         "none": {
-          "value": "{font.text-decoration.none}",
+          "value": "{core.font.text-decoration.none}",
           "type": "textDecoration",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-decoration",
-              "scale": "none"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-decoration",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "underline": {
-          "value": "{font.text-decoration.underline}",
+          "value": "{core.font.text-decoration.underline}",
           "type": "textDecoration",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-decoration",
-              "scale": "underline"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-decoration",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "underline",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         }
       },
       "text-case": {
         "none": {
-          "value": "{font.text-case.none}",
+          "value": "{core.font.text-case.none}",
           "type": "textCase",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-case",
-              "appearance": "none"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "uppercase": {
-          "value": "{font.text-case.uppercase}",
+          "value": "{core.font.text-case.uppercase}",
           "type": "textCase",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-case",
-              "appearance": "uppercase"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "uppercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "lowercase": {
-          "value": "{font.text-case.lowercase}",
+          "value": "{core.font.text-case.lowercase}",
           "type": "textCase",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-case",
-              "appearance": "lowercase"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "lowercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         },
         "capitalize": {
-          "value": "{font.text-case.capitalize}",
+          "value": "{core.font.text-case.capitalize}",
           "type": "textCase",
           "description": "Deprecated",
-          "$extensions": {
-            "org.esri.calcite.deprecated": true,
-            "org.esri.calcite.schema": {
+          "attributes": {
+            "calcite-schema": {
               "system": "calcite",
               "tier": "semantic",
-              "type": "text-case",
-              "appearance": "capitalize"
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "capitalize",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
             }
           }
         }
