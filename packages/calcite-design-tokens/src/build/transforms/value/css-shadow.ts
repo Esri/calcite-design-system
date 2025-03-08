@@ -12,9 +12,6 @@ function transformShadow(
 }
 
 export const transformValueCSSShadow: ValueTransform["transform"] = (token) => {
-  // if (!token.isSource) {
-  //   debugger;
-  // }
   if (Array.isArray(token.original.value)) {
     return token.original.value
       .map((shadow) => {
