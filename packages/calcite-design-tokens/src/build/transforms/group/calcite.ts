@@ -11,6 +11,7 @@ import { TransformAttributePlatformNames } from "../attribute/platform-names.js"
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../types/interfaces.js";
 import { TransformValueEnsureType } from "../value/ensure-type.js";
+import { TransformValueCorrectValue } from "../value/correct-value.js";
 
 export const platformTransforms = {
   css: [
@@ -36,6 +37,7 @@ export const platformTransforms = {
 
 export function getTransforms(): string[] {
   const agnosticTransforms = [
+    TransformValueCorrectValue,
     "ts/descriptionToComment",
     "ts/resolveMath",
     "ts/size/px",
