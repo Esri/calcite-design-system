@@ -18,4 +18,4 @@ export const registerAttributeSchema: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformAttributeSchema = "calcite/transform/attribute-schema";
+export const TransformAttributeSchema = "calcite/transform/attribute/schema";

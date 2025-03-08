@@ -16,4 +16,4 @@ export const registerFilterGlobalTokens: RegisterFn = async (sd) =>
     filter: filterGlobalTokens,
   });
 
-export const FilterGlobalTokens = "filter/tokens/global";
+export const FilterGlobalTokens = "calcite/filter/tokens/global";

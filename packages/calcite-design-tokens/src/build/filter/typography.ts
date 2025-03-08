@@ -9,4 +9,4 @@ export const registerFilterTypographyTokens: RegisterFn = async (sd) =>
     filter: filterTypographyTokens,
   });
 
-export const FilterTypographyTokens = "filter/tokens/typography";
+export const FilterTypographyTokens = "calcite/filter/tokens/typography";

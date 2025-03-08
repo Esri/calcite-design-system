@@ -37,4 +37,4 @@ export const registerValueSizeUnitlessToPx: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueSizeUnitlessToPx = "calcite/value/UnitlessToPx";
+export const TransformValueSizeUnitlessToPx = "calcite/transform/value/unitless-breakpoint-to-px";

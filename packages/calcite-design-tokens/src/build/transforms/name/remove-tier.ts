@@ -12,4 +12,4 @@ export const registerNameRemoveTier: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameRemoveTier = "calcite/name/removeTier";
+export const TransformNameRemoveTier = "calcite/transform/name/remove-tier";

@@ -61,4 +61,4 @@ export const registerNameIncludePlusMinus: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameIncludePlusMinus = "calcite/name/includePlusMinus";
+export const TransformNameIncludePlusMinus = "calcite/transform/name/include-plus-minus";

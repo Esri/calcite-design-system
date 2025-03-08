@@ -70,4 +70,4 @@ export const registerValueMathSum: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueMathSum = "calcite/value/mathSum";
+export const TransformValueMathSum = "calcite/transform/value/math-sum";

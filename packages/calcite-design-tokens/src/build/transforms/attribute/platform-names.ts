@@ -21,4 +21,4 @@ export const registerAttributePlatformNames: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformAttributePlatformNames = "calcite/transform/attribute-platform-name";
+export const TransformAttributePlatformNames = "calcite/transform/attribute/platform-name";

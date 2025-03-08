@@ -11,4 +11,4 @@ export const registerFilterCoreTokens: RegisterFn = async (sd) =>
     filter: filterCoreTokens,
   });
 
-export const FilterCoreTokens = "filter/tokens/core";
+export const FilterCoreTokens = "calcite/filter/tokens/core";

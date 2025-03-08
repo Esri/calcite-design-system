@@ -18,4 +18,4 @@ export const registerValueEnsureType: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueEnsureType = "calcite/value/ensure-type";
+export const TransformValueEnsureType = "calcite/transform/value/ensure-type";

@@ -14,4 +14,4 @@ export const registerNameCapitalCase: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameCapitalCase = "calcite/name/capitalCase";
+export const TransformNameCapitalCase = "calcite/transform/name/capital-case";

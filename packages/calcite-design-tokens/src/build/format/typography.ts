@@ -109,4 +109,4 @@ export const registerFormatTypography: RegisterFn = async (sd) => {
   });
 };
 
-export const FormatTypography = "filter/calcite/typography";
+export const FormatTypography = "calcite/format/typography";

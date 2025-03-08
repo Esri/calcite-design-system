@@ -44,4 +44,4 @@ export const registerValueCSSShadow: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueCSSShadow = "calcite/value/CSSShadow";
+export const TransformValueCSSShadow = "calcite/transform/value/css-shadow";

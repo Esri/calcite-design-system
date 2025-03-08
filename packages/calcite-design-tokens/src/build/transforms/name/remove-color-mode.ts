@@ -19,4 +19,4 @@ export const registerNameRemoveColorMode: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameRemoveColorMode = "calcite/name/removeColorMode";
+export const TransformNameRemoveColorMode = "calcite/transform/name/remove-color-mode";

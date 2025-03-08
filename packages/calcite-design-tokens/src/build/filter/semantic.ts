@@ -11,4 +11,4 @@ export const registerFilterSemanticTokens: RegisterFn = async (sd) =>
     filter: filterSemanticTokens,
   });
 
-export const FilterSemanticTokens = "filter/tokens/semantic";
+export const FilterSemanticTokens = "calcite/filter/tokens/semantic";

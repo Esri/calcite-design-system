@@ -47,4 +47,4 @@ export const registerValueMergeValues: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueMergeValues = "calcite/value/mergeValues";
+export const TransformValueMergeValues = "calcite/transform/value/merge-value";

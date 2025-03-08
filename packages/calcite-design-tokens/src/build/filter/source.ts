@@ -10,4 +10,4 @@ export const registerFilterSourceTokens: RegisterFn = async (sd) => {
   });
 };
 
-export const FilterSourceTokens = "filter/tokens/source";
+export const FilterSourceTokens = "calcite/filter/tokens/source";

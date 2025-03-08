@@ -74,4 +74,4 @@ export const registerValueSizePxToRem: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformValueSizePxToRem = "calcite/value/pxToRem";
+export const TransformValueSizePxToRem = "calcite/transform/value/px-to-rem";

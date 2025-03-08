@@ -13,4 +13,4 @@ export const registerNameRemovePrefix: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameRemovePrefix = "calcite/name/removePrefix";
+export const TransformNameRemovePrefix = "calcite/transform/name/remove-prefix";

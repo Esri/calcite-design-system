@@ -29,4 +29,4 @@ export const registerNameRemoveDefault: RegisterFn = async (sd) => {
   });
 };
 
-export const TransformNameRemoveDefault = "calcite/name/removeDefault";
+export const TransformNameRemoveDefault = "calcite/transform/name/remove-default";
