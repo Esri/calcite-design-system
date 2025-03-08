@@ -1,10 +1,7 @@
 import { TransformedToken, ValueTransform } from "style-dictionary/types";
 import { getNumberAndUnit } from "../../utils/get-number-and-unit.js";
 import { RegisterFn } from "../../types/interfaces.js";
-
-function isBreakpoint(token: TransformedToken) {
-  return token.type === "breakpoint";
-}
+import { isBreakpoint } from "../../utils/token-types.js";
 
 function isUnitless(token: TransformedToken) {
   const matcher = getNumberAndUnit(token);
