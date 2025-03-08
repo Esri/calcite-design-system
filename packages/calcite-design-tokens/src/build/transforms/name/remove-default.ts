@@ -9,7 +9,7 @@ export const transformNameRemoveDefault: NameTransform["transform"] = (token) =>
 
   token.path.forEach((path) => {
     if (path === defaultPart) {
-      name = name.replace(/default/i, "");
+      name = name.replace(/-{0,1}default/i, "");
     }
   });
 
