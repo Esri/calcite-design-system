@@ -284,13 +284,15 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     const previousValue = this.value;
     if (previousValue !== newValue) {
       this.value = newValue;
-      this.localizedMeridiem = localizeTimePart({
-        hour12,
-        value: this.meridiem,
-        part: "meridiem",
-        locale,
-        numberingSystem,
-      });
+      this.localizedMeridiem = this.value
+        ? localizeTimeStringToParts({
+            hour12,
+            locale,
+            numberingSystem,
+            value: this.value,
+            step,
+          })?.localizedMeridiem || null
+        : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
       this.component.requestUpdate("value", previousValue);
       this.component.valueChangeHandler();
     }
