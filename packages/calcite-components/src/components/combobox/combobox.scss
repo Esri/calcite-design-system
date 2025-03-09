@@ -173,8 +173,7 @@
 }
 
 .label {
-  @apply pointer-events-none
-    max-w-full
+  @apply max-w-full
     flex-auto
     truncate
     p-0
@@ -185,6 +184,19 @@
 
 .label--icon {
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+}
+
+.select-all-checkbox {
+  @apply flex items-center self-stretch sticky;
+
+  padding-block: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-spacing-md);
+  gap: var(--calcite-spacing-md);
+  inset-block-start: 0;
+  z-index: var(--calcite-z-index);
+
+  border-block-end: 1px solid var(--calcite-color-border-3);
+  background: var(--calcite-color-foreground-1);
 }
 
 .icon-end,
@@ -252,6 +264,11 @@ calcite-chip {
 
 .item {
   @apply block;
+}
+
+.checkbox {
+  line-height: 0;
+  color: var(--calcite-color-border-input);
 }
 
 @include form-validation-message();
