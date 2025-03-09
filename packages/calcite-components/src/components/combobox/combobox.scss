@@ -187,15 +187,13 @@
 }
 
 .select-all-checkbox {
-  display: flex;
-  padding-block: 8px;
-  padding-inline: 12px;
-  align-items: center;
-  gap: 12px;
-  align-self: stretch;
-  position: sticky;
+  @apply flex items-center self-stretch sticky;
+
+  padding-block: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-spacing-md);
+  gap: var(--calcite-spacing-md);
   inset-block-start: 0;
-  z-index: 1;
+  z-index: var(--calcite-z-index);
 
   border-block-end: 1px solid var(--calcite-color-border-3);
   background: var(--calcite-color-foreground-1);
