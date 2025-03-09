@@ -53,6 +53,7 @@ import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
+import { isActivationKey } from "../../utils/key";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -831,7 +832,6 @@ export class Combobox
             this.open = true;
             this.ensureRecentSelectedItemIsActive();
           }
-
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
           }
@@ -1727,6 +1727,13 @@ export class Combobox
     ));
   }
 
+  private selectAllKeyDownHandler(event: KeyboardEvent): void {
+    if (isActivationKey(event.key)) {
+      this.selectAllChangeHandler();
+      event.preventDefault();
+    }
+  }
+
   private renderFloatingUIContainer(): JsxNode {
     const { setFloatingEl, setContainerEl, open } = this;
     const classes = {
@@ -1739,21 +1746,24 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
-            {this.selectAll && (
-              <li
-                class={{ [CSS.label]: true, [CSS.selectAllcheckbox]: true }}
-                id={this.guid}
-                role="checkbox"
-              >
-                <input
-                  checked={this.selectAllCheckedState}
-                  id={`${this.guid}-select-all`}
-                  onChange={this.selectAllChangeHandler}
-                  type="checkbox"
-                />
-                <label htmlFor={`${this.guid}-select-all`}>Select all</label>
-              </li>
-            )}
+            {this.selectAll &&
+              this.selectionMode !== "single" &&
+              this.selectionMode !== "single-persist" && (
+                <li
+                  class={{ [CSS.label]: true, [CSS.selectAllcheckbox]: true }}
+                  id={this.guid}
+                  role="checkbox"
+                >
+                  <input
+                    checked={this.selectAllCheckedState}
+                    id={`${this.guid}-select-all`}
+                    onChange={this.selectAllChangeHandler}
+                    onKeyDown={this.selectAllKeyDownHandler}
+                    type="checkbox"
+                  />
+                  <label htmlFor={`${this.guid}-select-all`}>Select all</label>
+                </li>
+              )}
             <slot />
           </ul>
         </div>
