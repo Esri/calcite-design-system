@@ -1,5 +1,4 @@
 import { transforms } from "style-dictionary/enums";
-import { TransformValueCSSShadow } from "../value/css-shadow.js";
 import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
 import { TransformNameRemoveTier } from "../name/remove-tier.js";
 import { TransformNameRemoveDefault } from "../name/remove-default.js";
@@ -15,15 +14,15 @@ import { TransformValueCorrectValue } from "../value/correct-value.js";
 
 export const platformTransforms = {
   css: [
-    "ts/color/css/hexrgba",
-    "ts/size/css/letterspacing",
-    TransformValueCSSShadow,
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
     TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
     TransformAttributePlatformNames,
     TransformAttributeSchema,
+    "ts/size/css/letterspacing",
+    "ts/color/css/hexrgba",
+    "shadow/css/shorthand",
   ],
   es6: [
     transforms.nameCamel,
@@ -58,8 +57,8 @@ export const TransformCalciteGroup = "calcite";
 export const registerTransformCalciteGroup: RegisterFn = async (sd) => {
   const builtinTransforms = sd.hooks.transformGroups["css"].filter(
     (transform) =>
-      // we'll apply rem value transforms separately
-      !transform.startsWith("size/rem"),
+      // we’ll apply these value transforms separately, since order matters and some may not be relevant
+      transform !== "size/rem" && transform !== "shadow/css/shorthand",
   );
 
   sd.registerTransformGroup({
