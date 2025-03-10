@@ -19,11 +19,6 @@ The most common approach for loading Calcite components is to use the version ho
   type="module"
   src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.3/dist/calcite/calcite.esm.js"
 ></script>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.3/dist/calcite/calcite.css"
-/>
 ```
 
 <!-- x-release-please-end -->
@@ -73,3 +68,7 @@ See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
+
+## Third-party licenses
+
+See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
