@@ -9,7 +9,6 @@
  * @prop --calcite-combobox-border-color: Specifies the component's border color.
  * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
- * @prop --calcite-combobox-placeholder-icon-color: Specifies the component's placeholder icon color.
  * @prop --calcite-combobox-listbox-background-color: Specifies the background color of the component's listbox.
  */
 
@@ -169,7 +168,7 @@
 }
 
 .placeholder-icon {
-  color: var(--calcite-combobox-placeholder-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
 }
 
 .input-wrap {

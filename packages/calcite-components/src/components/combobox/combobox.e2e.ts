@@ -3047,7 +3047,7 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`;
 
       const comboboxTokens: ComponentTestTokens = {
-        "--calcite-combobox-placeholder-icon-color": {
+        "--calcite-combobox-icon-color": {
           shadowSelector: `.${CSS.placeholderIcon}`,
           selector: "calcite-combobox",
           targetProp: "color",

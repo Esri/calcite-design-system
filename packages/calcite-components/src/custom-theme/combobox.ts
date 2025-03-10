@@ -7,7 +7,6 @@ export const comboboxTokens = {
   calciteComboboxBorderColor: "",
   calciteComboboxIconColor: "",
   calciteComboboxIconColorHover: "",
-  calciteComboboxPlaceholderIconColor: "",
   calciteComboboxListboxBackgroundColor: "",
   calciteChipBackgroundColor: "",
   calciteChipTextColor: "",
