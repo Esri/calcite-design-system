@@ -1,5 +1,5 @@
-import { TransformedToken } from "style-dictionary/types";
+import { DesignToken } from "style-dictionary/types";
 
-export function isBreakpoint(token: TransformedToken): boolean {
-  return token.path.includes("container-size");
+export function isBreakpoint(token: DesignToken): boolean {
+  return !!token.filePath?.includes("container-size");
 }
