@@ -57,7 +57,11 @@ export function getTransforms(): string[] {
 export const TransformCalciteGroup = "calcite";
 
 export const registerTransformCalciteGroup: RegisterFn = async (sd) => {
-  const builtinTransforms = sd.hooks.transformGroups["css"];
+  const builtinTransforms = sd.hooks.transformGroups["css"].filter(
+    (transform) =>
+      // we'll apply rem value transforms separately
+      !transform.startsWith("size/rem"),
+  );
 
   sd.registerTransformGroup({
     name: TransformCalciteGroup,
