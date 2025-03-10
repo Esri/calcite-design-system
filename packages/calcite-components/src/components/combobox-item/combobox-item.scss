@@ -71,25 +71,22 @@ ul:focus {
   @apply cursor-default;
 }
 
-// selected state
-.label--selected {
-  @apply text-color-1;
-
-  .title {
-    @apply font-medium;
-  }
-}
-
 .label--active {
   @apply focus-inset;
 }
 
-.label:hover,
+:host([selected]) .label,
 .label:active {
-  @apply text-color-1
-    bg-foreground-2
-    no-underline
-    shadow-none;
+  @apply text-color-1;
+
+  .description,
+  .short-text {
+    @apply text-color-2;
+  }
+}
+
+.label:hover {
+  @apply text-color-1 bg-foreground-2;
 }
 
 .label:active {
@@ -101,20 +98,15 @@ ul:focus {
     opacity-0
     duration-150
     ease-in-out;
-  color: theme("borderColor.color.1");
+}
+
+:host([selected]) .icon {
+  @apply opacity-100;
+  color: theme("backgroundColor.brand");
 }
 
 .icon--custom {
   margin-block-start: -1px;
-}
-
-.icon--selected {
-  @apply text-color-1;
-}
-
-.label--selected .icon {
-  @apply opacity-100;
-  color: theme("backgroundColor.brand");
 }
 
 .center-content {
@@ -128,20 +120,26 @@ ul:focus {
   font-size: var(--calcite-internal-combobox-item-description-font-size);
 }
 
-:host([selected]),
-:host(:hover) {
-  .description {
-    color: var(--calcite-color-text-2);
-  }
-}
-
 .short-text {
-  color: var(--calcite-color-text-3);
   white-space: nowrap;
 }
 
 .title {
   color: var(--calcite-color-text-1);
+}
+
+:host([selected]) {
+  .title {
+    @apply font-medium;
+  }
+}
+
+.label,
+.label:hover {
+  .description,
+  .short-text {
+    @apply text-color-3;
+  }
 }
 
 .title,
