@@ -123,7 +123,7 @@
     "typescript": "5.6.3",
     "typescript-eslint": "8.25.0",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "5.4.14",
+    "vite": "6.2.1",
     "vitest": "2.1.9"
   },
   "license": "SEE LICENSE.md",
