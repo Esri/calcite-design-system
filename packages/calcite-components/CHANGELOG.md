@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.23...@esri/calcite-components@3.1.0-next.24) (2025-03-10)
+
+### Features
+
+- **combobox-item:** update interactive state ([#11647](https://github.com/Esri/calcite-design-system/issues/11647)) ([aa9e46d](https://github.com/Esri/calcite-design-system/commit/aa9e46d82f2e5ccb17a3ec4d77c991db27636791)), closes [#11646](https://github.com/Esri/calcite-design-system/issues/11646)
+
 ## [3.1.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.22...@esri/calcite-components@3.1.0-next.23) (2025-03-07)
 
 **Note:** Version bump only for package @esri/calcite-components
