@@ -1,6 +1,2 @@
-**/*.d.ts
-**/dist
-**/.turbo
-
 # prevents modifying licenses
 THIRD-PARTY-LICENSES.md

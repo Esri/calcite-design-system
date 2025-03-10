@@ -23,7 +23,7 @@
     "packages/calcite-components": {
       "component": "@esri/calcite-components",
       "extra-files": [
-        "readme.md",
+        "README.md",
         {
           "type": "json",
           "path": "/examples/components/angular/package.json",

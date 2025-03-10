@@ -89,27 +89,24 @@ ul:focus {
   @apply cursor-default;
 }
 
-// selected state
-.label--selected {
-  color: var(--calcite-combobox-item-text-color-selected, var(--calcite-color-text-1));
-
-  .heading {
-    @apply font-medium;
-  }
-}
-
 .label--active {
   @apply focus-inset;
 }
 
-.label:hover,
+:host([selected]) .label,
 .label:active {
   @apply no-underline shadow-none;
   color: var(--calcite-combobox-item-text-color-hover, var(--calcite-color-text-1));
+
+  .description,
+  .short-text {
+    @apply text-color-2;
+  }
 }
 
 .label:hover {
   background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-foreground-2));
+  color: var(--calcite-combobox-item-text-color-hover, var(--calcite-color-text-1));
 }
 
 .label:active {
@@ -123,17 +120,13 @@ ul:focus {
     ease-in-out;
 }
 
-.icon--custom {
-  margin-block-start: -1px;
-}
-
-.icon--selected {
-  color: var(--calcite-combobox-icon-color-selected, var(--calcite-color-text-1));
-}
-
-.label--selected .icon {
+:host([selected]) .icon {
   @apply opacity-100;
   color: var(--calcite-combobox-item-selected-indicator-icon-color, var(--calcite-color-brand));
+}
+
+.icon--custom {
+  margin-block-start: -1px;
 }
 
 .center-content {
@@ -147,15 +140,7 @@ ul:focus {
   font-size: var(--calcite-internal-combobox-item-description-font-size);
 }
 
-:host([selected]),
-:host(:hover) {
-  .description {
-    color: var(--calcite-combobox-description-text-color-hover, var(--calcite-color-text-2));
-  }
-}
-
 .short-text {
-  color: var(--calcite-combobox-item-short-heading-text-color, var(--calcite-color-text-3));
   white-space: nowrap;
 }
 
@@ -163,11 +148,21 @@ ul:focus {
   color: var(--calcite-combobox-item-heading-text-color, var(--calcite-color-text-1));
 }
 
-.description {
-  color: var(--calcite-combobox-description-text-color, var(--calcite-color-text-3));
+:host([selected]) {
+  .heading {
+    @apply font-medium;
+  }
 }
 
-.heading,
+.label,
+.label:hover {
+  .description,
+  .short-text {
+    color: var(--calcite-combobox-item-text-color, var(--calcite-color-text-3));
+  }
+}
+
+.title,
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);
