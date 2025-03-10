@@ -18,7 +18,6 @@ export const platformTransforms = {
     "ts/color/css/hexrgba",
     "ts/size/css/letterspacing",
     TransformValueCSSShadow,
-    transforms.nameKebab,
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
     TransformNameRemoveColorMode,
