@@ -1,9 +1,20 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
-import { CSS as INPUT_CSS } from "../input/resources";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { DEBOUNCE } from "../../utils/resources";
+import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 import type { Filter } from "./filter";
 
 describe("calcite-filter", () => {
@@ -122,7 +133,7 @@ describe("calcite-filter", () => {
               .shadowRoot.querySelector<HTMLElement>(buttonSelector)
               .click();
           },
-          `.${INPUT_CSS.clearButton}`,
+          `.${CSS.clearButton}`,
         );
         await page.waitForChanges();
 
@@ -357,5 +368,44 @@ describe("calcite-filter", () => {
 
   describe("translation support", () => {
     t9n("calcite-filter");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-filter"></calcite-tilter>`, {
+        "--calcite-filter-background-color": [
+          {
+            shadowSelector: `calcite-input >>> input`,
+            targetProp: "--calcite-filter-background-color",
+          },
+          {
+            shadowSelector: `calcite-input >>> .${CSS.clearButton}`,
+            targetProp: "--calcite-filter-background-color",
+          },
+        ],
+        "--calcite-filter-border-color": {
+          shadowSelector: `calcite-input >>>.${CSS.input}`,
+          targetProp: "--calcite-filter-border-color",
+        },
+        "--calcite-filter-text-color": [
+          {
+            shadowSelector: `.${CSS.input}`,
+            targetProp: "--calcite-filter-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.searchIcon}`,
+            targetProp: "--calcite-filter-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.clearButton}`,
+            targetProp: "--calcite-filter-text-color",
+          },
+        ],
+        "--calcite-filter-border-color-hover": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-filter-border-color",
+        },
+      });
+    });
   });
 });

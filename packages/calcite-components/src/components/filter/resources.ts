@@ -1,5 +1,7 @@
 export const CSS = {
+  clearButton: "clear-button",
   container: "container",
+  input: "input",
   searchIcon: "search-icon",
 };
 
