@@ -2099,12 +2099,15 @@ describe("calcite-combobox", () => {
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
+      const selectedItem = await page.find("calcite-combobox-item#PineNested");
+      expect(await selectedItem.getProperty("selected")).toBe(true);
+
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).not.toHaveClass(ComboboxItemCSS.selected);
+      expect(await selectedItem.getProperty("selected")).toBe(false);
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.selected);
+      expect(await selectedItem.getProperty("selected")).toBe(true);
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
