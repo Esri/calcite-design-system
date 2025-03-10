@@ -42,63 +42,57 @@
         "description": "deprecated"
       }
     },
-    "default": {
-      "none": {
-        "value": "{size.none}",
-        "type": "spacing"
-      },
-      "px": {
-        "value": "{size.1}",
-        "type": "spacing"
-      },
-      "base": {
-        "value": "{size.2}",
-        "type": "spacing"
-      }
-    }
-  },
-  "spacing": {
-    "default": {
-      "xxs": {
-        "value": "{size.4}",
-        "type": "dimension"
-      },
-      "xs": {
-        "value": "{size.6}",
-        "type": "dimension"
-      },
-      "sm": {
-        "value": "{size.8}",
-        "type": "dimension"
-      },
-      "sm+": {
-        "value": "{size.10}",
-        "type": "dimension"
-      },
-      "md": {
-        "value": "{size.12}",
-        "type": "dimension"
-      },
-      "md+": {
-        "value": "{size.14}",
-        "type": "dimension"
-      },
-      "lg": {
-        "value": "{size.16}",
-        "type": "dimension"
-      },
-      "xl": {
-        "value": "{size.20}",
-        "type": "dimension"
-      },
-      "xxl": {
-        "value": "{size.24}",
-        "type": "dimension"
-      },
-      "xxxl": {
-        "value": "{size.32}",
-        "type": "dimension"
-      }
+    "none": {
+      "value": "{size.none}",
+      "type": "spacing"
+    },
+    "px": {
+      "value": "{size.1}",
+      "type": "spacing"
+    },
+    "base": {
+      "value": "{size.2}",
+      "type": "spacing"
+    },
+    "xxs": {
+      "value": "{size.4}",
+      "type": "dimension"
+    },
+    "xs": {
+      "value": "{size.6}",
+      "type": "dimension"
+    },
+    "sm": {
+      "value": "{size.8}",
+      "type": "dimension"
+    },
+    "sm+": {
+      "value": "{size.10}",
+      "type": "dimension"
+    },
+    "md": {
+      "value": "{size.12}",
+      "type": "dimension"
+    },
+    "md+": {
+      "value": "{size.14}",
+      "type": "dimension"
+    },
+    "lg": {
+      "value": "{size.16}",
+      "type": "dimension"
+    },
+    "xl": {
+      "value": "{size.20}",
+      "type": "dimension"
+    },
+    "xxl": {
+      "value": "{size.24}",
+      "type": "dimension"
+    },
+    "xxxl": {
+      "value": "{size.32}",
+      "type": "dimension"
     }
   }
 }

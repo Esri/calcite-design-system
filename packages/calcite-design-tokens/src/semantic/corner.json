@@ -1,24 +1,20 @@
 {
-  "semantic": {
-    "corner": {
-      "radius": {
-        "default": {
-          "value": "{semantic.corner.radius.sharp}",
-          "type": "borderRadius"
-        },
-        "sharp": {
-          "value": "{size.default.none}",
-          "type": "borderRadius"
-        },
-        "round": {
-          "value": "{size.default.4}",
-          "type": "borderRadius"
-        },
-        "pill": {
-          "value": "{size.relative.100}",
-          "type": "borderRadius"
-        }
-      }
+  "corner-radius": {
+    "default": {
+      "value": "{corner-radius.sharp}",
+      "type": "borderRadius"
+    },
+    "sharp": {
+      "value": "{size.none}",
+      "type": "borderRadius"
+    },
+    "round": {
+      "value": "{size.4}",
+      "type": "borderRadius"
+    },
+    "pill": {
+      "value": "{size.relative.100}",
+      "type": "borderRadius"
     }
   }
 }
