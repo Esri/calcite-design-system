@@ -4,9 +4,11 @@ import { filterLightOrDarkColorTokens } from "./light-or-dark.js";
 import { mediumLowSaturation } from "./utils/index.js";
 
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
+  const themedColorToken = token.type === "color" && (token.path.includes("light") || token.path.includes("dark"));
+
   return (
     filterLightOrDarkColorTokens(token, config) ||
-    (token.isSource && token.type !== "typography" && !mediumLowSaturation.test(token.name))
+    (token.isSource && !(token.type === "typography" || mediumLowSaturation.test(token.name) || themedColorToken))
   );
 };
 
