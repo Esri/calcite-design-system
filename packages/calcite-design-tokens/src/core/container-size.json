@@ -2,47 +2,47 @@
   "container-size": {
     "0": {
       "value": "0px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "154": {
       "value": "154px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "320": {
       "value": "320px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "328": {
       "value": "328px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "476": {
       "value": "476px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "504": {
       "value": "504px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "678": {
       "value": "678px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "768": {
       "value": "768px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "854": {
       "value": "854px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "1152": {
       "value": "1152px",
-      "type": "sizing"
+      "type": "dimension"
     },
     "1440": {
       "value": "1440px",
-      "type": "sizing"
+      "type": "dimension"
     }
   }
 }
