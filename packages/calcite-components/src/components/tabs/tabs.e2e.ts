@@ -410,11 +410,11 @@ describe("calcite-tabs", () => {
     describe("hiding/displaying X", () => {
       it("should hide x when tabs 2 to 4 closed and display x closable tab added", async () => {
         for (let i = 2; i <= 4; ++i) {
-          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
         }
         let tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -424,16 +424,16 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeDefined();
       });
 
       it("should hide x when tabs 1 to 3 closed and display x when closable tab added", async () => {
         for (let i = 1; i <= 3; ++i) {
-          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
         }
         let tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -443,7 +443,7 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeDefined();
       });
     });
   });
