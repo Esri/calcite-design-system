@@ -1,5 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-fab-background-color: Specifies the component's background color.
+ */
+
 :host {
-  @apply flex bg-transparent;
+  @apply flex;
+
+  background-color: var(--calcite-fab-background-color, transparent);
 }
 
 @include disabled();
