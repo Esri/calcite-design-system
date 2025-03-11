@@ -110,26 +110,14 @@
 }
 
 :host([appearance="solid"]) {
-  &:host([kind="neutral"]) .container {
-    &.selectable {
-      &:hover {
-        background-color: var(--calcite-color-foreground-3);
-      }
-      &:active {
-        background-color: var(--calcite-color-border-3);
-      }
-    }
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-selectable-hover-background-color: pink; //var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-active-background-color: purple; //var(--calcite-color-border-3);
   }
 
-  &:host([kind="inverse"]) .container {
-    &.selectable {
-      &:hover {
-        background-color: var(--calcite-color-inverse-hover);
-      }
-      &:active {
-        background-color: var(--calcite-color-inverse-press);
-      }
-    }
+  &:host([kind="inverse"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-inverse-hover);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-inverse-press);
   }
 
   &:host([kind="brand"]) .container {
@@ -414,6 +402,13 @@
 
   &.selectable {
     @apply cursor-pointer;
+
+    &:hover {
+      background-color: var(--calcite-internal-chip-selectable-hover-background-color); //!important;
+    }
+    &:active {
+      background-color: var(--calcite-internal-chip-selectable-active-background-color); //!important;
+    }
   }
   &:not(.non-interactive):focus {
     @apply focus-outset;
