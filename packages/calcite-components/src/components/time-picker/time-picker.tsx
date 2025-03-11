@@ -28,7 +28,6 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import { RequiredTimeArguments, TimeController } from "../../controllers/time/time";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -43,7 +42,7 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export class TimePicker extends LitElement implements RequiredTimeArguments {
+export class TimePicker extends LitElement {
   // #region Static Members
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -141,13 +140,6 @@ export class TimePicker extends LitElement implements RequiredTimeArguments {
   /** Specifies the granularity the `value` must adhere to (in seconds). */
   @property({ reflect: true }) step = 60;
 
-  /**
-   * A TimeController object instance.
-   *
-   * @internal
-   */
-  @property() time: TimeController;
-
   /** The component's value in UTC (always 24-hour format). */
   @property() value: string = null;
 
@@ -184,9 +176,6 @@ export class TimePicker extends LitElement implements RequiredTimeArguments {
   override connectedCallback(): void {
     this.updateLocale();
     this.toggleSecond();
-    if (!this.time) {
-      this.time = new TimeController(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -199,8 +188,7 @@ export class TimePicker extends LitElement implements RequiredTimeArguments {
     }
 
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      // TODO:
-      // this.setValue(this.value);
+      this.setValue(this.value);
     }
 
     if (changes.has("hourFormat") || changes.has("messages")) {
@@ -869,7 +857,7 @@ export class TimePicker extends LitElement implements RequiredTimeArguments {
       this.numberingSystem,
     );
     this.meridiemOrder = getMeridiemOrder(this.messages._lang);
-    // this.setValue(this.sanitizeValue(this.value));
+    this.setValue(this.sanitizeValue(this.value));
   }
 
   // #endregion
