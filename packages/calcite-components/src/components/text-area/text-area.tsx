@@ -155,7 +155,7 @@ export class TextArea
   @property() label: string;
 
   /**
-   * When `true`, prevents input beyond the maximum length, mimicking native `<textarea>` behavior.
+   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
