@@ -21,7 +21,7 @@
         "type": "spacing",
         "description": "deprecated"
       },
-      "sm+": {
+      "sm-plus": {
         "value": "{size.10}",
         "type": "spacing",
         "description": "deprecated"
@@ -31,7 +31,7 @@
         "type": "spacing",
         "description": "deprecated"
       },
-      "md+": {
+      "md-plus": {
         "value": "{size.14}",
         "type": "spacing",
         "description": "deprecated"
