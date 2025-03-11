@@ -35,7 +35,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.7",
+    "@arcgis/lumina-compiler": "^4.32.9",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -96,7 +96,7 @@
     "generate-license-file": "3.7.0",
     "globals": "16.0.0",
     "globby": "14.1.0",
-    "happy-dom": "17.1.8",
+    "happy-dom": "17.1.9",
     "husky": "9.1.7",
     "jest-axe": "9.0.0",
     "lerna": "8.2.0",

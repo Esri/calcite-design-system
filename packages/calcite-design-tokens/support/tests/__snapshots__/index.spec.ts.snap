@@ -368,7 +368,6 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-2: #202020;
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background: #353535;
-  --calcite-color-focus: #009af2;
 }
 "
 `;
@@ -538,7 +537,6 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-foreground-2: #f3f3f3;
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background: #f8f8f8;
-  --calcite-color-focus: #007ac2;
 }
 "
 `;
@@ -870,7 +868,6 @@ export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
 export const calciteColorBackground = {"light":"#f8f8f8","dark":"#353535"};
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)";
-export const calciteColorFocus = {"light":"#007ac2","dark":"#009af2"};
 export const calciteColorForeground1 = {"light":"#ffffff","dark":"#2b2b2b"};
 export const calciteColorForeground2 = {"light":"#f3f3f3","dark":"#202020"};
 export const calciteColorForeground3 = {"light":"#eaeaea","dark":"#151515"};
@@ -1094,7 +1091,6 @@ export const calciteBorderWidthMd : string;
 export const calciteBorderWidthLg : string;
 export const calciteColorBackground : { light: string, dark: string };
 export const calciteColorBackgroundNone : string;
-export const calciteColorFocus : { light: string, dark: string };
 export const calciteColorForeground1 : { light: string, dark: string };
 export const calciteColorForeground2 : { light: string, dark: string };
 export const calciteColorForeground3 : { light: string, dark: string };
@@ -2062,7 +2058,6 @@ $calcite-color-foreground-3: #151515;
 $calcite-color-foreground-2: #202020;
 $calcite-color-foreground-1: #2b2b2b;
 $calcite-color-background: #353535;
-$calcite-color-focus: #009af2;
 "
 `;
 
@@ -2230,6 +2225,5 @@ $calcite-color-foreground-3: #eaeaea;
 $calcite-color-foreground-2: #f3f3f3;
 $calcite-color-foreground-1: #ffffff;
 $calcite-color-background: #f8f8f8;
-$calcite-color-focus: #007ac2;
 "
 `;

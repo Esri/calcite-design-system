@@ -54,27 +54,6 @@
           }
         }
       },
-      "focus": {
-        "type": "color",
-        "value": "{semantic.color.brand.default.default}",
-        "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "element": "",
-            "type": "color",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "state": "focus",
-            "scale": "",
-            "context": "",
-            "mode": ""
-          }
-        }
-      },
       "foreground": {
         "1": {
           "value": {
