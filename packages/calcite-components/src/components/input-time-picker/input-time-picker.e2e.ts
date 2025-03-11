@@ -21,11 +21,18 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, selectText, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import {
+  getFocusedElementProp,
+  isElementFocused,
+  selectText,
+  skipAnimations,
+  waitForAnimationFrame,
+} from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
 import { CSS as PopoverCSS } from "../popover/resources";
+import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
@@ -769,50 +776,64 @@ describe("calcite-input-time-picker", () => {
   describe("focus trapping", () => {
     it("traps focus only when open", async () => {
       const page = await newE2EPage();
+      const nextSibling = "next-sibling";
       await page.setContent(
         html`<calcite-input-time-picker></calcite-input-time-picker>
-          <div id="next-sibling" tabindex="0">next sibling</div>`,
+          <div id="${nextSibling}" tabindex="0">next sibling</div>`,
       );
       await skipAnimations(page);
       const popoverPositionContainer = await page.find(
         `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
+      const toggleButton = await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`);
 
       await page.keyboard.press("Tab");
-      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
+
+      expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
-      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+      await page.keyboard.press("Tab");
+
+      expect(await isElementFocused(page, `#${nextSibling}`)).toBe(true);
 
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
-      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
-      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
-      await page.keyboard.press("ArrowDown");
-      await page.keyboard.press("Tab");
+      expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
+
+      await toggleButton.click();
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
-      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      const timePickerHourInput = await page.find(
+        `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.hour}`,
+      );
+      await timePickerHourInput.click();
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, "calcite-time-picker", { shadowed: true })).toBe(true);
 
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
-      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      expect(await isElementFocused(page, "calcite-time-picker", { shadowed: true })).toBe(true);
 
       await page.keyboard.press("Tab");
-      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      expect(await isElementFocused(page, "calcite-time-picker", { shadowed: true })).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
-      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
-      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
+      expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
       expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
     });
   });
