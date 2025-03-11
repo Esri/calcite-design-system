@@ -53,6 +53,13 @@ export class ComboboxItemGroup extends LitElement {
    */
   @property() scale: Scale = "m";
 
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
+
   // #endregion
 
   // #region Lifecycle

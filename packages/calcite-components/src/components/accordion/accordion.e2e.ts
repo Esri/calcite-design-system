@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
+import { findAll } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-accordion", () => {
@@ -89,15 +90,14 @@ describe("calcite-accordion", () => {
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion icon-position="start" icon-type="plus-minus" selection-mode="single-persist" scale="l">
+    <calcite-accordion icon-position="start" icon-type="plus-minus" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
-    const accordionItems = await page.findAll("calcite-accordion-items");
+    const accordionItems = await findAll(page, "calcite-accordion-item");
 
     for (const item of accordionItems) {
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
-      expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("l");
     }
   });
@@ -142,8 +142,9 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
-    const [item1Content, item2Content, item3Content] = await element.findAll(
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
       `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
 
@@ -166,8 +167,9 @@ describe("calcite-accordion", () => {
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "multiple");
-    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
-    const [item1Content, item2Content, item3Content] = await element.findAll(
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
       `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();
@@ -191,8 +193,9 @@ describe("calcite-accordion", () => {
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "single");
-    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
-    const [item1Content, item2Content, item3Content] = await element.findAll(
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
       `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();
@@ -240,8 +243,9 @@ describe("calcite-accordion", () => {
 
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "single-persist");
-    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
-    const [item1Content, item2Content, item3Content] = await element.findAll(
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
       `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item2.click();
@@ -267,8 +271,9 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "single");
     element.setAttribute("selection-mode", "multiple");
     await page.waitForChanges();
-    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
-    const [item1Content, item2Content, item3Content] = await element.findAll(
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
       `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
     );
     await item1.click();

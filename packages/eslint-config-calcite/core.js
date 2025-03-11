@@ -55,7 +55,6 @@ export default tseslint.config(
         },
       ],
 
-
       "import/no-dynamic-require": [
         "error",
         {

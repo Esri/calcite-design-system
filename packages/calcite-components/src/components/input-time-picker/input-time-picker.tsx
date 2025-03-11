@@ -26,12 +26,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import {
   getLocaleHourFormat,
@@ -65,12 +60,7 @@ declare global {
 
 export class InputTimePicker
   extends LitElement
-  implements
-    FormComponent,
-    InteractiveComponent,
-    LabelableComponent,
-    LoadableComponent,
-    RequiredTimeArguments
+  implements FormComponent, InteractiveComponent, LabelableComponent, RequiredTimeArguments
 {
   // #region Static Members
 
@@ -342,7 +332,6 @@ export class InputTimePicker
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateLocale();
   }
 
@@ -388,10 +377,6 @@ export class InputTimePicker
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -978,7 +963,7 @@ export class InputTimePicker
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
-          initialFocusTrapFocus={false}
+          focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}

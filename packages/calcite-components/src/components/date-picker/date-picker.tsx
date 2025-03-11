@@ -22,12 +22,7 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { isBrowser } from "../../utils/browser";
@@ -44,7 +39,7 @@ declare global {
   }
 }
 
-export class DatePicker extends LitElement implements LoadableComponent {
+export class DatePicker extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -206,7 +201,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
@@ -236,10 +230,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
     if (changes.has("messages") && this.hasUpdated) {
       this.loadLocaleData().catch(console.error);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

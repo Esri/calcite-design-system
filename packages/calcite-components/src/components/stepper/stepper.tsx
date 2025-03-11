@@ -9,6 +9,7 @@ import { NumberingSystem } from "../../utils/locale";
 import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
+import { isHidden } from "../../utils/component";
 import { CSS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
@@ -319,7 +320,7 @@ export class Stepper extends LitElement {
 
     this.multipleViewMode = layout !== "horizontal-single";
     items.forEach((item, index) => {
-      item.hidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+      item.itemHidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
     });
   }
 
@@ -348,7 +349,7 @@ export class Stepper extends LitElement {
   }
 
   private filterItems(): StepperItem["el"][] {
-    return this.items.filter((item) => !item.disabled);
+    return this.items.filter((item) => !item.disabled && !isHidden(item));
   }
 
   private setStepperItemNumberingSystem(): void {
@@ -390,7 +391,8 @@ export class Stepper extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is StepperItem["el"] => el?.tagName === "CALCITE-STEPPER-ITEM",
+      (el): el is StepperItem["el"] =>
+        el?.tagName === "CALCITE-STEPPER-ITEM" && !isHidden(el as StepperItem["el"]),
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");

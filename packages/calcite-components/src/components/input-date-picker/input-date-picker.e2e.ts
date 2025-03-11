@@ -1,21 +1,21 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   accessible,
   defaults,
   disabled,
-  formAssociated,
   floatingUIOwner,
+  focusable,
+  formAssociated,
   hidden,
   labelable,
   openClose,
   renders,
   t9n,
-  focusable,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
@@ -524,7 +524,7 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await calendar.isVisible()).toBe(true);
 
-      await selectDayInMonthByIndex(page, 30);
+      await selectDayInMonthByIndex(page, 28);
       expect(await calendar.isVisible()).toBe(false);
     });
 
@@ -1112,7 +1112,7 @@ describe("calcite-input-date-picker", () => {
     inputDatePicker.setProperty("value", ["2023-02-01", "2023-02-28"]);
     await page.waitForChanges();
 
-    const [startDatePicker, endDatePicker] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+    const [startDatePicker, endDatePicker] = await findAll(page, "calcite-input-date-picker >>> calcite-input-text");
     const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
     expect(await calendar.isVisible()).toBe(false);
 
@@ -1608,6 +1608,37 @@ describe("calcite-input-date-picker", () => {
       expect(await calendar.isVisible()).toBe(true);
     });
 
+    it("should not close date-picker when user navigate using chevrons & min, max are set to adjacent months", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker
+          min="2024-08-10"
+          value="2024-09-15"
+          max="2024-09-14"
+        ></calcite-input-date-picker>`,
+      );
+
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      await input.click();
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "next");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await navigateMonth(page, "previous");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+    });
+
     it("should not close date-picker when user navigate to last valid month in range", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -1708,7 +1739,7 @@ describe("calcite-input-date-picker", () => {
     await skipAnimations(page);
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
-    const [startInput, endInput] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+    const [startInput, endInput] = await findAll(page, "calcite-input-date-picker >>> calcite-input-text");
     const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
 
     expect(await calendar.isVisible()).toBe(false);
@@ -1824,13 +1855,14 @@ describe("calcite-input-date-picker", () => {
 
 async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
   const dayIndex = day - 1;
-  const days = await page.findAll("calcite-input-date-picker >>> calcite-date-picker-day[current-month]");
+  const days = await findAll(page, "calcite-input-date-picker >>> calcite-date-picker-day[current-month]");
   await days[dayIndex].click();
   await page.waitForChanges();
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
-  const [startMonth, endMonth] = await page.findAll(
+  const [startMonth, endMonth] = await findAll(
+    page,
     `calcite-input-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
   );
 
@@ -1855,7 +1887,8 @@ async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start")
 }
 
 async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
-  const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await page.findAll(
+  const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await findAll(
+    page,
     `calcite-input-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header}`,
   );
 
@@ -1865,7 +1898,7 @@ async function navigateMonth(page: E2EPage, direction: "previous" | "next", rang
     prevMonth = await datePickerMonthHeaderStart.find("calcite-action");
     nextMonth = await datePickerMonthHeaderEnd.find("calcite-action");
   } else {
-    [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("calcite-action");
+    [prevMonth, nextMonth] = await findAll(datePickerMonthHeaderStart, "calcite-action");
   }
 
   await (direction === "previous" ? prevMonth.click() : nextMonth.click());

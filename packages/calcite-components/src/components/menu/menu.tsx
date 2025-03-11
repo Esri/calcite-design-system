@@ -8,12 +8,7 @@ import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -27,7 +22,7 @@ declare global {
 
 type Layout = "horizontal" | "vertical";
 
-export class Menu extends LitElement implements LoadableComponent {
+export class Menu extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -86,10 +81,6 @@ export class Menu extends LitElement implements LoadableComponent {
     this.listen("calciteInternalMenuItemKeyEvent", this.calciteInternalNavMenuItemKeyEvent);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -98,10 +89,6 @@ export class Menu extends LitElement implements LoadableComponent {
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
       this.setMenuItemLayout(this.menuItems, this.layout);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

@@ -83,8 +83,8 @@
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
-  border-inline-end-width: theme("borderWidth.0");
-  line-height: var(--calcite-select-line-height, normal);
+  border-inline-end-width: 0;
+  line-height: var(--calcite-internal-select-line-height, normal);
   &:focus {
     @apply focus-inset;
   }

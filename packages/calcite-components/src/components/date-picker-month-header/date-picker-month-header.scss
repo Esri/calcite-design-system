@@ -1,9 +1,5 @@
 :host {
   @apply block;
-  --calcite-select-internal-border-width: 0;
-  --calcite-select-internal-icon-border-inline-end-width: 0;
-  --calcite-internal-select-font-weight: var(--calcite-font-weight-medium);
-  --calcite-select-text-color: var(--calcite-color-text-1);
 }
 
 .header {
@@ -53,9 +49,7 @@
 }
 
 .chevron {
-  @apply text-color-3
-    bg-foreground-1
-    focus-base
+  @apply focus-base
     box-content
     flex
     flex-grow-0
@@ -63,23 +57,20 @@
     items-center
     justify-center
     border-none
-    outline-none
     transition-default 
     w-full 
     h-full;
   --calcite-internal-action-padding-block: 0;
+  --calcite-action-background-color: var(--calcite-date-picker-header-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-date-picker-header-action-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-date-picker-header-action-background-color-press);
+  --calcite-action-text-color: var(--calcite-date-picker-header-action-text-color);
+  --calcite-action-text-color-press: var(--calcite-date-picker-header-action-text-color-press);
+
   &:focus {
     @apply focus-inset;
   }
 
-  &:hover,
-  &:focus {
-    @apply text-color-1 bg-foreground-2 fill-color-1;
-  }
-
-  &:active {
-    @apply bg-foreground-3;
-  }
   &[aria-disabled="true"] {
     @apply pointer-events-none;
   }
@@ -109,10 +100,9 @@
 
 .year,
 .suffix {
-  @apply bg-foreground-1;
   margin-inline: var(--calcite-spacing-xxs);
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-color-text-1);
+  color: var(--calcite-date-picker-year-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-font-size-md);
   line-height: var(--calcite-font-line-height-fixed-lg);
 }
@@ -138,21 +128,29 @@
 }
 
 .month-select {
+  --calcite-select-internal-border-width: 0;
+  --calcite-select-internal-icon-border-inline-end-width: 0;
   --calcite-select-spacing-inline: var(--calcite-spacing-xxs);
+  --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size-md));
+  --calcite-select-text-color: var(--calcite-date-picker-month-select-text-color, var(--calcite-color-text-1));
+  --calcite-select-icon-color: var(--calcite-date-picker-month-select-icon-color);
+  --calcite-select-icon-color-hover: var(--calcite-date-picker-month-select-icon-color-hover);
+
   --calcite-internal-select-spacing-block: var(--calcite-spacing-xxs);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-xxs);
-  --calcite-select-font-size: var(--calcite-font-size-md);
-  --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
+  --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-lg);
+  --calcite-internal-select-font-weight: var(--calcite-font-weight-medium);
 }
 
 :host([scale="s"]) .month-year-container {
   .month-select {
     --calcite-select-spacing-inline: var(--calcite-spacing-base);
+    --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size));
+
     --calcite-internal-select-spacing-block: var(--calcite-spacing-base);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-base);
     --calcite-internal-select-block-size: #{$calcite-size-24};
-    --calcite-select-font-size: var(--calcite-font-size);
-    --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
+    --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .year {
@@ -169,11 +167,12 @@
 :host([scale="l"]) .month-year-container {
   .month-select {
     --calcite-select-spacing-inline: var(--calcite-spacing-sm);
+    --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size-lg));
+
     --calcite-internal-select-spacing-block: var(--calcite-spacing-sm);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
     --calcite-internal-select-block-size: #{$calcite-size-44};
-    --calcite-select-font-size: var(--calcite-font-size-lg);
-    --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
+    --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
   .year {
     inline-size: #{$calcite-size-48};

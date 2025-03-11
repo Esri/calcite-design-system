@@ -1,0 +1,15 @@
+:host {
+  @apply block;
+}
+
+.container {
+  position: relative;
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();
+
+@include disabled();

@@ -13,11 +13,10 @@ import {
   slots,
   themed,
 } from "../../tests/commonTests";
-import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { CSS as TooltipCSS } from "../tooltip/resources";
-import { isElementFocused, skipAnimations } from "../../tests/utils";
+import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
 import type { Action } from "../action/action";
-import { CSS, SLOTS, activeAttr } from "./resources";
+import { activeAttr, CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   describe("renders", () => {
@@ -301,7 +300,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -341,7 +340,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -380,7 +379,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -420,7 +419,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
       const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
@@ -482,7 +481,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -514,7 +513,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -549,7 +548,7 @@ describe("calcite-action-menu", () => {
       await skipAnimations(page);
       await page.waitForChanges();
       const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
+      const actions = await findAll(page, "calcite-action");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 

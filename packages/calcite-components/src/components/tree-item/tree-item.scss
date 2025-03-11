@@ -59,7 +59,7 @@
         z-default;
     // ensure lines don't overlap focus outline
     block-size: 100%;
-    left: var(--calcite-internal-tree-item-line-left-position);
+    inset-inline-start: var(--calcite-internal-tree-item-line-left-position);
     content: "";
     background-color: var(--calcite-color-border-2);
   }

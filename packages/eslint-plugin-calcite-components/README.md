@@ -1,6 +1,6 @@
 # @esri/eslint-plugin-calcite-components
 
-ESLint rules specific to Stencil JS projects.
+ESLint rules specific to `@esri/calcite-components` development.
 
 ## Installation
 
@@ -70,3 +70,7 @@ See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
+
+## Third-party licenses
+
+See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
