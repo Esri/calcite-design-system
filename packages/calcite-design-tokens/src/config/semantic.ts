@@ -6,8 +6,22 @@ import {
 } from "style-dictionary/enums";
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import { outputReferencesFilter } from "style-dictionary/utils";
 import { transformers, filters, headers, formats } from "../build/registry/index.js";
+import { isBreakpoint } from "../build/utils/token-types.js";
+
+const commonExpand = {
+  include: ["color"],
+  typesMap: {
+    light: "color",
+    dark: "color",
+    fontSizes: "fontSize",
+    lineHeights: "lineHeight",
+    breakpoint: "dimension",
+    size: "sizing",
+    space: "spacing",
+    ...sdTypes,
+  },
+};
 
 const config: Config = {
   source: ["src/tokens/semantic/[!$]*.json"],
@@ -50,16 +64,32 @@ const config: Config = {
         {
           destination: "index.scss",
           format: formats.FormatIndex,
+          filter: filters.FilterLightOrDarkColorTokens,
           options: {
             imports: ["semantic", "breakpoints", "mixins"],
           },
         },
+        {
+          destination: "light.scss",
+          format: sdFormats.scssVariables,
+          filter: filters.FilterLightColorTokens,
+        },
+        {
+          destination: "dark.scss",
+          format: sdFormats.scssVariables,
+          filter: filters.FilterDarkColorTokens,
+        },
       ],
+      expand: {
+        ...commonExpand,
+        include: (token) => {
+          return token.type === "color" || isBreakpoint(token);
+        },
+      },
       options: {
         platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
-        outputReferences: outputReferencesFilter,
       },
     },
     css: {
@@ -98,16 +128,32 @@ const config: Config = {
         {
           destination: "index.css",
           format: formats.FormatIndex,
+          filter: filters.FilterLightOrDarkColorTokens,
           options: {
             imports: ["semantic", "classes"],
           },
         },
+        {
+          destination: "light.css",
+          format: sdFormats.cssVariables,
+          filter: filters.FilterLightColorTokens,
+        },
+        {
+          destination: "dark.css",
+          format: sdFormats.cssVariables,
+          filter: filters.FilterDarkColorTokens,
+        },
       ],
+      expand: {
+        ...commonExpand,
+        include: (token) => {
+          return token.type === "color" || isBreakpoint(token);
+        },
+      },
       options: {
         platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
-        outputReferences: outputReferencesFilter,
       },
     },
     es6: {
@@ -115,6 +161,7 @@ const config: Config = {
       transforms: [...transformers.platformTransforms.es6 /*, transformers.TransformValueMergeValues*/],
       buildPath: "dist/es6/",
       prefix: "calcite",
+      expand: commonExpand,
       options: {
         platform: "es6",
         fileExtension: ".js",
@@ -179,6 +226,7 @@ const config: Config = {
       ],
       buildPath: "dist/docs/",
       prefix: "calcite",
+      expand: commonExpand,
       options: {
         platform: "docs",
         fileExtension: ".json",
@@ -207,6 +255,7 @@ const config: Config = {
       transforms: [...transformers.platformTransforms.es6 /*transformers.TransformValueMergeValues*/],
       buildPath: "dist/js/",
       prefix: "calcite",
+      expand: commonExpand,
       options: {
         platform: "js",
         fileExtension: ".js",
@@ -259,19 +308,6 @@ const config: Config = {
     verbosity: logVerbosityLevels.verbose,
     errors: {
       brokenReferences: logBrokenReferenceLevels.throw,
-    },
-  },
-  expand: {
-    include: ["color"],
-    typesMap: {
-      light: "color",
-      dark: "color",
-      fontSizes: "fontSize",
-      sizing: "dimension",
-      size: "dimension",
-      space: "dimension",
-      spacing: "dimension",
-      ...sdTypes,
     },
   },
 };

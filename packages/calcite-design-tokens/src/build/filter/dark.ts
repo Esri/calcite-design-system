@@ -1,8 +1,11 @@
 import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
+import { isThemed } from "../utils/token-types.js";
 
 export const filterDarkColorTokens: Filter["filter"] = (token) =>
-  token.isSource && token.original.type === "color" && token.path[-1] === "dark";
+  token.isSource &&
+  (isThemed(token, { theme: "dark", targetPropName: "filePath" }) ||
+    isThemed(token, { theme: "dark", targetPropName: "path" }));
 
 export const registerFilterDarkColorTokens: RegisterFn = async (sd) =>
   sd.registerFilter({

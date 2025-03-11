@@ -1,7 +1,7 @@
 import { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
-import { filterLightOrDarkColorTokens } from "../../filter/light-or-dark.js";
+import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
 
 let dictionaries: {
   light: Dictionary;
@@ -42,7 +42,7 @@ export const registerValueMergeValues: RegisterFn = async (sd) => {
     name: TransformValueMergeValues,
     type: "value",
     transitive: true,
-    filter: filterLightOrDarkColorTokens,
+    filter: isLightOrDarkColorToken,
     transform: transformValueMergeValues,
   });
 };
