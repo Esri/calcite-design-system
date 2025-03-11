@@ -3,14 +3,12 @@ import { html } from "../../support/formatting";
 export const comboboxItemTokens = {
   calciteComboboxItemTextColor: "",
   calciteComboboxItemTextColorHover: "",
-  calciteComboboxItemTextColorSelected: "",
   calciteComboboxItemBackgroundColorActive: "",
   calciteComboboxItemBackgroundColorHover: "",
-  calciteComboboxItemSelectedIndicatorIconColor: "",
-  calciteComboboxIconColorSelected: "",
-  calciteComboboxItemDescriptionTextColor: "",
-  calciteComboboxItemDescriptionTextColorHover: "",
-  calciteComboboxItemHeadingTextColor: "",
+  calciteComboboxSelectedIconColor: "",
+  calciteComboboxDescriptionTextColor: "",
+  calciteComboboxDescriptionTextColorPress: "",
+  calciteComboboxHeadingTextColor: "",
 };
 
 export const comboboxItem = html` <calcite-combobox-item

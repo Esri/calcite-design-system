@@ -111,18 +111,33 @@ describe("calcite-combobox-item", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-combobox-item-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          selector: "calcite-combobox-item",
-          targetProp: "color",
-        },
-        "--calcite-combobox-item-description-text-color-hover": {
-          shadowSelector: `.${CSS.description}`,
-          selector: "calcite-combobox-item",
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-combobox-item-heading-text-color": {
+        "--calcite-combobox-description-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.shortText}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-combobox-description-text-color-press": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.description } },
+          },
+          {
+            shadowSelector: `.${CSS.shortText}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.shortText } },
+          },
+        ],
+        "--calcite-combobox-heading-text-color": {
           shadowSelector: `.${CSS.heading}`,
           selector: "calcite-combobox-item",
           targetProp: "color",
@@ -141,18 +156,8 @@ describe("calcite-combobox-item", () => {
         selected
       ></calcite-combobox-item>`;
       const comboboxItemTokens: ComponentTestTokens = {
-        "--calcite-combobox-item-text-color-selected": {
-          shadowSelector: ` .${CSS.label} `,
-          selector: "calcite-combobox-item",
-          targetProp: "color",
-        },
-        "--calcite-combobox-item-selected-indicator-icon-color": {
+        "--calcite-combobox-selected-icon-color": {
           shadowSelector: ` .${CSS.icon} `,
-          selector: "calcite-combobox-item",
-          targetProp: "color",
-        },
-        "--calcite-combobox-icon-color-selected": {
-          shadowSelector: ` .${CSS.iconCustom} `,
           selector: "calcite-combobox-item",
           targetProp: "color",
         },
