@@ -986,7 +986,6 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
-            time={this.time}
             value={this.value}
           />
         </calcite-popover>
