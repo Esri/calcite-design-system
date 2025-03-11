@@ -2990,17 +2990,17 @@ describe("calcite-combobox", () => {
           selector: "calcite-combobox",
           targetProp: "height",
         },
-        "--calcite-combobox-background-color": {
+        "--calcite-combobox-input-background-color": {
           shadowSelector: `.${CSS.wrapper}`,
           selector: "calcite-combobox",
           targetProp: "backgroundColor",
         },
-        "--calcite-combobox-border-color": {
+        "--calcite-combobox-input-border-color": {
           shadowSelector: `.${CSS.wrapper}`,
           selector: "calcite-combobox",
           targetProp: "borderColor",
         },
-        "--calcite-combobox-text-color": {
+        "--calcite-combobox-input-text-color": {
           shadowSelector: `.${CSS.wrapper}`,
           selector: "calcite-combobox",
           targetProp: "color",
@@ -3016,7 +3016,7 @@ describe("calcite-combobox", () => {
           targetProp: "color",
           state: "hover",
         },
-        "--calcite-combobox-listbox-background-color": {
+        "--calcite-combobox-background-color": {
           shadowSelector: `.${CSS.listContainer}`,
           selector: "calcite-combobox",
           targetProp: "backgroundColor",
@@ -3064,7 +3064,7 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`;
 
       const comboboxTokens: ComponentTestTokens = {
-        "--calcite-combobox-text-color": {
+        "--calcite-combobox-input-text-color": {
           shadowSelector: `.${CSS.wrapper}`,
           selector: "calcite-combobox",
           targetProp: "color",

@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
- * @prop --calcite-combobox-background-color: Specifies the component's input background color.
- * @prop --calcite-combobox-text-color: Specifies the component's text color.
- * @prop --calcite-combobox-border-color: Specifies the component's border color.
  * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
- * @prop --calcite-combobox-listbox-background-color: Specifies the background color of the component's listbox.
+ * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
+ * @prop --calcite-combobox-input-border-color: Specifies the component's border color.
+ * @prop --calcite-combobox-input-background-color: Specifies the component's input background color.
+ * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-input-text-color: Specifies the component's text color.
  */
 
 :host {
@@ -56,16 +56,13 @@
 }
 
 .wrapper {
-  @apply focus-base
-    flex
-    border
-    border-solid;
+  @apply focus-base flex border border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 
-  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-combobox-text-color, var(--calcite-color-text-1));
-  border-color: var(--calcite-combobox-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
+  border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));
 
   &:hover {
     .icon {
@@ -104,13 +101,7 @@
 }
 
 .grid-input {
-  @apply flex
-    flex-grow
-    flex-wrap
-    items-center
-    relative
-    truncate
-    p-0;
+  @apply flex flex-grow flex-wrap items-center relative truncate p-0;
 
   gap: var(--calcite-combobox-item-spacing-unit-s);
   margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
@@ -122,21 +113,14 @@
 }
 
 .input {
-  @apply appearance-none
-  bg-transparent
-  border-none
-  flex-grow
-  font-inherit
-  text-color-1
-  text-ellipsis
-  overflow-hidden
-  p-0;
+  @apply appearance-none bg-transparent border-none flex-grow font-inherit text-color-1 text-ellipsis overflow-hidden p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
   min-inline-size: 4.8125rem;
+
   &:focus {
     @apply outline-none;
   }
@@ -156,10 +140,7 @@
 }
 
 .input--hidden {
-  @apply pointer-events-none
-  w-0
-  min-w-0
-  opacity-0;
+  @apply pointer-events-none w-0 min-w-0 opacity-0;
 }
 
 .input--icon {
@@ -180,12 +161,7 @@
 }
 
 .label {
-  @apply pointer-events-none
-    max-w-full
-    flex-auto
-    truncate
-    p-0
-    font-normal;
+  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -226,10 +202,9 @@
 }
 
 .list-container {
-  @apply max-h-menu
-    overflow-y-auto;
+  @apply max-h-menu overflow-y-auto;
   inline-size: var(--calcite-dropdown-width, 100%);
-  background-color: var(--calcite-combobox-listbox-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
 }
 
 .list {

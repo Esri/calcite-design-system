@@ -2,12 +2,12 @@ import { html } from "../../support/formatting";
 
 export const comboboxTokens = {
   calciteComboboxInputHeight: "",
-  calciteComboboxBackgroundColor: "",
-  calciteComboboxTextColor: "",
-  calciteComboboxBorderColor: "",
+  calciteComboboxInputBackgroundColor: "",
+  calciteComboboxInputTextColor: "",
+  calciteComboboxInputBorderColor: "",
   calciteComboboxIconColor: "",
   calciteComboboxIconColorHover: "",
-  calciteComboboxListboxBackgroundColor: "",
+  calciteComboboxBackgroundColor: "",
   calciteChipBackgroundColor: "",
   calciteChipTextColor: "",
   calciteChipIconColor: "",
