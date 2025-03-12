@@ -19,13 +19,13 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
-          platform: "scss",
           destination: "dark.scss",
           format: sdFormats.scssVariables,
           filter: filters.FilterSourceTokens,
         },
       ],
       options: {
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
       },

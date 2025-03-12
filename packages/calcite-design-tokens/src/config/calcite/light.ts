@@ -36,13 +36,13 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
-          platform: "css",
           destination: "light.css",
           format: sdFormats.cssVariables,
           filter: filters.FilterSourceTokens,
         },
       ],
       options: {
+        platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
       },
