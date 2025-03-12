@@ -15,7 +15,7 @@
 
 .calcite-input-message-icon {
   @apply transition-default pointer-events-none inline-flex flex-shrink-0;
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-spacing-sm);
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
