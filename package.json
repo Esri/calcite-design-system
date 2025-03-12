@@ -99,7 +99,7 @@
     "happy-dom": "17.1.9",
     "husky": "9.1.7",
     "jest-axe": "9.0.0",
-    "lerna": "8.2.0",
+    "lerna": "8.2.1",
     "lint-staged": "15.4.3",
     "markdownlint-cli": "0.44.0",
     "postcss": "8.5.3",
