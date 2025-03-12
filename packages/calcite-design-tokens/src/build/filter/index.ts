@@ -9,6 +9,7 @@ import { registerFilterSourceTokens } from "./source.js";
 import { registerFilterIncludeTokens } from "./include.js";
 import { registerFilterGlobalTokens } from "./global.js";
 import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.js";
+import { registerFilterGlobalTokensJs } from "./global-js.js";
 
 export async function registerCalciteFilters(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
@@ -16,6 +17,7 @@ export async function registerCalciteFilters(sd: typeof StyleDictionary): Promis
     registerFilterDarkColorTokens(sd),
     registerFilterSemanticTokens(sd),
     registerFilterGlobalTokens(sd),
+    registerFilterGlobalTokensJs(sd),
     registerFilterLightColorTokens(sd),
     registerFilterLightOrDarkColorTokens(sd),
     registerFilterTypographyTokens(sd),
@@ -26,6 +28,7 @@ export async function registerCalciteFilters(sd: typeof StyleDictionary): Promis
 }
 
 export { FilterGlobalTokens } from "./global.js";
+export { FilterGlobalTokensJs } from "./global-js.js";
 export { FilterSemanticTokens } from "./semantic.js";
 export { FilterBreakpointTokens } from "./breakpoints.js";
 export { FilterCoreTokens } from "./core.js";

@@ -172,7 +172,7 @@ const config: Config = {
         {
           destination: "global.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterGlobalTokensJs,
           options: {
             fileHeader: headers.HeaderDeprecate,
           },
@@ -196,7 +196,7 @@ const config: Config = {
         {
           destination: "global.d.ts",
           format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterGlobalTokensJs,
           options: {
             fileHeader: headers.HeaderDeprecate,
           },
