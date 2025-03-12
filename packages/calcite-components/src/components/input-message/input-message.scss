@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
 
 :host {
@@ -18,19 +19,19 @@
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-danger);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-danger));
 }
 
 :host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-warning);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-warning));
 }
 
 :host([status="valid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-success);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-success));
 }
 
 :host([status="idle"]) .calcite-input-message-icon {
-  color: var(--calcite-color-brand);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-brand));
 }
 
 :host([scale="s"]) {

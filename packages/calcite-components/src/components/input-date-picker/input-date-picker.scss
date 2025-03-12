@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
+ * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
+ * @prop --calcite-input-date-picker-background-color: Specifies the component's background color.
+ */
+
 :host {
   @extend %component-spacing;
   @include floating-ui-elem-anim(".menu-container");
@@ -39,17 +49,17 @@
   @apply relative;
 
   .chevron-icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-3));
   }
 
   &:focus-within,
   &:active,
   &:hover {
     .chevron-icon {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
     }
     ~ .input-wrapper .chevron-icon {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
     }
   }
 }
@@ -76,12 +86,13 @@
 }
 
 .divider-container {
-  @apply flex items-stretch border-color-input
+  @apply flex items-stretch
   border
   border-l-0
   border-r-0
   border-solid;
-  background-color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
 }
 
 :host([layout="horizontal"]) .divider-container {
@@ -91,7 +102,7 @@
 .divider {
   @apply inline-block w-px;
   margin-block: var(--calcite-spacing-xxs);
-  background-color: var(--calcite-color-border-2);
+  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-border-2));
 }
 
 :host([layout="vertical"]) .divider-container {
@@ -113,7 +124,7 @@
 }
 
 .menu-container {
-  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
   @include floating-ui-container();
 }
 
@@ -124,15 +135,15 @@
 }
 
 .vertical-chevron-container {
-  @apply flex items-center border border-solid border-color-input border-l-0;
+  @apply flex items-center border border-solid border-l-0;
   padding-inline: var(--calcite-spacing-md);
-  background-color: var(--calcite-color-foreground-1);
-
+  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
   calcite-icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
     }
   }
 }
@@ -157,7 +168,7 @@
   &:hover {
     .vertical-chevron-container {
       calcite-icon {
-        color: var(--calcite-color-text-1);
+        color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
       }
     }
   }
