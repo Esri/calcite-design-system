@@ -1,109 +1,108 @@
-import { FormatFn, FormatFnArguments } from "style-dictionary/types";
-import { fileHeader } from "style-dictionary/utils";
-import { kebabCase } from "lodash-es";
-import { getFormattingCloneWithoutPrefix } from "../utils/formatting-without-prefix.js";
+import prettierSync from "@prettier/sync";
+import { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
+import { convertTokenData, fileHeader, getReferences } from "style-dictionary/utils";
+import { kebabCase } from "change-case";
+import get from "lodash-es/get.js";
 import { RegisterFn } from "../types/interfaces.js";
+import { state } from "../shared/state.js";
+import { FlattenedTransformedToken } from "../types/extensions.js";
 
-function referenceTokenByPlatform(value: string, fileExtension: string, tokenValue?: string): string {
-  switch (fileExtension) {
-    case ".scss":
-    case ".css":
-      return tokenValue ? `var(--${value}, ${tokenValue})` : `var(--${value})`;
+type Stylesheet = "css" | "scss";
 
-    default:
-      return `${value}`;
-  }
+function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
+  // heuristic: typography tokens only have a single reference
+  const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
+  return outputRef ? `var(--${mappedToken.name});` : mappedToken.value;
 }
 
-function lookupTokenValue(reference: string[], args: FormatFnArguments): [string, string] {
-  const { unfilteredTokens } = args.dictionary;
-  const refValue = reference.reduce((acc, key, idx) => {
-    if (idx === reference.length - 1) {
-      if (acc[key].isSource) {
-        // Final returned value
-        return [acc[key].name, acc[key].value];
+function outputComment(comment: string, format: Stylesheet): string {
+  if (!comment) {
+    return "";
+  }
+
+  return format === "scss" ? `// ${comment}` : `/* ${comment} */`;
+}
+
+function getContent(args: FormatFnArguments, format: Stylesheet): string {
+  const { dictionary } = args;
+
+  // we do this to have output match the current test snapshot
+  // we can remove this afterward for consistency and to simplify
+  const extendedTokenReferences = new Map<string, TransformedToken>();
+  const extendedTokens = convertTokenData(
+    dictionary.allTokens.filter((token) => {
+      const hasExtensions = !!token.extensions;
+      if (hasExtensions) {
+        const extensionTokenKey = token.original.extensions["calcite.extends"];
+        const extensionToken = dictionary.tokenMap.get(extensionTokenKey);
+
+        if (!extensionToken) {
+          throw new Error(`Extension token ${extensionTokenKey} not found`);
+        }
+
+        extendedTokenReferences.set(extensionTokenKey, extensionToken);
       }
+      return hasExtensions;
+    }),
+    { output: "map" },
+  );
 
-      // Recursive lookup for token references
-      return parseTokenValueForReferences(acc[key].original.value, args);
-    }
+  dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
+    const preprocessedToken = get(state.originalMergedDictionary, token.path.join("."));
 
-    // Continue to traverse the token object
-    return acc[key];
-  }, unfilteredTokens) as [string, string];
-
-  return refValue;
-}
-
-function parseTokenValueForReferences(tokenOriginalValue: any, args: FormatFnArguments): string {
-  if (typeof tokenOriginalValue === "string") {
-    const regex = /({[\w\d.]+})+/g; // global and case-insensitive
-    let match;
-    let oldMatch;
-    let value = "";
-
-    while ((match = regex.exec(tokenOriginalValue)) !== null) {
-      const val = match[0];
-      const index = match.index;
-      const referencePath = tokenOriginalValue
-        .substring(index, index + val.length)
-        .replace(/[{}]/g, "")
-        .split(".");
-      const [tokenName, tokenValue] = lookupTokenValue(referencePath, args);
-
-      if (index > 0) {
-        value += tokenOriginalValue.substring(oldMatch.index + oldMatch[0].length || 0, index) || "";
+    if (typeof preprocessedToken.value === "string" && preprocessedToken.value.startsWith("{semantic.typography")) {
+      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.value);
+      if (referencedExtensionToken) {
+        extendedTokenReferences.set(token.key, referencedExtensionToken);
       }
-
-      value += referenceTokenByPlatform(tokenName, args.options.fileExtension, tokenValue);
-      oldMatch = match;
     }
-
-    return value;
-  }
-}
-
-function formatTokensGroupByFiletype(
-  fileExtension: string,
-  token: any,
-  value: string[],
-  comment: string | undefined,
-): string {
-  const filteredValue = value.filter((v) => v !== "");
-  switch (fileExtension) {
-    case ".css":
-      return `${comment ? ` /* ${comment} */\n` : ""}.${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
-    case ".scss":
-      return `${comment ? ` /* ${comment} */\n` : ""}@mixin ${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
-
-    default:
-      return `${comment ? ` /* ${comment} */\n` : ""}const ${token.name} {\n\t${filteredValue.join(";\n\t")}\n}`;
-  }
-}
-
-function formatTokensByFiletype(fileExtension: string, args: FormatFnArguments): string {
-  const formattedTokens = args.dictionary.allTokens.map((token) => {
-    const value = Object.entries(token.original.value).map(([prop, lookup]) => {
-      const v = parseTokenValueForReferences(lookup, args);
-      return v ? `${kebabCase(prop)}: ${parseTokenValueForReferences(lookup, args)}` : "";
-    });
-
-    return formatTokensGroupByFiletype(fileExtension, token, value, token.comment);
   });
 
-  return formattedTokens.join("\n\n");
+  const groupToDeclarations = new Map<string, string[]>();
+
+  dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
+    const originalValue = token.original.value;
+    const extendedToken = extendedTokens.get(token.key) || extendedTokenReferences.get(token.key);
+    const include = format === "scss" && extendedToken ? `@include ${extendedToken.name}` : "";
+    const outputRefs = format === "scss" || !!extendedToken;
+    const classGroupStrategy = format === "scss" ? "@mixin " : ".";
+
+    const declarations =
+      typeof originalValue === "string"
+        ? [`${kebabCase(token.path.at(-1))}: ${getValue(originalValue, dictionary, outputRefs)}`]
+        : Object.entries(originalValue).map(([key, value]) => {
+            const outputValue = getValue(value as string, dictionary, outputRefs);
+            return `${kebabCase(key)}: ${outputValue}; ${outputComment(token.comment, format)}`;
+          });
+
+    groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
+  });
+
+  let content = "";
+
+  for (const [key, value] of groupToDeclarations) {
+    content += `${key} {
+      ${value.join(";")}
+    }`;
+  }
+
+  return content;
 }
 
 export const formatTypography: FormatFn = async (args) => {
   const { file, options } = args;
   const { formatting, fileExtension } = options;
-  const header = await fileHeader({
-    file,
-    formatting: getFormattingCloneWithoutPrefix(formatting),
-    options,
-  });
 
-  return `${header}${formatTokensByFiletype(fileExtension, args)}`;
+  if (fileExtension !== ".scss" && fileExtension !== ".css") {
+    throw new Error(`Only .scss and .css file extensions are supported`);
+  }
+
+  const format = fileExtension.replace(".", "") as Stylesheet;
+
+  const header = await fileHeader({ file, formatting, options });
+  return prettierSync.format(`${header}${getContent(args, format)}`, {
+    parser: format,
+  });
 };
 
 export const registerFormatTypography: RegisterFn = async (sd) => {

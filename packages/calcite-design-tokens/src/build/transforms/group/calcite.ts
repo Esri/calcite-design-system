@@ -58,7 +58,7 @@ export const registerTransformCalciteGroup: RegisterFn = async (sd) => {
   const builtinTransforms = sd.hooks.transformGroups["css"].filter(
     (transform) =>
       // we’ll apply these value transforms separately, since order matters and some may not be relevant
-      transform !== "size/rem" && transform !== "shadow/css/shorthand",
+      transform !== "size/rem" && transform !== "shadow/css/shorthand" && transform !== "typography/css/shorthand",
   );
 
   sd.registerTransformGroup({
