@@ -56,9 +56,11 @@ describe("generated tokens", () => {
     it("core should match", () => {
       assertOutput("es6/core.js");
     });
-    it("types should match", () => {
-      assertOutput("es6/core.d.ts");
+    it("global types should match", () => {
       assertOutput("es6/global.d.ts");
+    });
+    it("core types should match", () => {
+      assertOutput("es6/core.d.ts");
     });
   });
 });
