@@ -1,7 +1,9 @@
 import { GenericController, T9nMeta } from "@arcgis/components-controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import {
+  EffectiveHourFormat,
   formatTimePart,
+  getLocaleHourFormat,
   getLocalizedDecimalSeparator,
   getLocalizedTimePartSuffix,
   getMeridiem,
@@ -32,6 +34,7 @@ export type RequiredTimeArguments = {
 type TimeProperties = {
   fractionalSecond: string;
   hour: string;
+  hourFormat: EffectiveHourFormat;
   locale: SupportedLocale;
   localizedDecimalSeparator: string;
   localizedFractionalSecond: string;
@@ -54,6 +57,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
 
   fractionalSecond: string;
   hour: string;
+  hourFormat: EffectiveHourFormat;
   locale: SupportedLocale;
   localizedDecimalSeparator = ".";
   localizedFractionalSecond: string;
@@ -75,7 +79,10 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
   // #region Lifecycle
 
   hostConnected(): void {
-    this.meridiemOrder = getMeridiemOrder(this.component.messages._lang as string);
+    const { hourFormat, messages } = this.component;
+    const locale = messages._lang as SupportedLocale;
+    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
+    this.meridiemOrder = getMeridiemOrder(locale);
   }
 
   // #endregion
@@ -163,10 +170,10 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
-  setValue(value: string, step?: number): void {
-    const { hourFormat, messages, numberingSystem } = this.component;
+  setValue(value: string, step?: number, numberingSystem?: NumberingSystem): void {
     const effectiveStep = step || this.component.step || 60;
-    const locale = messages._lang as string;
+    const locale = this.component.messages._lang as string;
+    const hourFormat = this.hourFormat ?? getLocaleHourFormat(locale);
     if (isValidTime(value)) {
       const newValue = toISOTimeString(value, effectiveStep);
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, effectiveStep);
@@ -183,7 +190,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
       } = localizeTimeStringToParts({
         hour12: hourFormat === "12",
         locale,
-        numberingSystem,
+        numberingSystem: numberingSystem ?? this.component.numberingSystem,
         step: effectiveStep,
         value: newValue,
       });
@@ -228,7 +235,8 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
   ): void {
-    const { hourFormat, messages, numberingSystem, step } = this.component;
+    const { hourFormat } = this;
+    const { messages, numberingSystem, step } = this.component;
     const locale = messages._lang as string;
     const hour12 = hourFormat === "12";
     if (key === "meridiem") {

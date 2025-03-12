@@ -6,7 +6,6 @@ import {
   createEvent,
   h,
   method,
-  state,
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
@@ -27,14 +26,8 @@ import {
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
-import { NumberingSystem, SupportedLocale } from "../../utils/locale";
-import {
-  getLocaleHourFormat,
-  EffectiveHourFormat,
-  HourFormat,
-  TimePart,
-  maxTenthForMinuteAndSecond,
-} from "../../utils/time";
+import { NumberingSystem } from "../../utils/locale";
+import { HourFormat, TimePart, maxTenthForMinuteAndSecond } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
@@ -95,12 +88,6 @@ export class InputTimePicker
   private popoverEl: Popover["el"];
 
   private secondEl: HTMLSpanElement;
-
-  // #endregion
-
-  // #region State Properties
-
-  @state() effectiveHourFormat: EffectiveHourFormat;
 
   // #endregion
 
@@ -264,7 +251,11 @@ export class InputTimePicker
   }
   @property({ reflect: true })
   set value(value: string) {
-    this.time.setValue(value, parseFloat(this.el.getAttribute("step")));
+    this.time.setValue(
+      value,
+      parseFloat(this.el.getAttribute("step")),
+      this.el.getAttribute("numbering-system") as NumberingSystem,
+    );
   }
 
   time = new TimeController(this);
@@ -332,7 +323,7 @@ export class InputTimePicker
   }
 
   async load(): Promise<void> {
-    this.updateLocale();
+    // TODO: update locale in time controller
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -352,7 +343,7 @@ export class InputTimePicker
 
     if (changes.has("hourFormat")) {
       // TODO: relocalize input value
-      this.updateLocale();
+      // TODO: update locale in time controller
     }
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
@@ -363,7 +354,7 @@ export class InputTimePicker
 
     if (changes.has("messages")) {
       // TODO: relocalize input value
-      this.langWatcher();
+      // TODO: update locale in time controller
     }
 
     if (changes.has("numberingSystem")) {
@@ -396,10 +387,6 @@ export class InputTimePicker
   // #endregion
 
   // #region Private Methods
-
-  private async langWatcher(): Promise<void> {
-    this.updateLocale();
-  }
 
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
@@ -473,7 +460,7 @@ export class InputTimePicker
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.time.hour)) {
-        switch (this.hourFormat) {
+        switch (this.time.hourFormat) {
           case "12":
             newHour =
               this.time.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
@@ -516,18 +503,11 @@ export class InputTimePicker
     }
   }
 
-  // TODO: possibly remove this after updating time-picker to change the value directly from the time property this component will pass in.
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
     this.time.setValue(value);
-  }
-
-  private updateLocale(locale: SupportedLocale = this.messages._lang): void {
-    this.effectiveHourFormat =
-      this.hourFormat === "user" ? getLocaleHourFormat(locale) : this.hourFormat;
-    // TODO: update value in response to locale change
   }
 
   private minuteKeyDownHandler(event: KeyboardEvent): void {
@@ -629,7 +609,7 @@ export class InputTimePicker
             case "ArrowRight":
               if (this.step !== 60) {
                 this.setFocus("second");
-              } else if (this.effectiveHourFormat === "12") {
+              } else if (this.time.hourFormat === "12") {
                 this.setFocus("meridiem");
               }
               break;
@@ -643,7 +623,7 @@ export class InputTimePicker
             case "ArrowRight":
               if (decimalPlaces(this.step) > 0) {
                 this.setFocus("fractionalSecond");
-              } else if (this.effectiveHourFormat === "12") {
+              } else if (this.time.hourFormat === "12") {
                 this.setFocus("meridiem");
               }
               break;
@@ -655,7 +635,7 @@ export class InputTimePicker
               this.setFocus("second");
               break;
             case "ArrowRight":
-              if (this.effectiveHourFormat === "12") {
+              if (this.time.hourFormat === "12") {
                 this.setFocus("meridiem");
               }
               break;
@@ -796,20 +776,19 @@ export class InputTimePicker
   // #region Rendering
 
   override render(): JsxNode {
-    const { hourFormat, messages, readOnly } = this;
+    const { messages, readOnly } = this;
     const {
       fractionalSecond,
       hour,
+      hourFormat,
       localizedDecimalSeparator,
       localizedFractionalSecond,
       localizedHour,
       localizedHourSuffix,
-      localizedMeridiem,
       localizedMinute,
       localizedMinuteSuffix,
       localizedSecond,
       localizedSecondSuffix,
-      meridiem,
       meridiemOrder,
       minute,
       second,
@@ -834,27 +813,7 @@ export class InputTimePicker
         >
           <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
-            {showMeridiem && meridiemStart && (
-              <span
-                aria-label={this.intlMeridiem}
-                aria-valuemax="2"
-                aria-valuemin="1"
-                aria-valuenow={(meridiem === "PM" && "2") || "1"}
-                aria-valuetext={meridiem}
-                class={{
-                  [CSS.empty]: !localizedMeridiem,
-                  [CSS.input]: true,
-                  [CSS.meridiem]: true,
-                }}
-                onFocus={this.timePartFocusHandler}
-                onKeyDown={this.meridiemKeyDownHandler}
-                ref={this.setMeridiemEl}
-                role="spinbutton"
-                tabIndex={0}
-              >
-                {localizedMeridiem || emptyPlaceholder}
-              </span>
-            )}
+            {showMeridiem && meridiemStart && this.renderMeridiem()}
             <span
               aria-label={this.intlHour}
               aria-valuemax="23"
@@ -863,6 +822,7 @@ export class InputTimePicker
               aria-valuetext={hour}
               class={{
                 [CSS.empty]: !localizedHour,
+                [CSS.hour]: true,
                 [CSS.input]: true,
               }}
               onFocus={this.timePartFocusHandler}
@@ -873,7 +833,7 @@ export class InputTimePicker
             >
               {localizedHour || emptyPlaceholder}
             </span>
-            <span>{localizedHourSuffix}</span>
+            <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
             <span
               aria-label={this.intlMinute}
               aria-valuemax="12"
@@ -883,6 +843,7 @@ export class InputTimePicker
               class={{
                 [CSS.empty]: !localizedMinute,
                 [CSS.input]: true,
+                [CSS.minute]: true,
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.minuteKeyDownHandler}
@@ -892,7 +853,7 @@ export class InputTimePicker
             >
               {localizedMinute || emptyPlaceholder}
             </span>
-            {showSecond && <span>{localizedMinuteSuffix}</span>}
+            {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
             {showSecond && (
               <span
                 aria-label={this.intlSecond}
@@ -903,6 +864,7 @@ export class InputTimePicker
                 class={{
                   [CSS.empty]: !localizedSecond,
                   [CSS.input]: true,
+                  [CSS.second]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={this.secondKeyDownHandler}
@@ -913,7 +875,9 @@ export class InputTimePicker
                 {localizedSecond || emptyPlaceholder}
               </span>
             )}
-            {showFractionalSecond && <span>{localizedDecimalSeparator}</span>}
+            {showFractionalSecond && (
+              <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
+            )}
             {showFractionalSecond && (
               <span
                 // TODO: add translated message fractionalSecond and others from time-picker
@@ -924,6 +888,7 @@ export class InputTimePicker
                 aria-valuetext={localizedFractionalSecond}
                 class={{
                   [CSS.empty]: !localizedFractionalSecond,
+                  [CSS.fractionalSecond]: true,
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
@@ -935,28 +900,8 @@ export class InputTimePicker
                 {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
               </span>
             )}
-            {localizedSecondSuffix && <span>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && (
-              <span
-                aria-label={this.intlMeridiem}
-                aria-valuemax="2"
-                aria-valuemin="1"
-                aria-valuenow={(meridiem === "PM" && "2") || "1"}
-                aria-valuetext={meridiem}
-                class={{
-                  [CSS.empty]: !localizedMeridiem,
-                  [CSS.input]: true,
-                  [CSS.meridiem]: true,
-                }}
-                onFocus={this.timePartFocusHandler}
-                onKeyDown={this.meridiemKeyDownHandler}
-                ref={this.setMeridiemEl}
-                role="spinbutton"
-                tabIndex={0}
-              >
-                {localizedMeridiem || emptyPlaceholder}
-              </span>
-            )}
+            {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
+            {showMeridiem && !meridiemStart && this.renderMeridiem()}
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -977,7 +922,7 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            hourFormat={this.effectiveHourFormat}
+            hourFormat={this.time.hourFormat}
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
@@ -1000,6 +945,31 @@ export class InputTimePicker
           />
         ) : null}
       </InteractiveContainer>
+    );
+  }
+
+  private renderMeridiem(): JsxNode {
+    const { localizedMeridiem, meridiem } = this.time;
+    return (
+      <span
+        aria-label={this.intlMeridiem}
+        aria-valuemax="2"
+        aria-valuemin="1"
+        aria-valuenow={(meridiem === "PM" && "2") || "1"}
+        aria-valuetext={meridiem}
+        class={{
+          [CSS.empty]: !localizedMeridiem,
+          [CSS.input]: true,
+          [CSS.meridiem]: true,
+        }}
+        onFocus={this.timePartFocusHandler}
+        onKeyDown={this.meridiemKeyDownHandler}
+        ref={this.setMeridiemEl}
+        role="spinbutton"
+        tabIndex={0}
+      >
+        {localizedMeridiem || "--"}
+      </span>
     );
   }
 

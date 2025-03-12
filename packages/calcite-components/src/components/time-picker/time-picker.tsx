@@ -1064,7 +1064,7 @@ export class TimePicker extends LitElement {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "--"}
+              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
             </span>
             <span
               ariaLabel={this.messages.fractionalSecondDown}

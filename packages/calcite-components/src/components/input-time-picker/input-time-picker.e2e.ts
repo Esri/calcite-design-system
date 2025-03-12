@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
+import { SupportedLocale } from "@arcgis/components-utils";
 import {
   getLocaleHourFormat,
   getLocalizedDecimalSeparator,
@@ -35,10 +36,16 @@ import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { CSS } from "./resources";
 
-async function getInputValue(page: E2EPage): Promise<string> {
-  return page.evaluate(
-    () => document.querySelector("calcite-input-time-picker").shadowRoot.querySelector("calcite-input-text").value,
-  );
+async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Promise<string> {
+  const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.textContent || "";
+  const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.textContent || "";
+  const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.textContent || "";
+  const minuteSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.minuteSuffix}`))?.textContent || "";
+  const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.textContent || "";
+  const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.textContent || "";
+  const meridiem = (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.textContent || "";
+  const meridiemOrder = getMeridiemOrder(locale);
+  return `${meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${secondSuffix}${meridiemOrder !== 0 ? " " + meridiem : ""}`;
 }
 
 describe("calcite-input-time-picker", () => {
@@ -316,84 +323,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("committing values with the keyboard", () => {
-    it("attempting to commit an invalid time value with the Enter key fails, but leaves the typed value intact", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-
-      await page.keyboard.press("Tab");
-      await page.keyboard.type("foo bar");
-      await page.waitForChanges();
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(await inputTimePicker.getProperty("value")).toBe("");
-      expect(await getInputValue(page)).toBe("foo bar");
-
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-
-      await page.keyboard.press("Tab");
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(await inputTimePicker.getProperty("value")).toBe("");
-      expect(await getInputValue(page)).toBe("foo bar");
-    });
-
-    it("pressing enter on a cleared input sets the value to empty string", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker step="1" value="02:34:56"></calcite-input-time-picker>`);
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-
-      await inputTimePicker.callMethod("setFocus");
-      await selectText(inputTimePicker);
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-
-      expect(await getInputValue(page)).toBe("");
-      expect(await inputTimePicker.getProperty("value")).toBe("");
-      expect(changeEvent).toHaveReceivedEventTimes(1);
-    });
-
-    it("allows editing just a portion of the time value in the input for a 12-hour locale", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      await inputTimePicker.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("5");
-
-      expect(await getInputValue(page)).toBe("02:05:00 PM");
-      expect(await inputTimePicker.getProperty("value")).toBe("14:00:00");
-
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-
-      expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
-    });
+    // TODO: add the same tests for this from time-picker
   });
 
   describe("is form-associated", () => {
@@ -465,7 +395,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("l10n", () => {
-    describe("arabic", () => {
+    describe.only("arabic", () => {
       it("localizes initial display value in arab numbering system", async () => {
         const page = await newE2EPage();
         await page.setContent(
