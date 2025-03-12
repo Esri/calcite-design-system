@@ -3,14 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ * @prop --calcite-input-message-spacing: Specifies the top margin space above the component.
  * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
 
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
-  --calcite-input-message-spacing-value: theme("spacing.1");
-  margin-block-start: var(--calcite-input-message-spacing-value);
+  --calcite-input-message-spacing: var(--calcite-spacing-xxs);
+  margin-block-start: var(--calcite-input-message-spacing);
 }
 
 .calcite-input-message-icon {

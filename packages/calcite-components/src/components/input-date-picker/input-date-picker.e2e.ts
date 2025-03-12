@@ -13,6 +13,7 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
@@ -1850,6 +1851,22 @@ describe("calcite-input-date-picker", () => {
     await page.waitForChanges();
     expect(await calendar.isVisible()).toBe(false);
     expect(await isElementFocused(page, "#input")).toBe(true);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-input-date-picker range></calcite-input-date-picker>`, {
+        "--calcite-input-date-picker-icon-color": {
+          targetProp: "--calcite-input-date-picker-icon-color",
+        },
+        "--calcite-input-date-picker-border-color": {
+          targetProp: "--calcite-input-date-picker-border-color",
+        },
+        "--calcite-input-date-picker-background-color": {
+          targetProp: "--calcite-input-date-picker-background-color",
+        },
+      });
+    });
   });
 });
 
