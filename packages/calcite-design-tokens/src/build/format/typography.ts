@@ -3,11 +3,9 @@ import { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style
 import { convertTokenData, fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import get from "lodash-es/get.js";
-import { RegisterFn } from "../types/interfaces.js";
+import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { state } from "../shared/state.js";
 import { FlattenedTransformedToken } from "../types/extensions.js";
-
-type Stylesheet = "css" | "scss";
 
 function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
   // heuristic: typography tokens only have a single reference

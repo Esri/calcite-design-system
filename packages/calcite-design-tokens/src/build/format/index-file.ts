@@ -1,7 +1,7 @@
 import prettierSync from "@prettier/sync";
 import { Dictionary, FormatFn, FormatFnArguments, TransformedTokens } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
-import { RegisterFn } from "../types/interfaces.js";
+import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 
 export const registerFormatIndex: RegisterFn = async (sd) => {
@@ -20,7 +20,7 @@ export const formatIndexFile: FormatFn = async (args) => {
 
   const header = await fileHeader({ file });
   const themes = ["light", "dark"] as const;
-  const format = options.fileExtension.replace(".", "") as "css" | "scss";
+  const format = options.fileExtension.replace(".", "") as Stylesheet;
 
   const themedTokens = dictionary.allTokens.reduce(
     (acc: { light: TransformedTokens; dark: TransformedTokens }, token) => {
@@ -65,7 +65,7 @@ function importUrl(fileName: string, fileExtension: string) {
   return `@import ${fileExtension === ".css" ? `url("./${fileBaseName}")` : `"./${fileBaseName}"`};`;
 }
 
-function createVarList(format: "css" | "scss", dictionary: Dictionary, args: FormatFnArguments) {
+function createVarList(format: Stylesheet, dictionary: Dictionary, args: FormatFnArguments) {
   return formattedVariables({
     format,
     dictionary,
