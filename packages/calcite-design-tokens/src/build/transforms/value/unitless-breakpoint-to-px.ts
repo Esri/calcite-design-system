@@ -12,12 +12,8 @@ function isUnitless(token: TransformedToken) {
   return true;
 }
 
-function isSource(token: TransformedToken) {
-  return token.isSource;
-}
-
 function filter(token: TransformedToken) {
-  return isSource(token) && isBreakpoint(token) && isUnitless(token);
+  return isBreakpoint(token) && isUnitless(token);
 }
 
 const transformValueSizeUnitlessToPx: ValueTransform["transform"] = (token, _config, options) => {

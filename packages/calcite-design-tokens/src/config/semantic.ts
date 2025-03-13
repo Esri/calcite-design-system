@@ -7,7 +7,7 @@ import {
 import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../build/registry/index.js";
-import { isBreakpoint } from "../build/utils/token-types.js";
+import { isBreakpointExpand } from "../build/utils/token-types.js";
 import { state } from "../build/shared/state.js";
 
 const commonExpand = {
@@ -84,7 +84,7 @@ const config: Config = {
       expand: {
         ...commonExpand,
         include: (token) => {
-          return token.type === "color" || isBreakpoint(token);
+          return token.type === "color" || isBreakpointExpand(token);
         },
       },
       options: {
@@ -148,7 +148,7 @@ const config: Config = {
       expand: {
         ...commonExpand,
         include: (token) => {
-          return token.type === "color" || isBreakpoint(token);
+          return token.type === "color" || isBreakpointExpand(token);
         },
       },
       options: {

@@ -1,7 +1,7 @@
 import { Config } from "style-dictionary";
 import { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { RegisterFn } from "../../types/interfaces.js";
-import { isBreakpoint } from "../../utils/token-types.js";
+import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.js";
 
 function getBasePxFontSize(config: PlatformConfig) {
   return (config && config.basePxFontSize) || 16;
@@ -9,10 +9,6 @@ function getBasePxFontSize(config: PlatformConfig) {
 
 function isDimension(token: TransformedToken, options: Config) {
   return (options.usesDtcg ? token.$type : token.type) === "dimension";
-}
-
-function isFontSize(token: TransformedToken, options: Config) {
-  return (options.usesDtcg ? token.$type : token.type) === "fontSize";
 }
 
 function isSource(token: TransformedToken) {
@@ -44,7 +40,10 @@ function filter(token: TransformedToken, options: Config) {
     isSource(token) &&
     !isBreakpoint(token) &&
     isNotBorderOrFixed(token) &&
-    (isDimension(token, options) || isFontSize(token, options)) &&
+    isDimension(token, options) &&
+    !isFontRelated(token) &&
+    !isCornerRadius(token) &&
+    !isBreakpointRelated(token) &&
     isPxUnit(token)
   );
 }

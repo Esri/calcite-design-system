@@ -20,7 +20,6 @@ export const platformTransforms = {
     TransformNameIncludePlusMinus,
     TransformAttributePlatformNames,
     TransformAttributeSchema,
-    "ts/size/css/letterspacing",
     "ts/color/css/hexrgba",
     "shadow/css/shorthand",
   ],

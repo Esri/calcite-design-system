@@ -1,21 +1,40 @@
 import { DesignToken, TransformedToken } from "style-dictionary/types";
 
-export function isBreakpoint(token: DesignToken): boolean {
-  return !!token.filePath?.includes("container-size");
+export function isBreakpoint(token: TransformedToken): boolean {
+  const fullPath = token.path.join(".");
+  return fullPath.includes("container-size.width") || fullPath.includes("container-size.height");
 }
 
-export function isTypographyRelated(token: DesignToken): boolean {
+export function isBreakpointRelated(token: TransformedToken): boolean {
+  return token.path.includes("container-size");
+}
+
+export function isBreakpointExpand(token: DesignToken): boolean {
+  return token.filePath.includes("container-size");
+}
+
+export function isCornerRadius(token: DesignToken): boolean {
+  return token.path.join(".").includes("corner.radius");
+}
+
+export function isFontRelated(token: TransformedToken): boolean {
+  const fullPath = token.path.join(".");
+
   return (
-    !!token.path?.includes("typography") ||
-    !!token.path?.includes("fontFamily") ||
-    !!token.path?.includes("fontSize") ||
-    !!token.path?.includes("fontWeight") ||
-    !!token.path?.includes("letterSpacing") ||
-    !!token.path?.includes("textCase") ||
-    !!token.path?.includes("textDecoration") ||
-    !!token.path?.includes("fontStyle") ||
-    !!token.path?.includes("lineHeight")
+    fullPath.includes("font.family") ||
+    fullPath.includes("font.size") ||
+    fullPath.includes("font.style") ||
+    fullPath.includes("font.weight") ||
+    fullPath.includes("font.letter-spacing") ||
+    fullPath.includes("font.paragraph-spacing") ||
+    fullPath.includes("font.line-height") ||
+    fullPath.includes("font.text-case") ||
+    fullPath.includes("font.text-decoration")
   );
+}
+
+export function isTypography(token: TransformedToken): boolean {
+  return token.path.includes("typography");
 }
 
 interface IsThemedOptions {
