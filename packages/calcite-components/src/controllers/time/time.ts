@@ -28,7 +28,6 @@ export type RequiredTimeArguments = {
   numberingSystem: NumberingSystem;
   step: number;
   value: string;
-  valueChangeHandler: () => void;
 };
 
 type TimeProperties = {
@@ -170,13 +169,13 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
-  setValue(value: string, step?: number, numberingSystem?: NumberingSystem): void {
-    const effectiveStep = step || this.component.step || 60;
-    const locale = this.component.messages._lang as string;
-    const hourFormat = this.hourFormat ?? getLocaleHourFormat(locale);
+  setValue(value: string): void {
+    const { messages, numberingSystem, step } = this.component;
+    const locale = messages._lang as string;
+    const hour12 = this.hourFormat === "12";
     if (isValidTime(value)) {
-      const newValue = toISOTimeString(value, effectiveStep);
-      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, effectiveStep);
+      const newValue = toISOTimeString(value, step);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
         localizedHour,
         localizedHourSuffix,
@@ -188,10 +187,10 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({
-        hour12: hourFormat === "12",
+        hour12,
         locale,
-        numberingSystem: numberingSystem ?? this.component.numberingSystem,
-        step: effectiveStep,
+        numberingSystem,
+        step,
         value: newValue,
       });
       this.hour = hour;
@@ -211,6 +210,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         this.meridiem = getMeridiem(this.hour);
       }
       this.value = newValue;
+      this.component.value = newValue;
     } else {
       this.hour = null;
       this.fractionalSecond = null;
@@ -227,8 +227,8 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
       this.minute = null;
       this.second = null;
       this.value = null;
+      this.component.value = null;
     }
-    this.component.requestUpdate();
   }
 
   setValuePart(
@@ -301,8 +301,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
             step,
           })?.localizedMeridiem || null
         : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
-      this.component.requestUpdate("value", previousValue);
-      this.component.valueChangeHandler();
+      this.component.value = newValue;
     }
   }
 

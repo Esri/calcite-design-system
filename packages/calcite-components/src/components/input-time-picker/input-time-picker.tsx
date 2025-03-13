@@ -89,6 +89,8 @@ export class InputTimePicker
 
   private secondEl: HTMLSpanElement;
 
+  time = new TimeController(this);
+
   // #endregion
 
   // #region Public Properties
@@ -246,19 +248,7 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  get value(): string {
-    return this.time.value;
-  }
-  @property({ reflect: true })
-  set value(value: string) {
-    this.time.setValue(
-      value,
-      parseFloat(this.el.getAttribute("step")),
-      this.el.getAttribute("numbering-system") as NumberingSystem,
-    );
-  }
-
-  time = new TimeController(this);
+  @property({ reflect: true }) value: string;
 
   // #endregion
 
@@ -320,6 +310,7 @@ export class InputTimePicker
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+    this.time.setValue(this.value);
   }
 
   async load(): Promise<void> {
@@ -364,6 +355,10 @@ export class InputTimePicker
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.stepWatcher(this.step, changes.get("step"));
     }
+
+    if (changes.has("value")) {
+      this.valueChangeHandler();
+    }
   }
 
   override updated(): void {
@@ -381,7 +376,9 @@ export class InputTimePicker
 
   /** @internal */
   valueChangeHandler(): void {
-    this.calciteInputTimePickerChange.emit();
+    if (this.hasUpdated) {
+      this.calciteInputTimePickerChange.emit();
+    }
   }
 
   // #endregion
