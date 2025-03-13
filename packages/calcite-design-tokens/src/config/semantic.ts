@@ -4,10 +4,10 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import { Config } from "style-dictionary/types";
+import { Config, OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../build/registry/index.js";
-import { isBreakpointExpand } from "../build/utils/token-types.js";
+import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
 import { state } from "../build/shared/state.js";
 
 const commonExpand = {
@@ -22,6 +22,11 @@ const commonExpand = {
     space: "spacing",
     ...sdTypes,
   },
+};
+
+const stylesheetOutputReferences: OutputReferences = (token) => {
+  // output specific token references to match test output
+  return !!(isCornerRadius(token) && token.path.includes("default"));
 };
 
 const config: Config = {
@@ -91,6 +96,7 @@ const config: Config = {
         platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     css: {
@@ -155,6 +161,7 @@ const config: Config = {
         platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     es6: {
