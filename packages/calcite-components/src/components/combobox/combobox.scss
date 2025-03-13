@@ -4,6 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-selected-icon-color: Specifies the color of the `calcite-combobox-item`'s selected indicator icon.
+ * @prop --calcite-combobox-description-text-color: Specifies the text color of the `calcite-combobox-item`'s description & short-heading.
+ * @prop --calcite-combobox-description-text-color-press: Specifies the text color of the `calcite-combobox-item`'s description & short-heading  when hovered.
+ * @prop --calcite-combobox-heading-text-color: Specifies the text color of the `calcite-combobox-item`'s heading.
  */
 
 :host {

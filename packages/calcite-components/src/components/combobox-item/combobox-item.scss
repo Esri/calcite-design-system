@@ -8,7 +8,6 @@
  * @prop --calcite-combobox-item-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-combobox-item-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-combobox-selected-icon-color: Specifies the color of the selected indicator icon.
-  * @prop --calcite-combobox-icon-color-selected: Specifies the color of the component's icon when selected.
  * @prop --calcite-combobox-description-text-color: Specifies the text color of the component's description & short-heading.
  * @prop --calcite-combobox-description-text-color-press: Specifies the text color of the component's description & short-heading  when hovered.
  * @prop --calcite-combobox-heading-text-color: Specifies the text color of the component heading.
@@ -146,17 +145,14 @@ ul:focus {
   color: var(--calcite-combobox-heading-text-color, var(--calcite-color-text-1));
 }
 
+.description,
+.short-text {
+  color: var(--calcite-combobox-description-text-color, var(--calcite-color-text-3));
+}
+
 :host([selected]) {
   .heading {
     @apply font-medium;
-  }
-}
-
-.label,
-.label:hover {
-  .description,
-  .short-text {
-    color: var(--calcite-combobox-description-text-color, var(--calcite-color-text-3));
   }
 }
 
