@@ -372,10 +372,10 @@ describe("calcite-filter", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-filter"></calcite-tilter>`, {
+      themed(html`<calcite-filter value="test value"></calcite-filter>`, {
         "--calcite-filter-background-color": [
           {
-            shadowSelector: `calcite-input >>> input`,
+            shadowSelector: `calcite-input`,
             targetProp: "--calcite-filter-background-color",
           },
           {
@@ -384,12 +384,12 @@ describe("calcite-filter", () => {
           },
         ],
         "--calcite-filter-border-color": {
-          shadowSelector: `calcite-input >>>.${CSS.input}`,
+          shadowSelector: `calcite-input >>> ${CSS.input}`,
           targetProp: "--calcite-filter-border-color",
         },
         "--calcite-filter-text-color": [
           {
-            shadowSelector: `.${CSS.input}`,
+            shadowSelector: `${CSS.input}`,
             targetProp: "--calcite-filter-text-color",
           },
           {
@@ -402,8 +402,8 @@ describe("calcite-filter", () => {
           },
         ],
         "--calcite-filter-border-color-hover": {
-          shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-filter-border-color",
+          shadowSelector: `${CSS.input}`,
+          targetProp: "--calcite-filter-border-color-hover",
         },
       });
     });

@@ -2,7 +2,7 @@ export const CSS = {
   clearButton: "clear-button",
   container: "container",
   input: "input",
-  searchIcon: "search-icon",
+  searchIcon: "icon",
 };
 
 export const ICONS = {
