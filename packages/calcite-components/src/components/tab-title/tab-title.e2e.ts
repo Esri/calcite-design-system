@@ -350,7 +350,7 @@ describe("calcite-tab-title", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-tab-title id="one" closable>Text</calcite-tab-title>`, {
+      themed(html`<calcite-tab-title closable>Text</calcite-tab-title>`, {
         "--calcite-tab-text-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "color",
@@ -369,31 +369,31 @@ describe("calcite-tab-title", () => {
           targetProp: "backgroundColor",
           state: { press: `calcite-tab-title >>> .${CSS.selectedIndicator}` },
         },
-        /*"--calcite-tab-close-icon-color": {
-          shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
+        "--calcite-tab-close-icon-color": {
+          shadowSelector: `.${XButtonCSS.button}`,
           targetProp: "color",
-        },*/
-        /*"--calcite-tab-close-icon-color-press": {
-          shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
+        },
+        "--calcite-tab-close-icon-color-press": {
+          shadowSelector: `.${XButtonCSS.button}`,
           targetProp: "color",
-          state: { press: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}` },
-        },*/
-        /*"--calcite-tab-close-icon-background-color": {
-          shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
+          state: { press: `calcite-tab-title >>> .${XButtonCSS.button}` },
+        },
+        "--calcite-tab-close-icon-background-color-press": {
+          shadowSelector: `.${XButtonCSS.button}`,
           targetProp: "backgroundColor",
-        },*/
-        /*"--calcite-tab-close-icon-background-color-press": {
-          shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}` },
-        },*/
+          state: { press: `calcite-tab-title >>> .${XButtonCSS.button}` },
+        },
       });
 
       describe("selected", () => {
-        themed(html` <calcite-tab-title selected>yeah!</calcite-tab-title>`, {
+        themed(html` <calcite-tab-title selected closable>yeah!</calcite-tab-title>`, {
           "--calcite-tab-text-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "color",
+          },
+          "--calcite-tab-close-icon-background-color": {
+            shadowSelector: `.${XButtonCSS.button}`,
+            targetProp: "backgroundColor",
           },
         });
       });
@@ -401,7 +401,7 @@ describe("calcite-tab-title", () => {
 
     describe.skip("bordered", () => {
       describe("selected", () => {
-        themed(html` <calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
+        themed(html`<calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
           "--calcite-tab-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineColor",
