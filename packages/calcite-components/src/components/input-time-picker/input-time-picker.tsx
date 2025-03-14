@@ -596,6 +596,12 @@ export class InputTimePicker
         case this.hourEl:
           if (key === "ArrowRight") {
             this.setFocus("minute");
+          } else if (
+            key === "ArrowLeft" &&
+            this.time.hourFormat === "12" &&
+            this.time.meridiemOrder === 0
+          ) {
+            this.setFocus("meridiem");
           }
           break;
         case this.minuteEl:
@@ -639,14 +645,14 @@ export class InputTimePicker
           }
           break;
         case this.meridiemEl:
-          switch (key) {
-            case "ArrowLeft":
-              if (this.step !== 60) {
-                this.setFocus("second");
-              } else {
-                this.setFocus("minute");
-              }
-              break;
+          if (key === "ArrowLeft" && this.time.meridiemOrder !== 0) {
+            if (this.step !== 60) {
+              this.setFocus("second");
+            } else {
+              this.setFocus("minute");
+            }
+          } else if (key === "ArrowRight" && this.time.meridiemOrder === 0) {
+            this.setFocus("hour");
           }
           break;
       }
