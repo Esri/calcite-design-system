@@ -216,9 +216,8 @@ describe("calcite-text-area", () => {
   });
 
   it("does not throw when removed early in the cycle (#11514)", async () => {
-    const page = await newProgrammaticE2EPage();
-
     async function runTest(): Promise<void> {
+      const page = await newProgrammaticE2EPage();
       await page.evaluate(async () => {
         await new Promise<void>((resolve) => {
           const textArea = document.createElement("calcite-text-area");
