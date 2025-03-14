@@ -13,8 +13,8 @@
  * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
  * @prop --calcite-tab-close-icon-color: Specifies the color of the close icon.
  * @prop --calcite-tab-close-icon-color-press: Specifies the color of the close icon when interacted with.
- * @prop --calcite-tab-close-background-color: Specifies the background color of the close icon.
- * @prop --calcite-tab-close-background-color-press: Specifies the background color of the close icon when interacted with.
+ * @prop --calcite-tab-close-icon-background-color: Specifies the background color of the close icon.
+ * @prop --calcite-tab-close-icon-background-color-press: Specifies the background color of the close icon when interacted with.
  */
 
 :host {
@@ -188,7 +188,7 @@
   margin-inline-end: var(--calcite-spacing-px);
   block-size: calc(100% - var(--calcite-spacing-xxs));
   color: var(--calcite-tab-close-icon-color, var(--calcite-color-text-3));
-  background-color: var(--calcite-tab-close-background-color, var(--calcite-color-transparent));
+  background-color: var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
 
   &:focus {
     @apply focus-normal;
@@ -198,7 +198,7 @@
   &:hover,
   &:active {
     color: var(--calcite-tab-close-icon-color-press, var(--calcite-color-text-1));
-    background-color: var(--calcite-tab-close-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 
@@ -221,7 +221,7 @@
     &:focus,
     &:hover,
     &:active {
-      box-shadow: 0 2px 0 0 var(--calcite-tab-close-background-color-press, var(--calcite-color-foreground-3));
+      box-shadow: 0 2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
     }
   }
 
@@ -235,12 +235,12 @@
     }
 
     .x-button {
-      box-shadow: 0 -2px 0 0 var(--calcite-tab-close-background-color, var(--calcite-color-transparent));
+      box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
 
       &:focus,
       &:hover,
       &:active {
-        box-shadow: 0 -2px 0 0 var(--calcite-tab-close-background-color-press, var(--calcite-color-foreground-3));
+        box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
       }
 
       calcite-icon {

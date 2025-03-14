@@ -378,11 +378,11 @@ describe("calcite-tab-title", () => {
           targetProp: "color",
           state: { press: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}` },
         },*/
-        /*"--calcite-tab-close-background-color": {
+        /*"--calcite-tab-close-icon-background-color": {
           shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
           targetProp: "backgroundColor",
         },*/
-        /*"--calcite-tab-close-background-color-press": {
+        /*"--calcite-tab-close-icon-background-color-press": {
           shadowSelector: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`,
           targetProp: "backgroundColor",
           state: { press: `calcite-tab-title[id='one'] >>> .${XButtonCSS.button}` },
