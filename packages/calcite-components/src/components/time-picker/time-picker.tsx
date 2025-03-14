@@ -842,7 +842,13 @@ export class TimePicker extends LitElement {
           step,
           value: this.value,
         })?.localizedMeridiem || null
-      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      : localizeTimePart({
+          hour12,
+          value: this.meridiem,
+          part: "meridiem",
+          locale,
+          numberingSystem,
+        });
     if (emit) {
       this.calciteTimePickerChange.emit();
     }

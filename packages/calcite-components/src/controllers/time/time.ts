@@ -242,7 +242,13 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     if (key === "meridiem") {
       const oldMeridiem = this.meridiem;
       this.meridiem = value as Meridiem;
-      this.localizedMeridiem = localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      this.localizedMeridiem = localizeTimePart({
+        hour12,
+        locale,
+        numberingSystem,
+        part: "meridiem",
+        value: this.meridiem,
+      });
       if (isValidNumber(this.hour)) {
         const hourAsNumber = parseInt(this.hour);
         switch (value) {
@@ -314,7 +320,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
               value: this.value,
               step,
             })?.localizedMeridiem || null
-          : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+          : localizeTimePart({ hour12, value: this.meridiem, part: "meridiem", locale, numberingSystem });
       }
       this.component.value = newValue;
     }
