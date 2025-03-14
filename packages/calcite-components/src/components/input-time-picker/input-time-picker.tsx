@@ -666,7 +666,7 @@ export class InputTimePicker
         break;
       case "Backspace":
       case "Delete":
-        this.time.setValuePart("meridiem", null);
+        this.time.setValuePart("meridiem");
         break;
       case "ArrowUp":
       case "ArrowDown":
