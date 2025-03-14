@@ -399,7 +399,7 @@ describe("calcite-tab-title", () => {
       });
     });
 
-    describe.skip("bordered", () => {
+    describe("bordered", () => {
       describe("selected", () => {
         themed(html`<calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
           "--calcite-tab-border-color": {

@@ -268,22 +268,17 @@
   }
 
   &:host([selected]) {
-    .container {
-      border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
-
-      &::after {
-        @apply absolute
+    &::after {
+      @apply absolute
           block
           w-full
           h-0.5
           transition-default;
-        inset-block-end: -1px;
-        inset-inline-start: 0;
-        inset-inline-end: 0;
-        inline-size: 100%;
-        background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
-        content: "";
-      }
+      inset-block-end: -1px;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      inline-size: 100%;
+      content: "";
     }
 
     &.container--bottom::after {
@@ -353,6 +348,12 @@
 }
 
 :host([selected][bordered]) .container {
+  border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+
+  &::after {
+    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+  }
+
   &:hover,
   &:active {
     background: transparent;
