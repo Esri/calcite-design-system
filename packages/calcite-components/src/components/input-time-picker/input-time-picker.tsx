@@ -591,7 +591,8 @@ export class InputTimePicker
       this.open = false;
       event.preventDefault();
     } else {
-      // TODO: implement meridiem-order-sensitive arrow key navigation
+      const showFractionalSecond = decimalPlaces(this.step) > 0;
+      const showSecond = this.step < 60;
       switch (this.activeEl) {
         case this.hourEl:
           if (key === "ArrowRight") {
@@ -638,7 +639,7 @@ export class InputTimePicker
               this.setFocus("second");
               break;
             case "ArrowRight":
-              if (this.time.hourFormat === "12") {
+              if (this.time.hourFormat === "12" && this.time.meridiemOrder !== 0) {
                 this.setFocus("meridiem");
               }
               break;
@@ -646,7 +647,9 @@ export class InputTimePicker
           break;
         case this.meridiemEl:
           if (key === "ArrowLeft" && this.time.meridiemOrder !== 0) {
-            if (this.step !== 60) {
+            if (showFractionalSecond) {
+              this.setFocus("fractionalSecond");
+            } else if (showSecond) {
               this.setFocus("second");
             } else {
               this.setFocus("minute");
