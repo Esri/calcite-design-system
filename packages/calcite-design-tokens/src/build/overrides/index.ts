@@ -12,12 +12,36 @@ export function applyOverrides(sd: typeof StyleDictionary): void {
   applyTokenStudioOverrides(sd);
 }
 
+/**
+ * This function helps override the behavior of built-in transforms that will help the output match tests.
+ *
+ * @param sds
+ */
+export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
+  sds.forEach((sd) => {
+    overrideTransform("shadow/css/shorthand", sd, (ogTransform) => ({
+      transform: (token, config, options) => {
+        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const shouldSkip = !isStylesheet;
+
+        if (shouldSkip) {
+          return token.value;
+        }
+
+        return ogTransform.transform(token, config, options);
+      },
+    }));
+  });
+}
+
 function applyTokenStudioOverrides(sd: typeof StyleDictionary): void {
   overrideTokenStudioPreprocessors(sd);
   overrideTokenStudioTransforms(sd);
 }
 
 function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
+  // we override to better match test snapshot
+  // this can be removed once we no longer need to preserve the same output
   sd.registerPreprocessor({
     name: "tokens-studio",
     preprocessor: (dictionary) => {
@@ -32,6 +56,15 @@ function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
 }
 
 function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
+  // we override to better match test snapshot
+  // this can be removed once we no longer need to preserve the same output
+  overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
+    filter: (token, options) => {
+      const shouldSkip = token.isSource && token.type === "color" && token.value !== "string";
+      return !shouldSkip && (!ogTransform.filter || ogTransform.filter(token, options));
+    },
+  }));
+
   // we override to better match test snapshot
   // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/size/px", sd, (ogTransform) => ({
@@ -60,7 +93,7 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
 
 function overrideTransform(
   name: string,
-  sd: typeof StyleDictionary,
+  sd: typeof StyleDictionary | StyleDictionary,
   getOverride: (
     transform: Omit<Transform, "name">,
   ) => Partial<Omit<Parameters<StyleDictionary["registerTransform"]>[0], "name" | "type">>,
