@@ -2,7 +2,7 @@ import { Filter, ValueTransform } from "style-dictionary/types";
 import { ArrayValues } from "type-fest";
 import { RegisterFn } from "../../types/interfaces.js";
 
-const stringValueTokenTypes = ["fontWeight", "opacity", "typography", "z-index"] as const;
+const stringValueTokenTypes = ["fontWeight", "letterSpacing", "lineHeight", "opacity", "z-index"] as const;
 const filterTypes: Filter["filter"] = (token) =>
   stringValueTokenTypes.includes(token.type as ArrayValues<typeof stringValueTokenTypes>);
 
