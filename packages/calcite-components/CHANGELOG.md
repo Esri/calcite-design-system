@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.25...@esri/calcite-components@3.1.0-next.26) (2025-03-15)
+
+### Bug Fixes
+
+- **text-area:** fix error caused by internal measuring on disconnect ([#11751](https://github.com/Esri/calcite-design-system/issues/11751)) ([2e59646](https://github.com/Esri/calcite-design-system/commit/2e5964608caa896d03efd5f0165d7c1beeaa9140))
+
 ## [3.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.24...@esri/calcite-components@3.1.0-next.25) (2025-03-12)
 
 ### Features
