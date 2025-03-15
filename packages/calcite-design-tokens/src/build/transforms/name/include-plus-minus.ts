@@ -4,7 +4,7 @@ import { capitalCase, kebabCase } from "change-case";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const regex = {
-  plusMinus: RegExp("(^[+-])?[0-9A-z\\-]+([+-]$)?", ""),
+  plusMinus: RegExp("(^[+-])?[0-9A-Za-z\\-]+([+-]$)?", ""),
   camelCase: RegExp("([a-z])([A-Z])", ""),
   kebabCase: RegExp("([a-z])(-)([a-z])", ""),
   scss: /(scss)/,
@@ -29,9 +29,7 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
       if (isCamelCased) {
         text = capitalCase(text);
         formattedText = capitalCase(formattedText);
-        if (!findSymbol[1]) {
-          plusMinus = capitalCase(plusMinus);
-        }
+        plusMinus = capitalCase(plusMinus);
       } else {
         formattedText = findSymbol[1] ? `-${formattedText}` : `${formattedText}-`;
         text = kebabCase(text);
