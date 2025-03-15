@@ -14,7 +14,7 @@
     "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
+    "build": "vite build",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
