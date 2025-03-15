@@ -77,7 +77,7 @@
     "@vitest/eslint-plugin": "1.1.36",
     "@whitespace/storybook-addon-html": "6.1.1",
     "autoprefixer": "10.4.21",
-    "axe-core": "4.10.2",
+    "axe-core": "4.10.3",
     "change-case": "5.4.4",
     "cheerio": "1.0.0",
     "chokidar": "4.0.3",
