@@ -4,33 +4,35 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ * @prop --calcite-input-message-spacing: Specifies the top margin space above the component.
+ * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
 
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
-  --calcite-input-message-spacing-value: theme("spacing.1");
-  margin-block-start: var(--calcite-input-message-spacing-value);
+  --calcite-input-message-spacing: var(--calcite-spacing-xxs);
+  margin-block-start: var(--calcite-input-message-spacing);
 }
 
 .calcite-input-message-icon {
   @apply transition-default pointer-events-none inline-flex flex-shrink-0;
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-spacing-sm);
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-danger);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-danger));
 }
 
 :host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-warning);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-warning));
 }
 
 :host([status="valid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-success);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-success));
 }
 
 :host([status="idle"]) .calcite-input-message-icon {
-  color: var(--calcite-color-brand);
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-brand));
 }
 
 :host([scale="s"]) {
