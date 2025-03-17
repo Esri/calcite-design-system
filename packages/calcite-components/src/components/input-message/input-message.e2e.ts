@@ -1,8 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
@@ -139,19 +138,6 @@ describe("calcite-input-message", () => {
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
           requestedIcon = await iconEl.getAttribute("icon");
           expect(requestedIcon).toEqual("view-hide");
-        });
-      });
-
-      describe("theme", () => {
-        describe("default", () => {
-          themed(html`<calcite-input-message>Message</calcite-input-message>`, {
-            "--calcite-input-message-icon-color": {
-              targetProp: "--calcite-input-message-icon-color",
-            },
-            "--calcite-input-message-spacing": {
-              targetProp: "--calcite-input-message-spacing",
-            },
-          });
         });
       });
     });

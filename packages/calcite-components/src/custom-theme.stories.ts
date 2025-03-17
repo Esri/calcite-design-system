@@ -30,7 +30,6 @@ import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
-import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
 import { inputDatePicker, inputDatePickerTokens } from "./custom-theme/input-date-picker";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
@@ -160,7 +159,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${datePickerRange}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${inputDatePicker} ${inputMessage}</div>
+      <div class="demo-column">${inputDatePicker}</div>
     </div>
   </div>`;
 
@@ -191,7 +190,6 @@ const componentTokens = {
   ...graphTokens,
   ...inputDatePickerTokens,
   ...inputTokens,
-  ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
   ...listTokens,
