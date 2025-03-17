@@ -61,7 +61,7 @@ describe("calcite-combobox-item", () => {
       ></calcite-combobox-item>`;
 
       const comboboxItemTokens: ComponentTestTokens = {
-        "--calcite-combobox-item-text-color": [
+        "--calcite-combobox-text-color": [
           {
             shadowSelector: ` .${CSS.label} `,
             selector: "calcite-combobox-item",
@@ -73,7 +73,7 @@ describe("calcite-combobox-item", () => {
             targetProp: "color",
           },
         ],
-        "--calcite-combobox-item-text-color-hover": [
+        "--calcite-combobox-text-color-hover": [
           {
             shadowSelector: ` .${CSS.label} `,
             selector: "calcite-combobox-item",

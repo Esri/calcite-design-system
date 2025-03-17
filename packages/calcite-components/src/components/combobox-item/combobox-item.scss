@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-item-text-color: Specifies the text color of the component.
- * @prop --calcite-combobox-item-text-color-hover: Specifies the text color of the component when hovered.
+ * @prop --calcite-combobox-text-color: Specifies the text color of the component.
+ * @prop --calcite-combobox-text-color-hover: Specifies the text color of the component when hovered.
  * @prop --calcite-combobox-item-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-combobox-item-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-combobox-selected-icon-color: Specifies the color of the selected indicator icon.
  * @prop --calcite-combobox-description-text-color: Specifies the text color of the component's description & short-heading.
- * @prop --calcite-combobox-description-text-color-press: Specifies the text color of the component's description & short-heading  when hovered.
+ * @prop --calcite-combobox-description-text-color-press: Specifies the text color of the component's description & short-heading when hovered.
  * @prop --calcite-combobox-heading-text-color: Specifies the text color of the component heading.
  */
 
@@ -79,7 +79,7 @@ ul:focus {
   padding-inline-end: var(--calcite-combobox-item-spacing-unit-l);
   padding-inline-start: var(--calcite-combobox-item-indent-value);
 
-  color: var(--calcite-combobox-item-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
   transition-duration: var(--calcite-animation-timing);
 }
 
@@ -93,7 +93,7 @@ ul:focus {
 
 .label:hover {
   background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-foreground-2));
-  color: var(--calcite-combobox-item-text-color-hover, var(--calcite-color-text-1));
+  color: var(--calcite-combobox-text-color-hover, var(--calcite-color-text-1));
 }
 
 .label:active {
@@ -102,7 +102,7 @@ ul:focus {
 
 :host([selected]) .label,
 .label:active {
-  color: var(--calcite-combobox-item-text-color-hover, var(--calcite-color-text-1));
+  color: var(--calcite-combobox-text-color-hover, var(--calcite-color-text-1));
 
   .description,
   .short-text {
@@ -156,7 +156,7 @@ ul:focus {
   }
 }
 
-.heading,
+.title,
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);

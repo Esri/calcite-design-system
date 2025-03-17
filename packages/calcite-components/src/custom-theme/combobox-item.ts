@@ -1,8 +1,8 @@
 import { html } from "../../support/formatting";
 
 export const comboboxItemTokens = {
-  calciteComboboxItemTextColor: "",
-  calciteComboboxItemTextColorHover: "",
+  calciteComboboxTextColor: "",
+  calciteComboboxTextColorHover: "",
   calciteComboboxItemBackgroundColorActive: "",
   calciteComboboxItemBackgroundColorHover: "",
   calciteComboboxSelectedIconColor: "",
