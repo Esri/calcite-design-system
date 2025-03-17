@@ -42,7 +42,6 @@ input[type="text"] {
     border-none
     bg-transparent
     py-1;
-
   padding-inline-end: theme("spacing.1");
   padding-inline-start: theme("spacing.6");
   transition:
@@ -61,7 +60,6 @@ calcite-input {
   @apply text-color-2
     absolute
     flex;
-
   inset-inline-start: 0;
   transition:
     inset-inline-start var(--calcite-animation-timing),
@@ -71,7 +69,6 @@ calcite-input {
 
 input[type="text"]:focus {
   @apply border-color-brand outline-none;
-
   padding-inline: theme("padding.1");
   & ~ .search-icon {
     inset-inline-start: calc(theme("spacing.4") * -1);
@@ -84,7 +81,8 @@ input[type="text"]:focus {
     flex
     cursor-pointer
     items-center
-
+    border-0
+    bg-transparent;
   &:hover,
   &:focus {
     @apply text-color-1;

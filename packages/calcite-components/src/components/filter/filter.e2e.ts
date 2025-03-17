@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
-import { Filter } from "./filter";
+import type { Filter } from "./filter";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
