@@ -63,7 +63,10 @@
   }
 }
 
-.meridiem {
+.meridiem--start {
+  margin-inline-end: var(--calcite-spacing-xxs);
+}
+.meridiem--end {
   margin-inline-start: var(--calcite-spacing-xxs);
 }
 

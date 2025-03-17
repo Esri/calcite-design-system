@@ -819,7 +819,7 @@ export class InputTimePicker
         >
           <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
-            {showMeridiem && meridiemStart && this.renderMeridiem()}
+            {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
               aria-label={this.intlHour}
               aria-valuemax="23"
@@ -907,7 +907,7 @@ export class InputTimePicker
               </span>
             )}
             {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem()}
+            {showMeridiem && !meridiemStart && this.renderMeridiem("end")}
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -954,7 +954,7 @@ export class InputTimePicker
     );
   }
 
-  private renderMeridiem(): JsxNode {
+  private renderMeridiem(position: "start" | "end"): JsxNode {
     const { localizedMeridiem, meridiem } = this.time;
     return (
       <span
@@ -966,7 +966,8 @@ export class InputTimePicker
         class={{
           [CSS.empty]: !localizedMeridiem,
           [CSS.input]: true,
-          [CSS.meridiem]: true,
+          [CSS.meridiemStart]: position === "start",
+          [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={this.meridiemKeyDownHandler}
