@@ -48,7 +48,6 @@ type TimeProperties = {
   meridiemOrder: number;
   minute: string;
   second: string;
-  value: string;
 };
 
 export class TimeController extends GenericController<TimeProperties, RequiredTimeArguments> implements TimeProperties {
@@ -71,7 +70,6 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
   meridiemOrder: number;
   minute: string;
   second: string;
-  value: string;
 
   // #endregion
 
@@ -209,7 +207,6 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
       }
-      this.value = newValue;
       this.component.value = newValue;
     } else {
       this.hour = null;
@@ -226,7 +223,6 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
       this.meridiem = null;
       this.minute = null;
       this.second = null;
-      this.value = null;
       this.component.value = null;
     }
   }
@@ -239,6 +235,7 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     const { messages, numberingSystem, step } = this.component;
     const locale = messages._lang as string;
     const hour12 = hourFormat === "12";
+    const previousValue = this.component.value;
     if (key === "meridiem") {
       const oldMeridiem = this.meridiem;
       this.meridiem = value as Meridiem;
@@ -261,6 +258,9 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
             if (hourAsNumber < 12) {
               this.hour = formatTimePart(hourAsNumber + 12);
             }
+            break;
+          default:
+            this.component.value = null;
             break;
         }
         this.localizedHour = localizeTimePart({
@@ -308,21 +308,19 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     }
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
-    const previousValue = this.value;
     if (previousValue !== newValue) {
-      this.value = newValue;
+      this.component.value = newValue;
       if (key === "hour" && this.meridiem) {
-        this.localizedMeridiem = this.value
+        this.localizedMeridiem = newValue
           ? localizeTimeStringToParts({
               hour12,
               locale,
               numberingSystem,
-              value: this.value,
+              value: newValue,
               step,
             })?.localizedMeridiem || null
           : localizeTimePart({ hour12, value: this.meridiem, part: "meridiem", locale, numberingSystem });
       }
-      this.component.value = newValue;
     }
   }
 
