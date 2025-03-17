@@ -1,14 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-filter-background-color: Specifies the component's background color.
- * @prop --calcite-filter-border-color: Specifies the component's border color.
- * @prop --calcite-filter-text-color: Specifies the component's text color.
- * @prop --calcite-filter-text-color-hover: Specifies the component's text color when hovered.
- */
-
 :host {
   @extend %component-host;
   @apply flex w-full;
@@ -46,14 +35,14 @@ label {
 
 input[type="text"] {
   @apply font-inherit
+    text-color-1
     text-n2h
     mb-1
     w-full
     border-none
+    bg-transparent
     py-1;
 
-  background-color: var(--calcite-filter-background-color, transparent);
-  color: var(--calcite-filter-text-color, var(--calcite-color-text-1));
   padding-inline-end: theme("spacing.1");
   padding-inline-start: theme("spacing.6");
   transition:
@@ -69,10 +58,10 @@ calcite-input {
 }
 
 .search-icon {
-  @apply absolute
+  @apply text-color-2
+    absolute
     flex;
 
-  color: var(--calcite-filter-text-color, var(--calcite-color-text-2));
   inset-inline-start: 0;
   transition:
     inset-inline-start var(--calcite-animation-timing),
@@ -81,9 +70,8 @@ calcite-input {
 }
 
 input[type="text"]:focus {
-  @apply outline-none;
+  @apply border-color-brand outline-none;
 
-  border-color: var(--calcite-filter-border-color, var(--calcite-color-brand));
   padding-inline: theme("padding.1");
   & ~ .search-icon {
     inset-inline-start: calc(theme("spacing.4") * -1);
@@ -92,17 +80,15 @@ input[type="text"]:focus {
 }
 
 .clear-button {
-  @apply flex
+  @apply text-color-2
+    flex
     cursor-pointer
     items-center
-    border-0;
 
-  background-color: var(--calcite-filter-background-color, transparent);
   &:hover,
   &:focus {
-    color: var(--calcite-filter-text-color-hover, var(--calcite-color-text-1));
+    @apply text-color-1;
   }
-  color: var(--calcite-filter-text-color, var(--calcite-color-text-2));
 }
 
 @include base-component();

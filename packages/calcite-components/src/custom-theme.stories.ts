@@ -25,7 +25,6 @@ import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
 import { fab, fabTokens } from "./custom-theme/fab";
-import { filter, filterTokens } from "./custom-theme/filter";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -160,7 +159,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${datePickerRange}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${fab} ${filter}</div>
+      <div class="demo-column">${fab}</div>
     </div>
   </div>`;
 
@@ -186,7 +185,6 @@ const componentTokens = {
   ...DropdownItemTokens,
   ...DropdownGroupTokens,
   ...fabTokens,
-  ...filterTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
