@@ -44,7 +44,7 @@
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
     "@prettier/sync": "0.5.2",
-    "@rollup/plugin-node-resolve": "16.0.0",
+    "@rollup/plugin-node-resolve": "16.0.1",
     "@rollup/plugin-typescript": "12.1.2",
     "@storybook/addon-a11y": "8.6.4",
     "@storybook/addon-controls": "8.6.4",
