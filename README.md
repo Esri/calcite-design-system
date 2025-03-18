@@ -121,17 +121,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/ManahariDahal">
-                    <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="ManahariDahal"/>
-                    <br />
-                    <sub><b>Manahari Dahal</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/aPreciado88">
                     <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
                     <br />
                     <sub><b>Abraham Preciado Morales</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/ManahariDahal">
+                    <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="ManahariDahal"/>
+                    <br />
+                    <sub><b>Manahari Dahal</b></sub>
                 </a>
             </td>
             <td align="center">
