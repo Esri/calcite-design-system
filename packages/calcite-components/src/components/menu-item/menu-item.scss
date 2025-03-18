@@ -60,7 +60,6 @@
 
   &:hover {
     --calcite-internal-menu-background-color: var(--calcite-color-foreground-2);
-    border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-border-2));
   }
 
   &:focus {
