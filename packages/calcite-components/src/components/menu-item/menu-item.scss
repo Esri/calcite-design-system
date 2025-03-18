@@ -59,13 +59,12 @@
   color: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color, var(--calcite-color-text-2)));
 
   &:hover {
+    @apply bg-foreground-2 text-color-2;
     border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-border-2));
   }
 
   &:focus {
-    @apply focus-inset border-b-4;
-    padding-block-start: theme("spacing.1");
-    border-block-end-width: theme("spacing.1");
+    @apply bg-foreground-2 text-color-2 focus-inset;
   }
 
   &:active {
