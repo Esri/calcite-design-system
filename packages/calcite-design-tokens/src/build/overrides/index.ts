@@ -1,5 +1,5 @@
 import StyleDictionary from "style-dictionary";
-import { Transform } from "style-dictionary/types";
+import { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
 
@@ -19,6 +19,19 @@ export function applyOverrides(sd: typeof StyleDictionary): void {
  */
 export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
   sds.forEach((sd) => {
+    overrideTransform("fontFamily/css", sd, (ogTransform) => ({
+      transform: (token, config, options) => {
+        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const shouldSkip = !isStylesheet;
+
+        if (shouldSkip) {
+          return token.value;
+        }
+
+        return ogTransform.transform(token, config, options);
+      },
+    }));
+
     overrideTransform("shadow/css/shorthand", sd, (ogTransform) => ({
       transform: (token, config, options) => {
         const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
@@ -56,12 +69,42 @@ function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
 }
 
 function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
+  function transformThemeColor(
+    theme: "light" | "dark",
+    target: any,
+    context: {
+      token: TransformedToken;
+      transform: ValueTransform;
+      config: PlatformConfig;
+      options: Config;
+    },
+  ): void {
+    context.token.value.color = context.token.value[theme];
+    target[theme] = (
+      context.transform.transform(context.token, context.config, context.options) as {
+        color: string;
+      }
+    ).color;
+    delete context.token.value.color;
+  }
+
   // we override to better match test snapshot
   // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
-    filter: (token, options) => {
-      const shouldSkip = token.isSource && token.type === "color" && token.value !== "string";
-      return !shouldSkip && (!ogTransform.filter || ogTransform.filter(token, options));
+    transform: (token, config, options) => {
+      const isLegacyThemeToken = typeof token.value === "object" && "light" in token.value;
+      if (isLegacyThemeToken) {
+        const ogType = token.type;
+        token.type = "shadow"; // force the transform to process object structure
+        const transformed = {};
+        transformThemeColor("light", transformed, { token, transform: ogTransform as ValueTransform, config, options });
+        transformThemeColor("dark", transformed, { token, transform: ogTransform as ValueTransform, config, options });
+        token.type = ogType;
+
+        return transformed;
+      }
+
+      return ogTransform.transform(token, config, options);
     },
   }));
 
