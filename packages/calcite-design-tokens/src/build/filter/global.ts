@@ -5,11 +5,14 @@ import { isLightOrDarkColorToken } from "./light-or-dark.js";
 import { mediumLowSaturation } from "./utils/index.js";
 
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
-  const themedColorToken = isLightOrDarkColorToken(token, config);
-
   return (
     token.isSource &&
-    !(token.type === "typography" || isBreakpoint(token) || mediumLowSaturation.test(token.name) || themedColorToken)
+    !(
+      token.type === "typography" ||
+      isBreakpoint(token) ||
+      mediumLowSaturation.test(token.name) ||
+      isLightOrDarkColorToken(token, config)
+    )
   );
 };
 
