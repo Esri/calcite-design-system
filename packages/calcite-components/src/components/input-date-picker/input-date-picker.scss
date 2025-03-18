@@ -6,6 +6,7 @@
  * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
  * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
  * @prop --calcite-input-date-picker-background-color: Specifies the component's background color.
+ * @prop --calcite-input-date-picker-shadow: Specifies the component's shadow.
  */
 
 :host {
@@ -15,26 +16,27 @@
     inline-block
     w-full
     overflow-visible
-    align-top
-    shadow-none;
+    align-top;
+
+  box-shadow: var(--calcite-input-date-picker-shadow, none);
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
-  @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
+  @return calc(var(--calcite-internal-date-picker-toggle-spacing) + $chevron-spacing);
 }
 
 :host([scale="s"]) {
-  --calcite-toggle-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-sm);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-lg))};
 }
 
 :host([scale="m"]) {
-  --calcite-toggle-spacing: var(--calcite-spacing-md);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-md);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-xxl))};
 }
 
 :host([scale="l"]) {
-  --calcite-toggle-spacing: var(--calcite-spacing-lg);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-lg);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
       var(--calcite-spacing-xxxl)
     )};
@@ -43,7 +45,7 @@
 @include disabled();
 
 .calendar-wrapper {
-  @apply shadow-none;
+  box-shadow: var(--calcite-input-date-picker-shadow, none);
   transform: translate3d(0, 0, 0);
 }
 
@@ -70,7 +72,7 @@
   @apply absolute flex cursor-pointer items-center;
   inset-inline-end: 0;
   inset-block: 0;
-  padding-inline: var(--calcite-toggle-spacing);
+  padding-inline: var(--calcite-internal-date-picker-toggle-spacing);
 }
 
 :host([range]) {

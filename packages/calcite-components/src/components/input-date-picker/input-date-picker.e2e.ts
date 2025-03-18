@@ -1865,6 +1865,9 @@ describe("calcite-input-date-picker", () => {
         "--calcite-input-date-picker-background-color": {
           targetProp: "--calcite-input-date-picker-background-color",
         },
+        "--calcite-input-date-picker-shadow": {
+          targetProp: "--calcite-input-date-picker-shadow",
+        },
       });
     });
   });
