@@ -19,9 +19,9 @@
   *
   * --calcite-internal-meter-fill-color
   * --calcite-internal-meter-background-color
-  * --calcite-internal-meter-space: var(--calcite-spacing-base);
-  * --calcite-internal-meter-height: var(--calcite-size-lg);
-  * --calcite-internal-meter-font-size: var(--calcite-font-size--1);
+  * --calcite-internal-meter-space
+  * --calcite-internal-meter-height
+  * --calcite-internal-meter-font-size
 */
 
 @include base-component();
@@ -30,7 +30,7 @@
 :host {
   @apply flex;
   --calcite-internal-meter-space: var(--calcite-spacing-base);
-  --calcite-internal-meter-height: var(--calcite-size-lg);
+  --calcite-internal-meter-height: var(--calcite-spacing-lg);
   --calcite-internal-meter-font-size: var(--calcite-font-size--1);
   --calcite-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
   --calcite-meter-background-color: var(--calcite-color-foreground-2);
@@ -43,12 +43,12 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-meter-height: var(--calcite-size-md);
+  --calcite-internal-meter-height: var(--calcite-spacing-md);
   --calcite-internal-meter-font-size: var(--calcite-font-size--2);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-meter-height: var(--calcite-size-xxl);
+  --calcite-internal-meter-height: var(--calcite-spacing-xxl);
   --calcite-internal-meter-font-size: var(--calcite-font-size-0);
 }
 
@@ -89,11 +89,11 @@
 }
 
 .value-visible {
-  margin-block-start: var(--calcite-size-xxl);
+  margin-block-start: var(--calcite-spacing-xxl);
 }
 
 .steps-visible {
-  margin-block-end: var(--calcite-size-xxl);
+  margin-block-end: var(--calcite-spacing-xxl);
 }
 
 .step-line {
