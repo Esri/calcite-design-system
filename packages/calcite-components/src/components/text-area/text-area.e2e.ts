@@ -14,6 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { newProgrammaticE2EPage } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
@@ -212,6 +213,33 @@ describe("calcite-text-area", () => {
 
       expect((await element.getComputedStyle()).resize).toBe("vertical");
     });
+  });
+
+  it("does not throw when removed early in the cycle (#11514)", async () => {
+    async function runTest(): Promise<void> {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async () => {
+        await new Promise<void>((resolve) => {
+          const textArea = document.createElement("calcite-text-area");
+          let firstResize = false;
+          const resizeObserver = new ResizeObserver(async () => {
+            if (!firstResize) {
+              firstResize = true;
+              return;
+            }
+
+            resizeObserver.disconnect();
+            textArea.remove();
+            resolve();
+          });
+          document.body.append(textArea);
+          resizeObserver.observe(textArea);
+        });
+      });
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
   });
 
   describe("translation support", () => {
