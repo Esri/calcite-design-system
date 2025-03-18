@@ -5,8 +5,6 @@
  *
  * @prop --calcite-fab-background-color: Specifies the component's background color.
  * @prop --calcite-fab-shadow: Specifies the component's shadow.
- * @prop --calcite-fab-shadow-hover: Specifies the component's shadow when hovered.
- * @prop --calcite-fab-shadow-press: Specifies the component's shadow when pressed.
  */
 
 :host {
@@ -26,22 +24,10 @@ calcite-button {
   );
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   &:hover {
-    --tw-shadow: var(--calcite-fab-shadow-hover, var(--calcite-shadow-md));
-    --tw-shadow-colored: var(--calcite-fab-shadow-hover, var(--calcite-shadow-md));
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    @apply shadow-2-lg;
   }
   &:active {
-    --tw-shadow: var(
-      --calcite-fab-shadow-press,
-      0 2px 12px -4px rgba(0, 0, 0, 0.2),
-      0 2px 4px -2px rgba(0, 0, 0, 0.16)
-    );
-    --tw-shadow-colored: var(
-      --calcite-fab-shadow-press,
-      0 2px 12px -4px var(--tw-shadow-color),
-      0 2px 4px -2px var(--tw-shadow-color)
-    );
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    @apply shadow-2-sm;
   }
 }
 

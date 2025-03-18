@@ -156,6 +156,9 @@ describe("calcite-fab", () => {
         "--calcite-fab-background-color": {
           targetProp: "--calcite-fab-background-color",
         },
+        "--calcite-fab-shadow": {
+          targetProp: "--calcite-fab-shadow",
+        },
       });
     });
   });
