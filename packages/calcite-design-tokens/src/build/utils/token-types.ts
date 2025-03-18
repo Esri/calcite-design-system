@@ -33,6 +33,14 @@ export function isFontRelated(token: TransformedToken): boolean {
   );
 }
 
+export function isLetterSpacing(token: TransformedToken): boolean {
+  return isDimension(token) && token.path.includes("letter-spacing");
+}
+
+export function isDimension(token: TransformedToken): boolean {
+  return token.type === "dimension";
+}
+
 export function isTypography(token: TransformedToken): boolean {
   return token.path.includes("typography");
 }
