@@ -56,6 +56,7 @@ import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
+import { meter, meterTokens } from "./custom-theme/meter";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -141,7 +142,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div>${dropdown} ${buttons}</div>
         <div>${flow}</div>
         <div>${checkbox}</div>
-        ${chips} ${pagination} ${slider}
+        ${chips} ${pagination} ${slider} ${meter}
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
@@ -208,6 +209,7 @@ const componentTokens = {
   ...tooltipTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
+  ...meterTokens,
 };
 
 export default {
