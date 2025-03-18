@@ -1,12 +1,6 @@
 import { html } from "../../support/formatting";
 
 export const meterTokens = {
-  calciteSwitchBackgroundColor: "",
-  calciteSwitchBorderColor: "",
-  calciteSwitchHandleBorderColor: "",
-  calciteSwitchHandleBackgroundColor: "",
-  calciteSwitchHandleShadow: "",
-  calciteSwitchCornerRadius: "",
   calciteMeterBackgroundColor: "",
   calciteMeterBorderColor: "",
   calciteMeterShadow: "",
