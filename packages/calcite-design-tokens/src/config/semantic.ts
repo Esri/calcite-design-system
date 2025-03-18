@@ -166,10 +166,18 @@ const config: Config = {
     },
     es6: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6 /*, transformers.TransformValueMergeValues*/],
+      transforms: [
+        ...transformers.platformTransforms.es6 /*, transformers.TransformValueMergeValues*/,
+        transformers.TransformValueCorrectPropName,
+      ],
       buildPath: "dist/es6/",
       prefix: "calcite",
-      expand: commonExpand,
+      expand: {
+        typesMap: commonExpand.typesMap,
+        exclude: (token) => {
+          return token.type === "color" || token.type !== "string";
+        },
+      },
       options: {
         platform: "es6",
         fileExtension: ".js",
@@ -231,6 +239,7 @@ const config: Config = {
         transformers.TransformNameRemovePrefix,
         transformers.TransformNameCapitalCase,
         // transformers.TransformValueMergeValues,
+        transformers.TransformValueCorrectPropName,
       ],
       buildPath: "dist/docs/",
       prefix: "calcite",
@@ -260,7 +269,10 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6 /*transformers.TransformValueMergeValues*/],
+      transforms: [
+        ...transformers.platformTransforms.es6 /*transformers.TransformValueMergeValues*/,
+        transformers.TransformValueCorrectPropName,
+      ],
       buildPath: "dist/js/",
       prefix: "calcite",
       expand: commonExpand,
