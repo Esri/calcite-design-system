@@ -1,7 +1,7 @@
 import StyleDictionary from "style-dictionary";
 import { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
-import { isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
+import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
 
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.
@@ -115,6 +115,32 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
       const shouldSkip =
         token.isSource && (isFontRelated(token) || isCornerRadius(token) || isBreakpointRelated(token));
       return !shouldSkip && (!ogTransform.filter || ogTransform.filter(token, options));
+    },
+  }));
+
+  // we override to better match test snapshot
+  // this can be removed once we no longer need to preserve the same output
+  overrideTransform("ts/resolveMath", sd, (ogTransform) => ({
+    transform: (token, config, options) => {
+      if (isBreakpoint(token) && typeof token.value === "object") {
+        const ogType = token.type;
+        token.type = "border"; // force the transform to process object structure
+        const transformed: any = {};
+        Object.keys(token.value).forEach(
+          (key) =>
+            (transformed[key] = ogTransform.transform(
+              // fake token transforms each prop and ensures type
+              { ...token, value: `${token.value[key]}`, type: "dimension" },
+              config,
+              options,
+            )),
+        );
+        token.type = ogType;
+
+        return transformed;
+      }
+
+      return ogTransform.transform(token, config, options);
     },
   }));
 
