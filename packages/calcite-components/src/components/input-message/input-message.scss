@@ -10,9 +10,10 @@
 
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+
   margin-block-start: var(
     --calcite-input-message-spacing,
-    var(--calcite-input-message-spacing-value, --calcite-spacing-xxs)
+    var(--calcite-input-message-spacing-value, var(--calcite-spacing-xxs))
   );
 }
 
