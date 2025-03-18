@@ -155,5 +155,13 @@ describe("calcite-input-message", () => {
         },
       });
     });
+
+    describe("deprecated", () => {
+      themed(html`<calcite-input-message>Message</calcite-input-message>`, {
+        "--calcite-input-message-spacing-value": {
+          targetProp: "--calcite-input-message-spacing-value",
+        },
+      });
+    });
   });
 });
