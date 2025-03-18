@@ -454,9 +454,9 @@ describe("calcite-rating", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-      expect(icons[0]).toEqualAttribute("icon", "star");
-      expect(icons[1]).toEqualAttribute("icon", "star");
-      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
       expect(icons[3]).toEqualAttribute("icon", "star");
       expect(icons[4]).toEqualAttribute("icon", "star");
       expect(labels[0]).not.toHaveClass("selected");
@@ -499,7 +499,7 @@ describe("calcite-rating", () => {
       expect(icons[0]).toEqualAttribute("icon", "star-f");
       expect(icons[1]).toEqualAttribute("icon", "star-f");
       expect(icons[2]).toEqualAttribute("icon", "star-f");
-      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star-f");
       expect(icons[4]).toEqualAttribute("icon", "star");
       expect(labels[0]).toHaveClass("selected");
       expect(labels[1]).toHaveClass("selected");
@@ -675,7 +675,7 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
       expect(icons[1]).toEqualAttribute("icon", "star");
       expect(icons[2]).toEqualAttribute("icon", "star");
       expect(icons[3]).toEqualAttribute("icon", "star");
@@ -810,21 +810,20 @@ describe("calcite-rating", () => {
           shadowSelector: `.${CSS.star}`,
           targetProp: "color",
         },
+        "--calcite-rating-color-press": {
+          shadowSelector: `.${CSS.star}`,
+          targetProp: "color",
+          state: { press: `calcite-rating >>> .${CSS.star}` },
+        },
       });
     });
     describe("selected", () => {
       themed(html`<calcite-rating value="2"></calcite-rating>`, {
-        "--calcite-rating-color-hover": [
-          {
-            shadowSelector: `.${CSS.star}[data-value='3']`,
-            targetProp: "color",
-            state: "hover",
-          },
-          {
-            shadowSelector: `.${CSS.selected}`,
-            targetProp: "color",
-          },
-        ],
+        "--calcite-rating-color-hover": {
+          shadowSelector: `.${CSS.star}[data-value='3']`,
+          targetProp: "color",
+          state: "hover",
+        },
       });
     });
     describe("average", () => {

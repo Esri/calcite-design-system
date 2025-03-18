@@ -9,12 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -45,10 +40,7 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
-{
+export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -100,6 +92,9 @@ export class Block
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
+
   /**
    * The component header text.
    *
@@ -149,9 +144,24 @@ export class Block
    */
   @property() moveToItems: MoveTo[] = [];
 
-  /** When `true`, expands the component and its contents. */
-  @property({ reflect: true }) open = false;
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
 
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -240,8 +250,6 @@ export class Block
   }
 
   load(): void {
-    setUpLoadableComponent(this);
-
     if (!this.heading && !this.label) {
       logger.warn(
         `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
@@ -254,7 +262,7 @@ export class Block
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       onToggleOpenCloseComponent(this);
     }
 
@@ -265,10 +273,6 @@ export class Block
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -295,7 +299,7 @@ export class Block
       return;
     }
 
-    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    // we set the property instead of the attribute to ensure expanded/collapsed events are emitted properly
     this.sortHandleEl.open = this.sortHandleOpen;
   }
 
@@ -327,7 +331,7 @@ export class Block
   }
 
   private onHeaderClick(): void {
-    this.open = !this.open;
+    this.expanded = !this.expanded;
     this.calciteBlockToggle.emit();
   }
 
@@ -447,7 +451,7 @@ export class Block
     const {
       collapsible,
       loading,
-      open,
+      expanded,
       label,
       heading,
       messages,
@@ -460,7 +464,7 @@ export class Block
       dragDisabled,
     } = this;
 
-    const toggleLabel = open ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? messages.collapse : messages.expand;
 
     const headerContent = (
       <header
@@ -474,7 +478,7 @@ export class Block
       </header>
     );
 
-    const collapseIcon = open ? ICONS.opened : ICONS.closed;
+    const collapseIcon = expanded ? ICONS.expanded : ICONS.collapsed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>
@@ -497,7 +501,7 @@ export class Block
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? open : null}
+            ariaExpanded={collapsible ? expanded : null}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
@@ -543,7 +547,12 @@ export class Block
           }}
         >
           {headerNode}
-          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+          <section
+            aria-labelledby={IDS.toggle}
+            class={CSS.content}
+            hidden={!expanded}
+            id={IDS.content}
+          >
             {this.renderScrim()}
           </section>
         </article>

@@ -9502,5 +9502,10 @@
     "alias": ["4.0.0", "gis", "distance", "two", "gap", "span", "reach"],
     "category": "GIS",
     "release": "4.0.0"
+  },
+  "language-2": {
+    "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
+    "category": "Generic",
+    "release": "4.0.1"
   }
 }

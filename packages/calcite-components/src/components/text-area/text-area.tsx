@@ -21,13 +21,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -61,7 +55,6 @@ export class TextArea
   implements
     FormComponent,
     LabelableComponent,
-    LoadableComponent,
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {
@@ -144,7 +137,7 @@ export class TextArea
   @property() label: string;
 
   /**
-   * When `true`, prevents input beyond the maximum length, mimicking native `<textarea>` behavior.
+   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
@@ -267,7 +260,7 @@ export class TextArea
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    await componentLoaded(this);
+    await this.componentOnReady();
     this.textAreaEl.select();
   }
 
@@ -297,16 +290,8 @@ export class TextArea
     connectForm(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -429,7 +414,7 @@ export class TextArea
           }}
           cols={this.columns}
           disabled={this.disabled}
-          maxLength={this.limitText ? this.maxLength : -1}
+          maxLength={this.limitText ? this.maxLength : undefined}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}

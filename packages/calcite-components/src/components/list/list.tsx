@@ -17,7 +17,7 @@ import {
   listItemGroupSelector,
   listItemSelector,
   listSelector,
-  openAncestors,
+  expandedAncestors,
   updateListItemChildren,
 } from "../list-item/utils";
 import {
@@ -26,12 +26,7 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
@@ -62,10 +57,7 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponent
-{
+export class List extends LitElement implements InteractiveComponent, SortableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -198,7 +190,7 @@ export class List
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can  move from the list. */
+  /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
@@ -418,7 +410,6 @@ export class List
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleInteractionModeWarning();
   }
 
@@ -453,10 +444,6 @@ export class List
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -630,7 +617,7 @@ export class List
   }
 
   onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.open = true;
+    relatedEl.expanded = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
@@ -721,21 +708,21 @@ export class List
     });
   }
 
-  private allParentListItemsOpen(item: ListItem["el"]): boolean {
+  private allParentListItemsExpanded(item: ListItem["el"]): boolean {
     const parentItem = item.parentElement?.closest(listItemSelector);
 
     if (!parentItem) {
       return true;
-    } else if (!parentItem.open) {
+    } else if (!parentItem.expanded) {
       return false;
     }
 
-    return this.allParentListItemsOpen(parentItem);
+    return this.allParentListItemsExpanded(parentItem);
   }
 
   private borderItems(): void {
     const visibleItems = this.visibleItems.filter(
-      (item) => !item.filterHidden && this.allParentListItemsOpen(item),
+      (item) => !item.filterHidden && this.allParentListItemsExpanded(item),
     );
 
     visibleItems.forEach(
@@ -854,7 +841,7 @@ export class List
     this.moveToItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
 
     const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
@@ -883,7 +870,7 @@ export class List
       return true;
     }
 
-    return parentListItemEl.open && this.isNavigable(parentListItemEl);
+    return parentListItemEl.expanded && this.isNavigable(parentListItemEl);
   }
 
   private handleListKeydown(event: KeyboardEvent): void {
@@ -960,7 +947,7 @@ export class List
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    openAncestors(dragEl);
+    expandedAncestors(dragEl);
     const toElItems = Array.from(toEl.children).filter(isListItem);
     const newIndex = toElItems.indexOf(dragEl);
 

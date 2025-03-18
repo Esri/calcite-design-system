@@ -10,6 +10,9 @@ export interface FocusTrapComponent {
   /** When `true`, prevents focus trapping. */
   focusTrapDisabled?: boolean;
 
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride?: () => boolean;
+
   /** The focus trap instance. */
   focusTrap: FocusTrap;
 
@@ -83,7 +86,7 @@ export function activateFocusTrap(
   component: FocusTrapComponent,
   options?: Parameters<_FocusTrap["activate"]>[0],
 ): void {
-  if (!component.focusTrapDisabled) {
+  if (component.focusTrapDisabledOverride ? !component.focusTrapDisabledOverride() : !component.focusTrapDisabled) {
     component.focusTrap?.activate(options);
   }
 }

@@ -32,10 +32,10 @@ Next, import the components used in your application:
 
 ```ts
 // src/app/app.component.ts
-import "@esri/calcite-components/dist/components/calcite-button.js";
-import "@esri/calcite-components/dist/components/calcite-icon.js";
-import "@esri/calcite-components/dist/components/calcite-loader.js";
-import "@esri/calcite-components/dist/components/calcite-slider.js";
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-loader";
+import "@esri/calcite-components/dist/components/calcite-slider";
 ```
 
 Then, import the global Calcite components stylesheet (only do this once):

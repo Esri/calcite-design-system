@@ -5,12 +5,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -20,7 +15,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
-import { useFocusTrap } from "../../controllers/useFocusTrap";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import {
   CSS,
@@ -59,7 +54,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Dialog extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -70,7 +65,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  focusTrap = useFocusTrap<Dialog>({
+  focusTrap = useFocusTrap<this>({
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
@@ -161,6 +156,16 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
    */
   @property({ reflect: true }) escapeDisabled = false;
 
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
   /** The component header text. */
   @property() heading: string;
 
@@ -191,6 +196,9 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
+
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -269,10 +277,22 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
     this.focusTrap.updateContainerElements();
+  }
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
   }
 
   // #endregion
@@ -301,10 +321,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setupInteractions();
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -338,10 +354,6 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
@@ -352,6 +364,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   // #endregion
 
   // #region Private Methods
+
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =
@@ -665,6 +678,10 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
     this.setupInteractions();
   }
@@ -754,7 +771,7 @@ export class Dialog extends LitElement implements OpenCloseComponent, LoadableCo
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion

@@ -2099,12 +2099,15 @@ describe("calcite-combobox", () => {
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
+      const selectedItem = await page.find("calcite-combobox-item#PineNested");
+      expect(await selectedItem.getProperty("selected")).toBe(true);
+
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).not.toHaveClass(ComboboxItemCSS.selected);
+      expect(await selectedItem.getProperty("selected")).toBe(false);
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.selected);
+      expect(await selectedItem.getProperty("selected")).toBe(true);
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
@@ -2572,49 +2575,43 @@ describe("calcite-combobox", () => {
           "item3",
         ));
 
-      it("shows the selected item when initially opened", async () => {
+      it("shows the selected item when initially opened with single selection", async () => {
         const page = await newE2EPage();
 
-        await page.setContent(`
-            <calcite-combobox
-                    open
-                    id="labelOne"
-                    label="test"
-                    placeholder="selected element (Black Eyed Susan) should be in view"
-                    max-items="6"
-                    selection-mode="single"
-                  >
-                    <calcite-combobox-item value="Trees" text-label="Trees">
-                      <calcite-combobox-item value="Pine" text-label="Pine">
-                        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
-                      </calcite-combobox-item>
-                      <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-                      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-                    </calcite-combobox-item>
-                    <calcite-combobox-item value="Flowers" text-label="Flowers">
-                      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-                      <calcite-combobox-item
-                        value="Black Eyed Susan"
-                        text-label="Black Eyed Susan"
-                        selected
-                      ></calcite-combobox-item>
-                      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-                    </calcite-combobox-item>
-                    <calcite-combobox-item value="Animals" text-label="Animals">
-                      <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-                      <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-                      <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-                    </calcite-combobox-item>
-                    <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-                    <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-                    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-                  </calcite-combobox>
-            `);
+        await page.setContent(
+          html`<calcite-combobox open max-items="6" selection-mode="single">
+            <calcite-combobox-item value="Trees" text-label="Trees">
+              <calcite-combobox-item value="Pine" text-label="Pine">
+                <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Flowers" text-label="Flowers">
+              <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+              <calcite-combobox-item
+                value="Black Eyed Susan"
+                text-label="Black Eyed Susan"
+                selected
+              ></calcite-combobox-item>
+              <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Animals" text-label="Animals">
+              <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+              <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+              <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+            <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+            <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+          </calcite-combobox>`,
+        );
         await page.waitForChanges();
         const combobox = await page.find("calcite-combobox");
-        const item1 = await combobox.find("calcite-combobox-item[value='Black Eyed Susan']");
+        const selectedItem = await combobox.find("calcite-combobox-item[value='Black Eyed Susan']");
 
-        expect(await item1.isIntersectingViewport()).toBeTruthy();
+        expect(await selectedItem.isIntersectingViewport()).toBeTruthy();
+        expect(await selectedItem.getProperty("selected")).toBeTruthy();
       });
     });
 
@@ -2638,6 +2635,48 @@ describe("calcite-combobox", () => {
           </calcite-combobox>`,
           "item3",
         ));
+
+      it("shows the selected item when initially opened with multiple selection", async () => {
+        const page = await newE2EPage();
+
+        await page.setContent(
+          html`<calcite-combobox open max-items="6" selection-mode="multiple">
+            <calcite-combobox-item value="Trees" text-label="Trees">
+              <calcite-combobox-item value="Pine" text-label="Pine">
+                <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Flowers" text-label="Flowers">
+              <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+              <calcite-combobox-item
+                value="Black Eyed Susan"
+                text-label="Black Eyed Susan"
+                selected
+              ></calcite-combobox-item>
+              <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Animals" text-label="Animals">
+              <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+              <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+              <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Rocks" text-label="Rocks" selected></calcite-combobox-item>
+            <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+            <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+          </calcite-combobox>`,
+        );
+        await page.waitForChanges();
+        const combobox = await page.find("calcite-combobox");
+        const firstSelectedItem = await combobox.find("calcite-combobox-item[value='Black Eyed Susan']");
+        const secondSelectedItem = await combobox.find("calcite-combobox-item[value='Rocks']");
+
+        expect(await firstSelectedItem.isIntersectingViewport()).toBeTruthy();
+        expect(await secondSelectedItem.isIntersectingViewport()).toBeFalsy();
+        expect(await firstSelectedItem.getProperty("selected")).toBeTruthy();
+        expect(await secondSelectedItem.getProperty("selected")).toBeTruthy();
+      });
     });
 
     describe("ancestors-selection", () => {
