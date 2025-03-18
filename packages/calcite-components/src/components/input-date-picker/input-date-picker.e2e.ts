@@ -1868,6 +1868,9 @@ describe("calcite-input-date-picker", () => {
         "--calcite-input-date-picker-shadow": {
           targetProp: "--calcite-input-date-picker-shadow",
         },
+        "--calcite-input-date-picker-width": {
+          targetProp: "--calcite-input-date-picker-width",
+        },
       });
     });
   });

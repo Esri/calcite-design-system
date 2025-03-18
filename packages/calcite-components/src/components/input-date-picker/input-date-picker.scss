@@ -3,10 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
- * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
  * @prop --calcite-input-date-picker-background-color: Specifies the component's background color.
+ * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
+ * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
  * @prop --calcite-input-date-picker-shadow: Specifies the component's shadow.
+ * @prop --calcite-input-date-picker-width: Specifies the component's width.
  */
 
 :host {
@@ -100,13 +101,15 @@
 }
 
 :host([layout="horizontal"]) .divider-container {
-  @apply w-px;
+  inline-size: var(--calcite-input-date-picker-width, 1px);
 }
 
 .divider {
-  @apply inline-block w-px;
+  @apply inline-block;
+
   margin-block: var(--calcite-spacing-xxs);
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-border-2));
+  inline-size: var(--calcite-input-date-picker-width, 1px);
 }
 
 :host([layout="vertical"]) .divider-container {
