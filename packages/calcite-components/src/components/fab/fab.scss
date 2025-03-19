@@ -16,13 +16,7 @@
 @include disabled();
 
 calcite-button {
-  --tw-shadow: var(--calcite-fab-shadow, 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08));
-  --tw-shadow-colored: var(
-    --calcite-fab-shadow,
-    0 6px 20px -4px var(--tw-shadow-color),
-    0 4px 12px -2px var(--tw-shadow-color)
-  );
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  box-shadow: var(--calcite-fab-shadow, 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08));
   &:hover {
     @apply shadow-2-lg;
   }
