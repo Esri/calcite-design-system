@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.1.0-next.18",
+  "version": "3.1.0-next.26",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -32,7 +32,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "hydrate/"
+    "hydrate/",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
@@ -65,13 +66,14 @@
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
     "util:prep-build-reqs": "npm run util:copy-assets",
-    "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='"
+    "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.1",
-    "@arcgis/components-utils": "^4.32.1",
-    "@arcgis/lumina": "^4.32.1",
-    "@esri/calcite-ui-icons": "4.0.1-next.0",
+    "@arcgis/components-controllers": "^4.32.11",
+    "@arcgis/components-utils": "^4.32.11",
+    "@arcgis/lumina": "^4.32.11",
+    "@esri/calcite-ui-icons": "4.1.0-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
@@ -86,8 +88,8 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "3.0.1-next.1",
-    "@esri/eslint-plugin-calcite-components": "2.0.1-next.0"
+    "@esri/calcite-design-tokens": "3.0.1-next.4",
+    "@esri/eslint-plugin-calcite-components": "2.0.1-next.1"
   },
   "volta": {
     "extends": "../../package.json"

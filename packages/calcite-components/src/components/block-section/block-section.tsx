@@ -6,6 +6,7 @@ import { FlipContext, Status } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -27,6 +28,9 @@ export class BlockSection extends LitElement {
 
   // #region Public Properties
 
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
+
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
 
@@ -46,8 +50,24 @@ export class BlockSection extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  /** When `true`, expands the component and its contents. */
-  @property({ reflect: true }) open = false;
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
 
   /**
    * Displays a status-related indicator icon.
@@ -99,7 +119,7 @@ export class BlockSection extends LitElement {
   }
 
   private toggleSection(): void {
-    this.open = !this.open;
+    this.expanded = !this.expanded;
     this.calciteBlockSectionToggle.emit();
   }
 
@@ -146,10 +166,10 @@ export class BlockSection extends LitElement {
   }
 
   override render(): JsxNode {
-    const { messages, open, text, toggleDisplay } = this;
-    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
+    const { messages, expanded, text, toggleDisplay } = this;
+    const arrowIcon = expanded ? ICONS.menuExpanded : ICONS.menuCollapsed;
 
-    const toggleLabel = open ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? messages.collapse : messages.expand;
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -160,7 +180,7 @@ export class BlockSection extends LitElement {
         >
           <div
             aria-controls={IDS.content}
-            ariaExpanded={open}
+            ariaExpanded={expanded}
             class={{
               [CSS.toggle]: true,
               [CSS.toggleSwitch]: true,
@@ -179,7 +199,13 @@ export class BlockSection extends LitElement {
 
             {this.renderIcon(this.iconEnd)}
             {this.renderStatusIcon()}
-            <calcite-switch checked={open} class={CSS.switch} inert label={toggleLabel} scale="s" />
+            <calcite-switch
+              checked={expanded}
+              class={CSS.switch}
+              inert
+              label={toggleLabel}
+              scale="s"
+            />
           </div>
         </div>
       ) : (
@@ -190,7 +216,7 @@ export class BlockSection extends LitElement {
         >
           <button
             aria-controls={IDS.content}
-            ariaExpanded={open}
+            ariaExpanded={expanded}
             class={{
               [CSS.sectionHeader]: true,
               [CSS.toggle]: true,
@@ -210,7 +236,12 @@ export class BlockSection extends LitElement {
     return (
       <>
         {headerNode}
-        <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+        <section
+          aria-labelledby={IDS.toggle}
+          class={CSS.content}
+          hidden={!expanded}
+          id={IDS.content}
+        >
           <slot />
         </section>
       </>

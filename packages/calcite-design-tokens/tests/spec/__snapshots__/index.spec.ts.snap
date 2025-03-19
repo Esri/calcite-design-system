@@ -1405,29 +1405,11 @@ export const calciteShadowNone = {
   y: "0",
 };
 export const calciteShadowSm = [
-  {
-    blur: "8",
-    spread: "0",
-    color: "rgba(#000000, 0.04)",
-    x: "0",
-    y: "2",
-  },
-  {
-    blur: "16",
-    spread: "0",
-    color: "rgba(#000000, 0.08)",
-    x: "0",
-    y: "4",
-  },
+  { blur: "8", spread: "0", color: "rgba(#000000, 0.04)", x: "0", y: "2", },
+  { blur: "16", spread: "0", color: "rgba(#000000, 0.08)", x: "0", y: "4", },
 ];
 export const calciteShadowMd = [
-  {
-    blur: "20",
-    spread: "0",
-    color: "rgba(#000000, 0.08)",
-    x: "0",
-    y: "4",
-  },
+  { blur: "20", spread: "0", color: "rgba(#000000, 0.08)", x: "0", y: "4", },
   {
     blur: "32",
     spread: "-2",

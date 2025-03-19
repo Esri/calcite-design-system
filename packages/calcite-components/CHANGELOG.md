@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.25...@esri/calcite-components@3.1.0-next.26) (2025-03-15)
+
+### Bug Fixes
+
+- **text-area:** fix error caused by internal measuring on disconnect ([#11751](https://github.com/Esri/calcite-design-system/issues/11751)) ([2e59646](https://github.com/Esri/calcite-design-system/commit/2e5964608caa896d03efd5f0165d7c1beeaa9140))
+
+## [3.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.24...@esri/calcite-components@3.1.0-next.25) (2025-03-12)
+
+### Features
+
+- **combobox-item:** update selection icons ([#11726](https://github.com/Esri/calcite-design-system/issues/11726)) ([234b6d4](https://github.com/Esri/calcite-design-system/commit/234b6d4a3a011487183f563e2185ad59f6914711)), closes [#10580](https://github.com/Esri/calcite-design-system/issues/10580)
+
+## [3.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.23...@esri/calcite-components@3.1.0-next.24) (2025-03-10)
+
+### Features
+
+- **combobox-item:** update interactive state ([#11647](https://github.com/Esri/calcite-design-system/issues/11647)) ([aa9e46d](https://github.com/Esri/calcite-design-system/commit/aa9e46d82f2e5ccb17a3ec4d77c991db27636791)), closes [#11646](https://github.com/Esri/calcite-design-system/issues/11646)
+
+## [3.1.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.22...@esri/calcite-components@3.1.0-next.23) (2025-03-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.1.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.21...@esri/calcite-components@3.1.0-next.22) (2025-03-05)
+
+### Features
+
+- **block, block-section:** add `expanded` property and deprecate `open` property ([#11582](https://github.com/Esri/calcite-design-system/issues/11582)) ([046f410](https://github.com/Esri/calcite-design-system/commit/046f41082d4b6a0175e1a283c4d4605667666665)), closes [#6473](https://github.com/Esri/calcite-design-system/issues/6473) [#11225](https://github.com/Esri/calcite-design-system/issues/11225)
+- **list-item, list:** add `expanded` property and deprecate `open` property ([#11003](https://github.com/Esri/calcite-design-system/issues/11003)) ([359fd0d](https://github.com/Esri/calcite-design-system/commit/359fd0d8a89d484c505e5541a4e31e77e20f557b)), closes [#6473](https://github.com/Esri/calcite-design-system/issues/6473) [#11225](https://github.com/Esri/calcite-design-system/issues/11225)
+
+## [3.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.20...@esri/calcite-components@3.1.0-next.21) (2025-03-04)
+
+### Bug Fixes
+
+- **tabs:** redisplay close button when more than one tab is closable ([#11492](https://github.com/Esri/calcite-design-system/issues/11492)) ([3150fe5](https://github.com/Esri/calcite-design-system/commit/3150fe517bbc0a4580010ea39134880416c582fe)), closes [#10183](https://github.com/Esri/calcite-design-system/issues/10183)
+
+## [3.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.19...@esri/calcite-components@3.1.0-next.20) (2025-02-27)
+
+### Bug Fixes
+
+- **card-group:** Restore default gap spacing ([#11638](https://github.com/Esri/calcite-design-system/issues/11638)) ([192dc92](https://github.com/Esri/calcite-design-system/commit/192dc92533acf544cc6066c42eb4cc3c30592adc)), closes [#11637](https://github.com/Esri/calcite-design-system/issues/11637)
+
+## [3.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.18...@esri/calcite-components@3.1.0-next.19) (2025-02-26)
+
+### Bug Fixes
+
+- **panel:** apply custom styles correctly to header actions ([#11495](https://github.com/Esri/calcite-design-system/issues/11495)) ([fd64b84](https://github.com/Esri/calcite-design-system/commit/fd64b84ab00e3292bd358a2772e0b57b4bae2c44)), closes [#11491](https://github.com/Esri/calcite-design-system/issues/11491) [#8675](https://github.com/Esri/calcite-design-system/issues/8675) [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.1.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.17...@esri/calcite-components@3.1.0-next.18) (2025-02-25)
 
 ### Bug Fixes
