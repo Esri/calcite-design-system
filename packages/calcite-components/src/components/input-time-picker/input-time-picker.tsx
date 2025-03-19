@@ -40,7 +40,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { RequiredTimeArguments, TimeController } from "../../controllers/time/time";
+import { RequiredTimeComponentProperties, TimeController } from "../../controllers/time/time";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, TEXT } from "./resources";
@@ -53,7 +53,11 @@ declare global {
 
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, RequiredTimeArguments
+  implements
+    FormComponent,
+    InteractiveComponent,
+    LabelableComponent,
+    RequiredTimeComponentProperties
 {
   // #region Static Members
 
@@ -444,103 +448,11 @@ export class InputTimePicker
     }
   }
 
-  private hourKeyDownHandler(event: KeyboardEvent): void {
-    if (this.disabled || this.readOnly) {
-      return;
-    }
-    const key = event.key;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newHour;
-      if (isValidNumber(this.time.hour)) {
-        switch (this.time.hourFormat) {
-          case "12":
-            newHour =
-              this.time.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
-                ? `1${keyAsNumber}`
-                : keyAsNumber;
-            break;
-          case "24":
-            if (this.time.hour === "01") {
-              newHour = `1${keyAsNumber}`;
-            } else if (this.time.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
-              newHour = `2${keyAsNumber}`;
-            } else {
-              newHour = keyAsNumber;
-            }
-            break;
-        }
-      } else {
-        newHour = keyAsNumber;
-      }
-      this.time.setValuePart("hour", newHour);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.time.setValuePart("hour", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.time.decrementHour();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.time.incrementHour();
-          break;
-        case " ":
-        case "Spacebar":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
     this.time.setValue(value);
-  }
-
-  private minuteKeyDownHandler(event: KeyboardEvent): void {
-    if (this.disabled || this.readOnly) {
-      return;
-    }
-    const key = event.key;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newMinute;
-      if (isValidNumber(this.time.minute) && this.time.minute.startsWith("0")) {
-        const minuteAsNumber = parseInt(this.time.minute);
-        newMinute =
-          minuteAsNumber > maxTenthForMinuteAndSecond
-            ? keyAsNumber
-            : `${minuteAsNumber}${keyAsNumber}`;
-      } else {
-        newMinute = keyAsNumber;
-      }
-      this.time.setValuePart("minute", newMinute);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.time.setValuePart("minute", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.time.decrementMinute();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.time.incrementMinute();
-          break;
-        case " ":
-        case "Spacebar":
-          event.preventDefault();
-          break;
-      }
-    }
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
@@ -781,6 +693,8 @@ export class InputTimePicker
     const { messages, readOnly } = this;
     const {
       fractionalSecond,
+      handleHourKeyDownEvent,
+      handleMinuteKeyDownEvent,
       hour,
       hourFormat,
       localizedDecimalSeparator,
@@ -804,6 +718,7 @@ export class InputTimePicker
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const isInteractive = !this.disabled || !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
@@ -828,7 +743,7 @@ export class InputTimePicker
                 [CSS.input]: true,
               }}
               onFocus={this.timePartFocusHandler}
-              onKeyDown={this.hourKeyDownHandler}
+              onKeyDown={isInteractive && handleHourKeyDownEvent}
               ref={this.setHourEl}
               role="spinbutton"
               tabIndex={0}
@@ -848,7 +763,7 @@ export class InputTimePicker
                 [CSS.minute]: true,
               }}
               onFocus={this.timePartFocusHandler}
-              onKeyDown={this.minuteKeyDownHandler}
+              onKeyDown={isInteractive && handleMinuteKeyDownEvent}
               ref={this.setMinuteEl}
               role="spinbutton"
               tabIndex={0}

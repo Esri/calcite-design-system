@@ -12,6 +12,7 @@ import {
   isValidTime,
   localizeTimePart,
   localizeTimeStringToParts,
+  maxTenthForMinuteAndSecond,
   Meridiem,
   MinuteOrSecond,
   parseTimeString,
@@ -21,8 +22,9 @@ import { decimalPlaces, getDecimals } from "../../utils/math";
 import { isValidNumber } from "../../utils/number";
 import { capitalizeWord } from "../../utils/text";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
+import { numberKeys } from "../../utils/key";
 
-export type RequiredTimeArguments = {
+export type RequiredTimeComponentProperties = {
   hourFormat: HourFormat;
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   numberingSystem: NumberingSystem;
@@ -50,7 +52,10 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, RequiredTimeArguments> implements TimeProperties {
+export class TimeController
+  extends GenericController<TimeProperties, RequiredTimeComponentProperties>
+  implements TimeProperties
+{
   // #region Public Properties
 
   fractionalSecond: string;
@@ -86,6 +91,15 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
 
   // #region Private Methods
 
+  private decrementHour(): void {
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  private decrementMinute(): void {
+    this.decrementMinuteOrSecond("minute");
+  }
+
   private decrementMinuteOrSecond(key: MinuteOrSecond): void {
     let newValue;
     if (isValidNumber(this[key])) {
@@ -97,6 +111,15 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
     this.setValuePart(key, newValue);
   }
 
+  private incrementHour(): void {
+    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  private incrementMinute(): void {
+    this.incrementMinuteOrSecond("minute");
+  }
+
   private incrementMinuteOrSecond(key: MinuteOrSecond): void {
     const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
     this.setValuePart(key, newValue);
@@ -106,27 +129,89 @@ export class TimeController extends GenericController<TimeProperties, RequiredTi
 
   // #region Public Methods
 
-  decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  decrementMinute(): void {
-    this.decrementMinuteOrSecond("minute");
-  }
-
   decrementSecond(): void {
     this.decrementMinuteOrSecond("second");
   }
 
-  incrementHour(): void {
-    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
-    this.setValuePart("hour", newHour);
-  }
+  handleHourKeyDownEvent = (event: KeyboardEvent): void => {
+    const key = event.key;
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
+      let newHour;
+      if (isValidNumber(this.hour)) {
+        switch (this.hourFormat) {
+          case "12":
+            newHour = this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2 ? `1${keyAsNumber}` : keyAsNumber;
+            break;
+          case "24":
+            if (this.hour === "01") {
+              newHour = `1${keyAsNumber}`;
+            } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
+              newHour = `2${keyAsNumber}`;
+            } else {
+              newHour = keyAsNumber;
+            }
+            break;
+        }
+      } else {
+        newHour = keyAsNumber;
+      }
+      this.setValuePart("hour", newHour);
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("hour", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.decrementHour();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.incrementHour();
+          break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
 
-  incrementMinute(): void {
-    this.incrementMinuteOrSecond("minute");
-  }
+  handleMinuteKeyDownEvent = (event: KeyboardEvent): void => {
+    const key = event.key;
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
+      let newMinute;
+      if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
+        const minuteAsNumber = parseInt(this.minute);
+        newMinute = minuteAsNumber > maxTenthForMinuteAndSecond ? keyAsNumber : `${minuteAsNumber}${keyAsNumber}`;
+      } else {
+        newMinute = keyAsNumber;
+      }
+      this.setValuePart("minute", newMinute);
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("minute", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.decrementMinute();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.incrementMinute();
+          break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
 
   incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
