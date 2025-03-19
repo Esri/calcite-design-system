@@ -54,6 +54,12 @@ import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import {
+  comboboxTokens,
+  comboboxWithPlaceHolderIcon,
+  defaultCombobox,
+  singleSelectCombobox,
+} from "./custom-theme/combobox";
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
 
@@ -133,7 +139,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -176,6 +183,7 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...comboboxTokens,
   ...datePickerTokens,
   ...DropdownTokens,
   ...DropdownItemTokens,

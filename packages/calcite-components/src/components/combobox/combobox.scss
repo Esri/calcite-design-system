@@ -3,7 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
+ * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
+ * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
+ * @prop --calcite-combobox-input-border-color: Specifies the border color of the component's input.
+ * @prop --calcite-combobox-input-background-color: Specifies the background color of the component's input.
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-input-text-color: Specifies the text color of the component's input.
  */
 
 :host {
@@ -54,19 +60,17 @@
 }
 
 .wrapper {
-  @apply bg-foreground-1
-    text-color-1
-    focus-base
-    flex
-    border-color-input
-    border
-    border-solid;
+  @apply focus-base flex border border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 
+  background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
+  border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));
+
   &:hover {
     .icon {
-      color: var(--calcite-color-text-1);
+      color: var(--calcite-combobox-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -101,13 +105,7 @@
 }
 
 .grid-input {
-  @apply flex
-    flex-grow
-    flex-wrap
-    items-center
-    relative
-    truncate
-    p-0;
+  @apply flex flex-grow flex-wrap items-center relative truncate p-0;
 
   gap: var(--calcite-combobox-item-spacing-unit-s);
   margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
@@ -119,21 +117,14 @@
 }
 
 .input {
-  @apply appearance-none
-  bg-transparent
-  border-none
-  flex-grow
-  font-inherit
-  text-color-1
-  text-ellipsis
-  overflow-hidden
-  p-0;
+  @apply appearance-none bg-transparent border-none flex-grow font-inherit text-color-1 text-ellipsis overflow-hidden p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
   min-inline-size: 4.8125rem;
+
   &:focus {
     @apply outline-none;
   }
@@ -153,10 +144,7 @@
 }
 
 .input--hidden {
-  @apply pointer-events-none
-  w-0
-  min-w-0
-  opacity-0;
+  @apply pointer-events-none w-0 min-w-0 opacity-0;
 }
 
 .input--icon {
@@ -165,7 +153,7 @@
 }
 
 .placeholder-icon {
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
 }
 
 .input-wrap {
@@ -177,12 +165,7 @@
 }
 
 .label {
-  @apply pointer-events-none
-    max-w-full
-    flex-auto
-    truncate
-    p-0
-    font-normal;
+  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -200,7 +183,7 @@
   @apply flex-none;
 
   .icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -223,10 +206,9 @@
 }
 
 .list-container {
-  @apply bg-foreground-1
-    max-h-menu
-    overflow-y-auto;
+  @apply max-h-menu overflow-y-auto;
   inline-size: var(--calcite-dropdown-width, 100%);
+  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
 }
 
 .list {
@@ -244,10 +226,6 @@ calcite-chip {
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   max-inline-size: 100%;
-}
-
-.chip--active {
-  @apply bg-foreground-3;
 }
 
 .chip--invisible {
