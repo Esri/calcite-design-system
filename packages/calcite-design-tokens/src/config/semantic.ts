@@ -166,10 +166,7 @@ const config: Config = {
     },
     es6: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [
-        ...transformers.platformTransforms.es6 /*, transformers.TransformValueMergeValues*/,
-        transformers.TransformValueCorrectPropName,
-      ],
+      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueCorrectPropName],
       buildPath: "dist/es6/",
       prefix: "calcite",
       expand: {
@@ -193,22 +190,6 @@ const config: Config = {
           },
         },
         {
-          destination: "semantic.js",
-          format: sdFormats.javascriptEs6,
-          filter: filters.FilterSemanticTokens,
-        },
-        {
-          destination: "core.js",
-          format: sdFormats.javascriptEs6,
-          filter: filters.FilterCoreTokens,
-        },
-        {
-          destination: "breakpoints.js",
-          format: sdFormats.javascriptEs6,
-          filter: filters.FilterBreakpointTokens,
-        },
-
-        {
           destination: "global.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterGlobalTokensJs,
@@ -217,14 +198,29 @@ const config: Config = {
           },
         },
         {
+          destination: "semantic.js",
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterSemanticTokens,
+        },
+        {
           destination: "semantic.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSemanticTokens,
         },
         {
+          destination: "core.js",
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterCoreTokens,
+        },
+        {
           destination: "core.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterCoreTokens,
+        },
+        {
+          destination: "breakpoints.js",
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterBreakpointTokens,
         },
         {
           destination: "breakpoints.d.ts",
@@ -238,7 +234,6 @@ const config: Config = {
       transforms: [
         transformers.TransformNameRemovePrefix,
         transformers.TransformNameCapitalCase,
-        // transformers.TransformValueMergeValues,
         transformers.TransformValueCorrectPropName,
       ],
       buildPath: "dist/docs/",
@@ -269,10 +264,7 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [
-        ...transformers.platformTransforms.es6 /*transformers.TransformValueMergeValues*/,
-        transformers.TransformValueCorrectPropName,
-      ],
+      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueCorrectPropName],
       buildPath: "dist/js/",
       prefix: "calcite",
       expand: commonExpand,
@@ -291,18 +283,6 @@ const config: Config = {
           },
         },
         {
-          destination: "semantic.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterSemanticTokens,
-        },
-        {
-          destination: "core.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterIncludeTokens,
-        },
-
-        // d.ts
-        {
           destination: "global.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterGlobalTokens,
@@ -311,9 +291,19 @@ const config: Config = {
           },
         },
         {
+          destination: "semantic.js",
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterSemanticTokens,
+        },
+        {
           destination: "semantic.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSemanticTokens,
+        },
+        {
+          destination: "core.js",
+          format: formats.FormatCalciteJs,
+          filter: filters.FilterIncludeTokens,
         },
         {
           destination: "core.d.ts",
