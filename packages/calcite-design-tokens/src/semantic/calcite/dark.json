@@ -33,7 +33,7 @@
       "type": "color"
     },
     "hover": {
-      "value": "rgba({color.neutral.blk-000}, {opacity.4})",
+      "value": "rgba({color.neutral.blk-000}, {opacity.12})",
       "type": "color"
     },
     "inverse": {
@@ -47,7 +47,7 @@
       }
     },
     "press": {
-      "value": "rgba({color.neutral.blk-000}, {opacity.8})",
+      "value": "rgba({color.neutral.blk-000}, {opacity.16})",
       "type": "color"
     },
     "scrim": {
