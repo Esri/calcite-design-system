@@ -23,19 +23,19 @@
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
-  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-danger));
+  color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-danger)));
 }
 
 :host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-warning));
+  color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-warning)));
 }
 
 :host([status="valid"]) .calcite-input-message-icon {
-  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-success));
+  color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-success)));
 }
 
 :host([status="idle"]) .calcite-input-message-icon {
-  color: var(--calcite-input-message-icon-color, var(--calcite-color-brand));
+  color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-brand)));
 }
 
 :host([scale="s"]) {
