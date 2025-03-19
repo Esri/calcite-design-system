@@ -1,7 +1,6 @@
 import { registerNameRemoveTier } from "./name/remove-tier.js";
 import { registerNameRemoveColorMode } from "./name/remove-color-mode.js";
 import { registerNameIncludePlusMinus } from "./name/include-plus-minus.js";
-import { registerValueMathSum } from "./value/math-sum.js";
 import { registerValueSizePxToRem } from "./value/px-to-rem.js";
 import { registerNameRemoveDefault } from "./name/remove-default.js";
 import { registerTransformCalciteGroup } from "./group/calcite.js";
@@ -23,7 +22,6 @@ export function registerTransformers(): void {
   registerNameRemovePrefix();
   registerNameIncludePlusMinus();
   registerNameCapitalCase();
-  registerValueMathSum();
   registerValueSizePxToRem();
   registerValueSizeUnitlessToPx();
   registerValueEnsureType();
@@ -34,7 +32,6 @@ export function registerTransformers(): void {
   registerTransformCalciteGroup();
 }
 
-export { TransformValueMathSum } from "./value/math-sum.js";
 export { TransformValueSizePxToRem } from "./value/px-to-rem.js";
 export { TransformValueSizeUnitlessToPx } from "./value/unitless-breakpoint-to-px.js";
 export { TransformValueMergeValues } from "./value/merge-value.js";

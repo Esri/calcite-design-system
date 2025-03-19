@@ -6,7 +6,6 @@ import { TransformNameRemoveDefault } from "../name/remove-default.js";
 import { TransformNameRemoveColorMode } from "../name/remove-color-mode.js";
 import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
 import { TransformValueSizeUnitlessToPx } from "../value/unitless-breakpoint-to-px.js";
-import { TransformValueMathSum } from "../value/math-sum.js";
 import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../types/interfaces.js";
@@ -45,7 +44,6 @@ export function getTransforms(): string[] {
     "ts/color/modifiers",
     TransformValueSizePxToRem,
     TransformValueSizeUnitlessToPx,
-    TransformValueMathSum,
     TransformValueEnsureType,
   ];
 
