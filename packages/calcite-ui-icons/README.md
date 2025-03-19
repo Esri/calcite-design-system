@@ -19,7 +19,7 @@ Every concept has 3 sizes:
 
 ### Why 3 Sizes?
 
-More info on what happens when you scale vector based icons [here](https://github.com/Esri/calcite-ui-icons/wiki/What-Happens-When-You-Scale-Vector-Based-Icons)
+More info on what happens when you scale vector based icons [here]([https://github.com/Esri/calcite-ui-icons/wiki/What-Happens-When-You-Scale-Vector-Based-Icons](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons))
 
 ### Outline icons are the standard
 
