@@ -5,7 +5,7 @@ export function registerPreprocessorStorePostMergeDictionary(sd: typeof StyleDic
   sd.registerPreprocessor({
     name: PreprocessorStorePostMergeDictionary,
     preprocessor: (dictionary) => {
-      state.originalMergedDictionary = dictionary;
+      state.postMergeDictionary = dictionary;
       return dictionary;
     },
   });

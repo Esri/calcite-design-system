@@ -47,7 +47,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
 
   const selfReferencingTokens = new Map<string, TransformedToken>();
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
-    const preprocessedToken = get(state.originalMergedDictionary, token.path.join("."));
+    const preprocessedToken = get(state.postMergeDictionary, token.path.join("."));
 
     if (typeof preprocessedToken.value === "string" && preprocessedToken.value.startsWith("{semantic.typography")) {
       const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.value);

@@ -1,5 +1,5 @@
 const sharedBuildState: any = {
-  originalMergedDictionary: undefined,
+  postMergeDictionary: undefined,
 } as const;
 
 export { sharedBuildState as state };
