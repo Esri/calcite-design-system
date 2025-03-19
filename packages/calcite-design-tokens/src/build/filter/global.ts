@@ -2,17 +2,10 @@ import { Filter } from "style-dictionary/types";
 import { RegisterFn } from "../types/interfaces.js";
 import { isBreakpoint } from "../utils/token-types.js";
 import { isLightOrDarkColorToken } from "./light-or-dark.js";
-import { mediumLowSaturation } from "./utils/index.js";
 
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
   return (
-    token.isSource &&
-    !(
-      token.type === "typography" ||
-      isBreakpoint(token) ||
-      mediumLowSaturation.test(token.name) ||
-      isLightOrDarkColorToken(token, config)
-    )
+    token.isSource && !(token.type === "typography" || isBreakpoint(token) || isLightOrDarkColorToken(token, config))
   );
 };
 
