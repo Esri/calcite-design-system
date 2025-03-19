@@ -7,10 +7,6 @@ import { RegisterFn } from "../../types/interfaces.js";
 const regex = {
   plusMinus: RegExp("(^[+-])?[0-9A-Za-z\\-]+([+-]$)?", ""),
   camelCase: RegExp("([a-z])([A-Z])", ""),
-  kebabCase: RegExp("([a-z])(-)([a-z])", ""),
-  scss: /(scss)/,
-  css: /(css)/,
-  es6: /(es6)/,
 };
 
 export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
