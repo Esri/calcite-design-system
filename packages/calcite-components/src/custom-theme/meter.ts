@@ -9,7 +9,7 @@ export const meterTokens = {
   calciteMeterRangeTextColor: "",
   calciteMeterValueTextColor: "",
 };
-export const calciteMeter = html`
+export const meter = html`
   <calcite-label>
     <calcite-meter
       class="token-theming"
