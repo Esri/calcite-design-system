@@ -284,6 +284,30 @@ export class TimeController
     }
   };
 
+  handleMeridiemKeyDownEvent = (event: KeyboardEvent): void => {
+    switch (event.key) {
+      case "a":
+        this.setValuePart("meridiem", "AM");
+        break;
+      case "p":
+        this.setValuePart("meridiem", "PM");
+        break;
+      case "Backspace":
+      case "Delete":
+        this.setValuePart("meridiem");
+        break;
+      case "ArrowUp":
+      case "ArrowDown":
+        event.preventDefault();
+        this.toggleMeridiem();
+        break;
+      case " ":
+      case "Spacebar":
+        event.preventDefault();
+        break;
+    }
+  };
+
   incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
   }

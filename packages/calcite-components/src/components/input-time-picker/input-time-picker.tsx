@@ -526,33 +526,6 @@ export class InputTimePicker
     }
   }
 
-  private meridiemKeyDownHandler(event: KeyboardEvent): void {
-    if (this.disabled || this.readOnly) {
-      return;
-    }
-    switch (event.key) {
-      case "a":
-        this.time.setValuePart("meridiem", "AM");
-        break;
-      case "p":
-        this.time.setValuePart("meridiem", "PM");
-        break;
-      case "Backspace":
-      case "Delete":
-        this.time.setValuePart("meridiem");
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-        event.preventDefault();
-        this.time.toggleMeridiem();
-        break;
-      case " ":
-      case "Spacebar":
-        event.preventDefault();
-        break;
-    }
-  }
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -784,7 +757,8 @@ export class InputTimePicker
   }
 
   private renderMeridiem(position: "start" | "end"): JsxNode {
-    const { localizedMeridiem, meridiem } = this.time;
+    const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
+    const isInteractive = !this.disabled || !this.readOnly;
     return (
       <span
         aria-label={this.intlMeridiem}
@@ -799,7 +773,7 @@ export class InputTimePicker
           [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
-        onKeyDown={this.meridiemKeyDownHandler}
+        onKeyDown={isInteractive && handleMeridiemKeyDownEvent}
         ref={this.setMeridiemEl}
         role="spinbutton"
         tabIndex={0}
