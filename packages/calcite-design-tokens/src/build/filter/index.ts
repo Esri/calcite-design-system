@@ -1,4 +1,3 @@
-import StyleDictionary from "style-dictionary";
 import { registerFilterSemanticTokens } from "./semantic.js";
 import { registerFilterLightColorTokens } from "./light.js";
 import { registerFilterDarkColorTokens } from "./dark.js";
@@ -11,19 +10,19 @@ import { registerFilterGlobalTokens } from "./global.js";
 import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.js";
 import { registerFilterGlobalTokensJs } from "./global-js.js";
 
-export async function registerFilters(sd: typeof StyleDictionary): Promise<void> {
+export async function registerFilters(): Promise<void> {
   await Promise.all([
-    registerFilterBreakpointTokens(sd),
-    registerFilterDarkColorTokens(sd),
-    registerFilterSemanticTokens(sd),
-    registerFilterGlobalTokens(sd),
-    registerFilterGlobalTokensJs(sd),
-    registerFilterLightColorTokens(sd),
-    registerFilterLightOrDarkColorTokens(sd),
-    registerFilterTypographyTokens(sd),
-    registerFilterCoreTokens(sd),
-    registerFilterSourceTokens(sd),
-    registerFilterIncludeTokens(sd),
+    registerFilterBreakpointTokens(),
+    registerFilterDarkColorTokens(),
+    registerFilterSemanticTokens(),
+    registerFilterGlobalTokens(),
+    registerFilterGlobalTokensJs(),
+    registerFilterLightColorTokens(),
+    registerFilterLightOrDarkColorTokens(),
+    registerFilterTypographyTokens(),
+    registerFilterCoreTokens(),
+    registerFilterSourceTokens(),
+    registerFilterIncludeTokens(),
   ]);
 }
 

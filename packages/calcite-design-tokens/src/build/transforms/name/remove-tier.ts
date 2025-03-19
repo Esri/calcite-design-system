@@ -1,11 +1,12 @@
 import { NameTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const transformNamesRemoveTier: NameTransform["transform"] = (token) =>
   token.name.replace(/(core|semantic)-?/gi, "");
 
-export const registerNameRemoveTier: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerNameRemoveTier: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformNameRemoveTier,
     transform: transformNamesRemoveTier,
     type: "name",

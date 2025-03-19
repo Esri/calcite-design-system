@@ -1,4 +1,5 @@
 import { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
@@ -37,8 +38,8 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
   return token.value;
 };
 
-export const registerValueMergeValues: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueMergeValues: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueMergeValues,
     type: "value",
     transitive: true,

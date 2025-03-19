@@ -1,12 +1,13 @@
 import { NameTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const transformNameRemovePrefix: NameTransform["transform"] = ({ name }, config) => {
   return !config.prefix ? name : name.replace(config.prefix, "");
 };
 
-export const registerNameRemovePrefix: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerNameRemovePrefix: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformNameRemovePrefix,
     transform: transformNameRemovePrefix,
     type: "name",

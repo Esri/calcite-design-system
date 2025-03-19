@@ -1,11 +1,12 @@
 import prettierSync from "@prettier/sync";
 import { Dictionary, FormatFn, FormatFnArguments, TransformedTokens } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 
-export const registerFormatIndex: RegisterFn = async (sd) => {
-  sd.registerFormat({
+export const registerFormatIndex: RegisterFn = async () => {
+  StyleDictionary.registerFormat({
     name: FormatIndex,
     format: formatIndexFile,
   });

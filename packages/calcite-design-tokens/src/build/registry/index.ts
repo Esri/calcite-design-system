@@ -1,17 +1,16 @@
-import StyleDictionary from "style-dictionary";
 import { registerTransformers } from "../transforms/index.js";
 import { registerFileHeaders } from "../header/index.js";
 import { registerFormats } from "../format/index.js";
 import { registerFilters } from "../filter/index.js";
 import { registerPreprocessors } from "../preprocessors/index.js";
 
-export async function register(sd: typeof StyleDictionary): Promise<void> {
+export async function register(): Promise<void> {
   await Promise.all([
-    registerPreprocessors(sd),
-    registerFileHeaders(sd),
-    registerFilters(sd),
-    registerFormats(sd),
-    registerTransformers(sd),
+    registerPreprocessors(),
+    registerFileHeaders(),
+    registerFilters(),
+    registerFormats(),
+    registerTransformers(),
   ]);
 }
 

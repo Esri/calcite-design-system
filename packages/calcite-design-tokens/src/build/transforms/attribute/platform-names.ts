@@ -1,5 +1,6 @@
 import { camelCase, kebabCase } from "lodash-es";
 import { AttributeTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const transformAttributePlatformNames: AttributeTransform["transform"] = (token) => ({
@@ -13,8 +14,8 @@ export const transformAttributePlatformNames: AttributeTransform["transform"] = 
   },
 });
 
-export const registerAttributePlatformNames: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerAttributePlatformNames: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformAttributePlatformNames,
     transform: transformAttributePlatformNames,
     type: "attribute",

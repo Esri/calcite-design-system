@@ -1,4 +1,5 @@
 import { TransformedToken, ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { getNumberAndUnit } from "../../utils/get-number-and-unit.js";
 import { RegisterFn } from "../../types/interfaces.js";
 import { isBreakpoint } from "../../utils/token-types.js";
@@ -23,8 +24,8 @@ const transformValueSizeUnitlessToPx: ValueTransform["transform"] = (token, _con
   return `${parsedVal}px`;
 };
 
-export const registerValueSizeUnitlessToPx: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueSizeUnitlessToPx: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueSizeUnitlessToPx,
     type: "value",
     filter,

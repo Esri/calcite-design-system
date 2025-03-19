@@ -1,4 +1,5 @@
 import { Filter } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 import { isThemed } from "../utils/token-types.js";
 
@@ -7,8 +8,8 @@ export const filterLightColorTokens: Filter["filter"] = (token) =>
   (isThemed(token, { theme: "light", targetPropName: "filePath" }) ||
     isThemed(token, { theme: "light", targetPropName: "path" }));
 
-export const registerFilterLightColorTokens: RegisterFn = async (sd) =>
-  sd.registerFilter({
+export const registerFilterLightColorTokens: RegisterFn = async () =>
+  StyleDictionary.registerFilter({
     name: FilterLightColorTokens,
     filter: filterLightColorTokens,
   });

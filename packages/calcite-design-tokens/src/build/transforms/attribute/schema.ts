@@ -1,4 +1,5 @@
 import { AttributeTransform, PlatformConfig } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const transformAttributeSchema: AttributeTransform["transform"] = (token, config: PlatformConfig) => ({
@@ -10,8 +11,8 @@ export const transformAttributeSchema: AttributeTransform["transform"] = (token,
   },
 });
 
-export const registerAttributeSchema: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerAttributeSchema: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformAttributeSchema,
     transform: transformAttributeSchema,
     type: "attribute",

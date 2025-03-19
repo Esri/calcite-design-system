@@ -1,4 +1,5 @@
 import { NameTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 export const transformNamesRemoveColorMode: NameTransform["transform"] = (token) => {
@@ -10,8 +11,8 @@ export const transformNamesRemoveColorMode: NameTransform["transform"] = (token)
   return token.name;
 };
 
-export const registerNameRemoveColorMode: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerNameRemoveColorMode: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformNameRemoveColorMode,
     transform: transformNamesRemoveColorMode,
     type: "name",

@@ -1,4 +1,5 @@
 import { Filter, TransformedToken, ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const correctedValueTypes = ["shadow"] as const;
@@ -24,8 +25,8 @@ const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   return token.value;
 };
 
-export const registerValueCorrectPropName: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueCorrectPropName: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueCorrectPropName,
     type: "value",
     transitive: true,

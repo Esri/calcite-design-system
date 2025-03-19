@@ -1,4 +1,3 @@
-import StyleDictionary from "style-dictionary";
 import { registerNameRemoveTier } from "./name/remove-tier.js";
 import { registerNameRemoveColorMode } from "./name/remove-color-mode.js";
 import { registerNameIncludePlusMinus } from "./name/include-plus-minus.js";
@@ -16,24 +15,24 @@ import { registerValueEnsureType } from "./value/ensure-type.js";
 import { registerValueCorrectValue } from "./value/correct-value.js";
 import { registerValueCorrectPropName } from "./value/correct-prop-name.js";
 
-export async function registerTransformers(sd: typeof StyleDictionary): Promise<void> {
+export async function registerTransformers(): Promise<void> {
   await Promise.all([
-    registerValueMergeValues(sd),
-    registerNameRemoveTier(sd),
-    registerNameRemoveDefault(sd),
-    registerNameRemoveColorMode(sd),
-    registerNameRemovePrefix(sd),
-    registerNameIncludePlusMinus(sd),
-    registerNameCapitalCase(sd),
-    registerValueMathSum(sd),
-    registerValueSizePxToRem(sd),
-    registerValueSizeUnitlessToPx(sd),
-    registerValueEnsureType(sd),
-    registerValueCorrectValue(sd),
-    registerValueCorrectPropName(sd),
-    registerAttributePlatformNames(sd),
-    registerAttributeSchema(sd),
-    registerTransformCalciteGroup(sd),
+    registerValueMergeValues(),
+    registerNameRemoveTier(),
+    registerNameRemoveDefault(),
+    registerNameRemoveColorMode(),
+    registerNameRemovePrefix(),
+    registerNameIncludePlusMinus(),
+    registerNameCapitalCase(),
+    registerValueMathSum(),
+    registerValueSizePxToRem(),
+    registerValueSizeUnitlessToPx(),
+    registerValueEnsureType(),
+    registerValueCorrectValue(),
+    registerValueCorrectPropName(),
+    registerAttributePlatformNames(),
+    registerAttributeSchema(),
+    registerTransformCalciteGroup(),
   ]);
 }
 

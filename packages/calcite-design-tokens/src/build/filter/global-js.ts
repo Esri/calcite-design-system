@@ -1,4 +1,5 @@
 import { Filter } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 
 /**
@@ -10,8 +11,8 @@ export const filterGlobalTokensJs: Filter["filter"] = (token) => {
   return token.isSource;
 };
 
-export const registerFilterGlobalTokensJs: RegisterFn = async (sd) =>
-  sd.registerFilter({
+export const registerFilterGlobalTokensJs: RegisterFn = async () =>
+  StyleDictionary.registerFilter({
     name: FilterGlobalTokensJs,
     filter: filterGlobalTokensJs,
   });

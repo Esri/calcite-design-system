@@ -1,4 +1,5 @@
 import { transforms } from "style-dictionary/enums";
+import StyleDictionary from "style-dictionary";
 import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
 import { TransformNameRemoveTier } from "../name/remove-tier.js";
 import { TransformNameRemoveDefault } from "../name/remove-default.js";
@@ -53,14 +54,14 @@ export function getTransforms(): string[] {
 
 export const TransformCalciteGroup = "calcite";
 
-export const registerTransformCalciteGroup: RegisterFn = async (sd) => {
-  const builtinTransforms = sd.hooks.transformGroups["css"].filter(
+export const registerTransformCalciteGroup: RegisterFn = async () => {
+  const builtinTransforms = StyleDictionary.hooks.transformGroups["css"].filter(
     (transform) =>
       // we’ll apply these value transforms separately, since order matters and some may not be relevant
       transform !== "size/rem" && transform !== "shadow/css/shorthand" && transform !== "typography/css/shorthand",
   );
 
-  sd.registerTransformGroup({
+  StyleDictionary.registerTransformGroup({
     name: TransformCalciteGroup,
     transforms: [...builtinTransforms, ...getTransforms()],
   });

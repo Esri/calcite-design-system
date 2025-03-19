@@ -1,4 +1,5 @@
 import { Filter, ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const correctedValueTypes = ["fontWeight"] as const;
@@ -14,8 +15,8 @@ const transformValueCorrectValue: ValueTransform["transform"] = async (token) =>
   return token.value;
 };
 
-export const registerValueCorrectValue: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueCorrectValue: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueCorrectValue,
     type: "value",
     transitive: true,

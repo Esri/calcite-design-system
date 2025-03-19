@@ -1,6 +1,7 @@
 import { relative, resolve } from "node:path";
 import prettierSync from "@prettier/sync";
 import { FormatFn } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { __dirname } from "../utils/node.js";
 import { RegisterFn } from "../types/interfaces.js";
 
@@ -19,8 +20,8 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
   return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
-export const registerFormatDocs: RegisterFn = async (sd) => {
-  sd.registerFormat({
+export const registerFormatDocs: RegisterFn = async () => {
+  StyleDictionary.registerFormat({
     name: FormatCalciteDocs,
     format: formatDocsPlatform,
   });

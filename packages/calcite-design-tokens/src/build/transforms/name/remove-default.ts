@@ -1,5 +1,6 @@
 import { TransformedToken } from "style-dictionary";
 import { NameTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const defaultPart = "default";
@@ -20,8 +21,8 @@ function filterByPathIncludesDefault(token: TransformedToken): boolean {
   return token.path.includes(defaultPart);
 }
 
-export const registerNameRemoveDefault: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerNameRemoveDefault: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformNameRemoveDefault,
     transform: transformNameRemoveDefault,
     type: "name",

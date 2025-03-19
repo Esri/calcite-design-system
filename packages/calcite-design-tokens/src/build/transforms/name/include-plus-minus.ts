@@ -1,6 +1,7 @@
 import { TransformedToken } from "style-dictionary";
 import { NameTransform } from "style-dictionary/types";
 import { capitalCase, kebabCase } from "change-case";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const regex = {
@@ -50,8 +51,8 @@ function filterByPlusMinusInPath(token: TransformedToken): boolean {
   );
 }
 
-export const registerNameIncludePlusMinus: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerNameIncludePlusMinus: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformNameIncludePlusMinus,
     transform: transformNamePlusMinus,
     type: "name",

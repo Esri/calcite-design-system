@@ -10,8 +10,8 @@ import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from
  *
  * @param sd
  */
-export function applyOverrides(sd: typeof StyleDictionary): void {
-  applyTokenStudioOverrides(sd);
+export function applyOverrides(): void {
+  applyTokenStudioOverrides();
 }
 
 /**
@@ -51,13 +51,13 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
   });
 }
 
-function applyTokenStudioOverrides(sd: typeof StyleDictionary): void {
-  overrideTokenStudioPreprocessors(sd);
-  overrideTokenStudioTransforms(sd);
+function applyTokenStudioOverrides(): void {
+  overrideTokenStudioPreprocessors();
+  overrideTokenStudioTransforms();
 }
 
-function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
-  sd.registerPreprocessor({
+function overrideTokenStudioPreprocessors(): void {
+  StyleDictionary.registerPreprocessor({
     name: "tokens-studio",
     preprocessor: (dictionary) => {
       // overrides https://github.com/tokens-studio/sd-transforms/blob/main/src/preprocessors/parse-tokens.tss
@@ -68,7 +68,7 @@ function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
   });
 }
 
-function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
+function overrideTokenStudioTransforms(): void {
   function transformThemeColor(
     theme: "light" | "dark",
     target: any,
@@ -87,6 +87,8 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
     ).color;
     delete context.token.value.color;
   }
+
+  const sd = StyleDictionary;
 
   overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
     transform: (token, config, options) => {

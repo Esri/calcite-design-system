@@ -1,4 +1,5 @@
 import { ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
 const operatorRegex = new RegExp(/(\d+)\s*([+\-*x/%])\s*(\d+)/, "g");
@@ -58,8 +59,8 @@ export const transformValueMathSum: ValueTransform["transform"] = (token) => {
   }
 };
 
-export const registerValueMathSum: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueMathSum: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueMathSum,
     transform: transformValueMathSum,
     transitive: true,

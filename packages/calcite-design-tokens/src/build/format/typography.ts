@@ -3,6 +3,7 @@ import { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import get from "lodash-es/get.js";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { state } from "../shared/state.js";
 import { FlattenedTransformedToken } from "../types/extensions.js";
@@ -102,8 +103,8 @@ export const formatTypography: FormatFn = async (args) => {
   });
 };
 
-export const registerFormatTypography: RegisterFn = async (sd) => {
-  sd.registerFormat({
+export const registerFormatTypography: RegisterFn = async () => {
+  StyleDictionary.registerFormat({
     name: FormatTypography,
     format: formatTypography,
   });

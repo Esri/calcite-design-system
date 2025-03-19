@@ -1,10 +1,11 @@
 import { Filter } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 
 export const filterCoreTokens: Filter["filter"] = (token) => !token.isSource && token.type !== "typography";
 
-export const registerFilterCoreTokens: RegisterFn = async (sd) =>
-  sd.registerFilter({
+export const registerFilterCoreTokens: RegisterFn = async () =>
+  StyleDictionary.registerFilter({
     name: FilterCoreTokens,
     filter: filterCoreTokens,
   });

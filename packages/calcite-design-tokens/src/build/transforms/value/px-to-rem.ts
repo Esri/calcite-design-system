@@ -1,5 +1,6 @@
 import { Config } from "style-dictionary";
 import { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
+import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.js";
 
@@ -63,8 +64,8 @@ const transformValueSizePxToRem: ValueTransform["transform"] = (token, config, o
   return `${parsedVal / baseFont}rem`;
 };
 
-export const registerValueSizePxToRem: RegisterFn = async (sd) => {
-  sd.registerTransform({
+export const registerValueSizePxToRem: RegisterFn = async () => {
+  StyleDictionary.registerTransform({
     name: TransformValueSizePxToRem,
     type: "value",
     filter,
