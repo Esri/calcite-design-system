@@ -213,6 +213,77 @@ export class TimeController
     }
   };
 
+  handleSecondKeyDownEvent = (event: KeyboardEvent): void => {
+    const key = event.key;
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
+      let newSecond;
+      if (isValidNumber(this.second) && this.second.startsWith("0")) {
+        const secondAsNumber = parseInt(this.second);
+        newSecond = secondAsNumber > maxTenthForMinuteAndSecond ? keyAsNumber : `${secondAsNumber}${keyAsNumber}`;
+      } else {
+        newSecond = keyAsNumber;
+      }
+      this.setValuePart("second", newSecond);
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("second", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.decrementSecond();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.incrementSecond();
+          break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
+
+  handleFractionalSecondKeyDownEvent = (event: KeyboardEvent): void => {
+    const { key } = event;
+    if (numberKeys.includes(key)) {
+      const stepPrecision = decimalPlaces(this.component.step);
+      const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+      const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
+
+      let newFractionalSecondAsIntegerString;
+
+      if (fractionalSecondAsIntegerLength >= stepPrecision) {
+        newFractionalSecondAsIntegerString = key.padStart(stepPrecision, "0");
+      } else if (fractionalSecondAsIntegerLength < stepPrecision) {
+        newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(stepPrecision, "0");
+      }
+
+      this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("fractionalSecond", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.nudgeFractionalSecond("down");
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.nudgeFractionalSecond("up");
+          break;
+        case " ":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
+
   incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
   }

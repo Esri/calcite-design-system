@@ -23,11 +23,10 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
-import { HourFormat, TimePart, maxTenthForMinuteAndSecond } from "../../utils/time";
+import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
@@ -405,49 +404,6 @@ export class InputTimePicker
     }
   }
 
-  private fractionalSecondKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-    if (numberKeys.includes(key)) {
-      const stepPrecision = decimalPlaces(this.step);
-      const fractionalSecondAsInteger = parseInt(this.time.fractionalSecond);
-      const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
-
-      let newFractionalSecondAsIntegerString;
-
-      if (fractionalSecondAsIntegerLength >= stepPrecision) {
-        newFractionalSecondAsIntegerString = key.padStart(stepPrecision, "0");
-      } else if (fractionalSecondAsIntegerLength < stepPrecision) {
-        newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
-          stepPrecision,
-          "0",
-        );
-      }
-
-      this.time.setValuePart(
-        "fractionalSecond",
-        parseFloat(`0.${newFractionalSecondAsIntegerString}`),
-      );
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.time.setValuePart("fractionalSecond", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.time.nudgeFractionalSecond("down");
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.time.nudgeFractionalSecond("up");
-          break;
-        case " ":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
@@ -601,46 +557,6 @@ export class InputTimePicker
     this.setFocus();
   }
 
-  private secondKeyDownHandler(event: KeyboardEvent): void {
-    if (this.disabled || this.readOnly) {
-      return;
-    }
-    const key = event.key;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newSecond;
-      if (isValidNumber(this.time.second) && this.time.second.startsWith("0")) {
-        const secondAsNumber = parseInt(this.time.second);
-        newSecond =
-          secondAsNumber > maxTenthForMinuteAndSecond
-            ? keyAsNumber
-            : `${secondAsNumber}${keyAsNumber}`;
-      } else {
-        newSecond = keyAsNumber;
-      }
-      this.time.setValuePart("second", newSecond);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.time.setValuePart("second", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.time.decrementSecond();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.time.incrementSecond();
-          break;
-        case " ":
-        case "Spacebar":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -695,6 +611,8 @@ export class InputTimePicker
       fractionalSecond,
       handleHourKeyDownEvent,
       handleMinuteKeyDownEvent,
+      handleSecondKeyDownEvent,
+      handleFractionalSecondKeyDownEvent,
       hour,
       hourFormat,
       localizedDecimalSeparator,
@@ -784,7 +702,7 @@ export class InputTimePicker
                   [CSS.second]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={this.secondKeyDownHandler}
+                onKeyDown={isInteractive && handleSecondKeyDownEvent}
                 ref={this.setSecondEl}
                 role="spinbutton"
                 tabIndex={0}
@@ -809,7 +727,7 @@ export class InputTimePicker
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={this.fractionalSecondKeyDownHandler}
+                onKeyDown={isInteractive && handleFractionalSecondKeyDownEvent}
                 ref={this.setFractionalSecondEl}
                 role="spinbutton"
                 tabIndex={0}
