@@ -3,7 +3,7 @@ import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-t
 import calciteLightConfig from "../../config/calcite/light.js";
 import calciteDarkConfig from "../../config/calcite/dark.js";
 import semanticConfig from "../../config/semantic.js";
-import { registerCalciteTokenTransformers } from "../registry/index.js";
+import { register as registerCalciteHooks } from "../registry/index.js";
 import { applyBuiltInOverrides, applyOverrides } from "../overrides/index.js";
 
 await registerTokenStudioTransformers(StyleDictionary, {
@@ -11,7 +11,7 @@ await registerTokenStudioTransformers(StyleDictionary, {
     format: "hex",
   },
 });
-await registerCalciteTokenTransformers(StyleDictionary);
+await registerCalciteHooks(StyleDictionary);
 applyOverrides(StyleDictionary);
 
 const semantic = new StyleDictionary(semanticConfig);

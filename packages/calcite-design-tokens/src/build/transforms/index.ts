@@ -16,7 +16,7 @@ import { registerValueEnsureType } from "./value/ensure-type.js";
 import { registerValueCorrectValue } from "./value/correct-value.js";
 import { registerValueCorrectPropName } from "./value/correct-prop-name.js";
 
-export async function registerCalciteTransformers(sd: typeof StyleDictionary): Promise<void> {
+export async function registerTransformers(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
     registerValueMergeValues(sd),
     registerNameRemoveTier(sd),

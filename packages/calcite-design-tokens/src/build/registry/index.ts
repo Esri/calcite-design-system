@@ -1,17 +1,17 @@
 import StyleDictionary from "style-dictionary";
-import { registerCalciteTransformers } from "../transforms/index.js";
-import { registerCalciteFileHeaders } from "../header/index.js";
-import { registerCalciteFormats } from "../format/index.js";
-import { registerCalciteFilters } from "../filter/index.js";
-import { registerCalcitePreprocessors } from "../preprocessors/index.js";
+import { registerTransformers } from "../transforms/index.js";
+import { registerFileHeaders } from "../header/index.js";
+import { registerFormats } from "../format/index.js";
+import { registerFilters } from "../filter/index.js";
+import { registerPreprocessors } from "../preprocessors/index.js";
 
-export async function registerCalciteTokenTransformers(sd: typeof StyleDictionary): Promise<void> {
+export async function register(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
-    registerCalcitePreprocessors(sd),
-    registerCalciteFileHeaders(sd),
-    registerCalciteFilters(sd),
-    registerCalciteFormats(sd),
-    registerCalciteTransformers(sd),
+    registerPreprocessors(sd),
+    registerFileHeaders(sd),
+    registerFilters(sd),
+    registerFormats(sd),
+    registerTransformers(sd),
   ]);
 }
 

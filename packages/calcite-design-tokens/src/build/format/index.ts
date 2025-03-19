@@ -4,7 +4,7 @@ import { registerFormatJs } from "./javascript.js";
 import { registerFormatTypography } from "./typography.js";
 import { registerFormatIndex } from "./index-file.js";
 
-export async function registerCalciteFormats(sd: typeof StyleDictionary): Promise<void> {
+export async function registerFormats(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
     registerFormatDocs(sd),
     registerFormatJs(sd),

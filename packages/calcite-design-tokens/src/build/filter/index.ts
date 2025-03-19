@@ -11,7 +11,7 @@ import { registerFilterGlobalTokens } from "./global.js";
 import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.js";
 import { registerFilterGlobalTokensJs } from "./global-js.js";
 
-export async function registerCalciteFilters(sd: typeof StyleDictionary): Promise<void> {
+export async function registerFilters(sd: typeof StyleDictionary): Promise<void> {
   await Promise.all([
     registerFilterBreakpointTokens(sd),
     registerFilterDarkColorTokens(sd),
