@@ -6,8 +6,8 @@
  * @prop --calcite-input-date-picker-background-color: Specifies the component's background color.
  * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
  * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
+ * @prop --calcite-input-date-picker-icon-color-hover: Specifies the component's icon color on hover.
  * @prop --calcite-input-date-picker-shadow: Specifies the component's shadow.
- * @prop --calcite-input-date-picker-width: Specifies the component's width.
  */
 
 :host {
@@ -61,10 +61,10 @@
   &:active,
   &:hover {
     .chevron-icon {
-      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
     }
     ~ .input-wrapper .chevron-icon {
-      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -101,7 +101,7 @@
 }
 
 :host([layout="horizontal"]) .divider-container {
-  inline-size: var(--calcite-input-date-picker-width, 1px);
+  inline-size: var(--calcite-spacing-px);
 }
 
 .divider {
@@ -109,7 +109,7 @@
 
   margin-block: var(--calcite-spacing-xxs);
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-border-2));
-  inline-size: var(--calcite-input-date-picker-width, 1px);
+  inline-size: var(--calcite-spacing-px);
 }
 
 :host([layout="vertical"]) .divider-container {
@@ -150,7 +150,7 @@
     color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -175,7 +175,7 @@
   &:hover {
     .vertical-chevron-container {
       calcite-icon {
-        color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-1));
+        color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
       }
     }
   }
