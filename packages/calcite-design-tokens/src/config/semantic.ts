@@ -6,9 +6,8 @@ import {
 } from "style-dictionary/enums";
 import { Config, OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import { transformers, filters, headers, formats } from "../build/registry/index.js";
+import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
-import { state } from "../build/shared/state.js";
 
 const commonExpand = {
   include: ["color"],
@@ -32,7 +31,7 @@ const stylesheetOutputReferences: OutputReferences = (token) => {
 const config: Config = {
   source: ["src/tokens/semantic/[!$]*.json"],
   include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/calcite/[!$]*.json"],
-  preprocessors: ["tokens-studio", "store-merged"],
+  preprocessors: ["tokens-studio", preprocessors.PreprocessorStorePostMergeDictionary],
   platforms: {
     scss: {
       transformGroup: transformers.TransformCalciteGroup,
@@ -311,14 +310,6 @@ const config: Config = {
           filter: filters.FilterIncludeTokens,
         },
       ],
-    },
-  },
-  hooks: {
-    preprocessors: {
-      "store-merged": (dictionary) => {
-        state.originalMergedDictionary = dictionary;
-        return dictionary;
-      },
     },
   },
   log: {
