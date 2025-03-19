@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
  * @param outputFilePath - The path to the output file to test, relative to the dist directory
  */
 function assertOutput(outputFilePath: string) {
-  const filePath = resolve(__dirname, "..", "..", "..", "dist", outputFilePath);
+  const filePath = resolve(__dirname, "..", "..", "dist", outputFilePath);
   let content = readFileSync(filePath, "utf-8");
   content = content.slice(content.indexOf("*/") + 1);
   expect(content).toMatchSnapshot();
