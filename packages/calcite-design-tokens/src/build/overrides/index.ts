@@ -6,6 +6,8 @@ import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.
  *
+ * Note: overrides are needed to match test snapshots and can be removed once preserving the same output is no longer necessary
+ *
  * @param sd
  */
 export function applyOverrides(sd: typeof StyleDictionary): void {
@@ -14,6 +16,8 @@ export function applyOverrides(sd: typeof StyleDictionary): void {
 
 /**
  * This function helps override the behavior of built-in transforms that will help the output match tests.
+ *
+ * Note: overrides are needed to match test snapshots and can be removed once preserving the same output is no longer necessary
  *
  * @param sds
  */
@@ -53,14 +57,10 @@ function applyTokenStudioOverrides(sd: typeof StyleDictionary): void {
 }
 
 function overrideTokenStudioPreprocessors(sd: typeof StyleDictionary): void {
-  // we override to better match test snapshot
-  // this can be removed once we no longer need to preserve the same output
   sd.registerPreprocessor({
     name: "tokens-studio",
     preprocessor: (dictionary) => {
-      // we override to better match test snapshot
-      // see https://github.com/tokens-studio/sd-transforms/blob/main/src/preprocessors/parse-tokens.tss
-      // this can be removed once we no longer need to preserve the same output
+      // overrides https://github.com/tokens-studio/sd-transforms/blob/main/src/preprocessors/parse-tokens.tss
       const excluded = excludeParentKeys(dictionary);
       const alignedTypes = alignTypes(excluded);
       return alignedTypes;
@@ -88,8 +88,6 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
     delete context.token.value.color;
   }
 
-  // we override to better match test snapshot
-  // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
     transform: (token, config, options) => {
       const isLegacyThemeToken = typeof token.value === "object" && "light" in token.value;
@@ -108,8 +106,6 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
     },
   }));
 
-  // we override to better match test snapshot
-  // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/size/px", sd, (ogTransform) => ({
     filter: (token, options) => {
       const shouldSkip =
@@ -118,8 +114,6 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
     },
   }));
 
-  // we override to better match test snapshot
-  // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/resolveMath", sd, (ogTransform) => ({
     transform: (token, config, options) => {
       if (isBreakpoint(token) && typeof token.value === "object") {
@@ -144,8 +138,6 @@ function overrideTokenStudioTransforms(sd: typeof StyleDictionary): void {
     },
   }));
 
-  // we override to better match test snapshot
-  // this can be removed once we no longer need to preserve the same output
   overrideTransform("ts/typography/fontWeight", sd, (ogTransform) => ({
     transform: (token, config, options) => {
       const shouldSkip = isFontRelated(token) && token.name.includes("medium-italic");
