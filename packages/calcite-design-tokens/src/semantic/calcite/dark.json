@@ -29,56 +29,30 @@
   },
   "transparent": {
     "default": {
-      "value": "{color.neutral.blk-000}",
-      "type": "color",
-      "$extensions": {
-        "studio.tokens": {
-          "modify": {
-            "type": "alpha",
-            "value": "0",
-            "space": "lch"
-          }
-        }
-      }
+      "value": "rgba({color.neutral.blk-000}, {opacity.0})",
+      "type": "color"
     },
     "hover": {
-      "value": "{color.neutral.blk-000}",
-      "type": "color",
-      "$extensions": {
-        "studio.tokens": {
-          "modify": {
-            "type": "alpha",
-            "value": ".04",
-            "space": "lch"
-          }
-        }
+      "value": "rgba({color.neutral.blk-000}, {opacity.4})",
+      "type": "color"
+    },
+    "inverse": {
+      "hover": {
+        "value": "rgba({color.neutral.blk-240}, {opacity.4})",
+        "type": "color"
+      },
+      "press": {
+        "value": "rgba({color.neutral.blk-240}, {opacity.8})",
+        "type": "color"
       }
     },
     "press": {
-      "value": "{color.neutral.blk-000}",
-      "type": "color",
-      "$extensions": {
-        "studio.tokens": {
-          "modify": {
-            "type": "alpha",
-            "value": ".08",
-            "space": "lch"
-          }
-        }
-      }
+      "value": "rgba({color.neutral.blk-000}, {opacity.8})",
+      "type": "color"
     },
     "scrim": {
-      "value": "{color.neutral.blk-240}",
-      "type": "color",
-      "$extensions": {
-        "studio.tokens": {
-          "modify": {
-            "type": "alpha",
-            "value": ".85",
-            "space": "lch"
-          }
-        }
-      }
+      "value": "rgba({color.neutral.blk-240}, {opacity.85})",
+      "type": "color"
     }
   },
   "brand": {
