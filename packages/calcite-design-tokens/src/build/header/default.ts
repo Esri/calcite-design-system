@@ -6,7 +6,7 @@ export const headerDefault: FileHeader = (defaultMessage = [""]) => {
   return ["Calcite Design System", ...defaultMessage];
 };
 
-export const registerDefaultFileHeader: RegisterFn = async () => {
+export const registerDefaultFileHeader: RegisterFn = () => {
   StyleDictionary.registerFileHeader({
     name: HeaderDefault,
     fileHeader: headerDefault,

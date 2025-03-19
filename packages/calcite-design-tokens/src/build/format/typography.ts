@@ -103,7 +103,7 @@ export const formatTypography: FormatFn = async (args) => {
   });
 };
 
-export const registerFormatTypography: RegisterFn = async () => {
+export const registerFormatTypography: RegisterFn = () => {
   StyleDictionary.registerFormat({
     name: FormatTypography,
     format: formatTypography,

@@ -51,7 +51,7 @@ function filterByPlusMinusInPath(token: TransformedToken): boolean {
   );
 }
 
-export const registerNameIncludePlusMinus: RegisterFn = async () => {
+export const registerNameIncludePlusMinus: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformNameIncludePlusMinus,
     transform: transformNamePlusMinus,

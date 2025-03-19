@@ -10,7 +10,7 @@ export const filterGlobalTokens: Filter["filter"] = (token, config) => {
   );
 };
 
-export const registerFilterGlobalTokens: RegisterFn = async () =>
+export const registerFilterGlobalTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({
     name: FilterGlobalTokens,
     filter: filterGlobalTokens,

@@ -20,7 +20,7 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
   return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
-export const registerFormatDocs: RegisterFn = async () => {
+export const registerFormatDocs: RegisterFn = () => {
   StyleDictionary.registerFormat({
     name: FormatCalciteDocs,
     format: formatDocsPlatform,

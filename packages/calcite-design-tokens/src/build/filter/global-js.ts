@@ -11,7 +11,7 @@ export const filterGlobalTokensJs: Filter["filter"] = (token) => {
   return token.isSource;
 };
 
-export const registerFilterGlobalTokensJs: RegisterFn = async () =>
+export const registerFilterGlobalTokensJs: RegisterFn = () =>
   StyleDictionary.registerFilter({
     name: FilterGlobalTokensJs,
     filter: filterGlobalTokensJs,

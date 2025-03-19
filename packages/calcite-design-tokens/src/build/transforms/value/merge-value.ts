@@ -38,7 +38,7 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
   return token.value;
 };
 
-export const registerValueMergeValues: RegisterFn = async () => {
+export const registerValueMergeValues: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueMergeValues,
     type: "value",

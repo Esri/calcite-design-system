@@ -6,7 +6,7 @@ export const transformNameRemovePrefix: NameTransform["transform"] = ({ name }, 
   return !config.prefix ? name : name.replace(config.prefix, "");
 };
 
-export const registerNameRemovePrefix: RegisterFn = async () => {
+export const registerNameRemovePrefix: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformNameRemovePrefix,
     transform: transformNameRemovePrefix,

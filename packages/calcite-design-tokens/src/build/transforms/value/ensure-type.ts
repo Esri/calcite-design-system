@@ -11,7 +11,7 @@ const transformValueEnsureType: ValueTransform["transform"] = async (token) => {
   return `${token.value}`;
 };
 
-export const registerValueEnsureType: RegisterFn = async () => {
+export const registerValueEnsureType: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueEnsureType,
     type: "value",

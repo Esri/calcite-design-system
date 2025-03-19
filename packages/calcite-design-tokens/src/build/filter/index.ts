@@ -10,20 +10,18 @@ import { registerFilterGlobalTokens } from "./global.js";
 import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.js";
 import { registerFilterGlobalTokensJs } from "./global-js.js";
 
-export async function registerFilters(): Promise<void> {
-  await Promise.all([
-    registerFilterBreakpointTokens(),
-    registerFilterDarkColorTokens(),
-    registerFilterSemanticTokens(),
-    registerFilterGlobalTokens(),
-    registerFilterGlobalTokensJs(),
-    registerFilterLightColorTokens(),
-    registerFilterLightOrDarkColorTokens(),
-    registerFilterTypographyTokens(),
-    registerFilterCoreTokens(),
-    registerFilterSourceTokens(),
-    registerFilterIncludeTokens(),
-  ]);
+export function registerFilters(): void {
+  registerFilterBreakpointTokens();
+  registerFilterDarkColorTokens();
+  registerFilterSemanticTokens();
+  registerFilterGlobalTokens();
+  registerFilterGlobalTokensJs();
+  registerFilterLightColorTokens();
+  registerFilterLightOrDarkColorTokens();
+  registerFilterTypographyTokens();
+  registerFilterCoreTokens();
+  registerFilterSourceTokens();
+  registerFilterIncludeTokens();
 }
 
 export { FilterGlobalTokens } from "./global.js";

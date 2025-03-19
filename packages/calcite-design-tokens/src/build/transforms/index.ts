@@ -15,25 +15,23 @@ import { registerValueEnsureType } from "./value/ensure-type.js";
 import { registerValueCorrectValue } from "./value/correct-value.js";
 import { registerValueCorrectPropName } from "./value/correct-prop-name.js";
 
-export async function registerTransformers(): Promise<void> {
-  await Promise.all([
-    registerValueMergeValues(),
-    registerNameRemoveTier(),
-    registerNameRemoveDefault(),
-    registerNameRemoveColorMode(),
-    registerNameRemovePrefix(),
-    registerNameIncludePlusMinus(),
-    registerNameCapitalCase(),
-    registerValueMathSum(),
-    registerValueSizePxToRem(),
-    registerValueSizeUnitlessToPx(),
-    registerValueEnsureType(),
-    registerValueCorrectValue(),
-    registerValueCorrectPropName(),
-    registerAttributePlatformNames(),
-    registerAttributeSchema(),
-    registerTransformCalciteGroup(),
-  ]);
+export function registerTransformers(): void {
+  registerValueMergeValues();
+  registerNameRemoveTier();
+  registerNameRemoveDefault();
+  registerNameRemoveColorMode();
+  registerNameRemovePrefix();
+  registerNameIncludePlusMinus();
+  registerNameCapitalCase();
+  registerValueMathSum();
+  registerValueSizePxToRem();
+  registerValueSizeUnitlessToPx();
+  registerValueEnsureType();
+  registerValueCorrectValue();
+  registerValueCorrectPropName();
+  registerAttributePlatformNames();
+  registerAttributeSchema();
+  registerTransformCalciteGroup();
 }
 
 export { TransformValueMathSum } from "./value/math-sum.js";

@@ -5,7 +5,7 @@ import { isBreakpoint } from "../utils/token-types.js";
 
 export const filterBreakpointTokens: Filter["filter"] = (token) => token.isSource && isBreakpoint(token);
 
-export const registerFilterBreakpointTokens: RegisterFn = async () =>
+export const registerFilterBreakpointTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({
     name: FilterBreakpointTokens,
     filter: filterBreakpointTokens,

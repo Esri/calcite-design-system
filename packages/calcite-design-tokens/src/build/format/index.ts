@@ -3,8 +3,11 @@ import { registerFormatJs } from "./javascript.js";
 import { registerFormatTypography } from "./typography.js";
 import { registerFormatIndex } from "./index-file.js";
 
-export async function registerFormats(): Promise<void> {
-  await Promise.all([registerFormatDocs(), registerFormatJs(), registerFormatTypography(), registerFormatIndex()]);
+export function registerFormats(): void {
+  registerFormatDocs();
+  registerFormatJs();
+  registerFormatTypography();
+  registerFormatIndex();
 }
 
 export { FormatCalciteJs } from "./javascript.js";

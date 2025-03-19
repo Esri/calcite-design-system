@@ -4,14 +4,12 @@ import { registerFormats } from "../format/index.js";
 import { registerFilters } from "../filter/index.js";
 import { registerPreprocessors } from "../preprocessors/index.js";
 
-export async function register(): Promise<void> {
-  await Promise.all([
-    registerPreprocessors(),
-    registerFileHeaders(),
-    registerFilters(),
-    registerFormats(),
-    registerTransformers(),
-  ]);
+export function register(): void {
+  registerPreprocessors();
+  registerFileHeaders();
+  registerFilters();
+  registerFormats();
+  registerTransformers();
 }
 
 export * as headers from "../header/index.js";

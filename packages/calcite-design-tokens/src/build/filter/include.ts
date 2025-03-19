@@ -4,7 +4,7 @@ import { RegisterFn } from "../types/interfaces.js";
 
 export const filterIncludeTokens: Filter["filter"] = (token) => !token.isSource;
 
-export const registerFilterIncludeTokens: RegisterFn = async () => {
+export const registerFilterIncludeTokens: RegisterFn = () => {
   StyleDictionary.registerFilter({
     name: FilterIncludeTokens,
     filter: filterIncludeTokens,

@@ -64,7 +64,7 @@ const transformValueSizePxToRem: ValueTransform["transform"] = (token, config, o
   return `${parsedVal / baseFont}rem`;
 };
 
-export const registerValueSizePxToRem: RegisterFn = async () => {
+export const registerValueSizePxToRem: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueSizePxToRem,
     type: "value",

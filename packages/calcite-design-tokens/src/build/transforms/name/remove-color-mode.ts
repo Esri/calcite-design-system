@@ -11,7 +11,7 @@ export const transformNamesRemoveColorMode: NameTransform["transform"] = (token)
   return token.name;
 };
 
-export const registerNameRemoveColorMode: RegisterFn = async () => {
+export const registerNameRemoveColorMode: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformNameRemoveColorMode,
     transform: transformNamesRemoveColorMode,

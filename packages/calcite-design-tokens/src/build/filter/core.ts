@@ -4,7 +4,7 @@ import { RegisterFn } from "../types/interfaces.js";
 
 export const filterCoreTokens: Filter["filter"] = (token) => !token.isSource && token.type !== "typography";
 
-export const registerFilterCoreTokens: RegisterFn = async () =>
+export const registerFilterCoreTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({
     name: FilterCoreTokens,
     filter: filterCoreTokens,

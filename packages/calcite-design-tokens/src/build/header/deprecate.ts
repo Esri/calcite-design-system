@@ -6,7 +6,7 @@ export const headerDeprecate: FileHeader = (defaultMessage = [""]) => {
   return ["Calcite Design System", "File to be deprecated in next major release", ...defaultMessage];
 };
 
-export const registerDeprecateFileHeader: RegisterFn = async () => {
+export const registerDeprecateFileHeader: RegisterFn = () => {
   StyleDictionary.registerFileHeader({
     name: HeaderDeprecate,
     fileHeader: headerDeprecate,

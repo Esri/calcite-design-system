@@ -1,2 +1,2 @@
 export type Stylesheet = "css" | "scss";
-export type RegisterFn = () => Promise<void>;
+export type RegisterFn = () => void;

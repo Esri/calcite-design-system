@@ -21,7 +21,7 @@ function filterByPathIncludesDefault(token: TransformedToken): boolean {
   return token.path.includes(defaultPart);
 }
 
-export const registerNameRemoveDefault: RegisterFn = async () => {
+export const registerNameRemoveDefault: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformNameRemoveDefault,
     transform: transformNameRemoveDefault,

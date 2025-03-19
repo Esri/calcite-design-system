@@ -1,6 +1,6 @@
 import { registerPreprocessorStorePostMergeDictionary } from "./store-post-merge-dictionary.js";
 
-export async function registerPreprocessors(): Promise<void> {
+export function registerPreprocessors(): void {
   registerPreprocessorStorePostMergeDictionary();
 }
 

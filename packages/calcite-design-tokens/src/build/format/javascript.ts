@@ -11,7 +11,7 @@ export const formatJsPlatform: FormatFn = async ({ dictionary, file }) => {
   });
 };
 
-export const registerFormatJs: RegisterFn = async () => {
+export const registerFormatJs: RegisterFn = () => {
   StyleDictionary.registerFormat({
     name: FormatCalciteJs,
     format: formatJsPlatform,

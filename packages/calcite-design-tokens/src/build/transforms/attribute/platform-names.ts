@@ -14,7 +14,7 @@ export const transformAttributePlatformNames: AttributeTransform["transform"] = 
   },
 });
 
-export const registerAttributePlatformNames: RegisterFn = async () => {
+export const registerAttributePlatformNames: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformAttributePlatformNames,
     transform: transformAttributePlatformNames,

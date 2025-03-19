@@ -5,7 +5,7 @@ import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 
-export const registerFormatIndex: RegisterFn = async () => {
+export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
     name: FormatIndex,
     format: formatIndexFile,

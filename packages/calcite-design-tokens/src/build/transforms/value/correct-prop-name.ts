@@ -25,7 +25,7 @@ const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   return token.value;
 };
 
-export const registerValueCorrectPropName: RegisterFn = async () => {
+export const registerValueCorrectPropName: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueCorrectPropName,
     type: "value",

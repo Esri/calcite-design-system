@@ -24,7 +24,7 @@ const transformValueSizeUnitlessToPx: ValueTransform["transform"] = (token, _con
   return `${parsedVal}px`;
 };
 
-export const registerValueSizeUnitlessToPx: RegisterFn = async () => {
+export const registerValueSizeUnitlessToPx: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueSizeUnitlessToPx,
     type: "value",

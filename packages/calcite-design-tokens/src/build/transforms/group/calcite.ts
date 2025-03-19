@@ -54,7 +54,7 @@ export function getTransforms(): string[] {
 
 export const TransformCalciteGroup = "calcite";
 
-export const registerTransformCalciteGroup: RegisterFn = async () => {
+export const registerTransformCalciteGroup: RegisterFn = () => {
   const builtinTransforms = StyleDictionary.hooks.transformGroups["css"].filter(
     (transform) =>
       // we’ll apply these value transforms separately, since order matters and some may not be relevant

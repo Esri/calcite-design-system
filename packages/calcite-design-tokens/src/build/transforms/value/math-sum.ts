@@ -59,7 +59,7 @@ export const transformValueMathSum: ValueTransform["transform"] = (token) => {
   }
 };
 
-export const registerValueMathSum: RegisterFn = async () => {
+export const registerValueMathSum: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformValueMathSum,
     transform: transformValueMathSum,

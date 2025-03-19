@@ -11,7 +11,7 @@ export const transformAttributeSchema: AttributeTransform["transform"] = (token,
   },
 });
 
-export const registerAttributeSchema: RegisterFn = async () => {
+export const registerAttributeSchema: RegisterFn = () => {
   StyleDictionary.registerTransform({
     name: TransformAttributeSchema,
     transform: transformAttributeSchema,

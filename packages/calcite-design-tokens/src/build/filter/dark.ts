@@ -8,7 +8,7 @@ export const filterDarkColorTokens: Filter["filter"] = (token) =>
   (isThemed(token, { theme: "dark", targetPropName: "filePath" }) ||
     isThemed(token, { theme: "dark", targetPropName: "path" }));
 
-export const registerFilterDarkColorTokens: RegisterFn = async () =>
+export const registerFilterDarkColorTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({
     name: FilterDarkColorTokens,
     filter: filterDarkColorTokens,
