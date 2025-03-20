@@ -993,6 +993,96 @@
           </div>
 
           <div class="child">
+            <calcite-accordion selection-mode="single-persist">
+              <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item heading="Accordion Item 2" icon-start="plane" icon-end="plane"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 3 with a potentially two line title"
+                icon-start="banana"
+                icon-end="banana"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 4"
+                icon-start="driving-distance"
+                icon-end="driving-distance"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 5"
+                icon-start="drone-fixed-wing"
+                icon-end="drone-fixed-wing"
+              >
+                <calcite-segmented-control scale="s">
+                  <calcite-segmented-control-item value="Yes" checked>Yes</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="No">No</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-accordion-item>
+            </calcite-accordion>
+          </div>
+
+          <div class="child">
+            <calcite-accordion selection-mode="single-persist" scale="l">
+              <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item heading="Accordion Item 2" icon-start="plane" icon-end="plane"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 3 with a potentially two line title"
+                icon-start="banana"
+                icon-end="banana"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 4"
+                icon-start="driving-distance"
+                icon-end="driving-distance"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 5"
+                icon-start="drone-fixed-wing"
+                icon-end="drone-fixed-wing"
+              >
+                <calcite-segmented-control scale="s">
+                  <calcite-segmented-control-item value="Yes" checked>Yes</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="No">No</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-accordion-item>
+            </calcite-accordion>
+          </div>
+        </div>
+      </demo-theme>
+      <!-- Theme-ing -->
+      <demo-theme
+        tokens="
+        --calcite-accordion-border-color,
+        --calcite-accordion-background-color,
+        --calcite-accordion-text-color,
+        --calcite-accordion-text-color-hover,
+        --calcite-accordion-text-color-press,
+        --calcite-accordion-item-content-space,
+        --calcite-accordion-item-end-icon-color,
+        --calcite-accordion-item-expand-icon-color,
+        --calcite-accordion-item-header-background-color,
+        --calcite-accordion-item-heading-text-color,
+        --calcite-accordion-item-start-icon-color,
+    "
+      >
+        <div class="parent">
+          <div class="child right-aligned-text">Theme</div>
+
+          <div class="child">
             <calcite-accordion appearance="transparent" selection-mode="single-persist" scale="s">
               <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
@@ -1028,7 +1118,42 @@
           </div>
 
           <div class="child">
-            <calcite-accordion selection-mode="single-persist" scale="s">
+            <calcite-accordion appearance="transparent" selection-mode="single-persist">
+              <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+                ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item heading="Accordion Item 2" icon-start="plane" icon-end="plane"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 3 with a potentially two line title"
+                icon-start="banana"
+                icon-end="banana"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 4"
+                icon-start="driving-distance"
+                icon-end="driving-distance"
+                ><img width="200" src="./_assets/images/placeholder.svg" />
+              </calcite-accordion-item>
+              <calcite-accordion-item
+                heading="Accordion Item 5"
+                icon-start="drone-fixed-wing"
+                icon-end="drone-fixed-wing"
+              >
+                <calcite-segmented-control scale="s">
+                  <calcite-segmented-control-item value="Yes" checked>Yes</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="No">No</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-accordion-item>
+            </calcite-accordion>
+          </div>
+
+          <div class="child">
+            <calcite-accordion appearance="transparent" selection-mode="single-persist" scale="l">
               <calcite-accordion-item heading="Accordion Item" icon-start="car" icon-end="car"
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
                 ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-end"></calcite-action

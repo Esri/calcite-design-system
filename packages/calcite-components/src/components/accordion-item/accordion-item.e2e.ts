@@ -137,9 +137,6 @@ describe("calcite-accordion-item", () => {
             >content</calcite-accordion-item
           >`,
           {
-            "--calcite-accordion-item-text-color-press": {
-              targetProp: "color",
-            },
             "--calcite-accordion-item-text-color-hover": [
               {
                 targetProp: "color",
@@ -150,6 +147,11 @@ describe("calcite-accordion-item", () => {
                 shadowSelector: `.${CSS.description}`,
               },
             ],
+            "--calcite-accordion-item-heading-text-color": {
+              selector: "calcite-accordion-item",
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
           },
         );
       });
