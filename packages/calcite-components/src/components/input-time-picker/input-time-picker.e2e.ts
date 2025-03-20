@@ -103,7 +103,7 @@ describe("calcite-input-time-picker", () => {
     labelable("calcite-input-time-picker");
   });
 
-  describe.only("focusable", () => {
+  describe("focusable", () => {
     focusable(`calcite-input-time-picker`);
   });
 
