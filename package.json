@@ -98,7 +98,7 @@
     "husky": "9.1.7",
     "jest-axe": "9.0.0",
     "lerna": "8.2.1",
-    "lint-staged": "15.4.3",
+    "lint-staged": "15.5.0",
     "markdownlint-cli": "0.44.0",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
