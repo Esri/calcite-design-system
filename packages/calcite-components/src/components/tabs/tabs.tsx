@@ -6,7 +6,7 @@ import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../ut
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import { TabLayout, TabPosition } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 import { styles } from "./tabs.scss";
 
 declare global {
@@ -195,7 +195,7 @@ export class Tabs extends LitElement {
     return (
       <>
         <slot name={SLOTS.titleGroup} />
-        <section class={CSS.section}>
+        <section>
           <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.setDefaultSlotRef} />
         </section>
       </>
