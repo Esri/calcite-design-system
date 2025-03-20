@@ -18,12 +18,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -54,7 +49,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-export class Modal extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Modal extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -92,7 +87,7 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   private modalContent = createRef<HTMLDivElement>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   private _open = false;
@@ -253,7 +248,8 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   async updateFocusTrapElements(
     extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
-    this.focusTrap.updateContainerElements(extraContainers);
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   // #endregion
@@ -293,7 +289,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
       removalVersion: 4,
       suggested: "dialog",
     });
-    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openModal();
@@ -316,10 +311,6 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -368,6 +359,10 @@ export class Modal extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 

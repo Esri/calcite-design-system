@@ -236,7 +236,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.custom]: !!this.icon,
-          [CSS.iconSelected]: this.icon && this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -251,7 +250,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={icon}
@@ -281,14 +279,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : "check";
-    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
+    const icon = disabled || isSingleSelect ? undefined : "check-square-f";
+    const selectionIcon = isSingleSelect ? "circle-inset-large" : "check-square-f";
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
     const classes = {
       [CSS.label]: true,
-      [CSS.selected]: this.selected,
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };

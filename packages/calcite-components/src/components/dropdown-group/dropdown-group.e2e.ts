@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown-group", () => {
   describe("defaults", () => {
@@ -72,5 +74,48 @@ describe("calcite-dropdown-group", () => {
     for (const item of items) {
       expect(await item.getProperty("selectionMode")).toBe("none");
     }
+  });
+
+  it("does not throw if removed right after append", async () => {
+    async function runTest(): Promise<void> {
+      const page = await newE2EPage();
+      // group needs to load early for error to occur
+      await page.setContent(html`<calcite-dropdown-group></calcite-dropdown-group>`);
+
+      await page.evaluate(() => {
+        const dropdownGroup = document.createElement("calcite-dropdown-group");
+        document.body.append(dropdownGroup);
+        dropdownGroup.remove();
+      });
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-group-border-color": [
+        {
+          targetProp: "borderColor",
+          shadowSelector: `.${CSS.title}`,
+          selector: `calcite-dropdown-group`,
+        },
+        {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.separator}`,
+          selector: `calcite-dropdown-group.two`,
+        },
+      ],
+      "--calcite-dropdown-group-title-text-color": {
+        targetProp: "color",
+        shadowSelector: `.${CSS.title}`,
+        selector: `calcite-dropdown-group`,
+      },
+    };
+    themed(
+      `<calcite-dropdown open><calcite-dropdown-group group-title="one"><calcite-dropdown-item>A</calcite-dropdown-item></calcite-dropdown-group><calcite-dropdown-group group-title="two" class="two"><calcite-dropdown-item>A</calcite-dropdown-item></calcite-dropdown-group></calcite-dropdown>`,
+      tokens,
+    );
   });
 });

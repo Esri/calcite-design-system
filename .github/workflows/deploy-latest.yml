@@ -66,6 +66,7 @@ jobs:
         run: |
           npm install
           npm run build
+          npm run util:update-3rd-party-licenses
 
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
@@ -74,6 +75,7 @@ jobs:
 
           # The "|| true" prevents failure if there are no changes
           git add package-lock.json || true
+          git add **/THIRD-PARTY-LICENSES.md || true
 
           # The release-please PR only updates when there are new deployable
           # commits, e.g., fixes, features, or breaking changes. This is fine

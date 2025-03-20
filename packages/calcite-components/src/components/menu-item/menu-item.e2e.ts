@@ -207,18 +207,6 @@ describe("calcite-menu-item", () => {
         ],
       };
 
-      describe("horizontal layout", () => {
-        themed(menuHTML("horizontal"), {
-          ...tokens,
-          "--calcite-menu-item-accent-color": {
-            selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "borderBlockEndColor",
-            state: "hover",
-          },
-        });
-      });
-
       describe("vertical layout", () => {
         themed(menuHTML("vertical"), tokens);
       });

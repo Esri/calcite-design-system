@@ -23,7 +23,7 @@ import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
-import { dropdown } from "./custom-theme/dropdown";
+import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -54,6 +54,14 @@ import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import {
+  comboboxTokens,
+  comboboxWithPlaceHolderIcon,
+  defaultCombobox,
+  singleSelectCombobox,
+} from "./custom-theme/combobox";
+import { panel, panelTokens } from "./custom-theme/panel";
+import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -131,7 +139,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -146,7 +155,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
       </div>
       <div class="demo-column">
-        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating}
+        ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${panel} ${shellPanel}
       </div>
       <div class="demo-column"><div class="demo-column">${alert}</div></div>
       <div class="demo-column">${menuItem}</div>
@@ -174,7 +183,11 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...comboboxTokens,
   ...datePickerTokens,
+  ...DropdownTokens,
+  ...DropdownItemTokens,
+  ...DropdownGroupTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
@@ -189,6 +202,7 @@ const componentTokens = {
   ...navigationUserTokens,
   ...noticeTokens,
   ...paginationTokens,
+  ...panelTokens,
   ...popoverTokens,
   ...progressTokens,
   ...segmentedControlTokens,
@@ -201,6 +215,7 @@ const componentTokens = {
   ...tileTokens,
   ...tooltipTokens,
   ...menuItemTokens,
+  ...shellPanelTokens,
 };
 
 export default {

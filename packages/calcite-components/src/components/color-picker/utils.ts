@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import Color from "color";
+import { ColorInstance as Color } from "color";
 import { Dimensions, Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import { STATIC_DIMENSIONS } from "./resources";

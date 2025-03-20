@@ -17,12 +17,7 @@ import {
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -52,7 +47,7 @@ const manager = new AlertManager();
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
-export class Alert extends LitElement implements OpenCloseComponent, LoadableComponent {
+export class Alert extends LitElement implements OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -217,10 +212,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     };
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -252,10 +243,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     if (changes.has("messages")) {
       this.effectiveLocaleChange();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -339,6 +326,10 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
