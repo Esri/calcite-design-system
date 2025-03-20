@@ -283,7 +283,7 @@ const config: Config = {
         },
         {
           destination: "global.d.ts",
-          format: sdFormats.typescriptEs6Declarations,
+          format: sdFormats.typescriptModuleDeclarations,
           filter: filters.FilterGlobalTokens,
           options: {
             fileHeader: headers.HeaderDeprecate,
@@ -296,7 +296,7 @@ const config: Config = {
         },
         {
           destination: "semantic.d.ts",
-          format: sdFormats.typescriptEs6Declarations,
+          format: sdFormats.typescriptModuleDeclarations,
           filter: filters.FilterSemanticTokens,
         },
         {
@@ -306,7 +306,7 @@ const config: Config = {
         },
         {
           destination: "core.d.ts",
-          format: sdFormats.typescriptEs6Declarations,
+          format: sdFormats.typescriptModuleDeclarations,
           filter: filters.FilterIncludeTokens,
         },
       ],
