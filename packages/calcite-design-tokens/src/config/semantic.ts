@@ -276,7 +276,7 @@ const config: Config = {
         {
           destination: "global.js",
           format: formats.FormatCalciteJs,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterGlobalTokensJs,
           options: {
             fileHeader: headers.HeaderDeprecate,
           },
@@ -284,7 +284,7 @@ const config: Config = {
         {
           destination: "global.d.ts",
           format: sdFormats.typescriptModuleDeclarations,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterGlobalTokensJs,
           options: {
             fileHeader: headers.HeaderDeprecate,
           },
