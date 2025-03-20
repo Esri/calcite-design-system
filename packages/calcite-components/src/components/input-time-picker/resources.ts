@@ -10,6 +10,7 @@ export const CSS = {
   input: "input",
   inputContainer: "input-container",
   inputFocus: "inputFocus",
+  meridiem: "meridiem",
   meridiemStart: "meridiem--start",
   meridiemEnd: "meridiem--end",
   minute: "minute",

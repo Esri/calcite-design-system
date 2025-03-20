@@ -85,6 +85,7 @@ export class TimeController
     const locale = messages._lang as SupportedLocale;
     this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
     this.meridiemOrder = getMeridiemOrder(locale);
+    this.setValue(this.component.value);
   }
 
   // #endregion

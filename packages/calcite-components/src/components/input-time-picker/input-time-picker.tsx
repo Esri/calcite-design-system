@@ -313,7 +313,6 @@ export class InputTimePicker
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-    this.time.setValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -352,11 +351,11 @@ export class InputTimePicker
     }
 
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
-      this.stepWatcher(this.step, changes.get("step"));
+      this.handleStepChange(this.step, changes.get("step"));
     }
 
     if (changes.has("value")) {
-      this.valueChangeHandler();
+      this.handleValueChange();
     }
   }
 
@@ -374,7 +373,7 @@ export class InputTimePicker
   // #region Internal Methods
 
   /** @internal */
-  valueChangeHandler(): void {
+  handleValueChange(): void {
     if (this.hasUpdated) {
       this.calciteInputTimePickerChange.emit();
     }
@@ -395,7 +394,7 @@ export class InputTimePicker
     }
   }
 
-  private stepWatcher(newStep: number, oldStep?: number): void {
+  private handleStepChange(newStep: number, oldStep?: number): void {
     if (
       (oldStep >= 60 && newStep > 0 && newStep < 60) ||
       (newStep >= 60 && oldStep > 0 && oldStep < 60)
@@ -769,6 +768,7 @@ export class InputTimePicker
         class={{
           [CSS.empty]: !localizedMeridiem,
           [CSS.input]: true,
+          [CSS.meridiem]: true,
           [CSS.meridiemStart]: position === "start",
           [CSS.meridiemEnd]: position === "end",
         }}
