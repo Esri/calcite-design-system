@@ -1,9 +1,10 @@
 import { html } from "../../support/formatting";
 
 export const inputDatePickerTokens = {
-  calciteInputDatePickerIconColor: "",
-  calciteInputDatePickerBorderColor: "",
   calciteInputDatePickerBackgroundColor: "",
+  calciteInputDatePickerBorderColor: "",
+  calciteInputDatePickerIconColor: "",
+  calciteInputDatePickerIconColorHover: "",
   CalciteInputDatePickerShadow: "",
   calciteInputDatePickerWidth: "",
 };

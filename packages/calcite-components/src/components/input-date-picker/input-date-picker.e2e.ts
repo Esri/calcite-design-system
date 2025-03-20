@@ -1859,6 +1859,9 @@ describe("calcite-input-date-picker", () => {
         "--calcite-input-date-picker-icon-color": {
           targetProp: "--calcite-input-date-picker-icon-color",
         },
+        "--calcite-input-date-picker-icon-color-hover": {
+          targetProp: "--calcite-input-date-picker-icon-color-hover",
+        },
         "--calcite-input-date-picker-border-color": {
           targetProp: "--calcite-input-date-picker-border-color",
         },
