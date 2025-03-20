@@ -84,7 +84,7 @@ describe("calcite-combobox-item", () => {
             shadowSelector: ` .${CSS.label} `,
             selector: "calcite-combobox-item",
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.label } },
+            state: { press: `calcite-combobox-item >>> .${CSS.label} ` },
           },
           {
             shadowSelector: `.${CSS.iconCustom}`,
@@ -96,14 +96,14 @@ describe("calcite-combobox-item", () => {
             shadowSelector: `.${CSS.iconCustom}`,
             selector: "calcite-combobox-item",
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.iconCustom } },
+            state: { press: `calcite-combobox-item >>> .${CSS.iconCustom} ` },
           },
         ],
         "--calcite-combobox-item-background-color-active": {
           shadowSelector: ` .${CSS.label} `,
           selector: "calcite-combobox-item",
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.label } },
+          state: { press: `calcite-combobox-item >>> .${CSS.label} ` },
         },
         "--calcite-combobox-item-background-color-hover": {
           shadowSelector: ` .${CSS.label} `,
@@ -128,13 +128,13 @@ describe("calcite-combobox-item", () => {
             shadowSelector: `.${CSS.description}`,
             selector: "calcite-combobox-item",
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.description } },
+            state: { press: `calcite-combobox-item >>> .${CSS.description} ` },
           },
           {
             shadowSelector: `.${CSS.shortText}`,
             selector: "calcite-combobox-item",
             targetProp: "color",
-            state: { press: { attribute: "class", value: CSS.shortText } },
+            state: { press: `calcite-combobox-item >>> .${CSS.shortText} ` },
           },
         ],
         "--calcite-combobox-heading-text-color": {
