@@ -365,5 +365,18 @@
       "full": "9b7e9f25d38377bbe1feecb10c8911ee81ccbd57",
       "disabled": "7f6f02b04cabe90036bacf250d8f5da8867f514f"
     }
+  },
+  {
+    "id": "a4032e2350c11e3209d238b512f946ed42a6f22b",
+    "name": "shadow",
+    "$figmaStyleReferences": {
+      "shadow.none": "S:2a083bea5f831a66a26ef4d089291c1e590d41f1,",
+      "shadow.sm": "S:f4e5fcfd6bfd8277aa67135897b65f54549e5249,",
+      "shadow.md": "S:6c88b0b345454d7bc8e238781b581530aeee3829,"
+    },
+    "selectedTokenSets": {
+      "semantic/shadow": "enabled"
+    },
+    "group": "color"
   }
 ]
