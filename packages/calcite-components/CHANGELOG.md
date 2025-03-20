@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.26...@esri/calcite-components@3.1.0-next.27) (2025-03-19)
+
+### Features
+
+- **combobox, combobox-item-group:** add component tokens ([#11623](https://github.com/Esri/calcite-design-system/issues/11623)) ([a14a40c](https://github.com/Esri/calcite-design-system/commit/a14a40c5583fe5d3846cb990d2764aca621c0e07)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+### Reverts
+
+- **menu-item:** revert hover state interaction changes ([#11761](https://github.com/Esri/calcite-design-system/issues/11761)) ([a4f3512](https://github.com/Esri/calcite-design-system/commit/a4f3512533cd61b43e4d168fe4aa8762958635c6)), closes [#11760](https://github.com/Esri/calcite-design-system/issues/11760)
+
+## [3.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.25...@esri/calcite-components@3.1.0-next.26) (2025-03-15)
+
+### Bug Fixes
+
+- **text-area:** fix error caused by internal measuring on disconnect ([#11751](https://github.com/Esri/calcite-design-system/issues/11751)) ([2e59646](https://github.com/Esri/calcite-design-system/commit/2e5964608caa896d03efd5f0165d7c1beeaa9140))
+
 ## [3.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.24...@esri/calcite-components@3.1.0-next.25) (2025-03-12)
 
 ### Features
