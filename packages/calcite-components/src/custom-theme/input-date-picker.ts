@@ -6,7 +6,6 @@ export const inputDatePickerTokens = {
   calciteInputDatePickerIconColor: "",
   calciteInputDatePickerIconColorHover: "",
   CalciteInputDatePickerShadow: "",
-  calciteInputDatePickerWidth: "",
 };
 
 export const inputDatePicker = html`<calcite-input-date-picker range></calcite-input-date-picker>`;
