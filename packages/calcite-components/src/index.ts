@@ -22,3 +22,6 @@ export const setAssetPath: Runtime["setAssetPath"] = (path) => {
 };
 
 export { getAssetPath } from "./runtime";
+
+// Expose specific development types below (by stakeholder request)
+export { FlowItemLike } from "./components/flow/interfaces";
