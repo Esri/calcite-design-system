@@ -9507,5 +9507,15 @@
     "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
     "category": "Generic",
     "release": "4.0.1"
+  },
+  "browser-join": {
+    "alias": ["4.1.0", "windows", "web", "explore", "combine", "tables"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "browser-plus": {
+    "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
+    "category": "Windows",
+    "release": "4.1.0"
   }
 }
