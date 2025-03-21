@@ -2,6 +2,7 @@ import { html } from "../../support/formatting";
 
 export const tabsTokens = {
   calciteTabBackgroundColor: "",
+  calciteTabBackgroundColorHover: "",
   calciteTabBorderColor: "",
   calciteTabTextColor: "",
   calciteTabAccentColor: "",

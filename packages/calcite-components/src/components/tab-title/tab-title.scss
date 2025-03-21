@@ -6,6 +6,7 @@
  * @prop --calcite-tab-text-color: Specifies the component's text color.
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
+ * @prop --calcite-tab-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-tab-accent-color: Specifies the component's accent color.
  * @prop --calcite-tab-accent-color-hover: Specifies the component's accent color when hovered.
  * @prop --calcite-tab-accent-color-press: Specifies the component's accent color when selected or active.
@@ -97,6 +98,7 @@
   w-full;
 
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-tab-background-color, transparent);
 }
 
 .selected-indicator {
@@ -286,7 +288,7 @@
     }
 
     &:host(:hover) .container::after {
-      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-2));
+      background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
     }
 
     &:host(:focus) .container::after {
@@ -320,10 +322,8 @@
     }
   }
 
-  &:host(:hover) {
-    .container {
-      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-2));
-    }
+  &:hover {
+    background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
   }
 }
 

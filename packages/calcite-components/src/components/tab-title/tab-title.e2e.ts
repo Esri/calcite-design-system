@@ -383,34 +383,46 @@ describe("calcite-tab-title", () => {
           targetProp: "backgroundColor",
           state: { press: `calcite-tab-title >>> .${XButtonCSS.button}` },
         },
-      });
-
-      describe("selected", () => {
-        themed(html` <calcite-tab-title selected closable>yeah!</calcite-tab-title>`, {
-          "--calcite-tab-text-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "color",
-          },
-          "--calcite-tab-close-icon-background-color": {
-            shadowSelector: `.${XButtonCSS.button}`,
-            targetProp: "backgroundColor",
-          },
-        });
+        "--calcite-tab-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
       });
     });
 
     describe("bordered", () => {
-      describe("selected", () => {
-        themed(html`<calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
-          "--calcite-tab-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineColor",
-          },
-          "--calcite-tab-background-color": {
-            shadowSelector: `.${CSS.container}::after`,
-            targetProp: "backgroundColor",
-          },
-        });
+      themed(html` <calcite-tab-title bordered closable>yeah!</calcite-tab-title>`, {
+        "--calcite-tab-background-color-hover": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      });
+    });
+
+    describe("selected", () => {
+      themed(html` <calcite-tab-title selected closable>yeah!</calcite-tab-title>`, {
+        "--calcite-tab-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-tab-close-icon-background-color": {
+          shadowSelector: `.${XButtonCSS.button}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+
+    describe("bordered & selected", () => {
+      themed(html`<calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
+        "--calcite-tab-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+        "--calcite-tab-background-color": {
+          shadowSelector: `.${CSS.container}::after`,
+          targetProp: "backgroundColor",
+        },
       });
     });
 
