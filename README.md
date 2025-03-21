@@ -151,17 +151,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 		</tr>
 		<tr>
             <td align="center">
-                <a href="https://github.com/kat10140">
-                    <img src="https://avatars.githubusercontent.com/u/48069902?v=4" width="100;" alt="kat10140"/>
-                    <br />
-                    <sub><b>Katy Robinson</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/arowles">
                     <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
                     <br />
                     <sub><b>Ashley Rowles</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/kat10140">
+                    <img src="https://avatars.githubusercontent.com/u/48069902?v=4" width="100;" alt="kat10140"/>
+                    <br />
+                    <sub><b>Katy Robinson</b></sub>
                 </a>
             </td>
             <td align="center">
