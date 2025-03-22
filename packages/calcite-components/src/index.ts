@@ -25,3 +25,4 @@ export { getAssetPath } from "./runtime";
 
 // Expose specific development types below (by stakeholder request)
 export type { FlowItemLike } from "./components/flow/interfaces";
+export type { IconName } from "./components/icon/interfaces";
