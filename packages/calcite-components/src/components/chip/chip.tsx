@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -13,7 +13,6 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -175,7 +174,7 @@ export class Chip extends LitElement implements InteractiveComponent {
   }
 
   async load(): Promise<void> {
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasText();
     }
   }

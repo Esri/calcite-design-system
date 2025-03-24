@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -29,7 +29,6 @@ import { componentFocusable } from "../../utils/component";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
 import { CSS, IDS } from "./resources";
@@ -379,8 +378,8 @@ export class SegmentedControl
       this.calciteSegmentedControlChange.emit();
     }
 
-    if (isBrowser() && match) {
-      match.focus();
+    if (!isServer && match) {
+      match?.focus();
     }
   }
 
