@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "3.0.1-next.2",
+  "version": "3.0.1-next.4",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -29,6 +29,7 @@
   "license": "SEE LICENSE.md",
   "scripts": {
     "build": "tsx support/run.ts",
+    "build:watch": "tsx --watch support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
