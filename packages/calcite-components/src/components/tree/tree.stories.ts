@@ -18,7 +18,7 @@ function allScaleTreeBuilder(
   context: { args: { selectionMode: Tree["selectionMode"]; lines: boolean } },
 ): string {
   const items = itemsStory();
-  const { selectionMode, lines } = context.args;
+  const { selectionMode = "single", lines } = context.args;
   const scales: Scale[] = ["s", "m", "l"];
 
   return html`
@@ -38,7 +38,7 @@ function allScaleTreeBuilder(
         (scale) => html`
           <div class="tree-container">
             <h3>${selectionMode} selection mode + ${scale} scale</h3>
-            <calcite-tree selection-mode="${selectionMode || "single"}" ${lines ? "lines" : ""} scale="${scale}">
+            <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
               ${items}
             </calcite-tree>
           </div>

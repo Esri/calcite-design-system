@@ -1189,6 +1189,14 @@
     "cluster-radius": 61726,
     "add-link-chart-root-nodes": 61727,
     "utility-network-layer": 61728,
-    "crosshair": 61729
+    "crosshair": 61729,
+    "hammer-lock": 61730,
+    "hammer-coin": 61731,
+    "dual-image-location": 61732,
+    "dual-image-distance": 61733,
+    "dual-image-area": 61734,
+    "language-2": 61735,
+    "browser-plus": 61736,
+    "browser-join": 61737
   }
 }

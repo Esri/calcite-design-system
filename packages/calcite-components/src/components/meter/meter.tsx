@@ -4,11 +4,6 @@ import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
 import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
-import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
@@ -34,7 +29,7 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent, LoadableComponent {
+export class Meter extends LitElement implements FormComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -178,7 +173,6 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.calculateValues();
     afterConnectDefaultValueSet(this, this.value);
   }
@@ -210,7 +204,6 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.updateLabels();
   }
 

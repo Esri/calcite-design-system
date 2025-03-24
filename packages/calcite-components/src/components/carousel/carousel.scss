@@ -39,11 +39,11 @@
   );
   --calcite-internal-internal-carousel-item-icon-color-hover: var(
     --calcite-internal-carousel-item-icon-color-hover,
-    var(--calcite-action-color-transparent-hover)
+    var(--calcite-color-text-1)
   );
   --calcite-internal-internal-carousel-item-icon-color: var(
     --calcite-internal-carousel-item-icon-color,
-    var(--calcite-color-border-3)
+    var(--calcite-color-border-1)
   );
   --calcite-internal-internal-carousel-item-icon-color-selected: var(
     --calcite-internal-carousel-item-icon-color-selected,
@@ -51,11 +51,11 @@
   );
   --calcite-internal-internal-carousel-control-color-hover: var(
     --calcite-internal-carousel-control-color-hover,
-    var(--calcite-internal-carousel-item-icon-color-hover)
+    var(--calcite-color-text-1)
   );
   --calcite-internal-internal-carousel-control-color: var(
     --calcite-internal-carousel-item-icon-color,
-    var(--calcite-color-border-input)
+    var(--calcite-color-text-3)
   );
   --calcite-internal-internal-carousel-autoplay-progress-background-color: var(
     --calcite-internal-carousel-autoplay-progress-background-color,
@@ -165,8 +165,8 @@ calcite-carousel-item:not([selected]) {
 .pagination-item.autoplay-control {
   position: relative;
   color: var(--calcite-internal-internal-carousel-control-color);
-  --calcite-color-brand: var(--calcite-internal-internal-carousel-autoplay-progress-fill-color);
-  --calcite-color-border-3: var(--calcite-internal-internal-carousel-autoplay-progress-background-color);
+  --calcite-progress-fill-color: var(--calcite-internal-internal-carousel-autoplay-progress-fill-color);
+  --calcite-progress-background-color: var(--calcite-internal-internal-carousel-autoplay-progress-background-color);
 }
 
 .autoplay-control:focus .autoplay-progress {

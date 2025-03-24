@@ -44,19 +44,13 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -64,7 +58,6 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import { isHidden } from "../../utils/component";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -97,8 +90,7 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent,
-    LoadableComponent
+    FloatingUIComponent
 {
   // #region Static Members
 
@@ -571,10 +563,6 @@ export class Combobox
     connectFloatingUI(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -621,7 +609,6 @@ export class Combobox
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
-    setComponentLoaded(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
@@ -840,7 +827,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(0);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -851,7 +838,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -902,11 +889,12 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1005,7 +993,7 @@ export class Combobox
   }
 
   private async refreshSelectionDisplay() {
-    await componentLoaded(this);
+    this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
       return;
@@ -1082,9 +1070,11 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
   }
@@ -1245,7 +1235,7 @@ export class Combobox
   }
 
   private updateItemProps(): void {
-    this.items.forEach((item) => {
+    this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
@@ -1317,8 +1307,8 @@ export class Combobox
       );
       item.value = value;
       item.heading = value;
-      item.selected = true;
       this.el.prepend(item);
+      this.updateItems();
       this.toggleSelection(item, true);
       this.open = true;
       if (focus) {
@@ -1367,27 +1357,24 @@ export class Combobox
     chip?.setFocus();
   }
 
-  private scrollToActiveItem(): void {
-    const activeItem = this.filteredItems[this.activeItemIndex];
+  private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
+    const item =
+      scrollToSelected && this.selectedItems?.length
+        ? this.selectedItems[0]
+        : this.filteredItems[this.activeItemIndex];
 
-    if (!activeItem) {
+    if (!item) {
       return;
     }
 
-    const height = this.calculateScrollerHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
-    }
+    item.scrollIntoView({ block: "nearest" });
   }
 
   private shiftActiveItemIndex(delta: number): void {
     const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
   }
 
   private updateActiveItemIndex(index: number): void {
@@ -1431,8 +1418,7 @@ export class Combobox
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
-        chip: true,
-        "chip--active": activeChipIndex === i,
+        [CSS.chip]: true,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const itemLabel = getLabel(item);
@@ -1752,9 +1738,9 @@ export class Combobox
         <div
           ariaLive="polite"
           class={{
-            wrapper: true,
-            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-            "wrapper--active": open,
+            [CSS.wrapper]: true,
+            [CSS.wrapperSingle]: singleSelectionMode || !this.selectedItems.length,
+            [CSS.wrapperActive]: open,
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}

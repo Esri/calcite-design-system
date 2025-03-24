@@ -3,19 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
- * @prop --calcite-loader-size: Specifies the width and height of the component when not set to inline.
+ * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
+ * @prop --calcite-loader-size: When `inline` is not set, specifies the component's width and height.
  * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
  * @prop --calcite-loader-spacing: Specifies the the component's padding.
- * @prop --calcite-loader-progress-color-inline: Specifies the width and height of the component when set to inline.
- * @prop --calcite-loader-text-spacing: Specifies the component's text margin.
- * @prop --calcite-loader-text-weight: Specifies the component's font weight.
- * @prop --calcite-loader-text-color: Specifies the component's text color.
- * @prop --calcite-loader-progress-color: Specifies the component's progress ring color.
+ * @prop --calcite-loader-progress-color-inline: When `inline`, specifies the component's progress ring color.
+ * @prop --calcite-loader-text-spacing: When not `inline`, specifies the component's `text` margin.
+ * @prop --calcite-loader-text-weight: When not `inline` and `text` is provided, specifies the component's `text` font weight.
+ * @prop --calcite-loader-text-color: When not `inline` and `text` is provided, specifies the component's `text` color.
+ * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
-
-@import "../../assets/styles/animation";
 
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;

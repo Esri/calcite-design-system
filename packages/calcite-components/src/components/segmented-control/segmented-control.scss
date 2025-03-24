@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
+ */
+
 :host {
   @apply flex flex-col;
 }
@@ -5,7 +13,7 @@
 .item-wrapper {
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
-  outline: 1px solid var(--calcite-color-border-input);
+  outline: 1px solid var(--calcite-segmented-control-border-color, var(--calcite-color-border-input));
   outline-offset: -1px;
 }
 

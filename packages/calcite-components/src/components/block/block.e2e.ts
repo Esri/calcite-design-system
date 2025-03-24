@@ -37,11 +37,19 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
       {
+        propertyName: "dragDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
       {
         propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expanded",
         defaultValue: false,
       },
       {
@@ -55,6 +63,10 @@ describe("calcite-block", () => {
       {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
       },
     ]);
   });
@@ -74,12 +86,24 @@ describe("calcite-block", () => {
         value: true,
       },
       {
+        propertyName: "expanded",
+        value: true,
+      },
+      {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "dragDisabled",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        value: true,
       },
     ]);
   });
@@ -94,7 +118,7 @@ describe("calcite-block", () => {
 
   describe("accessible", () => {
     accessible(html`
-      <calcite-block heading="heading" description="description" open collapsible>
+      <calcite-block heading="heading" description="description" expanded collapsible>
         <div slot=${SLOTS.icon}>✅</div>
         <div>content</div>
         <label slot=${SLOTS.control}>test <input placeholder="control" /></label>
@@ -105,8 +129,8 @@ describe("calcite-block", () => {
   describe("setFocus", () => {
     describe("focuses block heading toggle", () => {
       focusable(
-        html`<calcite-block heading="Heading" description="summary" collapsible open>
-          <calcite-block-section text="input block-section" open>
+        html`<calcite-block heading="Heading" description="summary" collapsible expanded>
+          <calcite-block-section text="input block-section" expanded>
             <calcite-input
               icon="form-field"
               placeholder="This is an input field... enter something here"
@@ -122,8 +146,8 @@ describe("calcite-block", () => {
     const blockSectionClass = "my-block-section";
     describe("focuses block section", () => {
       focusable(
-        html`<calcite-block heading="Heading" description="summary" open>
-          <calcite-block-section class="${blockSectionClass}" text="input block-section" open>
+        html`<calcite-block heading="Heading" description="summary" expanded>
+          <calcite-block-section class="${blockSectionClass}" text="input block-section" expanded>
             <calcite-input
               icon="form-field"
               placeholder="This is an input field... enter something here"
@@ -162,7 +186,7 @@ describe("calcite-block", () => {
   it("has a loading state", async () => {
     const page = await newE2EPage({
       html: `
-        <calcite-block heading="heading" description="description" open collapsible>
+        <calcite-block heading="heading" description="description" expanded collapsible>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -196,14 +220,14 @@ describe("calcite-block", () => {
 
     const element = await page.find("calcite-block");
     const content = await page.find(`calcite-block >>> #${IDS.content}`);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(await content.isVisible()).toBe(false);
 
-    element.setProperty("open", true);
+    element.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await content.isVisible()).toBe(true);
 
-    element.setProperty("open", false);
+    element.setProperty("expanded", false);
     await page.waitForChanges();
 
     expect(await content.isVisible()).toBe(false);
@@ -230,7 +254,7 @@ describe("calcite-block", () => {
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
-    expect(await element.getProperty("open")).toBe(true);
+    expect(await element.getProperty("expanded")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
@@ -238,9 +262,27 @@ describe("calcite-block", () => {
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(closeSpy).toHaveReceivedEventTimes(1);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
+  });
+
+  // Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
+  it("should map deprecated 'open' prop to 'expanded' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-block></calcite-block>`,
+    });
+    const block = await page.find("calcite-block");
+
+    expect(await block.getProperty("expanded")).toBe(false);
+
+    block.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(true);
+
+    block.setProperty("open", false);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(false);
   });
 
   describe("header", () => {
@@ -317,7 +359,7 @@ describe("calcite-block", () => {
       expect(statusIcon).not.toBeNull();
     });
 
-    it("displays a loading icon  when `loading` is set to true and `open` is set to false", async () => {
+    it("displays a loading icon  when `loading` is set to true and `expanded` is set to false", async () => {
       const headerIcon = "header-icon";
       const page = await newE2EPage();
       await page.setContent(
@@ -383,7 +425,7 @@ describe("calcite-block", () => {
           --calcite-block-padding: ${overrideStyle}
         }
       </style>
-      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
        </calcite-block>`,
     );
@@ -397,7 +439,7 @@ describe("calcite-block", () => {
     const overrideStyle = "0px";
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+      `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
         </calcite-block>`,
     );
@@ -411,8 +453,8 @@ describe("calcite-block", () => {
     const label = "Spatial";
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-block label=${label} open>
-        <calcite-notice open>
+      html`<calcite-block label=${label} expanded>
+        <calcite-notice expanded>
           <div slot="message">Use layer effects sparingly, for emphasis</div>
         </calcite-notice>
       </calcite-block>`,
@@ -431,7 +473,7 @@ describe("calcite-block", () => {
         html`<calcite-block
           heading="heading"
           description="description"
-          open
+          expanded
           collapsible
           icon-end="pen"
           icon-start="pen"
@@ -474,7 +516,7 @@ describe("calcite-block", () => {
         },
       );
     });
-    describe("closed", () => {
+    describe("collapsed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
         "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });

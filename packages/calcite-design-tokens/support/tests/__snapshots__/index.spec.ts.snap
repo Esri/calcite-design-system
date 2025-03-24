@@ -368,7 +368,6 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-2: #202020;
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background: #353535;
-  --calcite-color-focus: #009af2;
 }
 "
 `;
@@ -468,9 +467,10 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
-  --calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-    monospace; /* Font family for code with fallbacks */
-  --calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
+  --calcite-font-family-code:
+    Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; /* Font family for code with fallbacks */
+  --calcite-font-family:
+    "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /* Primary font with fallbacks */
   --calcite-corner-radius-pill: 100%;
   --calcite-corner-radius-round: 4px;
   --calcite-corner-radius-sharp: 0;
@@ -483,10 +483,10 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-border-width-md: 2px;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-none: 0;
-  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
-    0 12px 30px rgba(0, 0, 0, 0.1);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
-    0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  --calcite-shadow-md:
+    0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-sm:
+    0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-corner-radius: var(--calcite-corner-radius-sharp);
 }
@@ -537,7 +537,6 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-foreground-2: #f3f3f3;
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background: #f8f8f8;
-  --calcite-color-focus: #007ac2;
 }
 "
 `;
@@ -869,7 +868,6 @@ export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
 export const calciteColorBackground = {"light":"#f8f8f8","dark":"#353535"};
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)";
-export const calciteColorFocus = {"light":"#007ac2","dark":"#009af2"};
 export const calciteColorForeground1 = {"light":"#ffffff","dark":"#2b2b2b"};
 export const calciteColorForeground2 = {"light":"#f3f3f3","dark":"#202020"};
 export const calciteColorForeground3 = {"light":"#eaeaea","dark":"#151515"};
@@ -1093,7 +1091,6 @@ export const calciteBorderWidthMd : string;
 export const calciteBorderWidthLg : string;
 export const calciteColorBackground : { light: string, dark: string };
 export const calciteColorBackgroundNone : string;
-export const calciteColorFocus : { light: string, dark: string };
 export const calciteColorForeground1 : { light: string, dark: string };
 export const calciteColorForeground2 : { light: string, dark: string };
 export const calciteColorForeground3 : { light: string, dark: string };
@@ -2061,7 +2058,6 @@ $calcite-color-foreground-3: #151515;
 $calcite-color-foreground-2: #202020;
 $calcite-color-foreground-1: #2b2b2b;
 $calcite-color-background: #353535;
-$calcite-color-focus: #009af2;
 "
 `;
 
@@ -2159,9 +2155,10 @@ $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console",
-  monospace; // Font family for code with fallbacks
-$calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
+$calcite-font-family-code:
+  Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; // Font family for code with fallbacks
+$calcite-font-family:
+  "Avenir Next", Avenir, "Helvetica Neue", sans-serif; // Primary font with fallbacks
 $calcite-corner-radius-pill: 100%;
 $calcite-corner-radius-round: 4px;
 $calcite-corner-radius-sharp: 0;
@@ -2228,6 +2225,5 @@ $calcite-color-foreground-3: #eaeaea;
 $calcite-color-foreground-2: #f3f3f3;
 $calcite-color-foreground-1: #ffffff;
 $calcite-color-background: #f8f8f8;
-$calcite-color-focus: #007ac2;
 "
 `;

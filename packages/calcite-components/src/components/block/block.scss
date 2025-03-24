@@ -7,7 +7,7 @@
  * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
  * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-block-heading-text-color-press: When the component is `open`, specifies the `heading` text color.
+ * @prop --calcite-block-heading-text-color-press: When the component is `expanded`, specifies the `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the component's text color.
  */
@@ -24,7 +24,6 @@
 
 @include disabled();
 
-@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 .header {
@@ -205,7 +204,7 @@ calcite-action-menu {
   @apply flex items-stretch;
 }
 
-:host([open]) {
+:host([expanded]) {
   @apply my-2;
 
   .header .title .heading {

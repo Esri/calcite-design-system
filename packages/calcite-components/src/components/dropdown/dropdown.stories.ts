@@ -75,6 +75,18 @@ export const simple = (args: DropdownStoryArgs): string => html`
   </calcite-dropdown>
 `;
 
+export const smallViewport = (): string => html`
+  <calcite-dropdown open>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group group-title="Sort by">
+      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item>Title</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+
 export const simpleAutoWidth = (): string => html`
   <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -511,4 +523,20 @@ export const openInAllScales = (): string => html`
       </calcite-dropdown-group>
     </calcite-dropdown>
   </div>
+`;
+
+export const offsetPlacement = (): string => html`
+  <calcite-dropdown offset-skidding="10" offset-distance="10" open placement="leading">
+    <calcite-button icon-start="rectangle-plus" slot="trigger"></calcite-button>
+    <calcite-dropdown-group group-title="Add to new...">
+      <calcite-dropdown-item icon-start="nodes-link" selected>Link Chart</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">Map</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Add to existing...">
+      <calcite-dropdown-item icon-start="nodes-link" selected>My Link Chart 1</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="nodes-link" selected>My Link Chart 2</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">My Map 1</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="map">My Map 2</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
 `;

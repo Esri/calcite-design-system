@@ -1,11 +1,12 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeAll } from "vitest";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
-import { isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils";
 import type { StepperItem } from "../stepper-item/stepper-item";
+import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
@@ -115,7 +116,7 @@ describe("calcite-stepper", () => {
         </calcite-stepper-item>
       </calcite-stepper>
     `);
-    const stepperItems = await page.findAll("calcite-stepper-items");
+    const stepperItems = await findAll(page, "calcite-stepper-item");
 
     for (const item of stepperItems) {
       expect(await item.getProperty("icon")).toBe(true);
@@ -526,6 +527,50 @@ describe("calcite-stepper", () => {
     });
   });
 
+  describe("items should retain focus after being clicked for all layouts with clickable, focusable item UX", () => {
+    function createStepperHTML(
+      clickableFocusableItemLayout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+    ): string {
+      return html`
+        <calcite-stepper layout="${clickableFocusableItemLayout}">
+          <calcite-stepper-item heading="Step 1" id="step-1">
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2" id="step-2">
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      `;
+    }
+
+    async function assertFocusRetention(page: E2EPage, layout: "horizontal" | "vertical"): Promise<void> {
+      await page.setContent(createStepperHTML(layout));
+
+      const internalClickableElementSelector =
+        layout === "horizontal" ? `>>> .${STEPPER_ITEM_CSS.stepperItemHeader}` : "";
+
+      await page.click(`#step-2 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-2")).toBe(true);
+
+      await page.click(`#step-1 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-1")).toBe(true);
+    }
+
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    it("retains item focus in horizontal layout", async () => {
+      await assertFocusRetention(page, "horizontal");
+    });
+
+    it("retains item focus in vertical layout", async () => {
+      await assertFocusRetention(page, "vertical");
+    });
+  });
+
   describe("should emit calciteStepperChange/calciteStepperItemChange on user interaction", () => {
     let layout: Stepper["el"]["layout"];
 
@@ -700,7 +745,7 @@ describe("calcite-stepper", () => {
       <calcite-stepper-item heading="الخطوةالاولى" complete id="step-two">
        الخطوة الأولى للمحتوى هنا
     </calcite-stepper>`);
-    const [stepper1, stepper2] = await page.findAll("calcite-stepper");
+    const [stepper1, stepper2] = await findAll(page, "calcite-stepper");
     expect(stepper2.getAttribute("numbering-system")).toEqual("arab");
 
     await stepper1.click();
@@ -739,7 +784,7 @@ describe("calcite-stepper", () => {
     );
 
     const stepper = await page.find("calcite-stepper");
-    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+    const [stepperItem1, stepperItem2] = await findAll(page, "calcite-stepper-item");
     const messages = await import("./assets/t9n/messages.json");
 
     expect(stepper.getAttribute("aria-label")).toEqual(messages.label);
@@ -765,7 +810,7 @@ describe("calcite-stepper", () => {
   </calcite-stepper-item>
 </calcite-stepper>`);
 
-    const [stepperItem1, stepperItem2, stepperItem3] = await page.findAll("calcite-stepper-item");
+    const [stepperItem1, stepperItem2, stepperItem3] = await findAll(page, "calcite-stepper-item");
     expect(await stepperItem1.getProperty("selected")).toBe(true);
     expect(await stepperItem2.getProperty("selected")).not.toBe(true);
     expect(await stepperItem3.getProperty("selected")).not.toBe(true);
@@ -786,7 +831,7 @@ describe("calcite-stepper", () => {
         </calcite-stepper>`,
       );
 
-      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+      const [stepperItem1, stepperItem2] = await findAll(page, "calcite-stepper-item");
       expect(await stepperItem1.getProperty("selected")).toBe(false);
       expect(await stepperItem2.getProperty("selected")).toBe(true);
     },
@@ -806,8 +851,8 @@ describe("calcite-stepper", () => {
         </calcite-stepper>`,
       );
 
-      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+      const [actionStart, actionEnd] = await findAll(page, "calcite-stepper >>> calcite-action");
+      const [stepperItem1, stepperItem2] = await findAll(page, "calcite-stepper-item");
 
       expect(await actionStart.isVisible()).toBe(true);
       expect(await actionStart.getProperty("disabled")).toEqual(true);
@@ -837,7 +882,7 @@ describe("calcite-stepper", () => {
         </calcite-stepper>`,
       );
 
-      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+      const [actionStart, actionEnd] = await findAll(page, "calcite-stepper >>> calcite-action");
 
       const actionEndId = actionEnd.getAttribute("id");
       const actionStartId = actionStart.getAttribute("id");
@@ -888,7 +933,7 @@ describe("calcite-stepper", () => {
       );
 
       const stepper = await page.find("calcite-stepper");
-      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+      const [actionStart, actionEnd] = await findAll(page, "calcite-stepper >>> calcite-action");
       const changeSpy = await stepper.spyOnEvent("calciteStepperChange");
       const itemChangeSpy = await stepper.spyOnEvent("calciteStepperItemChange");
       expect(changeSpy).toHaveReceivedEventTimes(0);
@@ -936,7 +981,7 @@ describe("calcite-stepper", () => {
       await stepper.setProperty("layout", "horizontal-single");
       await page.waitForChanges();
 
-      const displayedItems = await page.findAll("calcite-stepper-item:not([hidden]):not([item-hidden])");
+      const displayedItems = await findAll(page, "calcite-stepper-item:not([hidden]):not([item-hidden])");
       expect(displayedItems.length).toBe(1);
     });
   });

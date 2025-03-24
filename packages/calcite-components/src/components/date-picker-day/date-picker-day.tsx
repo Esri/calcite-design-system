@@ -18,12 +18,7 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import type { DatePicker } from "../date-picker/date-picker";
 import { styles } from "./date-picker-day.scss";
 
@@ -33,7 +28,7 @@ declare global {
   }
 }
 
-export class DatePickerDay extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DatePickerDay extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -143,16 +138,11 @@ export class DatePickerDay extends LitElement implements InteractiveComponent, L
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
