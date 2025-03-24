@@ -279,8 +279,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : "check-square-f";
-    const selectionIcon = isSingleSelect ? "circle-inset-large" : "check-square-f";
+    const icon = disabled || isSingleSelect ? undefined : "check";
+    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
