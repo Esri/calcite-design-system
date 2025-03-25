@@ -88,6 +88,10 @@ function createLocaleDateTimeFormatter({
   return getDateTimeFormat(locale, options);
 }
 
+function formatFractionalSecond(fractionalSecondAsInteger: string, step: number): string {
+  return parseFloat(`0.${fractionalSecondAsInteger}`).toFixed(decimalPlaces(step)).replace("0.", "");
+}
+
 export function formatTimePart(number: number, minLength?: number): string {
   if (number === null || number === undefined) {
     return;
@@ -112,21 +116,6 @@ export function formatTimePart(number: number, minLength?: number): string {
   }
 }
 
-export function formatTimeString(value: string): string {
-  if (!isValidTime(value)) {
-    return null;
-  }
-  const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-  let formattedValue = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
-  if (second) {
-    formattedValue += `:${formatTimePart(parseInt(second))}`;
-    if (fractionalSecond) {
-      formattedValue += `.${fractionalSecond}`;
-    }
-  }
-  return formattedValue;
-}
-
 function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): number {
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
@@ -145,14 +134,6 @@ export function getLocaleHourFormat(locale: SupportedLocale): EffectiveHourForma
   const formatter = createLocaleDateTimeFormatter(options);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
-}
-
-export function getLocaleOppositeHourFormat(locale: SupportedLocale): EffectiveHourFormat {
-  const localeDefaultHourFormat = getLocaleHourFormat(locale);
-  if (localeDefaultHourFormat === "24") {
-    return "12";
-  }
-  return "24";
 }
 
 /**
@@ -218,9 +199,15 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]):
       : null;
   }
   if (part === "secondSuffix") {
-    const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
-    const secondSuffix = parts[secondIndex + 1];
-    return secondSuffix && secondSuffix.type === "literal" ? secondSuffix.value?.trim() || null : null;
+    let secondSuffixPart;
+    const fractionalSecondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "fractionalSecond"));
+    if (fractionalSecondIndex) {
+      secondSuffixPart = parts[fractionalSecondIndex + 1];
+    } else {
+      const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+      secondSuffixPart = parts[secondIndex + 1];
+    }
+    return secondSuffixPart && secondSuffixPart.type === "literal" ? secondSuffixPart.value?.trim() || null : null;
   }
   return parts.find(({ type }) => (part == "meridiem" ? type === "dayPeriod" : type === part))?.value || null;
 }
@@ -233,32 +220,6 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
-export function getMeridiemFormatToken(locale: SupportedLocale): "a" | "A" | "a " | " a" | " A" | "A " {
-  const localizedAM = getLocalizedMeridiem(locale, "AM");
-  const localizedPM = getLocalizedMeridiem(locale, "PM");
-  const meridiemOrder = getMeridiemOrder(locale);
-  const timeParts = getTimeParts({
-    hour12: true,
-    value: "00:00:00",
-    locale,
-    numberingSystem: "latn",
-  });
-  const separator =
-    timeParts[meridiemOrder === 0 ? 1 : meridiemOrder - 1].type === "hour" ||
-    timeParts[meridiemOrder - 1]?.type === "second"
-      ? ""
-      : " ";
-  if (
-    // Unknown dayjs parsing bug with norwegian.  Dayjs only accepts uppercase meridiems for some reason, despite the LT/LTS config
-    locale !== "no" &&
-    localizedAM === localizedAM.toLocaleLowerCase(locale) &&
-    localizedPM === localizedPM.toLocaleLowerCase(locale)
-  ) {
-    return meridiemOrder === 0 ? `a${separator}` : `${separator}a`;
-  }
-  return meridiemOrder === 0 ? `A${separator}` : `${separator}A`;
-}
-
 export function getMeridiemOrder(locale: SupportedLocale): number {
   const timeParts = getTimeParts({
     hour12: true,
@@ -269,23 +230,34 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
   return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
-export function isLocaleHourFormatOpposite(hourFormat: EffectiveHourFormat, locale: SupportedLocale): boolean {
-  return hourFormat === getLocaleOppositeHourFormat(locale);
-}
-
-export function isValidTime(value: string): boolean {
-  if (!value || value.startsWith(":") || value.endsWith(":")) {
+export function isValidTime(value: string | Time): boolean {
+  if (
+    !value ||
+    (typeof value === "string" && (value.startsWith(":") || value.endsWith(":"))) ||
+    (typeof value !== "string" && !value.hour) ||
+    (typeof value !== "string" && !value.minute)
+  ) {
     return false;
   }
-  const splitValue = value.split(":");
-  const validLength = splitValue.length > 1 && splitValue.length < 4;
-  if (!validLength) {
+  let hour;
+  let minute;
+  let second;
+  if (typeof value === "string") {
+    const splitValue = value.split(":");
+    hour = splitValue[0];
+    minute = splitValue[1];
+    second = splitValue[2];
+  } else {
+    hour = value.hour;
+    minute = value.minute;
+    second = value && value.second;
+  }
+  if (!hour || !minute) {
     return false;
   }
-  const [hour, minute, second] = splitValue;
-  const hourAsNumber = parseInt(splitValue[0]);
-  const minuteAsNumber = parseInt(splitValue[1]);
-  const secondAsNumber = parseInt(splitValue[2]);
+  const hourAsNumber = parseInt(hour);
+  const minuteAsNumber = parseInt(minute);
+  const secondAsNumber = parseInt(second);
   const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
   const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
   const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
@@ -302,7 +274,13 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     return false;
   }
   const valueAsNumber = Number(value);
-  return part === "hour" ? valueAsNumber >= 0 && valueAsNumber < 24 : valueAsNumber >= 0 && valueAsNumber < 60;
+  if (part === "hour") {
+    return valueAsNumber >= 0 && valueAsNumber < 24;
+  }
+  if (part === "fractionalSecond") {
+    return valueAsNumber >= 0 && valueAsNumber <= 999;
+  }
+  return valueAsNumber >= 0 && valueAsNumber < 60;
 }
 
 interface LocalizeTimePartParameters {
@@ -320,6 +298,9 @@ export function localizeTimePart({
   numberingSystem = "latn",
   hour12,
 }: LocalizeTimePartParameters): string {
+  if (!isValidTimePart(value, part)) {
+    return;
+  }
   if (part === "fractionalSecond") {
     const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
     let localizedFractionalSecond = null;
@@ -343,9 +324,6 @@ export function localizeTimePart({
     return localizedFractionalSecond;
   }
 
-  if (!isValidTimePart(value, part)) {
-    return;
-  }
   const valueAsNumber = parseInt(value);
   const date = new Date(
     Date.UTC(
@@ -362,31 +340,42 @@ export function localizeTimePart({
   }
   const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
   const parts = formatter.formatToParts(date);
+
+  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+  // @see https://issues.chromium.org/issues/40172622
+  // @see https://issues.chromium.org/issues/40676973
+  if (part === "meridiem" && hour12 && (locale === "bs" || locale === "mk")) {
+    const localeData = localizedTwentyFourHourMeridiems.get(locale);
+    return date.getHours() > 11 ? localeData.am : localeData.pm;
+  }
+
   return getLocalizedTimePart(part, parts);
 }
 
 interface LocalizeTimeStringParameters {
-  value: string;
-  includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
+  hour12?: boolean;
+  includeSeconds?: boolean;
   locale: SupportedLocale;
   numberingSystem?: NumberingSystem;
-  hour12?: boolean;
+  parts?: boolean;
+  value: string;
 }
 
+// TODO: remove this function after updating input-time-picker tests that rely on it
 export function localizeTimeString({
-  value,
-  locale,
-  numberingSystem = "latn",
-  includeSeconds = true,
   fractionalSecondDigits,
   hour12,
-}: LocalizeTimeStringParameters): string {
+  includeSeconds = true,
+  locale,
+  numberingSystem = "latn",
+  parts = false,
+  value,
+}: LocalizeTimeStringParameters): string | LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
-
   const dateFromTimeString = new Date(
     Date.UTC(
       0,
@@ -399,58 +388,90 @@ export function localizeTimeString({
     ),
   );
   const formatter = createLocaleDateTimeFormatter({
-    locale,
-    numberingSystem,
-    includeSeconds,
     fractionalSecondDigits,
     hour12,
+    includeSeconds,
+    locale,
+    numberingSystem,
   });
-  let result = formatter.format(dateFromTimeString) || null;
+  if (parts) {
+    const parts = formatter.formatToParts(dateFromTimeString);
+    let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
-  // The bulgarian "ч." character (abbreviation for "hours") should not display for short and medium time formats.
-  if (result && locale === "bg" && result.includes(" ч.")) {
-    result = result.replaceAll(" ч.", "");
-  }
-
-  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
-  // @see https://issues.chromium.org/issues/40172622
-  // @see https://issues.chromium.org/issues/40676973
-  if (locale === "bs" || locale === "mk") {
-    const localeData = localizedTwentyFourHourMeridiems.get(locale);
-    if (result.includes("AM")) {
-      result = result.replaceAll("AM", localeData.am);
-    } else if (result.includes("PM")) {
-      result = result.replaceAll("PM", localeData.pm);
+    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+    // @see https://issues.chromium.org/issues/40172622
+    // @see https://issues.chromium.org/issues/40676973
+    if (hour12 && (locale === "bs" || locale === "mk")) {
+      const localeData = localizedTwentyFourHourMeridiems.get(locale);
+      localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
     }
-    // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
-    if (result.indexOf(".") !== result.length - 1) {
-      result = result.replace(".", ",");
-    }
-  }
+    return {
+      localizedHour: getLocalizedTimePart("hour", parts),
+      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      localizedMinute: getLocalizedTimePart("minute", parts),
+      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      localizedSecond: getLocalizedTimePart("second", parts),
+      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
+      localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
+      localizedMeridiem,
+    };
+  } else {
+    let result = formatter.format(dateFromTimeString) || null;
 
-  return result;
+    // The bulgarian "ч." character (abbreviation for "hours") should not display for short and medium time formats.
+    if (!parts && typeof result === "string" && locale === "bg" && result && result.includes(" ч.")) {
+      result = result.replaceAll(" ч.", "");
+    }
+
+    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+    // @see https://issues.chromium.org/issues/40172622
+    // @see https://issues.chromium.org/issues/40676973
+    if (locale === "bs" || locale === "mk") {
+      const localeData = localizedTwentyFourHourMeridiems.get(locale);
+      if (result.includes("AM")) {
+        result = result.replaceAll("AM", localeData.am);
+      } else if (result.includes("PM")) {
+        result = result.replaceAll("PM", localeData.pm);
+      }
+      // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
+      if (result.indexOf(".") !== result.length - 1) {
+        result = result.replace(".", ",");
+      }
+    }
+    return result;
+  }
 }
 
 interface LocalizeTimeStringToPartsParameters {
-  value: string;
+  hour12?: boolean;
   locale: SupportedLocale;
   numberingSystem?: NumberingSystem;
-  hour12?: boolean;
+  step: number;
+  value: string;
 }
 
 export function localizeTimeStringToParts({
-  value,
+  hour12,
   locale,
   numberingSystem = "latn",
-  hour12,
+  step = 60,
+  value,
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
+  const { hour, minute, second = "0", fractionalSecond = "0" } = parseTimeString(value, step);
+  const dateFromTimeString = new Date(
+    Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second), parseInt(fractionalSecond)),
+  );
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem, hour12 });
+    const formatter = createLocaleDateTimeFormatter({
+      fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
+      hour12,
+      locale,
+      numberingSystem,
+    });
     const parts = formatter.formatToParts(dateFromTimeString);
     let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
 
@@ -469,12 +490,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: localizeTimePart({
-        value: fractionalSecond,
-        part: "fractionalSecond",
-        locale,
-        numberingSystem,
-      }),
+      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem,
     };
@@ -488,6 +504,7 @@ interface GetTimePartsParameters {
   locale: SupportedLocale;
   numberingSystem: NumberingSystem;
 }
+
 export function getTimeParts({
   hour12,
   value,
@@ -507,13 +524,16 @@ export function getTimeParts({
   return null;
 }
 
-export function parseTimeString(value: string): Time {
+export function parseTimeString(value: string, step?: number): Time {
   if (isValidTime(value)) {
     const [hour, minute, secondDecimal] = value.split(":");
     let second = secondDecimal;
     let fractionalSecond = null;
     if (secondDecimal?.includes(".")) {
       [second, fractionalSecond] = secondDecimal.split(".");
+    }
+    if (step) {
+      fractionalSecond = formatFractionalSecond(fractionalSecond, step);
     }
     return {
       fractionalSecond,
@@ -530,20 +550,38 @@ export function parseTimeString(value: string): Time {
   };
 }
 
-export function toISOTimeString(value: string, includeSeconds = true): string {
+export function toISOTimeString(value: string | Time, step: number = 60): string {
   if (!isValidTime(value)) {
-    return "";
+    return null;
   }
-  const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-
-  let isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
-
-  if (includeSeconds) {
-    isoTimeString += `:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
-    if (fractionalSecond) {
-      isoTimeString += `.${fractionalSecond}`;
+  let isoTimeString;
+  if (typeof value === "string") {
+    const [hour, minute, secondDecimal] = value.split(":");
+    let second = secondDecimal;
+    let fractionalSecond = null;
+    if (secondDecimal?.includes(".")) {
+      [second, fractionalSecond] = secondDecimal.split(".");
+    }
+    isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+    if (step < 60) {
+      isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
+      if (step < 1) {
+        isoTimeString += `.${formatFractionalSecond(fractionalSecond, step)}`;
+      }
+    }
+  } else {
+    const { hour, minute } = value;
+    if (hour && minute) {
+      isoTimeString = `${formatTimePart(parseInt(value.hour))}:${formatTimePart(parseInt(value.minute))}`;
+      if (step < 60) {
+        isoTimeString += `:${formatTimePart(parseInt(value.second || "0"))}`;
+        if (step < 1) {
+          isoTimeString += `.${formatFractionalSecond(value.fractionalSecond || "0", step)}`;
+        }
+      }
+    } else {
+      isoTimeString = null;
     }
   }
-
   return isoTimeString;
 }
