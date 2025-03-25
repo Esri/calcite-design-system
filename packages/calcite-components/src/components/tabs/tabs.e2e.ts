@@ -8,6 +8,7 @@ import { Scale } from "../interfaces";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
+import { CSS } from "./resources";
 import { TabPosition } from "./interfaces";
 import type { Tabs } from "./tabs";
 
@@ -451,7 +452,7 @@ describe("calcite-tabs", () => {
     describe("default", () => {
       themed("calcite-tabs", {
         "--calcite-tab-border-color": {
-          shadowSelector: `section`,
+          shadowSelector: `.${CSS.section}`,
           targetProp: "borderBlockStartColor",
         },
       });
@@ -467,7 +468,7 @@ describe("calcite-tabs", () => {
             targetProp: "boxShadow",
           },
           {
-            shadowSelector: `section`,
+            shadowSelector: `.${CSS.section}`,
             targetProp: "borderColor",
           },
         ],
