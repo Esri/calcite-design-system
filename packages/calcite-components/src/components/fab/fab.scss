@@ -1,11 +1,24 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-fab-background-color: Specifies the component's background color.
+ * @prop --calcite-fab-shadow: Specifies the component's shadow.
+ */
+
 :host {
-  @apply flex bg-transparent;
+  @apply flex;
+
+  background-color: var(--calcite-fab-background-color, transparent);
 }
 
 @include disabled();
 
 calcite-button {
-  @apply shadow-2;
+  --calcite-fab-shadow-internal: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--calcite-fab-shadow, var(--calcite-fab-shadow-internal));
+
   &:hover {
     @apply shadow-2-lg;
   }
