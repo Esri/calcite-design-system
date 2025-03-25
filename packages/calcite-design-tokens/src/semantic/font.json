@@ -510,5 +510,163 @@
         }
       }
     }
+  },
+  "light": {
+    "0": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.md}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.lg}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "1": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.lg}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.xl}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "2": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.xl}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.xl}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "3": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "26",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "32",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "4": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "32",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "40",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "5": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "40",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "48",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "6": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "48",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "64",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "7": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "56",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "64",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "8": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "64",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "80",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "minus-3h": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.xs}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.sm}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "minus-2h": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.sm}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.base}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    },
+    "minus-1": {
+      "value": {
+        "fontFamily": "{font.family.avenirNextWorld}",
+        "fontSize": "{semantic.font.size.default}",
+        "fontWeight": "{semantic.font.weight.light}",
+        "lineHeight": "{semantic.font.line-height.fixed.base}",
+        "letterSpacing": "{semantic.font.letter-spacing.normal}",
+        "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+        "textCase": "{semantic.font.text-case.none}",
+        "textDecoration": "{semantic.font.text-decoration.none}"
+      },
+      "type": "typography"
+    }
   }
 }

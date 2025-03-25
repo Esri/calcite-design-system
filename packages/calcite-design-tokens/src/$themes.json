@@ -378,5 +378,28 @@
       "semantic/shadow": "enabled"
     },
     "group": "color"
+  },
+  {
+    "id": "f73c149012cbe50f701fe872aa5b917a14a8c426",
+    "name": "typography",
+    "$figmaStyleReferences": {
+      "light.minus.3h": "S:814b613f65b09c09468f393b1239d538f54be139,",
+      "light.minus-3h": "S:36d1ab05cc688aa0551bec88b3e88e26a621839f,",
+      "light.minus-2h": "S:623a01f35554f70b45d6564561fa3838a26dcd1a,",
+      "light.minus-1": "S:242c7320f8ce284eb3e85e68c52f2c689e9d5c74,",
+      "light.1": "S:5fbd269734de3946479ad09ef16df5d13ecf8ca9,",
+      "light.2": "S:24e072c9cf3b58815df45b5024a31e1a32cb6aa6,",
+      "light.3": "S:277b0783f840cca35f225e6e4a5e71e7d70458c3,",
+      "light.4": "S:f61d9474346b7ff84fdadbe6977d0804ffa93d9f,",
+      "light.5": "S:fb17dcd02ca95503b77b8dce9be1ad29e5991d98,",
+      "light.6": "S:e1f244f1211aa49112e1929d0ab1958deca8fbc9,",
+      "light.7": "S:905f72ed12f2310fc2a0215f754995fb3fdaf04f,",
+      "light.8": "S:e0c75e9d7dcb5ba5b79e4b4a1db65256a70f4a50,",
+      "light.0": "S:bae425622461d4808a03c03243cdb8ff1cba7e6e,"
+    },
+    "selectedTokenSets": {
+      "semantic/font": "enabled"
+    },
+    "group": "typography"
   }
 ]
