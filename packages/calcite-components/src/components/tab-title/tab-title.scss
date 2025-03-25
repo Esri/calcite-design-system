@@ -13,9 +13,9 @@
  * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
  * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
  * @prop --calcite-tab-close-icon-color: Specifies the component's close element icon color.
- * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when pressed.
+ * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when hovered, focused, and active.
  * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
- * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when pressed.
+ * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when hovered, focused, and active.
  */
 
 :host {
