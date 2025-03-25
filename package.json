@@ -43,7 +43,7 @@
     "@eslint/js": "9.22.0",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
-    "@prettier/sync": "0.5.2",
+    "@prettier/sync": "0.5.3",
     "@storybook/addon-a11y": "8.6.7",
     "@storybook/addon-controls": "8.6.7",
     "@storybook/addon-docs": "8.6.7",
