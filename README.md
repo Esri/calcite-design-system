@@ -135,26 +135,26 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/arowles">
+                    <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
+                    <br />
+                    <sub><b>Ashley Rowles</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/DitwanP">
                     <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="100;" alt="DitwanP"/>
                     <br />
                     <sub><b>Ditwan Price</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/kumarGayu">
                     <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
                     <br />
                     <sub><b>Kumar Jayaram Gayatri</b></sub>
-                </a>
-            </td>
-		</tr>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/arowles">
-                    <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
-                    <br />
-                    <sub><b>Ashley Rowles</b></sub>
                 </a>
             </td>
             <td align="center">
