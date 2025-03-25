@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.30...@esri/calcite-components@3.1.0-next.31) (2025-03-25)
+
+### Features
+
+- **combobox-item:** update idle icons ([#11801](https://github.com/Esri/calcite-design-system/issues/11801)) ([0cf9025](https://github.com/Esri/calcite-design-system/commit/0cf902570a1e2e9d76ae1fba4ee3fd2534248f4b)), closes [#10580](https://github.com/Esri/calcite-design-system/issues/10580)
+
 ## [3.1.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.29...@esri/calcite-components@3.1.0-next.30) (2025-03-24)
 
 ### Features
