@@ -25,7 +25,3 @@ export const SLOTS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",
 };
-
-export const RESIZE_TIMEOUT = 100;
-
-export const NO_DIMENSIONS = Object.freeze({ height: 0, width: 0 });
