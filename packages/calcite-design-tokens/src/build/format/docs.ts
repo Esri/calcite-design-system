@@ -1,8 +1,6 @@
-import { relative, resolve } from "node:path";
 import prettierSync from "@prettier/sync";
 import { FormatFn } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { __dirname } from "../utils/node.js";
 import { RegisterFn } from "../types/interfaces.js";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
@@ -10,7 +8,6 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
     timestamp: Date.now(),
     tokens: dictionary.allTokens.map((token) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
-      token.filePath = relative(resolve(__dirname, "..", "..", "..", "..", ""), token.filePath);
 
       delete (token as Partial<Pick<TransformedToken, "original">>).original;
       return token;
