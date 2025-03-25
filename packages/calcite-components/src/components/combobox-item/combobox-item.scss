@@ -112,13 +112,13 @@ ul:focus {
 
 .icon {
   @apply inline-flex
-    opacity-0
     duration-150
     ease-in-out;
+
+  color: var(--calcite-color-border-input);
 }
 
 :host([selected]) .icon {
-  @apply opacity-100;
   color: var(--calcite-combobox-selected-icon-color, var(--calcite-color-brand));
 }
 
