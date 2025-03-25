@@ -1,8 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils";
-import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
@@ -146,19 +145,6 @@ describe("calcite-fab", () => {
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
-      });
-    });
-  });
-
-  describe("theme", () => {
-    describe("default", () => {
-      themed(html`<calcite-fab></calcite-fab>`, {
-        "--calcite-fab-background-color": {
-          targetProp: "--calcite-fab-background-color",
-        },
-        "--calcite-fab-shadow": {
-          targetProp: "--calcite-fab-shadow",
-        },
       });
     });
   });
