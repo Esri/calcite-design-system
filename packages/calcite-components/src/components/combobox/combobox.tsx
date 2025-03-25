@@ -238,6 +238,8 @@ export class Combobox
 
   referenceEl: HTMLDivElement;
 
+  checkboxReferenceEl: HTMLInputElement;
+
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
     this.refreshSelectionDisplay();
@@ -824,8 +826,25 @@ export class Combobox
         }
         break;
       case "ArrowDown":
+        // console.log(
+        //   "this.el.shadowRoot.activeElement === this.textInput.value",
+        //   this.el.shadowRoot.activeElement === this.textInput.value,
+        // );
+
         if (this.filteredItems.length) {
+          // console.log("filteredItems else if block", this.filteredItems);
+          if (
+            this.el.shadowRoot.activeElement === this.textInput.value &&
+            this.selectAll &&
+            (this.activeItemIndex === 0 || this.activeItemIndex === this.filteredItems.length - 1)
+          ) {
+            // console.log("textinputvalue is active", this.textInput.value);
+            this.open = true;
+            this.checkboxReferenceEl.focus();
+            event.preventDefault();
+          }
           event.preventDefault();
+
           if (this.open) {
             this.shiftActiveItemIndex(1);
           } else {
@@ -1123,6 +1142,10 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
+  }
+
+  private setCheckboxReferenceEl(el: HTMLInputElement): void {
+    this.checkboxReferenceEl = el;
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1728,9 +1751,23 @@ export class Combobox
   }
 
   private selectAllKeyDownHandler(event: KeyboardEvent): void {
-    if (isActivationKey(event.key)) {
-      this.selectAllChangeHandler();
-      event.preventDefault();
+    const { key } = event;
+    if (this.el.shadowRoot.activeElement === this.checkboxReferenceEl) {
+      if (isActivationKey(key)) {
+        this.selectAllChangeHandler();
+        event.preventDefault();
+      }
+      switch (key) {
+        case "ArrowDown":
+          if (this.filteredItems.length) {
+            console.log("selectAllKeyDownHandler arrow down block");
+            event.preventDefault();
+            this.checkboxReferenceEl.blur();
+            // this.shiftActiveItemIndex(1);
+            this.textInput.value.focus();
+          }
+          break;
+      }
     }
   }
 
@@ -1755,13 +1792,17 @@ export class Combobox
                   role="checkbox"
                 >
                   <input
+                    aria-labelledby={`${this.guid}-select-all-label`}
                     checked={this.selectAllCheckedState}
                     id={`${this.guid}-select-all`}
                     onChange={this.selectAllChangeHandler}
                     onKeyDown={this.selectAllKeyDownHandler}
+                    ref={this.setCheckboxReferenceEl}
                     type="checkbox"
                   />
-                  <label htmlFor={`${this.guid}-select-all`}>Select all</label>
+                  <label htmlFor={`${this.guid}-select-all`} id={`${this.guid}-select-all-label`}>
+                    Select all
+                  </label>
                 </li>
               )}
             <slot />
