@@ -1856,20 +1856,56 @@ describe("calcite-input-date-picker", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-input-date-picker range></calcite-input-date-picker>`, {
+        "--calcite-input-date-picker-background-color": {
+          targetProp: "--calcite-input-date-picker-background-color",
+        },
+        "--calcite-input-date-picker-border-color": {
+          targetProp: "--calcite-input-date-picker-border-color",
+        },
+        "--calcite-input-date-picker-shadow": {
+          targetProp: "--calcite-input-date-picker-shadow",
+        },
+        "--calcite-input-date-picker-divider-background-color": {
+          targetProp: "--calcite-input-date-picker-divider-background-color",
+        },
         "--calcite-input-date-picker-icon-color": {
           targetProp: "--calcite-input-date-picker-icon-color",
         },
         "--calcite-input-date-picker-icon-color-hover": {
           targetProp: "--calcite-input-date-picker-icon-color-hover",
         },
-        "--calcite-input-date-picker-border-color": {
-          targetProp: "--calcite-input-date-picker-border-color",
+      });
+    });
+
+    describe("input", () => {
+      themed(html`<calcite-input-date-picker range></calcite-input-date-picker>`, {
+        "--calcite-input-date-picker-input-background-color": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-background-color",
         },
-        "--calcite-input-date-picker-background-color": {
-          targetProp: "--calcite-input-date-picker-background-color",
+        "--calcite-input-date-picker-input-border-color": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-border-color",
         },
-        "--calcite-input-date-picker-shadow": {
-          targetProp: "--calcite-input-date-picker-shadow",
+        "--calcite-input-date-picker-input-corner-radius": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-corner-radius",
+        },
+        "--calcite-input-date-picker-input-shadow": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-shadow",
+        },
+        "--calcite-input-date-picker-input-icon-color": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-icon-color",
+        },
+        "--calcite-input-date-picker-input-text-color": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-text-color",
+        },
+        "--calcite-input-date-picker-input-placeholder-text-color": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-date-picker-input-placeholder-text-color",
         },
       });
     });
