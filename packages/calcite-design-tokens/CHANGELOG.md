@@ -5,34 +5,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [3.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0...@esri/calcite-design-tokens@3.0.1) (2025-03-26)
 
-
 ### Bug Fixes
 
-* Allow global focus color token to inherit fallback value ([#11711](https://github.com/Esri/calcite-design-system/issues/11711)) ([a732c8d](https://github.com/Esri/calcite-design-system/commit/a732c8d5af987158ffc877543b93379b94085d9d))
-* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
-* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
-
-## [3.0.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1-next.3...@esri/calcite-design-tokens@3.0.1-next.4) (2025-03-15)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1-next.2...@esri/calcite-design-tokens@3.0.1-next.3) (2025-03-07)
-
-### Bug Fixes
-
-- allow global focus color token to inherit fallback value ([#11711](https://github.com/Esri/calcite-design-system/issues/11711)) ([f8c63e3](https://github.com/Esri/calcite-design-system/commit/f8c63e3f7934423786a794a888921b86629987c3)), closes [#10510](https://github.com/Esri/calcite-design-system/issues/10510) [#10512](https://github.com/Esri/calcite-design-system/issues/10512) [#11391](https://github.com/Esri/calcite-design-system/issues/11391)
-
-## [3.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1-next.1...@esri/calcite-design-tokens@3.0.1-next.2) (2025-03-04)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1-next.0...@esri/calcite-design-tokens@3.0.1-next.1) (2025-02-24)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [3.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0-next.7...@esri/calcite-design-tokens@3.0.1-next.0) (2025-02-10)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- Allow global focus color token to inherit fallback value ([#11711](https://github.com/Esri/calcite-design-system/issues/11711)) ([a732c8d](https://github.com/Esri/calcite-design-system/commit/a732c8d5af987158ffc877543b93379b94085d9d))
+- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
+- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
 
 ## [3.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.2.0...@esri/calcite-design-tokens@3.0.0) (2025-02-08)
 

@@ -5,23 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.0...@esri/eslint-plugin-calcite-components@2.0.1) (2025-03-26)
 
-
 ### Bug Fixes
 
-* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
-* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
-
-## [2.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.1-next.1...@esri/eslint-plugin-calcite-components@2.0.1-next.2) (2025-03-19)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
-
-## [2.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.1-next.0...@esri/eslint-plugin-calcite-components@2.0.1-next.1) (2025-03-04)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
-
-## [2.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.0-next.7...@esri/eslint-plugin-calcite-components@2.0.1-next.0) (2025-02-10)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
+- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
 
 ## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.1...@esri/eslint-plugin-calcite-components@2.0.0) (2025-02-08)
 
