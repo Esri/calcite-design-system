@@ -395,7 +395,19 @@
       "light.6": "S:e1f244f1211aa49112e1929d0ab1958deca8fbc9,",
       "light.7": "S:905f72ed12f2310fc2a0215f754995fb3fdaf04f,",
       "light.8": "S:e0c75e9d7dcb5ba5b79e4b4a1db65256a70f4a50,",
-      "light.0": "S:bae425622461d4808a03c03243cdb8ff1cba7e6e,"
+      "light.0": "S:bae425622461d4808a03c03243cdb8ff1cba7e6e,",
+      "light.text-0h • 16px": "S:8f13a80a256464570a3ec0380516d905b83129f2,",
+      "light.text-1h • 18px": "S:8d61c61ab98aa139d7a857408e0b60c32fecab7c,",
+      "light.text-2h • 20px": "S:45c03a65687822a30d1008056a8d17ec29c22eaa,",
+      "light.text-3h • 26px": "S:a5e1135e526932210c8b7a56d577ccc8f81d2548,",
+      "light.text-4h • 32px": "S:f1d2ec193039b3cad3a3b906cf448ca29b1a7bf4,",
+      "light.text-5h • 40px": "S:c4271c7a83fc4a09b6eb2b51895e549cd5abc17c,",
+      "light.text-6h • 48px": "S:6ca757478bc23a0b67a0633f3f6ca3b4e5a40e72,",
+      "light.text-7h • 56px": "S:7493c651e8aadbab91a02a1be81d725ceb8a824a,",
+      "light.text-8h • 64px": "S:b33b84cffb4ed234a3a7625e789900d1fe99af4c,",
+      "light.text--3h • 10px": "S:5a5c4503bd47df998e7075c74411417254373c49,",
+      "light.text--2h • 12px": "S:fbf54147ae0c9bd46a6bd0ebbb88ea46c42f6c59,",
+      "light.text--1h • 14px": "S:7f2c40d441897f60b5e3218c7b1ae03f4fc80199,"
     },
     "selectedTokenSets": {
       "semantic/font": "enabled"

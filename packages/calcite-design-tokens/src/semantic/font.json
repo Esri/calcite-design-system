@@ -512,7 +512,7 @@
     }
   },
   "light": {
-    "0": {
+    "text-0h • 16px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.md}",
@@ -525,7 +525,7 @@
       },
       "type": "typography"
     },
-    "1": {
+    "text-1h • 18px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.lg}",
@@ -538,7 +538,7 @@
       },
       "type": "typography"
     },
-    "2": {
+    "text-2h • 20px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.xl}",
@@ -551,7 +551,7 @@
       },
       "type": "typography"
     },
-    "3": {
+    "text-3h • 26px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "26",
@@ -564,7 +564,7 @@
       },
       "type": "typography"
     },
-    "4": {
+    "text-4h • 32px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "32",
@@ -577,7 +577,7 @@
       },
       "type": "typography"
     },
-    "5": {
+    "text-5h • 40px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "40",
@@ -590,7 +590,7 @@
       },
       "type": "typography"
     },
-    "6": {
+    "text-6h • 48px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "48",
@@ -603,7 +603,7 @@
       },
       "type": "typography"
     },
-    "7": {
+    "text-7h • 56px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "56",
@@ -616,7 +616,7 @@
       },
       "type": "typography"
     },
-    "8": {
+    "text-8h • 64px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "64",
@@ -629,7 +629,7 @@
       },
       "type": "typography"
     },
-    "minus-3h": {
+    "text--3h • 10px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.xs}",
@@ -642,7 +642,7 @@
       },
       "type": "typography"
     },
-    "minus-2h": {
+    "text--2h • 12px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.sm}",
@@ -655,7 +655,7 @@
       },
       "type": "typography"
     },
-    "minus-1": {
+    "text--1h • 14px": {
       "value": {
         "fontFamily": "{font.family.avenirNextWorld}",
         "fontSize": "{semantic.font.size.default}",
