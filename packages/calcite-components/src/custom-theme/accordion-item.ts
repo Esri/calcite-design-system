@@ -2,16 +2,12 @@ import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
 
 export const accordionItemTokens = {
-  calciteAccordionItemBackgroundColor: "",
-  calciteAccordionItemBorderColor: "",
-  calciteAccordionItemIconColorEnd: "",
-  calciteAccordionItemIconColorStart: "",
   calciteAccordionItemContentSpace: "",
   calciteAccordionItemExpandIconColor: "",
   calciteAccordionItemHeaderBackgroundColor: "",
   calciteAccordionItemHeadingTextColor: "",
-  calciteAccordionItemIconColor: "",
-  calciteAccordionItemTextColor: "",
+  calciteAccordionItemIconColorEnd: "",
+  calciteAccordionItemIconColorStart: "",
 };
 
 export const accordionItem = (idx: number): string =>

@@ -135,12 +135,21 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/arowles">
+                    <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
+                    <br />
+                    <sub><b>Ashley Rowles</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/DitwanP">
                     <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="100;" alt="DitwanP"/>
                     <br />
                     <sub><b>Ditwan Price</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/kumarGayu">
                     <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
@@ -148,8 +157,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
                     <sub><b>Kumar Jayaram Gayatri</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/kat10140">
                     <img src="https://avatars.githubusercontent.com/u/48069902?v=4" width="100;" alt="kat10140"/>
@@ -162,13 +169,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
                     <img src="https://avatars.githubusercontent.com/u/12614215?v=4" width="100;" alt="pr3tori4n"/>
                     <br />
                     <sub><b>Harry Robbins</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/arowles">
-                    <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
-                    <br />
-                    <sub><b>Ashley Rowles</b></sub>
                 </a>
             </td>
             <td align="center">
