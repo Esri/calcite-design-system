@@ -3,16 +3,22 @@ import { AttributeTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 
-export const transformAttributePlatformNames: AttributeTransform["transform"] = (token) => ({
-  ...token.attributes,
-  names: {
-    scss: `$${kebabCase(token.name)}`,
-    css: `var(--${kebabCase(token.name)})`,
-    js: `${token.path.join(".")}`,
-    docs: `${token.path.join(".")}`,
-    es6: `${camelCase(token.name)}`,
-  },
-});
+export const transformAttributePlatformNames: AttributeTransform["transform"] = (token) => {
+  const isKebab = token.name.includes("-");
+  const kebabName = isKebab ? token.name : kebabCase(token.name);
+  const camelCaseName = isKebab ? camelCase(token.name) : token.name;
+
+  return {
+    ...token.attributes,
+    names: {
+      scss: `$${kebabName}`,
+      css: `var(--${kebabName})`,
+      js: `${token.path.join(".")}`,
+      docs: `${token.path.join(".")}`,
+      es6: `${camelCaseName}`,
+    },
+  };
+};
 
 export const registerAttributePlatformNames: RegisterFn = () => {
   StyleDictionary.registerTransform({
