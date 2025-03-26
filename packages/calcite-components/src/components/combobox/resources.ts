@@ -5,6 +5,7 @@ export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxI
 export const CSS = {
   input: "input",
   inputHidden: "input--hidden",
+  chip: "chip",
   chipInvisible: "chip--invisible",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
@@ -14,6 +15,9 @@ export const CSS = {
   selectedIcon: "selected-icon",
   floatingUIContainer: "floating-ui-container",
   screenReadersOnly: "screen-readers-only",
+  wrapper: "wrapper",
+  wrapperSingle: "wrapper--single",
+  wrapperActive: "wrapper--active",
 };
 
 export const IDS = {

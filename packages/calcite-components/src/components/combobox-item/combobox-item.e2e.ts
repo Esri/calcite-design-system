@@ -1,6 +1,9 @@
 import { describe } from "vitest";
-import { defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-combobox-item", () => {
   describe("defaults", () => {
@@ -45,5 +48,121 @@ describe("calcite-combobox-item", () => {
 
   describe("disabled", () => {
     disabled("calcite-combobox-item", { focusTarget: "none" });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const comboboxHTML = html` <calcite-combobox-item
+        value="Pikachu"
+        heading="Pikachu"
+        description="Pokemon's mascot"
+        short-heading="0025"
+        icon="tree"
+      ></calcite-combobox-item>`;
+
+      const comboboxItemTokens: ComponentTestTokens = {
+        "--calcite-combobox-text-color": [
+          {
+            shadowSelector: ` .${CSS.label} `,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconCustom}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-combobox-text-color-hover": [
+          {
+            shadowSelector: ` .${CSS.label} `,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: ` .${CSS.label} `,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: `calcite-combobox-item >>> .${CSS.label} ` },
+          },
+          {
+            shadowSelector: `.${CSS.iconCustom}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.iconCustom}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: `calcite-combobox-item >>> .${CSS.iconCustom} ` },
+          },
+        ],
+        "--calcite-combobox-item-background-color-active": {
+          shadowSelector: ` .${CSS.label} `,
+          selector: "calcite-combobox-item",
+          targetProp: "backgroundColor",
+          state: { press: `calcite-combobox-item >>> .${CSS.label} ` },
+        },
+        "--calcite-combobox-item-background-color-hover": {
+          shadowSelector: ` .${CSS.label} `,
+          selector: "calcite-combobox-item",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-combobox-description-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.shortText}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-combobox-description-text-color-press": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: `calcite-combobox-item >>> .${CSS.description} ` },
+          },
+          {
+            shadowSelector: `.${CSS.shortText}`,
+            selector: "calcite-combobox-item",
+            targetProp: "color",
+            state: { press: `calcite-combobox-item >>> .${CSS.shortText} ` },
+          },
+        ],
+        "--calcite-combobox-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          selector: "calcite-combobox-item",
+          targetProp: "color",
+        },
+      };
+      themed(comboboxHTML, comboboxItemTokens);
+    });
+
+    describe("selected", () => {
+      const selectedComboboxItemHTML = html` <calcite-combobox-item
+        value="Pikachu"
+        heading="Pikachu"
+        description="Pokemon's mascot"
+        short-heading="0025"
+        icon="tree"
+        selected
+      ></calcite-combobox-item>`;
+      const comboboxItemTokens: ComponentTestTokens = {
+        "--calcite-combobox-selected-icon-color": {
+          shadowSelector: ` .${CSS.icon} `,
+          selector: "calcite-combobox-item",
+          targetProp: "color",
+        },
+      };
+      themed(selectedComboboxItemHTML, comboboxItemTokens);
+    });
   });
 });
