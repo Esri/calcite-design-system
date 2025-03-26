@@ -73,8 +73,6 @@ export class TabNav extends LitElement {
 
   private makeFirstVisibleTabClosable = false;
 
-  private userTriggeredTabActivation = false;
-
   // #endregion
 
   // #region State Properties
@@ -156,7 +154,6 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
     this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
-    this.listen("calciteTabsActivate", this.activateTabHandler);
     this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listenOn<CustomEvent<TabChangeEventDetail>>(
@@ -192,13 +189,6 @@ export class TabNav extends LitElement {
 
     if (changes.has("selectedTabId")) {
       this.selectedTabIdChanged();
-    }
-
-    if (
-      (changes.has("selectedTitle") || changes.has("selectedTabId")) &&
-      this.userTriggeredTabActivation
-    ) {
-      this.calciteTabChange.emit();
     }
 
     const { parentTabsEl } = this;
@@ -250,6 +240,7 @@ export class TabNav extends LitElement {
 
   private internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const activatedTabTitle = event.target as TabTitle["el"];
+    const currentSelectedTabTitle = this.selectedTitle;
 
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
@@ -257,7 +248,9 @@ export class TabNav extends LitElement {
     event.stopPropagation();
 
     this.selectedTitle = activatedTabTitle;
-    this.userTriggeredTabActivation = event.detail.isUserTriggered;
+    if (currentSelectedTabTitle !== activatedTabTitle && event.detail.isUserTriggered) {
+      this.calciteTabChange.emit();
+    }
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
