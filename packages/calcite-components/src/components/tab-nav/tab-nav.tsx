@@ -295,10 +295,6 @@ export class TabNav extends LitElement {
     });
   }
 
-  private activateTabHandler(event: CustomEvent<void>): void {
-    event.stopPropagation();
-  }
-
   private internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
     const closedTabTitleEl = event.target as TabTitle["el"];
     this.handleTabTitleClose(closedTabTitleEl);
