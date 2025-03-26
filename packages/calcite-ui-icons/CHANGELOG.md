@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0...@esri/calcite-ui-icons@4.1.0) (2025-03-26)
+
+
+### Features
+
+* Add browser join and browser plus ([#11779](https://github.com/Esri/calcite-design-system/issues/11779)) ([8f69b2d](https://github.com/Esri/calcite-design-system/commit/8f69b2db1e4b1fa74a48f5d4914b8c445a68bbdc))
+* Add check ([#11799](https://github.com/Esri/calcite-design-system/issues/11799)) ([5058939](https://github.com/Esri/calcite-design-system/commit/5058939ec13e967ac0156372e107881c22522864))
+* Add language-2 ([#11739](https://github.com/Esri/calcite-design-system/issues/11739)) ([989df67](https://github.com/Esri/calcite-design-system/commit/989df6752d28ca173aeb4824b7c4408d7f1047e9))
+
+
+### Bug Fixes
+
+* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
+* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
+* Update README.md ([#11768](https://github.com/Esri/calcite-design-system/issues/11768)) ([08c767b](https://github.com/Esri/calcite-design-system/commit/08c767bbf4a01378deae3b9f9b9c221c737c63e4))
+
 ## [4.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.0-next.2...@esri/calcite-ui-icons@4.1.0-next.3) (2025-03-25)
 
 ### Features
