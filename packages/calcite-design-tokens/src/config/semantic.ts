@@ -3,6 +3,7 @@ import {
   logBrokenReferenceLevels,
   logWarningLevels,
   logVerbosityLevels,
+  transforms,
 } from "style-dictionary/enums";
 import { Config, OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
@@ -268,10 +269,26 @@ const config: Config = {
     },
     js: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueCorrectPropName],
+      transforms: [
+        ...transformers.platformTransforms.es6.filter(
+          // conflicts with TransformNameCapitalCase
+          (transform) =>
+            transform !== transforms.nameCamel &&
+            // already handled by group transform
+            transform !== transformers.TransformNameIncludePlusMinus,
+        ),
+        transformers.TransformNameRemovePrefix,
+        transformers.TransformNameCapitalCase,
+        transformers.TransformValueCorrectPropName,
+      ],
       buildPath: "dist/js/",
       prefix: "calcite",
-      expand: commonExpand,
+      expand: {
+        typesMap: commonExpand.typesMap,
+        exclude: (token) => {
+          return token.type === "color" || token.type !== "string";
+        },
+      },
       options: {
         platform: "js",
         fileExtension: ".js",
