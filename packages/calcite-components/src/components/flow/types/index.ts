@@ -1,3 +1,1 @@
-import type { FlowItemLike as FlowItemLikeInternal } from "../interfaces";
-
-export type FlowItemLike = FlowItemLikeInternal;
+export type { FlowItemLike } from "../interfaces";
