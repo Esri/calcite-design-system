@@ -237,7 +237,12 @@ const config: Config = {
       ],
       buildPath: "dist/docs/",
       prefix: "calcite",
-      expand: commonExpand,
+      expand: {
+        typesMap: commonExpand.typesMap,
+        exclude: (token) => {
+          return token.type === "color" || token.type !== "string";
+        },
+      },
       options: {
         platform: "docs",
         fileExtension: ".json",
@@ -247,7 +252,7 @@ const config: Config = {
         {
           destination: "global.json",
           format: formats.FormatCalciteDocs,
-          filter: filters.FilterGlobalTokens,
+          filter: filters.FilterGlobalTokensJs,
         },
         {
           destination: "semantic.json",
