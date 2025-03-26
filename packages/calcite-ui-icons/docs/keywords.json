@@ -9517,10 +9517,5 @@
     "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
     "category": "Windows",
     "release": "4.1.0"
-  },
-  "check": {
-    "alias": ["4.1.0", "symbols", "mark", "selected", "completed"],
-    "category": "Symbols",
-    "release": "4.1.0"
   }
 }
