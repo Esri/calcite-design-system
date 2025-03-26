@@ -407,7 +407,19 @@
       "light.text-8h • 64px": "S:b33b84cffb4ed234a3a7625e789900d1fe99af4c,",
       "light.text--3h • 10px": "S:5a5c4503bd47df998e7075c74411417254373c49,",
       "light.text--2h • 12px": "S:fbf54147ae0c9bd46a6bd0ebbb88ea46c42f6c59,",
-      "light.text--1h • 14px": "S:7f2c40d441897f60b5e3218c7b1ae03f4fc80199,"
+      "light.text--1h • 14px": "S:7f2c40d441897f60b5e3218c7b1ae03f4fc80199,",
+      "Avenir Light.text-0h • 16px": "S:5a733cf706c4cf56de9655b51b29836b4adaedd9,",
+      "Avenir Light.text-1h • 18px": "S:fbf44d5b778f7b068cbbeb3e1d3d42f3b232b07e,",
+      "Avenir Light.text-2h • 20px": "S:201b5f5cb8234c1fadff6f8c457fad722e0fac03,",
+      "Avenir Light.text-3h • 26px": "S:cb3407f3c4ad477455cbc717954399edd118ca5b,",
+      "Avenir Light.text-4h • 32px": "S:124b2832da607e5c16afc85df275d7f5650bed59,",
+      "Avenir Light.text-5h • 40px": "S:ee7a48bd3d111f30eec7d2992574dec09fd95a8d,",
+      "Avenir Light.text-6h • 48px": "S:4f53cbbf52a708685b9da6a676206d13a01fd282,",
+      "Avenir Light.text-7h • 56px": "S:2f532e6df02a7e57643960c084e8883f0e983157,",
+      "Avenir Light.text-8h • 64px": "S:b484f9fd36fe428e97a2070444c331fdaeb8e004,",
+      "Avenir Light.text--3h • 10px": "S:3c33e7e14b1ff2782fe2e70ad3957b7f341f4837,",
+      "Avenir Light.text--2h • 12px": "S:cb5acbb5497aade06dfa2467207f0239f3526c80,",
+      "Avenir Light.text--1h • 14px": "S:ca5674bbaa4ac40b9f28d2a51419bfb14073a54e,"
     },
     "selectedTokenSets": {
       "semantic/font": "enabled"
