@@ -73,6 +73,8 @@ export class TabNav extends LitElement {
 
   private makeFirstVisibleTabClosable = false;
 
+  private userTriggeredTabActivation = false;
+
   // #endregion
 
   // #region State Properties
@@ -192,6 +194,13 @@ export class TabNav extends LitElement {
       this.selectedTabIdChanged();
     }
 
+    if (
+      (changes.has("selectedTitle") || changes.has("selectedTabId")) &&
+      this.userTriggeredTabActivation
+    ) {
+      this.calciteTabChange.emit();
+    }
+
     const { parentTabsEl } = this;
 
     this.layout = parentTabsEl?.layout;
@@ -248,6 +257,7 @@ export class TabNav extends LitElement {
     event.stopPropagation();
 
     this.selectedTitle = activatedTabTitle;
+    this.userTriggeredTabActivation = event.detail.isUserTriggered;
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -293,7 +303,6 @@ export class TabNav extends LitElement {
   }
 
   private activateTabHandler(event: CustomEvent<void>): void {
-    this.calciteTabChange.emit();
     event.stopPropagation();
   }
 

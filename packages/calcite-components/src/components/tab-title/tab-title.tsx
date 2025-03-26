@@ -156,7 +156,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     if (this.disabled || this.closed) {
       return;
     }
-    const payload = { tab: this.tab };
+    const payload = { tab: this.tab, isUserTriggered: userTriggered };
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
@@ -271,6 +271,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
+      //console.log("selectedHandler");
       this.selectedHandler();
     }
 
