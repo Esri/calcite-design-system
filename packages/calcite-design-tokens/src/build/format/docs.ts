@@ -10,6 +10,12 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
 
       delete (token as Partial<Pick<TransformedToken, "original">>).original;
+
+      // expanded tokens get original token added to attributes
+      if (token.attributes?.original) {
+        delete token.attributes.original;
+      }
+
       return token;
     }),
   };
