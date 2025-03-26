@@ -38,8 +38,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **text-area:** Fix error caused by internal measuring on disconnect ([#11751](https://github.com/Esri/calcite-design-system/issues/11751)) ([810f79e](https://github.com/Esri/calcite-design-system/commit/810f79e98068ff3ef110792b1b9fb7ee3d5b538f))
 - **tooltip:** Close tooltip when hovering out of an iframe ([#11600](https://github.com/Esri/calcite-design-system/issues/11600)) ([93a5692](https://github.com/Esri/calcite-design-system/commit/93a569285a7572a7c8f67c07d74c69227cb8dc6b))
 - **tooltip:** Do not open after the pointer has moved off of the reference element ([#11599](https://github.com/Esri/calcite-design-system/issues/11599)) ([33cadc8](https://github.com/Esri/calcite-design-system/commit/33cadc8b7358aca6706a1ced66b6cb07168268c6))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
 
 ### Dependencies
 
