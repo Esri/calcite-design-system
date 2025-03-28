@@ -30,6 +30,12 @@ import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
+import {
+  inputDatePicker,
+  inputDatePickerRange,
+  inputDatePickerRangeVertical,
+  inputDatePickerTokens,
+} from "./custom-theme/input-date-picker";
 import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
@@ -131,6 +137,16 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       .demo-row > .demo-column {
         flex: 0 0 auto;
       }
+      .open-calendar-spacing-small {
+        margin-top: 22rem;
+      }
+      .open-calendar-spacing-large {
+        margin-top: 22rem;
+        margin-right: 19rem;
+      }
+      .open-calendar-spacing-top {
+        margin-top: 20rem;
+      }
     </style>
     <div class="demo">
       <div class="demo-column">
@@ -167,6 +183,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${datePickerRange}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column open-calendar-spacing-small">${inputDatePicker}</div>
+      <div class="demo-column open-calendar-spacing-large">${inputDatePickerRange}</div>
+      <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
+    </div>
+    <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
     </div>
   </div>`;
@@ -198,6 +219,7 @@ const componentTokens = {
   ...handleTokens,
   ...inlineEditableTokens,
   ...graphTokens,
+  ...inputDatePickerTokens,
   ...inputTokens,
   ...inputMessageTokens,
   ...labelTokens,
