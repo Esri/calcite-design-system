@@ -4,8 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
- * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: Specifies the item's icon selection color when hovered. 
+ * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active. 
  * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
  * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
@@ -101,8 +100,7 @@
 //focus
 :host(:focus) {
   .container {
-    @apply focus-inset text-color-1 no-underline;
-    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+    @apply focus-inset no-underline;
   }
 }
 
@@ -136,11 +134,6 @@
   calcite-icon {
     color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
-}
-
-:host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-icon-color-hover, var(--calcite-color-border-1));
-  @apply opacity-100;
 }
 
 :host([selected]) .dropdown-item-icon {
