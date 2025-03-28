@@ -89,6 +89,7 @@
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "3.0.1",
+    "@esri/calcite-tailwind-preset": "1.0.0",
     "@esri/eslint-plugin-calcite-components": "2.0.1"
   },
   "volta": {
