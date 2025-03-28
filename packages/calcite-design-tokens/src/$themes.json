@@ -554,7 +554,8 @@
       "Avenir Light Italic.text--1h • 14px": "S:771bd991d89c72424dc0fca4f99fbad27e3e40e9,"
     },
     "selectedTokenSets": {
-      "semantic/font": "enabled"
+      "semantic/font": "source",
+      "semantic/typography": "enabled"
     },
     "group": "typography"
   }
