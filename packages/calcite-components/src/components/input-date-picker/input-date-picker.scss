@@ -232,6 +232,73 @@
   --calcite-input-placeholder-text-color: var(--calcite-input-date-picker-input-placeholder-text-color);
 }
 
+calcite-date-picker {
+  --calcite-date-picker-border-color: var(--calcite-input-date-picker-date-picker-border-color);
+  --calcite-date-picker-corner-radius: var(--calcite-input-date-picker-date-picker-corner-radius);
+  --calcite-date-picker-range-calendar-divider-color: var(
+    --calcite-input-date-picker-date-picker-range-calendar-divider-color
+  );
+  --calcite-date-picker-week-header-text-color: var(--calcite-input-date-picker-date-picker-week-header-text-color);
+  --calcite-date-picker-header-action-background-color: var(
+    --calcite-input-date-picker-date-picker-header-action-background-color
+  );
+  --calcite-date-picker-header-action-background-color-hover: var(
+    --calcite-input-date-picker-date-picker-header-action-background-color-hover
+  );
+  --calcite-date-picker-header-action-background-color-press: var(
+    --calcite-input-date-picker-date-picker-header-action-background-color-press
+  );
+  --calcite-date-picker-header-action-text-color: var(--calcite-input-date-picker-date-picker-header-action-text-color);
+  --calcite-date-picker-header-action-text-color-press: var(
+    --calcite-input-date-picker-date-picker-header-action-text-color-press
+  );
+  --calcite-date-picker-year-text-color: var(--calcite-input-date-picker-date-picker-year-text-color);
+  --calcite-date-picker-month-select-font-size: var(--calcite-input-date-picker-date-picker-month-select-font-size);
+  --calcite-date-picker-month-select-text-color: var(--calcite-input-date-picker-date-picker-month-select-text-color);
+  --calcite-date-picker-month-select-icon-color: var(--calcite-input-date-picker-date-picker-month-select-icon-color);
+  --calcite-date-picker-month-select-icon-color-hover: var(
+    --calcite-input-date-picker-date-picker-month-select-icon-color-hover
+  );
+  --calcite-date-picker-day-background-color: var(--calcite-input-date-picker-date-picker-day-background-color);
+  --calcite-date-picker-day-background-color-hover: var(
+    --calcite-input-date-picker-date-picker-day-background-color-hover
+  );
+  --calcite-date-picker-day-text-color: var(--calcite-input-date-picker-date-picker-day-text-color);
+  --calcite-date-picker-day-text-color-hover: var(--calcite-input-date-picker-date-picker-day-text-color-hover);
+  --calcite-date-picker-current-day-text-color: var(--calcite-input-date-picker-date-picker-current-day-text-color);
+  --calcite-date-picker-day-background-color-selected: var(
+    --calcite-input-date-picker-date-picker-day-background-color-selected
+  );
+  --calcite-date-picker-day-text-color-selected: var(--calcite-input-date-picker-date-picker-day-text-color-selected);
+  --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-date-picker-day-range-text-color);
+  --calcite-date-picker-day-range-background-color: var(
+    --calcite-input-date-picker-date-picker-day-range-background-color
+  );
+  --calcite-date-picker-day-outside-range-background-color-hover: var(
+    --calcite-date-picker-day-date-picker-outside-range-background-color-hover
+  );
+  --calcite-date-picker-day-outside-range-text-color-hover: var(
+    --calcite-date-picker-date-picker-day-outside-range-text-color-hover
+  );
+  --calcite-date-picker-day-background-color-selected: var(
+    --calcite-input-date-picker-date-picker-day-background-color-selected
+  );
+  --calcite-date-picker-day-text-color-selected: var(--calcite-input-date-picker-date-picker-day-text-color-selected);
+  --calcite-date-picker-range-calendar-divider-color: var(
+    --calcite-input-date-picker-date-picker-range-calendar-divider-color
+  );
+  --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-date-picker-day-range-text-color);
+  --calcite-date-picker-day-range-background-color: var(
+    --calcite-input-date-picker-date-picker-day-range-background-color
+  );
+  --calcite-date-picker-day-outside-range-background-color-hover: var(
+    --calcite-input-date-picker-date-picker-day-outside-range-background-color-hover
+  );
+  --calcite-date-picker-day-outside-range-text-color-hover: var(
+    --calcite-input-date-picker-date-picker-day-outside-range-text-color-hover
+  );
+}
+
 @include form-validation-message();
 @include hidden-form-input();
 
