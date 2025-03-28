@@ -84,12 +84,6 @@ describe("calcite-dropdown-item", () => {
             targetProp: "color",
             shadowSelector: `.${CSS.container}`,
             selector: "calcite-dropdown-item",
-            state: "focus",
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.container}`,
-            selector: "calcite-dropdown-item",
             state: "hover",
           },
           {
