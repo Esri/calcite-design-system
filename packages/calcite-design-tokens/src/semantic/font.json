@@ -55,6 +55,19 @@
             }
           }
         },
+        "light-italic": {
+          "value": "{font.weight.l} {semantic.font.style.emphasis}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "light"
+            }
+          },
+          "description": "For Avenir Next World (secondary font family)"
+        },
         "normal": {
           "value": "{font.weight.r}",
           "type": "fontWeights",
@@ -69,8 +82,34 @@
             }
           }
         },
+        "normal-italic": {
+          "value": "{font.weight.r} {semantic.font.style.emphasis}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.deprecated": true,
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "normal"
+            }
+          },
+          "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\""
+        },
         "regular": {
           "value": "{font.weight.r}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "regular"
+            }
+          }
+        },
+        "regular-italic": {
+          "value": "{font.weight.r} {semantic.font.style.emphasis}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
@@ -93,6 +132,18 @@
             }
           }
         },
+        "medium-italic": {
+          "value": "{font.weight.m} {semantic.font.style.emphasis}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "medium"
+            }
+          }
+        },
         "semibold": {
           "value": "{font.weight.d}",
           "type": "fontWeights",
@@ -105,8 +156,32 @@
             }
           }
         },
+        "semibold-italic": {
+          "value": "{font.weight.d} {semantic.font.style.emphasis}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "semibold"
+            }
+          }
+        },
         "bold": {
           "value": "{font.weight.d}",
+          "type": "fontWeights",
+          "$extensions": {
+            "org.esri.calcite.schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "type": "font-weight",
+              "scale": "bold"
+            }
+          }
+        },
+        "bold-italic": {
+          "value": "{font.weight.d} {semantic.font.style.emphasis}",
           "type": "fontWeights",
           "$extensions": {
             "org.esri.calcite.schema": {
