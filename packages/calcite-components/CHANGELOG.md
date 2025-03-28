@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0-next.32...@esri/calcite-components@3.2.0-next.0) (2025-03-28)
+
+### Features
+
+- **input-message:** add component tokens and deprecate --calcite-input-message-spacing-value ([#11759](https://github.com/Esri/calcite-design-system/issues/11759)) ([5aa06dd](https://github.com/Esri/calcite-design-system/commit/5aa06dd142f1b2e0f8f5567e7ebb10941d910e82)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.3...@esri/calcite-components@3.1.0) (2025-03-26)
 
 ### Features
