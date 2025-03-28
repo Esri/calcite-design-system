@@ -56,7 +56,7 @@
     },
     "style": {
       "italic": {
-        "value": "italic",
+        "value": "Italic",
         "type": "fontStyle",
         "description": "used in ratings"
       }
