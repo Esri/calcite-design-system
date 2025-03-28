@@ -494,6 +494,11 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: "hover",
           },
+          "--calcite-block-header-background-color-press": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-block >>> .${CSS.toggle}` },
+          },
           "--calcite-block-text-color": [
             { shadowSelector: `.${CSS.description}`, targetProp: "color" },
             { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
