@@ -17,7 +17,7 @@ import {
   listItemGroupSelector,
   listItemSelector,
   listSelector,
-  openAncestors,
+  expandedAncestors,
   updateListItemChildren,
 } from "../list-item/utils";
 import {
@@ -634,7 +634,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.open = true;
+    relatedEl.expanded = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
@@ -725,21 +725,21 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     });
   }
 
-  private allParentListItemsOpen(item: ListItem["el"]): boolean {
+  private allParentListItemsExpanded(item: ListItem["el"]): boolean {
     const parentItem = item.parentElement?.closest(listItemSelector);
 
     if (!parentItem) {
       return true;
-    } else if (!parentItem.open) {
+    } else if (!parentItem.expanded) {
       return false;
     }
 
-    return this.allParentListItemsOpen(parentItem);
+    return this.allParentListItemsExpanded(parentItem);
   }
 
   private borderItems(): void {
     const visibleItems = this.visibleItems.filter(
-      (item) => !item.filterHidden && this.allParentListItemsOpen(item),
+      (item) => !item.filterHidden && this.allParentListItemsExpanded(item),
     );
 
     visibleItems.forEach(
@@ -887,7 +887,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       return true;
     }
 
-    return parentListItemEl.open && this.isNavigable(parentListItemEl);
+    return parentListItemEl.expanded && this.isNavigable(parentListItemEl);
   }
 
   private handleListKeydown(event: KeyboardEvent): void {
@@ -991,8 +991,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    openAncestors(dragEl);
-
+    expandedAncestors(dragEl);
     this.updateListItems();
     this.connectObserver();
 

@@ -40,6 +40,14 @@ describe("calcite-dropdown", () => {
   describe("defaults", () => {
     defaults("calcite-dropdown", [
       {
+        propertyName: "offsetDistance",
+        defaultValue: 0,
+      },
+      {
+        propertyName: "offsetSkidding",
+        defaultValue: 0,
+      },
+      {
         propertyName: "scale",
         defaultValue: "m",
       },
@@ -52,6 +60,14 @@ describe("calcite-dropdown", () => {
 
   describe("reflects", () => {
     reflects("calcite-dropdown", [
+      {
+        propertyName: "offsetDistance",
+        value: 10,
+      },
+      {
+        propertyName: "offsetSkidding",
+        value: 10,
+      },
       {
         propertyName: "scale",
         value: "m",

@@ -235,8 +235,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     return this.icon ? (
       <calcite-icon
         class={{
-          [CSS.custom]: !!this.icon,
-          [CSS.iconSelected]: this.icon && this.selected,
+          [CSS.iconCustom]: !!this.icon,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -251,7 +250,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconSelected]: this.selected,
         }}
         flipRtl={this.iconFlipRtl}
         icon={icon}
@@ -281,14 +279,19 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : "check";
-    const selectionIcon = isSingleSelect ? "bullet-point" : "check";
+    const icon = disabled || isSingleSelect ? undefined : "check-square-f";
+    const selectionIcon = isSingleSelect
+      ? this.selected
+        ? "circle-inset-large"
+        : "circle"
+      : this.selected
+        ? "check-square-f"
+        : "square";
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
     const classes = {
       [CSS.label]: true,
-      [CSS.selected]: this.selected,
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
@@ -313,7 +316,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
             <div class={CSS.centerContent}>
-              <div class={CSS.title}>
+              <div class={CSS.heading}>
                 {highlightText({
                   text: headingText,
                   pattern: filterTextMatchPattern,

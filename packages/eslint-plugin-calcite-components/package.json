@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "2.0.1-next.0",
+  "version": "2.0.2-next.0",
   "description": "ESLint rules for @esri/calcite-components",
   "repository": {
     "type": "git",
@@ -10,14 +10,16 @@
   "license": "SEE LICENSE.md",
   "main": "dist/index.js",
   "files": [
-    "dist/index.js"
+    "dist/index.js",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
+    "build": "vite build",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
-    "test": "vitest"
+    "test": "vitest",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",
