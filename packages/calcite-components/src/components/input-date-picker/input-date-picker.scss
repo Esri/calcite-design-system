@@ -20,6 +20,32 @@
  * @prop --calcite-input-date-picker-input-icon-color-hover: Specifies the component's input icon color on hover.
  * @prop --calcite-input-date-picker-input-text-color: Specifies the component's input text color.
  * @prop --calcite-input-date-picker-input-placeholder-text-color: Specifies the component's input placeholder text color.
+ *
+ * @prop --calcite-input-date-picker-date-picker-border-color: Specifies the component's date-picker border color.
+ * @prop --calcite-input-date-picker-date-picker-corner-radius: Specifies the component's date-picker border radius.
+ * @prop --calcite-input-date-picker-date-picker-range-calendar-divider-color: Specifies the divider color between the component's date-picker calendar's when `range="true"`.
+ * @prop --calcite-input-date-picker-date-picker-week-header-text-color: Specifies week header text color of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-header-action-background-color: Specifies the background color of header action's of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-header-action-background-color-hover: Specifies the background color of header action's of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-date-picker-header-action-background-color-press: Specifies the background color of header action's of the component's date-picker when pressed.
+ * @prop --calcite-input-date-picker-date-picker-header-action-text-color: Specifies the text color of header action's of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-header-action-text-color-press: Specifies the text color of header action's of the component's date-picker when pressed.
+ * @prop --calcite-input-date-picker-date-picker-year-text-color: Specifies the text color of year & suffix of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-month-select-font-size: Specifies the font size of month select of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-month-select-text-color: Specifies the text color of month select of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-month-select-icon-color: Specifies the icon color of month select of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-month-select-icon-color-hover: Specifies the icon color of month select of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-date-picker-day-background-color: Specifies the background color of day of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-background-color-hover: Specifies the background color of day of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-date-picker-day-text-color: Specifies the text color of day of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-text-color-hover: Specifies the text color of day of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-date-picker-current-day-text-color: Specifies the text color of current day of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-background-color-selected: Specifies the background color of selected day of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-text-color-selected: Specifies the text color of selected day of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-range-text-color: Specifies the text color of select day range of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-range-background-color: Specifies the background color of select day range of the component's date-picker.
+ * @prop --calcite-input-date-picker-date-picker-day-outside-range-background-color-hover: Specifies the background color of day's outside current range of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside current range of the component's date-picker when hovered.
  */
 
 :host {
