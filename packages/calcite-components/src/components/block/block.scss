@@ -216,12 +216,12 @@ calcite-action-menu {
   }
 
   .description {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-block-text-color, var(--calcite-color-text-2));
   }
 
   .icon--start,
   .icon--end {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-block-text-color, var(--calcite-color-text-1));
   }
 }
 
