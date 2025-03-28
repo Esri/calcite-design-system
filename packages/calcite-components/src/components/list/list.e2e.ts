@@ -1779,8 +1779,9 @@ describe("calcite-list", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find("calcite-list");
         const eventName = `calciteSortHandleReorder`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `calcite-list-item[value="one"]`,
           (item1: ListItem["el"], reorder, eventName) => {
@@ -1906,8 +1907,9 @@ describe("calcite-list", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find(`#${listItemId}`);
         const eventName = `calciteSortHandleMove`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${listItemId}`,
           (item: ListItem["el"], moveToListId, eventName) => {

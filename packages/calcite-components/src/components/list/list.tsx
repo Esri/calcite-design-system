@@ -518,6 +518,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       return;
     }
 
+    event.stopPropagation();
     this.handleReorder(event);
   }
 
@@ -526,6 +527,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       return;
     }
 
+    event.stopPropagation();
     this.handleMove(event);
   }
 
