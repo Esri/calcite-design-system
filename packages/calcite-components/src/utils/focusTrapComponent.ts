@@ -51,7 +51,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   component.focusTrap = createFocusTrap(focusTrapNode, createFocusTrapOptions(el, options?.focusTrapOptions));
 }
 
-const outsideClickSet = new Set<HTMLElement | SVGElement>();
+const outsideClickSet = new WeakSet<HTMLElement | SVGElement>();
 
 /**
  * Helper to create the FocusTrap options.
@@ -60,11 +60,11 @@ const outsideClickSet = new Set<HTMLElement | SVGElement>();
  * @param options
  */
 export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapOptions): FocusTrapOptions {
-  const focusTrapNode = options?.fallbackFocus || hostEl;
+  const fallbackFocus = options?.fallbackFocus || hostEl;
   const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
 
   return {
-    fallbackFocus: focusTrapNode,
+    fallbackFocus,
     setReturnFocus: (el) => {
       if (!outsideClickSet.has(hostEl)) {
         focusElement(el as FocusableElement);
