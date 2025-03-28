@@ -78,7 +78,9 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     tabbableOptions,
     trapStack: focusTrapStack,
     clickOutsideDeactivates: (event) => {
-      outsideClickSet.add(hostEl);
+      if (!outsideClickSet.has(hostEl)) {
+        outsideClickSet.add(hostEl);
+      }
       return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
     },
     onPostDeactivate: () => {
