@@ -77,22 +77,36 @@ export class TextArea
 
   private footerEl = createRef<HTMLElement>();
 
+  private validationMessageEl = createRef<HTMLDivElement>();
+
   formEl: HTMLFormElement;
 
   private guid = guid();
 
   labelEl: Label["el"];
 
+  private textAreaEl: HTMLTextAreaElement;
+
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightAndWidthOfElements();
+    const {
+      textAreaHeight,
+      textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth,
+      validationMessageHeight,
+    } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.value.style.width = `${textAreaWidth}px`;
     }
-    if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
+    if (
+      elWidth !== textAreaWidth ||
+      elHeight !== textAreaHeight + footerHeight + validationMessageHeight
+    ) {
       this.setHeightAndWidthToAuto();
     }
   });
@@ -112,8 +126,6 @@ export class TextArea
     RESIZE_TIMEOUT,
     { leading: false },
   );
-
-  private textAreaEl: HTMLTextAreaElement;
 
   // #endregion
 
@@ -388,8 +400,9 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
+    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
+      this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
       this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
@@ -401,6 +414,7 @@ export class TextArea
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
+    validationMessageHeight: number; // Added for validation message height
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
@@ -410,6 +424,10 @@ export class TextArea
       ? this.footerEl.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
+    const { height: validationMessageHeight } = this.validationMessageEl.value
+      ? this.validationMessageEl.value.getBoundingClientRect()
+      : NO_DIMENSIONS;
+
     return {
       textAreaHeight,
       textAreaWidth,
@@ -417,6 +435,7 @@ export class TextArea
       elWidth,
       footerHeight,
       footerWidth,
+      validationMessageHeight,
     };
   }
 
@@ -505,13 +524,16 @@ export class TextArea
           </span>
         )}
         {this.validationMessage && this.status === "invalid" ? (
-          <Validation
-            icon={this.validationIcon}
-            id={IDS.validationMessage}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
-          />
+          <div ref={this.validationMessageEl}>
+            <Validation
+              icon={this.validationIcon}
+              id={IDS.validationMessage}
+              message={this.validationMessage}
+              // ref={this.validationMessageElRef}
+              scale={this.scale}
+              status={this.status}
+            />
+          </div>
         ) : null}
       </InteractiveContainer>
     );
