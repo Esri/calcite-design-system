@@ -59,11 +59,16 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
  */
 export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapOptions): FocusTrapOptions {
   const focusTrapNode = options?.fallbackFocus || hostEl;
+  const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
 
+  let outsideClick = false;
   return {
-    clickOutsideDeactivates: true,
     fallbackFocus: focusTrapNode,
     setReturnFocus: (el) => {
+      if (outsideClick) {
+        outsideClick = false;
+        return false;
+      }
       focusElement(el as FocusableElement);
       return false;
     },
@@ -73,6 +78,10 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     document: hostEl.ownerDocument,
     tabbableOptions,
     trapStack: focusTrapStack,
+    clickOutsideDeactivates: (event) => {
+      outsideClick = true;
+      return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
   };
 }
 
