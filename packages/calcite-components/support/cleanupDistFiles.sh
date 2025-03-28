@@ -9,4 +9,4 @@
 # The rest of the files showed up in v2 and are likely related to the Stencil v4 bump.
 rm -rf ./dist/collection/demos ./dist/collection/tests ./dist/.storybook/ \
     ./dist/tailwind.config.js{,.map} ./dist/stencil.config.js{,.map} \
-    ./dist/calcite-preset.js{,.map} ./dist/types/tests ./dist/types/home
+    ./dist/types/tests ./dist/types/home

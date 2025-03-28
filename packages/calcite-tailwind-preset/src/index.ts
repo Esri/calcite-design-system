@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 
@@ -288,7 +287,7 @@ export default {
       addUtilities(newUtilities);
     }),
     plugin(({ addUtilities, theme }) => {
-      const colors = flattenColorPalette.default(theme("borderColor"));
+      const colors = flattenColorPalette(theme("borderColor"));
       delete colors["default"];
 
       const colorMap = Object.keys(colors).map((color) => ({

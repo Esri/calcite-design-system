@@ -1,0 +1,34 @@
+{
+  "name": "@esri/calcite-tailwind-preset",
+  "version": "1.0.0",
+  "description": "Tailwind CSS preset for the Calcite Design System",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/calcite-tailwind-preset"
+  },
+  "license": "SEE LICENSE.md",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "THIRD-PARTY-LICENSES.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "lint": "concurrently npm:lint:*",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite-plugin-dts": "4.5.3"
+  },
+  "peerDependencies": {
+    "@esri/calcite-design-tokens": "^3.0.1",
+    "tailwindcss": "^3.0.0 < 4.0.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

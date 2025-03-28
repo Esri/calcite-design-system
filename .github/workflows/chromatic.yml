@@ -22,6 +22,7 @@ jobs:
         run: |
           npm install
           npm --workspace="packages/calcite-design-tokens" run build
+          npm --workspace="packages/calcite-tailwind-preset" run build
           npm --workspace="packages/calcite-ui-icons" run build
           npm --workspace="packages/calcite-components" run build-storybook
       - name: Publish to Chromatic

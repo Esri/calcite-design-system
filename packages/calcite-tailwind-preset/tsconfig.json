@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist"
+  },
+  "extends": "./tsconfig-base",
+  "include": ["src/index.ts", "vite.config.mts"]
+}

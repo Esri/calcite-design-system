@@ -74,6 +74,9 @@
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
+    "packages/calcite-tailwind-preset": {
+      "component": "@esri/calcite-tailwind-preset"
+    },
     "packages/calcite-ui-icons": {
       "component": "@esri/calcite-ui-icons",
       "extra-files": ["docs/index.html"]

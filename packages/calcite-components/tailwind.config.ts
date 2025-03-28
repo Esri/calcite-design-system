@@ -1,4 +1,4 @@
-import calcitePreset from "./calcite-preset";
+import calcitePreset from "@esri/calcite-tailwind-preset";
 
 export default {
   presets: [calcitePreset],
