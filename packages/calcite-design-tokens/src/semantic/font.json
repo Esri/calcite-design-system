@@ -207,7 +207,7 @@
       "style": {
         "emphasis": {
           "value": "{font.style.italic}",
-          "type": "fontWeights",
+          "type": "fontStyle",
           "description": "used in ratings",
           "$extensions": {
             "org.esri.calcite.schema": {
