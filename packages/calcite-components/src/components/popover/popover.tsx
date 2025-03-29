@@ -26,18 +26,18 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -96,6 +96,15 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   transitionEl: HTMLDivElement;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -148,13 +157,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -244,9 +246,10 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.requestUpdate();
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      this.requestUpdate();
+      return this.el;
+    });
   }
 
   /** Updates the element(s) that are used within the focus-trap of the component. */

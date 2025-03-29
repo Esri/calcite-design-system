@@ -2,11 +2,11 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
@@ -27,6 +27,15 @@ export class TableHeader extends LitElement {
   // #region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -63,13 +72,6 @@ export class TableHeader extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** @private */
   @property() numberCell = false;
@@ -111,8 +113,9 @@ export class TableHeader extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.containerEl.value.focus();
+    return this.focusSetter(() => {
+      return this.containerEl.value;
+    });
   }
 
   // #endregion
@@ -132,6 +135,7 @@ export class TableHeader extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private updateScreenReaderText(): void {
     let text = "";
     const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;

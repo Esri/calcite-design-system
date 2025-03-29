@@ -23,11 +23,11 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -58,6 +58,15 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   /** the latest requested item position */
   private selectedPosition: number;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -106,13 +115,6 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
@@ -139,9 +141,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.layout === "vertical" ? this.el : this.headerEl.value)?.focus();
+    return this.focusSetter(() => {
+      return this.layout === "vertical" ? this.el : this.headerEl.value;
+    });
   }
 
   // #endregion

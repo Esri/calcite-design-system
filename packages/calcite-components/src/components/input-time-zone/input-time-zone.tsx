@@ -17,7 +17,6 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -30,6 +29,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import {
   createTimeZoneItems,
@@ -79,6 +79,15 @@ export class InputTimeZone
 
   private _value: string;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region Public Properties
@@ -105,13 +114,6 @@ export class InputTimeZone
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * This specifies the type of `value` and the associated options presented to the user:
@@ -221,7 +223,6 @@ export class InputTimeZone
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     this._value = value;
   }
@@ -233,8 +234,9 @@ export class InputTimeZone
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    await this.comboboxEl.setFocus();
+    return this.focusSetter(() => {
+      return this.comboboxEl;
+    });
   }
 
   // #endregion

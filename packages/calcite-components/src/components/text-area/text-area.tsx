@@ -23,7 +23,6 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -36,6 +35,7 @@ import { syncHiddenFormInput, TextualInputComponent } from "../input/common/inpu
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
@@ -121,7 +121,6 @@ export class TextArea
   });
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-
   // throttle is used to avoid flashing of textarea when user resizes.
   private updateSizeToAuto = throttle(
     (dimension: "height" | "width"): void => {
@@ -130,6 +129,15 @@ export class TextArea
     RESIZE_TIMEOUT,
     { leading: false },
   );
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -185,13 +193,6 @@ export class TextArea
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -301,8 +302,9 @@ export class TextArea
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.textAreaEl.focus();
+    return this.focusSetter(() => {
+      return this.textAreaEl;
+    });
   }
 
   // #endregion

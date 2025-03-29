@@ -2,7 +2,6 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -10,6 +9,7 @@ import {
 } from "../../utils/interactive";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
@@ -34,6 +34,15 @@ export class Handle extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private handleButton = createRef<HTMLSpanElement>();
+
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -61,13 +70,6 @@ export class Handle extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
@@ -90,9 +92,9 @@ export class Handle extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.handleButton.value?.focus();
+    return this.focusSetter(() => {
+      return this.handleButton.value;
+    });
   }
 
   // #endregion

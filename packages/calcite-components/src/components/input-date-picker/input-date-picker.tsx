@@ -20,7 +20,6 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -49,7 +48,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -69,6 +68,7 @@ import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -165,6 +165,15 @@ export class InputDatePicker
 
   private valueAsDateChangedExternally = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -215,13 +224,6 @@ export class InputDatePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -325,7 +327,6 @@ export class InputDatePicker
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
     const valueChanged = value !== this._value;
     const invalidValueCleared =
@@ -371,8 +372,9 @@ export class InputDatePicker
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion

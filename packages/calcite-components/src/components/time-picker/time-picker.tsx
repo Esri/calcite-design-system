@@ -28,6 +28,7 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -44,6 +45,7 @@ function capitalize(str: string): string {
 
 export class TimePicker extends LitElement {
   // #region Static Members
+
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
@@ -65,6 +67,15 @@ export class TimePicker extends LitElement {
   private pointerActivated = false;
 
   private secondEl: HTMLSpanElement;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -124,13 +135,6 @@ export class TimePicker extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
@@ -150,9 +154,9 @@ export class TimePicker extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -199,6 +203,7 @@ export class TimePicker extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private blurHandler(): void {
     this.activeEl = undefined;
     this.pointerActivated = false;
@@ -861,6 +866,8 @@ export class TimePicker extends LitElement {
   }
 
   // #endregion
+
+  // #region Rendering
 
   override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);

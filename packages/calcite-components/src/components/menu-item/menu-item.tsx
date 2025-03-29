@@ -12,11 +12,11 @@ import {
 } from "@arcgis/lumina";
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -43,6 +43,15 @@ export class MenuItem extends LitElement {
   private dropdownActionEl = createRef<Action["el"]>();
 
   private isFocused: boolean;
+
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -90,13 +99,6 @@ export class MenuItem extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
@@ -127,8 +129,9 @@ export class MenuItem extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.anchorEl.value.focus();
+    return this.focusSetter(() => {
+      return this.anchorEl.value;
+    });
   }
 
   // #endregion

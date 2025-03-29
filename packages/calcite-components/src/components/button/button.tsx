@@ -20,7 +20,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -28,6 +27,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -74,6 +74,8 @@ export class Button
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
+
+  focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -191,9 +193,7 @@ export class Button
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.childEl?.focus();
+    return this.focusSetter(() => this.childEl);
   }
 
   // #endregion

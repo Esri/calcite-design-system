@@ -32,7 +32,6 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import {
   localizedTwentyFourHourMeridiems,
   getSupportedLocale,
@@ -59,7 +58,6 @@ import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
@@ -67,6 +65,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -186,6 +185,19 @@ export class InputTimePicker
 
   private _value = null;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
+    this.setInputValue(this.getLocalizedTimeString(params));
+  };
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -232,13 +244,6 @@ export class InputTimePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -324,7 +329,6 @@ export class InputTimePicker
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -350,8 +354,9 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -982,10 +987,6 @@ export class InputTimePicker
       this.localeConfig as Record<string, any>,
     );
   }
-
-  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
-    this.setInputValue(this.getLocalizedTimeString(params));
-  };
 
   private setInputValue(newInputValue: string): void {
     if (!this.calciteInputEl) {

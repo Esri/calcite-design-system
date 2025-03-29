@@ -2,9 +2,9 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./flow.scss";
@@ -34,6 +34,8 @@ export class Flow extends LitElement {
   private items: FlowItemLikeElement[] = [];
 
   private selectedIndex = -1;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -95,12 +97,12 @@ export class Flow extends LitElement {
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
+    return this.focusSetter(() => {
+      const { items } = this;
+      const selectedItem = items[this.selectedIndex];
 
-    const { items } = this;
-    const selectedItem = items[this.selectedIndex];
-
-    return selectedItem?.setFocus();
+      return selectedItem;
+    });
   }
 
   // #endregion

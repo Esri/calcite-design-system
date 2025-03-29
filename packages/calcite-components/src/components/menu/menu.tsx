@@ -2,15 +2,10 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import {
-  focusElement,
-  focusElementInGroup,
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 
@@ -37,6 +32,15 @@ export class Menu extends LitElement {
 
   private menuItems: MenuItem["el"][] = [];
 
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region Public Properties
@@ -54,13 +58,6 @@ export class Menu extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   // #endregion
 
   // #region Public Methods
@@ -68,8 +65,9 @@ export class Menu extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.menuItems[0]);
+    return this.focusSetter(() => {
+      return this.menuItems[0];
+    });
   }
 
   // #endregion

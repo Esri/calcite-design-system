@@ -10,7 +10,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
@@ -20,6 +19,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -63,6 +63,15 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   private handleGridEl = createRef<HTMLDivElement>();
 
   private sortHandleEl: SortHandle["el"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -149,13 +158,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata: Record<string, unknown>;
 
@@ -182,7 +184,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -258,24 +259,25 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    const {
-      containerEl: { value: containerEl },
-      parentListEl,
-    } = this;
-    const focusIndex = focusMap.get(parentListEl);
+    return this.focusSetter(() => {
+      const {
+        containerEl: { value: containerEl },
+        parentListEl,
+      } = this;
+      const focusIndex = focusMap.get(parentListEl);
 
-    if (typeof focusIndex === "number") {
-      const cells = this.getGridCells();
-      if (cells[focusIndex]) {
-        this.focusCell(cells[focusIndex]);
-      } else {
-        containerEl?.focus();
+      if (typeof focusIndex === "number") {
+        const cells = this.getGridCells();
+        if (cells[focusIndex]) {
+          this.focusCell(cells[focusIndex]);
+        } else {
+          return containerEl;
+        }
+        return;
       }
-      return;
-    }
 
-    containerEl?.focus();
+      return containerEl;
+    });
   }
 
   // #endregion

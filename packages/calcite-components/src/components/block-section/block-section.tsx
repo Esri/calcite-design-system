@@ -1,12 +1,11 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -23,6 +22,19 @@ export class BlockSection extends LitElement {
   // #region Static Members
 
   static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -44,13 +56,6 @@ export class BlockSection extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, expands the component and its contents.
    *
    * @deprecated Use `expanded` prop instead.
@@ -59,7 +64,6 @@ export class BlockSection extends LitElement {
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -95,8 +99,9 @@ export class BlockSection extends LitElement {
   /** Sets focus on the component's first tabbable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion

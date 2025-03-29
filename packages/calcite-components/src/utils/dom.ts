@@ -270,7 +270,7 @@ export async function focusElement(el: FocusableElement): Promise<void> {
     return;
   }
 
-  return isCalciteFocusable(el) ? el.setFocus() : el.focus();
+  return isCalciteFocusable(el) ? el.setFocus() : focusFirstTabbable(el);
 }
 
 /**

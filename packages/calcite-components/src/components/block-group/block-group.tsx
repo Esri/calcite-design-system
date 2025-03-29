@@ -14,13 +14,13 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { componentFocusable } from "../../utils/component";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { focusFirstTabbable, getRootNode } from "../../utils/dom";
+import { getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -74,6 +74,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.setUpSorting();
   }, DEBOUNCE.nextTick);
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -122,18 +124,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   // #region Public Methods
 
   /**
-   * Sets focus on the component's first focusable element.
-   *
-   * @returns {Promise<void>}
-   */
-  @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
-  }
-
-  /**
    * Emits a `calciteBlockGroupMoveHalt` event.
    *
    * @private
@@ -142,6 +132,18 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   @method()
   putFailed(dragDetail: BlockDragDetail): void {
     this.calciteBlockGroupMoveHalt.emit(dragDetail);
+  }
+
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @returns {Promise<void>}
+   */
+  @method()
+  async setFocus(): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -154,11 +156,11 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** Fires when the component's dragging has started. */
   calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
 
-  /** Fires when the component's item order changes. */
-  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
-
   /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
   calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
+
+  /** Fires when the component's item order changes. */
+  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
   // #endregion
 

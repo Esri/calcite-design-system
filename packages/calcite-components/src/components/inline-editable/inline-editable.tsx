@@ -8,13 +8,13 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { Label } from "../label/label";
 import type { Button } from "../button/button";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./inline-editable.scss";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -51,11 +51,16 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   private shouldEmitCancel: boolean;
 
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
-
   private valuePriorToEditing: string;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -75,7 +80,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   get editingEnabled(): boolean {
     return this._editingEnabled;
   }
-
   set editingEnabled(editingEnabled: boolean) {
     const oldEditingEnabled = this._editingEnabled;
     if (editingEnabled !== oldEditingEnabled) {
@@ -90,13 +94,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @property({ reflect: true }) scale: Scale;
 
@@ -107,9 +104,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.inputElement?.setFocus();
+    return this.focusSetter(() => {
+      return this.inputElement;
+    });
   }
 
   // #endregion
@@ -159,6 +156,10 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   // #endregion
 
   // #region Private Methods
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   private disabledWatcher(disabled: boolean): void {
     if (this.inputElement) {

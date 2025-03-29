@@ -9,8 +9,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import type { Chip } from "../chip/chip";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./chip-group.scss";
 
 declare global {
@@ -31,6 +31,8 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   private items: Chip["el"][] = [];
 
   private slotRefEl = createRef<HTMLSlotElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -79,10 +81,11 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled) {
-      return (this.selectedItems[0] || this.items[0])?.setFocus();
-    }
+    return this.focusSetter(() => {
+      if (!this.disabled) {
+        return this.selectedItems[0] || this.items[0];
+      }
+    });
   }
 
   // #endregion
@@ -122,6 +125,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items?.filter((el) => !el.disabled);

@@ -3,7 +3,6 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -13,6 +12,7 @@ import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
@@ -34,6 +34,15 @@ export class TableCell extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -66,13 +75,6 @@ export class TableCell extends LitElement implements InteractiveComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** @private */
   @property() numberCell: boolean;
@@ -111,8 +113,9 @@ export class TableCell extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.containerEl.value.focus();
+    return this.focusSetter(() => {
+      return this.containerEl.value;
+    });
   }
 
   // #endregion
@@ -137,6 +140,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
     const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;

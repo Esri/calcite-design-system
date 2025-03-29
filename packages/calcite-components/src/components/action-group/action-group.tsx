@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -30,6 +30,19 @@ export class ActionGroup extends LitElement {
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -71,13 +84,6 @@ export class ActionGroup extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -95,8 +101,9 @@ export class ActionGroup extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -112,9 +119,11 @@ export class ActionGroup extends LitElement {
       this.menuOpen = false;
     }
   }
+
   // #endregion
 
   // #region Private Methods
+
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
   }

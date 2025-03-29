@@ -29,7 +29,6 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -38,6 +37,7 @@ import { BigDecimal } from "../../utils/number";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -162,6 +162,8 @@ export class Slider
   };
 
   private trackEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -325,10 +327,10 @@ export class Slider
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const handle = this.minHandle ? this.minHandle : this.maxHandle;
-    handle?.focus();
+    return this.focusSetter(() => {
+      const handle = this.minHandle ? this.minHandle : this.maxHandle;
+      return handle;
+    });
   }
 
   // #endregion
@@ -422,6 +424,7 @@ export class Slider
   // #endregion
 
   // #region Private Methods
+
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;

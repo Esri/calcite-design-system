@@ -1,8 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -10,6 +9,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -44,6 +44,15 @@ export class ActionPad extends LitElement {
     this.calciteActionPadToggle.emit();
   };
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -71,13 +80,6 @@ export class ActionPad extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -99,8 +101,9 @@ export class ActionPad extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -144,6 +147,7 @@ export class ActionPad extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();

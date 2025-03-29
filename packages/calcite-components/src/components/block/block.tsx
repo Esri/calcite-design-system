@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -9,7 +9,6 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -22,6 +21,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -54,6 +54,15 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   transitionEl: HTMLElement;
 
   private sortHandleEl: SortHandle["el"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -131,13 +140,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Sets the item to display a border.
    *
    * @private
@@ -153,7 +155,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -162,6 +163,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     });
     this.expanded = value;
   }
+
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -202,8 +204,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   /** Sets focus on the component's first tabbable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -278,6 +281,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   // #endregion
 
   // #region Private Methods
+
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
   }

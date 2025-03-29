@@ -13,7 +13,6 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -22,6 +21,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./dropdown-item.scss";
 
@@ -52,6 +52,8 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   /** requested item */
   private requestedDropdownItem: DropdownItem["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -112,9 +114,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion

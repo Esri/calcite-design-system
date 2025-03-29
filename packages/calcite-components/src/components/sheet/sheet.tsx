@@ -12,8 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -23,6 +22,7 @@ import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -93,6 +93,23 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   private resizeHandleEl: HTMLDivElement;
 
   transitionEl: HTMLDivElement;
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      !this.escapeDisabled &&
+      this.focusTrapDisabled &&
+      this.open &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -173,7 +190,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -199,7 +215,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
-
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
@@ -217,8 +232,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Sets focus on the component's "close" button - the first focusable item. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   /**
@@ -299,21 +315,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   // #endregion
 
   // #region Private Methods
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      !this.escapeDisabled &&
-      this.focusTrapDisabled &&
-      this.open &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
-    }
-  };
 
   private toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {

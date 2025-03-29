@@ -53,6 +53,7 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -126,6 +127,16 @@ export class Autocomplete
   transitionEl: HTMLDivElement;
 
   private inputValueMatchPattern: RegExp;
+
+  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private resizeObserver = createObserver("resize", () => {
+    this.setFloatingElSize();
+  });
+
+  private getAllItemsDebounced = debounce(this.getAllItems, 0);
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -377,7 +388,9 @@ export class Autocomplete
    */
   @method()
   async setFocus(): Promise<void> {
-    return this.referenceEl.setFocus();
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    });
   }
 
   // #endregion
@@ -551,12 +564,6 @@ export class Autocomplete
     this.open = false;
   }
 
-  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
-
-  private resizeObserver = createObserver("resize", () => {
-    this.setFloatingElSize();
-  });
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -633,8 +640,6 @@ export class Autocomplete
   private handleContentBottomSlotChange(event: Event): void {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
-
-  private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
   private getAllItems(): void {
     const { el } = this;

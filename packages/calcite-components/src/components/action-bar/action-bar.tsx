@@ -11,12 +11,7 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
@@ -25,6 +20,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
@@ -108,6 +104,15 @@ export class ActionBar extends LitElement {
     this.calciteActionBarToggle.emit();
   };
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -136,13 +141,6 @@ export class ActionBar extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
@@ -179,9 +177,9 @@ export class ActionBar extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion
@@ -244,6 +242,7 @@ export class ActionBar extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private expandedHandler(): void {
     const { el, expanded } = this;
     toggleChildActionText({ el, expanded });

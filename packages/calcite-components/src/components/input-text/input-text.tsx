@@ -29,7 +29,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -40,6 +39,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -81,10 +81,6 @@ export class InputText
 
   private inputWrapperEl = createRef<HTMLDivElement>();
 
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
-
   labelEl: Label["el"];
 
   private onHiddenFormInputInput = (event: Event): void => {
@@ -110,6 +106,15 @@ export class InputText
   private userChangedValue = false;
 
   private _value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -178,13 +183,6 @@ export class InputText
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -277,7 +275,6 @@ export class InputText
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -299,9 +296,9 @@ export class InputText
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.childEl?.focus();
+    return this.focusSetter(() => {
+      return this.childEl;
+    });
   }
 
   // #endregion
@@ -375,6 +372,10 @@ export class InputText
   // #endregion
 
   // #region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();

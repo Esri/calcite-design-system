@@ -1,17 +1,12 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -25,6 +20,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -65,6 +61,15 @@ export class Panel extends LitElement implements InteractiveComponent {
   private panelScrollEl: HTMLElement;
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -152,13 +157,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -194,8 +192,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
+    return this.focusSetter(() => {
+      return this.containerEl;
+    });
   }
 
   // #endregion
@@ -249,6 +248,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private resizeHandler(): void {
     const { panelScrollEl } = this;
 

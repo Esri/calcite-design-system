@@ -12,13 +12,13 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
@@ -59,6 +59,15 @@ export class Notice extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLElement;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -87,13 +96,6 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, the component is visible. */
   @property({ reflect: true }) open = false;
 
@@ -110,18 +112,18 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
+    return this.focusSetter(() => {
+      const noticeLinkEl = this.el.querySelector("calcite-link");
 
-    const noticeLinkEl = this.el.querySelector("calcite-link");
-
-    if (!this.closeButton.value && !noticeLinkEl) {
-      return;
-    }
-    if (noticeLinkEl) {
-      return noticeLinkEl.setFocus();
-    } else if (this.closeButton.value) {
-      this.closeButton.value.focus();
-    }
+      if (!this.closeButton.value && !noticeLinkEl) {
+        return;
+      }
+      if (noticeLinkEl) {
+        return noticeLinkEl;
+      } else if (this.closeButton.value) {
+        return this.closeButton.value;
+      }
+    });
   }
 
   // #endregion
@@ -168,6 +170,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   // #endregion
 
   // #region Private Methods
+
   onBeforeClose(): void {
     this.calciteNoticeBeforeClose.emit();
   }

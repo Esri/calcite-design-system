@@ -10,20 +10,16 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  setRequestedIcon,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -71,6 +67,15 @@ export class Alert extends LitElement implements OpenCloseComponent {
   private totalOpenTime = 0;
 
   transitionEl: HTMLDivElement;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -133,13 +138,6 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
@@ -174,8 +172,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   // #endregion

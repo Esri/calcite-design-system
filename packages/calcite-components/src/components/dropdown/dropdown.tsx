@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
+import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -22,7 +22,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -30,6 +29,7 @@ import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -94,6 +94,8 @@ export class Dropdown
 
   /** trigger elements */
   private triggers: HTMLElement[];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -210,8 +212,9 @@ export class Dropdown
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.referenceEl);
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    });
   }
 
   // #endregion

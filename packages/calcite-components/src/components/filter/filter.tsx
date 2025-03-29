@@ -9,11 +9,11 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
@@ -44,6 +44,15 @@ export class Filter extends LitElement implements InteractiveComponent {
   private textInput = createRef<Input["el"]>();
 
   private _value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -79,13 +88,6 @@ export class Filter extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies placeholder text for the input element. */
   @property() placeholder: string;
 
@@ -97,7 +99,6 @@ export class Filter extends LitElement implements InteractiveComponent {
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -130,9 +131,9 @@ export class Filter extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.textInput.value?.setFocus();
+    return this.focusSetter(() => {
+      return this.textInput.value;
+    });
   }
 
   // #endregion
@@ -174,6 +175,7 @@ export class Filter extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private valueHandler(value: string): void {
     this.filterDebounced(value);
   }

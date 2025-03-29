@@ -14,12 +14,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/components-controllers";
-import {
-  focusFirstTabbable,
-  getElementDir,
-  isPrimaryPointerButton,
-  setRequestedIcon,
-} from "../../utils/dom";
+import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
   connectForm,
@@ -37,7 +32,6 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -53,6 +47,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
@@ -107,14 +102,6 @@ export class Input
 
   private inputWrapperEl = createRef<HTMLDivElement>();
 
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
-  }
-
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
-  }
-
   labelEl: Label["el"];
 
   private maxString?: string;
@@ -146,6 +133,15 @@ export class Input
   private userChangedValue = false;
 
   private _value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -246,13 +242,6 @@ export class Input
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -400,7 +389,6 @@ export class Input
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -432,9 +420,9 @@ export class Input
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
+    return this.focusSetter(() => {
+      return this.type === "number" ? this.childNumberEl : this.childEl;
+    });
   }
 
   // #endregion
@@ -532,6 +520,14 @@ export class Input
   // #endregion
 
   // #region Private Methods
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
+
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();

@@ -13,13 +13,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
@@ -84,6 +84,15 @@ export class Carousel extends LitElement implements InteractiveComponent {
     }
   };
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -142,13 +151,6 @@ export class Carousel extends LitElement implements InteractiveComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
   @property() paused: boolean;
 
   /**
@@ -175,8 +177,9 @@ export class Carousel extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.container?.focus();
+    return this.focusSetter(() => {
+      return this.container;
+    });
   }
 
   /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */

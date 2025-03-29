@@ -26,7 +26,6 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
@@ -35,6 +34,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
@@ -151,6 +151,15 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willPerformFilter: boolean = false;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -276,13 +285,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
    * Specifies the nesting behavior of `calcite-list-item`s, where
    *
    * `"flat"` displays `calcite-list-item`s in a uniform list, and
@@ -348,13 +350,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
+    return this.focusSetter(() => {
+      if (this.filterEnabled) {
+        return this.filterEl;
+      }
 
-    if (this.filterEnabled) {
-      return this.filterEl?.setFocus();
-    }
-
-    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
+      return this.focusableItems.find((listItem) => listItem.active);
+    });
   }
 
   // #endregion
@@ -380,11 +382,11 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /** Fires when the component's item order changes. */
-  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
-
   /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
+
+  /** Fires when the component's item order changes. */
+  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
   // #endregion
 

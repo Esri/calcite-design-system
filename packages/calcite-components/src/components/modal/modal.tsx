@@ -14,11 +14,9 @@ import {
 import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
-  focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -26,6 +24,7 @@ import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
@@ -108,6 +107,30 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -173,19 +196,11 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -235,8 +250,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Sets focus on the component's "close" button (the first focusable item). */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   /**
@@ -322,21 +338,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
   // #endregion
 
   // #region Private Methods
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      this.focusTrapDisabled &&
-      this.open &&
-      !this.escapeDisabled &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
-    }
-  };
 
   private handleHeaderSlotChange(event: Event): void {
     this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];

@@ -11,7 +11,6 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -22,6 +21,7 @@ import { isActivationKey } from "../../utils/key";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
@@ -52,6 +52,15 @@ export class Card extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private containerEl = createRef<HTMLDivElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -90,13 +99,6 @@ export class Card extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, the component is selectable.
    *
    * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
@@ -127,10 +129,11 @@ export class Card extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled) {
-      this.containerEl.value?.focus();
-    }
+    return this.focusSetter(() => {
+      if (!this.disabled) {
+        return this.containerEl.value;
+      }
+    });
   }
 
   // #endregion
