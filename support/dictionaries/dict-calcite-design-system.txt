@@ -91,7 +91,8 @@ tibt
 xsmall
 xxsmall
 
-## style dictionary transforms for tokens studio
+## style-dictionary transforms for tokens studio
+Dtcg
 Expandables
 buch
 demi
@@ -102,9 +103,11 @@ extraleicht
 extralight
 fett
 halbfett
+hexrgba
 kraeftig
 kräftig
 leicht
+lineheight
 ultabold
 
 ## svg
