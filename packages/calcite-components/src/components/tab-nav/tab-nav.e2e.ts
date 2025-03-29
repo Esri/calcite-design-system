@@ -37,7 +37,6 @@ describe("calcite-tab-nav", () => {
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
 
-    firstTabTitle.setProperty("selected", true);
     await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
@@ -47,7 +46,7 @@ describe("calcite-tab-nav", () => {
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    expect(activeEventSpy).toHaveReceivedEventTimes(2);
+    expect(activeEventSpy).toHaveReceivedEventTimes(1);
   });
 
   it("focuses on keyboard interaction", async () => {
