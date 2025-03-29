@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
-    "clean": "turbo run clean --log-order=stream && git clean -fd && rimraf --glob **/node_modules",
+    "clean": "turbo run clean --log-order=stream && git clean -fd && rimraf node_modules .turbo",
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
     "lint:md": "prettier --write \"*.md\" >/dev/null && markdownlint --fix \"*.md\"",
     "lint:yml": "prettier --write \".github/**/*.yml\" >/dev/null",

@@ -19,6 +19,7 @@
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
     "test": "vitest",
+    "clean": "rimraf node_modules dist .turbo",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "peerDependencies": {
