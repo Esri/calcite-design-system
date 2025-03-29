@@ -43,7 +43,7 @@
     "@eslint/js": "9.23.0",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
-    "@prettier/sync": "0.5.3",
+    "@prettier/sync": "0.5.5",
     "@storybook/addon-a11y": "8.6.7",
     "@storybook/addon-controls": "8.6.7",
     "@storybook/addon-docs": "8.6.7",
@@ -120,7 +120,7 @@
     "typescript": "5.6.3",
     "typescript-eslint": "8.27.0",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "5.4.14",
+    "vite": "5.4.15",
     "vitest": "2.1.9"
   },
   "license": "SEE LICENSE.md",
@@ -132,8 +132,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.6.2",
-    "@nx/nx-linux-x64-gnu": "20.6.2",
-    "@nx/nx-win32-x64-msvc": "20.6.2"
+    "@nx/nx-darwin-arm64": "20.6.4",
+    "@nx/nx-linux-x64-gnu": "20.6.4",
+    "@nx/nx-win32-x64-msvc": "20.6.4"
   }
 }
