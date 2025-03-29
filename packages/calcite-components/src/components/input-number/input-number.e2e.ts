@@ -1093,6 +1093,57 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("-123");
   });
 
+  it("allows editing numbers that start with zeros", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+
+    const calciteInput = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
+    await calciteInput.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "7000");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("7000");
+    expect(await input.getProperty("value")).toBe("7000");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("0");
+    expect(await input.getProperty("value")).toBe("000");
+
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("5000");
+    expect(await input.getProperty("value")).toBe("5000");
+
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Delete");
+    await page.keyboard.press("Delete");
+    await page.keyboard.press("Delete");
+    await page.waitForChanges();
+    await typeNumberValue(page, "70011");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("70011");
+    expect(await input.getProperty("value")).toBe("70011");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("11");
+    expect(await input.getProperty("value")).toBe("0011");
+
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("50011");
+    expect(await input.getProperty("value")).toBe("50011");
+  });
+
   describe("number locale support", () => {
     // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
     const localesWithDifferentBrowserAndNodeFormatting = [
