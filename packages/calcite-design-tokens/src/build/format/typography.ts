@@ -77,15 +77,13 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
     groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
   });
 
-  let content = "";
-
-  for (const [key, value] of groupToDeclarations) {
-    content += `${key} {
+  return Array.from(groupToDeclarations)
+    .map(
+      ([key, value]) => `${key} {
       ${value.join(";")}
-    }`;
-  }
-
-  return content;
+    }`,
+    )
+    .join("");
 }
 
 export const formatTypography: FormatFn = async (args) => {
