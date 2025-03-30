@@ -28,10 +28,10 @@
   },
   "license": "SEE LICENSE.md",
   "scripts": {
-    "build": "MODE='test' tsx src/build-tokens.ts",
-    "build:test": "MODE='test' npm run build",
+    "build": "tsx src/build-tokens.ts",
+    "build:test": "BUILD_MODE='test' npm run build",
     "build:watch": "tsx --watch src/build-tokens.ts",
-    "build:watch:test": "MODE='test' npm run build:watch",
+    "build:watch:test": "BUILD_MODE='test' npm run build:watch",
     "clean": "rimraf node_modules dist .turbo",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
