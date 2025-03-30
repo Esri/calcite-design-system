@@ -5,6 +5,15 @@ import { RegisterFn } from "../types/interfaces.js";
 import { cleanAttributes } from "./utils/index.js";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
+  console.log(`
+  >>> debug info 
+    MODE: ${process.env.MODE}
+    GITHUB_ACTION: ${process.env.GITHUB_ACTION}
+    GITHUB_JOB: ${process.env.GITHUB_JOB}
+    GITHUB_WORKFLOW: ${process.env.GITHUB_WORKFLOW}
+    RUNNER_NAME: ${process.env.RUNNER_NAME}
+  <<<`);
+
   const timestamp = process.env.MODE === "test" ? "TEST_TIMESTAMP" : Date.now();
 
   const output = {
