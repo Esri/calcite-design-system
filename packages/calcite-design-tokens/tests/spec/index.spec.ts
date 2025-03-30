@@ -6,6 +6,52 @@ import { describe, it, expect } from "vitest";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+enum Platform {
+  CSS = "css",
+  SCSS = "scss",
+  ES6 = "es6",
+  JS = "js",
+  DOCS = "docs",
+}
+
+const platforms: {
+  name: Platform;
+  files: string[];
+  internal?: boolean;
+}[] = [
+  { name: Platform.CSS, files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"] },
+  { name: Platform.SCSS, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
+  { name: Platform.ES6, files: ["breakpoints", "core", "global", "semantic"] },
+  { name: Platform.DOCS, files: ["core", "global", "semantic"], internal: true },
+  { name: Platform.JS, files: ["core", "global", "semantic"], internal: true },
+];
+
+describe("generated tokens", () => {
+  platforms.forEach(({ name, files }) => generateTests(name, files));
+});
+
+/**
+ * Generate test cases for a given platform and files
+ *
+ * @param platform - The platform name (e.g., "css", "scss", "es6")
+ * @param files - The list of files to test
+ * @param internal - Whether the test is for internal files
+ */
+function generateTests(platform: Platform, files: string[], internal = false) {
+  describe(platform.toUpperCase(), () => {
+    files.forEach((file) => {
+      const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
+      const internalTestAnnotation = internal ? " (internal)" : "";
+
+      it(`${file}${internalTestAnnotation} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
+
+      if (platform === "es6" || platform === "js") {
+        it(`${file}${internalTestAnnotation} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));
+      }
+    });
+  });
+}
+
 /**
  * Assert that the output file contents matches the snapshot
  *
@@ -17,50 +63,3 @@ function assertOutput(outputFilePath: string) {
   content = content.slice(content.indexOf("*/") + 1);
   expect(content).toMatchSnapshot();
 }
-
-describe("generated tokens", () => {
-  describe("CSS", () => {
-    it("global should match", () => {
-      assertOutput("css/global.css");
-    });
-    it("core should match", () => {
-      assertOutput("css/core.css");
-    });
-    it("light should match", () => {
-      assertOutput("css/light.css");
-    });
-    it("dark should match", () => {
-      assertOutput("css/dark.css");
-    });
-  });
-
-  describe("SCSS", () => {
-    it("global should match", () => {
-      assertOutput("scss/global.scss");
-    });
-    it("core should match", () => {
-      assertOutput("scss/core.scss");
-    });
-    it("light should match", () => {
-      assertOutput("scss/light.scss");
-    });
-    it("dark should match", () => {
-      assertOutput("scss/dark.scss");
-    });
-  });
-
-  describe("ES6", () => {
-    it("global should match", () => {
-      assertOutput("es6/global.js");
-    });
-    it("core should match", () => {
-      assertOutput("es6/core.js");
-    });
-    it("global types should match", () => {
-      assertOutput("es6/global.d.ts");
-    });
-    it("core types should match", () => {
-      assertOutput("es6/core.d.ts");
-    });
-  });
-});
