@@ -1198,7 +1198,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
 
 exports[`generated tokens > DOCS > core should match 1`] = `
 "{
-  "timestamp": 1743299013196,
+  "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
       "value": "#ffffff",
@@ -9937,7 +9937,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
 
 exports[`generated tokens > DOCS > global should match 1`] = `
 "{
-  "timestamp": 1743299012905,
+  "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
       "value": "0",
@@ -17129,7 +17129,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
 
 exports[`generated tokens > DOCS > semantic should match 1`] = `
 "{
-  "timestamp": 1743299013123,
+  "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
       "value": "0",
