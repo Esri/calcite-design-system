@@ -32,6 +32,8 @@ jobs:
           node-version-file: package.json
       - if: steps.diff-check.outputs.SKIP == 'false'
         name: Run tests for testable changes
+        env:
+          MODE: "test"
         run: npm install && npm run build && npm run test
       - if: steps.diff-check.outputs.SKIP == 'true'
         name: Skip visual snapshots for non-testable changes
