@@ -34,7 +34,7 @@ jobs:
         name: Run tests for testable changes
         env:
           MODE: test
-        run: MODE=$MODE npm install && npm run build && npm run test
+        run: npm install && MODE=$MODE npm run build && npm run test
       - if: steps.diff-check.outputs.SKIP == 'true'
         name: Skip visual snapshots for non-testable changes
         env:
