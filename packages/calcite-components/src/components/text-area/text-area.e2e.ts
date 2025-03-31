@@ -1,4 +1,4 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -323,5 +323,42 @@ describe("calcite-text-area", () => {
         },
       });
     });
+  });
+
+  it("does not change height & width when  status changes from valid to invalid", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-text-area max-length="1" validation-message="Must not be blank"></calcite-text-area>
+      <script>
+      const textarea = document.querySelector("calcite-text-area");
+      textarea.addEventListener("calciteTextAreaInput", () => {
+        const { value } = textarea;
+        textarea.status = Boolean(value) ? "valid" : "invalid";
+      });
+      </script>`);
+    const element = await page.find("calcite-text-area");
+
+    async function getTextAreaRect(page: E2EPage): Promise<DOMRect> {
+      return page.evaluate(() => {
+        const calciteTextAreaEl = document.querySelector("calcite-text-area");
+        const textAreaEl = calciteTextAreaEl.shadowRoot.querySelector("textarea");
+        return textAreaEl.getBoundingClientRect();
+      });
+    }
+
+    const textAreaRect = await getTextAreaRect(page);
+    const inputEvent = page.waitForEvent("calciteTextAreaInput");
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.type("a");
+    await inputEvent;
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await inputEvent;
+
+    expect(await element.getProperty("status")).toBe("invalid");
+    const textAreaInvalidRect = await getTextAreaRect(page);
+    expect(textAreaRect.width).toEqual(textAreaInvalidRect.width);
+    expect(textAreaInvalidRect.height).toEqual(textAreaRect.height);
   });
 });
