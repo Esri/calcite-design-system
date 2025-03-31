@@ -2,6 +2,10 @@ import { html } from "../../support/formatting";
 
 export const fabTokens = {
   calciteFabBackgroundColor: "",
+  calciteFabBorderColor: "",
+  calciteFabCornerRadius: "",
+  calciteFabTextColor: "",
+  calciteFabLoaderColor: "",
   calciteFabShadow: "",
 };
 
