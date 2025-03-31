@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
-    "clean": "turbo run clean --log-order=stream && git clean -fd",
+    "clean": "turbo run clean --log-order=stream && git clean -fd && rimraf node_modules .turbo",
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
     "lint:md": "prettier --write \"*.md\" >/dev/null && markdownlint --fix \"*.md\"",
     "lint:yml": "prettier --write \".github/**/*.yml\" >/dev/null",
@@ -43,7 +43,7 @@
     "@eslint/js": "9.23.0",
     "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
-    "@prettier/sync": "0.5.3",
+    "@prettier/sync": "0.5.5",
     "@storybook/addon-a11y": "8.6.7",
     "@storybook/addon-controls": "8.6.7",
     "@storybook/addon-docs": "8.6.7",
@@ -56,10 +56,10 @@
     "@storybook/preview-api": "8.6.7",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/web-components-vite": "8.6.7",
-    "@tokens-studio/sd-transforms": "0.12.2",
+    "@tokens-studio/sd-transforms": "1.2.9",
     "@types/dedent": "0.7.2",
     "@types/eslint": "9.6.1",
-    "@types/estree": "1.0.6",
+    "@types/estree": "1.0.7",
     "@types/github-script": "github:actions/github-script",
     "@types/jest-axe": "3.5.9",
     "@types/jsdom": "21.1.7",
@@ -110,7 +110,7 @@
     "shell-quote": "1.8.2",
     "storybook": "8.6.7",
     "storybook-addon-rtl": "1.0.1",
-    "style-dictionary": "3.9.2",
+    "style-dictionary": "4.3.0",
     "stylelint": "16.16.0",
     "stylelint-config-recommended-scss": "14.1.0",
     "stylelint-use-logical-spec": "5.0.1",
@@ -120,7 +120,7 @@
     "typescript": "5.6.3",
     "typescript-eslint": "8.27.0",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "5.4.14",
+    "vite": "5.4.15",
     "vitest": "2.1.9"
   },
   "license": "SEE LICENSE.md",
@@ -132,8 +132,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.6.2",
-    "@nx/nx-linux-x64-gnu": "20.6.2",
-    "@nx/nx-win32-x64-msvc": "20.6.2"
+    "@nx/nx-darwin-arm64": "20.6.4",
+    "@nx/nx-linux-x64-gnu": "20.6.4",
+    "@nx/nx-win32-x64-msvc": "20.6.4"
   }
 }
