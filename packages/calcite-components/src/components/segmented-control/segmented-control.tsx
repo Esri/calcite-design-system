@@ -379,7 +379,7 @@ export class SegmentedControl
     }
 
     if (!isServer && match) {
-      match?.focus();
+      match.focus();
     }
   }
 

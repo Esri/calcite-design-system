@@ -9,10 +9,10 @@ import { stampVersion } from "./config";
  */
 export default function (): void {
   if (!isServer) {
-    if (document?.readyState === "interactive") {
+    if (document.readyState === "interactive") {
       initModeChangeEvent();
     } else {
-      document?.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
+      document.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
     }
   }
 
