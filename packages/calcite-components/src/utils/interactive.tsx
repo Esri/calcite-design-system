@@ -72,8 +72,8 @@ export function updateHostInteraction(component: InteractiveComponent): void {
   if (component.disabled) {
     component.el.setAttribute("aria-disabled", "true");
 
-    if (component.el.contains(document?.activeElement)) {
-      (document?.activeElement as HTMLElement).blur();
+    if (component.el.contains(document.activeElement)) {
+      (document.activeElement as HTMLElement).blur();
     }
 
     blockInteraction(component);
