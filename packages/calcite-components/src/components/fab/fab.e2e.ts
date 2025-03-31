@@ -155,33 +155,33 @@ describe("calcite-fab", () => {
       themed(html`<calcite-fab></calcite-fab>`, {
         "--calcite-fab-background-color": {
           targetProp: "backgroundColor",
-          shadowSelector: `.${CSS.button}`,
+          shadowSelector: `.${CSS.button} >>> button`,
         },
         "--calcite-fab-border-color": {
           targetProp: "borderColor",
-          shadowSelector: `.${CSS.button}`,
+          shadowSelector: `.${CSS.button} >>> button`,
         },
         "--calcite-fab-corner-radius": {
           targetProp: "borderRadius",
-          shadowSelector: `.${CSS.button}`,
+          shadowSelector: `.${CSS.button} >>> button`,
         },
         "--calcite-fab-text-color": {
           targetProp: "color",
-          shadowSelector: `.${CSS.button}`,
+          shadowSelector: `.${CSS.button} >>> button`,
         },
         "--calcite-fab-shadow": {
           targetProp: "boxShadow",
           shadowSelector: `.${CSS.button}`,
         },
       });
+    });
 
-      describe("loader", () => {
-        themed(html`<calcite-fab loading></calcite-fab>`, {
-          "--calcite-fab-loader-color": {
-            targetProp: "color",
-            shadowSelector: `.${CSS.button} >>> calcite-loader`,
-          },
-        });
+    describe("loader", () => {
+      themed(html`<calcite-fab loading></calcite-fab>`, {
+        "--calcite-fab-loader-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.button} >>> calcite-loader`,
+        },
       });
     });
   });
