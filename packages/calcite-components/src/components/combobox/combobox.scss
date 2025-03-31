@@ -9,7 +9,7 @@
  * @prop --calcite-combobox-input-border-color: Specifies the border color of the component's input.
  * @prop --calcite-combobox-input-background-color: Specifies the background color of the component's input.
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
- * @prop --calcite-combobox-input-text-color: Specifies the text color of the component's input.
+ * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
  */
 
 :host {
