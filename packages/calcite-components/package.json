@@ -70,9 +70,9 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.12",
-    "@arcgis/components-utils": "^4.32.12",
-    "@arcgis/lumina": "^4.32.12",
+    "@arcgis/components-controllers": "^4.32.13",
+    "@arcgis/components-utils": "^4.32.13",
+    "@arcgis/lumina": "^4.32.13",
     "@esri/calcite-ui-icons": "4.1.1-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
