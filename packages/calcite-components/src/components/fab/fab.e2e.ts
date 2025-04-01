@@ -180,7 +180,7 @@ describe("calcite-fab", () => {
       themed(html`<calcite-fab loading></calcite-fab>`, {
         "--calcite-fab-loader-color": {
           targetProp: "color",
-          shadowSelector: `.${CSS.button} >>> calcite-loader`,
+          shadowSelector: `.${CSS.button} >>> button >>> calcite-loader`,
         },
       });
     });

@@ -9,4 +9,5 @@ export const fabTokens = {
   calciteFabShadow: "",
 };
 
-export const fab = html` <calcite-fab></calcite-fab> `;
+export const fab = html`<calcite-fab></calcite-fab>`;
+export const fabLoading = html`<calcite-fab loading></calcite-fab>`;

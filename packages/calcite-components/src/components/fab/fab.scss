@@ -12,7 +12,9 @@
  */
 
 :host {
-  @apply flex bg-transparent;
+  @apply flex;
+
+  background-color: transparent;
 }
 
 @include disabled();
@@ -32,10 +34,7 @@ calcite-button {
   --calcite-button-border-color: var(--calcite-fab-border-color);
   --calcite-button-corner-radius: var(--calcite-fab-corner-radius);
   --calcite-button-text-color: var(--calcite-fab-text-color);
-
-  calcite-loader {
-    --calcite-button-loader-color: var(--calcite-fab-loader-color);
-  }
+  --calcite-button-loader-color: var(--calcite-fab-loader-color);
 }
 
 @include base-component();
