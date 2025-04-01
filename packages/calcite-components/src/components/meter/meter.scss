@@ -32,6 +32,7 @@
   --calcite-internal-meter-space: var(--calcite-spacing-base);
   --calcite-internal-meter-height: var(--calcite-spacing-lg);
   --calcite-internal-meter-font-size: var(--calcite-font-size--1);
+  --calcite-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
   --calcite-meter-background-color: var(--calcite-color-foreground-2);
   --calcite-meter-border-color: var(--calcite-color-border-3);
   --calcite-meter-shadow: var(--calcite-shadow-none);

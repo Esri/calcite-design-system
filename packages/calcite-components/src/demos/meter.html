@@ -23,21 +23,11 @@
         padding: 40px;
       }
 
-      .themed-example {
+      .semantic-themed-example {
         --calcite-color-brand: orange;
         --calcite-color-status-success: #8ed1c8;
         --calcite-color-status-warning: #8ebad1;
         --calcite-color-status-danger: #35c4b1;
-      }
-
-      .token-theming {
-        --calcite-meter-background-color: rgb(208, 190, 230);
-        --calcite-meter-border-color: rgb(184, 48, 153);
-        --calcite-meter-shadow: var(--calcite-shadow-sm);
-        --calcite-meter-corner-radius: 0px;
-        --calcite-meter-fill-color: rgb(174, 69, 174);
-        --calcite-meter-range-text-color: rgb(28, 110, 164);
-        --calcite-meter-value-text-color: purple;
       }
     </style>
     <script src="./_assets/head.ts"></script>
@@ -49,19 +39,28 @@
         <div class="child">
           <calcite-label>
             Themed
-            <calcite-meter
-              class="token-theming"
-              group-separator
-              unit-label="GB"
-              value-label
-              range-labels
-              min="0"
-              max="12400"
-              low="4600"
-              high="7600"
-              value="-2200"
-              value-label-type="units"
-            ></calcite-meter>
+            <demo-theme
+              tokens="--calcite-meter-background-color: rgb(208, 190, 230);
+        --calcite-meter-border-color: rgb(184, 48, 153);
+        --calcite-meter-shadow: var(--calcite-shadow-sm);
+        --calcite-meter-corner-radius: 0px;
+        --calcite-meter-fill-color: rgb(174, 69, 174);
+        --calcite-meter-range-text-color: rgb(28, 110, 164);
+        --calcite-meter-value-text-color: purple;"
+            >
+              <calcite-meter
+                group-separator
+                unit-label="GB"
+                value-label
+                range-labels
+                min="0"
+                max="12400"
+                low="4600"
+                high="7600"
+                value="-2200"
+                value-label-type="units"
+              ></calcite-meter>
+            </demo-theme>
           </calcite-label>
           <calcite-label>
             Example 2
@@ -487,7 +486,7 @@
         </div>
       </div>
 
-      <div class="parent themed-example">
+      <div class="parent semantic-themed-example">
         <h3>Theming</h3>
         <div class="child">
           <h3>fillType: step</h3>
@@ -859,7 +858,7 @@
         });
 
         switchThemed.addEventListener("calciteSwitchChange", function (event) {
-          meter.classList.toggle("themed-example");
+          meter.classList.toggle("semantic-themed-example");
         });
 
         switchvalueLabel.addEventListener("calciteSwitchChange", function (event) {
