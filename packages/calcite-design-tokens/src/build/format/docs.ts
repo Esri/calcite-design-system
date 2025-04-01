@@ -5,8 +5,10 @@ import { RegisterFn } from "../types/interfaces.js";
 import { cleanAttributes } from "./utils/index.js";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
+  const timestamp = process.env.MODE === "test" ? "TEST_TIMESTAMP" : Date.now();
+
   const output = {
-    timestamp: Date.now(),
+    timestamp,
     tokens: dictionary.allTokens.map((token) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
 
