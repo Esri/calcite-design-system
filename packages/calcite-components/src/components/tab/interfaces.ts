@@ -1,7 +1,7 @@
 export interface TabChangeEventDetail {
   /** The tab ID that just became selected */
   tab: number | string;
-  isUserTriggered?: boolean;
+  userTriggered?: boolean;
 }
 
 export interface TabCloseEventDetail {

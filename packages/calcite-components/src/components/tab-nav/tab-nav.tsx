@@ -248,7 +248,7 @@ export class TabNav extends LitElement {
     event.stopPropagation();
 
     this.selectedTitle = activatedTabTitle;
-    if (currentSelectedTabTitle !== activatedTabTitle && event.detail.isUserTriggered) {
+    if (currentSelectedTabTitle !== activatedTabTitle && event.detail.userTriggered) {
       this.calciteTabChange.emit();
     }
     this.scrollTabTitleIntoView(activatedTabTitle);
