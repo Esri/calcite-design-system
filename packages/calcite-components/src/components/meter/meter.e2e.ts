@@ -199,7 +199,6 @@ describe("calcite-meter", () => {
         },
         "--calcite-meter-shadow": {
           shadowSelector: `.${CSS.container}`,
-
           targetProp: "boxShadow",
         },
         "--calcite-meter-border-color": [
