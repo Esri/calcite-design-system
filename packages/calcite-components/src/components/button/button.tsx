@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
 import {
@@ -24,7 +25,6 @@ import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -207,7 +207,7 @@ export class Button
   }
 
   async load(): Promise<void> {
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasContent();
     }
   }
