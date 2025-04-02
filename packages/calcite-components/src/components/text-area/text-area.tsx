@@ -77,7 +77,7 @@ export class TextArea
 
   private footerEl = createRef<HTMLElement>();
 
-  private validationMessageEl = createRef<HTMLDivElement>();
+  private validationMessageEl: HTMLDivElement;
 
   formEl: HTMLFormElement;
 
@@ -414,7 +414,7 @@ export class TextArea
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
-    validationMessageHeight: number; // Added for validation message height
+    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
@@ -424,8 +424,8 @@ export class TextArea
       ? this.footerEl.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
-    const { height: validationMessageHeight } = this.validationMessageEl.value
-      ? this.validationMessageEl.value.getBoundingClientRect()
+    const { height: validationMessageHeight } = this.validationMessageEl
+      ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     return {
@@ -447,6 +447,13 @@ export class TextArea
 
   private isCharacterLimitExceeded(): boolean {
     return this.value?.length > this.maxLength;
+  }
+
+  private setValidationRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+    this.validationMessageEl = el;
   }
 
   // #endregion
@@ -524,16 +531,14 @@ export class TextArea
           </span>
         )}
         {this.validationMessage && this.status === "invalid" ? (
-          <div ref={this.validationMessageEl}>
-            <Validation
-              icon={this.validationIcon}
-              id={IDS.validationMessage}
-              message={this.validationMessage}
-              // ref={this.validationMessageElRef}
-              scale={this.scale}
-              status={this.status}
-            />
-          </div>
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            ref={this.setValidationRef}
+            scale={this.scale}
+            status={this.status}
+          />
         ) : null}
       </InteractiveContainer>
     );
