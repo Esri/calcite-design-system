@@ -203,5 +203,60 @@
     "$figmaCollectionId": "VariableCollectionId:15063:4933",
     "$figmaModeId": "15063:4",
     "group": "core"
+  },
+  {
+    "id": "64e1857dc6f77a4842c162e2ad917d1e483d77c7",
+    "name": "Mode 1",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/container-size": "source",
+      "core/size": "source",
+      "semantic/container-size": "enabled",
+      "semantic/size": "enabled",
+      "semantic/space": "enabled"
+    },
+    "group": "size"
+  },
+  {
+    "id": "4f2ff40135954a29484f308bf4d63fb72ac0b2ff",
+    "name": "Mode 1",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/size": "source",
+      "semantic/border": "enabled"
+    },
+    "group": "border"
+  },
+  {
+    "id": "989f4ebad3a73cd71a773e197b045e05e83909a8",
+    "name": "Mode 1",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/opacity": "source",
+      "semantic/opacity": "enabled"
+    },
+    "group": "opacity"
+  },
+  {
+    "id": "e7b4691458b102b171ddbfea42c054eed44a32be",
+    "name": "styles",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "semantic/font": "source",
+      "semantic/typography": "enabled"
+    },
+    "group": "typography"
+  },
+  {
+    "id": "226f0285af1785915aa048534e0205d4199834c0",
+    "name": "styles",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/shadow": "source",
+      "semantic/shadow": "enabled",
+      "semantic/color/light": "source",
+      "semantic/color/dark": "source"
+    },
+    "group": "shadow"
   }
 ]
