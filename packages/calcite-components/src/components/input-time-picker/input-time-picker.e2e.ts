@@ -103,8 +103,69 @@ describe("calcite-input-time-picker", () => {
     labelable("calcite-input-time-picker");
   });
 
-  describe("focusable", () => {
-    focusable(`calcite-input-time-picker`);
+  describe("focusing", () => {
+    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
+      focusable(`calcite-input-time-picker`, {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+      });
+    });
+
+    describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
+      focusable(`<calcite-input-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
+      });
+    });
+
+    it("tabbing focuses each input in the correct sequence", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input-time-picker step="1"></calcite-input-time-picker>`,
+      });
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.hour}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.minute}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.second}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.meridiem}`, { shadowed: true })).toBe(true);
+    });
+
+    it("tabbing focuses each input in the correct sequence in RTL", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input-time-picker dir="rtl" step="1"></calcite-input-time-picker>`,
+      });
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `.${CSS.meridiem}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.hour}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.minute}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, `.${CSS.second}`, { shadowed: true })).toBe(true);
+    });
   });
 
   describe("disabled", () => {
