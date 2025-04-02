@@ -1,6 +1,6 @@
+import { isServer } from "lit";
 import { initModeChangeEvent } from "./mode";
 import { stampVersion } from "./config";
-import { isBrowser } from "./browser";
 
 /**
  * This file is imported in Stencil's `globalScript` config option.
@@ -8,7 +8,7 @@ import { isBrowser } from "./browser";
  * @see [Stencil's globalScript](https://stenciljs.com/docs/config#globalscript).
  */
 export default function (): void {
-  if (isBrowser()) {
+  if (!isServer) {
     if (document.readyState === "interactive") {
       initModeChangeEvent();
     } else {

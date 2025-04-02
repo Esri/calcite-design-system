@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -24,7 +24,6 @@ import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
@@ -258,7 +257,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   }
 
   async load(): Promise<void> {
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasText();
     }
     if (this.tab && this.selected) {
