@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": ["MODE"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -14,6 +15,9 @@
     "clean": {
       "cache": false
     },
-    "lint": {}
+    "lint": {},
+    "util:update-3rd-party-licenses": {
+      "cache": false
+    }
   }
 }

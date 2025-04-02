@@ -29,12 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -58,12 +53,7 @@ declare global {
 /** @slot action - A slot for positioning a button next to the component. */
 export class InputText
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    LoadableComponent,
-    TextualInputComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
   // #region Static Members
 
@@ -179,7 +169,8 @@ export class InputText
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -196,7 +187,8 @@ export class InputText
   messages = useT9n<typeof T9nStrings>();
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
@@ -237,7 +229,10 @@ export class InputText
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -353,7 +348,6 @@ export class InputText
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
@@ -367,10 +361,6 @@ export class InputText
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

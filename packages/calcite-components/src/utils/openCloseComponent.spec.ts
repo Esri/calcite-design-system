@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { waitForAnimationFrame } from "../tests/utils";
+import { createControlledPromise } from "../tests/utils/promises";
 import * as openCloseComponent from "./openCloseComponent";
 
 const { onToggleOpenCloseComponent } = openCloseComponent;
@@ -32,32 +33,27 @@ describe("openCloseComponent", () => {
         onClose: vi.fn(() => emittedEvents.push("close")),
       };
 
-      function createFinishedPromise(): [Promise<void>, () => void] {
-        let resolver: () => void;
-        const finishedPromise = new Promise<void>((resolve) => (resolver = resolve));
-        return [finishedPromise, resolver];
-      }
-
-      const [finishedPromise, resolveFinishedPromise] = createFinishedPromise();
+      const openingControlledPromise = createControlledPromise<void>();
 
       fakeOpenCloseComponent.transitionEl.getAnimations = () => [
         {
           transitionProperty: "opacity",
-          finished: finishedPromise,
+          finished: openingControlledPromise.promise,
         } as unknown as CSSTransition,
       ];
 
       onToggleOpenCloseComponent(fakeOpenCloseComponent);
       expect(emittedEvents).toEqual(["beforeOpen"]);
 
-      resolveFinishedPromise();
+      openingControlledPromise.resolve();
       await waitForAnimationFrame();
       expect(emittedEvents).toEqual(["beforeOpen", "open"]);
 
+      const closingControlledPromise = createControlledPromise<void>();
       fakeOpenCloseComponent.transitionEl.getAnimations = () => [
         {
           transitionProperty: "opacity",
-          finished: finishedPromise,
+          finished: closingControlledPromise.promise,
         } as unknown as CSSTransition,
       ];
 
@@ -66,7 +62,7 @@ describe("openCloseComponent", () => {
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
 
-      resolveFinishedPromise();
+      closingControlledPromise.resolve();
       await waitForAnimationFrame();
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);

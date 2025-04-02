@@ -20,14 +20,14 @@
 }
 
 .week-header {
-  @apply text-color-3
-    text-center
+  @apply text-center
     font-bold 
     flex 
     text-n2h 
     justify-center
     items-center;
   inline-size: calc(100% / 7);
+  color: var(--calcite-date-picker-week-header-text-color, var(--calcite-color-text-3));
 }
 
 .day-container {
@@ -92,7 +92,8 @@
 }
 
 .calendar--start {
-  @apply border-solid border-color-1 border-0;
+  @apply border-solid border-0;
+  border-color: var(--calcite-date-picker-range-calendar-divider-color, var(--calcite-color-border-1));
 }
 
 :host([range][layout="horizontal"]) .calendar--start {

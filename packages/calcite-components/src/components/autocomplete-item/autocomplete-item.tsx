@@ -1,11 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../interfaces";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -28,10 +23,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
-export class AutocompleteItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent
-{
+export class AutocompleteItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -111,16 +103,8 @@ export class AutocompleteItem
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

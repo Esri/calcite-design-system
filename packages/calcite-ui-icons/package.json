@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.0.0-next.8",
+  "version": "4.1.1-next.1",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
   "keywords": [
@@ -37,7 +37,8 @@
     "index.js",
     "sprite-16.svg",
     "sprite-24.svg",
-    "sprite-32.svg"
+    "sprite-32.svg",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
     "build": "node bin/cli.js",
@@ -47,13 +48,15 @@
     "build:sprite-16": "svgstore -o sprite-16.svg icons/*-16*.svg",
     "build:sprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
     "build:sprite-32": "svgstore -o sprite-32.svg icons/*-32*.svg",
+    "clean": "rimraf node_modules js fonts .turbo docs/icons.json --glob 'index.{js,d.ts}' --glob 'sprite-{16,24,32}.svg'",
     "convert-all-desktop-multi": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s 16 && node bin/convert-mobile.js -o \"../desktop-output\" -s 24 && node bin/convert-mobile.js -o \"../desktop-output\" -s 32 && node bin/convert-mobile.js -o \"../desktop-output\" -s 64",
     "convert-all-desktop:size": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s",
     "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
     "spriter": "node bin/spriter.js",
-    "start": "npm run copy-assets && node bin/server.js"
+    "start": "npm run copy-assets && node bin/server.js",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "devDependencies": {
     "browser-sync": "3.0.2",

@@ -3,22 +3,23 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-accordion-border-color: [Deprecated] Use `--calcite-accordion-item-border-color`. Specifies the component's border color.
- * @prop --calcite-accordion-item-background-color: Specifies the component's background color.
- * @prop --calcite-accordion-item-border-color: Specifies the component's border color.
- * @prop --calcite-accordion-item-icon-color-end: Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
- * @prop --calcite-accordion-item-icon-color-start: Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-border-color: Specifies the component's border color.
+ * @prop --calcite-accordion-background-color: Specifies the component's background color.
+ * @prop --calcite-accordion-text-color: Specifies the component's text color.
+ * @prop --calcite-accordion-text-color-hover: Specifies the component's main text color on hover.
+ * @prop --calcite-accordion-text-color-press: Specifies the component's main text color when pressed.
+ * @prop --calcite-accordion-item-background-color: [Deprecated] Use `--calcite-accordion-background-color`. Specifies the component's background color.
+ * @prop --calcite-accordion-item-border-color: [Deprecated] Use `--calcite-accordion-border-color`. Specifies the component's border color.
  * @prop --calcite-accordion-item-content-space: Specifies the component's padding.
- * @prop --calcite-accordion-item-end-icon-color: [Deprecated] Use `--calcite-accordion-item-icon-color-end`. Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-end-icon-color: Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-expand-icon-color: Specifies the component's expand icon color.
  * @prop --calcite-accordion-item-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-accordion-item-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-accordion-item-icon-color: Specifies the component's default icon color.
- * @prop --calcite-accordion-item-start-icon-color: [Deprecated] Use `--calcite-accordion-item-icon-color-start`. Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
- * @prop --calcite-accordion-item-text-color: Specifies the component's text color.
- * @prop --calcite-accordion-text-color-hover: [Deprecated] Use `--calcite-accordion-item-text-color-hover`. Specifies the component's main text color on hover.
- * @prop --calcite-accordion-text-color-pressed: [Deprecated] Use `--calcite-accordion-item-text-color-press`. Specifies the component's main text color when pressed.
- * @prop --calcite-accordion-text-color: [Deprecated] Use `--calcite-accordion-item-text-color`. Specifies the component's text color.
+ * @prop --calcite-accordion-item-icon-color: [Deprecated] Use `--calcite-icon-color`. Specifies the component's default icon color.
+ * @prop --calcite-accordion-item-start-icon-color: Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+ * @prop --calcite-accordion-item-text-color: [Deprecated] Use `--calcite-accordion-text-color`. Specifies the component's text color.
+ * @prop --calcite-accordion-item-text-color-hover: [Deprecated] Use `--calcite-accordion-text-color-hover`. Specifies the component's text color on hover.
+ * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use `--calcite-accordion-text-color-press`. Specifies the component's text color on press.
  */
 
 %icon-position {
@@ -35,8 +36,8 @@
     flex-col
     no-underline;
 
-  color: var(--calcite-accordion-item-text-color, var(--calcite-accordion-text-color, var(--calcite-color-text-3)));
-  background-color: var(--calcite-accordion-item-background-color);
+  color: var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)));
+  background-color: var(--calcite-accordion-background-color, var(--calcite-accordion-item-background-color));
   border-width: 0;
 
   .header {
@@ -72,8 +73,8 @@
   border-block-end-width: var(--calcite-border-width-sm);
   border-block-end-style: solid;
   border-color: var(
-    --calcite-accordion-item-border-color,
-    var(--calcite-accordion-border-color, theme("borderColor.color.2"))
+    --calcite-accordion-border-color,
+    var(--calcite-accordion-item-border-color, theme("borderColor.color.2"))
   );
 }
 
@@ -130,7 +131,7 @@
     .heading {
       color: var(
         --calcite-accordion-item-heading-text-color,
-        var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1))
+        var(--calcite-accordion-text-color-press, var(--calcite-color-text-1))
       );
     }
   }
@@ -193,7 +194,7 @@
 .expand-icon {
   color: var(
     --calcite-accordion-item-expand-icon-color,
-    var(--calcite-accordion-item-text-color, var(--calcite-accordion-text-color, var(--calcite-color-text-3)))
+    var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)))
   );
   margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
@@ -217,15 +218,18 @@
   .heading {
     color: var(
       --calcite-accordion-item-heading-text-color,
-      var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
+      var(
+        --calcite-accordion-text-color-hover,
+        var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
+      )
     );
   }
 }
 
 :host([expanded]) {
   color: var(
-    --calcite-accordion-item-text-color,
-    var(--calcite-accordion-text-color, var(--calcite-accordion-text-color-pressed, var(--calcite-color-text-1)))
+    --calcite-accordion-text-color-press,
+    var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-1)))
   );
 
   .header {
@@ -236,8 +240,14 @@
     color: var(
       --calcite-accordion-item-expand-icon-color,
       var(
-        --calcite-accordion-item-text-color,
-        var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2)))
+        --calcite-accordion-text-color-hover,
+        var(
+          --calcite-accordion-text-color,
+          var(
+            --calcite-accordion-item-text-color,
+            var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
+          )
+        )
       )
     );
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
@@ -248,8 +258,14 @@
 
   .description {
     color: var(
-      --calcite-accordion-item-text-color,
-      var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2)))
+      --calcite-accordion-text-color-hover,
+      var(
+        --calcite-accordion-text-color,
+        var(
+          --calcite-accordion-item-text-color,
+          var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
+        )
+      )
     );
   }
 

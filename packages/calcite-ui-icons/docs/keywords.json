@@ -9472,5 +9472,50 @@
     ],
     "category": "Layers",
     "release": "4.0.0"
+  },
+  "crosshair": {
+    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target", "aim", "marker", "goal", "point"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "hammer-coin": {
+    "alias": ["4.0.0", "objects", "tool", "mallet", "cash", "change", "currency"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "hammer-lock": {
+    "alias": ["4.0.0", "objects", "lock", "tool", "combination", "secure"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "dual-image-location": {
+    "alias": ["4.0.0", "gis", "location", "direction", "two", "position", "site"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-area": {
+    "alias": ["4.0.0", "gis", "area", "zone", "region", "two", "image"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-distance": {
+    "alias": ["4.0.0", "gis", "distance", "two", "gap", "span", "reach"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "language-2": {
+    "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
+    "category": "Generic",
+    "release": "4.0.1"
+  },
+  "browser-join": {
+    "alias": ["4.1.0", "windows", "web", "explore", "combine", "tables"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "browser-plus": {
+    "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
+    "category": "Windows",
+    "release": "4.1.0"
   }
 }

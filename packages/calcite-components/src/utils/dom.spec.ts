@@ -3,6 +3,7 @@ import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils";
+import { createControlledPromise } from "../tests/utils/promises";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -448,12 +449,6 @@ describe("dom", () => {
       onEndCallback = vi.fn();
     });
 
-    function createFinishedPromise(): [Promise<void>, () => void] {
-      let resolver: () => void;
-      const finishedPromise = new Promise<void>((resolve) => (resolver = resolve));
-      return [finishedPromise, resolver];
-    }
-
     const helpers = [whenTransitionDone, whenAnimationDone] as const;
 
     helpers.forEach((helper) => {
@@ -463,12 +458,12 @@ describe("dom", () => {
 
       describe(`${helper.name}`, () => {
         it(`should return a promise that resolves after the ${type} (running at call time)`, async () => {
-          const [finishedPromise, resolver] = createFinishedPromise();
+          const controlledPromise = createControlledPromise<void>();
           const animationsPerCall = [
             [
               {
                 [animationPropName]: testTransitionOrAnimationName,
-                finished: finishedPromise,
+                finished: controlledPromise.promise,
               } as unknown as Animation | CSSTransition,
             ],
           ];
@@ -479,7 +474,7 @@ describe("dom", () => {
           expect(onStartCallback).toHaveBeenCalled();
           expect(onEndCallback).not.toHaveBeenCalled();
 
-          resolver();
+          controlledPromise.resolve();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
           expect(onStartCallback).toHaveBeenCalled();
@@ -491,13 +486,13 @@ describe("dom", () => {
         });
 
         it(`should return a promise that resolves after the ${type} (running frame after call time)`, async () => {
-          const [finishedPromise, resolver] = createFinishedPromise();
+          const controlledPromise = createControlledPromise<void>();
           const animationsPerCall = [
             [],
             [
               {
                 [animationPropName]: testTransitionOrAnimationName,
-                finished: finishedPromise,
+                finished: controlledPromise.promise,
               } as unknown as Animation | CSSTransition,
             ],
           ];
@@ -515,7 +510,7 @@ describe("dom", () => {
           expect(onStartCallback).toHaveBeenCalled();
           expect(onEndCallback).not.toHaveBeenCalled();
 
-          resolver();
+          controlledPromise.resolve();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
           expect(onStartCallback).toHaveBeenCalled();
