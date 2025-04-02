@@ -110,7 +110,7 @@
     "storybook": "8.6.7",
     "storybook-addon-rtl": "1.0.1",
     "style-dictionary": "4.3.0",
-    "stylelint": "16.16.0",
+    "stylelint": "16.17.0",
     "stylelint-config-recommended-scss": "14.1.0",
     "stylelint-use-logical-spec": "5.0.1",
     "tailwindcss": "3.4.17",
