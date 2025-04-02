@@ -9,8 +9,9 @@
       "semantic.shadow.test": "S:17c46670a2ba9ef9dbc1366bf63c3cd87e3315d7,"
     },
     "selectedTokenSets": {
-      "semantic/color": "enabled",
-      "core/color": "source"
+      "core/color": "source",
+      "semantic/color/light": "enabled",
+      "semantic/color/dark": "disabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -72,8 +73,9 @@
       "shadow.md": "S:89b3b8db8d8ee9c0c7c8bb82021c0adb878c6f1e,"
     },
     "selectedTokenSets": {
-      "semantic/color": "enabled",
-      "core/color": "source"
+      "core/color": "source",
+      "semantic/color/light": "enabled",
+      "semantic/color/dark": "disabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -135,7 +137,9 @@
       "core/color": "enabled",
       "core/container-size": "enabled",
       "core/opacity": "enabled",
-      "core/size": "enabled"
+      "core/size": "enabled",
+      "semantic/color/light": "disabled",
+      "semantic/color/dark": "disabled"
     },
     "$figmaVariableReferences": {
       "container-size.0": "4b90e111c2c30131bbdce224501c8515b48f04ae",

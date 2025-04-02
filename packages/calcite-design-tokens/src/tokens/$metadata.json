@@ -19,6 +19,7 @@
     "semantic/space",
     "semantic/z-index",
     "semantic/typography",
-    "semantic/color"
+    "semantic/color/light",
+    "semantic/color/dark"
   ]
 }
