@@ -85,7 +85,7 @@ export class TimeController
     const locale = messages._lang as SupportedLocale;
     this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
     this.meridiemOrder = getMeridiemOrder(locale);
-    this.setValue(this.component.value);
+    this.setValue(this.component.value, true);
   }
 
   // #endregion
@@ -348,12 +348,13 @@ export class TimeController
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
-  setValue(value: string): void {
+  setValue(value: string, updateComponent: boolean = false): void {
     const { messages, numberingSystem, step } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
+    let newValue;
     if (isValidTime(value)) {
-      const newValue = toISOTimeString(value, step);
+      newValue = toISOTimeString(value, step);
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
         localizedHour,
@@ -388,7 +389,6 @@ export class TimeController
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
       }
-      this.component.value = newValue;
     } else {
       this.hour = null;
       this.fractionalSecond = null;
@@ -404,7 +404,10 @@ export class TimeController
       this.meridiem = null;
       this.minute = null;
       this.second = null;
-      this.component.value = null;
+      newValue = null;
+    }
+    if (updateComponent) {
+      this.component.value = newValue;
     }
   }
 

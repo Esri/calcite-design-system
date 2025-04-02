@@ -92,7 +92,7 @@ export class InputTimePicker
 
   private secondEl: HTMLSpanElement;
 
-  time = new TimeController(this);
+  private time = new TimeController(this);
 
   // #endregion
 
@@ -375,6 +375,7 @@ export class InputTimePicker
   /** @internal */
   handleValueChange(): void {
     if (this.hasUpdated) {
+      this.time.setValue(this.value);
       this.calciteInputTimePickerChange.emit();
     }
   }
@@ -407,7 +408,7 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
-    this.time.setValue(value);
+    this.time.setValue(value, true);
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {

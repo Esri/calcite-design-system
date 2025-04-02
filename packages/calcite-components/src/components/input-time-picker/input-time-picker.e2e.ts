@@ -45,7 +45,7 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.textContent || "";
   const meridiem = (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.textContent || "";
   const meridiemOrder = getMeridiemOrder(locale);
-  return `${meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${secondSuffix}${meridiemOrder !== 0 ? " " + meridiem : ""}`;
+  return `${meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${secondSuffix}${meridiem && meridiemOrder !== 0 ? " " + meridiem : ""}`;
 }
 
 describe("calcite-input-time-picker", () => {
@@ -259,7 +259,6 @@ describe("calcite-input-time-picker", () => {
       const inputTimePicker = await page.find("calcite-input-time-picker");
 
       expect(await getInputValue(page, locale)).toBe("11:00:00 AM");
-      expect(await getInputValue(page)).toBe("11:00:00");
 
       const date = new Date(0);
       date.setHours(13);
