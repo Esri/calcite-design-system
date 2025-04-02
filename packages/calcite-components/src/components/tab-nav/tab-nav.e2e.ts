@@ -246,8 +246,8 @@ describe("calcite-tab-nav", () => {
     describe("default", () => {
       themed(html`<calcite-tab-nav bordered"></calcite-tab-nav>`, {
         "--calcite-tab-border-color": {
-          shadowSelector: `.${CSS.scrollButton}`,
-          targetProp: "--calcite-button-border-color",
+          shadowSelector: `.${CSS.scrollBackwardContainerButton}::before`,
+          targetProp: "backgroundColor",
         },
         "--calcite-tab-text-color": {
           shadowSelector: `.${CSS.scrollButton}`,
