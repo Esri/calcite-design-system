@@ -9,11 +9,8 @@
       "semantic.shadow.test": "S:17c46670a2ba9ef9dbc1366bf63c3cd87e3315d7,"
     },
     "selectedTokenSets": {
-      "semantic/shadow": "enabled",
-      "semantic/size": "enabled",
-      "semantic/space": "enabled",
-      "semantic/calcite/light": "enabled",
-      "core/size": "source"
+      "semantic/color": "enabled",
+      "core/color": "source"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -75,10 +72,8 @@
       "shadow.md": "S:89b3b8db8d8ee9c0c7c8bb82021c0adb878c6f1e,"
     },
     "selectedTokenSets": {
-      "semantic/calcite/dark": "enabled",
-      "semantic/shadow": "enabled",
-      "semantic/size": "enabled",
-      "semantic/space": "enabled"
+      "semantic/color": "enabled",
+      "core/color": "source"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -208,47 +203,5 @@
     "$figmaCollectionId": "VariableCollectionId:15063:4933",
     "$figmaModeId": "15063:4",
     "group": "core"
-  },
-  {
-    "id": "478ea2a422a612bc3df29ff143b71b34db0ce17b",
-    "name": "Survey123 Light",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "core/color": "source"
-    },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:5",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
-  },
-  {
-    "id": "d56dd5a6e7068dda4c8c91a8d70f6e5afab94408",
-    "name": "Survey123 Dark",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "core/color": "source"
-    },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:6",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
-  },
-  {
-    "id": "88e888cb278874e16621c943a268d92e70a2b3d1",
-    "name": "Dev Summit Light",
-    "$figmaStyleReferences": {},
-    "selectedTokenSets": {
-      "core/color": "source"
-    },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:7",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
   }
 ]

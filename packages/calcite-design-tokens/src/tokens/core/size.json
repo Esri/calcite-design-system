@@ -2,30 +2,6 @@
   "core": {
     "size": {
       "default": {
-        "none": {
-          "value": "0",
-          "type": "size",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "core",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "size",
-              "group": "default",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "none",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
         "1": {
           "value": "1px",
           "type": "size",
@@ -745,11 +721,9 @@
               "mode": ""
             }
           }
-        }
-      },
-      "relative": {
-        "auto": {
-          "value": "auto",
+        },
+        "none": {
+          "value": "0",
           "type": "size",
           "attributes": {
             "calcite-schema": {
@@ -760,18 +734,20 @@
               "pattern": "",
               "element": "",
               "category": "size",
-              "group": "relative",
+              "group": "default",
               "kind": "",
               "appearance": "",
               "property": "",
               "variant": "",
               "state": "",
-              "scale": "auto",
+              "scale": "none",
               "context": "",
               "mode": ""
             }
           }
-        },
+        }
+      },
+      "relative": {
         "50": {
           "value": "50%",
           "type": "size",
@@ -935,6 +911,30 @@
               "variant": "",
               "state": "",
               "scale": "2",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "auto": {
+          "value": "auto",
+          "type": "size",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "size",
+              "group": "relative",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "auto",
               "context": "",
               "mode": ""
             }
