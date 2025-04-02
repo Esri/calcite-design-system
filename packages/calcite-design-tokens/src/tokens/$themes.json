@@ -10,8 +10,7 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/light": "enabled",
-      "semantic/color/dark": "disabled"
+      "semantic/color/light": "enabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -74,8 +73,7 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/light": "enabled",
-      "semantic/color/dark": "disabled"
+      "semantic/color/dark": "enabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -137,9 +135,7 @@
       "core/color": "enabled",
       "core/container-size": "enabled",
       "core/opacity": "enabled",
-      "core/size": "enabled",
-      "semantic/color/light": "disabled",
-      "semantic/color/dark": "disabled"
+      "core/size": "enabled"
     },
     "$figmaVariableReferences": {
       "container-size.0": "4b90e111c2c30131bbdce224501c8515b48f04ae",
