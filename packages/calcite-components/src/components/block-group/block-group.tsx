@@ -134,14 +134,14 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   /**
-   * Emits a `calciteBlockGroupPutFail` event.
+   * Emits a `calciteBlockGroupMoveHalt` event.
    *
    * @private
    * @param dragDetail
    */
   @method()
   putFailed(dragDetail: BlockDragDetail): void {
-    this.calciteBlockGroupPutFail.emit(dragDetail);
+    this.calciteBlockGroupMoveHalt.emit(dragDetail);
   }
 
   // #endregion
@@ -157,11 +157,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
-  /** Fires when a user attempts to move an element using the sort menu and 'canPull' returns falsy. */
-  calciteBlockGroupPullFail = createEvent<BlockDragDetail>({ cancelable: false });
-
-  /** Fires when a user attempts to move an element using the sort menu and 'canPut' returns falsy. */
-  calciteBlockGroupPutFail = createEvent<BlockDragDetail>({ cancelable: false });
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
 
   // #endregion
 
@@ -319,7 +316,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         oldIndex,
       }) === false
     ) {
-      this.calciteBlockGroupPullFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      this.calciteBlockGroupMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 

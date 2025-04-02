@@ -1514,12 +1514,9 @@ describe("calcite-list", () => {
       endOldIndex: number;
       startNewIndex: number;
       startOldIndex: number;
-      pullNewIndex: number;
-      pullOldIndex: number;
-      putNewIndex: number;
-      putOldIndex: number;
-      pullFailCalledTimes: number;
-      putFailCalledTimes: number;
+      moveHaltNewIndex: number;
+      moveHaltOldIndex: number;
+      moveHaltCalledTimes: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -1776,20 +1773,13 @@ describe("calcite-list", () => {
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
         const testWindow = window as TestWindow;
-        testWindow.pullFailCalledTimes = 0;
-        testWindow.putFailCalledTimes = 0;
+        testWindow.moveHaltCalledTimes = 0;
         const firstLetters = document.getElementById("first-letters") as List["el"];
 
-        firstLetters.addEventListener("calciteListPullFail", (event: CustomEvent<ListDragDetail>) => {
-          testWindow.pullFailCalledTimes++;
-          testWindow.pullNewIndex = event.detail.newIndex;
-          testWindow.pullOldIndex = event.detail.oldIndex;
-        });
-
-        firstLetters.addEventListener("calciteListPutFail", (event: CustomEvent<ListDragDetail>) => {
-          testWindow.putFailCalledTimes++;
-          testWindow.putNewIndex = event.detail.newIndex;
-          testWindow.putOldIndex = event.detail.oldIndex;
+        firstLetters.addEventListener("calciteListMoveHalt", (event: CustomEvent<ListDragDetail>) => {
+          testWindow.moveHaltCalledTimes++;
+          testWindow.moveHaltNewIndex = event.detail.newIndex;
+          testWindow.moveHaltOldIndex = event.detail.oldIndex;
         });
 
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
@@ -1814,12 +1804,9 @@ describe("calcite-list", () => {
           const testWindow = window as TestWindow;
 
           return {
-            pullFailCalledTimes: testWindow.pullFailCalledTimes,
-            putFailCalledTimes: testWindow.putFailCalledTimes,
-            putOldIndex: testWindow.putOldIndex,
-            putNewIndex: testWindow.putNewIndex,
-            pullOldIndex: testWindow.pullOldIndex,
-            pullNewIndex: testWindow.pullNewIndex,
+            moveHaltCalledTimes: testWindow.moveHaltCalledTimes,
+            moveHaltOldIndex: testWindow.moveHaltOldIndex,
+            moveHaltNewIndex: testWindow.moveHaltNewIndex,
           };
         });
       }
@@ -1827,34 +1814,30 @@ describe("calcite-list", () => {
       await clickMoveDropdownItem("a");
       let results = await getResults();
 
-      expect(results.pullFailCalledTimes).toBe(1);
-      expect(results.putFailCalledTimes).toBe(0);
-      expect(results.pullNewIndex).toBe(0);
-      expect(results.pullOldIndex).toBe(0);
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(0);
 
       await clickMoveDropdownItem("b");
       results = await getResults();
 
-      expect(results.pullFailCalledTimes).toBe(1);
-      expect(results.putFailCalledTimes).toBe(0);
-      expect(results.pullNewIndex).toBe(0);
-      expect(results.pullOldIndex).toBe(0);
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(0);
 
       await clickMoveDropdownItem("c");
       results = await getResults();
 
-      expect(results.pullFailCalledTimes).toBe(1);
-      expect(results.putFailCalledTimes).toBe(0);
-      expect(results.pullNewIndex).toBe(0);
-      expect(results.pullOldIndex).toBe(0);
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(0);
 
       await clickMoveDropdownItem("d");
       results = await getResults();
 
-      expect(results.pullFailCalledTimes).toBe(1);
-      expect(results.putFailCalledTimes).toBe(1);
-      expect(results.putNewIndex).toBe(0);
-      expect(results.putOldIndex).toBe(1);
+      expect(results.moveHaltCalledTimes).toBe(2);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(1);
     });
 
     it("reorders using a keyboard", async () => {

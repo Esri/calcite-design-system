@@ -331,14 +331,14 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   // #region Public Methods
 
   /**
-   * Emits a `calciteListPutFail` event.
+   * Emits a `calciteListMoveHalt` event.
    *
    * @private
    * @param dragDetail
    */
   @method()
   putFailed(dragDetail: ListDragDetail): void {
-    this.calciteListPutFail.emit(dragDetail);
+    this.calciteListMoveHalt.emit(dragDetail);
   }
 
   /**
@@ -383,11 +383,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
-  /** Fires when a user attempts to move an element using the sort menu and 'canPull' returns falsy. */
-  calciteListPullFail = createEvent<ListDragDetail>({ cancelable: false });
-
-  /** Fires when a user attempts to move an element using the sort menu and 'canPut' returns falsy. */
-  calciteListPutFail = createEvent<ListDragDetail>({ cancelable: false });
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
   // #endregion
 
@@ -969,7 +966,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      this.calciteListPullFail.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      this.calciteListMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
