@@ -114,6 +114,31 @@
   background-color: var(--calcite-tab-accent-color, var(--calcite-color-transparent));
 }
 
+:host([bordered][selected]) .container::after {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: -1px;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+  content: "";
+}
+
+:host([bordered][selected]) .container.container--bottom::after {
+  inset-block-start: -1px;
+}
+
+:host([bordered][selected]:focus) .container::after {
+  background: transparent;
+}
+
+:host([bordered][selected]:hover) .container::after {
+  background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
+}
+
 .container--bottom .selected-indicator {
   inset-block-end: unset;
   inset-block-start: 0;
@@ -269,33 +294,6 @@
     inline-size: calc(100% + var(--calcite-spacing-base));
   }
 
-  &:host([selected]) {
-    &::after {
-      @apply absolute
-          block
-          w-full
-          h-0.5
-          transition-default;
-      inset-block-end: -1px;
-      inset-inline-start: 0;
-      inset-inline-end: 0;
-      inline-size: 100%;
-      content: "";
-    }
-
-    &.container--bottom::after {
-      inset-block-start: -1px;
-    }
-
-    &:host(:hover) .container::after {
-      background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
-    }
-
-    &:host(:focus) .container::after {
-      background: transparent;
-    }
-  }
-
   &:host(:not([selected])) {
     .container .x-button {
       box-shadow: 0 2px 0 0 transparent;
@@ -344,7 +342,6 @@
 
 :host([selected]) .container {
   @apply border-color-transparent;
-  border-block-end-color: white;
   color: var(--calcite-tab-text-color, var(--calcite-color-text-1));
 }
 
