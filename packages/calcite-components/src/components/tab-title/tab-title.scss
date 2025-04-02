@@ -344,6 +344,7 @@
 
 :host([selected]) .container {
   @apply border-color-transparent;
+  border-block-end-color: white;
   color: var(--calcite-tab-text-color, var(--calcite-color-text-1));
 }
 

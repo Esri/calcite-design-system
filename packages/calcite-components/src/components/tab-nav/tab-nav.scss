@@ -146,8 +146,11 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   calcite-button {
     --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
     --calcite-button-background-color: var(--calcite-color-transparent);
-    --calcite-button-border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
     --calcite-offset-invert-focus: 1;
+
+    :host(:not([bordered])) {
+      --calcite-button-border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+    }
 
     block-size: var(--calcite-container-size-content-fluid);
 
