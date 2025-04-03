@@ -1,4 +1,4 @@
-import { isBrowser } from "../../utils/browser";
+import { isServer } from "lit";
 import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
@@ -51,7 +51,7 @@ export function updateListItemChildren(slotEl: HTMLSlotElement): void {
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!isBrowser()) {
+  if (isServer) {
     return 0;
   }
 
