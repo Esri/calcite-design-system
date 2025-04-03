@@ -764,6 +764,7 @@ describe("calcite-input-time-picker", () => {
 
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
 
       expect(await isElementFocused(page, `#${nextSibling}`)).toBe(true);
 
@@ -802,6 +803,7 @@ describe("calcite-input-time-picker", () => {
       expect(await popoverPositionContainer.isVisible()).toBe(false);
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
+      await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 
