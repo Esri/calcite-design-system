@@ -16,19 +16,6 @@ export const CSS = {
   validationContainer: "validation-container",
 };
 
-const setValidationReference = ({
-  referenceElement,
-  ref,
-}: {
-  referenceElement: HTMLDivElement;
-  ref?: (el: HTMLDivElement) => void;
-}): HTMLDivElement => {
-  if (ref) {
-    ref(referenceElement);
-  }
-  return referenceElement;
-};
-
 export const Validation = ({
   scale,
   status,
@@ -39,7 +26,7 @@ export const Validation = ({
 }: ValidationProps): TemplateResult => (
   <div
     class={CSS.validationContainer}
-    ref={(referenceElement): HTMLDivElement => setValidationReference({ referenceElement, ref })}
+    ref={ref ? ref : (referenceElement: HTMLDivElement) => referenceElement}
   >
     <calcite-input-message ariaLive="polite" icon={icon} id={id} scale={scale} status={status}>
       {message}
