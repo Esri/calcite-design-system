@@ -823,6 +823,9 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
+    const re = new RegExp(`^(-)?0+\\d*[${numberStringFormatter.decimal}|e]?$`);
+    const reResult = re.exec(valueHandleInteger);
+
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? valueHandleInteger
@@ -845,16 +848,25 @@ export class InputNumber
       );
     }
 
-    const re = new RegExp(`^-?0+\\d*${numberStringFormatter.decimal}?$`);
-    if (re.test(valueHandleInteger)) {
-      //Allows editing of numbers that start with zeros
-      this.displayedValue = valueHandleInteger;
-    } else {
-      //adds localized trailing decimal separator
-      this.displayedValue =
-        hasTrailingDecimalSeparator && isValueDeleted
-          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-          : newLocalizedValue;
+    //adds localized trailing decimal separator
+    this.displayedValue =
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+        : newLocalizedValue;
+
+    if (reResult) {
+      this.displayedValue = reResult[1]
+        ? `-${this.displayedValue
+            .substring(1, this.displayedValue.length)
+            .padStart(
+              valueHandleInteger.length - 1 - (hasTrailingDecimalSeparator ? 1 : 0),
+              numberStringFormatter.localize("0"),
+            )}`
+        : this.displayedValue.padStart(
+            valueHandleInteger.length,
+            numberStringFormatter.localize("0"),
+          );
+      this.displayedValue += hasTrailingDecimalSeparator ? numberStringFormatter.decimal : "";
     }
 
     this.setPreviousNumberValue(previousValue ?? this.value);
