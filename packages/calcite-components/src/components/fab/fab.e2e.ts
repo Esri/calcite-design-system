@@ -155,19 +155,19 @@ describe("calcite-fab", () => {
       themed(html`<calcite-fab></calcite-fab>`, {
         "--calcite-fab-background-color": {
           targetProp: "--calcite-button-background-color",
-          shadowSelector: `.${CSS.button} >>> button`,
+          shadowSelector: `.${CSS.button}`,
         },
         "--calcite-fab-border-color": {
           targetProp: "--calcite-button-border-color",
-          shadowSelector: `.${CSS.button} >>> button`,
+          shadowSelector: `.${CSS.button}`,
         },
         "--calcite-fab-corner-radius": {
           targetProp: "--calcite-button-corner-radius",
-          shadowSelector: `.${CSS.button} >>> button`,
+          shadowSelector: `.${CSS.button}`,
         },
         "--calcite-fab-text-color": {
           targetProp: "--calcite-button-text-color",
-          shadowSelector: `.${CSS.button} >>> button`,
+          shadowSelector: `.${CSS.button}`,
         },
         "--calcite-fab-shadow": {
           targetProp: "boxShadow",
@@ -180,7 +180,7 @@ describe("calcite-fab", () => {
       themed(html`<calcite-fab loading></calcite-fab>`, {
         "--calcite-fab-loader-color": {
           targetProp: "--calcite-button-loader-color",
-          shadowSelector: `.${CSS.button} >>> button >>> calcite-loader`,
+          shadowSelector: `.${CSS.button}`,
         },
       });
     });
