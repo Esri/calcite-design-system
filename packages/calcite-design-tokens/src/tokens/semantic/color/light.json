@@ -100,7 +100,7 @@
           }
         },
         "3": {
-          "value": "core.color.neutral.blk-020}",
+          "value": "{core.color.neutral.blk-020}",
           "type": "color",
           "attributes": {
             "calcite-schema": {
@@ -124,7 +124,7 @@
           }
         },
         "current": {
-          "value": "core.color.high-saturation.blue.h-bb-010}",
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
           "type": "color",
           "attributes": {
             "calcite-schema": {
