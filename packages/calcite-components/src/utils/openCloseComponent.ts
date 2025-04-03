@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { KebabCase } from "type-fest";
+import type { Ref } from "lit/directives/ref.js";
 import { whenTransitionDone } from "./dom";
 
 /**
@@ -7,9 +8,6 @@ import { whenTransitionDone } from "./dom";
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
 export interface OpenCloseComponent {
-  /** The host element. */
-  readonly el: HTMLElement;
-
   /**
    * Specifies property on which active transition is watched for.
    *
@@ -18,10 +16,10 @@ export interface OpenCloseComponent {
   openProp?: string;
 
   /** Specifies the name of CSS transition property. */
-  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
+  transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Specifies element that the transition is allowed to emit on. */
-  transitionEl: HTMLElement;
+  transitionEl: HTMLElement | Ref<HTMLElement>;
 
   /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;
@@ -46,6 +44,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * Note: this should be called whenever the component's toggling property changes and would trigger a transition.
  *
  * @example
+ * @param override
  * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
  *
  * override willUpdate(changes: PropertyValues<this>): void {
@@ -56,24 +55,26 @@ function isOpen(component: OpenCloseComponent): boolean {
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+export function onToggleOpenCloseComponent(component: OpenCloseComponent, override?: any): void {
   requestAnimationFrame((): void => {
     if (!component.transitionEl) {
       return;
     }
 
+    const c = override || component;
+
     whenTransitionDone(
-      component.transitionEl,
+      "tagName" in component.transitionEl ? component.transitionEl : component.transitionEl.value,
       component.transitionProp,
       () => {
-        if (isOpen(component)) {
+        if (isOpen(c)) {
           component.onBeforeOpen();
         } else {
           component.onBeforeClose();
         }
       },
       () => {
-        if (isOpen(component)) {
+        if (isOpen(c)) {
           component.onOpen();
         } else {
           component.onClose();

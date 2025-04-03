@@ -25,7 +25,8 @@
 }
 
 .calcite--rtl {
-  --calcite-scrim-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-inline-start-internal:
+    -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 

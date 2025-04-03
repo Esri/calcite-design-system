@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -10,7 +11,6 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -20,6 +20,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -40,18 +41,37 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
-  // #region Static Members
-
+export class Block extends LitElement implements InteractiveComponent {
   static override styles = styles;
 
   // #endregion
 
   // #region Private Properties
 
-  transitionProp = "margin-top" as const;
+  transitionEl = createRef<HTMLElement>();
 
-  transitionEl: HTMLElement;
+  openCloseController = useOpenClose({
+    transitionEl: this.transitionEl,
+    transitionProp: "margin-top" as const,
+    openProp: {
+      name: "open",
+      value: true,
+    },
+    events: {
+      onBeforeOpen: (): void => {
+        this.calciteBlockBeforeOpen.emit();
+      },
+      onOpen: (): void => {
+        this.calciteBlockOpen.emit();
+      },
+      onBeforeClose: (): void => {
+        this.calciteBlockBeforeClose.emit();
+      },
+      onClose: (): void => {
+        this.calciteBlockClose.emit();
+      },
+    },
+  });
 
   private sortHandleEl: SortHandle["el"];
 
@@ -245,11 +265,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   // #region Lifecycle
 
-  override connectedCallback(): void {
-    this.transitionEl = this.el;
-  }
-
   load(): void {
+    (this.transitionEl as any).value = this.el;
+
     if (!this.heading && !this.label) {
       logger.warn(
         `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
@@ -263,7 +281,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      onToggleOpenCloseComponent(this);
+      this.openCloseController.afterToggle(this);
     }
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
@@ -278,21 +296,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   // #endregion
 
   // #region Private Methods
-  onBeforeOpen(): void {
-    this.calciteBlockBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.calciteBlockOpen.emit();
-  }
-
-  onBeforeClose(): void {
-    this.calciteBlockBeforeClose.emit();
-  }
-
-  onClose(): void {
-    this.calciteBlockClose.emit();
-  }
 
   private sortHandleOpenHandler(): void {
     if (!this.sortHandleEl) {
