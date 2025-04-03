@@ -1,4 +1,4 @@
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import {
   createEvent,
   h,
@@ -63,7 +63,6 @@ import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -826,7 +825,7 @@ export class InputDatePicker
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
