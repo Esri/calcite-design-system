@@ -21,7 +21,7 @@ import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
 import { checkbox, checkboxTokens } from "./custom-theme/checkbox";
 import { chips, chipTokens } from "./custom-theme/chips";
-import { comboboxItem } from "./custom-theme/combobox-item";
+import { comboboxItem, comboboxItemTokens, selectedComboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
 import { flow, flowTokens } from "./custom-theme/flow";
@@ -30,6 +30,7 @@ import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
+import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
@@ -54,8 +55,15 @@ import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import {
+  comboboxTokens,
+  comboboxWithPlaceHolderIcon,
+  defaultCombobox,
+  singleSelectCombobox,
+} from "./custom-theme/combobox";
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
+import { meter, meterTokens } from "./custom-theme/meter";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -133,7 +141,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -141,11 +150,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div>${dropdown} ${buttons}</div>
         <div>${flow}</div>
         <div>${checkbox}</div>
-        ${chips} ${pagination} ${slider}
+        ${chips} ${pagination} ${slider} ${meter}
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
         ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
+        ${selectedComboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${panel} ${shellPanel}
@@ -156,6 +166,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${datePicker}</div>
       <div class="demo-column">${datePickerRange}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${inputMessage}</div>
     </div>
   </div>`;
 
@@ -176,6 +189,8 @@ const componentTokens = {
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
+  ...comboboxItemTokens,
+  ...comboboxTokens,
   ...datePickerTokens,
   ...DropdownTokens,
   ...DropdownItemTokens,
@@ -185,6 +200,7 @@ const componentTokens = {
   ...inlineEditableTokens,
   ...graphTokens,
   ...inputTokens,
+  ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
   ...listTokens,
@@ -208,6 +224,7 @@ const componentTokens = {
   ...tooltipTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
+  ...meterTokens,
 };
 
 export default {

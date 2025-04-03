@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import {
   arrow,
   autoPlacement,
@@ -20,10 +21,9 @@ import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
-import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (isBrowser()) {
+  if (!isServer) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -498,7 +498,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
     return;
   }
 
-  const effectiveAutoUpdate = isBrowser()
+  const effectiveAutoUpdate = !isServer
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();

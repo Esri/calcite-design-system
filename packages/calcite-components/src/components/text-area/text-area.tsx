@@ -38,7 +38,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
 declare global {
@@ -402,12 +402,13 @@ export class TextArea
     footerHeight: number;
     footerWidth: number;
   } {
-    const { height: textAreaHeight, width: textAreaWidth } =
-      this.textAreaEl.getBoundingClientRect();
+    const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
+      ? this.textAreaEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerEl.value
       ? this.footerEl.value.getBoundingClientRect()
-      : { height: 0, width: 0 };
+      : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
