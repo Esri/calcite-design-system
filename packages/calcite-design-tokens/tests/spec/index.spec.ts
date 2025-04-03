@@ -38,6 +38,7 @@ describe("generated tokens", () => {
  * @param internal - Whether the test is for internal files
  */
 function generateTests(platform: Platform, files: string[], internal = false) {
+  // eslint-disable-next-line vitest/valid-title
   describe(platform.toUpperCase(), () => {
     files.forEach((file) => {
       const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
