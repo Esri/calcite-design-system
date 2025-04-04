@@ -1,0 +1,1 @@
+{"invalid":"Neteisingas","tooLong":"Dabartinis simbolių skaičius yra {currentLength}, o tai viršija maksimalų {maxLength} simbolių ilgį.","tooShort":"Dabartinis simbolių skaičius yra {currentLength}, o tai mažiau nei mažiausias leistinas simbolių skaičius ({minLength})."}
