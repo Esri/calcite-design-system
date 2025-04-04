@@ -9517,5 +9517,55 @@
     "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
     "category": "Windows",
     "release": "4.1.0"
+  },
+  "parameters": {
+    "alias": ["4.1.1", "text", "framework", "limitation", "restriction", "specification"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "map-information": {
+    "alias": ["4.1.1", "gis", "map", "guide", "instructions"],
+    "category": "GIS",
+    "release": "4.1.1"
+  },
+  "parameters-gear": {
+    "alias": ["4.1.1", "text", "limit", "guideline", "criteria", "tool"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "layer-set": {
+    "alias": ["4.1.1", "layers", "tier", "stack", "bed", "stratum"],
+    "category": "Layers",
+    "release": "4.1.1"
+  },
+  "double-float-set": {
+    "alias": ["4.1.1", "text", "floating", "precision", "memory"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "variable-plus": {
+    "alias": ["4.1.1", "text", "add", "changeable", "fluctating", "inconstant"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "parameters-plus": {
+    "alias": ["4.1.1", "text", "framework", "restriction", "guideline", "limit"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "multiple-variables-set": {
+    "alias": ["4.1.1", "symbols", "changeable", "many", "numbers"],
+    "category": "Symbols",
+    "release": "4.1.1"
+  },
+  "string-set": {
+    "alias": ["4.1.1", "text", "chain", "sequence", "series", "group", "collection"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "table-set": {
+    "alias": ["4.1.1", "generic", "setting", "cover", "arrangement", "columns", "features"],
+    "category": "Generic",
+    "release": "4.1.1"
   }
 }
