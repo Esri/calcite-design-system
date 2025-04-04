@@ -46,7 +46,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.mjs\"",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "prepublish": "./support/cleanupDistFiles.sh",
