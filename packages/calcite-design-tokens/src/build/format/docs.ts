@@ -1,14 +1,12 @@
 import prettierSync from "@prettier/sync";
-import { FormatFn } from "style-dictionary/types";
+import { FormatFn, TransformedToken } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 import { cleanAttributes } from "./utils/index.js";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
-  const timestamp = process.env.MODE === "test" ? "TEST_TIMESTAMP" : Date.now();
-
   const output = {
-    timestamp,
+    timestamp: Date.now(),
     tokens: dictionary.allTokens.map((token) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
 
