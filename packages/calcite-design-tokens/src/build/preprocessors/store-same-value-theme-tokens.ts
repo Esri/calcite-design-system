@@ -13,8 +13,6 @@ export function registerPreprocessorStoreSameValueThemeTokens(): void {
         .filter((token, index) => token.value === dark.allTokens[index].value);
       const keyToToken = new Map<string, DesignToken>();
 
-      console.log(JSON.stringify(sameValueThemeTokens, null, 2));
-
       sameValueThemeTokens.forEach((token) => {
         if (token.key) {
           keyToToken.set(token.key, token);
