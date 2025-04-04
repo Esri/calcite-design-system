@@ -5,19 +5,18 @@ export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxI
 export const CSS = {
   checkbox: "checkbox",
   chipInvisible: "chip--invisible",
-  floatingUIContainer: "floating-ui-container",
   icon: "icon",
   input: "input",
   inputHidden: "input--hidden",
-  label: "label",
-  labelIcon: "label--icon",
-  listContainer: "list-container",
-  placeholderIcon: "placeholder-icon",
-  screenReadersOnly: "screen-readers-only",
-  selectAllcheckbox: "select-all-checkbox",
+  chip: "chip",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   selectedIcon: "selected-icon",
+  floatingUIContainer: "floating-ui-container",
+  screenReadersOnly: "screen-readers-only",
+  wrapper: "wrapper",
+  wrapperSingle: "wrapper--single",
+  wrapperActive: "wrapper--active",
 };
 
 export const IDS = {

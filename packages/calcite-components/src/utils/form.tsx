@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { Writable } from "type-fest";
+import { isServer } from "lit";
 import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
 import type { IconNameOrString } from "../components/icon/interfaces";
@@ -458,6 +459,10 @@ const removeHiddenInputChangeEventListener = (input: HTMLInputElement) =>
 function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
+
+  if (isServer) {
+    return;
+  }
 
   const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
