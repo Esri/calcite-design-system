@@ -7,8 +7,6 @@
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-background-color-hover: When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
- * @prop --calcite-tab-accent-color: Specifies the component's accent color.
- * @prop --calcite-tab-accent-color-hover: Specifies the component's accent color when hovered.
  * @prop --calcite-tab-accent-color-press: Specifies the component's accent color when selected or active.
  * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
  * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
@@ -111,7 +109,6 @@
   inset-inline-start: 0;
   inset-inline-end: 0;
   inline-size: 100%;
-  background-color: var(--calcite-tab-accent-color, var(--calcite-color-transparent));
 }
 
 :host([bordered][selected]) .container::after {
@@ -135,10 +132,6 @@
   background: transparent;
 }
 
-:host([bordered][selected]:hover) .container::after {
-  background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
-}
-
 .container--bottom .selected-indicator {
   inset-block-end: unset;
   inset-block-start: 0;
@@ -148,6 +141,18 @@
   &:hover,
   &:active {
     @apply text-color-1;
+  }
+}
+
+:host([bordered]:not([selected]):hover:not(:focus)) {
+  .selected-indicator {
+    background-color: var(--calcite-color-foreground-2);
+  }
+  .container:not(.container--bottom) .selected-indicator {
+    box-shadow: inset 0 1px var(--calcite-color-border-1);
+  }
+  .container.container--bottom .selected-indicator {
+    box-shadow: inset 0 -1px var(--calcite-color-border-1);
   }
 }
 
@@ -306,7 +311,6 @@
 
       &:host(:not(:focus)) {
         .selected-indicator {
-          background-color: var(--calcite-tab-accent-color-hover, var(--calcite-color-border-3));
           box-shadow: inset 0 var(--calcite-internal-tab-shadow-length)
             var(--calcite-tab-border-color, var(--calcite-color-border-1));
         }
@@ -322,11 +326,12 @@
 
   &:hover {
     background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
+    border-block-end-color: var(--calcite-color-border-1);
   }
 }
 
 :host(:hover) .selected-indicator {
-  background-color: var(--calcite-tab-accent-color-hover, var(--calcite-color-border-3));
+  background-color: var(--calcite-color-border-3);
 }
 
 :host([selected]) .selected-indicator,

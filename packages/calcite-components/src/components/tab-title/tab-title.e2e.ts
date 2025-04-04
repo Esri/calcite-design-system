@@ -355,15 +355,6 @@ describe("calcite-tab-title", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "color",
         },
-        "--calcite-tab-accent-color": {
-          shadowSelector: `.${CSS.selectedIndicator}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-tab-accent-color-hover": {
-          shadowSelector: `.${CSS.selectedIndicator}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
         "--calcite-tab-accent-color-press": {
           shadowSelector: `.${CSS.selectedIndicator}`,
           targetProp: "backgroundColor",
