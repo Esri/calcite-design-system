@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.1...@esri/calcite-components@3.2.0-next.2) (2025-04-04)
+
+### Features
+
+- **block-group, list:** Add event for when a move is halted due to `canPut` or `canPull` returning false ([#11567](https://github.com/Esri/calcite-design-system/issues/11567)) ([98bf85d](https://github.com/Esri/calcite-design-system/commit/98bf85d1e117b3de00a5ceed32515fa87c143faf)), closes [#11447](https://github.com/Esri/calcite-design-system/issues/11447)
+- **fab:** add component tokens ([#11838](https://github.com/Esri/calcite-design-system/issues/11838)) ([e1a8444](https://github.com/Esri/calcite-design-system/commit/e1a8444617c2db4cfcb08b467acf63ada15c7712)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **meter:** Add component tokens ([#11757](https://github.com/Esri/calcite-design-system/issues/11757)) ([cc5fdb3](https://github.com/Esri/calcite-design-system/commit/cc5fdb35d5f1a291d3f340ece4cc0bea6cd05f71)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.0...@esri/calcite-components@3.2.0-next.1) (2025-03-31)
 
 ### Features
