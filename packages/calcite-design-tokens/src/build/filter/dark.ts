@@ -3,10 +3,7 @@ import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 import { isThemed } from "../utils/token-types.js";
 
-export const filterDarkColorTokens: Filter["filter"] = (token) =>
-  token.isSource &&
-  (isThemed(token, { theme: "dark", targetPropName: "filePath" }) ||
-    isThemed(token, { theme: "dark", targetPropName: "path" }));
+export const filterDarkColorTokens: Filter["filter"] = (token) => isThemed(token, { theme: "dark" });
 
 export const registerFilterDarkColorTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({

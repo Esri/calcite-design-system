@@ -29,10 +29,15 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
   );
 
   if (tokenIndex > -1) {
-    return {
-      dark: dictionaries.dark.allTokens[tokenIndex].value,
-      light: dictionaries.light.allTokens[tokenIndex].value,
-    };
+    const lightValue = dictionaries.light.allTokens[tokenIndex].value;
+    const darkValue = dictionaries.dark.allTokens[tokenIndex].value;
+
+    if (lightValue !== darkValue) {
+      return {
+        light: lightValue,
+        dark: darkValue,
+      };
+    }
   }
 
   return token.value;

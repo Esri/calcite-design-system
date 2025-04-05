@@ -7,7 +7,7 @@
             "min": "0",
             "max": "{core.container-size.154}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small handheld devices and mini-windows",
           "attributes": {
             "calcite-schema": {
@@ -35,7 +35,7 @@
             "min": "{core.container-size.154} + 1",
             "max": "{core.container-size.328}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Handheld devices",
           "attributes": {
             "calcite-schema": {
@@ -63,7 +63,7 @@
             "min": "{core.container-size.328} + 1",
             "max": "{core.container-size.504}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small tablets",
           "attributes": {
             "calcite-schema": {
@@ -91,7 +91,7 @@
             "min": "{core.container-size.504} + 1",
             "max": "{core.container-size.678}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small laptops",
           "attributes": {
             "calcite-schema": {
@@ -119,7 +119,7 @@
             "min": "{core.container-size.678} + 1",
             "max": "{core.container-size.854}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Large laptops and desktop computers",
           "attributes": {
             "calcite-schema": {
@@ -146,7 +146,7 @@
           "value": {
             "min": "{core.container-size.854} + 1"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Projectors and televisions",
           "attributes": {
             "calcite-schema": {
@@ -176,7 +176,7 @@
             "min": 0,
             "max": "{core.container-size.320}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small handheld devices and mini-windows",
           "attributes": {
             "calcite-schema": {
@@ -204,7 +204,7 @@
             "min": "{core.container-size.320} + 1",
             "max": "{core.container-size.476}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Handheld devices",
           "attributes": {
             "calcite-schema": {
@@ -232,7 +232,7 @@
             "min": "{core.container-size.476} + 1",
             "max": "{core.container-size.768}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small tablets",
           "attributes": {
             "calcite-schema": {
@@ -260,7 +260,7 @@
             "min": "{core.container-size.768} + 1",
             "max": "{core.container-size.1152}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Small laptops",
           "attributes": {
             "calcite-schema": {
@@ -288,7 +288,7 @@
             "min": "{core.container-size.1152} + 1",
             "max": "{core.container-size.1440}"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Large laptops and desktop computers",
           "attributes": {
             "calcite-schema": {
@@ -315,7 +315,7 @@
           "value": {
             "min": "{core.container-size.1440} + 1"
           },
-          "type": "breakpoint",
+          "type": "dimension",
           "description": "Projectors and televisions",
           "attributes": {
             "calcite-schema": {
