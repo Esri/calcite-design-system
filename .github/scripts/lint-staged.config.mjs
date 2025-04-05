@@ -1,6 +1,6 @@
-const baseConfig = require("../../.lintstagedrc.js");
+import baseConfig from "../../lint-staged.config.mjs";
 
-module.exports = {
+export default {
   ...baseConfig,
   "*.{m,c,}js": ["eslint --fix", "prettier --write"],
 };
