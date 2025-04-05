@@ -32,15 +32,15 @@ function throwSizeError(name: string, value: string, unitType: string) {
   throw `Invalid Number: '${name}: ${value}' is not a valid number, cannot transform to '${unitType}' \n`;
 }
 
-function isNotBorderOrFixed(token: TransformedToken) {
-  return !token.path.some((path) => ["border", "fixed"].includes(path));
+function isStaticPx(token: TransformedToken) {
+  return !token.path.some((path) => ["base", "border", "fixed", "px"].includes(path));
 }
 
 function filter(token: TransformedToken, options: Config) {
   return (
     isSource(token) &&
     !isBreakpoint(token) &&
-    isNotBorderOrFixed(token) &&
+    isStaticPx(token) &&
     isDimension(token, options) &&
     !isFontRelated(token) &&
     !isCornerRadius(token) &&

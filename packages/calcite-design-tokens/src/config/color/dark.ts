@@ -9,8 +9,7 @@ import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
 
 const config: Config = {
-  source: ["src/tokens/semantic/calcite/light.json"],
-  include: ["src/tokens/core/[!$]*.json"],
+  include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
@@ -19,7 +18,7 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
-          destination: "light.scss",
+          destination: "dark.scss",
           format: sdFormats.scssVariables,
           filter: filters.FilterSourceTokens,
         },
@@ -36,7 +35,7 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
-          destination: "light.css",
+          destination: "dark.css",
           format: sdFormats.cssVariables,
           filter: filters.FilterSourceTokens,
         },
@@ -59,14 +58,14 @@ const config: Config = {
       },
       files: [
         {
-          destination: "light.js",
+          destination: "dark.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterSourceTokens,
         },
 
         // d.ts
         {
-          destination: "light.d.ts",
+          destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSourceTokens,
         },
@@ -84,13 +83,13 @@ const config: Config = {
       },
       files: [
         {
-          destination: "light.js",
+          destination: "dark.js",
           format: formats.FormatCalciteJs,
           filter: filters.FilterSourceTokens,
         },
         // d.ts
         {
-          destination: "light.d.ts",
+          destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSourceTokens,
         },
@@ -108,7 +107,7 @@ const config: Config = {
       },
       files: [
         {
-          destination: "light.json",
+          destination: "dark.json",
           format: formats.FormatCalciteDocs,
           filter: filters.FilterSourceTokens,
         },

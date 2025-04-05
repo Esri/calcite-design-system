@@ -1,9 +1,11 @@
 import prettierSync from "@prettier/sync";
-import { Dictionary, FormatFn, FormatFnArguments, TransformedTokens } from "style-dictionary/types";
+import { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
+import { isThemed } from "../utils/token-types.js";
+import { dark, light } from "../dictionaries/index.js";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -13,7 +15,7 @@ export const registerFormatIndex: RegisterFn = () => {
 };
 
 export const formatIndexFile: FormatFn = async (args) => {
-  const { dictionary, file, options } = args;
+  const { file, options } = args;
 
   if (options.fileExtension !== ".css" && options.fileExtension !== ".scss") {
     throw new Error("Only .css and .scss file extensions are supported.");
@@ -23,22 +25,23 @@ export const formatIndexFile: FormatFn = async (args) => {
   const themes = ["light", "dark"] as const;
   const format = options.fileExtension.replace(".", "") as Stylesheet;
 
-  const themedTokens = dictionary.allTokens.reduce(
-    (acc: { light: TransformedTokens; dark: TransformedTokens }, token) => {
-      if (token.path.includes("light")) {
-        acc.light[token.name] = token;
-      } else if (token.path.includes("dark")) {
-        acc.dark[token.name] = token;
-      }
-      return acc;
-    },
-    { light: {}, dark: {} },
-  );
+  const [darkDictionary, lightDictionary] = await Promise.all([
+    dark.getPlatformTokens(options.platform, { cache: true }),
+    light.getPlatformTokens(options.platform, { cache: true }),
+  ]);
 
   const commonVarFormat = "css";
   const varLists = {
-    light: createVarList(commonVarFormat, fromTokens(themedTokens.light), args),
-    dark: createVarList(commonVarFormat, fromTokens(themedTokens.dark), args),
+    light: createVarList(
+      commonVarFormat,
+      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token, { theme: "light" }))),
+      args,
+    ),
+    dark: createVarList(
+      commonVarFormat,
+      fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token, { theme: "dark" }))),
+      args,
+    ),
   } as const;
 
   const classGroupStrategy = format === "scss" ? "@mixin " : ".";

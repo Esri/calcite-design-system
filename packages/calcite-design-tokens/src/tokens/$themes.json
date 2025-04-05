@@ -9,11 +9,8 @@
       "semantic.shadow.test": "S:17c46670a2ba9ef9dbc1366bf63c3cd87e3315d7,"
     },
     "selectedTokenSets": {
-      "semantic/shadow": "enabled",
-      "semantic/size": "enabled",
-      "semantic/space": "enabled",
-      "semantic/calcite/light": "enabled",
-      "core/size": "source"
+      "core/color": "source",
+      "semantic/color/light": "enabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -75,10 +72,8 @@
       "shadow.md": "S:89b3b8db8d8ee9c0c7c8bb82021c0adb878c6f1e,"
     },
     "selectedTokenSets": {
-      "semantic/calcite/dark": "enabled",
-      "semantic/shadow": "enabled",
-      "semantic/size": "enabled",
-      "semantic/space": "enabled"
+      "core/color": "source",
+      "semantic/color/dark": "enabled"
     },
     "$figmaVariableReferences": {
       "background.default": "03f5a6f8c34b420fa1e38f4350de61423bb63f41",
@@ -210,45 +205,58 @@
     "group": "core"
   },
   {
-    "id": "478ea2a422a612bc3df29ff143b71b34db0ce17b",
-    "name": "Survey123 Light",
+    "id": "64e1857dc6f77a4842c162e2ad917d1e483d77c7",
+    "name": "Mode 1",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source"
+      "core/container-size": "source",
+      "core/size": "source",
+      "semantic/container-size": "enabled",
+      "semantic/size": "enabled",
+      "semantic/space": "enabled"
     },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:5",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
+    "group": "size"
   },
   {
-    "id": "d56dd5a6e7068dda4c8c91a8d70f6e5afab94408",
-    "name": "Survey123 Dark",
+    "id": "4f2ff40135954a29484f308bf4d63fb72ac0b2ff",
+    "name": "Mode 1",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source"
+      "core/size": "source",
+      "semantic/border": "enabled"
     },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:6",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
+    "group": "border"
   },
   {
-    "id": "88e888cb278874e16621c943a268d92e70a2b3d1",
-    "name": "Dev Summit Light",
+    "id": "989f4ebad3a73cd71a773e197b045e05e83909a8",
+    "name": "Mode 1",
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
-      "core/color": "source"
+      "core/opacity": "source",
+      "semantic/opacity": "enabled"
     },
-    "group": "color",
-    "$figmaCollectionId": "VariableCollectionId:1814:1167",
-    "$figmaModeId": "11496:7",
-    "$figmaVariableReferences": {
-      "background.default": "ba348f012322a3e29e176440017f57e29f8dc0f5"
-    }
+    "group": "opacity"
+  },
+  {
+    "id": "e7b4691458b102b171ddbfea42c054eed44a32be",
+    "name": "styles",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "semantic/font": "source",
+      "semantic/typography": "enabled"
+    },
+    "group": "typography"
+  },
+  {
+    "id": "226f0285af1785915aa048534e0205d4199834c0",
+    "name": "styles",
+    "$figmaStyleReferences": {},
+    "selectedTokenSets": {
+      "core/shadow": "source",
+      "semantic/shadow": "enabled",
+      "semantic/color/light": "source",
+      "semantic/color/dark": "source"
+    },
+    "group": "shadow"
   }
 ]
