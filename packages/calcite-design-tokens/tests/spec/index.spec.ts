@@ -70,8 +70,6 @@ function assertOutput(outputFilePath: string) {
  * @param extension
  */
 function preprocessContent(content: string, extension: string): string {
-  content = content.slice(content.indexOf("*/") + 1);
-
   if (extension === "json") {
     content = content.replace(/"timestamp": \d+,\n/, '"timestamp": "TEST_TIMESTAMP",\n');
   }
