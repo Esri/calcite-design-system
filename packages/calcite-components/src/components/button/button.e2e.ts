@@ -509,14 +509,11 @@ describe("calcite-button", () => {
         Layers
       </calcite-button>
     `;
-    let page;
-    let buttonEl;
-    let buttonHoverStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: buttonSnippet });
+      const page = await newE2EPage({ html: buttonSnippet });
       const buttonStyles = await page.evaluate(() => {
-        buttonEl = document.querySelector("calcite-button");
+        const buttonEl = document.querySelector("calcite-button");
         buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
         buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
@@ -530,31 +527,31 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
-        page = await newE2EPage({ html: buttonSnippet });
-        buttonEl = await page.find("calcite-button >>> button");
+        const page = await newE2EPage({ html: buttonSnippet });
+        const buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
+        const buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
+        const page = await newE2EPage({
           html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
         });
-        buttonEl = await page.find("calcite-button >>> button");
+        const buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
+        const buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 255, 0, 0.9)";
-      page = await newE2EPage({
+      const page = await newE2EPage({
         html: `
         <style>
           :root {
@@ -563,10 +560,10 @@ describe("calcite-button", () => {
         </style>
         <div>${buttonSnippet}</div>`,
       });
-      buttonEl = await page.find("calcite-button >>> button");
+      const buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.hover();
       await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle();
+      const buttonHoverStyle = await buttonEl.getComputedStyle();
       expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
