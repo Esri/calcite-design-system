@@ -1,7 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`generated tokens > CSS > breakpoints should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-container-size-height-xxs-min: 0; /* Small handheld devices and mini-windows */
@@ -31,7 +34,10 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > classes should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 .calcite-typography {
   font-family: var(--calcite-font-family);
@@ -304,7 +310,10 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > core should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-color-neutral-blk-000: #ffffff;
@@ -624,7 +633,10 @@ exports[`generated tokens > CSS > core should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > dark should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-color-foreground-current: #214155;
@@ -672,7 +684,11 @@ exports[`generated tokens > CSS > dark should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > global should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * File to be deprecated in next major release
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-border-width-none: 0;
@@ -789,7 +805,10 @@ exports[`generated tokens > CSS > global should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > index should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 @import url("./semantic.css");
 @import url("./classes.css");
@@ -1011,7 +1030,10 @@ exports[`generated tokens > CSS > index should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > light should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-color-background: #f8f8f8;
@@ -1059,7 +1081,10 @@ exports[`generated tokens > CSS > light should match 1`] = `
 `;
 
 exports[`generated tokens > CSS > semantic should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 :root {
   --calcite-container-size-height-xxs-min: 0; /* Small handheld devices and mini-windows */
@@ -20899,7 +20924,10 @@ exports[`generated tokens > DOCS > semantic should match 1`] = `
 `;
 
 exports[`generated tokens > ES6 > breakpoints should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
@@ -20917,7 +20945,10 @@ export const calciteContainerSizeWidthXl = { min: "1441px" }; // Projectors and 
 `;
 
 exports[`generated tokens > ES6 > breakpoints types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 /** Small handheld devices and mini-windows */
 export const calciteContainerSizeHeightXxs: {
@@ -20968,7 +20999,10 @@ export const calciteContainerSizeWidthXl: { min: string };
 `;
 
 exports[`generated tokens > ES6 > core should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteColorNeutralBlk000 = "#ffffff";
 export const calciteColorNeutralBlk005 = "#f8f8f8";
@@ -21316,7 +21350,10 @@ export const calciteZIndex9 = "900";
 `;
 
 exports[`generated tokens > ES6 > core types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteColorNeutralBlk000: string;
 export const calciteColorNeutralBlk005: string;
@@ -21664,7 +21701,11 @@ export const calciteZIndex9: string;
 `;
 
 exports[`generated tokens > ES6 > global should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * File to be deprecated in next major release
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
@@ -22163,7 +22204,11 @@ export const calciteZIndexTooltip = "901";
 `;
 
 exports[`generated tokens > ES6 > global types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * File to be deprecated in next major release
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
@@ -22638,7 +22683,10 @@ export const calciteZIndexTooltip: string;
 `;
 
 exports[`generated tokens > ES6 > semantic should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
@@ -22793,7 +22841,10 @@ export const calciteZIndexTooltip = "901";
 `;
 
 exports[`generated tokens > ES6 > semantic types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
@@ -22969,7 +23020,10 @@ export const calciteZIndexTooltip: string;
 `;
 
 exports[`generated tokens > JS > core should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default {
   core: {
@@ -39646,7 +39700,10 @@ export default {
 `;
 
 exports[`generated tokens > JS > core types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default tokens;
 
@@ -40070,7 +40127,11 @@ declare const tokens: {
 `;
 
 exports[`generated tokens > JS > global should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * File to be deprecated in next major release
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default {
   semantic: {
@@ -53580,7 +53641,11 @@ export default {
 `;
 
 exports[`generated tokens > JS > global types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * File to be deprecated in next major release
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default tokens;
 
@@ -53937,7 +54002,10 @@ declare const tokens: {
 `;
 
 exports[`generated tokens > JS > semantic should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default {
   semantic: {
@@ -60832,7 +60900,10 @@ export default {
 `;
 
 exports[`generated tokens > JS > semantic types should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 export default tokens;
 
@@ -61548,7 +61619,10 @@ $calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 
 `;
 
 exports[`generated tokens > SCSS > index should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 @import "./semantic.scss";
 @import "./breakpoints.scss";
@@ -61689,7 +61763,10 @@ $calcite-color-border-white: #ffffff;
 `;
 
 exports[`generated tokens > SCSS > mixins should match 1`] = `
-"/
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
 
 @mixin calcite-typography {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
