@@ -18,8 +18,8 @@
     "semantic/size",
     "semantic/space",
     "semantic/z-index",
-    "semantic/calcite/dark",
-    "semantic/calcite/light",
-    "semantic/typography"
+    "semantic/typography",
+    "semantic/color/light",
+    "semantic/color/dark"
   ]
 }
