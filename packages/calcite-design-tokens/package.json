@@ -34,7 +34,7 @@
     "build:watch:test": "MODE='test' npm run build:watch",
     "clean": "rimraf node_modules dist .turbo",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.mjs\"",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint--cli2.jsonc\"",
     "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "vitest",
