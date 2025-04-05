@@ -53,6 +53,7 @@ import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
+import { isActivationKey } from "../../utils/key";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -237,6 +238,8 @@ export class Combobox
 
   referenceEl: HTMLDivElement;
 
+  checkboxReferenceEl: HTMLInputElement;
+
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
     this.refreshSelectionDisplay();
@@ -278,6 +281,8 @@ export class Combobox
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
+
+  @state() selectAllCheckedState: boolean = false;
 
   // #endregion
 
@@ -372,7 +377,7 @@ export class Combobox
   @property({ reflect: true }) placeholderIcon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) placeholderIconFlipRtl = false;
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -385,6 +390,12 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
+  @property({ reflect: true }) selectAll = false;
+
+  /** When `true`, selects all items. Does not apply to `selection-mode single`. */
+  @property({ reflect: true }) selectAllChecked = false;
 
   /**
    * Specifies the component's selected items.
@@ -594,6 +605,10 @@ export class Combobox
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
+
+    if (changes.has("selectAllChecked")) {
+      this.selectAllCheckedState = this.selectAllChecked;
+    }
   }
 
   override updated(): void {
@@ -638,6 +653,19 @@ export class Combobox
     }
 
     this.setMaxScrollerHeight();
+  }
+
+  private selectAllChangeHandler(): void {
+    this.selectAllChecked = !this.selectAllChecked;
+    this.toggleSelectAll(this.selectAllChecked);
+  }
+
+  private toggleSelectAll(selectAll: boolean): void {
+    this.items.forEach((item) => {
+      item.selected = selectAll;
+    });
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -798,15 +826,31 @@ export class Combobox
         }
         break;
       case "ArrowDown":
+        // console.log(
+        //   "this.el.shadowRoot.activeElement === this.textInput.value",
+        //   this.el.shadowRoot.activeElement === this.textInput.value,
+        // );
+
         if (this.filteredItems.length) {
+          // console.log("filteredItems else if block", this.filteredItems);
+          if (
+            this.el.shadowRoot.activeElement === this.textInput.value &&
+            this.selectAll &&
+            (this.activeItemIndex === 0 || this.activeItemIndex === this.filteredItems.length - 1)
+          ) {
+            // console.log("textinputvalue is active", this.textInput.value);
+            this.open = true;
+            this.checkboxReferenceEl.focus();
+            event.preventDefault();
+          }
           event.preventDefault();
+
           if (this.open) {
             this.shiftActiveItemIndex(1);
           } else {
             this.open = true;
             this.ensureRecentSelectedItemIsActive();
           }
-
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
           }
@@ -1031,6 +1075,15 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
+    if (this.selectAllChecked) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.closable,
@@ -1089,6 +1142,10 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
+  }
+
+  private setCheckboxReferenceEl(el: HTMLInputElement): void {
+    this.checkboxReferenceEl = el;
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1379,6 +1436,7 @@ export class Combobox
 
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
+
     let activeDescendant: string = null;
     this.filteredItems.forEach((el, i) => {
       if (i === index) {
@@ -1389,6 +1447,7 @@ export class Combobox
       }
     });
     this.activeDescendant = activeDescendant;
+
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
     }
@@ -1416,6 +1475,26 @@ export class Combobox
 
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
+
+    if (this.selectAllChecked) {
+      return (
+        <calcite-chip
+          appearance={readOnly ? "outline" : "solid"}
+          class="chip"
+          closable={readOnly}
+          data-test-id="chip-all-selected"
+          id="chip-all-selected"
+          key="all-selected"
+          label={messages.allSelected}
+          scale={scale}
+          title={messages.allSelected}
+          value="all-selected"
+        >
+          {messages.allSelected}
+        </calcite-chip>
+      );
+    }
+
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         [CSS.chip]: true,
@@ -1614,8 +1693,8 @@ export class Combobox
         {showLabel && (
           <span
             class={{
-              label: true,
-              "label--icon": !!selectedItem?.icon,
+              [CSS.label]: true,
+              [CSS.labelIcon]: !!selectedItem?.icon,
             }}
             key="label"
           >
@@ -1670,6 +1749,27 @@ export class Combobox
     ));
   }
 
+  private selectAllKeyDownHandler(event: KeyboardEvent): void {
+    const { key } = event;
+    if (this.el.shadowRoot.activeElement === this.checkboxReferenceEl) {
+      if (isActivationKey(key)) {
+        this.selectAllChangeHandler();
+        event.preventDefault();
+      }
+      switch (key) {
+        case "ArrowDown":
+          if (this.filteredItems.length) {
+            console.log("selectAllKeyDownHandler arrow down block");
+            event.preventDefault();
+            this.checkboxReferenceEl.blur();
+            // this.shiftActiveItemIndex(1);
+            this.textInput.value.focus();
+          }
+          break;
+      }
+    }
+  }
+
   private renderFloatingUIContainer(): JsxNode {
     const { setFloatingEl, setContainerEl, open } = this;
     const classes = {
@@ -1682,6 +1782,28 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
+            {this.selectAll &&
+              this.selectionMode !== "single" &&
+              this.selectionMode !== "single-persist" && (
+                <li
+                  class={{ [CSS.label]: true, [CSS.selectAllcheckbox]: true }}
+                  id={this.guid}
+                  role="checkbox"
+                >
+                  <input
+                    aria-labelledby={`${this.guid}-select-all-label`}
+                    checked={this.selectAllCheckedState}
+                    id={`${this.guid}-select-all`}
+                    onChange={this.selectAllChangeHandler}
+                    onKeyDown={this.selectAllKeyDownHandler}
+                    ref={this.setCheckboxReferenceEl}
+                    type="checkbox"
+                  />
+                  <label htmlFor={`${this.guid}-select-all`} id={`${this.guid}-select-all-label`}>
+                    Select all
+                  </label>
+                </li>
+              )}
             <slot />
           </ul>
         </div>
@@ -1690,7 +1812,7 @@ export class Combobox
   }
 
   private renderSelectedOrPlaceholderIcon(): JsxNode {
-    const { open, placeholderIcon, placeholderIconFlipRtl, selectedItems } = this;
+    const { open, placeholderIcon, iconFlipRtl, selectedItems } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
     const showPlaceholder = placeholderIcon && (open || !selectedItem);
@@ -1703,7 +1825,7 @@ export class Combobox
               [CSS.selectedIcon]: !showPlaceholder,
               [CSS.placeholderIcon]: showPlaceholder,
             }}
-            flipRtl={showPlaceholder ? placeholderIconFlipRtl : selectedItem.iconFlipRtl}
+            flipRtl={showPlaceholder ? iconFlipRtl : selectedItem.iconFlipRtl}
             icon={showPlaceholder ? placeholderIcon : selectedIcon}
             scale={getIconScale(this.scale)}
           />
