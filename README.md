@@ -19,17 +19,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 <tbody>
 <tr>
   <td align="center">
-    <a href="https://github.com/driskull">
-      <img src="https://avatars.githubusercontent.com/u/1231455?v=4" width="100;" alt="driskull"/>
-      <br />
-      <sub><b>Matt Driscoll</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/jcfranco">
       <img src="https://avatars.githubusercontent.com/u/197440?v=4" width="100;" alt="jcfranco"/>
       <br />
       <sub><b>JC Franco</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/driskull">
+      <img src="https://avatars.githubusercontent.com/u/1231455?v=4" width="100;" alt="driskull"/>
+      <br />
+      <sub><b>Matt Driscoll</b></sub>
     </a>
   </td>
   <td align="center">
