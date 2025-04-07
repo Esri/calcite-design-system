@@ -645,68 +645,6 @@
       },
       "wrap": {
         "light": {
-          "-2": {
-            "value": {
-              "fontWeight": "{semantic.font.weight.light}",
-              "lineHeight": "{semantic.font.line-height.relative.snug}",
-              "fontSize": "{semantic.font.size.sm}"
-            },
-            "type": "typography",
-            "extensions": {
-              "calcite.extends": "{semantic.typography.default.default}"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "typography",
-                "element": "",
-                "category": "wrap",
-                "group": "",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "light",
-                "state": "",
-                "scale": "-2",
-                "context": "",
-                "mode": ""
-              }
-            }
-          },
-          "-1": {
-            "value": {
-              "fontWeight": "{semantic.font.weight.light}",
-              "lineHeight": "{semantic.font.line-height.relative.snug}"
-            },
-            "type": "typography",
-            "extensions": {
-              "calcite.extends": "{semantic.typography.default.default}"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "typography",
-                "element": "",
-                "category": "wrap",
-                "group": "",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "light",
-                "state": "",
-                "scale": "-1",
-                "context": "",
-                "mode": ""
-              }
-            }
-          },
-
           "0": {
             "value": {
               "fontWeight": "{semantic.font.weight.light}",
@@ -830,11 +768,10 @@
                 "mode": ""
               }
             }
-          }
-        },
-        "regular": {
+          },
           "-2": {
             "value": {
+              "fontWeight": "{semantic.font.weight.light}",
               "lineHeight": "{semantic.font.line-height.relative.snug}",
               "fontSize": "{semantic.font.size.sm}"
             },
@@ -855,7 +792,7 @@
                 "kind": "",
                 "appearance": "",
                 "property": "",
-                "variant": "regular",
+                "variant": "light",
                 "state": "",
                 "scale": "-2",
                 "context": "",
@@ -865,6 +802,7 @@
           },
           "-1": {
             "value": {
+              "fontWeight": "{semantic.font.weight.light}",
               "lineHeight": "{semantic.font.line-height.relative.snug}"
             },
             "type": "typography",
@@ -884,14 +822,16 @@
                 "kind": "",
                 "appearance": "",
                 "property": "",
-                "variant": "regular",
+                "variant": "light",
                 "state": "",
                 "scale": "-1",
                 "context": "",
                 "mode": ""
               }
             }
-          },
+          }
+        },
+        "regular": {
           "0": {
             "value": {
               "lineHeight": "{semantic.font.line-height.relative.snug}",
@@ -1007,6 +947,65 @@
                 "variant": "regular",
                 "state": "",
                 "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-1",
                 "context": "",
                 "mode": ""
               }
@@ -1014,67 +1013,6 @@
           }
         },
         "medium": {
-          "-2": {
-            "value": {
-              "fontWeight": "{semantic.font.weight.medium}",
-              "lineHeight": "{semantic.font.line-height.relative.snug}",
-              "fontSize": "{semantic.font.size.sm}"
-            },
-            "type": "typography",
-            "extensions": {
-              "calcite.extends": "{semantic.typography.default.default}"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "typography",
-                "element": "",
-                "category": "wrap",
-                "group": "",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "medium",
-                "state": "",
-                "scale": "-2",
-                "context": "",
-                "mode": ""
-              }
-            }
-          },
-          "-1": {
-            "value": {
-              "fontWeight": "{semantic.font.weight.medium}",
-              "lineHeight": "{semantic.font.line-height.relative.snug}"
-            },
-            "type": "typography",
-            "extensions": {
-              "calcite.extends": "{semantic.typography.default.default}"
-            },
-            "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "typography",
-                "element": "",
-                "category": "wrap",
-                "group": "",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "medium",
-                "state": "",
-                "scale": "-1",
-                "context": "",
-                "mode": ""
-              }
-            }
-          },
           "0": {
             "value": {
               "fontWeight": "{semantic.font.weight.medium}",
@@ -1194,6 +1132,67 @@
                 "variant": "medium",
                 "state": "",
                 "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-1",
                 "context": "",
                 "mode": ""
               }
