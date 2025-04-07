@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0...@esri/calcite-components@3.1.1) (2025-04-07)
+
+
+### Bug Fixes
+
+* Remove unused dragging styles ([#11883](https://github.com/Esri/calcite-design-system/issues/11883)) ([#11889](https://github.com/Esri/calcite-design-system/issues/11889)) ([bbd6170](https://github.com/Esri/calcite-design-system/commit/bbd6170220d10ed6a51ace918755f74b39e91234))
+
 ## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.0.3...@esri/calcite-components@3.1.0) (2025-03-26)
 
 ### Features
