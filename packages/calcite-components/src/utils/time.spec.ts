@@ -271,14 +271,16 @@ describe("isValidTime", () => {
 
 describe("localizeTimeString", () => {
   it("returns localized decimal separator and fractional second value as parts", () => {
-    expect(localizeTimeString({ parts: true, value: "06:45:30.12123", locale: "fr" })).toEqual({
+    expect(
+      localizeTimeString({ fractionalSecondDigits: 3, parts: true, value: "06:45:30.12123", locale: "fr" }),
+    ).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
       localizedMinuteSuffix: ":",
       localizedSecond: "30",
       localizedDecimalSeparator: ",",
-      localizedFractionalSecond: "12123",
+      localizedFractionalSecond: "121",
       localizedSecondSuffix: null,
       localizedMeridiem: null,
     });
@@ -295,21 +297,23 @@ describe("localizeTimeString", () => {
       localizedMeridiem: null,
     });
 
-    expect(localizeTimeString({ parts: true, value: "06:45:30.12123", locale: "da" })).toEqual({
+    expect(
+      localizeTimeString({ fractionalSecondDigits: 3, parts: true, value: "06:45:30.12123", locale: "da" }),
+    ).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ".",
       localizedMinute: "45",
       localizedMinuteSuffix: ".",
       localizedSecond: "30",
       localizedDecimalSeparator: ",",
-      localizedFractionalSecond: "12123",
+      localizedFractionalSecond: "121",
       localizedSecondSuffix: null,
       localizedMeridiem: null,
     });
   });
 
   it("returns fractional second value with padded zeros when necessary as parts", () => {
-    expect(localizeTimeString({ parts: true, value: "06:45:30.04", locale: "en" })).toEqual({
+    expect(localizeTimeString({ fractionalSecondDigits: 2, parts: true, value: "06:45:30.04", locale: "en" })).toEqual({
       localizedHour: "06",
       localizedHourSuffix: ":",
       localizedMinute: "45",
@@ -320,18 +324,28 @@ describe("localizeTimeString", () => {
       localizedSecondSuffix: null,
       localizedMeridiem: "AM",
     });
-    expect(localizeTimeString({ parts: true, value: "06:45:30.003", locale: "en" })).toEqual({
-      localizedHour: "06",
-      localizedHourSuffix: ":",
-      localizedMinute: "45",
-      localizedMinuteSuffix: ":",
-      localizedSecond: "30",
-      localizedDecimalSeparator: ".",
-      localizedFractionalSecond: "003",
-      localizedSecondSuffix: null,
-      localizedMeridiem: "AM",
-    });
-    expect(localizeTimeString({ parts: true, value: "06:45:30.007", locale: "ar", numberingSystem: "arab" })).toEqual({
+    expect(localizeTimeString({ fractionalSecondDigits: 3, parts: true, value: "06:45:30.003", locale: "en" })).toEqual(
+      {
+        localizedHour: "06",
+        localizedHourSuffix: ":",
+        localizedMinute: "45",
+        localizedMinuteSuffix: ":",
+        localizedSecond: "30",
+        localizedDecimalSeparator: ".",
+        localizedFractionalSecond: "003",
+        localizedSecondSuffix: null,
+        localizedMeridiem: "AM",
+      },
+    );
+    expect(
+      localizeTimeString({
+        fractionalSecondDigits: 3,
+        parts: true,
+        value: "06:45:30.007",
+        locale: "ar",
+        numberingSystem: "arab",
+      }),
+    ).toEqual({
       localizedHour: "٠٦",
       localizedHourSuffix: ":",
       localizedMinute: "٤٥",
