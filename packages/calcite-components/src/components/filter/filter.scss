@@ -1,3 +1,25 @@
+/**
+ * CSS Custom Properties
+ *
+ * @prop --calcite-filter-content-space: Specifies the padding of the component's content.
+ *
+ * @prop --calcite-filter-input-background-color: Specifies the input's background color.
+ * @prop --calcite-filter-input-border-color: Specifies the input's border color.
+ * @prop --calcite-filter-input-corner-radius: Specifies the input's corner radius.
+ * @prop --calcite-filter-input-shadow: Specifies the shadow around the input.
+ *
+ * @prop --calcite-filter-input-icon-color: Specifies the input's icon color.
+ * @prop --calcite-filter-input-text-color: Specifies the input's text color.
+ * @prop --calcite-filter-input-placeholder-text-color: Specifies the input's placeholder text color.
+ *
+ * @prop --calcite-filter-input-actions-background-color: Specifies the background color of the input's `clearable` and `number-button-type` elements.
+ * @prop --calcite-filter-input-actions-background-color-hover: Specifies the background color of the input's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-filter-input-actions-background-color-press: Specifies the background color of the input's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-filter-input-actions-icon-color: Specifies the icon color of the input's `clearable` and `number-button-type` elements.
+ * @prop --calcite-filter-input-actions-icon-color-hover: Specifies the icon color of the input's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-filter-input-actions-icon-color-press: Specifies the icon color of the input's `clearable` and `number-button-type` elements when pressed.
+ */
+
 :host {
   @extend %component-host;
   @apply flex w-full;
@@ -11,17 +33,17 @@
 
 :host([scale="s"]) {
   .container {
-    padding: var(--calcite-spacing-sm);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-sm));
   }
 }
 :host([scale="m"]) {
   .container {
-    padding: var(--calcite-spacing-md);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-md));
   }
 }
 :host([scale="l"]) {
   .container {
-    padding: var(--calcite-spacing-lg);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-lg));
   }
 }
 
