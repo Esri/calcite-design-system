@@ -1,5 +1,5 @@
-module.exports = {
+export default {
   "*.{json,html,yml}": ["prettier --write"],
   "*.{s,}css": ["prettier --write"],
-  "*.md": ["prettier --write", "markdownlint --fix"],
+  "*.md": ["prettier --write", "markdownlint-cli2 --fix"],
 };
