@@ -9567,5 +9567,87 @@
     "alias": ["4.1.1", "generic", "setting", "cover", "arrangement", "columns", "features"],
     "category": "Generic",
     "release": "4.1.1"
+  },
+  "mooc": {
+    "alias": ["4.2.0", "education", "courses", "training", "online", "graduation", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-gis-workflow": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "gis",
+      "lab",
+      "workflow",
+      "plan",
+      "interact",
+      "system",
+      "roadmap",
+      "productivity",
+      "map"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-steps": {
+    "alias": ["4.2.0", "education", "learning", "plan", "steps", "workflow", "planner", "number", "chronological"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "storymap-experience": {
+    "alias": ["4.2.0", "education", "web", "app", "logo", "app", "product"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "document-learning": {
+    "alias": ["4.2.0", "education", "document", "learning", "pencil", "note", "folder", "write", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-web-course": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "web",
+      "course",
+      "online",
+      "virtual",
+      "internet",
+      "interactive",
+      "cloud"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "classroom-gis": {
+    "alias": ["4.2.0", "education", "classroom", "gis", "presenter", "desk", "podium", "map", "teacher"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "video-learning": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "video",
+      "learning",
+      "visual",
+      "coffee",
+      "playback",
+      "relax",
+      "record",
+      "clip",
+      "cup",
+      "warm"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "e-learning-gis": {
+    "alias": ["4.2.0", "education", "learning", "gis", "presenter", "online", "video", "virtual", "asynchronous"],
+    "category": "Education",
+    "release": "4.2.0"
   }
 }
