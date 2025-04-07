@@ -429,7 +429,7 @@ describe("calcite-tree-item", () => {
   describe("themed", () => {
     describe(`selection-mode="none"`, () => {
       themed(
-        html`<calcite-tree selection-mode="none" scale="m">
+        html`<calcite-tree selection-mode="none">
           <calcite-tree-item> Child 1 </calcite-tree-item>
         </calcite-tree>`,
         {
@@ -443,7 +443,7 @@ describe("calcite-tree-item", () => {
     });
     describe(`selection-mode="single"`, () => {
       themed(
-        html`<calcite-tree selection-mode="single" scale="m">
+        html`<calcite-tree selection-mode="single">
           <calcite-tree-item selected> Child 1 </calcite-tree-item>
         </calcite-tree>`,
         {
@@ -462,7 +462,7 @@ describe("calcite-tree-item", () => {
     });
     describe(`selection-mode="multiple"`, () => {
       themed(
-        html`<calcite-tree selection-mode="multiple" scale="m">
+        html`<calcite-tree selection-mode="multiple">
           <calcite-tree-item selected> Child 1 </calcite-tree-item>
         </calcite-tree>`,
         {
@@ -476,7 +476,7 @@ describe("calcite-tree-item", () => {
     });
     describe(`selection-mode="ancestors"`, () => {
       themed(
-        html`<calcite-tree selection-mode="ancestors" scale="m">
+        html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item selected> Child 1 </calcite-tree-item>
         </calcite-tree>`,
         {
