@@ -11,8 +11,8 @@ await registerTokenStudioTransformers(StyleDictionary, {
     format: "hex",
   },
 });
-await registerCalciteHooks(StyleDictionary);
-applyOverrides(StyleDictionary);
+await registerCalciteHooks();
+applyOverrides();
 
 const light = new StyleDictionary(calciteLightConfig);
 const dark = new StyleDictionary(calciteDarkConfig);
