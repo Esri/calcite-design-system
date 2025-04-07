@@ -1,0 +1,1017 @@
+{
+  "semantic": {
+    "color": {
+      "background": {
+        "default": {
+          "value": "{core.color.neutral.blk-190}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "background",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "default",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "none": {
+          "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "background",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "foreground": {
+        "1": {
+          "value": "{core.color.neutral.blk-200}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "2": {
+          "value": "{core.color.neutral.blk-210}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "3": {
+          "value": "{core.color.neutral.blk-220}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "current": {
+          "value": "#214155",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "current",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "transparent": {
+        "default": {
+          "default": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.4})",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.8})",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "scrim": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "transparent",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "scrim",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "tint": {
+          "value": "rgba({core.color.neutral.blk-200}, {core.opacity.80})",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "transparent",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "tint",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "brand": {
+        "default": {
+          "default": {
+            "value": "{core.color.vibrant.blue.v-bb-160}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "{core.color.high-saturation.blue.h-bb-060}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "{core.color.high-saturation.blue.h-bb-070}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "underline": {
+          "type": "color",
+          "value": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "brand",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "underline",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "status": {
+        "info": {
+          "default": {
+            "value": "{core.color.dark.blue.d-bb-420}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "{core.color.vibrant.blue.v-bb-140}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "{core.color.vibrant.blue.v-bb-160}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "success": {
+          "default": {
+            "value": "{core.color.dark.green.d-gg-420}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "{core.color.vibrant.green.v-gg-140}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "{core.color.vibrant.green.v-gg-160}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "warning": {
+          "default": {
+            "value": "{core.color.dark.yellow.d-yy-420}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "{core.color.vibrant.yellow.v-yy-140}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "{core.color.vibrant.yellow.v-yy-160}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "danger": {
+          "default": {
+            "value": "{core.color.dark.red.d-rr-420}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "hover": {
+            "value": "{core.color.vibrant.red.v-rr-140}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "press": {
+            "value": "{core.color.vibrant.red.v-rr-160}",
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        }
+      },
+      "inverse": {
+        "default": {
+          "value": "{core.color.neutral.blk-005}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "default",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "hover": {
+          "value": "{core.color.neutral.blk-000}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "hover",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "press": {
+          "value": "{core.color.neutral.blk-010}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "press",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "text": {
+        "1": {
+          "value": "{core.color.neutral.blk-000}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "2": {
+          "value": "{core.color.neutral.blk-060}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "3": {
+          "value": "{core.color.neutral.blk-090}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "inverse": {
+          "value": "{core.color.neutral.blk-220}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "link": {
+          "value": "{core.color.dark.blue.d-bb-420}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
+      "border": {
+        "1": {
+          "value": "{core.color.neutral.blk-160}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "2": {
+          "value": "{core.color.neutral.blk-170}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "3": {
+          "value": "{core.color.neutral.blk-180}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "input": {
+          "value": "{core.color.neutral.blk-130}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "input",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "ghost": {
+          "value": "rgba({core.color.neutral.blk-130}, {core.opacity.30})",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "ghost",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "white": {
+          "value": "{core.color.neutral.blk-005}",
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "white",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
