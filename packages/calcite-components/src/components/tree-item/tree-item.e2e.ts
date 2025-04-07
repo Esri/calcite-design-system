@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils";
@@ -424,5 +424,69 @@ describe("calcite-tree-item", () => {
     const itemBounds = await item.boundingBox();
 
     expect(itemBounds.height).not.toBe(0);
+  });
+
+  describe.only("themed", () => {
+    describe(`selection-mode="none"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="none" scale="m">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="single"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="single" scale="m">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color-selected": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.bulletPointIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="multiple"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="multiple" scale="m">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkmarkIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="ancestors"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="ancestors" scale="m">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkbox}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
   });
 });
