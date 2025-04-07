@@ -426,7 +426,7 @@ describe("calcite-tree-item", () => {
     expect(itemBounds.height).not.toBe(0);
   });
 
-  describe.only("themed", () => {
+  describe("themed", () => {
     describe(`selection-mode="none"`, () => {
       themed(
         html`<calcite-tree selection-mode="none" scale="m">
