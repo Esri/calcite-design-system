@@ -55,7 +55,7 @@ export class ActionBar extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
-  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
+  resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
@@ -239,6 +239,10 @@ export class ActionBar extends LitElement {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+
+    // canceling here mainly as example
+    // actual implementation might vary
+    this.resize.cancel();
   }
 
   // #endregion
