@@ -1,4 +1,4 @@
-import { isBrowser } from "./browser";
+import { isServer } from "lit";
 
 export interface ExtendedMutationObserver extends MutationObserver {
   new: () => ExtendedMutationObserver;
@@ -50,7 +50,7 @@ export function createObserver<T extends ObserverType>(
   callback: ObserverCallbackType<T>,
   options?: ObserverOptions<T>,
 ): ObserverInstanceType<T> | undefined {
-  if (!isBrowser()) {
+  if (isServer) {
     return undefined;
   }
 
