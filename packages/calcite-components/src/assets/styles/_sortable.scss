@@ -1,8 +1,6 @@
 @mixin sortable-helper-classes() {
-  .calcite-sortable--chosen,
   .calcite-sortable--ghost,
-  .calcite-sortable--drag,
-  .calcite-sortable--fallback {
+  .calcite-sortable--drag {
     position: relative;
     overflow: hidden;
   }
