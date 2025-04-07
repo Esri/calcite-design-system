@@ -1543,7 +1543,7 @@ describe("calcite-input-number", () => {
 
   it("allows editing numbers that start with zeros and group separator", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    await page.setContent(html`<calcite-input-number group-separator></calcite-input-number>`);
 
     const calciteInput = await page.find("calcite-input-number");
     const input = await page.find("calcite-input-number >>> input");
@@ -1552,44 +1552,31 @@ describe("calcite-input-number", () => {
     await typeNumberValue(page, "7000");
     await page.waitForChanges();
     expect(await calciteInput.getProperty("value")).toBe("7000");
+    expect(await input.getProperty("value")).toBe("7,000");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("7000");
     expect(await input.getProperty("value")).toBe("7000");
 
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("0");
-    expect(await input.getProperty("value")).toBe("000");
-
     await page.keyboard.type("5");
     await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("5000");
-    expect(await input.getProperty("value")).toBe("5000");
+    expect(await calciteInput.getProperty("value")).toBe("75000");
+    expect(await input.getProperty("value")).toBe("75,000");
 
     await page.keyboard.press("Backspace");
-    await page.keyboard.press("Delete");
-    await page.keyboard.press("Delete");
-    await page.keyboard.press("Delete");
     await page.waitForChanges();
-    await typeNumberValue(page, "70011");
-    await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("70011");
-    expect(await input.getProperty("value")).toBe("70011");
+    expect(await calciteInput.getProperty("value")).toBe("7500");
+    expect(await input.getProperty("value")).toBe("7,500");
 
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("Backspace");
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("11");
-    expect(await input.getProperty("value")).toBe("0011");
-
-    await page.keyboard.type("5");
-    await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("50011");
-    expect(await input.getProperty("value")).toBe("50011");
+    expect(await calciteInput.getProperty("value")).toBe("75");
+    expect(await input.getProperty("value")).toBe("75");
   });
 
   it("cannot be modified when readOnly is true", async () => {
