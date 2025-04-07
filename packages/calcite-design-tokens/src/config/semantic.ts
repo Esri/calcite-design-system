@@ -77,16 +77,6 @@ const config: Config = {
             imports: ["semantic", "breakpoints", "mixins"],
           },
         },
-        {
-          destination: "light.scss",
-          format: sdFormats.scssVariables,
-          filter: filters.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.scss",
-          format: sdFormats.scssVariables,
-          filter: filters.FilterDarkColorTokens,
-        },
       ],
       expand: {
         ...commonExpand,
@@ -141,16 +131,6 @@ const config: Config = {
           options: {
             imports: ["semantic", "classes"],
           },
-        },
-        {
-          destination: "light.css",
-          format: sdFormats.cssVariables,
-          filter: filters.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.css",
-          format: sdFormats.cssVariables,
-          filter: filters.FilterDarkColorTokens,
         },
       ],
       expand: {

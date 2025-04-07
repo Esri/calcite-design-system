@@ -9,6 +9,7 @@ import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
 
 const config: Config = {
+  source: ["src/tokens/semantic/color/light.json"],
   include: ["src/tokens/semantic/color/light.json", "src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
