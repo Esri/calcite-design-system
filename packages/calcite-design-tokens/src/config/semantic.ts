@@ -17,8 +17,6 @@ const commonExpand = {
     dark: "color",
     fontSizes: "fontSize",
     lineHeights: "lineHeight",
-    breakpoint: "dimension",
-    size: "sizing",
     space: "spacing",
     ...sdTypes,
   },
@@ -31,8 +29,12 @@ const stylesheetOutputReferences: OutputReferences = (token) => {
 
 const config: Config = {
   source: ["src/tokens/semantic/[!$]*.json"],
-  include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/calcite/[!$]*.json"],
-  preprocessors: ["tokens-studio", preprocessors.PreprocessorStorePostMergeDictionary],
+  include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/color/[!$]*.json"],
+  preprocessors: [
+    "tokens-studio",
+    preprocessors.PreprocessorStorePostMergeDictionary,
+    preprocessors.PreprocessorStoreSameValueThemeTokens,
+  ],
   platforms: {
     scss: {
       transformGroup: transformers.TransformCalciteGroup,
@@ -74,16 +76,6 @@ const config: Config = {
           options: {
             imports: ["semantic", "breakpoints", "mixins"],
           },
-        },
-        {
-          destination: "light.scss",
-          format: sdFormats.scssVariables,
-          filter: filters.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.scss",
-          format: sdFormats.scssVariables,
-          filter: filters.FilterDarkColorTokens,
         },
       ],
       expand: {
@@ -140,16 +132,6 @@ const config: Config = {
             imports: ["semantic", "classes"],
           },
         },
-        {
-          destination: "light.css",
-          format: sdFormats.cssVariables,
-          filter: filters.FilterLightColorTokens,
-        },
-        {
-          destination: "dark.css",
-          format: sdFormats.cssVariables,
-          filter: filters.FilterDarkColorTokens,
-        },
       ],
       expand: {
         ...commonExpand,
@@ -166,7 +148,11 @@ const config: Config = {
     },
     es6: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [...transformers.platformTransforms.es6, transformers.TransformValueCorrectPropName],
+      transforms: [
+        ...transformers.platformTransforms.es6,
+        transformers.TransformValueCorrectPropName,
+        transformers.TransformValueMergeValues,
+      ],
       buildPath: "dist/es6/",
       prefix: "calcite",
       expand: {
@@ -235,6 +221,7 @@ const config: Config = {
         transformers.TransformNameRemovePrefix,
         transformers.TransformNameCapitalCase,
         transformers.TransformValueCorrectPropName,
+        transformers.TransformValueMergeValues,
       ],
       buildPath: "dist/docs/",
       prefix: "calcite",
@@ -280,6 +267,7 @@ const config: Config = {
         transformers.TransformNameRemovePrefix,
         transformers.TransformNameCapitalCase,
         transformers.TransformValueCorrectPropName,
+        transformers.TransformValueMergeValues,
       ],
       buildPath: "dist/js/",
       prefix: "calcite",
