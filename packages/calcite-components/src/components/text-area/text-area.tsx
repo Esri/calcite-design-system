@@ -103,11 +103,20 @@ export class TextArea
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.value.style.width = `${textAreaWidth}px`;
     }
+
+    if (this.resize === "none") {
+      return;
+    }
+
+    const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
+    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+      this.setHeightAndWidthToAuto("width");
+    }
     if (
-      elWidth !== textAreaWidth ||
-      elHeight !== textAreaHeight + footerHeight + validationMessageHeight
+      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      elStyleHeight !== "auto"
     ) {
-      this.setHeightAndWidthToAuto();
+      this.setHeightAndWidthToAuto("height");
     }
   });
 
@@ -115,13 +124,8 @@ export class TextArea
 
   // throttle is used to avoid flashing of textarea when user resizes.
   private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
+    (dimension: "height" | "width"): void => {
+      this.el.style[dimension] = "auto";
     },
     RESIZE_TIMEOUT,
     { leading: false },

@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { newProgrammaticE2EPage } from "../../tests/utils";
+import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
@@ -336,16 +336,7 @@ describe("calcite-text-area", () => {
       });
       </script>`);
     const element = await page.find("calcite-text-area");
-
-    async function getTextAreaRect(page: E2EPage): Promise<DOMRect> {
-      return page.evaluate(() => {
-        const calciteTextAreaEl = document.querySelector("calcite-text-area");
-        const textAreaEl = calciteTextAreaEl.shadowRoot.querySelector("textarea");
-        return textAreaEl.getBoundingClientRect();
-      });
-    }
-
-    const textAreaRect = await getTextAreaRect(page);
+    const textAreaRect = await getElementRect(page, "calcite-text-area", "textarea");
     const inputEvent = page.waitForEvent("calciteTextAreaInput");
     await element.callMethod("setFocus");
     await page.waitForChanges();
@@ -357,7 +348,7 @@ describe("calcite-text-area", () => {
     await inputEvent;
 
     expect(await element.getProperty("status")).toBe("invalid");
-    const textAreaInvalidRect = await getTextAreaRect(page);
+    const textAreaInvalidRect = await getElementRect(page, "calcite-text-area", "textarea");
     expect(textAreaRect.width).toEqual(textAreaInvalidRect.width);
     expect(textAreaInvalidRect.height).toEqual(textAreaRect.height);
   });
