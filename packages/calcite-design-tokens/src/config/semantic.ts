@@ -5,8 +5,9 @@ import {
   logVerbosityLevels,
   transforms,
 } from "style-dictionary/enums";
-import { Config, OutputReferences } from "style-dictionary/types";
+import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import type { Config } from "../build/types/extensions.js";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
 
