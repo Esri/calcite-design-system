@@ -41,8 +41,5 @@
   },
   "volta": {
     "extends": "../../package.json"
-  },
-  "devDependencies": {
-    "type-fest": "4.37.0"
   }
 }
