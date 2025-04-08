@@ -232,8 +232,25 @@ export class Panel extends LitElement implements InteractiveComponent {
     if (changes.has("closed") && this.hasUpdated) {
       if (this.closed) {
         this.close();
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelClose", { bubbles: true, composed: true }),
+        );
       } else {
         this.open();
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelOpen", { bubbles: true, composed: true }),
+        );
+      }
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelCollapse", { bubbles: true, composed: true }),
+        );
+      } else {
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelExpand", { bubbles: true, composed: true }),
+        );
       }
     }
   }
