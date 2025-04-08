@@ -1,6 +1,6 @@
 # Calcite Tailwind Preset
 
-This package provides a Tailwind CSS preset for Calcite design system, enabling consistent styling across your applications.
+This package provides a Tailwind CSS preset for Calcite Design System, enabling consistent styling across your applications.
 
 ## Usage
 
