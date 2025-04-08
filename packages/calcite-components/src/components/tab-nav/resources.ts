@@ -4,12 +4,12 @@ export const ICON = {
 } as const;
 
 export const CSS = {
-  containerHasEndTabTitleOverflow: "tab-nav--end-overflow",
-  containerHasStartTabTitleOverflow: "tab-nav--start-overflow",
+  container: "container",
+  containerHasEndTabTitleOverflow: "container--end-overflow",
+  containerHasStartTabTitleOverflow: "container--start-overflow",
   scrollButton: "scroll-button",
   scrollButtonContainer: "scroll-button-container",
   scrollBackwardContainerButton: "scroll-button-container--backward",
   scrollForwardContainerButton: "scroll-button-container--forward",
-  tabNav: "tab-nav",
   tabTitleSlotWrapper: "tab-titles-slot-wrapper",
 };

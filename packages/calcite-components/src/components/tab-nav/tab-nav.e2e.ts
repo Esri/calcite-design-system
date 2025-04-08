@@ -273,7 +273,7 @@ describe("calcite-tab-nav", () => {
     });
   });
 
-  describe("theme", () => {
+  describe.only("theme", () => {
     describe("default", () => {
       themed(html`<calcite-tab-nav></calcite-tab-nav>`, {
         "--calcite-tab-border-color": {

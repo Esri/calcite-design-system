@@ -16,8 +16,10 @@
 }
 
 :host([bordered]) {
-  .container {
-    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+  &:not([selected]) {
+    .container {
+      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+    }
   }
 
   calcite-button {
@@ -47,7 +49,7 @@
 
 $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure the mask color stops overlap when both start and end are overflowing
 
-.tab-nav--start-overflow {
+.container--start-overflow {
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-end-side),
@@ -59,7 +61,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-.tab-nav--end-overflow {
+.container--end-overflow {
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
       to var(--calcite-internal-tab-nav-gradient-start-side),
@@ -71,7 +73,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-.tab-nav--start-overflow.tab-nav--end-overflow {
+.container--start-overflow.container--end-overflow {
   .tab-titles-slot-wrapper {
     mask-image:
       linear-gradient(
@@ -93,7 +95,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-.tab-nav::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -135,7 +137,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-.tab-nav,
+.container,
 .tab-titles-slot-wrapper {
   @apply flex
     w-full
