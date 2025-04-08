@@ -4,16 +4,17 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import type { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import type { Config } from "../../types/extensions.js";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
+import { Platform } from "../../types/interfaces.js";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/dark.json"],
   include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
-    scss: {
+    [Platform.scss]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
@@ -25,12 +26,12 @@ const config: Config = {
         },
       ],
       options: {
-        platform: "scss",
+        platform: Platform.scss,
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
       },
     },
-    css: {
+    [Platform.css]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
@@ -42,18 +43,18 @@ const config: Config = {
         },
       ],
       options: {
-        platform: "css",
+        platform: Platform.css,
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
       },
     },
-    es6: {
+    [Platform.es6]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        platform: "es6",
+        platform: Platform.es6,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -63,8 +64,6 @@ const config: Config = {
           format: sdFormats.javascriptEs6,
           filter: filters.FilterSourceTokens,
         },
-
-        // d.ts
         {
           destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
@@ -72,13 +71,13 @@ const config: Config = {
         },
       ],
     },
-    js: {
+    [Platform.js]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
-        platform: "js",
+        platform: Platform.js,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -88,7 +87,6 @@ const config: Config = {
           format: formats.FormatCalciteJs,
           filter: filters.FilterSourceTokens,
         },
-        // d.ts
         {
           destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
@@ -96,13 +94,13 @@ const config: Config = {
         },
       ],
     },
-    docs: {
+    [Platform.docs]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
-        platform: "docs",
+        platform: Platform.docs,
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },

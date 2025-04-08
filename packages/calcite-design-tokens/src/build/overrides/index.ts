@@ -2,6 +2,7 @@ import StyleDictionary from "style-dictionary";
 import type { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
+import { Platform } from "../../types/interfaces.js";
 
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.
@@ -25,7 +26,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
   sds.forEach((sd) => {
     overrideTransform("fontFamily/css", sd, (ogTransform) => ({
       transform: (token, config, options) => {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const isStylesheet = config.options?.platform === Platform.scss || config.options?.platform === Platform.css;
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -38,7 +39,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
 
     overrideTransform("shadow/css/shorthand", sd, (ogTransform) => ({
       transform: (token, config, options) => {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const isStylesheet = config.options?.platform === Platform.scss || config.options?.platform === Platform.css;
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -145,7 +146,7 @@ function overrideTokenStudioTransforms(): void {
       const shouldSkip = isFontRelated(token) && token.name.includes("medium-italic");
 
       if (shouldSkip) {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const isStylesheet = config.options?.platform === Platform.scss || config.options?.platform === Platform.css;
         return isStylesheet ? `"${token.value}"` : token.value;
       }
 
