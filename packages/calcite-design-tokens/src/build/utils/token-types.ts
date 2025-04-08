@@ -47,12 +47,11 @@ export function isTypography(token: TransformedToken): boolean {
 
 interface IsThemedOptions {
   theme?: "light" | "dark";
-  targetPropName?: keyof Pick<TransformedToken, "filePath" | "path">;
 }
 
-export function isThemed(token: TransformedToken, options?: IsThemedOptions): boolean {
-  const { theme, targetPropName } = options || {};
-  const targetProp = token[targetPropName ?? "filePath"];
+export function isThemed(token: DesignToken, options?: IsThemedOptions): boolean {
+  const { theme } = options || {};
+  const targetProp = token.filePath;
 
   return (
     token.type === "color" &&
