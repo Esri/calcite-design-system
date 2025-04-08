@@ -4,9 +4,9 @@ import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import get from "lodash-es/get.js";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn, Stylesheet } from "../types/interfaces.js";
+import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
 import { state } from "../shared/state.js";
-import { FlattenedTransformedToken } from "../types/extensions.js";
+import { FlattenedTransformedToken } from "../../types/extensions.js";
 
 function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
   if (!dictionary.unfilteredTokens) {

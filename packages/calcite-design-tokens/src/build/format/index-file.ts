@@ -2,7 +2,7 @@ import prettierSync from "@prettier/sync";
 import type { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn, Stylesheet } from "../types/interfaces.js";
+import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 import { isThemed } from "../utils/token-types.js";
 import { dark, light } from "../dictionaries/index.js";

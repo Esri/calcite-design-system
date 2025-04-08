@@ -1,7 +1,7 @@
 import { Config } from "style-dictionary";
 import type { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.js";
 
 function getBasePxFontSize(config: PlatformConfig) {

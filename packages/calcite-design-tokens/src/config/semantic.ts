@@ -7,7 +7,7 @@ import {
 } from "style-dictionary/enums";
 import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../build/types/extensions.js";
+import type { Config } from "../types/extensions.js";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
 

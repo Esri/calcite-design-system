@@ -1,6 +1,6 @@
 import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
 
