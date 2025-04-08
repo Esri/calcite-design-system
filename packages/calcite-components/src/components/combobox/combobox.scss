@@ -238,8 +238,8 @@ calcite-chip {
 
 @include disabled();
 @include x-button(
-  $backgroundColor: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
-  $backgroundColorHover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
+  $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
+  $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
   $color: "var(--calcite-close-icon-color, var(--calcite-color-text-3))"
 );
 @include form-validation-message();
