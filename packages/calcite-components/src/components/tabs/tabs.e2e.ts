@@ -473,13 +473,13 @@ describe("calcite-tabs", () => {
           },
         ],
       });
-    });
 
-    describe("bottom position", () => {
-      themed(html` <calcite-tabs bordered position="bottom"></calcite-tabs>`, {
-        "--calcite-tab-border-color": {
-          targetProp: "boxShadow",
-        },
+      describe("bottom position", () => {
+        themed(html` <calcite-tabs bordered position="bottom"></calcite-tabs>`, {
+          "--calcite-tab-border-color": {
+            targetProp: "boxShadow",
+          },
+        });
       });
     });
   });

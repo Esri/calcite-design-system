@@ -107,12 +107,12 @@
 }
 
 @mixin x-button(
-  $size: "var(--calcite-internal-close-size, 1.5rem /* 24px */)",
+  $size: "var(--calcite-internal-close-size, 1.5rem)",
   $padding: "0",
   $color: "var(--calcite-close-icon-color, var(--calcite-color-text-1))",
-  $backgroundColor: "var(--calcite-close-background-color, var(--calcite-color-transparent))",
-  $backgroundColorHover: "var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover))",
-  $backgroundColorPress: "var(--calcite-close-background-color-press, var(--calcite-color-transparent-press))"
+  $background-color: "var(--calcite-close-background-color, var(--calcite-color-transparent))",
+  $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover))",
+  $background-color-press: "var(--calcite-close-background-color-press, var(--calcite-color-transparent-press))"
 ) {
   .x-button {
     @apply transition-default;
@@ -121,7 +121,7 @@
     outline-color: transparent;
     align-items: center;
     margin: 0;
-    background-color: #{$backgroundColor};
+    background-color: #{$background-color};
     -webkit-appearance: none;
     display: flex;
     align-content: center;
@@ -135,14 +135,14 @@
 
     &:hover,
     &:focus {
-      background-color: #{$backgroundColorHover};
+      background-color: #{$background-color-hover};
     }
     &:focus {
       @apply focus-inset;
     }
 
     &:active {
-      background-color: #{$backgroundColorPress};
+      background-color: #{$background-color-press};
     }
 
     calcite-icon {
