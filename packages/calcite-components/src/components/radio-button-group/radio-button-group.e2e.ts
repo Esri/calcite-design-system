@@ -564,11 +564,18 @@ describe("calcite-radio-button-group", () => {
           targetProp: "columnGap",
           shadowSelector: `.${CSS.itemWrapper}`,
         },
-        "--calcite-radio-button-input-message-spacing": {
-          targetProp: "--calcite-input-message-spacing",
-          shadowSelector: "calcite-input-message",
-        },
       });
+    });
+    describe("validation", () => {
+      themed(
+        html`<calcite-radio-button-group validation-message="help" status="invalid"></calcite-radio-button-group>`,
+        {
+          "--calcite-radio-button-input-message-spacing": {
+            targetProp: "--calcite-input-message-spacing",
+            shadowSelector: "calcite-input-message",
+          },
+        },
+      );
     });
   });
 });
