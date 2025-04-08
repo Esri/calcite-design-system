@@ -17,8 +17,10 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
   }
 
   if (!dictionaries) {
-    const darkDictionary = await dark.getPlatformTokens(options.platform, { cache: true });
-    const lightDictionary = await light.getPlatformTokens(options.platform, { cache: true });
+    const [darkDictionary, lightDictionary] = await Promise.all([
+      dark.getPlatformTokens(options.platform, { cache: true }),
+      light.getPlatformTokens(options.platform, { cache: true }),
+    ]);
 
     dictionaries = { dark: darkDictionary, light: lightDictionary };
   }
@@ -29,10 +31,15 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
   );
 
   if (tokenIndex > -1) {
-    return {
-      dark: dictionaries.dark.allTokens[tokenIndex].value,
-      light: dictionaries.light.allTokens[tokenIndex].value,
-    };
+    const lightValue = dictionaries.light.allTokens[tokenIndex].value;
+    const darkValue = dictionaries.dark.allTokens[tokenIndex].value;
+
+    if (lightValue !== darkValue) {
+      return {
+        light: lightValue,
+        dark: darkValue,
+      };
+    }
   }
 
   return token.value;

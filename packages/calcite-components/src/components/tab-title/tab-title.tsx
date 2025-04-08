@@ -156,7 +156,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     if (this.disabled || this.closed) {
       return;
     }
-    const payload = { tab: this.tab };
+    const payload = { tab: this.tab, userTriggered: userTriggered };
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {

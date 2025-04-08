@@ -281,7 +281,7 @@
       "default": {
         "px": {
           "value": "{core.size.default.1}",
-          "type": "size",
+          "type": "sizing",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
