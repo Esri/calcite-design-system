@@ -1,5 +1,5 @@
 import StyleDictionary from "style-dictionary";
-import { DesignToken } from "style-dictionary/types";
+import type { DesignToken } from "style-dictionary/types";
 import { dark, light } from "../dictionaries/index.js";
 import { isThemed } from "../utils/token-types.js";
 import { state } from "../shared/state.js";

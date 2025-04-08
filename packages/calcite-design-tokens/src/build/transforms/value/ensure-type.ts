@@ -1,4 +1,4 @@
-import { Filter, ValueTransform } from "style-dictionary/types";
+import type { Filter, ValueTransform } from "style-dictionary/types";
 import { ArrayValues } from "type-fest";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";

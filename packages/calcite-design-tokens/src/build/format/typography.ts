@@ -1,5 +1,5 @@
 import prettierSync from "@prettier/sync";
-import { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
+import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import get from "lodash-es/get.js";

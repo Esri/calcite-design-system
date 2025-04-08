@@ -1,4 +1,4 @@
-import { Filter, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Filter, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../types/interfaces.js";
 

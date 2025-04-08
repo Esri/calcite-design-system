@@ -1,5 +1,5 @@
 import StyleDictionary from "style-dictionary";
-import { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
 

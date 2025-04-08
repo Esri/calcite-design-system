@@ -1,4 +1,4 @@
-import { Filter } from "style-dictionary/types";
+import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 import { isBreakpoint } from "../utils/token-types.js";

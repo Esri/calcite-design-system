@@ -1,4 +1,4 @@
-import { FileHeader } from "style-dictionary/types";
+import type { FileHeader } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../types/interfaces.js";
 

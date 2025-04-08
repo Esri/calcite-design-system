@@ -1,5 +1,5 @@
 import prettierSync from "@prettier/sync";
-import { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
+import type { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../types/interfaces.js";
