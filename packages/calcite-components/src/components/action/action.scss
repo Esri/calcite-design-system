@@ -22,6 +22,18 @@
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
   --calcite-internal-action-text-color: var(--calcite-color-text-3);
+
+  border-radius: var(
+    --calcite-action-corner-radius,
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
+  );
+}
+
+.interaction-container {
+  border-radius: inherit;
 }
 
 :host([drag-handle]) {
@@ -30,15 +42,8 @@
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
-:host,
 .button {
-  border-radius: var(
-    --calcite-action-corner-radius,
-    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
-  );
+  border-radius: inherit;
 }
 
 @mixin action-indicator() {
@@ -74,8 +79,7 @@
   flex: 1 0 auto;
   cursor: inherit;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
     color: var(
       --calcite-action-text-color-press,
@@ -163,7 +167,7 @@
 
 :host([appearance="transparent"]) {
   &:host([active]) .button {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-color-transparent-press);
   }
 
   .button {
@@ -172,8 +176,7 @@
       duration-150
       ease-in-out;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background-color: var(--calcite-color-transparent-hover);
     }
 

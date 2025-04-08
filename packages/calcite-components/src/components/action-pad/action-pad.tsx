@@ -2,12 +2,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -29,7 +24,7 @@ declare global {
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-export class ActionPad extends LitElement implements LoadableComponent {
+export class ActionPad extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -128,10 +123,6 @@ export class ActionPad extends LitElement implements LoadableComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -144,10 +135,6 @@ export class ActionPad extends LitElement implements LoadableComponent {
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

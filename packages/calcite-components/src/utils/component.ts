@@ -1,4 +1,5 @@
 import type { LitElement } from "@arcgis/lumina";
+import { isServer } from "lit";
 import { Scale } from "../components/interfaces";
 import { ComboboxChildElement } from "../components/combobox/interfaces";
 import { StepperItem } from "../components/stepper-item/stepper-item";
@@ -32,4 +33,29 @@ export function warnIfMissingRequiredProp<C extends LitElement>(
 
 export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | TableRow["el"]>(el: C): boolean {
   return el.hidden || el.itemHidden;
+}
+
+/**
+ * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentOnReady" lifecycle method has been called and any internal elements are focusable).
+ *
+ * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
+ *
+ * @example
+ * async setFocus(): Promise<void> {
+ *   await componentFocusable(this);
+ *   this.internalElement?.focus();
+ * }
+ *
+ * @param component
+ * @returns Promise<void>
+ */
+export async function componentFocusable(component: LitElement): Promise<void> {
+  await component.componentOnReady();
+
+  if (isServer) {
+    return;
+  }
+
+  component.requestUpdate();
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }

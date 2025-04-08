@@ -1194,6 +1194,19 @@
     "hammer-coin": 61731,
     "dual-image-location": 61732,
     "dual-image-distance": 61733,
-    "dual-image-area": 61734
+    "dual-image-area": 61734,
+    "language-2": 61735,
+    "browser-plus": 61736,
+    "browser-join": 61737,
+    "variable-plus": 61738,
+    "table-set": 61739,
+    "string-set": 61740,
+    "parameters": 61741,
+    "parameters-plus": 61742,
+    "parameters-gear": 61743,
+    "multiple-variables-set": 61744,
+    "map-information": 61745,
+    "layer-set": 61746,
+    "double-float-set": 61747
   }
 }

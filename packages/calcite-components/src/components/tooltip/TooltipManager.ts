@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
 import type { Tooltip } from "./tooltip";
 
@@ -25,6 +25,8 @@ export default class TooltipManager {
   private registeredElementCount = 0;
 
   private clickedTooltip: Tooltip["el"] = null;
+
+  private hoveredTooltip: Tooltip["el"] = null;
 
   // --------------------------------------------------------------------------
   //
@@ -96,8 +98,14 @@ export default class TooltipManager {
     }
   };
 
+  private pointerLeaveHandler = (): void => {
+    this.clearHoverTimeout();
+    this.closeHoveredTooltip();
+  };
+
   private pointerMoveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
+      this.closeHoveredTooltip();
       return;
     }
 
@@ -114,6 +122,12 @@ export default class TooltipManager {
     if (tooltip === this.clickedTooltip) {
       return;
     }
+
+    if (tooltip !== this.hoveredTooltip) {
+      this.clearHoverOpenTimeout();
+    }
+
+    this.hoveredTooltip = tooltip;
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
@@ -209,6 +223,7 @@ export default class TooltipManager {
     window.addEventListener("click", this.clickHandler);
     window.addEventListener("focusin", this.focusInHandler);
     window.addEventListener("blur", this.blurHandler);
+    document.addEventListener("pointerleave", this.pointerLeaveHandler);
   }
 
   private removeListeners(): void {
@@ -217,6 +232,7 @@ export default class TooltipManager {
     window.removeEventListener("click", this.clickHandler);
     window.removeEventListener("focusin", this.focusInHandler);
     window.removeEventListener("blur", this.blurHandler);
+    document.removeEventListener("pointerleave", this.pointerLeaveHandler);
   }
 
   private clearHoverOpenTimeout(): void {
@@ -265,7 +281,7 @@ export default class TooltipManager {
   private openHoveredTooltip = (tooltip: Tooltip["el"]): void => {
     this.hoverOpenTimeout = window.setTimeout(
       () => {
-        if (this.hoverOpenTimeout === null) {
+        if (this.hoverOpenTimeout === null || tooltip !== this.hoveredTooltip) {
           return;
         }
 
@@ -273,7 +289,7 @@ export default class TooltipManager {
         this.closeTooltipIfNotActive(tooltip);
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip?.open ? 0 : TOOLTIP_OPEN_DELAY_MS,
+      this.activeTooltip?.open ? TOOLTIP_QUICK_OPEN_DELAY_MS : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 

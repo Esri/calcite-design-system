@@ -7,12 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -33,7 +28,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Link extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Link extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -99,16 +94,8 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
     this.listen("click", this.clickHandler);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

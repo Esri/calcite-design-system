@@ -23,7 +23,7 @@
         padding: 40px;
       }
 
-      .themed-example {
+      .semantic-themed-example {
         --calcite-color-brand: orange;
         --calcite-color-status-success: #8ed1c8;
         --calcite-color-status-warning: #8ebad1;
@@ -36,23 +36,31 @@
   <body>
     <demo-dom-swapper>
       <div class="parent">
-        <h3>Interactive Example</h3>
-      </div>
-      <div class="parent">
         <div class="child">
           <calcite-label>
-            Example 1
-            <calcite-meter
-              group-separator
-              unit-label="GB"
-              value-label
-              range-labels
-              min="0"
-              max="12400"
-              low="4600"
-              high="7600"
-              value="-2200"
-            ></calcite-meter>
+            Themed
+            <demo-theme
+              tokens="--calcite-meter-background-color: yellow;
+        --calcite-meter-border-color: maroon;
+        --calcite-meter-shadow: var(--calcite-shadow-sm);
+        --calcite-meter-corner-radius: 0px;
+        --calcite-meter-fill-color: aqua;
+        --calcite-meter-range-text-color: green;
+        --calcite-meter-value-text-color: blue;"
+            >
+              <calcite-meter
+                group-separator
+                unit-label="GB"
+                value-label
+                range-labels
+                min="0"
+                max="12400"
+                low="4600"
+                high="7600"
+                value="-2200"
+                value-label-type="units"
+              ></calcite-meter>
+            </demo-theme>
           </calcite-label>
           <calcite-label>
             Example 2
@@ -74,6 +82,7 @@
       </div>
       <div class="parent">
         <div class="child">
+          <h3>Interactive Example</h3>
           <calcite-label>
             Meter
             <calcite-meter
@@ -477,7 +486,7 @@
         </div>
       </div>
 
-      <div class="parent themed-example">
+      <div class="parent semantic-themed-example">
         <h3>Theming</h3>
         <div class="child">
           <h3>fillType: step</h3>
@@ -849,7 +858,7 @@
         });
 
         switchThemed.addEventListener("calciteSwitchChange", function (event) {
-          meter.classList.toggle("themed-example");
+          meter.classList.toggle("semantic-themed-example");
         });
 
         switchvalueLabel.addEventListener("calciteSwitchChange", function (event) {

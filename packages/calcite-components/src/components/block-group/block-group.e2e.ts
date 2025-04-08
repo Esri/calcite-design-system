@@ -145,6 +145,9 @@ describe("calcite-block-group", () => {
       endOldIndex: number;
       startNewIndex: number;
       startOldIndex: number;
+      moveHaltNewIndex: number;
+      moveHaltOldIndex: number;
+      moveHaltCalledTimes: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -246,6 +249,38 @@ describe("calcite-block-group", () => {
 
       await page.waitForChanges();
 
+      const letterBlockSelector = `calcite-block-group[group="letters"] calcite-block`;
+      const letterBlocks = await findAll(page, letterBlockSelector);
+
+      expect(letterBlocks.length).toBe(6);
+
+      const moveToItemIds = await page.evaluate((letterBlockSelector) => {
+        return Array.from(document.querySelectorAll(letterBlockSelector))
+          .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
+          .flat();
+      }, letterBlockSelector);
+
+      expect(moveToItemIds.length).toBe(6);
+
+      const uniqueMoveToItemIds = new Set(moveToItemIds);
+
+      expect(uniqueMoveToItemIds.size).toBe(2);
+
+      const moveToItemElementIds = await page.evaluate((letterBlockSelector) => {
+        return Array.from(document.querySelectorAll(letterBlockSelector))
+          .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
+          .flat();
+      }, letterBlockSelector);
+
+      expect(moveToItemElementIds.length).toBe(6);
+      expect(moveToItemElementIds[0]).toBe("second-letters");
+      expect(moveToItemElementIds[1]).toBe("second-letters");
+
+      expect(moveToItemElementIds[2]).toBe("first-letters");
+      expect(moveToItemElementIds[3]).toBe("first-letters");
+      expect(moveToItemElementIds[4]).toBe("first-letters");
+      expect(moveToItemElementIds[5]).toBe("first-letters");
+
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
         const testWindow = window as TestWindow;
@@ -312,6 +347,87 @@ describe("calcite-block-group", () => {
       expect(await ninth.getProperty("heading")).toBe("f");
 
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
+    });
+
+    it("calls canPull and canPut for move items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-block-group id="first-letters" drag-enabled group="letters">
+          <calcite-block id="a" heading="a" label="A"></calcite-block>
+          <calcite-block id="b" heading="b" label="B"></calcite-block>
+        </calcite-block-group>
+        <calcite-block-group id="second-letters" drag-enabled group="letters">
+          <calcite-block id="c" heading="c" label="C"></calcite-block>
+          <calcite-block id="d" heading="d" label="D"></calcite-block>
+        </calcite-block-group>
+      `);
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.evaluate(() => {
+        const testWindow = window as TestWindow;
+        testWindow.moveHaltCalledTimes = 0;
+        const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
+
+        firstLetters.addEventListener("calciteBlockGroupMoveHalt", (event: CustomEvent<BlockDragDetail>) => {
+          testWindow.moveHaltCalledTimes++;
+          testWindow.moveHaltNewIndex = event.detail.newIndex;
+          testWindow.moveHaltOldIndex = event.detail.oldIndex;
+        });
+
+        firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+        firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+      });
+      await page.waitForChanges();
+
+      async function clickMoveDropdownItem(id: string) {
+        const component = await page.find(`#${id}`);
+        component.setProperty("sortHandleOpen", true);
+        await page.waitForChanges();
+
+        const dropdownItem = await page.find(`#${id} >>> calcite-dropdown-group:last-child calcite-dropdown-item`);
+        expect(dropdownItem).not.toBeNull();
+        await dropdownItem.click();
+
+        await page.waitForChanges();
+      }
+
+      async function getResults() {
+        return await page.evaluate(() => {
+          const testWindow = window as TestWindow;
+
+          return {
+            moveHaltCalledTimes: testWindow.moveHaltCalledTimes,
+            moveHaltOldIndex: testWindow.moveHaltOldIndex,
+            moveHaltNewIndex: testWindow.moveHaltNewIndex,
+          };
+        });
+      }
+
+      await clickMoveDropdownItem("a");
+      let results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(0);
+
+      await clickMoveDropdownItem("b");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltNewIndex).toBe(0);
+
+      await clickMoveDropdownItem("c");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+
+      await clickMoveDropdownItem("d");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(2);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(1);
     });
 
     it("reorders using a keyboard", async () => {

@@ -1,15 +1,10 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -18,7 +13,6 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -35,7 +29,7 @@ declare global {
  * @slot - A slot for adding text.
  * @slot image - A slot for adding an image.
  */
-export class Chip extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Chip extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -180,8 +174,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasText();
     }
   }
@@ -201,7 +194,6 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     if (this.selectionMode !== "none" && this.interactive && this.selected) {
       this.handleSelectionPropertyChange(this.selected);
     }

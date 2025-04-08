@@ -31,12 +31,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -76,8 +71,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     NumericInputComponent,
-    TextualInputComponent,
-    LoadableComponent
+    TextualInputComponent
 {
   // #region Static Members
 
@@ -417,7 +411,6 @@ export class InputNumber
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -461,10 +454,6 @@ export class InputNumber
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

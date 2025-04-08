@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import Color from "color";
+import Color, { type ColorInstance } from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
@@ -16,12 +16,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
@@ -70,7 +65,7 @@ declare global {
 
 const throttleFor60FpsInMs = 16;
 
-export class ColorPicker extends LitElement implements InteractiveComponent, LoadableComponent {
+export class ColorPicker extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -91,7 +86,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
       }
     | undefined;
 
-  private get baseColorFieldColor(): Color {
+  private get baseColorFieldColor(): ColorInstance {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
@@ -302,7 +297,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     if (!this._valueWasSet) {
       this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
     }
-    setUpLoadableComponent(this);
 
     this.handleAllowEmptyOrClearableChange();
 
@@ -370,7 +364,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.handleAlphaChannelDimensionsChange();
   }
 
@@ -522,7 +515,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.drawColorControls();
   }
 
-  private handleColorChange(color: Color | null, oldColor: Color | null): void {
+  private handleColorChange(color: ColorInstance | null, oldColor: ColorInstance | null): void {
     this.drawColorControls();
     this.updateChannelsFromColor(color);
     this.previousColor = oldColor;
@@ -927,7 +920,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
   }
 
   private internalColorSet(
-    color: Color | null,
+    color: ColorInstance | null,
     skipEqual = true,
     context: ColorPicker["internalColorUpdateContext"] = "user-interaction",
   ): void {
@@ -941,7 +934,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.internalColorUpdateContext = null;
   }
 
-  private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {
+  private toValue(
+    color: ColorInstance | null,
+    format: SupportedMode = this.mode,
+  ): ColorValue | null {
     if (!color) {
       return null;
     }
@@ -1182,7 +1178,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     radius: number,
     x: number,
     y: number,
-    color: Color,
+    color: ColorInstance,
     applyAlpha: boolean,
   ): void {
     const startAngle = 0;
@@ -1438,11 +1434,11 @@ export class ColorPicker extends LitElement implements InteractiveComponent, Loa
     this.internalColorSet(Color(channels, this.channelMode));
   }
 
-  private updateChannelsFromColor(color: Color | null): void {
+  private updateChannelsFromColor(color: ColorInstance | null): void {
     this.channels = color ? this.toChannels(color) : [null, null, null, null];
   }
 
-  private toChannels(color: Color): Channels {
+  private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
 
     const channels = color[channelMode]()

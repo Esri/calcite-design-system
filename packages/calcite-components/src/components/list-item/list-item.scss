@@ -46,7 +46,7 @@
 }
 
 .container:active {
-  background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-3));
 }
 
 .container--border {
@@ -68,14 +68,6 @@
   }
 }
 
-.container:hover {
-  &.container--border-unselected {
-    &::before {
-      background-color: var(--calcite-list-selection-border-color, var(--calcite-color-border-1));
-    }
-  }
-}
-
 .nested-container {
   @apply hidden flex-col
     border-solid
@@ -84,7 +76,7 @@
   margin-inline-start: var(--calcite-list-spacing-indent, theme("spacing.6"));
 }
 
-.nested-container--open {
+.nested-container--expanded {
   @apply flex;
 }
 
@@ -158,6 +150,11 @@
 .icon {
   align-self: center;
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
+
+  &:hover,
+  &:active {
+    color: var(--calcite-color-text-1);
+  }
 }
 
 :host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
@@ -373,12 +370,12 @@
   @apply flex-initial;
 }
 
-.open-container {
+.expanded-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
   padding-inline: var(--calcite-spacing-xxs);
 }
 
-:host(:not([disabled])) .container:hover .open-container {
+:host(:not([disabled])) .expanded-container:hover {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
 }
 
@@ -388,7 +385,7 @@
 .content-end,
 .selection-container,
 .drag-container,
-.open-container {
+.expanded-container {
   @apply flex items-center;
 
   calcite-action,
@@ -397,7 +394,7 @@
   }
 }
 
-.open-container,
+.expanded-container,
 .selection-container {
   @apply cursor-pointer;
 }

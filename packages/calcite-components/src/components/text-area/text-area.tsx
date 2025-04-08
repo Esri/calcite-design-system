@@ -23,13 +23,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -44,7 +38,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
 declare global {
@@ -63,7 +57,6 @@ export class TextArea
   implements
     FormComponent,
     LabelableComponent,
-    LoadableComponent,
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {
@@ -93,7 +86,7 @@ export class TextArea
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
-    await componentLoaded(this);
+    await this.componentOnReady();
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
       this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
@@ -162,7 +155,7 @@ export class TextArea
   @property() label: string;
 
   /**
-   * When `true`, prevents input beyond the maximum length, mimicking native `<textarea>` behavior.
+   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
@@ -285,7 +278,7 @@ export class TextArea
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    await componentLoaded(this);
+    await this.componentOnReady();
     this.textAreaEl.select();
   }
 
@@ -315,17 +308,9 @@ export class TextArea
     connectForm(this);
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
     this.setTextAreaHeight();
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -417,12 +402,13 @@ export class TextArea
     footerHeight: number;
     footerWidth: number;
   } {
-    const { height: textAreaHeight, width: textAreaWidth } =
-      this.textAreaEl.getBoundingClientRect();
+    const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
+      ? this.textAreaEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerEl.value
       ? this.footerEl.value.getBoundingClientRect()
-      : { height: 0, width: 0 };
+      : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
