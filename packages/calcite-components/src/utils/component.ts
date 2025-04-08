@@ -1,10 +1,10 @@
 import type { LitElement } from "@arcgis/lumina";
+import { isServer } from "lit";
 import { Scale } from "../components/interfaces";
 import { ComboboxChildElement } from "../components/combobox/interfaces";
 import { StepperItem } from "../components/stepper-item/stepper-item";
 import { TableRow } from "../components/table-row/table-row";
 import { logger } from "./logger";
-import { isBrowser } from "./browser";
 
 export function getIconScale(componentScale: Scale): Extract<Scale, "s" | "m"> {
   return componentScale === "l" ? "m" : "s";
@@ -52,7 +52,7 @@ export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | Ta
 export async function componentFocusable(component: LitElement): Promise<void> {
   await component.componentOnReady();
 
-  if (!isBrowser()) {
+  if (isServer) {
     return;
   }
 

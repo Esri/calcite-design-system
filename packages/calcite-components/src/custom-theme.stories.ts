@@ -24,6 +24,7 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem, comboboxItemTokens, selectedComboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
+import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -63,6 +64,7 @@ import {
 } from "./custom-theme/combobox";
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
+import { meter, meterTokens } from "./custom-theme/meter";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -149,7 +151,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div>${dropdown} ${buttons}</div>
         <div>${flow}</div>
         <div>${checkbox}</div>
-        ${chips} ${pagination} ${slider}
+        ${chips} ${pagination} ${slider} ${meter}
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
@@ -165,6 +167,10 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${datePicker}</div>
       <div class="demo-column">${datePickerRange}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${fab}</div>
+      <div class="demo-column">${fabLoading}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
@@ -194,6 +200,7 @@ const componentTokens = {
   ...DropdownTokens,
   ...DropdownItemTokens,
   ...DropdownGroupTokens,
+  ...fabTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
@@ -223,6 +230,7 @@ const componentTokens = {
   ...tooltipTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
+  ...meterTokens,
 };
 
 export default {

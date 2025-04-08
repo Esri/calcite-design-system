@@ -21,7 +21,7 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "peerDependencies": {
-    "@esri/calcite-design-tokens": "^3.0.1",
+    "@esri/calcite-design-tokens": "^3.0.2-next.3",
     "tailwindcss": "^3.0.0 < 4.0.0"
   },
   "volta": {

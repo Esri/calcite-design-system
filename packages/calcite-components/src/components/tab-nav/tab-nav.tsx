@@ -154,7 +154,6 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
     this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
-    this.listen("calciteTabsActivate", this.activateTabHandler);
     this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listenOn<CustomEvent<TabChangeEventDetail>>(
@@ -241,6 +240,7 @@ export class TabNav extends LitElement {
 
   private internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const activatedTabTitle = event.target as TabTitle["el"];
+    const currentSelectedTabTitle = this.selectedTitle;
 
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
@@ -248,6 +248,9 @@ export class TabNav extends LitElement {
     event.stopPropagation();
 
     this.selectedTitle = activatedTabTitle;
+    if (currentSelectedTabTitle?.id !== activatedTabTitle.id && event.detail.userTriggered) {
+      this.calciteTabChange.emit();
+    }
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -290,11 +293,6 @@ export class TabNav extends LitElement {
         tabTitleContainer.scrollTo({ left, behavior });
       }
     });
-  }
-
-  private activateTabHandler(event: CustomEvent<void>): void {
-    this.calciteTabChange.emit();
-    event.stopPropagation();
   }
 
   private internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
