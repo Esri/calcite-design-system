@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -139,5 +139,57 @@ describe("calcite-shell", () => {
     const contentBottom = await page.find(`calcite-shell >>> .${CSS.contentBottom}`);
 
     expect(contentBottom).not.toBeNull();
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-shell>
+          <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
+          <calcite-flow slot="panel-end">
+            <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
+          </calcite-flow>
+          <calcite-shell-center-row slot="center-row">Hello world </calcite-shell-center-row>
+        </calcite-shell>`,
+        {
+          "--calcite-shell-border-color": [
+            {
+              targetProp: "borderColor",
+              selector: "calcite-panel",
+            },
+            {
+              targetProp: "borderColor",
+              selector: "calcite-flow",
+            },
+            {
+              targetProp: "borderColor",
+              selector: "calcite-shell-center-row",
+            },
+          ],
+        },
+      );
+    });
+    describe("deprecated", () => {
+      themed(
+        html` <calcite-shell
+          ><calcite-tip-manager slot="center-row" id="tip-manager" hidden>
+            <calcite-tip heading="The lack of imagery">
+              <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
+              <p>
+                This is the next paragraph and should show how wide the content area is now. Of course, the width of the
+                overall tip will affect things. In astronomy, the terms object and body are often used interchangeably.
+              </p>
+              <a href="http://www.esri.com">View Esri</a>
+            </calcite-tip>
+          </calcite-tip-manager>
+        </calcite-shell>`,
+        {
+          "--calcite-shell-tip-spacing": {
+            targetProp: "insetInline",
+            selector: "calcite-tip-manager",
+          },
+        },
+      );
+    });
   });
 });
