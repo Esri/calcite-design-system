@@ -1,0 +1,32 @@
+{
+  "tokenSetOrder": {
+    "0": {
+      "value": "color",
+      "type": "other"
+    },
+    "1": {
+      "value": "container-size",
+      "type": "other"
+    },
+    "2": {
+      "value": "font",
+      "type": "other"
+    },
+    "3": {
+      "value": "opacity",
+      "type": "other"
+    },
+    "4": {
+      "value": "shadow",
+      "type": "other"
+    },
+    "5": {
+      "value": "size",
+      "type": "other"
+    },
+    "6": {
+      "value": "z-index",
+      "type": "other"
+    }
+  }
+}

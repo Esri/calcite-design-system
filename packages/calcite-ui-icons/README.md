@@ -19,7 +19,7 @@ Every concept has 3 sizes:
 
 ### Why 3 Sizes?
 
-More info on what happens when you scale vector based icons [here](https://github.com/Esri/calcite-ui-icons/wiki/What-Happens-When-You-Scale-Vector-Based-Icons)
+More info on what happens when you scale vector based icons [here](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons)
 
 ### Outline icons are the standard
 
@@ -195,7 +195,7 @@ This material is licensed for use under the Esri Master License Agreement (MLA),
 
 See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
-For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+For additional information, refer to [Calcite's licensing](https://developers.arcgis.com/calcite-design-system/resources/licensing) and contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
 
