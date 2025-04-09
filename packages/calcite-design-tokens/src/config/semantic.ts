@@ -5,10 +5,12 @@ import {
   logVerbosityLevels,
   transforms,
 } from "style-dictionary/enums";
-import { Config, OutputReferences } from "style-dictionary/types";
+import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import type { Config } from "../types/extensions.js";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
+import { Platform } from "../build/utils/enums.js";
 
 const commonExpand = {
   include: ["color"],
@@ -36,7 +38,7 @@ const config: Config = {
     preprocessors.PreprocessorStoreSameValueThemeTokens,
   ],
   platforms: {
-    scss: {
+    [Platform.scss]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
@@ -85,13 +87,13 @@ const config: Config = {
         },
       },
       options: {
-        platform: "scss",
+        platform: Platform.scss,
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    css: {
+    [Platform.css]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
@@ -140,13 +142,13 @@ const config: Config = {
         },
       },
       options: {
-        platform: "css",
+        platform: Platform.css,
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    es6: {
+    [Platform.es6]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         ...transformers.platformTransforms.es6,
@@ -162,7 +164,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: "es6",
+        platform: Platform.es6,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -215,7 +217,7 @@ const config: Config = {
         },
       ],
     },
-    docs: {
+    [Platform.docs]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         transformers.TransformNameRemovePrefix,
@@ -232,7 +234,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: "docs",
+        platform: Platform.docs,
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },
@@ -254,7 +256,7 @@ const config: Config = {
         },
       ],
     },
-    js: {
+    [Platform.js]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         ...transformers.platformTransforms.es6.filter(
@@ -278,7 +280,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: "js",
+        platform: Platform.js,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },

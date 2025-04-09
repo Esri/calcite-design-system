@@ -1,4 +1,4 @@
-import { TransformedToken } from "style-dictionary/types";
+import type { TransformedToken } from "style-dictionary/types";
 
 export function getNumberAndUnit(token: TransformedToken): RegExpExecArray | null {
   return /^(?<number>[\d.]+)(?<unit>[a-z%]*)/g.exec(

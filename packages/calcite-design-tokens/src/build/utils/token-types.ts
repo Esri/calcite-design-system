@@ -1,4 +1,4 @@
-import { DesignToken, TransformedToken } from "style-dictionary/types";
+import type { DesignToken, TransformedToken } from "style-dictionary/types";
 
 export function isBreakpoint(token: TransformedToken): boolean {
   const fullPath = token.path.join(".");
