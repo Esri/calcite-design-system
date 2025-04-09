@@ -68,7 +68,8 @@
   }
 
   &:focus {
-    box-shadow: inset 4px 0 0 0 var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+    box-shadow: inset var(--calcite-border-width-lg) 0 0 0
+      var(--calcite-list-selection-border-color, var(--calcite-color-brand));
   }
 }
 
