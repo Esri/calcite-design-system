@@ -50,6 +50,7 @@ import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
+import { tree, treeTokens } from "./custom-theme/tree";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
@@ -175,6 +176,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${tree}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -228,6 +232,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...tileTokens,
   ...tooltipTokens,
+  ...treeTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
   ...meterTokens,

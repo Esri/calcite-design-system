@@ -1,4 +1,4 @@
-import { Dictionary } from "style-dictionary/types";
+import type { Dictionary } from "style-dictionary/types";
 import { convertTokenData } from "style-dictionary/utils";
 
 export function fromTokens(tokens: Parameters<typeof convertTokenData>[0]): Dictionary {

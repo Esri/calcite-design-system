@@ -1,6 +1,7 @@
-import { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { PlatformConfig } from "../../../types/extensions.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
 
@@ -10,9 +11,9 @@ let dictionaries: {
 };
 
 const transformValueMergeValues: ValueTransform["transform"] = async (token, config) => {
-  const { options } = config;
+  const { options } = config as PlatformConfig;
 
-  if (!options?.platform) {
+  if (!options.platform) {
     throw new Error("options.platform is required to merge values");
   }
 

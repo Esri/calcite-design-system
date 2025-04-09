@@ -1,7 +1,7 @@
-import { TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import { getNumberAndUnit } from "../../utils/get-number-and-unit.js";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { isBreakpoint } from "../../utils/token-types.js";
 
 function isUnitless(token: TransformedToken) {

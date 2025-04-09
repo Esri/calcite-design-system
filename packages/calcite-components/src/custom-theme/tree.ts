@@ -1,5 +1,11 @@
 import { html } from "../../support/formatting";
 
+export const treeTokens = {
+  calciteTreeTextColor: "",
+  calciteTreeTextColorSelected: "",
+  calciteTreeSelectedIconColor: "",
+};
+
 export const tree = html`<calcite-tree lines>
   <calcite-tree-item> Child 1 </calcite-tree-item>
   <calcite-tree-item>

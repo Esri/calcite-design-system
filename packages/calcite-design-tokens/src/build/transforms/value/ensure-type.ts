@@ -1,7 +1,7 @@
-import { Filter, ValueTransform } from "style-dictionary/types";
+import type { Filter, ValueTransform } from "style-dictionary/types";
 import { ArrayValues } from "type-fest";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { isBreakpoint } from "../../utils/token-types.js";
 
 const stringValueTokenTypes = ["fontWeight", "dimension", "lineHeight", "opacity", "z-index"] as const;
