@@ -203,6 +203,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   // #region Events
 
   /** Fires when the close button is clicked. */
+  calcitePanelBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
@@ -232,11 +235,11 @@ export class Panel extends LitElement implements InteractiveComponent {
     if (changes.has("closed") && this.hasUpdated) {
       if (this.closed) {
         this.close();
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelClose", { bubbles: true, composed: true }),
-        );
       } else {
         this.open();
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelBeforeOpen", { bubbles: true, composed: true }),
+        );
         this.el.dispatchEvent(
           new CustomEvent("calcitePanelOpen", { bubbles: true, composed: true }),
         );
@@ -245,9 +248,15 @@ export class Panel extends LitElement implements InteractiveComponent {
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.el.dispatchEvent(
+          new CustomEvent("calcitePanelBeforeCollapse", { bubbles: true, composed: true }),
+        );
+        this.el.dispatchEvent(
           new CustomEvent("calcitePanelCollapse", { bubbles: true, composed: true }),
         );
       } else {
+        this.el.dispatchEvent(
+          new CustomEvent("calcitePanelBeforeExpand", { bubbles: true, composed: true }),
+        );
         this.el.dispatchEvent(
           new CustomEvent("calcitePanelExpand", { bubbles: true, composed: true }),
         );
@@ -300,6 +309,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private handleUserClose(): void {
     this.closed = true;
+    this.calcitePanelBeforeClose.emit();
     this.calcitePanelClose.emit();
   }
 
