@@ -8,13 +8,10 @@ export function registerPreprocessorStoreSameValueThemeTokens(): void {
   StyleDictionary.registerPreprocessor({
     name: PreprocessorStoreSameValueThemeTokens,
     preprocessor: async (dictionary) => {
-      const sameValueThemeTokens = light.allTokens
-        .filter((token) => isThemed(token))
-        .filter((token, index) => token.value === dark.allTokens[index].value);
       const keyToToken = new Map<string, DesignToken>();
 
-      sameValueThemeTokens.forEach((token) => {
-        if (token.key) {
+      light.allTokens.forEach((token, index) => {
+        if (isThemed(token) && token.value === dark.allTokens[index].value && token.key) {
           keyToToken.set(token.key, token);
         }
       });

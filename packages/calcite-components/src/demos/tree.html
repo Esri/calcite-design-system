@@ -25,6 +25,12 @@
       .right-aligned-text {
         text-align: right;
       }
+
+      .themed {
+        --calcite-tree-text-color: dodgerblue;
+        --calcite-tree-text-color-selected: orange;
+        --calcite-tree-selected-icon-color: red;
+      }
     </style>
     <script src="./_assets/head.ts"></script>
   </head>
@@ -611,6 +617,76 @@
             });
           })();
         </script>
+      </div>
+
+      <!-- themed -->
+      <div class="parent themed">
+        <div class="child right-aligned-text">themed</div>
+
+        <div class="child">
+          <calcite-tree lines selection-mode="single" scale="m">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+
+            <calcite-tree-item>
+              Child 2
+
+              <calcite-tree slot="children">
+                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                <calcite-tree-item>
+                  Grandchild 2
+                  <calcite-tree slot="children">
+                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <div class="child">
+          <calcite-tree selection-mode="ancestors" scale="m">
+            <calcite-tree-item label="test item" icon-start="folder" ation-end="save">
+              <span>Child 1</span>
+              <calcite-action slot="actions-end" text="Save" icon="save" scale="s"></calcite-action>
+            </calcite-tree-item>
+
+            <calcite-tree-item label="test item">
+              <span>Child 2</span>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item label="test item">
+                  <span>Grandchild 1</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item label="test item">
+                      <span>Great Grandchild 1</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item label="test item">
+                      <span>Great Grandchild 2</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item label="test item">
+                      <span>Great Grandchild 3</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item label="test item">
+                  <span>Grandchild 2</span>
+                </calcite-tree-item>
+                <calcite-tree-item label="test item">
+                  <span>Grandchild 3</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+
+            <calcite-tree-item label="test item">
+              <span>Child 3</span>
+            </calcite-tree-item>
+            <calcite-tree-item label="test item">
+              <span>Child 4</span>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
       </div>
     </demo-dom-swapper>
   </body>

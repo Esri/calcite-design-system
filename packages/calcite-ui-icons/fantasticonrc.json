@@ -1207,6 +1207,15 @@
     "multiple-variables-set": 61744,
     "map-information": 61745,
     "layer-set": 61746,
-    "double-float-set": 61747
+    "double-float-set": 61747,
+    "video-learning": 61748,
+    "storymap-experience": 61749,
+    "mooc": 61750,
+    "learning-web-course": 61751,
+    "learning-steps": 61752,
+    "learning-gis-workflow": 61753,
+    "e-learning-gis": 61754,
+    "document-learning": 61755,
+    "classroom-gis": 61756
   }
 }
