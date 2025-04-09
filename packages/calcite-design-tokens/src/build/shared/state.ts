@@ -1,4 +1,4 @@
-import { DesignToken, PreprocessedTokens } from "style-dictionary/types";
+import type { DesignToken, PreprocessedTokens } from "style-dictionary/types";
 
 type State = {
   postMergeDictionary: PreprocessedTokens;
