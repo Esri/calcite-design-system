@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-item-group-text-color: Specifies the text color of the component.
+ * @prop --calcite-combobox-item-group-border-color: Specifies the border color of the component.
+ */
+
 .scale--s {
   @apply text-n2h;
   --calcite-combobox-item-spacing-unit: theme("spacing.2");
@@ -24,7 +33,7 @@
 }
 
 .label {
-  @apply text-color-3 box-border flex w-full min-w-0 max-w-full;
+  @apply box-border flex w-full min-w-0 max-w-full;
 }
 
 .title {
@@ -32,15 +41,15 @@
     var(--calcite-combobox-item-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier)
   );
   border: 0 solid;
-  @apply border-b-color-3
-    text-color-2
-    word-break
+  @apply word-break
     block
     flex-1
     border-b
     font-bold;
   padding: var(--calcite-combobox-item-spacing-unit);
   margin-inline-start: var(--calcite-combobox-item-indent-value);
+  color: var(--calcite-combobox-item-group-text-color, var(--calcite-color-text-2));
+  border-block-end-color: var(--calcite-combobox-item-group-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-combobox-item-group:not([after-empty-group])) {

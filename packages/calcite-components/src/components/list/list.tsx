@@ -331,6 +331,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   // #region Public Methods
 
   /**
+   * Emits a `calciteListMoveHalt` event.
+   *
+   * @private
+   * @param dragDetail
+   */
+  @method()
+  putFailed(dragDetail: ListDragDetail): void {
+    this.calciteListMoveHalt.emit(dragDetail);
+  }
+
+  /**
    * Sets focus on the component's first focusable element.
    *
    * @returns {Promise<void>}
@@ -371,6 +382,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
+
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
   // #endregion
 
@@ -939,8 +953,35 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
     if (!fromEl) {
+      return;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      this.calciteListMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return;
+    }
+
+    if (
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
@@ -950,9 +991,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     toEl.prepend(dragEl);
     expandedAncestors(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isListItem);
-    const newIndex = toElItems.indexOf(dragEl);
-
     this.updateListItems();
     this.connectObserver();
 
