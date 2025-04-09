@@ -5,24 +5,7 @@
         "value": "{core.shadow.0}",
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "none",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "sm": {
@@ -32,24 +15,7 @@
         ],
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "sm",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "md": {
@@ -59,24 +25,7 @@
         ],
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "semantic",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "md",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       }
     }
