@@ -16,7 +16,7 @@ interface OpenCloseOptions {
   containerSelector?: string;
 
   /** Toggle property to test "open" | "expanded" | "closed" | "collapsed" props. */
-  openPropName?: string;
+  openPropName: string;
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
@@ -35,14 +35,14 @@ const defaultOptions: OpenCloseOptions = {
  *
  * @example
  *
- * Testing a component that has both `open` and `expanded` events.
+ * Testing a component that has both `closed` and `collapsed` props.
  *
  * describe("openClose", () => {
  *   openClose("calcite-panel", {
- *     openPropName: "open",
+ *     openPropName: "closed",
  *   });
  *   openClose("calcite-panel", {
- *     openPropName: "expanded",
+ *     openPropName: "collapsed",
  *     containerSelector: "content-wrapper"
  *   });
  * });
@@ -67,7 +67,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
       content: `:root { --calcite-duration-factor: 2; }`,
     });
 
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: !effectiveOptions.willUseFallback,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
@@ -80,7 +80,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
   it(`emits with animations disabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: false,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
@@ -116,7 +116,7 @@ openClose.initial = function openCloseInitial(
       content: `:root { --calcite-duration-factor: 2; }`,
     });
     await beforeContent(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: true,
       openPropName: effectiveOptions.openPropName,
@@ -130,7 +130,7 @@ openClose.initial = function openCloseInitial(
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
     await beforeContent(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: false,
       openPropName: effectiveOptions.openPropName,
@@ -183,7 +183,7 @@ async function testOpenCloseEvents({
     beforeCollapse: undefined,
     collapse: undefined,
   };
-  const eventSequence = getEventSequence(tag);
+  const eventSequence = getEventSequence(tag, openPropName);
 
   const [beforeOpenOrExpandEvent, openOrExpandEvent, beforeCloseOrCollapseEvent, closeOrCollapseEvent] =
     eventSequence.map((event) => {
@@ -274,29 +274,32 @@ async function testOpenCloseEvents({
 
 type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
-function getEventSequence(componentTag: ComponentTag): string[] {
+function getEventSequence(componentTag: ComponentTag, openPropName: string): string[] {
   const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
 
   const eventSuffixes =
-    this.openPropName === "open" || this.openPropName === "close"
+    openPropName === "open" || openPropName === "closed"
       ? [`BeforeOpen`, `Open`, `BeforeClose`, `Close`]
-      : this.openPropName === "expanded" || this.openPropName === "collapsed"
+      : openPropName === "expanded" || openPropName === "collapsed"
         ? [`BeforeExpand`, `Expand`, `BeforeCollapse`, `Collapse`]
         : [];
 
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
-async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage): Promise<void> {
-  await page.evaluate((eventSequence: string[]) => {
-    const receivedEvents: string[] = [];
+async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage, openPropName: string): Promise<void> {
+  await page.evaluate(
+    (eventSequence: string[]) => {
+      const receivedEvents: string[] = [];
 
-    (window as EventOrderWindow).events = receivedEvents;
+      (window as EventOrderWindow).events = receivedEvents;
 
-    eventSequence.forEach((eventType) => {
-      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-    });
-  }, getEventSequence(componentTag));
+      eventSequence.forEach((eventType) => {
+        document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+      });
+    },
+    getEventSequence(componentTag, openPropName),
+  );
 }
 
 type OpenCloseName =
