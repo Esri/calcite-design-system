@@ -348,13 +348,12 @@ export class TimeController
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
-  setValue(value: string, updateComponent: boolean = false): void {
-    const { messages, numberingSystem, step } = this.component;
+  setValue(value: string): void {
+    const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
-    let newValue;
+    const newValue = toISOTimeString(value, step);
     if (isValidTime(value)) {
-      newValue = toISOTimeString(value, step);
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
         localizedHour,
@@ -373,21 +372,35 @@ export class TimeController
         step,
         value: newValue,
       });
-      this.hour = hour;
-      this.minute = minute;
-      this.second = second;
-      this.fractionalSecond = fractionalSecond;
-      this.localizedHour = localizedHour;
-      this.localizedHourSuffix = localizedHourSuffix;
-      this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = localizedMinuteSuffix;
-      this.localizedSecond = localizedSecond;
-      this.localizedDecimalSeparator = localizedDecimalSeparator;
-      this.localizedFractionalSecond = localizedFractionalSecond;
-      this.localizedSecondSuffix = localizedSecondSuffix;
-      if (localizedMeridiem) {
-        this.localizedMeridiem = localizedMeridiem;
-        this.meridiem = getMeridiem(this.hour);
+      if (newValue !== previousValue) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
+        this.fractionalSecond = fractionalSecond;
+        this.localizedHour = localizedHour;
+        this.localizedHourSuffix = localizedHourSuffix;
+        this.localizedMinute = localizedMinute;
+        this.localizedMinuteSuffix = localizedMinuteSuffix;
+        this.localizedSecond = localizedSecond;
+        this.localizedDecimalSeparator = localizedDecimalSeparator;
+        this.localizedFractionalSecond = localizedFractionalSecond;
+        this.localizedSecondSuffix = localizedSecondSuffix;
+        if (localizedMeridiem) {
+          this.localizedMeridiem = localizedMeridiem;
+          this.meridiem = getMeridiem(this.hour);
+        }
+      } else {
+        this.localizedHour = localizedHour;
+        this.localizedHourSuffix = localizedHourSuffix;
+        this.localizedMinute = localizedMinute;
+        this.localizedMinuteSuffix = localizedMinuteSuffix;
+        this.localizedSecond = localizedSecond;
+        this.localizedDecimalSeparator = localizedDecimalSeparator;
+        this.localizedFractionalSecond = localizedFractionalSecond;
+        this.localizedSecondSuffix = localizedSecondSuffix;
+        if (localizedMeridiem) {
+          this.localizedMeridiem = localizedMeridiem;
+        }
       }
     } else {
       this.hour = null;
@@ -404,9 +417,8 @@ export class TimeController
       this.meridiem = null;
       this.minute = null;
       this.second = null;
-      newValue = null;
     }
-    if (updateComponent) {
+    if (newValue !== previousValue) {
       this.component.value = newValue;
     }
   }

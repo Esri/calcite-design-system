@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useWatchAttributes } from "@arcgis/components-controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -69,6 +70,8 @@ export class InputTimePicker
   // #region Private Properties
 
   private activeEl: HTMLSpanElement;
+
+  attributeWatch = useWatchAttributes(["lang"], this.handleLangChange);
 
   private calciteTimePickerEl: TimePicker["el"];
 
@@ -395,6 +398,10 @@ export class InputTimePicker
     }
   }
 
+  private handleLangChange(): void {
+    this.time.setValue(this.value);
+  }
+
   private handleStepChange(newStep: number, oldStep?: number): void {
     if (
       (oldStep >= 60 && newStep > 0 && newStep < 60) ||
@@ -408,7 +415,7 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
-    this.time.setValue(value, true);
+    this.time.setValue(value);
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
@@ -600,6 +607,28 @@ export class InputTimePicker
       minute,
       second,
     } = this.time;
+    // console.log(
+    //   "render",
+    //   this.value,
+    //   hour,
+    //   ":",
+    //   minute,
+    //   ":",
+    //   second,
+    //   ".",
+    //   fractionalSecond,
+    //   this.time.meridiem,
+    //   "|",
+    //   localizedHour,
+    //   localizedHourSuffix,
+    //   localizedMinute,
+    //   localizedMinuteSuffix,
+    //   localizedSecond,
+    //   localizedDecimalSeparator,
+    //   localizedFractionalSecond,
+    //   localizedSecondSuffix,
+    //   this.time.localizedMeridiem,
+    // );
     const emptyPlaceholder = "--";
     const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
     const hourIsNumber = isValidNumber(hour);
