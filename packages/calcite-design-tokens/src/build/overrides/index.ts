@@ -3,7 +3,7 @@ import type { Config, Transform, TransformedToken, ValueTransform } from "style-
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { PlatformConfig } from "../../types/extensions.js";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
-import { Platform } from "../../types/interfaces.js";
+import { Platform } from "../utils/enums.js";
 
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.

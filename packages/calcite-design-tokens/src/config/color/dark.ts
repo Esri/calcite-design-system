@@ -7,7 +7,7 @@ import {
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types/extensions.js";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
-import { Platform } from "../../types/interfaces.js";
+import { Platform } from "../../build/utils/enums.js";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/dark.json"],

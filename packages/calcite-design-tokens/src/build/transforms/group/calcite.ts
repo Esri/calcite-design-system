@@ -8,9 +8,10 @@ import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
 import { TransformValueSizeUnitlessToPx } from "../value/unitless-breakpoint-to-px.js";
 import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
-import { Platform, RegisterFn } from "../../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { TransformValueEnsureType } from "../value/ensure-type.js";
 import { TransformValueCorrectValue } from "../value/correct-value.js";
+import { Platform } from "../../utils/enums.js";
 
 export const platformTransforms = {
   [Platform.css]: [

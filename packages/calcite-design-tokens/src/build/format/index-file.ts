@@ -3,10 +3,11 @@ import type { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/t
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import { PlatformConfig } from "../../types/extensions.js";
-import { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.js";
+import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 import { isThemed } from "../utils/token-types.js";
 import { dark, light } from "../dictionaries/index.js";
+import { Platform } from "../utils/enums.js";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({

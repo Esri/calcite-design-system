@@ -10,7 +10,7 @@ import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../types/extensions.js";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
-import { Platform } from "../types/interfaces.js";
+import { Platform } from "../build/utils/enums.js";
 
 const commonExpand = {
   include: ["color"],
