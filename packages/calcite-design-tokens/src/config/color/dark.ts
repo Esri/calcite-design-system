@@ -4,111 +4,109 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import { Config } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
+import type { Config } from "../../types/extensions.js";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
+import { Platform } from "../../build/utils/enums.js";
 
 const config: Config = {
-  source: ["src/tokens/semantic/calcite/light.json"],
-  include: ["src/tokens/core/[!$]*.json"],
+  source: ["src/tokens/semantic/color/dark.json"],
+  include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
-    scss: {
+    [Platform.scss]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
       files: [
         {
-          destination: "light.scss",
+          destination: "dark.scss",
           format: sdFormats.scssVariables,
           filter: filters.FilterSourceTokens,
         },
       ],
       options: {
-        platform: "scss",
+        platform: Platform.scss,
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
       },
     },
-    css: {
+    [Platform.css]: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
         {
-          destination: "light.css",
+          destination: "dark.css",
           format: sdFormats.cssVariables,
           filter: filters.FilterSourceTokens,
         },
       ],
       options: {
-        platform: "css",
+        platform: Platform.css,
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
       },
     },
-    es6: {
+    [Platform.es6]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        platform: "es6",
+        platform: Platform.es6,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
       files: [
         {
-          destination: "light.js",
+          destination: "dark.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterSourceTokens,
         },
-
-        // d.ts
         {
-          destination: "light.d.ts",
+          destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSourceTokens,
         },
       ],
     },
-    js: {
+    [Platform.js]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/js/",
       prefix: "calcite",
       options: {
-        platform: "js",
+        platform: Platform.js,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
       files: [
         {
-          destination: "light.js",
+          destination: "dark.js",
           format: formats.FormatCalciteJs,
           filter: filters.FilterSourceTokens,
         },
-        // d.ts
         {
-          destination: "light.d.ts",
+          destination: "dark.d.ts",
           format: sdFormats.typescriptEs6Declarations,
           filter: filters.FilterSourceTokens,
         },
       ],
     },
-    docs: {
+    [Platform.docs]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
-        platform: "docs",
+        platform: Platform.docs,
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },
       files: [
         {
-          destination: "light.json",
+          destination: "dark.json",
           format: formats.FormatCalciteDocs,
           filter: filters.FilterSourceTokens,
         },

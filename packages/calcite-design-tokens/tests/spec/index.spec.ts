@@ -59,7 +59,20 @@ function generateTests(platform: Platform, files: string[], internal = false) {
  */
 function assertOutput(outputFilePath: string) {
   const filePath = resolve(__dirname, "..", "..", "dist", outputFilePath);
-  let content = readFileSync(filePath, "utf-8");
-  content = content.slice(content.indexOf("*/") + 1);
+  const content = preprocessContent(readFileSync(filePath, "utf-8"), outputFilePath.split(".").pop());
   expect(content).toMatchSnapshot();
+}
+
+/**
+ * Preprocess the output file before snapshot comparison
+ *
+ * @param content
+ * @param extension
+ */
+function preprocessContent(content: string, extension: string): string {
+  if (extension === "json") {
+    content = content.replace(/"timestamp": \d+,\n/, '"timestamp": "TEST_TIMESTAMP",\n');
+  }
+
+  return content;
 }

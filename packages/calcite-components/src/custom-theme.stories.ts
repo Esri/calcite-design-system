@@ -24,6 +24,7 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem, comboboxItemTokens, selectedComboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
+import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -49,6 +50,7 @@ import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
+import { tree, treeTokens } from "./custom-theme/tree";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
@@ -168,7 +170,14 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${datePickerRange}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column">${fab}</div>
+      <div class="demo-column">${fabLoading}</div>
+    </div>
+    <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${tree}</div>
     </div>
   </div>`;
 
@@ -195,6 +204,7 @@ const componentTokens = {
   ...DropdownTokens,
   ...DropdownItemTokens,
   ...DropdownGroupTokens,
+  ...fabTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
@@ -222,6 +232,7 @@ const componentTokens = {
   ...textAreaTokens,
   ...tileTokens,
   ...tooltipTokens,
+  ...treeTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
   ...meterTokens,

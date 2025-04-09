@@ -1,7 +1,7 @@
 import { Config } from "style-dictionary";
-import { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.js";
 
 function getBasePxFontSize(config: PlatformConfig) {
@@ -32,15 +32,15 @@ function throwSizeError(name: string, value: string, unitType: string) {
   throw `Invalid Number: '${name}: ${value}' is not a valid number, cannot transform to '${unitType}' \n`;
 }
 
-function isNotBorderOrFixed(token: TransformedToken) {
-  return !token.path.some((path) => ["border", "fixed"].includes(path));
+function isStaticPx(token: TransformedToken) {
+  return !token.path.some((path) => ["base", "border", "fixed", "px"].includes(path));
 }
 
 function filter(token: TransformedToken, options: Config) {
   return (
     isSource(token) &&
     !isBreakpoint(token) &&
-    isNotBorderOrFixed(token) &&
+    isStaticPx(token) &&
     isDimension(token, options) &&
     !isFontRelated(token) &&
     !isCornerRadius(token) &&
