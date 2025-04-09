@@ -429,7 +429,6 @@ export class TextArea
       ? this.footerEl.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
-    console.log("validationMessageEl", this.validationMessageEl);
     const { height: validationMessageHeight } = this.validationMessageEl
       ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
@@ -541,7 +540,7 @@ export class TextArea
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
-            ref={(el: HTMLDivElement) => (this.validationMessageEl = el)}
+            ref={this.setValidationRef}
             scale={this.scale}
             status={this.status}
           />
