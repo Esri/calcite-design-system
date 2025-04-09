@@ -26,10 +26,7 @@
         }
       },
       "sm": {
-        "value": [
-          "{core.shadow.1}",
-          "{core.shadow.2}"
-        ],
+        "value": ["{core.shadow.1}", "{core.shadow.2}"],
         "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
@@ -53,10 +50,7 @@
         }
       },
       "md": {
-        "value": [
-          "{core.shadow.3}",
-          "{core.shadow.4}"
-        ],
+        "value": ["{core.shadow.3}", "{core.shadow.4}"],
         "type": "boxShadow",
         "attributes": {
           "calcite-schema": {
