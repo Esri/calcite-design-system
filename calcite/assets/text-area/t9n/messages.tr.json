@@ -1,0 +1,1 @@
+{"invalid":"Geçersiz","tooLong":"Mevcut karakter uzunluğu {currentLength} ve maksimum karakter uzunluğu {maxLength}'i aşıyor.","tooShort":"Mevcut karakter uzunluğu, {minLength}'nin minimum karakter uzunluğundan daha kısa olan {currentLength}'dir."}
