@@ -325,27 +325,28 @@ describe("calcite-text-area", () => {
     });
   });
 
-  it("does not change height & width when  status changes from valid to invalid", async () => {
+  it("does not change height & width when status changes from valid to invalid", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-text-area max-length="1" validation-message="Must not be blank"></calcite-text-area>
-      <script>
+      `);
+    await page.evaluate(() => {
       const textarea = document.querySelector("calcite-text-area");
       textarea.addEventListener("calciteTextAreaInput", () => {
         const { value } = textarea;
-        textarea.status = Boolean(value) ? "valid" : "invalid";
+        textarea.status = value ? "valid" : "invalid";
       });
-      </script>`);
+    });
     const element = await page.find("calcite-text-area");
     const textAreaRect = await getElementRect(page, "calcite-text-area", "textarea");
     const inputEvent = page.waitForEvent("calciteTextAreaInput");
     await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.type("a");
+    await page.waitForChanges();
     await inputEvent;
+    const inputEvent2 = page.waitForEvent("calciteTextAreaInput");
     await page.waitForChanges();
     await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-    await inputEvent;
+    await inputEvent2;
 
     expect(await element.getProperty("status")).toBe("invalid");
     const textAreaInvalidRect = await getElementRect(page, "calcite-text-area", "textarea");
