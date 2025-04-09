@@ -6,9 +6,9 @@ import { Platform } from "./interfaces.js";
 export type FlattenedTransformedToken = SetRequired<TransformedToken, "key">;
 
 export interface Config extends SDConfig {
-  platforms?: Record<Platform, PlatformConfig>;
+  platforms: Record<Platform, PlatformConfig>;
 }
 
-interface PlatformConfig extends SDPlatformConfig {
+export interface PlatformConfig extends SDPlatformConfig {
   options: SDPlatformConfig["options"] & { platform: Platform };
 }

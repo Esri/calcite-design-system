@@ -2,6 +2,7 @@ import prettierSync from "@prettier/sync";
 import type { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
+import { PlatformConfig } from "../../types/extensions.js";
 import { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.js";
 import { fromTokens } from "../utils/dictionary.js";
 import { isThemed } from "../utils/token-types.js";
@@ -15,15 +16,16 @@ export const registerFormatIndex: RegisterFn = () => {
 };
 
 export const formatIndexFile: FormatFn = async (args) => {
-  const { file, options, platform } = args;
+  const { file, options } = args;
+  const platform = args.platform as PlatformConfig;
 
-  if (platform.options?.platform !== Platform.css && platform.options?.platform !== Platform.scss) {
+  if (platform.options.platform !== Platform.css && platform.options.platform !== Platform.scss) {
     throw new Error("Only css and scss platforms are supported.");
   }
 
   const header = await fileHeader({ file });
   const themes = ["light", "dark"] as const;
-  const format: Stylesheet = platform.options?.platform;
+  const format: Stylesheet = platform.options.platform;
 
   const [darkDictionary, lightDictionary] = await Promise.all([
     dark.getPlatformTokens(options.platform, { cache: true }),
