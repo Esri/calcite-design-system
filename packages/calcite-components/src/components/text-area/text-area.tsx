@@ -333,6 +333,7 @@ export class TextArea
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+    this.updateSizeToAuto?.cancel();
   }
 
   // #endregion
@@ -428,6 +429,7 @@ export class TextArea
       ? this.footerEl.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
+    console.log("validationMessageEl", this.validationMessageEl);
     const { height: validationMessageHeight } = this.validationMessageEl
       ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
@@ -539,7 +541,7 @@ export class TextArea
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
-            ref={this.setValidationRef}
+            ref={(el: HTMLDivElement) => (this.validationMessageEl = el)}
             scale={this.scale}
             status={this.status}
           />
