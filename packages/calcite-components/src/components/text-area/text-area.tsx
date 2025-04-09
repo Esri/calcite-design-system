@@ -110,20 +110,20 @@ export class TextArea
 
     const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
     if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
-      this.setHeightAndWidthToAuto("width");
+      this.updateSizeToAuto("width");
     }
     if (
       elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
       elStyleHeight !== "auto"
     ) {
-      this.setHeightAndWidthToAuto("height");
+      this.updateSizeToAuto("height");
     }
   });
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
 
   // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
+  private updateSizeToAuto = throttle(
     (dimension: "height" | "width"): void => {
       this.el.style[dimension] = "auto";
     },
