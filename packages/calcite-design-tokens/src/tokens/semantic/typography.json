@@ -1,0 +1,716 @@
+{
+  "semantic": {
+    "typography": {
+      "default": {
+        "default": {
+          "type": "typography",
+          "value": {
+            "fontFamily": "{semantic.font.family.default}",
+            "fontSize": "{semantic.font.size.default}",
+            "fontWeight": "{semantic.font.weight.regular}",
+            "letterSpacing": "{semantic.font.letter-spacing.normal}",
+            "lineHeight": "{semantic.font.line-height.fixed.base}",
+            "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+            "textCase": "{semantic.font.text-case.none}",
+            "textDecoration": "{semantic.font.text-decoration.none}"
+          },
+          "attributes": {
+            "category": ""
+          }
+        },
+        "light": {
+          "-3h": {
+            "value": {
+              "fontSize": "{semantic.font.size.xs}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": ""
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontSize": "{semantic.font.size.sm}",
+              "fontWeight": "{semantic.font.weight.light}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "0h": {
+            "value": {
+              "fontSize": "{semantic.font.size.md}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "1h": {
+            "value": {
+              "fontSize": "{semantic.font.size.lg}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          }
+        },
+        "regular": {
+          "-3h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-1h": {
+            "value": "{semantic.typography.default.default}",
+            "type": "typography",
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "0h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "1h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          }
+        },
+        "medium": {
+          "-3h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "0h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          }
+        },
+        "bold": {
+          "-3h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "0h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          },
+          "1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "default"
+            }
+          }
+        }
+      },
+      "wrap": {
+        "light": {
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.tight}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          }
+        },
+        "regular": {
+          "0": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "1": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "2": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "3": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-2": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-1": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          }
+        },
+        "medium": {
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          }
+        },
+        "bold": {
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "category": "wrap"
+            }
+          }
+        }
+      },
+      "hierarchy": {
+        "display": {
+          "1": {
+            "value": "{semantic.typography.wrap.bold.3}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "2": {
+            "value": "{semantic.typography.wrap.bold.2}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          }
+        },
+        "heading": {
+          "1": {
+            "value": "{semantic.typography.wrap.medium.3}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "2": {
+            "value": "{semantic.typography.wrap.medium.2}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "3": {
+            "value": "{semantic.typography.wrap.medium.1}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "4": {
+            "value": "{semantic.typography.wrap.medium.0}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "5": {
+            "value": "{semantic.typography.wrap.medium.-1}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          }
+        },
+        "body": {
+          "snug": {
+            "value": "{semantic.typography.wrap.regular.-1}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          },
+          "default": {
+            "value": "{semantic.typography.default.default}",
+            "type": "typography",
+            "attributes": {
+              "category": "hierarchy"
+            }
+          }
+        },
+        "overline": {
+          "value": {
+            "lineHeight": "{semantic.font.line-height.fixed.sm}",
+            "textCase": "{semantic.font.text-case.uppercase}",
+            "fontWeight": "{semantic.font.weight.bold}"
+          },
+          "type": "typography",
+          "attributes": {
+            "category": "hierarchy"
+          }
+        },
+        "caption": {
+          "value": "{semantic.typography.wrap.regular.-2}",
+          "type": "typography",
+          "attributes": {
+            "category": "hierarchy"
+          }
+        }
+      }
+    }
+  }
+}

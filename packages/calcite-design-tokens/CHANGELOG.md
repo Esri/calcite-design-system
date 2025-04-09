@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.4...@esri/calcite-design-tokens@3.0.2-next.5) (2025-04-09)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.3...@esri/calcite-design-tokens@3.0.2-next.4) (2025-04-09)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.2...@esri/calcite-design-tokens@3.0.2-next.3) (2025-04-08)
+
+### Performance Improvements
+
+- build theme dictionaries in parallel ([#11861](https://github.com/Esri/calcite-design-system/issues/11861)) ([87fc13d](https://github.com/Esri/calcite-design-system/commit/87fc13dc23221ebfca21eff94cc7054cae20aaeb))
+
+## [3.0.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.1...@esri/calcite-design-tokens@3.0.2-next.2) (2025-04-04)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.0...@esri/calcite-design-tokens@3.0.2-next.1) (2025-03-31)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1-next.4...@esri/calcite-design-tokens@3.0.2-next.0) (2025-03-28)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [3.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.0...@esri/calcite-design-tokens@3.0.1) (2025-03-26)
 
 ### Bug Fixes

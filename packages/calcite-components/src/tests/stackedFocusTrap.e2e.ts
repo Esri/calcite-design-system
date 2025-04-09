@@ -2,6 +2,7 @@ import { camelCase } from "change-case";
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
+import { IDS } from "../components/panel/resources";
 import { skipAnimations } from "./utils";
 
 describe("stacked focus-trap components", () => {
@@ -128,5 +129,94 @@ describe("stacked focus-trap components", () => {
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");
     await testStackEscapeSequence(page, "calcite-input-date-picker");
+  });
+});
+
+describe("returning focus after deactivation", () => {
+  const componentStack = html`
+    <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
+      <p>The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+      <calcite-button>Back</calcite-button>
+    </calcite-dialog>
+    <button id="open-dialog">Open dialog</button>
+    <button id="other-button">Something else</button>
+  `;
+
+  it("returns focus to the initialFocus element when deactivating via Escape key", async () => {
+    const page = await newE2EPage();
+    await page.setContent(componentStack);
+    await skipAnimations(page);
+
+    const openButton = await page.find("#open-dialog");
+    await openButton.focus();
+
+    const dialog = await page.find("#dialog");
+    const elTagNameCamelCased = camelCase(dialog.tagName);
+    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEvent;
+
+    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    dialog.press("Escape");
+    await page.waitForChanges();
+    await closeEvent;
+
+    const activeElementId = await page.evaluate(() => document.activeElement?.id);
+    expect(activeElementId).toBe(openButton.id);
+    expect(await dialog.getProperty("open")).toBe(false);
+  });
+
+  it("returns focus to the initialFocus element when deactivating via close button inside the focus trap", async () => {
+    const page = await newE2EPage();
+    await page.setContent(componentStack);
+    await skipAnimations(page);
+
+    const openButton = await page.find("#open-dialog");
+    await openButton.focus();
+
+    const dialog = await page.find("#dialog");
+    const elTagNameCamelCased = camelCase(dialog.tagName);
+    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEvent;
+
+    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${IDS.close}`);
+    await closeButton.click();
+    await page.waitForChanges();
+    await closeEvent;
+
+    const activeElementId = await page.evaluate(() => document.activeElement?.id);
+    expect(activeElementId).toBe(openButton.id);
+    expect(await dialog.getProperty("open")).toBe(false);
+  });
+
+  it("focuses the element clicked outside of the focus trap when deactivated", async () => {
+    const page = await newE2EPage();
+    await page.setContent(componentStack);
+    await skipAnimations(page);
+
+    const openButton = await page.find("#open-dialog");
+    await openButton.focus();
+
+    const dialog = await page.find("#dialog");
+    const elTagNameCamelCased = camelCase(dialog.tagName);
+    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEvent;
+
+    const outsideButton = await page.find("#other-button");
+    await outsideButton.click();
+    await page.waitForChanges();
+
+    const activeElementId = await page.evaluate(() => document.activeElement?.id);
+    expect(activeElementId).toBe(outsideButton.id);
+    expect(await dialog.getProperty("open")).toBe(true);
   });
 });
