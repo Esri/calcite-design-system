@@ -42,10 +42,14 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.textContent || "";
   const minuteSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.minuteSuffix}`))?.textContent || "";
   const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.textContent || "";
+  const decimalSeparator =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.textContent || "";
+  const fractionalSecond =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.textContent || "";
   const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.textContent || "";
   const meridiem = (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.textContent || "";
   const meridiemOrder = getMeridiemOrder(locale);
-  return `${meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${secondSuffix}${meridiem && meridiemOrder !== 0 ? " " + meridiem : ""}`;
+  return `${meridiem && meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? " " + meridiem : ""}`;
 }
 
 describe("calcite-input-time-picker", () => {
@@ -422,26 +426,26 @@ describe("calcite-input-time-picker", () => {
       // waiting for an additional animation frame here allows for mutation observers and other things outside of Stencil's knowledge to complete before the page is ready to test
       await waitForAnimationFrame();
 
-      expect(await getInputValue(page)).toBe("14.30.25");
+      expect(await getInputValue(page, "da")).toBe("14.30.25");
 
       inputTimePicker.setProperty("lang", "ar");
       await page.waitForChanges();
       await waitForAnimationFrame();
 
-      expect(await getInputValue(page)).toBe("02:30:25 م");
+      expect(await getInputValue(page, "ar")).toBe("02:30:25 م");
 
       inputTimePicker.setProperty("numberingSystem", "arab");
       await page.waitForChanges();
       await waitForAnimationFrame();
 
-      expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
+      expect(await getInputValue(page, "ar")).toBe("٠٢:٣٠:٢٥ م");
 
       inputTimePicker.setProperty("lang", "zh-HK");
       inputTimePicker.setProperty("numberingSystem", "latn");
       await page.waitForChanges();
       await waitForAnimationFrame();
 
-      expect(await getInputValue(page)).toBe("下午02:30:25");
+      expect(await getInputValue(page, "zh-HK")).toBe("下午02:30:25");
     });
   });
 
@@ -457,7 +461,7 @@ describe("calcite-input-time-picker", () => {
         const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
         expect(changeEvent).toHaveReceivedEventTimes(0);
-        expect(await getInputValue(page)).toBe("٠٢:٠٢:٣٠ م");
+        expect(await getInputValue(page, "ar")).toBe("٠٢:٠٢:٣٠ م");
         expect(await inputTimePicker.getProperty("value")).toBe("14:02:30");
       });
 
@@ -481,7 +485,7 @@ describe("calcite-input-time-picker", () => {
         await page.keyboard.type("p");
         await page.keyboard.press("Enter");
 
-        expect(await getInputValue(page)).toBe("٠٢:٤٥:٣٠ م");
+        expect(await getInputValue(page, "ar")).toBe("٠٢:٤٥:٣٠ م");
         expect(await inputTimePicker.getProperty("value")).toBe("14:45:30");
         expect(changeEvent).toHaveReceivedEventTimes(5);
       });
@@ -517,7 +521,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    supportedLocales.forEach((locale) => {
+    supportedLocales.forEach((locale: SupportedLocale) => {
       const localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale);
       const localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale);
       const localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale);

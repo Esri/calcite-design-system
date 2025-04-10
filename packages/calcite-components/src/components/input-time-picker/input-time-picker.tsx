@@ -9,7 +9,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -70,8 +69,6 @@ export class InputTimePicker
   // #region Private Properties
 
   private activeEl: HTMLSpanElement;
-
-  attributeWatch = useWatchAttributes(["lang"], this.handleLangChange);
 
   private calciteTimePickerEl: TimePicker["el"];
 
@@ -344,9 +341,10 @@ export class InputTimePicker
       }
     }
 
-    if (changes.has("messages")) {
-      // TODO: relocalize input value
-      // TODO: update locale in time controller
+    // TODO: move property change logic to the Time Controller using Lumina's lifecycle methods: https://qawebgis.esri.com/components/lumina/controllers/class-based#lifecycle
+    if (changes.has("messages") && changes.get("messages")?._lang !== this.messages._lang) {
+      // TODO: when the lang changes, the controller's hourFormat needs updated too, respecting the "user" default option.
+      this.time.setValue(this.value);
     }
 
     if (changes.has("numberingSystem")) {
@@ -396,10 +394,6 @@ export class InputTimePicker
       // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
       this.popoverEl.open = this.open;
     }
-  }
-
-  private handleLangChange(): void {
-    this.time.setValue(this.value);
   }
 
   private handleStepChange(newStep: number, oldStep?: number): void {
