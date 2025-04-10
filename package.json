@@ -129,7 +129,7 @@
   "license": "SEE LICENSE.md",
   "packageManager": "npm@10.9.2",
   "volta": {
-    "node": "22.13.0"
+    "node": "22.14.0"
   },
   "dependencies": {
     "patch-package": "8.0.0"
