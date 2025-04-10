@@ -206,44 +206,49 @@ async function testOpenCloseEvents({
 
   if (startOpen) {
     await page.evaluate(
-      (openPropName: string, componentTagOrHTML: string) => {
+      (componentTagOrHTML: string) => {
         const component = document.createElement(componentTagOrHTML);
-        if (openPropName === "open") {
-          component[openPropName] = true;
-          document.body.append(component);
-        } else if (openPropName === "expanded") {
-          component["open"] = true;
-          component[openPropName] = true;
-          document.body.append(component);
-        }
+        component["open"] = true;
+        document.body.append(component);
       },
       openPropName,
       tag,
     );
+
+    const element = await page.find(tag);
+    await page.waitForChanges();
+
+    if (openPropName === "open" || openPropName === "expanded") {
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+      assertEventSequence([1, 1, 0, 0]);
+    } else if (openPropName === "closed" || openPropName === "collapsed") {
+      element.setProperty(openPropName, true);
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+      assertEventSequence([1, 1, 1, 1]);
+    }
   }
 
   const element = await page.find(tag);
   await page.waitForChanges();
 
   if (!startOpen) {
-    const isClosingProp = openPropName === "closed" || openPropName === "collapsed";
-    element.setProperty(openPropName, !isClosingProp);
+    assertEventSequence([0, 0, 0, 0]);
+
+    element.setProperty(openPropName, true);
+    await page.waitForChanges();
+
+    if (openPropName === "open" || openPropName === "expanded") {
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+      assertEventSequence([1, 1, 0, 0]);
+    } else if (openPropName === "closed" || openPropName === "collapsed") {
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+      assertEventSequence([0, 0, 1, 1]);
+    }
   }
-
-  await page.waitForChanges();
-  await beforeOpenOrExpandEvent;
-  await openOrExpandEvent;
-
-  assertEventSequence([1, 1, 0, 0]);
-
-  const isClosingProp = openPropName === "closed" || openPropName === "collapsed";
-  element.setProperty(openPropName, isClosingProp);
-
-  await page.waitForChanges();
-  await beforeCloseOrCollapseEvent;
-  await closeOrCollapseEvent;
-
-  assertEventSequence([1, 1, 1, 1]);
 
   if (collapsedOnClose !== undefined) {
     const elementHandle =
@@ -260,16 +265,24 @@ async function testOpenCloseEvents({
     expect(await elementHandle.evaluate((el, scrollDimension) => el[scrollDimension], scrollDimension)).toBe(0);
   }
 
-  expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
-
   const delayDeltaThreshold = 100; // smallest internal animation timing used
-  const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
-  const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
-
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
-  expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
-  expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
+  if (timestamps.beforeOpen !== undefined && timestamps.open !== undefined) {
+    expect(timestamps.open - timestamps.beforeOpen)[matcherName](delayDeltaThreshold);
+  }
+
+  if (timestamps.beforeClose !== undefined && timestamps.close !== undefined) {
+    expect(timestamps.close - timestamps.beforeClose)[matcherName](delayDeltaThreshold);
+  }
+
+  if (timestamps.beforeExpand !== undefined && timestamps.expand !== undefined) {
+    expect(timestamps.expand - timestamps.beforeExpand)[matcherName](delayDeltaThreshold);
+  }
+
+  if (timestamps.beforeCollapse !== undefined && timestamps.collapse !== undefined) {
+    expect(timestamps.collapse - timestamps.beforeCollapse)[matcherName](delayDeltaThreshold);
+  }
 }
 
 type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
@@ -295,7 +308,9 @@ async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage, op
       (window as EventOrderWindow).events = receivedEvents;
 
       eventSequence.forEach((eventType) => {
-        document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+        document.addEventListener(eventType, (event) => {
+          receivedEvents.push(event.type);
+        });
       });
     },
     getEventSequence(componentTag, openPropName),

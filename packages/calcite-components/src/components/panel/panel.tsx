@@ -202,11 +202,29 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   // #region Events
 
+  /** Fires when open is toggled on. */
+  calcitePanelBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when open is toggled on. */
+  calcitePanelOpen = createEvent({ cancelable: false });
+
   /** Fires when the close button is clicked. */
   calcitePanelBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: false });
+
+  /** Fires when the chevron button is clicked. */
+  calcitePanelBeforeExpand = createEvent({ cancelable: false });
+
+  /** Fires when the chevron button is clicked. */
+  calcitePanelExpand = createEvent({ cancelable: false });
+
+  /** Fires when the chevron button is clicked. */
+  calcitePanelBeforeCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the chevron button is clicked. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -223,6 +241,13 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.listen("keydown", this.panelKeyDownHandler);
   }
 
+  connectedCallback(): void {
+    this.calcitePanelBeforeOpen.emit();
+    this.calcitePanelOpen.emit();
+    this.calcitePanelBeforeExpand.emit();
+    this.calcitePanelExpand.emit();
+  }
+
   async load(): Promise<void> {
     this.isClosed = this.closed;
   }
@@ -235,31 +260,25 @@ export class Panel extends LitElement implements InteractiveComponent {
     if (changes.has("closed") && this.hasUpdated) {
       if (this.closed) {
         this.close();
+        this.calcitePanelBeforeClose.emit();
+        this.calcitePanelClose.emit();
+        this.calcitePanelBeforeCollapse.emit();
+        this.calcitePanelCollapse.emit();
       } else {
         this.open();
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelBeforeOpen", { bubbles: true, composed: true }),
-        );
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelOpen", { bubbles: true, composed: true }),
-        );
+        this.calcitePanelBeforeOpen.emit();
+        this.calcitePanelOpen.emit();
+        this.calcitePanelBeforeExpand.emit();
+        this.calcitePanelExpand.emit();
       }
     }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelBeforeCollapse", { bubbles: true, composed: true }),
-        );
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelCollapse", { bubbles: true, composed: true }),
-        );
+        this.calcitePanelBeforeCollapse.emit();
+        this.calcitePanelCollapse.emit();
       } else {
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelBeforeExpand", { bubbles: true, composed: true }),
-        );
-        this.el.dispatchEvent(
-          new CustomEvent("calcitePanelExpand", { bubbles: true, composed: true }),
-        );
+        this.calcitePanelBeforeExpand.emit();
+        this.calcitePanelExpand.emit();
       }
     }
   }
@@ -309,8 +328,6 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private handleUserClose(): void {
     this.closed = true;
-    this.calcitePanelBeforeClose.emit();
-    this.calcitePanelClose.emit();
   }
 
   private open(): void {

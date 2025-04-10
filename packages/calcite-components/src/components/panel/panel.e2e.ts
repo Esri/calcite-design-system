@@ -15,6 +15,7 @@ import {
   t9n,
   themed,
   handlesActionMenuPlacements,
+  openClose,
 } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
@@ -194,6 +195,18 @@ describe("calcite-panel", () => {
             },
           },
         );
+      });
+    });
+
+    describe("openClose", () => {
+      openClose("calcite-panel", {
+        openPropName: "closed",
+        willUseFallback: true,
+      });
+      openClose("calcite-panel", {
+        openPropName: "collapsed",
+        containerSelector: "content-wrapper",
+        willUseFallback: true,
       });
     });
 
