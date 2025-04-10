@@ -54,7 +54,7 @@
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
-    "test": "concurrently \"npm:test:stable\" \"npm:test:experimental\"",
+    "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
     "test:stable": "STABLE_TESTS=true vitest run",
     "test:experimental": "EXPERIMENTAL_TESTS=true vitest run --browser.headless",
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
