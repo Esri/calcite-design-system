@@ -1,5 +1,4 @@
 import type { LitElement } from "@arcgis/lumina";
-import { isServer } from "lit";
 import { Scale } from "../components/interfaces";
 import { ComboboxChildElement } from "../components/combobox/interfaces";
 import { StepperItem } from "../components/stepper-item/stepper-item";
@@ -51,11 +50,5 @@ export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | Ta
  */
 export async function componentFocusable(component: LitElement): Promise<void> {
   await component.componentOnReady();
-
-  if (isServer) {
-    return;
-  }
-
-  component.requestUpdate();
-  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  await component.updateComplete;
 }
