@@ -367,7 +367,7 @@
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
 .content ::slotted(calcite-panel:not([closed])) {
-  border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, (--calcite-color-border-3));
+  border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
 }
 
 :host([position="start"]:not([slot="panel-end"])),
