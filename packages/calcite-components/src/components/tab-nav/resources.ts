@@ -4,9 +4,9 @@ export const ICON = {
 } as const;
 
 export const CSS = {
-  container: "tab-nav",
-  containerHasEndTabTitleOverflow: "tab-nav--end-overflow",
-  containerHasStartTabTitleOverflow: "tab-nav--start-overflow",
+  container: "container",
+  containerHasEndTabTitleOverflow: "container--end-overflow",
+  containerHasStartTabTitleOverflow: "container--start-overflow",
   scrollButton: "scroll-button",
   scrollButtonContainer: "scroll-button-container",
   scrollBackwardContainerButton: "scroll-button-container--backward",
