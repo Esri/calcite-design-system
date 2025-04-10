@@ -1,3 +1,4 @@
+import { PropertyValues } from "lit";
 import { GenericController, T9nMeta } from "@arcgis/components-controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import {
@@ -86,6 +87,13 @@ export class TimeController
     this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
     this.meridiemOrder = getMeridiemOrder(locale);
     this.setValue(this.component.value);
+  }
+
+  hostUpdate(changes: PropertyValues): void {
+    if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
+      // TODO: when the lang changes, the controller's hourFormat needs updated too, respecting the "user" default option.
+      this.setValue(this.component.value);
+    }
   }
 
   // #endregion

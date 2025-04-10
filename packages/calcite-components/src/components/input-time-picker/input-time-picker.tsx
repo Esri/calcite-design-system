@@ -341,12 +341,6 @@ export class InputTimePicker
       }
     }
 
-    // TODO: move property change logic to the Time Controller using Lumina's lifecycle methods: https://qawebgis.esri.com/components/lumina/controllers/class-based#lifecycle
-    if (changes.has("messages") && changes.get("messages")?._lang !== this.messages._lang) {
-      // TODO: when the lang changes, the controller's hourFormat needs updated too, respecting the "user" default option.
-      this.time.setValue(this.value);
-    }
-
     if (changes.has("numberingSystem")) {
       // TODO: relocalize input value
     }
