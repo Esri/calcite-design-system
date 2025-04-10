@@ -186,7 +186,8 @@
     background-color: var(--calcite-shell-border-color, var(--calcite-color-border-2));
   }
   &:focus {
-    @apply bg-brand opacity-100;
+    @apply opacity-100;
+    background-color: var(--calcite-shell-border-color, var(--calcite-color-brand));
   }
 }
 

@@ -589,7 +589,7 @@ describe("calcite-shell-panel", () => {
     describe("default", () => {
       themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
         "--calcite-shell-background-color": {
-          shadowSelector: `.${CSS.container}`,
+          shadowSelector: `.${CSS.content}`,
           targetProp: "backgroundColor",
         },
         "--calcite-shell-border-color": {
@@ -629,12 +629,23 @@ describe("calcite-shell-panel", () => {
     });
 
     describe("resize border", () => {
-      themed(html`<calcite-shell-panel slot="panel-start" resizable></calcite-shell-panel>`, {
-        "--calcite-shell-border-color": {
-          shadowSelector: `.${CSS.separator}`,
-          targetProp: "backgroundColor",
+      themed(
+        html`<div style="width: 100%; height: 100%;">
+          <calcite-shell>
+            <calcite-shell-panel slot="panel-start" resizable>
+              <calcite-panel> Content test </calcite-panel>
+            </calcite-shell-panel>
+          </calcite-shell>
+        </div>`,
+        {
+          "--calcite-shell-border-color": {
+            selector: "calcite-shell-panel",
+            shadowSelector: `.${CSS.separator}`,
+            state: "focus",
+            targetProp: "backgroundColor",
+          },
         },
-      });
+      );
     });
 
     describe("border configurations", () => {
