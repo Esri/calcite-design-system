@@ -16,7 +16,7 @@ interface OpenCloseOptions {
   containerSelector?: string;
 
   /** Toggle property to test "open" | "expanded" | "closed" | "collapsed" props. */
-  openPropName: string;
+  openPropName?: string;
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
