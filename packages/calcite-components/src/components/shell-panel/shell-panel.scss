@@ -3,6 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-shell-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-border-color: Specifies the border color of the component.
+ * @prop --calcite-shell-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-shell-text-color: Specifies the text color of the component.
+ * @prop --calcite-shell-shadow: Specifies the shadow of the component.
+ *
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
@@ -10,10 +16,10 @@
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
- * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
- * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius
- * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
-
+ *
+ * @prop --calcite-shell-panel-border-color: [Deprecated] Use `--calcite-shell-border-color`. When `displayMode` is `"float-all"`, specifies the component's border color.
+ * @prop --calcite-shell-panel-corner-radius: [Deprecated] Use `--calcite-shell-corner-radius`. When `displayMode` is `"float-all"`, specifies the component's corner radius
+ * @prop --calcite-shell-panel-shadow: [Deprecated] Use `--calcite-shell-shadow`. When `displayMode` is `"float-all"`, specifies the component's shadow.
  *
  */
 
@@ -107,8 +113,7 @@
 }
 
 .container {
-  @apply text-color-2
-  text-n1
+  @apply text-n1
   pointer-events-none
   box-border
   flex
@@ -117,33 +122,41 @@
   bg-transparent
   h-full;
 
+  color: var(--calcite-shell-text-color, var(--calcite-color-text-2));
+
   * {
     @apply box-border;
   }
 
   &.float-all {
-    margin-block: 0.5rem;
-    margin-inline: 0.5rem;
+    margin-block: var(--calcite-spacing-sm);
+    margin-inline: var(--calcite-spacing-sm);
   }
 }
 
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
-  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  box-shadow: var(--calcite-shell-shadow, var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm)));
+  border-radius: var(
+    --calcite-shell-corner-radius,
+    var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round))
+  );
   overflow: hidden;
 }
 
 :host([layout="vertical"][position="start"]) .float-all {
-  border-inline-start: 1px solid var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
+  border-inline-start: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
 :host([layout="vertical"][position="end"]) .float-all {
-  border-inline-end: 1px solid var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
+  border-inline-end: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
 :host([layout="horizontal"]) .float-all {
-  border-inline: 1px solid var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
+  border-inline: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
 :host([layout="horizontal"]) .container {
@@ -155,7 +168,7 @@
 :host(:focus-within) {
   .separator:not(:hover):not(:focus) {
     @apply opacity-100;
-    background-color: var(--calcite-color-border-3);
+    background-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
   }
 }
 
@@ -170,7 +183,7 @@
   outline: none;
   &:hover {
     @apply opacity-100;
-    background-color: var(--calcite-color-border-2);
+    background-color: var(--calcite-shell-border-color, var(--calcite-color-border-2));
   }
   &:focus {
     @apply bg-brand opacity-100;
@@ -179,8 +192,9 @@
 
 :host([layout="vertical"]) .separator {
   @apply bottom-0
-  top-0 h-full
-  w-0.5;
+  top-0
+  h-full;
+  inline-size: var(--calcite-border-width-md);
   cursor: col-resize;
 }
 
@@ -193,23 +207,23 @@
 }
 
 :host([layout="horizontal"]) .separator {
-  @apply end-0 w-full
-  h-0.5;
+  @apply end-0 w-full;
+  block-size: var(--calcite-border-width-md);
   cursor: row-resize;
 }
 
 :host([layout="vertical"][position="start"]) .separator {
-  inset-inline-end: -2px;
+  inset-inline-end: calc(-1 * var(--calcite-border-width-md));
 }
 :host([layout="horizontal"][position="start"]) .separator {
-  inset-block-end: -2px;
+  inset-block-end: calc(-1 * var(--calcite-border-width-md));
 }
 
 :host([layout="vertical"][position="end"]) .separator {
-  inset-inline-start: -2px;
+  inset-inline-start: calc(-1 * var(--calcite-border-width-md));
 }
 :host([layout="horizontal"][position="end"]) .separator {
-  inset-block-start: -2px;
+  inset-block-start: calc(-1 * var(--calcite-border-width-md));
 }
 
 ::slotted(calcite-panel),
@@ -224,14 +238,14 @@
 }
 
 .content {
-  @apply bg-background
-  pointer-events-auto
+  @apply pointer-events-auto
   flex
   flex-col
   flex-nowrap
   items-stretch
   self-stretch
   p-0;
+  background-color: var(--calcite-shell-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
@@ -270,8 +284,15 @@
 }
 
 .content--overlay {
-  @apply absolute
-  shadow-0;
+  @apply absolute;
+  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-shell-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
 }
 
 :host([layout="vertical"]) .content--overlay {
@@ -303,13 +324,22 @@
 }
 
 .float--content {
-  @apply shadow-0
-  mx-2
-  mt-2
-  mb-auto
+  @apply mb-auto
   h-auto
-  overflow-hidden
-  rounded;
+  overflow-hidden;
+
+  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-shell-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
+
+  border-radius: var(--calcite-shell-corner-radius, var(--calcite-corner-radius-round));
+  margin-inline: var(--calcite-spacing-sm);
+  margin-block-start: var(--calcite-spacing-sm);
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
@@ -318,7 +348,7 @@
 }
 
 :host([layout="horizontal"]) .float--content {
-  @apply my-2;
+  margin-block: var(--calcite-spacing-sm);
 }
 
 :host([position="start"]) .float--content,
@@ -336,7 +366,7 @@
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
 .content ::slotted(calcite-panel:not([closed])) {
-  @apply border-color-3 border border-solid;
+  border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, (--calcite-color-border-3));
 }
 
 :host([position="start"]:not([slot="panel-end"])),
