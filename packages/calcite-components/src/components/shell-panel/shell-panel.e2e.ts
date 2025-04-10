@@ -588,6 +588,31 @@ describe("calcite-shell-panel", () => {
   describe("themed", () => {
     describe("default", () => {
       themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
+        "--calcite-shell-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-shell-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
+
+    describe("default deprecated", () => {
+      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
         "--calcite-shell-panel-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
@@ -602,7 +627,82 @@ describe("calcite-shell-panel", () => {
         },
       });
     });
+
+    describe("resize border", () => {
+      themed(
+        html`<div style="width: 100%; height: 100%;">
+          <calcite-shell>
+            <calcite-shell-panel slot="panel-start" resizable>
+              <calcite-panel> Content test </calcite-panel>
+            </calcite-shell-panel>
+          </calcite-shell>
+        </div>`,
+        {
+          "--calcite-shell-border-color": {
+            selector: "calcite-shell-panel",
+            shadowSelector: `.${CSS.separator}`,
+            state: "focus",
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+
     describe("border configurations", () => {
+      themed(
+        html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
+        {
+          "--calcite-shell-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineEndColor",
+          },
+        },
+      );
+      themed(
+        html`<calcite-shell-panel layout="horizontal" slot="panel-top" display-mode="float-all"></calcite-shell-panel>`,
+        {
+          "--calcite-shell-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+        },
+      );
+      themed(html`<calcite-shell-panel slot="panel-top" display-mode="float-all"></calcite-shell-panel>`, {
+        "--calcite-shell-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+      });
+      themed(
+        html`<calcite-shell-panel
+          layout="horizontal"
+          position="end"
+          slot="panel-bottom"
+          display-mode="float-all"
+        ></calcite-shell-panel>`,
+        {
+          "--calcite-shell-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineColor",
+          },
+        },
+      );
+      themed(
+        html`<calcite-shell-panel
+          layout="vertical"
+          slot="panel-bottom"
+          display-mode="float-all"
+        ></calcite-shell-panel>`,
+        {
+          "--calcite-shell-border-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderInlineStartColor",
+          },
+        },
+      );
+    });
+
+    describe("border configurations deprecated", () => {
       themed(
         html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
         {
