@@ -1,9 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils";
 import type { RadioButton } from "../radio-button/radio-button";
+import { CSS } from "./resources";
 
 describe("calcite-radio-button-group", () => {
   describe("renders", () => {
@@ -554,5 +555,27 @@ describe("calcite-radio-button-group", () => {
     await group.callMethod("setFocus");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-radio-button-group></calcite-radio-button-group>`, {
+        "--calcite-radio-button-group-gap": {
+          targetProp: "columnGap",
+          shadowSelector: `.${CSS.itemWrapper}`,
+        },
+      });
+    });
+    describe("validation", () => {
+      themed(
+        html`<calcite-radio-button-group validation-message="help" status="invalid"></calcite-radio-button-group>`,
+        {
+          "--calcite-radio-button-input-message-spacing": {
+            targetProp: "--calcite-input-message-spacing",
+            shadowSelector: "calcite-input-message",
+          },
+        },
+      );
+    });
   });
 });

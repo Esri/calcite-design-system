@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-radio-button-group-gap: Specifies the space between slotted components in the component.
+ * @prop --calcite-radio-button-input-message-spacing: Specifies the margin spacing at the top of the input-message component.
+ */
+
 :host {
   @apply flex flex-col;
 }
@@ -12,15 +21,15 @@
 }
 
 :host([layout="horizontal"][scale="s"]) > .item-wrapper {
-  @apply gap-x-4;
+  column-gap: var(--calcite-radio-button-group-gap, var(--calcite-spacing-lg));
 }
 
 :host([layout="horizontal"][scale="m"]) > .item-wrapper {
-  @apply gap-x-5;
+  column-gap: var(--calcite-radio-button-group-gap, var(--calcite-spacing-xl));
 }
 
 :host([layout="horizontal"][scale="l"]) > .item-wrapper {
-  @apply gap-x-6;
+  column-gap: var(--calcite-radio-button-group-gap, var(--calcite-spacing-xxl));
 }
 
 :host([layout="vertical"]) > .item-wrapper {
@@ -29,15 +38,24 @@
 }
 
 :host([scale="s"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xxs) * -1);
+  --calcite-input-message-spacing: var(
+    --calcite-radio-button-input-message-spacing,
+    calc(var(--calcite-spacing-xxs) * -1)
+  );
 }
 
 :host([scale="m"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-sm) * -1);
+  --calcite-input-message-spacing: var(
+    --calcite-radio-button-input-message-spacing,
+    calc(var(--calcite-spacing-sm) * -1)
+  );
 }
 
 :host([scale="l"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-md) * -1);
+  --calcite-input-message-spacing: var(
+    --calcite-radio-button-input-message-spacing,
+    calc(var(--calcite-spacing-md) * -1)
+  );
 }
 
 @include form-validation-message();
