@@ -455,8 +455,9 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find("calcite-block-group");
         const eventName = `calciteSortHandleReorder`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
@@ -564,8 +565,9 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find(`#${componentItemId}`);
         const eventName = `calciteSortHandleMove`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${componentItemId}`,
           (item: Block["el"], moveToId, eventName) => {

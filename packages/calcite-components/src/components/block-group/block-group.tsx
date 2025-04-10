@@ -232,6 +232,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       return;
     }
 
+    event.stopPropagation();
     this.handleReorder(event);
   }
 
@@ -240,6 +241,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       return;
     }
 
+    event.stopPropagation();
     this.handleMove(event);
   }
 
