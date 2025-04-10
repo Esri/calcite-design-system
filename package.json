@@ -127,9 +127,9 @@
     "vitest": "2.1.9"
   },
   "license": "SEE LICENSE.md",
-  "packageManager": "npm@10.2.3",
+  "packageManager": "npm@10.8.2",
   "volta": {
-    "node": "20.16.0"
+    "node": "20.18.3"
   },
   "dependencies": {
     "patch-package": "8.0.0"
