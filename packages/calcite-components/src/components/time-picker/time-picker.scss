@@ -3,15 +3,15 @@
 }
 
 .time-picker {
-  @apply bg-foreground-1
-    shadow-2
-    text-color-1
+  @apply bg-foreground-1 // todo
+    shadow-2 // todo
+    text-color-1 // todo
     flex
     select-none
     items-center
     font-medium;
 
-  border-radius: var(--calcite-border-radius);
+  border-radius: var(--calcite-border-radius); // todo
 
   .column {
     @apply flex
@@ -23,48 +23,48 @@
   }
 
   .button {
-    @apply bg-foreground-1
+    @apply bg-foreground-1 // todo
       inline-flex
       cursor-pointer
       items-center
       justify-center;
     &:hover,
     &:focus {
-      @apply bg-foreground-2
+      @apply bg-foreground-2 // todo
         outline-none;
-      z-index: theme("zIndex.header");
+      z-index: theme("zIndex.header"); // todo
       outline-offset: 0;
     }
     &:active {
-      @apply bg-foreground-3;
+      @apply bg-foreground-3; // todo
     }
     &.top-left {
-      border-start-start-radius: var(--calcite-border-radius);
+      border-start-start-radius: var(--calcite-border-radius); // todo
     }
     &.bottom-left {
-      border-end-start-radius: var(--calcite-border-radius);
+      border-end-start-radius: var(--calcite-border-radius); // todo
     }
     &.top-right {
-      border-start-end-radius: var(--calcite-border-radius);
+      border-start-end-radius: var(--calcite-border-radius); // todo
     }
     &.bottom-right {
-      border-end-end-radius: var(--calcite-border-radius);
+      border-end-end-radius: var(--calcite-border-radius); // todo
     }
     calcite-icon {
-      @apply text-color-3;
+      @apply text-color-3; // todo
     }
   }
 
   .input {
-    @apply bg-foreground-1
+    @apply bg-foreground-1 // todo
       inline-flex
       cursor-pointer
       items-center
       justify-center
-      font-medium;
+      font-medium; // todo
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-2);
-      z-index: theme("zIndex.header");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-2); // todo
+      z-index: theme("zIndex.header"); // todo
     }
     &:focus,
     &:hover:focus {
@@ -73,8 +73,8 @@
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-      z-index: theme("zIndex.header");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand); // todo
+      z-index: theme("zIndex.header"); // todo
     }
   }
 
@@ -82,12 +82,12 @@
     @apply text-n1;
     .button,
     .input {
-      @apply px-3
-        py-1;
+      @apply px-3 // todo
+        py-1; // todo
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: theme("spacing.3");
+        padding-inline-end: theme("spacing.3"); // todo
       }
     }
   }
@@ -96,12 +96,12 @@
     @apply text-0;
     .button,
     .input {
-      @apply px-4
-        py-2;
+      @apply px-4 // todo
+        py-2; // todo
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: theme("spacing.4");
+        padding-inline-end: theme("spacing.4"); // todo
       }
     }
   }
@@ -110,12 +110,12 @@
     @apply text-1;
     .button,
     .input {
-      @apply px-5
-        py-3;
+      @apply px-5 // todo
+        py-3; // todo
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: theme("spacing.5");
+        padding-inline-end: theme("spacing.5"); // todo
       }
     }
   }
