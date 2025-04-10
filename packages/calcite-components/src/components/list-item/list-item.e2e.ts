@@ -589,10 +589,17 @@ describe("calcite-list-item", () => {
           icon-end="banana"
         ></calcite-list-item>`,
         {
-          "--calcite-list-selection-border-color": {
-            shadowSelector: `.${CSS.container}::before`,
-            targetProp: "backgroundColor",
-          },
+          "--calcite-list-selection-border-color": [
+            {
+              shadowSelector: `.${CSS.container}::before`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${CSS.containerBorderSelected}`,
+              targetProp: "boxShadow",
+              state: "focus",
+            },
+          ],
         },
       );
     });
