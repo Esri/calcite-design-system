@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-
 import { LitElement, PublicLitElement } from "@arcgis/lumina";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
