@@ -1,6 +1,6 @@
-import { Filter } from "style-dictionary/types";
+import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../types/interfaces.js";
+import { RegisterFn } from "../../types/interfaces.js";
 
 export const filterSemanticTokens: Filter["filter"] = (token) =>
   token.isSource && !(token.type === "color" || token.type === "typography");

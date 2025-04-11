@@ -1,7 +1,7 @@
 import { camelCase, kebabCase } from "lodash-es";
-import { AttributeTransform } from "style-dictionary/types";
+import type { AttributeTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 
 export const transformAttributePlatformNames: AttributeTransform["transform"] = (token) => {
   const isKebab = token.name.includes("-");
