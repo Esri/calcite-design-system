@@ -118,7 +118,7 @@ openClose.initial = function openCloseInitial(
     await beforeContent(page);
     await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
-      animationsEnabled: true,
+      animationsEnabled: !effectiveOptions.willUseFallback,
       openPropName: effectiveOptions.openPropName,
       page,
       startOpen: true,
@@ -243,6 +243,9 @@ async function testOpenCloseEvents({
       await beforeOpenOrExpandEvent;
       await openOrExpandEvent;
       assertEventSequence([1, 1, 0, 0]);
+
+      element.setProperty(openPropName, false);
+      await page.waitForChanges();
     } else if (openPropName === "closed" || openPropName === "collapsed") {
       await beforeCloseOrCollapseEvent;
       await closeOrCollapseEvent;
