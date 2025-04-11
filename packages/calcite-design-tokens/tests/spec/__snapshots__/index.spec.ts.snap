@@ -552,7 +552,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-color-medium-saturation-orange-m-oo-070: #bc7145;
   --calcite-color-medium-saturation-orange-m-oo-080: #8a5131;
   --calcite-color-medium-saturation-orange-m-oo-090: #58321c;
-  --calcite-color-medium-saturation-orange-m-oo-100: #401900;
+  --calcite-color-medium-saturation-orange-m-oo-100: #261207;
   --calcite-color-medium-saturation-red-orange-m-ro-010: #f7e4dc;
   --calcite-color-medium-saturation-red-orange-m-ro-020: #f5d0c2;
   --calcite-color-medium-saturation-red-orange-m-ro-030: #f3bba7;
@@ -572,7 +572,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-color-medium-saturation-red-m-rr-070: #c25347;
   --calcite-color-medium-saturation-red-m-rr-080: #913d34;
   --calcite-color-medium-saturation-red-m-rr-090: #5e241e;
-  --calcite-color-medium-saturation-red-m-rr-100: #210300;
+  --calcite-color-medium-saturation-red-m-rr-100: #260a07;
   --calcite-color-medium-saturation-pink-m-pk-010: #fadef0;
   --calcite-color-medium-saturation-pink-m-pk-020: #facdea;
   --calcite-color-medium-saturation-pink-m-pk-030: #f2b1da;
@@ -592,7 +592,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-color-medium-saturation-violet-red-m-vr-070: #8e6397;
   --calcite-color-medium-saturation-violet-red-m-vr-080: #6a4572;
   --calcite-color-medium-saturation-violet-red-m-vr-090: #46264c;
-  --calcite-color-medium-saturation-violet-red-m-vr-100: #200026;
+  --calcite-color-medium-saturation-violet-red-m-vr-100: #210726;
   --calcite-color-medium-saturation-violet-m-vv-010: #ece6ff;
   --calcite-color-medium-saturation-violet-m-vv-020: #dcd2f2;
   --calcite-color-medium-saturation-violet-m-vv-030: #ccbee5;
@@ -8194,7 +8194,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.medium-saturation.orange.m-oo-090}"
     },
     {
-      "value": "#401900",
+      "value": "#261207",
       "type": "color",
       "filePath": "src/tokens/core/color.json",
       "isSource": false,
@@ -8754,7 +8754,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.medium-saturation.red.m-rr-090}"
     },
     {
-      "value": "#210300",
+      "value": "#260a07",
       "type": "color",
       "filePath": "src/tokens/core/color.json",
       "isSource": false,
@@ -9314,7 +9314,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.medium-saturation.violet-red.m-vr-090}"
     },
     {
-      "value": "#200026",
+      "value": "#210726",
       "type": "color",
       "filePath": "src/tokens/core/color.json",
       "isSource": false,
@@ -28917,7 +28917,7 @@ export const calciteColorMediumSaturationOrangeMOo060 = "#ee905a";
 export const calciteColorMediumSaturationOrangeMOo070 = "#bc7145";
 export const calciteColorMediumSaturationOrangeMOo080 = "#8a5131";
 export const calciteColorMediumSaturationOrangeMOo090 = "#58321c";
-export const calciteColorMediumSaturationOrangeMOo100 = "#401900";
+export const calciteColorMediumSaturationOrangeMOo100 = "#261207";
 export const calciteColorMediumSaturationRedOrangeMRo010 = "#f7e4dc";
 export const calciteColorMediumSaturationRedOrangeMRo020 = "#f5d0c2";
 export const calciteColorMediumSaturationRedOrangeMRo030 = "#f3bba7";
@@ -28937,7 +28937,7 @@ export const calciteColorMediumSaturationRedMRr060 = "#eb6c5e";
 export const calciteColorMediumSaturationRedMRr070 = "#c25347";
 export const calciteColorMediumSaturationRedMRr080 = "#913d34";
 export const calciteColorMediumSaturationRedMRr090 = "#5e241e";
-export const calciteColorMediumSaturationRedMRr100 = "#210300";
+export const calciteColorMediumSaturationRedMRr100 = "#260a07";
 export const calciteColorMediumSaturationPinkMPk010 = "#fadef0";
 export const calciteColorMediumSaturationPinkMPk020 = "#facdea";
 export const calciteColorMediumSaturationPinkMPk030 = "#f2b1da";
@@ -28957,7 +28957,7 @@ export const calciteColorMediumSaturationVioletRedMVr060 = "#b382bd";
 export const calciteColorMediumSaturationVioletRedMVr070 = "#8e6397";
 export const calciteColorMediumSaturationVioletRedMVr080 = "#6a4572";
 export const calciteColorMediumSaturationVioletRedMVr090 = "#46264c";
-export const calciteColorMediumSaturationVioletRedMVr100 = "#200026";
+export const calciteColorMediumSaturationVioletRedMVr100 = "#210726";
 export const calciteColorMediumSaturationVioletMVv010 = "#ece6ff";
 export const calciteColorMediumSaturationVioletMVv020 = "#dcd2f2";
 export const calciteColorMediumSaturationVioletMVv030 = "#ccbee5";
@@ -39742,12 +39742,12 @@ export default {
             key: "{core.color.medium-saturation.orange.m-oo-090}",
           },
           "m-oo-100": {
-            value: "#401900",
+            value: "#261207",
             type: "color",
             filePath: "src/tokens/core/color.json",
             isSource: false,
             original: {
-              value: "#401900",
+              value: "#261207",
               type: "color",
             },
             name: "Color Medium Saturation Orange M Oo 100",
@@ -40500,12 +40500,12 @@ export default {
             key: "{core.color.medium-saturation.red.m-rr-090}",
           },
           "m-rr-100": {
-            value: "#210300",
+            value: "#260a07",
             type: "color",
             filePath: "src/tokens/core/color.json",
             isSource: false,
             original: {
-              value: "#210300",
+              value: "#260a07",
               type: "color",
             },
             name: "Color Medium Saturation Red M Rr 100",
@@ -41252,12 +41252,12 @@ export default {
             key: "{core.color.medium-saturation.violet-red.m-vr-090}",
           },
           "m-vr-100": {
-            value: "#200026",
+            value: "#210726",
             type: "color",
             filePath: "src/tokens/core/color.json",
             isSource: false,
             original: {
-              value: "#200026",
+              value: "#210726",
               type: "color",
             },
             name: "Color Medium Saturation Violet Red M Vr 100",
@@ -68272,7 +68272,7 @@ $calcite-color-medium-saturation-orange-m-oo-060: #ee905a;
 $calcite-color-medium-saturation-orange-m-oo-070: #bc7145;
 $calcite-color-medium-saturation-orange-m-oo-080: #8a5131;
 $calcite-color-medium-saturation-orange-m-oo-090: #58321c;
-$calcite-color-medium-saturation-orange-m-oo-100: #401900;
+$calcite-color-medium-saturation-orange-m-oo-100: #261207;
 $calcite-color-medium-saturation-red-orange-m-ro-010: #f7e4dc;
 $calcite-color-medium-saturation-red-orange-m-ro-020: #f5d0c2;
 $calcite-color-medium-saturation-red-orange-m-ro-030: #f3bba7;
@@ -68292,7 +68292,7 @@ $calcite-color-medium-saturation-red-m-rr-060: #eb6c5e;
 $calcite-color-medium-saturation-red-m-rr-070: #c25347;
 $calcite-color-medium-saturation-red-m-rr-080: #913d34;
 $calcite-color-medium-saturation-red-m-rr-090: #5e241e;
-$calcite-color-medium-saturation-red-m-rr-100: #210300;
+$calcite-color-medium-saturation-red-m-rr-100: #260a07;
 $calcite-color-medium-saturation-pink-m-pk-010: #fadef0;
 $calcite-color-medium-saturation-pink-m-pk-020: #facdea;
 $calcite-color-medium-saturation-pink-m-pk-030: #f2b1da;
@@ -68312,7 +68312,7 @@ $calcite-color-medium-saturation-violet-red-m-vr-060: #b382bd;
 $calcite-color-medium-saturation-violet-red-m-vr-070: #8e6397;
 $calcite-color-medium-saturation-violet-red-m-vr-080: #6a4572;
 $calcite-color-medium-saturation-violet-red-m-vr-090: #46264c;
-$calcite-color-medium-saturation-violet-red-m-vr-100: #200026;
+$calcite-color-medium-saturation-violet-red-m-vr-100: #210726;
 $calcite-color-medium-saturation-violet-m-vv-010: #ece6ff;
 $calcite-color-medium-saturation-violet-m-vv-020: #dcd2f2;
 $calcite-color-medium-saturation-violet-m-vv-030: #ccbee5;
