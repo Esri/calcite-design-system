@@ -461,12 +461,13 @@ describe("calcite-block-group", () => {
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
-            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true, cancelable: true }));
           },
           reorder,
           eventName,
         );
-        await event;
+        const eventResponse = await event;
+        expect(eventResponse.defaultPrevented).toBe(true);
         await page.waitForChanges();
         const itemsAfter = await findAll(page, "calcite-block");
         expect(itemsAfter.length).toBe(3);
@@ -582,13 +583,15 @@ describe("calcite-block-group", () => {
                   },
                 },
                 bubbles: true,
+                cancelable: true,
               }),
             );
           },
           moveToId,
           eventName,
         );
-        await event;
+        const eventResponse = await event;
+        expect(eventResponse.defaultPrevented).toBe(true);
         await page.waitForChanges();
         const component1Id = "component1";
         const component2Id = "component2";
