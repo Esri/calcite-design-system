@@ -4,12 +4,12 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-time-picker-background-color: The background color of the time picker.
- * @prop --calcite-time-picker-border-radius: The border radius of the time picker.
+ * @prop --calcite-time-picker-corner-radius: The border radius of the time picker.
  * @prop --calcite-time-picker-button-background-color-hover: Specifies the button's background color when hovered or focused.
  * @prop --calcite-time-picker-button-background-color-press: Specifies the button's background color when active.
  * @prop --calcite-time-picker-color: Specifies the component's background color.
  * @prop --calcite-time-picker-icon-color: Specifies the component's icon color.
- * @prop --calcite-time-picker-input-border-color-focus: Specifies the input's border color when focused.
+ * @prop --calcite-time-picker-input-border-color-press: Specifies the input's border color when active.
  * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
  */
 
@@ -24,7 +24,7 @@
     items-center
     font-medium;
 
-  border-radius: var(--calcite-time-picker-border-radius, var(--calcite-border-radius-round));
+  border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
 
@@ -56,16 +56,16 @@
       background-color: var(--calcite-time-picker-button-background-color-press, var(--calcite-color-foreground-3));
     }
     &.top-left {
-      border-start-start-radius: var(--calcite-time-picker-border-radius, var(--calcite-border-radius-round));
+      border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
     }
     &.bottom-left {
-      border-end-start-radius: var(--calcite-time-picker-border-radius, var(--calcite-border-radius-round));
+      border-end-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
     }
     &.top-right {
-      border-start-end-radius: var(--calcite-time-picker-border-radius, var(--calcite-border-radius-round));
+      border-start-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
     }
     &.bottom-right {
-      border-end-end-radius: var(--calcite-time-picker-border-radius, var(--calcite-border-radius-round));
+      border-end-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
     }
     calcite-icon {
       color: var(--calcite-time-picker-icon-color, var(--calcite-color-text-3));
@@ -92,7 +92,7 @@
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: inset 0 0 0 2px var(--calcite-time-picker-input-border-color-focus, var(--calcite-color-brand));
+      box-shadow: inset 0 0 0 2px var(--calcite-time-picker-input-border-color-press, var(--calcite-color-brand));
       z-index: var(--calcite-z-index-header);
     }
   }

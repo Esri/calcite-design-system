@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";
 import { supportedLocales } from "../../utils/locale";
@@ -1446,6 +1446,49 @@ describe("calcite-time-picker", () => {
             }
           });
         });
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-time-picker></calcite-time-picker>`, {
+        "--calcite-time-picker-background-color": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-corner-radius": {
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-button-background-color-hover": {
+          targetProp: "backgroundColor",
+          state: "hover",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-time-picker-button-background-color-press": {
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.button } },
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-time-picker-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-icon-color": {
+          targetProp: "color",
+          shadowSelector: "calcite-icon",
+        },
+        // "--calcite-time-picker-input-border-color-press": {
+        //   targetProp: "boxShadow",
+        //   state: { press: { attribute: "class", value: CSS.hour } },
+        //   shadowSelector: `.${CSS.hour}`,
+        // },
+        "--calcite-time-picker-input-border-color-hover": {
+          targetProp: "boxShadow",
+          state: "hover",
+          shadowSelector: `.${CSS.input}`,
+        },
       });
     });
   });
