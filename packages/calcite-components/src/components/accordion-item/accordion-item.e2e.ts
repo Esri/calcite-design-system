@@ -45,6 +45,16 @@ describe("calcite-accordion-item", () => {
             targetProp: "backgroundColor",
             shadowSelector: `.${CSS.header}`,
           },
+          "--calcite-accordion-item-header-background-color-hover": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: "hover",
+          },
+          "--calcite-accordion-item-header-background-color-press": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: { press: `calcite-accordion-item >>> .${CSS.header}` },
+          },
           "--calcite-accordion-item-heading-text-color": {
             shadowSelector: `.${CSS.headerContent}`,
             targetProp: "color",
