@@ -84,6 +84,7 @@ export default defineConfig({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true,
+          quiet: true,
         }),
       ],
     },
