@@ -4,16 +4,17 @@ const createRule = ESLintUtils.RuleCreator((name) => name);
 
 
 export default createRule({
-    name: "native-button-tab-index-required",
+    name: "button-tab-index-required",
     meta: {
         docs: {
-            description: "This rule catches if any native button element is missing a tab index attribute.",
+            description: "This rule catches if any button element is missing a tab index attribute.",
         },
         messages: {
-            default: "Native button elements should have a tab index attribute",
+            default: "Button element should have a tab index attribute",
         },
         schema: [],
         type: "problem",
+        fixable: "code",
     },
     defaultOptions: [],
     create(context) {

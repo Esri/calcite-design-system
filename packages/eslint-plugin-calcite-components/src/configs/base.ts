@@ -18,7 +18,7 @@ export default {
       rules: {
         "@esri/calcite-components/no-dynamic-createelement": 1,
         "@esri/calcite-components/strict-boolean-attributes": 1,
-        "@esri/calcite-components/native-button-tab-index-required": 1,
+        "@esri/calcite-components/button-tab-index-required": 1,
       },
     },
   ],
