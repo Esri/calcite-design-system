@@ -130,26 +130,34 @@ describe("calcite-notice", () => {
     t9n("calcite-notice");
   });
 
-  describe("theme", () => {
+  describe.only("theme", () => {
     describe("default", () => {
       themed(
         html`
           <calcite-notice kind="danger" open closable>
-            <div slot="title">Title</div>
-            <div slot="message">Message</div>
+            <div slot="title" class="title">Title</div>
+            <div slot="message" class="message">Message</div>
             <calcite-link slot="link" title="my action">Retry</calcite-link>
           </calcite-notice>
         `,
         {
+          "--calcite-notice-title-text-color": {
+            shadowSelector: `.title`,
+            targetProp: "color",
+          },
+          "--calcite-notice-content-text-color": {
+            shadowSelector: `.message`,
+            targetProp: "color",
+          },
           "--calcite-notice-background-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-notice-close-text-color": {
+          "--calcite-notice-close-icon-color": {
             shadowSelector: `.${CSS.close}`,
             targetProp: "color",
           },
-          "--calcite-notice-close-text-color-hover": [
+          "--calcite-notice-close-icon-color-hover": [
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "color",
