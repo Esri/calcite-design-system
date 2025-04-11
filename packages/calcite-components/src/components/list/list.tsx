@@ -528,20 +528,20 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentListEl) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
-    event.stopPropagation();
+    event.preventDefault();
     this.handleReorder(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentListEl) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
-    event.stopPropagation();
+    event.preventDefault();
     this.handleMove(event);
   }
 

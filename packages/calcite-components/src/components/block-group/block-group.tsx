@@ -228,20 +228,20 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
-    event.stopPropagation();
+    event.preventDefault();
     this.handleReorder(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
-    event.stopPropagation();
+    event.preventDefault();
     this.handleMove(event);
   }
 
