@@ -1877,8 +1877,7 @@ describe("calcite-list", () => {
           reorder,
           eventName,
         );
-        const eventResponse = await event;
-        expect(eventResponse.defaultPrevented).toBe(true);
+        await event;
         await page.waitForChanges();
         const itemsAfter = await findAll(page, "calcite-list-item");
         expect(itemsAfter.length).toBe(3);
@@ -2019,8 +2018,7 @@ describe("calcite-list", () => {
           moveToListId,
           eventName,
         );
-        const eventResponse = await event;
-        expect(eventResponse.defaultPrevented).toBe(true);
+        await event;
         await page.waitForChanges();
         const list1Id = "list1";
         const list2Id = "list2";

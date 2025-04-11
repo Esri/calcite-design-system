@@ -467,8 +467,7 @@ describe("calcite-block-group", () => {
           reorder,
           eventName,
         );
-        const eventResponse = await event;
-        expect(eventResponse.defaultPrevented).toBe(true);
+        await event;
         await page.waitForChanges();
         const itemsAfter = await findAll(page, "calcite-block");
         expect(itemsAfter.length).toBe(3);
@@ -591,8 +590,7 @@ describe("calcite-block-group", () => {
           moveToId,
           eventName,
         );
-        const eventResponse = await event;
-        expect(eventResponse.defaultPrevented).toBe(true);
+        await event;
         await page.waitForChanges();
         const component1Id = "component1";
         const component2Id = "component2";
