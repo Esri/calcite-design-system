@@ -50,7 +50,7 @@
 
 .input-wrapper:hover .toggle-icon,
 calcite-input-text:focus + .toggle-icon {
-  --calcite-icon-color: var(--calcite-input-time-picker-icon-color, var(--calcite-color-text-1));
+  --calcite-icon-color: var(--calcite-input-time-picker-icon-color-hover, var(--calcite-color-text-1));
 }
 
 @include form-validation-message();

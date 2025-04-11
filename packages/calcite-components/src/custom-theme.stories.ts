@@ -34,6 +34,7 @@ import { input, inputTokens } from "./custom-theme/input";
 import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
+import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
@@ -143,7 +144,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${inputTimePicker} ${select} ${singleSelectCombobox}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -211,6 +212,7 @@ const componentTokens = {
   ...graphTokens,
   ...inputTokens,
   ...inputMessageTokens,
+  ...inputTimePickerTokens,
   ...labelTokens,
   ...linkTokens,
   ...listTokens,

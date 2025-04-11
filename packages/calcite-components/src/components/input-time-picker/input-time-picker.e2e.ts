@@ -20,6 +20,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import {
   getFocusedElementProp,
@@ -32,6 +33,7 @@ import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
 import { CSS as PopoverCSS } from "../popover/resources";
+import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -917,5 +919,21 @@ describe("calcite-input-time-picker", () => {
     popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
     expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`<calcite-input-time-picker></calcite-input-time-picker>`, {
+        "--calcite-input-time-picker-icon-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-time-picker-icon-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          state: "hover",
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
   });
 });
