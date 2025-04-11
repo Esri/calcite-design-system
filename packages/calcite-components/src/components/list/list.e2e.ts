@@ -1871,12 +1871,13 @@ describe("calcite-list", () => {
         await page.$eval(
           `calcite-list-item[value="one"]`,
           (item1: ListItem["el"], reorder, eventName) => {
-            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true, cancelable: true }));
           },
           reorder,
           eventName,
         );
-        await event;
+        const eventResponse = await event;
+        expect(eventResponse.defaultPrevented).toBe(true);
         await page.waitForChanges();
         const itemsAfter = await findAll(page, "calcite-list-item");
         expect(itemsAfter.length).toBe(3);
@@ -2010,13 +2011,15 @@ describe("calcite-list", () => {
                   },
                 },
                 bubbles: true,
+                cancelable: true,
               }),
             );
           },
           moveToListId,
           eventName,
         );
-        await event;
+        const eventResponse = await event;
+        expect(eventResponse.defaultPrevented).toBe(true);
         await page.waitForChanges();
         const list1Id = "list1";
         const list2Id = "list2";
