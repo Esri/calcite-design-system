@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -14,6 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
@@ -214,6 +216,33 @@ describe("calcite-text-area", () => {
     });
   });
 
+  it("does not throw when removed early in the cycle (#11514)", async () => {
+    async function runTest(): Promise<void> {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async () => {
+        await new Promise<void>((resolve) => {
+          const textArea = document.createElement("calcite-text-area");
+          let firstResize = false;
+          const resizeObserver = new ResizeObserver(async () => {
+            if (!firstResize) {
+              firstResize = true;
+              return;
+            }
+
+            resizeObserver.disconnect();
+            textArea.remove();
+            resolve();
+          });
+          document.body.append(textArea);
+          resizeObserver.observe(textArea);
+        });
+      });
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
+
   describe("translation support", () => {
     t9n("calcite-text-area");
   });
@@ -295,5 +324,34 @@ describe("calcite-text-area", () => {
         },
       });
     });
+  });
+
+  it("does not change height & width when status changes from valid to invalid", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-text-area max-length="1" validation-message="Must not be blank"></calcite-text-area>
+      `);
+    await page.evaluate(() => {
+      const textarea = document.querySelector("calcite-text-area");
+      textarea.addEventListener("calciteTextAreaInput", () => {
+        const { value } = textarea;
+        textarea.status = value ? "valid" : "invalid";
+      });
+    });
+    const element = await page.find("calcite-text-area");
+    const textAreaRect = await getElementRect(page, "calcite-text-area", "textarea");
+    const inputEvent = page.waitForEvent("calciteTextAreaInput");
+    await element.callMethod("setFocus");
+    await page.keyboard.type("a");
+    await page.waitForChanges();
+    await inputEvent;
+    const inputEvent2 = page.waitForEvent("calciteTextAreaInput");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await inputEvent2;
+
+    expect(await element.getProperty("status")).toBe("invalid");
+    const textAreaInvalidRect = await getElementRect(page, "calcite-text-area", "textarea");
+    expect(textAreaRect.width).toEqual(textAreaInvalidRect.width);
+    expect(textAreaInvalidRect.height).toEqual(textAreaRect.height);
   });
 });

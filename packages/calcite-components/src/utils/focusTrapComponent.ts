@@ -51,6 +51,8 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   component.focusTrap = createFocusTrap(focusTrapNode, createFocusTrapOptions(el, options?.focusTrapOptions));
 }
 
+const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
+
 /**
  * Helper to create the FocusTrap options.
  *
@@ -58,13 +60,15 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
  * @param options
  */
 export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapOptions): FocusTrapOptions {
-  const focusTrapNode = options?.fallbackFocus || hostEl;
+  const fallbackFocus = options?.fallbackFocus || hostEl;
+  const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
 
   return {
-    clickOutsideDeactivates: true,
-    fallbackFocus: focusTrapNode,
+    fallbackFocus,
     setReturnFocus: (el) => {
-      focusElement(el as FocusableElement);
+      if (!outsideClickDeactivated.has(hostEl)) {
+        focusElement(el as FocusableElement);
+      }
       return false;
     },
     ...options,
@@ -73,6 +77,15 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     document: hostEl.ownerDocument,
     tabbableOptions,
     trapStack: focusTrapStack,
+    clickOutsideDeactivates: (event) => {
+      if (!outsideClickDeactivated.has(hostEl)) {
+        outsideClickDeactivated.add(hostEl);
+      }
+      return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onPostDeactivate: () => {
+      outsideClickDeactivated.delete(hostEl);
+    },
   };
 }
 

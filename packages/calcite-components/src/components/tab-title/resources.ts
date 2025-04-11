@@ -1,7 +1,6 @@
 import { Scale } from "../interfaces";
 
 export const CSS = {
-  closeButton: "close-button",
   container: "container",
   containerBottom: "container--bottom",
   content: "content",
@@ -13,7 +12,3 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   selectedIndicator: "selected-indicator",
 };
-
-export const ICONS = {
-  close: "x",
-} as const;

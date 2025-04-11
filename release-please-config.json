@@ -23,7 +23,7 @@
     "packages/calcite-components": {
       "component": "@esri/calcite-components",
       "extra-files": [
-        "readme.md",
+        "README.md",
         {
           "type": "json",
           "path": "/examples/components/angular/package.json",
@@ -73,6 +73,9 @@
     },
     "packages/calcite-design-tokens": {
       "component": "@esri/calcite-design-tokens"
+    },
+    "packages/calcite-tailwind-preset": {
+      "component": "@esri/calcite-tailwind-preset"
     },
     "packages/calcite-ui-icons": {
       "component": "@esri/calcite-ui-icons",
