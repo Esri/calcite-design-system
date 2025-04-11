@@ -1531,24 +1531,43 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("-7,000");
   });
 
-  it(`allows editing numbers that start with zeros and have decimals in the ar locale and arab numbering system`, async () => {
+  it("allows editing numbers that start with zeros and have decimals in the ar locale and arab numbering system", async () => {
+    const value = "10000.0001";
+
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number lang="ar" numbering-system="arab"></calcite-input-number>`);
+    await page.setContent(
+      html`<calcite-input-number lang="ar" numbering-system="arab" value="${value}"></calcite-input-number>`,
+    );
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
       numberingSystem: "arab",
       useGrouping: false,
     };
-    const value = "٠٠٠١.٠٠٠١";
 
     const calciteInput = await page.find("calcite-input-number");
     const input = await page.find("calcite-input-number >>> input");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe(value);
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
+
     await calciteInput.callMethod("setFocus");
     await page.waitForChanges();
-    await typeNumberValue(page, value);
+
+    await page.keyboard.press("Home");
+    await page.keyboard.press("Delete");
     await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("١.٠٠٠١");
-    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
+
+    expect(await calciteInput.getProperty("value")).toBe("0.0001");
+    expect(await input.getProperty("value")).toBe(
+      `${numberStringFormatter.localize("0").repeat(3)}${numberStringFormatter.localize("0.0001")}`,
+    );
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("20000.0001");
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize("20000.0001"));
   });
 
   it("cannot be modified when readOnly is true", async () => {
