@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.9...@esri/calcite-components@3.2.0-next.10) (2025-04-11)
+
+### Bug Fixes
+
+- **list-item:** display selection border when item is focused ([#11898](https://github.com/Esri/calcite-design-system/issues/11898)) ([c9218e2](https://github.com/Esri/calcite-design-system/commit/c9218e2272a1c5957602dc2603181210ffcdf8c9)), closes [#11835](https://github.com/Esri/calcite-design-system/issues/11835)
+- **text-area:** no longer changes height & width when status is invalid ([#11826](https://github.com/Esri/calcite-design-system/issues/11826)) ([215546b](https://github.com/Esri/calcite-design-system/commit/215546bb3adb47544632322b650e4956fe921d79)), closes [#11592](https://github.com/Esri/calcite-design-system/issues/11592)
+
 ## [3.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.8...@esri/calcite-components@3.2.0-next.9) (2025-04-09)
 
 ### Features
