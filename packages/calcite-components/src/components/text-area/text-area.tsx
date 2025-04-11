@@ -77,43 +77,59 @@ export class TextArea
 
   private footerEl = createRef<HTMLElement>();
 
+  private validationMessageEl: HTMLDivElement;
+
   formEl: HTMLFormElement;
 
   private guid = guid();
 
   labelEl: Label["el"];
 
+  private textAreaEl: HTMLTextAreaElement;
+
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightAndWidthOfElements();
+    const {
+      textAreaHeight,
+      textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth,
+      validationMessageHeight,
+    } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.value.style.width = `${textAreaWidth}px`;
     }
-    if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
-      this.setHeightAndWidthToAuto();
+
+    if (this.resize === "none") {
+      return;
+    }
+
+    const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
+    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+      this.updateSizeToAuto("width");
+    }
+    if (
+      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      elStyleHeight !== "auto"
+    ) {
+      this.updateSizeToAuto("height");
     }
   });
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
 
   // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
+  private updateSizeToAuto = throttle(
+    (dimension: "height" | "width"): void => {
+      this.el.style[dimension] = "auto";
     },
     RESIZE_TIMEOUT,
     { leading: false },
   );
-
-  private textAreaEl: HTMLTextAreaElement;
 
   // #endregion
 
@@ -317,6 +333,7 @@ export class TextArea
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+    this.updateSizeToAuto?.cancel();
   }
 
   // #endregion
@@ -388,8 +405,9 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
+    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
+      this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
       this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
@@ -401,6 +419,7 @@ export class TextArea
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
+    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
@@ -410,6 +429,10 @@ export class TextArea
       ? this.footerEl.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
+    const { height: validationMessageHeight } = this.validationMessageEl
+      ? this.validationMessageEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
+
     return {
       textAreaHeight,
       textAreaWidth,
@@ -417,6 +440,7 @@ export class TextArea
       elWidth,
       footerHeight,
       footerWidth,
+      validationMessageHeight,
     };
   }
 
@@ -428,6 +452,13 @@ export class TextArea
 
   private isCharacterLimitExceeded(): boolean {
     return this.value?.length > this.maxLength;
+  }
+
+  private setValidationRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+    this.validationMessageEl = el;
   }
 
   // #endregion
@@ -509,6 +540,7 @@ export class TextArea
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
+            ref={this.setValidationRef}
             scale={this.scale}
             status={this.status}
           />

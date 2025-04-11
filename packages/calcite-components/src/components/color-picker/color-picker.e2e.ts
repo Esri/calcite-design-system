@@ -134,7 +134,7 @@ describe("calcite-color-picker", () => {
 
     const buttons = await findAll(page, `calcite-color-picker >>> .${CSS.container} calcite-button`);
 
-    expect(buttons).toHaveLength(2);
+    expect(buttons).toHaveLength(4);
 
     for (const button of buttons) {
       expect(await button.getProperty("type")).toBe("button");
