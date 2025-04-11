@@ -7,7 +7,7 @@ export const timePickerTokens = {
   calciteTimePickerButtonBackgroundColorPress: "",
   calciteTimePickerColor: "",
   calciteTimePickerIconColor: "",
-  calciteTimePickerInputBorderColorFocus: "",
+  calciteTimePickerInputBorderColorPress: "",
   calciteTimePickerInputBorderColorHover: "",
 };
 
