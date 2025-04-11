@@ -1533,13 +1533,13 @@ describe("calcite-input-number", () => {
 
   it(`allows editing numbers that start with zeros and have decimals in the ar locale and arab numbering system`, async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number lang="ar"></calcite-input-number>`);
+    await page.setContent(html`<calcite-input-number lang="ar" numbering-system="arab"></calcite-input-number>`);
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
       numberingSystem: "arab",
       useGrouping: false,
     };
-    const value = "0001.0001";
+    const value = "٠٠٠١.٠٠٠١";
 
     const calciteInput = await page.find("calcite-input-number");
     const input = await page.find("calcite-input-number >>> input");
@@ -1547,7 +1547,7 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     await typeNumberValue(page, value);
     await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("1.0001");
+    expect(await calciteInput.getProperty("value")).toBe("١.٠٠٠١");
     expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
   });
 
