@@ -82,16 +82,15 @@ export class TimeController
   // #region Lifecycle
 
   hostConnected(): void {
-    const { hourFormat, messages } = this.component;
-    const locale = messages._lang as SupportedLocale;
-    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
-    this.meridiemOrder = getMeridiemOrder(locale);
+    this.setHourFormat();
+    this.setMeridiemOrder();
     this.setValue(this.component.value);
   }
 
   hostUpdate(changes: PropertyValues): void {
     if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
-      // TODO: when the lang changes, the controller's hourFormat needs updated too, respecting the "user" default option.
+      this.setHourFormat();
+      this.setMeridiemOrder();
       this.setValue(this.component.value);
     }
   }
@@ -132,6 +131,18 @@ export class TimeController
   private incrementMinuteOrSecond(key: MinuteOrSecond): void {
     const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
     this.setValuePart(key, newValue);
+  }
+
+  private setHourFormat(): void {
+    const { hourFormat, messages } = this.component;
+    const locale = messages._lang as SupportedLocale;
+    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
+  }
+
+  private setMeridiemOrder(): void {
+    const { messages } = this.component;
+    const locale = messages._lang as SupportedLocale;
+    this.meridiemOrder = getMeridiemOrder(locale);
   }
 
   // #endregion
