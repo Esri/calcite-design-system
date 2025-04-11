@@ -1532,27 +1532,25 @@ describe("calcite-input-number", () => {
   });
 
   it("allows editing numbers that start with zeros and have decimals in the ar locale and arab numbering system", async () => {
-    const value = "10000.0001";
-
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input-number lang="ar" numbering-system="arab" value="${value}"></calcite-input-number>`,
-    );
+    const initialValue = "10000.0001";
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
       numberingSystem: "arab",
       useGrouping: false,
     };
 
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-input-number lang="ar" numbering-system="arab" value="${initialValue}"></calcite-input-number>`,
+    );
+
     const calciteInput = await page.find("calcite-input-number");
     const input = await page.find("calcite-input-number >>> input");
-    await page.waitForChanges();
-
-    expect(await calciteInput.getProperty("value")).toBe(value);
-    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
-
     await calciteInput.callMethod("setFocus");
     await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe(initialValue);
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
 
     await page.keyboard.press("Home");
     await page.keyboard.press("Delete");
@@ -1560,6 +1558,8 @@ describe("calcite-input-number", () => {
 
     expect(await calciteInput.getProperty("value")).toBe("0.0001");
     expect(await input.getProperty("value")).toBe(
+      // the localize method converts the string to a number, which removes the leading zeros
+      // so we need to manually add them back in the test when confirming the expected value
       `${numberStringFormatter.localize("0").repeat(3)}${numberStringFormatter.localize("0.0001")}`,
     );
 
