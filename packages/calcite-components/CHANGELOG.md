@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.10...@esri/calcite-components@3.2.0-next.11) (2025-04-12)
+
+### Bug Fixes
+
+- **input-number:** allow editing of numbers that start with zeros ([#11705](https://github.com/Esri/calcite-design-system/issues/11705)) ([e86c99d](https://github.com/Esri/calcite-design-system/commit/e86c99da9fa9044445db7d8e5fa18cdf773a4b93)), closes [#9611](https://github.com/Esri/calcite-design-system/issues/9611)
+
 ## [3.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.9...@esri/calcite-components@3.2.0-next.10) (2025-04-11)
 
 ### Bug Fixes
