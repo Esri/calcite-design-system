@@ -12,24 +12,7 @@
           "type": "fontFamilies",
           "description": "Primary font with fallbacks",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "family",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "group": "family"
           }
         },
         "code": {
@@ -43,24 +26,7 @@
           "type": "fontFamilies",
           "description": "Font family for code with fallbacks",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "family",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "code",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -70,24 +36,7 @@
           "type": "fontWeights",
           "description": "For Avenir Next World (secondary font family)",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "light",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "normal": {
@@ -98,120 +47,35 @@
             "calcite.deprecated": true
           },
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "normal",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "regular": {
           "value": "{core.font.weight.regular}",
           "type": "fontWeights",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "regular",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "medium": {
           "value": "{core.font.weight.medium}",
           "type": "fontWeights",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "medium",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "semibold": {
           "value": "{core.font.weight.demi}",
           "type": "fontWeights",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "semibold",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "bold": {
           "value": "{core.font.weight.demi}",
           "type": "fontWeights",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "weight",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "bold",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -220,168 +84,49 @@
           "value": "{core.size.default.10}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xs",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "sm": {
           "value": "{core.size.default.12}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "default": {
           "value": "{core.size.default.14}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "default",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "md": {
           "value": "{core.size.default.16}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "lg": {
           "value": "{core.size.default.2} * 9",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "lg",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "xl": {
           "value": "{core.size.default.20}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xl",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "xxl": {
           "value": "{core.size.default.24}",
           "type": "fontSizes",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "size",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "xxl",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -391,24 +136,7 @@
           "type": "fontStyle",
           "description": "used in ratings",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "style",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "emphasis",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -418,96 +146,28 @@
             "value": "{core.size.default.12}",
             "type": "lineHeights",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "fixed",
-                "state": "",
-                "scale": "sm",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "base": {
             "value": "{core.size.default.16}",
             "type": "lineHeights",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "fixed",
-                "state": "",
-                "scale": "base",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "lg": {
             "value": "{core.size.default.20}",
             "type": "lineHeights",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "fixed",
-                "state": "",
-                "scale": "lg",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "xl": {
             "value": "{core.size.default.24}",
             "type": "lineHeights",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "fixed",
-                "state": "",
-                "scale": "xl",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           }
         },
@@ -517,24 +177,7 @@
             "type": "lineHeights",
             "description": "1",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "default",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "tight": {
@@ -542,24 +185,7 @@
             "type": "lineHeights",
             "description": "1.25",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "tight",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "snug": {
@@ -567,24 +193,7 @@
             "type": "lineHeights",
             "description": "1.375",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "snug",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "normal": {
@@ -592,24 +201,7 @@
             "type": "lineHeights",
             "description": "1.5",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "normal",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "relaxed": {
@@ -617,24 +209,7 @@
             "type": "lineHeights",
             "description": "1.625",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "relaxed",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           },
           "loose": {
@@ -642,24 +217,7 @@
             "type": "lineHeights",
             "description": "2",
             "attributes": {
-              "calcite-schema": {
-                "system": "calcite",
-                "tier": "semantic",
-                "domain": "",
-                "component": "",
-                "pattern": "",
-                "element": "",
-                "category": "font",
-                "group": "line-height",
-                "kind": "",
-                "appearance": "",
-                "property": "",
-                "variant": "relative",
-                "state": "",
-                "scale": "loose",
-                "context": "",
-                "mode": ""
-              }
+              "category": "font"
             }
           }
         }
@@ -670,24 +228,7 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "letter-spacing",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "tight",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "normal": {
@@ -695,24 +236,7 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "letter-spacing",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "normal",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "wide": {
@@ -720,24 +244,7 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "letter-spacing",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "wide",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -747,24 +254,7 @@
           "type": "paragraphSpacing",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "paragraph-spacing",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "normal",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -774,24 +264,7 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-decoration",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "none",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "underline": {
@@ -799,24 +272,7 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-decoration",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "underline",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       },
@@ -826,24 +282,7 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-case",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "none",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "uppercase": {
@@ -851,24 +290,7 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-case",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "uppercase",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "lowercase": {
@@ -876,24 +298,7 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-case",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "lowercase",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         },
         "capitalize": {
@@ -901,24 +306,7 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "text-case",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "capitalize",
-              "state": "",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
+            "category": "font"
           }
         }
       }

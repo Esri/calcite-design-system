@@ -24,10 +24,11 @@ import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
+import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS } from "./resources";
+import { CSS } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -155,7 +156,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     if (this.disabled || this.closed) {
       return;
     }
-    const payload = { tab: this.tab };
+    const payload = { tab: this.tab, userTriggered: userTriggered };
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
@@ -451,18 +452,17 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     const { closable, messages } = this;
 
     return closable ? (
-      <button
-        ariaLabel={messages.close}
-        class={CSS.closeButton}
+      <XButton
         disabled={false}
-        key={CSS.closeButton}
+        focusable={true}
+        key="close-button"
+        label={messages.close}
         onClick={this.closeClickHandler}
         ref={this.closeButtonEl}
+        round={false}
+        scale={this.scale}
         title={messages.close}
-        type="button"
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+      />
     ) : null;
   }
 

@@ -5,216 +5,63 @@
         "value": "-999999",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "0",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "1": {
         "value": "1",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "1",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "3": {
         "value": "300",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "3",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "4": {
         "value": "400",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "4",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "5": {
         "value": "500",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "5",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "6": {
         "value": "600",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "6",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "7": {
         "value": "700",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "7",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "8": {
         "value": "800",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "8",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       },
       "9": {
         "value": "900",
         "type": "z-index",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "z-index",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "9",
-            "context": "",
-            "mode": ""
-          }
+          "category": "z-index"
         }
       }
     }
