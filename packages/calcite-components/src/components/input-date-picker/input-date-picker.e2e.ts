@@ -1117,7 +1117,6 @@ describe("calcite-input-date-picker", () => {
         const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
         await inputDatePicker.callMethod("setFocus");
         await inputDatePicker.type(inputValue);
-        await inputDatePicker.press("Escape");
         await inputDatePicker.press("Tab");
 
         expect(await inputDatePicker.getProperty("value")).toBe("");
@@ -1143,7 +1142,6 @@ describe("calcite-input-date-picker", () => {
 
         await inputDatePicker.callMethod("setFocus");
         await inputDatePicker.type(inputValue[0]);
-        await inputDatePicker.press("Escape");
         await inputDatePicker.press("Tab");
         await inputDatePicker.type(inputValue[1]);
         await inputDatePicker.press("Enter");
@@ -1167,7 +1165,6 @@ describe("calcite-input-date-picker", () => {
 
         await inputDatePicker.callMethod("setFocus");
         await inputDatePicker.type(inputValue[0]);
-        await inputDatePicker.press("Escape");
         await inputDatePicker.press("Tab");
         await inputDatePicker.type(inputValue[1]);
         await inputDatePicker.press("Enter");
