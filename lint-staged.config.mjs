@@ -1,8 +1,4 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-
-export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = dirname(__filename);
+import { resolve } from "node:path";
 
 /**
  * @filename: lint-staged.config.mjs
@@ -15,7 +11,7 @@ export default {
     const files = absolutePaths.join(" ");
     return [
       `prettier --write ${files}`,
-      `markdownlint-cli2 --fix --config ${resolve(__dirname, "./.markdownlint-cli2.jsonc")} ${files}`
+      `markdownlint-cli2 --fix --config ${resolve(import.meta.dirname, "./.markdownlint-cli2.jsonc")} ${files}`
     ];
   }
 };
