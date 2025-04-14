@@ -68,8 +68,8 @@
     "@types/react-dom": "18.3.1",
     "@types/semver": "7.7.0",
     "@types/shell-quote": "1.7.5",
-    "@typescript-eslint/rule-tester": "8.29.0",
-    "@typescript-eslint/utils": "8.29.0",
+    "@typescript-eslint/rule-tester": "8.29.1",
+    "@typescript-eslint/utils": "8.29.1",
     "@vitest/browser": "2.1.9",
     "@vitest/coverage-v8": "2.1.9",
     "@vitest/eslint-plugin": "1.1.39",
@@ -100,7 +100,7 @@
     "lerna": "8.2.1",
     "lint-staged": "15.5.0",
     "markdownlint-cli2": "0.17.2",
-    "playwright": "1.50.0",
+    "playwright": "1.51.1",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "puppeteer": "23.4.1",
@@ -120,16 +120,16 @@
     "turbo": "2.5.0",
     "type-fest": "4.39.1",
     "typescript": "5.6.3",
-    "typescript-eslint": "8.29.0",
+    "typescript-eslint": "8.29.1",
     "typescript-strict-plugin": "2.4.4",
     "vite": "5.4.17",
     "vite-plugin-dts": "4.5.3",
     "vitest": "2.1.9"
   },
   "license": "SEE LICENSE.md",
-  "packageManager": "npm@10.2.3",
+  "packageManager": "npm@10.8.2",
   "volta": {
-    "node": "20.16.0"
+    "node": "20.18.3"
   },
   "dependencies": {
     "patch-package": "8.0.0"

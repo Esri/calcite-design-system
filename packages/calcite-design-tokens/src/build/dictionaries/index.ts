@@ -1,8 +1,8 @@
 import StyleDictionary from "style-dictionary";
 import { register as registerTokenStudioTransformers } from "@tokens-studio/sd-transforms";
-import calciteLightConfig from "../../config/color/light.js";
-import calciteDarkConfig from "../../config/color/dark.js";
-import semanticConfig from "../../config/semantic.js";
+import lightConfig from "../../config/color/light.js";
+import darkConfig from "../../config/color/dark.js";
+import config from "../../config/index.js";
 import { register as registerCalciteHooks } from "../registry/index.js";
 import { applyBuiltInOverrides, applyOverrides } from "../overrides/index.js";
 
@@ -14,9 +14,9 @@ await registerTokenStudioTransformers(StyleDictionary, {
 await registerCalciteHooks();
 applyOverrides();
 
-const light = new StyleDictionary(calciteLightConfig);
-const dark = new StyleDictionary(calciteDarkConfig);
-const semantic = new StyleDictionary(semanticConfig);
+const light = new StyleDictionary(lightConfig);
+const dark = new StyleDictionary(darkConfig);
+const semantic = new StyleDictionary(config);
 
 applyBuiltInOverrides([semantic, light, dark]);
 
