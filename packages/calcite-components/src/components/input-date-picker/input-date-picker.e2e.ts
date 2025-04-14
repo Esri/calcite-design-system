@@ -1178,6 +1178,45 @@ describe("calcite-input-date-picker", () => {
         expect(await inputDatePicker.getProperty("value")).toBe("");
         expect(await input.getProperty("value")).toBe("");
       });
+
+      describe("incomplete values", async () => {
+        let page: E2EPage;
+
+        beforeEach(async () => {
+          page = await newE2EPage();
+          await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+        });
+
+        it("should clear with incomplete start value", async () => {
+          await testIncompleteValue(["", "13/37"], page);
+        });
+
+        it("should clear with incomplete end value", async () => {
+          await testIncompleteValue(["13/37", ""], page);
+        });
+
+        async function testIncompleteValue(inputValue: string[], page: E2EPage): Promise<void> {
+          const inputDatePicker = await page.find("calcite-input-date-picker");
+          const [startInput, endInput] = await findAll(page, "calcite-input-date-picker >>> calcite-input-text");
+
+          await inputDatePicker.callMethod("setFocus");
+          await inputDatePicker.type(inputValue[0]);
+          await inputDatePicker.press("Tab");
+          await inputDatePicker.type(inputValue[1]);
+          await inputDatePicker.press("Enter");
+
+          expect(await inputDatePicker.getProperty("value")).toBe("");
+          expect(await startInput.getProperty("value")).toBe(inputValue[0]);
+          expect(await endInput.getProperty("value")).toBe(inputValue[1]);
+
+          inputDatePicker.setProperty("value", "");
+          await page.waitForChanges();
+
+          expect(await inputDatePicker.getProperty("value")).toBe("");
+          expect(await startInput.getProperty("value")).toBe("");
+          expect(await endInput.getProperty("value")).toBe("");
+        }
+      });
     });
   });
 
