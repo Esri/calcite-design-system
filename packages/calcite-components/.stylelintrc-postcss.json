@@ -1,6 +1,11 @@
 {
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
-    "liberty/use-logical-spec": ["always"]
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "severity": "warning"
+      }
+    ]
   }
 }
