@@ -315,6 +315,13 @@
             "category": "color"
           }
         }
+      },
+      "focus": {
+        "value": "{semantic.color.brand.default.default}",
+        "type": "color",
+        "attributes": {
+          "category": "color"
+        }
       }
     }
   }
