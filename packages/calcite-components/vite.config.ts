@@ -9,8 +9,8 @@ import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
-const runPuppeteerAndHappyDomTests = process.env.STABLE_TESTS === "true";
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
+const runPuppeteerAndHappyDomTests = process.env.STABLE_TESTS === "true" || !runBrowserTests;
 
 export default defineConfig({
   build: { minify: false },
