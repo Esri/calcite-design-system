@@ -93,8 +93,8 @@
     transition-all
     duration-150
     ease-in-out;
-  inset-block-start: 2px;
-  inset-inline: 2px theme("inset.auto");
+  inset-block-start: var(--calcite-border-width-md);
+  inset-inline: var(--calcite-border-width-md) auto;
   background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
@@ -106,7 +106,7 @@
     background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
-    inset-inline: theme("inset.auto") 2px;
+    inset-inline: auto var(--calcite-border-width-md);
   }
 
   &:host(:hover:not([disabled])) {
