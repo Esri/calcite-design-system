@@ -130,7 +130,7 @@ describe("calcite-notice", () => {
     t9n("calcite-notice");
   });
 
-  describe.only("theme", () => {
+  describe("theme", () => {
     describe("default", () => {
       themed(
         html`
