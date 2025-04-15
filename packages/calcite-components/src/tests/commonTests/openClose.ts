@@ -196,7 +196,6 @@ async function testOpenCloseEvents({
   const [beforeOpenOrExpandEventSpy, openOrExpandSpy, beforeCloseOrCollapseSpy, closeOrCollapseSpy] = await Promise.all(
     eventSequence.map(async (event) => await page.spyOnEvent(event)),
   );
-
   function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
     expect(beforeOpenOrExpandEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
     expect(openOrExpandSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
@@ -206,7 +205,7 @@ async function testOpenCloseEvents({
 
   if (startOpen) {
     await page.evaluate(
-      (componentTagOrHTML: string) => {
+      (_openPropName: string, componentTagOrHTML: string) => {
         const component = document.createElement(componentTagOrHTML);
         component["open"] = true;
         document.body.append(component);
@@ -222,6 +221,14 @@ async function testOpenCloseEvents({
       await beforeOpenOrExpandEvent;
       await openOrExpandEvent;
       assertEventSequence([1, 1, 0, 0]);
+
+      element.setProperty(openPropName, false);
+
+      await page.waitForChanges();
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
     } else if (openPropName === "closed" || openPropName === "collapsed") {
       element.setProperty(openPropName, true);
       await beforeCloseOrCollapseEvent;
@@ -242,14 +249,29 @@ async function testOpenCloseEvents({
     if (openPropName === "open" || openPropName === "expanded") {
       await beforeOpenOrExpandEvent;
       await openOrExpandEvent;
+
       assertEventSequence([1, 1, 0, 0]);
 
       element.setProperty(openPropName, false);
+
       await page.waitForChanges();
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
     } else if (openPropName === "closed" || openPropName === "collapsed") {
       await beforeCloseOrCollapseEvent;
       await closeOrCollapseEvent;
+
       assertEventSequence([0, 0, 1, 1]);
+
+      element.setProperty(openPropName, false);
+
+      await page.waitForChanges();
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
     }
   }
 
@@ -258,7 +280,6 @@ async function testOpenCloseEvents({
       openPropName === "expanded" || openPropName === "collapsed"
         ? await toElementHandle(await element.find(`.${containerSelector}`))
         : await toElementHandle(element);
-
     const boundingBox = await elementHandle.boundingBox();
     const horizontalCollapse = collapsedOnClose === "horizontal";
     const dimension = horizontalCollapse ? "width" : "height";
@@ -271,21 +292,19 @@ async function testOpenCloseEvents({
   const delayDeltaThreshold = 100; // smallest internal animation timing used
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
-  if (timestamps.beforeOpen !== undefined && timestamps.open !== undefined) {
-    expect(timestamps.open - timestamps.beforeOpen)[matcherName](delayDeltaThreshold);
-  }
+  const eventPairs: [OpenCloseName, OpenCloseName][] = [
+    ["beforeOpen", "open"],
+    ["beforeClose", "close"],
+    ["beforeExpand", "expand"],
+    ["beforeCollapse", "collapse"],
+  ];
 
-  if (timestamps.beforeClose !== undefined && timestamps.close !== undefined) {
-    expect(timestamps.close - timestamps.beforeClose)[matcherName](delayDeltaThreshold);
-  }
-
-  if (timestamps.beforeExpand !== undefined && timestamps.expand !== undefined) {
-    expect(timestamps.expand - timestamps.beforeExpand)[matcherName](delayDeltaThreshold);
-  }
-
-  if (timestamps.beforeCollapse !== undefined && timestamps.collapse !== undefined) {
-    expect(timestamps.collapse - timestamps.beforeCollapse)[matcherName](delayDeltaThreshold);
-  }
+  eventPairs.forEach(([beforeEvent, event]) => {
+    if (timestamps[beforeEvent] !== undefined && timestamps[event] !== undefined) {
+      const actualDifference = timestamps[event] - timestamps[beforeEvent];
+      expect(actualDifference)[matcherName](delayDeltaThreshold);
+    }
+  });
 }
 
 type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
@@ -299,7 +318,6 @@ function getEventSequence(componentTag: ComponentTag, openPropName: string): str
       : openPropName === "expanded" || openPropName === "collapsed"
         ? [`BeforeExpand`, `Expand`, `BeforeCollapse`, `Collapse`]
         : [];
-
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
