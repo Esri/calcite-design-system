@@ -5,11 +5,11 @@
  *
  * @prop --calcite-switch-background-color: Specifies the component's background color.
  * @prop --calcite-switch-background-color-hover: Specifies the component's background color when hovered or pressed.
- * @prop --calcite-switch-border-color: [Deprecated] Specifies the component's border color.
+ * @prop --calcite-switch-border-color: [Deprecated] No longer necessary. Specifies the component's border color.
  * @prop --calcite-switch-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-switch-handle-background-color: Specifies the handle's background color.
- * @prop --calcite-switch-handle-border-color: [Deprecated] Specifies the handle's border color.
- * @prop --calcite-switch-handle-shadow: [Deprecated] Specifies the handle's shadow.
+ * @prop --calcite-switch-handle-border-color: [Deprecated] No longer necessary. Specifies the handle's border color.
+ * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
  */
 
 // sizes
@@ -101,34 +101,17 @@
   box-shadow: var(--calcite-switch-handle-shadow);
 }
 
-:host(:hover:not([disabled])),
-:host(:focus:not([disabled])) {
-  .handle {
-    border-color: var(--calcite-switch-handle-border-color);
-    box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 0);
-  }
-}
-
 :host([checked]) {
   .track {
-    border-color: var(--calcite-switch-border-color);
     background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
-    border-color: var(--calcite-switch-handle-border-color);
     inset-inline: theme("inset.auto") 2px;
   }
 
   &:host(:hover:not([disabled])) {
     .track {
       background-color: var(--calcite-switch-background-color-hover, var(--calcite-color-brand-hover));
-    }
-  }
-
-  &:host(:hover:not([disabled])) {
-    .handle {
-      border-color: var(--calcite-switch-handle-border-color);
-      box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 0);
     }
   }
 }
