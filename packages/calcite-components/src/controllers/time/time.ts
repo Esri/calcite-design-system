@@ -93,6 +93,9 @@ export class TimeController
       this.setMeridiemOrder();
       this.setValue(this.component.value);
     }
+    if (changes.has("numberingSystem")) {
+      this.setValue(this.component.value);
+    }
   }
 
   // #endregion
