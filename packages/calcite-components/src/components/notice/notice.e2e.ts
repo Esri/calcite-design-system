@@ -130,7 +130,7 @@ describe("calcite-notice", () => {
     t9n("calcite-notice");
   });
 
-  describe("theme", () => {
+  describe.only("theme", () => {
     describe("default", () => {
       themed(
         html`
@@ -153,12 +153,12 @@ describe("calcite-notice", () => {
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "color",
-              state: "focus",
+              state: { focus: { attribute: "class", value: CSS.close } },
             },
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "color",
-              state: "hover",
+              state: { hover: { attribute: "class", value: CSS.close } },
             },
           ],
           "--calcite-notice-close-background-color-focus": [
