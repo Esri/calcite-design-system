@@ -1479,17 +1479,30 @@ describe("calcite-time-picker", () => {
           targetProp: "color",
           shadowSelector: "calcite-icon",
         },
-        // "--calcite-time-picker-input-border-color-press": {
-        //   targetProp: "boxShadow",
-        //   state: { press: { attribute: "class", value: CSS.hour } },
-        //   shadowSelector: `.${CSS.hour}`,
-        // },
         "--calcite-time-picker-input-border-color-hover": {
           targetProp: "boxShadow",
           state: "hover",
           shadowSelector: `.${CSS.input}`,
         },
       });
+    });
+
+    describe("hour input focused", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-time-picker></calcite-time-picker>`);
+          const timePickerHour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+          await timePickerHour.focus();
+          return { page, tag: "calcite-time-picker" };
+        },
+        {
+          "--calcite-time-picker-input-border-color-press": {
+            targetProp: "boxShadow",
+            shadowSelector: `.${CSS.hour}`,
+          },
+        },
+      );
     });
   });
 });
