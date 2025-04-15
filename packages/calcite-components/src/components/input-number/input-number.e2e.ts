@@ -1919,6 +1919,42 @@ describe("calcite-input-number", () => {
           shadowSelector: `.${CSS.suffix}`,
           targetProp: "inlineSize",
         },
+        "--calcite-input-number-height": {
+          shadowSelector: `input`,
+          targetProp: "blockSize",
+        },
+        "--calcite-input-number-background-color": {
+          shadowSelector: `input`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-number-text-color": {
+          shadowSelector: `input`,
+          targetProp: "color",
+        },
+        "--calcite-input-number-corner-radius": {
+          shadowSelector: `input`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-input-number-border-color": {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        "--calcite-input-prefix-background-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-suffix-background-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-prefix-text-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "color",
+        },
+        "--calcite-input-suffix-text-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "color",
+        },
       },
     );
   });
