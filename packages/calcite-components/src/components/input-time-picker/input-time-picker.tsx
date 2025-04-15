@@ -330,19 +330,10 @@ export class InputTimePicker
       }
     }
 
-    if (changes.has("hourFormat")) {
-      // TODO: relocalize input value
-      // TODO: update locale in time controller
-    }
-
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
       if (!this.readOnly) {
         this.open = false;
       }
-    }
-
-    if (changes.has("numberingSystem")) {
-      // TODO: relocalize input value
     }
 
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
