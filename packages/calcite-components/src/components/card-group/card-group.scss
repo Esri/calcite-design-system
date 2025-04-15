@@ -14,7 +14,7 @@
 .container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--calcite-card-group-space, var(--calcite-card-group-gap, var(--calcite-spacing-base)));
+  gap: var(--calcite-card-group-space, var(--calcite-card-group-gap, var(--calcite-spacing-md)));
 }
 
 @include base-component();

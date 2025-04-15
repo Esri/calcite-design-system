@@ -26,6 +26,18 @@
         text-align: right;
       }
 
+      .custom-content-slot-test-div {
+        margin: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--calcite-color-background);
+        border: 1px solid var(--calcite-color-brand);
+        border-radius: 5px;
+      }
+
       hr {
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
@@ -1679,12 +1691,32 @@
         </div>
       </div>
 
+      <hr />
+
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">
+          <calcite-dialog heading="Custom content slot dialog" id="js-dialog-custom-content-slot" placement="cover">
+            <div class="custom-content-slot-test-div" slot="custom-content">
+              <p>This dialog has default content replaced with custom content.</p>
+              <calcite-button id="custom-content-button" appearance="outline" scale="s">Close</calcite-button>
+            </div>
+          </calcite-dialog>
+
+          <calcite-button data-dialog-ref="js-dialog-custom-content-slot" appearance="outline" scale="s">
+            custom content slot
+          </calcite-button>
+        </div>
+      </div>
+
       <script>
         const customSizeDialog = document.querySelector("#js-dialog-custom-size");
         const heightInput = document.querySelector("#css-dialog-height-adjuster");
         const widthInput = document.querySelector("#css-dialog-width-adjuster");
         const optionsSelect = document.querySelector("#css-dialog-options-adjuster");
         const beforeCloseRejected = document.getElementById("js-dialog-before-close");
+        const customContentDialog = document.getElementById("js-dialog-custom-content-slot");
+        const customContentButton = document.getElementById("custom-content-button");
 
         beforeCloseRejected.beforeClose = () => {
           return new Promise((_resolve, reject) => setTimeout(reject, 300));
@@ -1721,6 +1753,10 @@
           }
 
           dialog.open = true;
+        });
+
+        customContentButton.addEventListener("click", () => {
+          customContentDialog.open = false;
         });
       </script>
     </demo-dom-swapper>

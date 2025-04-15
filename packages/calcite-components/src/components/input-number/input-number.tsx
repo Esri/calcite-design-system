@@ -31,12 +31,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -76,8 +71,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     NumericInputComponent,
-    TextualInputComponent,
-    LoadableComponent
+    TextualInputComponent
 {
   // #region Static Members
 
@@ -417,7 +411,6 @@ export class InputNumber
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -461,10 +454,6 @@ export class InputNumber
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -671,6 +660,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -834,6 +824,9 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
+    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
+    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
+
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? valueHandleInteger
@@ -857,11 +850,20 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.displayedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-        : newLocalizedValue;
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
 
+    // adds localized leading zeros
+    if (hasLeadingZeros) {
+      newLocalizedValue = `${
+        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
+        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;

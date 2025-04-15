@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import {
   arrow,
   autoPlacement,
@@ -20,10 +21,9 @@ import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
-import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (isBrowser()) {
+  if (!isServer) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -337,46 +337,40 @@ function getMiddleware({
   arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
-  const defaultMiddleware = [shift(), hide()];
+  const middleware = [shift(), hide()];
 
   if (type === "menu") {
-    return [
-      ...defaultMiddleware,
+    middleware.push(
       flip({
         fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
       }),
-    ];
+    );
   }
 
-  if (type === "popover" || type === "tooltip") {
-    const middleware: Middleware[] = [
-      ...defaultMiddleware,
-      offset({
-        mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
-        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0,
+  middleware.push(
+    offset({
+      mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
+      crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0,
+    }),
+  );
+
+  if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
+    middleware.push(
+      autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
+    );
+  } else if (!flipDisabled) {
+    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
+  }
+
+  if (arrowEl) {
+    middleware.push(
+      arrow({
+        element: arrowEl,
       }),
-    ];
-
-    if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
-      middleware.push(
-        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
-      );
-    } else if (!flipDisabled) {
-      middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
-    }
-
-    if (arrowEl) {
-      middleware.push(
-        arrow({
-          element: arrowEl,
-        }),
-      );
-    }
-
-    return middleware;
+    );
   }
 
-  return [];
+  return middleware;
 }
 
 export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
@@ -504,7 +498,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
     return;
   }
 
-  const effectiveAutoUpdate = isBrowser()
+  const effectiveAutoUpdate = !isServer
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();

@@ -6,8 +6,9 @@
  * @prop --calcite-block-border-color: Specifies the component's border color.
  * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
+ * @prop --calcite-block-header-background-color-press: Specifies the component's `heading` background color when pressed.
  * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-block-heading-text-color-press: When the component is `open`, specifies the `heading` text color.
+ * @prop --calcite-block-heading-text-color-press: When the component is `expanded`, specifies the `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the component's text color.
  */
@@ -24,7 +25,6 @@
 
 @include disabled();
 
-@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 .header {
@@ -93,6 +93,9 @@
   }
   &:focus {
     @apply focus-inset;
+  }
+  &:active {
+    background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 
@@ -205,11 +208,20 @@ calcite-action-menu {
   @apply flex items-stretch;
 }
 
-:host([open]) {
+:host([expanded]) {
   @apply my-2;
 
   .header .title .heading {
     color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
+  }
+
+  .description {
+    color: var(--calcite-block-text-color, var(--calcite-color-text-2));
+  }
+
+  .icon--start,
+  .icon--end {
+    color: var(--calcite-block-text-color, var(--calcite-color-text-1));
   }
 }
 

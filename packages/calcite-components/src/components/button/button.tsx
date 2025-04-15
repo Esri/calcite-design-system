@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
 import {
@@ -19,17 +20,11 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -53,7 +48,7 @@ declare global {
  */
 export class Button
   extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner
 {
   // #region Static Members
 
@@ -212,8 +207,7 @@ export class Button
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasContent();
     }
   }
@@ -223,7 +217,6 @@ export class Button
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setTooltipText();
   }
 

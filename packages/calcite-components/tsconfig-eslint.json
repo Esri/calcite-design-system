@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig-base",
-  "include": [".storybook/*", "**/*", "**/*.config.js", "eslint.config.mjs", "**/.*.cjs"],
+  "include": ["**/*", "**/*.config.mjs", "**/.*.cjs", ".storybook/*"],
   "exclude": ["**/[!_]*assets*/**", "dist", "hydrate", "docs"]
 }

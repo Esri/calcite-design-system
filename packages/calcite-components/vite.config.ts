@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -9,9 +8,14 @@ import { useLumina } from "@arcgis/lumina-compiler";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
-const nonEsmDependencies = ["color", "interactjs"];
+const nonEsmDependencies = ["interactjs"];
+const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
+const runPuppeteerAndHappyDomTests = process.env.STABLE_TESTS === "true" || !runBrowserTests;
 
 export default defineConfig({
+  build: { minify: false },
+  cacheDir: runPuppeteerAndHappyDomTests ? "node_modules/.vite/puppeteer" : undefined,
+
   ssr: {
     noExternal: nonEsmDependencies,
   },
@@ -44,7 +48,7 @@ export default defineConfig({
         hydratedAttribute: "calcite-hydrated",
       },
       puppeteerTesting: {
-        enabled: true,
+        enabled: runPuppeteerAndHappyDomTests,
         waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
@@ -58,7 +62,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         // Add "includes.scss" import to each scss file
-        additionalData(code, id) {
+        additionalData(code: string, id: string) {
           const globalCss = "/src/assets/styles/includes";
           if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
             return undefined;
@@ -80,6 +84,7 @@ export default defineConfig({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true,
+          quiet: true,
         }),
       ],
     },
@@ -92,12 +97,15 @@ export default defineConfig({
   },
 
   test: {
+    browser: { name: "chromium", enabled: runBrowserTests, screenshotFailures: false },
+    include: [`**/*.${runPuppeteerAndHappyDomTests ? "" : "browser."}{e2e,spec}.?(c|m)[jt]s?(x)`],
+    passWithNoTests: true,
     setupFiles: ["src/tests/setupTests.ts"],
-    include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
   /*
    * While useLumina() pre-configures everything for you, you can still
    * provide any Vite, Vitest, ESBuild or Rollup configuration option.
+   * See https://vite.dev/config/
    * See https://vitest.dev/config/
    */
 });

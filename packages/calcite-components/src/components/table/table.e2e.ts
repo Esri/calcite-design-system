@@ -1614,7 +1614,7 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
   });
 
-  it("navigates correctly skipping disabled rows", async () => {
+  it("navigates correctly skipping disabled and hidden rows", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1637,6 +1637,10 @@ describe("keyboard navigation", () => {
         <calcite-table-row id="row-4">
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-5" hidden>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
     );
@@ -1667,7 +1671,7 @@ describe("keyboard navigation", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
   });
 
-  it("navigates correctly skipping disabled rows when disabled rows in last body position", async () => {
+  it("navigates correctly skipping disabled/hidden rows when disabled/hidden rows in last body position", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
@@ -1690,6 +1694,10 @@ describe("keyboard navigation", () => {
         <calcite-table-row id="row-4" disabled>
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-5" hidden>
+          <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
     );

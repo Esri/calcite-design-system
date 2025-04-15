@@ -23,15 +23,11 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
+import { isHidden } from "../../utils/component";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -43,7 +39,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class StepperItem extends LitElement implements InteractiveComponent, LoadableComponent {
+export class StepperItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -91,6 +87,13 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
@@ -175,7 +178,6 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
@@ -205,10 +207,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
+    setAttribute(this.el, "tabindex", this.disabled || this.layout === "horizontal" ? null : 0);
   }
 
   // #endregion
@@ -274,6 +273,7 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   private handleItemClick(event: MouseEvent): void {
     if (
       this.disabled ||
+      isHidden(this.el) ||
       (this.layout === "horizontal" &&
         event
           .composedPath()
@@ -303,9 +303,11 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
   }
 
   private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el,
-    );
+    return Array.from(
+      this.parentStepperEl?.querySelectorAll(
+        "calcite-stepper-item:not([hidden]):not([item-hidden])",
+      ),
+    ).indexOf(this.el);
   }
 
   // #endregion
@@ -316,10 +318,11 @@ export class StepperItem extends LitElement implements InteractiveComponent, Loa
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaCurrent = this.selected ? "step" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", this.disabled ? -1 : 0);
 
     // use local var to bypass logic-changing compiler transformation
-    const innerDisplayContextTabIndex = this.layout === "horizontal" && !this.disabled ? 0 : null;
+    const innerDisplayContextTabIndex =
+      /* additional tab index logic needed because of display: contents for horizontal layout */
+      this.layout === "horizontal" && !this.disabled ? 0 : null;
 
     return (
       <InteractiveContainer disabled={this.disabled}>

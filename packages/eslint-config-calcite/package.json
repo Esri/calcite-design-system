@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-config-calcite",
-  "version": "0.0.1-next.0",
+  "version": "0.0.1-next.2",
   "private": true,
   "type": "module",
   "description": "The shared ESLint config for Esri's Calcite Design System",

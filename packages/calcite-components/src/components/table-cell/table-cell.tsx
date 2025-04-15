@@ -3,12 +3,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -29,7 +24,7 @@ declare global {
 }
 
 /** @slot - A slot for adding content, usually text content. */
-export class TableCell extends LitElement implements InteractiveComponent, LoadableComponent {
+export class TableCell extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -125,7 +120,6 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
   // #region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateScreenReaderContentsText();
     this.updateScreenReaderSelectionText();
   }
@@ -138,10 +132,6 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

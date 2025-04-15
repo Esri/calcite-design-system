@@ -1,5 +1,4 @@
-import { h } from "preact";
-import style from "./style.css";
+import style from "./style.module.css";
 
 const Home = () => {
   return (

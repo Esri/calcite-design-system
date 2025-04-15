@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -509,15 +509,11 @@ describe("calcite-button", () => {
         Layers
       </calcite-button>
     `;
-    let page;
-    let buttonEl;
-    let buttonFocusStyle;
-    let buttonHoverStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: buttonSnippet });
+      const page = await newE2EPage({ html: buttonSnippet });
       const buttonStyles = await page.evaluate(() => {
-        buttonEl = document.querySelector("calcite-button");
+        const buttonEl = document.querySelector("calcite-button");
         buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
         buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
@@ -531,41 +527,31 @@ describe("calcite-button", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
-        page = await newE2EPage({ html: buttonSnippet });
-        buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.focus();
-        await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
-
+        const page = await newE2EPage({ html: buttonSnippet });
+        const buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
+        const buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
+        const page = await newE2EPage({
           html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
         });
-        buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.focus();
-        await page.waitForChanges();
-        buttonFocusStyle = await buttonEl.getComputedStyle();
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-
+        const buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.hover();
         await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
+        const buttonHoverStyle = await buttonEl.getComputedStyle();
         expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 255, 0, 0.9)";
-      page = await newE2EPage({
+      const page = await newE2EPage({
         html: `
         <style>
           :root {
@@ -574,15 +560,10 @@ describe("calcite-button", () => {
         </style>
         <div>${buttonSnippet}</div>`,
       });
-      buttonEl = await page.find("calcite-button >>> button");
-      await buttonEl.focus();
-      await page.waitForChanges();
-      buttonFocusStyle = await buttonEl.getComputedStyle();
-      expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-
+      const buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.hover();
       await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle();
+      const buttonHoverStyle = await buttonEl.getComputedStyle();
       expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
@@ -712,5 +693,60 @@ describe("calcite-button", () => {
     expect(elementAsButton).not.toBeNull();
     expect(elementHost).toEqualAttribute("width", "full");
     expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-button", {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+      });
+    });
+    describe("loading", () => {
+      themed(html`<calcite-button loading></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
+        "--calcite-button-loader-color": {
+          shadowSelector: `.${CSS.loadingIn}`,
+          targetProp: "color",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+      });
+    });
+    describe("outline", () => {
+      themed(html`<calcite-button appearance="outline"></calcite-button>`, {
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+      });
+    });
   });
 });

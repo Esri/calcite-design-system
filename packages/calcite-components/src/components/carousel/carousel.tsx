@@ -13,12 +13,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -37,7 +32,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-carousel-item`s. */
-export class Carousel extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Carousel extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -78,6 +73,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
+        this.direction = "forward";
         this.nextItem(false);
       } else {
         time = time - 0.01;
@@ -226,7 +222,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     } else if (this.autoplay === "paused") {
       this.paused = true;
     }
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -258,10 +253,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -405,6 +396,11 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private handleArrowClick(event: MouseEvent): void {
     const direction = (event.target as HTMLDivElement).dataset.direction;
+
+    if (this.playing) {
+      this.handlePause(true);
+    }
+
     if (direction === "next") {
       this.direction = "forward";
       this.nextItem(true);
@@ -572,6 +568,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private renderRotationControl(): JsxNode {
     const text = this.playing ? this.messages.pause : this.messages.play;
+    const formattedValue = this.slideDurationRemaining * 100;
     return (
       <button
         ariaLabel={text}
@@ -587,7 +584,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
           <calcite-progress
             class={CSS.autoplayProgress}
             label={this.messages.carouselItemProgress}
-            value={this.slideDurationRemaining}
+            value={formattedValue}
           />
         )}
       </button>

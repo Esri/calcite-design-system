@@ -1,9 +1,10 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
+import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
+import { findAll } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -217,7 +218,7 @@ describe("calcite-tree-item", () => {
       const page = await newE2EPage();
       await page.setContent(tree);
       await page.waitForChanges();
-      const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      const ancestors = await findAll(page, `calcite-tree-item[data-id="ancestor"]`);
 
       for (const node of ancestors) {
         expect(await node.getProperty("indeterminate")).toBe(true);
@@ -252,7 +253,7 @@ describe("calcite-tree-item", () => {
       const page = await newE2EPage();
       await page.setContent(tree);
       await page.waitForChanges();
-      const [indeterminateAncestor, selectedAncestor] = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      const [indeterminateAncestor, selectedAncestor] = await findAll(page, `calcite-tree-item[data-id="ancestor"]`);
 
       expect(await indeterminateAncestor.getProperty("indeterminate")).toBe(true);
       expect(await indeterminateAncestor.getProperty("selected")).toBe(false);
@@ -423,5 +424,69 @@ describe("calcite-tree-item", () => {
     const itemBounds = await item.boundingBox();
 
     expect(itemBounds.height).not.toBe(0);
+  });
+
+  describe("themed", () => {
+    describe(`selection-mode="none"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="none">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="single"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="single">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color-selected": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.bulletPointIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="multiple"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="multiple">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkmarkIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="ancestors"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="ancestors">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkbox}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
   });
 });
