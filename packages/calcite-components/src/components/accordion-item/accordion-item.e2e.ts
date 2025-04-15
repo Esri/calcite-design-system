@@ -34,6 +34,7 @@ describe("calcite-accordion-item", () => {
           description="Description"
           icon-start="home"
           icon-end="home"
+          appearance="solid"
           >content</calcite-accordion-item
         >`,
         {

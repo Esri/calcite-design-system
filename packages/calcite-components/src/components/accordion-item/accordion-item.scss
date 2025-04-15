@@ -46,13 +46,36 @@
     background-color: var(--calcite-accordion-item-header-background-color);
 
     &:hover {
-      background-color: var(--calcite-accordion-item-header-background-color-hover, var(--calcite-color-foreground-2));
+      background-color: var(--calcite-internal-accordion-item-header-background-color-hover);
     }
 
     &:active {
-      background-color: var(--calcite-accordion-item-header-background-color-press, var(--calcite-color-foreground-3));
+      background-color: var(--calcite-internal-accordion-item-header-background-color-press);
     }
   }
+}
+
+.header--solid {
+  --calcite-internal-accordion-item-header-background-color-hover: var(
+    --calcite-accordion-item-header-background-color-hover,
+    var(--calcite-color-foreground-2)
+  );
+
+  --calcite-internal-accordion-item-header-background-color-press: var(
+    --calcite-accordion-item-header-background-color-press,
+    var(--calcite-color-foreground-3)
+  );
+}
+
+.header--transparent {
+  --calcite-internal-accordion-item-header-background-color-hover: var(
+    --calcite-accordion-item-header-background-color-hover,
+    var(--calcite-color-transparent-hover)
+  );
+  --calcite-internal-accordion-item-header-background-color-press: var(
+    --calcite-accordion-item-header-background-color-press,
+    var(--calcite-color-transparent-press)
+  );
 }
 
 // icon position variants for child
