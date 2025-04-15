@@ -25,21 +25,21 @@
     items-stretch;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-max-height: unset;
-  --calcite-internal-shell-panel-shadow-block-start:
-    0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-internal-shell-panel-shadow-block-end:
-    0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-internal-shell-panel-shadow-inline-start:
-    4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-internal-shell-panel-shadow-inline-end:
-    -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-block-start: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-block-end: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 -2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-inline-start: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-inline-end: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 .calcite--rtl.content--overlay {
-  --calcite-internal-shell-panel-shadow-inline-start:
-    -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-internal-shell-panel-shadow-inline-end:
-    4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-inline-start: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-internal-shell-panel-shadow-inline-end: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 :host([layout="vertical"]) {
