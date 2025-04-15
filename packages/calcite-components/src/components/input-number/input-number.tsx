@@ -660,6 +660,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }

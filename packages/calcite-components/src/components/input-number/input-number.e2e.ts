@@ -554,19 +554,35 @@ describe("calcite-input-number", () => {
       await input.callMethod("setFocus");
       await page.waitForChanges();
 
+      const eventSpy = await page.spyOnEvent("keydown");
       await page.keyboard.down("ArrowUp");
       await page.waitForTimeout(delayFor2UpdatesInMs);
       await page.waitForEvent("calciteInputNumberInput");
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
 
       const totalNudgesUp = calciteInputNumberInput.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
+      await page.waitForChanges();
       await page.waitForTimeout(delayFor2UpdatesInMs);
+
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEventTimes(4);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
 
       const totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
