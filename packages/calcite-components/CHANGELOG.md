@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.12...@esri/calcite-components@3.2.0-next.13) (2025-04-15)
+
+### Features
+
+- **notice:** add token for close icon and title text color ([#11938](https://github.com/Esri/calcite-design-system/issues/11938)) ([94834ee](https://github.com/Esri/calcite-design-system/commit/94834eec3c8a303794fee20861a53a1b861a3215)), closes [#11790](https://github.com/Esri/calcite-design-system/issues/11790)
+
+### Bug Fixes
+
+- **input-date-picker:** allow clearing invalid date value ([#11937](https://github.com/Esri/calcite-design-system/issues/11937)) ([c476a9f](https://github.com/Esri/calcite-design-system/commit/c476a9fb718d76399af5f51b2c30c8c7f47c68ea))
+- **list, block-group:** fix drag handle events when lists or blocks are nested ([#11816](https://github.com/Esri/calcite-design-system/issues/11816)) ([09296dd](https://github.com/Esri/calcite-design-system/commit/09296dd75eafb158c708e7ff3dab185f180dbe16)), closes [#11774](https://github.com/Esri/calcite-design-system/issues/11774)
+
 ## [3.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.11...@esri/calcite-components@3.2.0-next.12) (2025-04-15)
 
 ### Bug Fixes
