@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.11...@esri/calcite-components@3.2.0-next.12) (2025-04-15)
+
+### Bug Fixes
+
+- **input-number:** cancel arrow down event ([#11956](https://github.com/Esri/calcite-design-system/issues/11956)) ([562fe62](https://github.com/Esri/calcite-design-system/commit/562fe6239d0bb0888c9291afdea5427482dacc12)), closes [#10271](https://github.com/Esri/calcite-design-system/issues/10271)
+
+## [3.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.10...@esri/calcite-components@3.2.0-next.11) (2025-04-12)
+
+### Bug Fixes
+
+- **input-number:** allow editing of numbers that start with zeros ([#11705](https://github.com/Esri/calcite-design-system/issues/11705)) ([e86c99d](https://github.com/Esri/calcite-design-system/commit/e86c99da9fa9044445db7d8e5fa18cdf773a4b93)), closes [#9611](https://github.com/Esri/calcite-design-system/issues/9611)
+
+## [3.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.9...@esri/calcite-components@3.2.0-next.10) (2025-04-11)
+
+### Bug Fixes
+
+- **list-item:** display selection border when item is focused ([#11898](https://github.com/Esri/calcite-design-system/issues/11898)) ([c9218e2](https://github.com/Esri/calcite-design-system/commit/c9218e2272a1c5957602dc2603181210ffcdf8c9)), closes [#11835](https://github.com/Esri/calcite-design-system/issues/11835)
+- **text-area:** no longer changes height & width when status is invalid ([#11826](https://github.com/Esri/calcite-design-system/issues/11826)) ([215546b](https://github.com/Esri/calcite-design-system/commit/215546bb3adb47544632322b650e4956fe921d79)), closes [#11592](https://github.com/Esri/calcite-design-system/issues/11592)
+
 ## [3.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.8...@esri/calcite-components@3.2.0-next.9) (2025-04-09)
 
 ### Features

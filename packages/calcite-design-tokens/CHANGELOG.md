@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.7...@esri/calcite-design-tokens@3.0.2-next.8) (2025-04-15)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.6...@esri/calcite-design-tokens@3.0.2-next.7) (2025-04-12)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [3.0.2-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.5...@esri/calcite-design-tokens@3.0.2-next.6) (2025-04-11)
+
+### Bug Fixes
+
+- **tokens:** add missing core color tokens and fix incorrect values ([#11924](https://github.com/Esri/calcite-design-system/issues/11924)) ([a8bad7e](https://github.com/Esri/calcite-design-system/commit/a8bad7ef1074186eed0a5d0a88b4dfbc914410ea)), closes [#11581](https://github.com/Esri/calcite-design-system/issues/11581) [#11918](https://github.com/Esri/calcite-design-system/issues/11918) [#0089](https://github.com/Esri/calcite-design-system/issues/0089) [#11AD1](https://github.com/Esri/calcite-design-system/issues/11AD1) [#11655](https://github.com/Esri/calcite-design-system/issues/11655) [#11852](https://github.com/Esri/calcite-design-system/issues/11852) [#10050](https://github.com/Esri/calcite-design-system/issues/10050) [#11565](https://github.com/Esri/calcite-design-system/issues/11565) [#11725](https://github.com/Esri/calcite-design-system/issues/11725) [#11903](https://github.com/Esri/calcite-design-system/issues/11903)
+
 ## [3.0.2-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.4...@esri/calcite-design-tokens@3.0.2-next.5) (2025-04-09)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
