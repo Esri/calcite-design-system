@@ -392,7 +392,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("responds to property changes", () => {
-    it("updates value appropriately as step changes", async () => {
+    it("step", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
 
@@ -414,10 +414,11 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page)).toBe("01:02 AM");
     });
 
-    it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
+    it("lang and numberingSystem", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
       const inputTimePicker = await page.find("calcite-input-time-picker");
+      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
       expect(await getInputValue(page)).toBe("02:30:25 PM");
 
@@ -427,18 +428,21 @@ describe("calcite-input-time-picker", () => {
       await waitForAnimationFrame();
 
       expect(await getInputValue(page, "da")).toBe("14.30.25");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       inputTimePicker.setProperty("lang", "ar");
       await page.waitForChanges();
       await waitForAnimationFrame();
 
       expect(await getInputValue(page, "ar")).toBe("02:30:25 م");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       inputTimePicker.setProperty("numberingSystem", "arab");
       await page.waitForChanges();
       await waitForAnimationFrame();
 
       expect(await getInputValue(page, "ar")).toBe("٠٢:٣٠:٢٥ م");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       inputTimePicker.setProperty("lang", "zh-HK");
       inputTimePicker.setProperty("numberingSystem", "latn");
@@ -446,6 +450,47 @@ describe("calcite-input-time-picker", () => {
       await waitForAnimationFrame();
 
       expect(await getInputValue(page, "zh-HK")).toBe("下午02:30:25");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
+
+    it("hourFormat", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-time-picker value="14:30"></calcite-input-time-picker>`);
+
+      const inputTimePicker = await page.find("calcite-input-time-picker");
+      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:30");
+      expect(await getInputValue(page)).toBe("02:30 PM");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      inputTimePicker.setProperty("hourFormat", "24");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:30");
+      expect(await getInputValue(page)).toBe("14:30");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      inputTimePicker.setProperty("hourFormat", "12");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:30");
+      expect(await getInputValue(page)).toBe("02:30 PM");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      inputTimePicker.setProperty("hourFormat", "24");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:30");
+      expect(await getInputValue(page)).toBe("14:30");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      inputTimePicker.setProperty("hourFormat", "user");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("14:30");
+      expect(await getInputValue(page)).toBe("02:30 PM");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
     });
   });
 

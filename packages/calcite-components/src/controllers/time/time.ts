@@ -88,6 +88,10 @@ export class TimeController
   }
 
   hostUpdate(changes: PropertyValues): void {
+    if (changes.has("hourFormat")) {
+      this.setHourFormat();
+      this.setValue(this.component.value);
+    }
     if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
       this.setHourFormat();
       this.setMeridiemOrder();

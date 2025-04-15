@@ -183,7 +183,7 @@ export class InputTimePicker
   @property() name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
