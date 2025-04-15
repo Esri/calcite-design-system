@@ -57,28 +57,23 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  requestAnimationFrame((): void => {
+  requestAnimationFrame(async (): Promise<void> => {
     if (!component.transitionEl) {
       return;
     }
 
-    whenTransitionDone(
-      component.transitionEl,
-      component.transitionProp,
-      () => {
-        if (isOpen(component)) {
-          component.onBeforeOpen();
-        } else {
-          component.onBeforeClose();
-        }
-      },
-      () => {
-        if (isOpen(component)) {
-          component.onOpen();
-        } else {
-          component.onClose();
-        }
-      },
-    );
+    if (isOpen(component)) {
+      component.onBeforeOpen();
+    } else {
+      component.onBeforeClose();
+    }
+
+    await whenTransitionDone(component.transitionEl, component.transitionProp);
+
+    if (isOpen(component)) {
+      component.onOpen();
+    } else {
+      component.onClose();
+    }
   });
 }
