@@ -12,7 +12,10 @@
             "type": "dropShadow"
           }
         ],
-        "type": "boxShadow"
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
       },
       "sm": {
         "value": [
@@ -33,7 +36,10 @@
             "type": "dropShadow"
           }
         ],
-        "type": "boxShadow"
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
       },
       "md": {
         "value": [
@@ -54,7 +60,10 @@
             "type": "dropShadow"
           }
         ],
-        "type": "boxShadow"
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
       }
     }
   }
