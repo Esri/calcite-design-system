@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.13...@esri/calcite-components@3.2.0-next.14) (2025-04-16)
+
+### Features
+
+- **switch:** enhance component's colors for a11y and usability ([#11951](https://github.com/Esri/calcite-design-system/issues/11951)) ([52886ef](https://github.com/Esri/calcite-design-system/commit/52886ef0f418f5dc06110574b790dc001fcead56)), closes [#10483](https://github.com/Esri/calcite-design-system/issues/10483)
+
 ## [3.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.12...@esri/calcite-components@3.2.0-next.13) (2025-04-15)
 
 ### Features
