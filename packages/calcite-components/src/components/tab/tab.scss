@@ -11,22 +11,13 @@
   @apply hidden h-full w-full;
 }
 
-:host([selected]) {
-  @apply block h-full w-full overflow-auto;
-
-  section,
-  .container {
-    @apply block;
-  }
+:host([selected]),
+:host([selected]) .container {
+  @apply flex flex-col;
 }
 
 .content {
   @apply box-border;
-
-  padding-block: var(
-    --calcite-tab-content-space-y,
-    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
-  );
 }
 
 .scale-s {
@@ -50,13 +41,13 @@
   line-height: 1.25rem;
 }
 
-section,
 .container {
-  @apply hidden h-full w-full;
-}
+  margin-block: var(
+    --calcite-tab-content-space-y,
+    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
+  );
 
-.container {
-  @apply focus-base;
+  @apply focus-base hidden h-full w-full overflow-auto;
 
   &:focus {
     @apply focus-inset;
