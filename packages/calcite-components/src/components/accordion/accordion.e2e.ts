@@ -98,6 +98,7 @@ describe("calcite-accordion", () => {
     const accordionItems = await findAll(page, "calcite-accordion-item");
 
     for (const item of accordionItems) {
+      expect(await item.getProperty("appearance")).toBe("solid");
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
       expect(await item.getProperty("scale")).toBe("l");
