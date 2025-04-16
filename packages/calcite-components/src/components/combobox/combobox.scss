@@ -161,7 +161,7 @@
 }
 
 .label {
-  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
+  @apply max-w-full flex-auto truncate p-0 font-normal;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }

@@ -4,11 +4,16 @@ export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxI
 
 export const CSS = {
   checkbox: "checkbox",
+  chip: "chip",
   chipInvisible: "chip--invisible",
   icon: "icon",
   input: "input",
   inputHidden: "input--hidden",
-  chip: "chip",
+  label: "label",
+  labelIcon: "label-icon",
+  listContainer: "list-container",
+  placeholderIcon: "placeholder-icon",
+  selectAllCheckbox: "select-all-checkbox",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   selectedIcon: "selected-icon",

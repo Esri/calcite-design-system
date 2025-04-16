@@ -1786,7 +1786,7 @@ export class Combobox
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <li
-                  class={{ [CSS.label]: true, [CSS.selectAllcheckbox]: true }}
+                  class={{ [CSS.label]: true, [CSS.selectAllCheckbox]: true }}
                   id={this.guid}
                   role="checkbox"
                 >
