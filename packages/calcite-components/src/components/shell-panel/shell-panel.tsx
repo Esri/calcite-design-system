@@ -1,9 +1,11 @@
 // @ts-strict-ignore
+import interact from "interactjs";
+import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
   getElementDir,
-  isPrimaryPointerButton,
+  isPixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
@@ -14,8 +16,8 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
-import { DisplayMode } from "./interfaces";
+import { CSS, SLOTS, resizeShiftStep, resizeStep } from "./resources";
+import { DisplayMode, ResizeValues } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
 declare global {
@@ -37,123 +39,26 @@ export class ShellPanel extends LitElement {
 
   // #region Private Properties
 
+  private resizeHandleEl: HTMLDivElement;
+
+  private interaction: Interactable;
+
   private actionBars: ActionBar["el"][] = [];
 
   private contentEl: HTMLDivElement;
-
-  private contentHeightMax: number = null;
-
-  private contentHeightMin: number = null;
-
-  private contentWidthMax: number = null;
-
-  private contentWidthMin: number = null;
-
-  private initialClientX: number = null;
-
-  private initialClientY: number = null;
-
-  private initialContentHeight: number = null;
-
-  private initialContentWidth: number = null;
-
-  private separatorEl: HTMLDivElement;
-
-  private separatorPointerDown = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    this.calciteInternalShellPanelResizeStart.emit();
-
-    event.preventDefault();
-    const { separatorEl } = this;
-
-    if (separatorEl && document.activeElement !== separatorEl) {
-      separatorEl.focus();
-    }
-
-    if (this.layout === "horizontal") {
-      this.setInitialContentHeight();
-      this.initialClientY = event.clientY;
-    } else {
-      this.setInitialContentWidth();
-      this.initialClientX = event.clientX;
-    }
-
-    window.addEventListener(
-      "pointerup",
-      this.separatorPointerUp,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.addEventListener(
-      "pointermove",
-      this.separatorPointerMove,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
-  private separatorPointerMove = (event: PointerEvent): void => {
-    event.preventDefault();
-
-    const {
-      el,
-      layout,
-      initialContentWidth,
-      initialContentHeight,
-      position,
-      initialClientX,
-      initialClientY,
-    } = this;
-
-    const offset =
-      layout === "horizontal" ? event.clientY - initialClientY : event.clientX - initialClientX;
-
-    const adjustmentDirection = layout === "vertical" && getElementDir(el) === "rtl" ? -1 : 1;
-
-    const adjustedOffset =
-      layout === "horizontal"
-        ? position === "end"
-          ? -adjustmentDirection * offset
-          : adjustmentDirection * offset
-        : position === "end"
-          ? -adjustmentDirection * offset
-          : adjustmentDirection * offset;
-
-    if (layout === "horizontal") {
-      this.setContentHeight(initialContentHeight + adjustedOffset);
-    } else {
-      this.setContentWidth(initialContentWidth + adjustedOffset);
-    }
-  };
-
-  private separatorPointerUp = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    this.calciteInternalShellPanelResizeEnd.emit();
-
-    event.preventDefault();
-    window.removeEventListener(
-      "pointerup",
-      this.separatorPointerUp,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.removeEventListener(
-      "pointermove",
-      this.separatorPointerMove,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
-  private step = 1;
-
-  private stepMultiplier = 10;
 
   // #endregion
 
   // #region State Properties
 
-  @state() contentHeight: number = null;
-
-  @state() contentWidth: number = null;
+  @state() resizeValues: ResizeValues = {
+    inlineSize: 0,
+    blockSize: 0,
+    minInlineSize: 0,
+    minBlockSize: 0,
+    maxInlineSize: 0,
+    maxBlockSize: 0,
+  };
 
   @state() hasHeader = false;
 
@@ -242,246 +147,201 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  loaded(): void {
-    this.updateAriaValues();
-  }
-
   override disconnectedCallback(): void {
-    this.disconnectSeparator();
+    this.cleanupInteractions();
   }
 
   // #endregion
 
   // #region Private Methods
 
-  private setContentWidth(width: number): void {
-    const { contentWidthMax, contentWidthMin } = this;
-
-    const roundedWidth = Math.round(width);
-
-    this.contentWidth =
-      typeof contentWidthMax === "number" && typeof contentWidthMin === "number"
-        ? clamp(roundedWidth, contentWidthMin, contentWidthMax)
-        : roundedWidth;
+  private getContentElDOMRect(): DOMRect {
+    return this.contentEl.getBoundingClientRect();
   }
 
-  private updateAriaValues(): void {
-    const { contentEl } = this;
-    const computedStyle = contentEl && getComputedStyle(contentEl);
+  private handleKeyDown(event: KeyboardEvent): void {
+    const { key, defaultPrevented, shiftKey } = event;
+    const {
+      position,
+      layout,
+      resizable,
+      contentEl,
+      el,
+      resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
+    } = this;
 
-    if (!computedStyle) {
+    const arrowKeys =
+      layout === "horizontal" ? ["ArrowUp", "ArrowDown"] : ["ArrowLeft", "ArrowRight"];
+
+    const keys = [...arrowKeys, "Home", "End"];
+
+    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
-    if (this.layout === "horizontal") {
-      this.updateHeights(computedStyle);
-    } else {
-      this.updateWidths(computedStyle);
-    }
+    const rect = this.getContentElDOMRect();
+    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
-    this.requestUpdate();
+    switch (key) {
+      case "ArrowUp":
+        this.updateSize({
+          size:
+            rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
+          type: "blockSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowDown":
+        this.updateSize({
+          size:
+            rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
+          type: "blockSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        this.updateSize({
+          size:
+            rect.width +
+            (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
+          type: "inlineSize",
+        });
+        event.preventDefault();
+        break;
+      case "ArrowRight":
+        this.updateSize({
+          size:
+            rect.width +
+            (layout === "vertical" && position === "end" ? -stepValue : stepValue) * invertRTL,
+          type: "inlineSize",
+        });
+        event.preventDefault();
+        break;
+      case "Home":
+        this.updateSize({
+          size: layout === "horizontal" ? minBlockSize : minInlineSize,
+          type: layout === "horizontal" ? "blockSize" : "inlineSize",
+        });
+        break;
+      case "End":
+        this.updateSize({
+          size: layout === "horizontal" ? maxBlockSize : maxInlineSize,
+          type: layout === "horizontal" ? "blockSize" : "inlineSize",
+        });
+        break;
+    }
   }
 
-  private setContentHeight(height: number): void {
-    const { contentHeightMax, contentHeightMin } = this;
+  private updateSize({
+    type,
+    size,
+  }: {
+    type: "inlineSize" | "blockSize";
+    size: number | null;
+  }): void {
+    const { contentEl, resizeValues } = this;
 
-    const roundedHeight = Math.round(height);
+    if (!contentEl) {
+      return;
+    }
 
-    this.contentHeight =
-      typeof contentHeightMax === "number" && typeof contentHeightMin === "number"
-        ? clamp(roundedHeight, contentHeightMin, contentHeightMax)
-        : roundedHeight;
+    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
+    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
+
+    const clamped =
+      resizeValues[resizeMin] && resizeValues[resizeMax]
+        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
+        : size;
+
+    const rounded = Math.round(clamped);
+
+    this.resizeValues = {
+      ...resizeValues,
+      [type]: rounded,
+    };
+
+    contentEl.style[type] = size !== null ? `${rounded}px` : null;
   }
 
-  private updateWidths(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-width"));
-    const min = parseInt(computedStyle.getPropertyValue("min-width"));
-    const valueNow = parseInt(computedStyle.getPropertyValue("width"));
-
-    if (typeof valueNow === "number" && !isNaN(valueNow)) {
-      this.initialContentWidth = valueNow;
-    }
-
-    if (typeof max === "number" && !isNaN(max)) {
-      this.contentWidthMax = max;
-    }
-
-    if (typeof min === "number" && !isNaN(min)) {
-      this.contentWidthMin = min;
-    }
+  private cleanupInteractions(): void {
+    this.interaction?.unset();
+    this.updateSize({ size: null, type: "inlineSize" });
+    this.updateSize({ size: null, type: "blockSize" });
   }
 
-  private updateHeights(computedStyle: CSSStyleDeclaration): void {
-    const max = parseInt(computedStyle.getPropertyValue("max-height"));
-    const min = parseInt(computedStyle.getPropertyValue("min-height"));
-    const valueNow = parseInt(computedStyle.getPropertyValue("height"));
+  private setupInteractions(): void {
+    this.cleanupInteractions();
 
-    if (typeof valueNow === "number" && !isNaN(valueNow)) {
-      this.initialContentHeight = valueNow;
+    const { el, contentEl, resizable, position, collapsed, resizeHandleEl, layout } = this;
+
+    if (!contentEl || collapsed || !resizable || !resizeHandleEl) {
+      return;
     }
 
-    if (typeof max === "number" && !isNaN(max)) {
-      this.contentHeightMax = max;
-    }
+    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
+      window.getComputedStyle(contentEl);
 
-    if (typeof min === "number" && !isNaN(min)) {
-      this.contentHeightMin = min;
-    }
+    const values: ResizeValues = {
+      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
+      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
+      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
+      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
+      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+    };
+
+    this.resizeValues = values;
+
+    const rtl = getElementDir(el) === "rtl";
+
+    this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
+      edges: {
+        top: position === "end" && layout === "horizontal" ? resizeHandleEl : false,
+        right:
+          position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandleEl : false,
+        bottom: position === "start" && layout === "horizontal" ? resizeHandleEl : false,
+        left:
+          position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandleEl : false,
+      },
+      modifiers: [
+        interact.modifiers.restrictSize({
+          min: {
+            width: values.minInlineSize,
+            height: values.minBlockSize,
+          },
+          max: {
+            width: values.maxInlineSize,
+            height: values.maxBlockSize,
+          },
+        }),
+      ],
+      listeners: {
+        resizestart: () => {
+          this.calciteInternalShellPanelResizeStart.emit();
+        },
+        resizeend: () => {
+          this.calciteInternalShellPanelResizeEnd.emit();
+        },
+        move: ({ rect }: ResizeEvent) => {
+          const isBlock = layout === "horizontal";
+
+          this.updateSize({
+            size: isBlock ? rect.height : rect.width,
+            type: isBlock ? "blockSize" : "inlineSize",
+          });
+        },
+      },
+    });
   }
 
   private storeContentEl(contentEl: HTMLDivElement): void {
     this.contentEl = contentEl;
   }
 
-  private getKeyAdjustedSize(event: KeyboardEvent): number | null {
-    const { key } = event;
-    const {
-      el,
-      step,
-      stepMultiplier,
-      layout,
-      contentWidthMin,
-      contentWidthMax,
-      initialContentWidth,
-      initialContentHeight,
-      contentHeightMin,
-      contentHeightMax,
-      position,
-    } = this;
-    const multipliedStep = step * stepMultiplier;
-
-    const MOVEMENT_KEYS = [
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "Home",
-      "End",
-      "PageUp",
-      "PageDown",
-    ];
-
-    if (MOVEMENT_KEYS.indexOf(key) > -1) {
-      event.preventDefault();
-    }
-
-    const dir = getElementDir(el);
-
-    const horizontalKeys = ["ArrowLeft", "ArrowRight"];
-    const verticalKeys = ["ArrowDown", "ArrowUp"];
-    const directionFactor = dir === "rtl" && horizontalKeys.includes(key) ? -1 : 1;
-
-    const increaseKeys =
-      layout === "horizontal"
-        ? position === "end"
-          ? key === verticalKeys[1] || key === horizontalKeys[0]
-          : key === verticalKeys[0] || key === horizontalKeys[1]
-        : key === verticalKeys[1] ||
-          (position === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
-
-    if (increaseKeys) {
-      const stepValue = event.shiftKey ? multipliedStep : step;
-
-      return layout === "horizontal"
-        ? initialContentHeight + directionFactor * stepValue
-        : initialContentWidth + directionFactor * stepValue;
-    }
-
-    const decreaseKeys =
-      layout === "horizontal"
-        ? position === "end"
-          ? key === verticalKeys[0] || key === horizontalKeys[0]
-          : key === verticalKeys[1] || key === horizontalKeys[1]
-        : key === verticalKeys[0] ||
-          (position === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
-
-    if (decreaseKeys) {
-      const stepValue = event.shiftKey ? multipliedStep : step;
-
-      return layout === "horizontal"
-        ? initialContentHeight - directionFactor * stepValue
-        : initialContentWidth - directionFactor * stepValue;
-    }
-
-    if (key === "Home" && layout === "horizontal" && typeof contentHeightMin === "number") {
-      return contentHeightMin;
-    }
-
-    if (key === "Home" && layout === "vertical" && typeof contentWidthMin === "number") {
-      return contentWidthMin;
-    }
-
-    if (key === "End" && layout === "horizontal" && typeof contentHeightMax === "number") {
-      return contentHeightMax;
-    }
-
-    if (key === "End" && layout === "vertical" && typeof contentWidthMax === "number") {
-      return contentWidthMax;
-    }
-
-    if (key === "PageDown") {
-      return layout === "horizontal"
-        ? initialContentHeight - multipliedStep
-        : initialContentWidth - multipliedStep;
-    }
-
-    if (key === "PageUp") {
-      return layout === "horizontal"
-        ? initialContentHeight + multipliedStep
-        : initialContentWidth + multipliedStep;
-    }
-
-    return null;
-  }
-
-  private initialKeydownWidth(event: KeyboardEvent): void {
-    this.setInitialContentWidth();
-    const width = this.getKeyAdjustedSize(event);
-
-    if (typeof width === "number") {
-      this.setContentWidth(width);
-    }
-  }
-
-  private initialKeydownHeight(event: KeyboardEvent): void {
-    this.setInitialContentHeight();
-    const height = this.getKeyAdjustedSize(event);
-
-    if (typeof height === "number") {
-      this.setContentHeight(height);
-    }
-  }
-
-  private separatorKeyDown(event: KeyboardEvent): void {
-    if (this.layout === "horizontal") {
-      this.initialKeydownHeight(event);
-    } else {
-      this.initialKeydownWidth(event);
-    }
-  }
-
-  private setInitialContentHeight(): void {
-    this.initialContentHeight = this.contentEl?.getBoundingClientRect().height;
-  }
-
-  private setInitialContentWidth(): void {
-    this.initialContentWidth = this.contentEl?.getBoundingClientRect().width;
-  }
-
-  private connectSeparator(separatorEl: HTMLDivElement): void {
-    this.disconnectSeparator();
-    this.separatorEl = separatorEl;
-    separatorEl?.addEventListener(
-      "pointerdown",
-      this.separatorPointerDown,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  }
-
-  private disconnectSeparator(): void {
-    this.separatorEl?.removeEventListener(
-      "pointerdown",
-      this.separatorPointerDown,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  private setResizeHandleEl(el: HTMLDivElement): void {
+    this.resizeHandleEl = el;
+    this.setupInteractions();
   }
 
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
@@ -505,6 +365,12 @@ export class ShellPanel extends LitElement {
 
   // #region Rendering
 
+  private getResizeIcon(): string {
+    const { layout } = this;
+
+    return layout === "horizontal" ? "drag-resize-vertical" : "drag-resize-horizontal";
+  }
+
   private renderHeader(): JsxNode {
     return (
       <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
@@ -514,56 +380,34 @@ export class ShellPanel extends LitElement {
   }
 
   override render(): JsxNode {
-    const {
-      collapsed,
-      position,
-      initialContentWidth,
-      initialContentHeight,
-      contentWidth,
-      contentWidthMax,
-      contentWidthMin,
-      contentHeight,
-      contentHeightMax,
-      contentHeightMin,
-      resizable,
-      layout,
-      displayMode,
-    } = this;
+    const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
     const dir = getElementDir(this.el);
 
-    const allowResizing = displayMode !== "float-content" && displayMode !== "float" && resizable;
-
-    const style = allowResizing
-      ? layout === "horizontal"
-        ? contentHeight
-          ? { height: `${contentHeight}px` }
-          : null
-        : contentWidth
-          ? { width: `${contentWidth}px` }
-          : null
-      : null;
-
     const separatorNode =
-      !collapsed && allowResizing ? (
+      !collapsed && resizable ? (
         <div
           ariaLabel={this.messages.resize}
           ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          ariaValueMax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
-          ariaValueMin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
-          ariaValueNow={
-            layout == "horizontal"
-              ? (contentHeight ?? initialContentHeight)
-              : (contentWidth ?? initialContentWidth)
+          ariaValueMax={
+            layout == "horizontal" ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
           }
-          class={CSS.separator}
-          key="separator"
-          onKeyDown={this.separatorKeyDown}
-          ref={this.connectSeparator}
+          ariaValueMin={
+            layout == "horizontal" ? resizeValues.minBlockSize : resizeValues.minInlineSize
+          }
+          ariaValueNow={layout == "horizontal" ? resizeValues.blockSize : resizeValues.inlineSize}
+          class={CSS.resizeHandle}
+          key="resize-handle"
+          onKeyDown={this.handleKeyDown}
+          ref={this.setResizeHandleEl}
           role="separator"
           tabIndex={0}
           touch-action="none"
-        />
+        >
+          <div class={CSS.resizeHandleBar}>
+            <calcite-icon icon={this.getResizeIcon()} scale="s" />
+          </div>
+        </div>
       ) : null;
 
     const getAnimationDir = (): string => {
@@ -597,7 +441,6 @@ export class ShellPanel extends LitElement {
         hidden={collapsed}
         key="content"
         ref={this.storeContentEl}
-        style={style}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>

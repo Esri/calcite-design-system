@@ -7,11 +7,15 @@ export const CSS = {
   float: "float",
   floatAll: "float-all",
   floatContent: "float--content",
+  resizeHandle: "resize-handle",
+  resizeHandleBar: "resize-handle-bar",
   height: "height",
-  separator: "separator",
 };
 
 export const SLOTS = {
   actionBar: "action-bar",
   header: "header",
 };
+
+export const resizeStep = 10;
+export const resizeShiftStep = 25;

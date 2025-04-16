@@ -22,7 +22,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
+import { CSS, resizeStep, resizeShiftStep } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
@@ -361,7 +361,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
     const rect = this.getContentElDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
-    const stepValue = shiftKey ? sheetResizeShiftStep : sheetResizeStep;
+    const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
       case "ArrowUp":

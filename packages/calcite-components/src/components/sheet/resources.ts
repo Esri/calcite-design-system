@@ -11,5 +11,5 @@ export const CSS = {
   height: "height",
 };
 
-export const sheetResizeStep = 10;
-export const sheetResizeShiftStep = 25;
+export const resizeStep = 10;
+export const resizeShiftStep = 25;
