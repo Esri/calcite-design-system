@@ -100,6 +100,13 @@ export class TimeController
     if (changes.has("numberingSystem")) {
       this.setValue(this.component.value);
     }
+    if (changes.has("step")) {
+      const oldStep = this.component.step;
+      const newStep = changes.get("step");
+      if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
+        this.setValue(this.component.value);
+      }
+    }
   }
 
   // #endregion

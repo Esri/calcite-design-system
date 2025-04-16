@@ -336,10 +336,6 @@ export class InputTimePicker
       }
     }
 
-    if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
-      this.handleStepChange(this.step, changes.get("step"));
-    }
-
     if (changes.has("value")) {
       this.handleValueChange();
     }
@@ -362,6 +358,7 @@ export class InputTimePicker
   handleValueChange(): void {
     if (this.hasUpdated) {
       this.time.setValue(this.value);
+      // TODO: only emit change event when the value actually changes
       this.calciteInputTimePickerChange.emit();
     }
   }
@@ -378,15 +375,6 @@ export class InputTimePicker
     if (this.popoverEl) {
       // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
       this.popoverEl.open = this.open;
-    }
-  }
-
-  private handleStepChange(newStep: number, oldStep?: number): void {
-    if (
-      (oldStep >= 60 && newStep > 0 && newStep < 60) ||
-      (newStep >= 60 && oldStep > 0 && oldStep < 60)
-    ) {
-      this.time.setValue(this.value);
     }
   }
 
