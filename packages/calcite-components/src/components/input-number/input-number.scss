@@ -11,7 +11,6 @@
  * @prop --calcite-input-number-text-color-focus: Specifies the text color of the component when focused.
  * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
  * @prop --calcite-input-number-border-color: Specifies the border color of the component.
- * @prop --calcite-input-number-border-color-focus: Specifies the border color of the component when focused.
  * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
  * @prop --calcite-input-actions-icon-color: Specifies the color of the action icons in the component.
  * @prop --calcite-input-actions-icon-color-hover: Specifies the color of the action icons when hovered.
@@ -116,10 +115,7 @@ input {
 input {
   @apply border
     border-solid;
-  border-color: var(
-    --calcite-input-number-border-color,
-    var(--calcite-internal-input-number-border-color, var(--calcite-color-border-input))
-  );
+  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder {
@@ -128,7 +124,7 @@ input {
   }
 }
 input:focus {
-  border-color: var(--calcite-input-number-border-color-focus, var(--calcite-color-brand));
+  @apply border-color-brand;
   color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
 }
 
