@@ -5,7 +5,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
   getElementDir,
-  isPixelValue,
+  getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
@@ -283,12 +283,12 @@ export class ShellPanel extends LitElement {
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+      inlineSize: getStylePixelValue(inlineSize),
+      blockSize: getStylePixelValue(blockSize),
+      minInlineSize: getStylePixelValue(minInlineSize),
+      minBlockSize: getStylePixelValue(minBlockSize),
+      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
 
     this.resizeValues = values;

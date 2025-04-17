@@ -12,7 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -459,12 +459,12 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+      inlineSize: getStylePixelValue(inlineSize),
+      blockSize: getStylePixelValue(blockSize),
+      minInlineSize: getStylePixelValue(minInlineSize),
+      minBlockSize: getStylePixelValue(minBlockSize),
+      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
 
     this.resizeValues = values;

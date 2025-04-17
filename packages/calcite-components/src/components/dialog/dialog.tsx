@@ -4,7 +4,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
+import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -595,12 +595,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+              width: getStylePixelValue(minInlineSize),
+              height: getStylePixelValue(minBlockSize),
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+              width: getStylePixelValue(maxInlineSize) || window.innerWidth,
+              height: getStylePixelValue(maxBlockSize) || window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
