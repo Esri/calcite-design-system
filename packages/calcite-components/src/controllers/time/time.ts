@@ -26,6 +26,8 @@ import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
 export type RequiredTimeComponentProperties = {
+  handleChangeEvent: () => void;
+  hasUpdated: boolean;
   hourFormat: HourFormat;
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   numberingSystem: NumberingSystem;
@@ -76,6 +78,7 @@ export class TimeController
   meridiemOrder: number;
   minute: string;
   second: string;
+  userChangedValue: boolean = false;
 
   // #endregion
 
@@ -104,6 +107,14 @@ export class TimeController
       const oldStep = this.component.step;
       const newStep = changes.get("step");
       if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
+        this.setValue(this.component.value);
+      }
+    }
+    if (changes.has("value") && this.component.hasUpdated) {
+      if (this.userChangedValue) {
+        this.component.handleChangeEvent();
+        this.userChangedValue = false;
+      } else {
         this.setValue(this.component.value);
       }
     }
@@ -442,6 +453,7 @@ export class TimeController
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
+      this.userChangedValue = false;
       this.component.value = newValue;
     }
   }
@@ -528,6 +540,7 @@ export class TimeController
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
+      this.userChangedValue = true;
       this.component.value = newValue;
       if (key === "hour" && this.meridiem) {
         this.localizedMeridiem = newValue

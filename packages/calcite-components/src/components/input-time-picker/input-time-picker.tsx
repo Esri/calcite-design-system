@@ -258,6 +258,16 @@ export class InputTimePicker
   // #region Public Methods
 
   /**
+   * Emits a change event.
+   * Called by the Time Controller when the value is modified by the user.
+   * @private
+   */
+  @method()
+  async handleChangeEvent(): Promise<void> {
+    this.calciteInputTimePickerChange.emit();
+  }
+
+  /**
    * Updates the position of the component.
    *
    * @param delayed If true, delay the repositioning.
@@ -292,7 +302,7 @@ export class InputTimePicker
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   calciteInputTimePickerBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` is changes. */
+  /** Fires when the component's `value` is modified by the user. */
   calciteInputTimePickerChange = createEvent();
 
   /** Fires when the component is closed and animation is complete. */
@@ -335,10 +345,6 @@ export class InputTimePicker
         this.open = false;
       }
     }
-
-    if (changes.has("value")) {
-      this.handleValueChange();
-    }
   }
 
   override updated(): void {
@@ -348,19 +354,6 @@ export class InputTimePicker
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-  }
-
-  // #endregion
-
-  // #region Internal Methods
-
-  /** @internal */
-  handleValueChange(): void {
-    if (this.hasUpdated) {
-      this.time.setValue(this.value);
-      // TODO: only emit change event when the value actually changes
-      this.calciteInputTimePickerChange.emit();
-    }
   }
 
   // #endregion
