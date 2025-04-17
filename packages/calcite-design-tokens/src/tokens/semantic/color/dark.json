@@ -57,7 +57,7 @@
             }
           },
           "hover": {
-            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.4})",
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
             "type": "color",
             "attributes": {
               "category": "color"
