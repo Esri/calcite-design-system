@@ -4,10 +4,10 @@
       "none": {
         "value": [
           {
-            "x": "{core.container-size.0}",
-            "y": "{core.container-size.0}",
-            "blur": "{core.container-size.0}",
-            "spread": "{core.container-size.0}",
+            "x": "{core.size.default.none}",
+            "y": "{core.size.default.none}",
+            "blur": "{core.size.default.none}",
+            "spread": "{core.size.default.none}",
             "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
             "type": "dropShadow"
           }
@@ -20,18 +20,18 @@
       "sm": {
         "value": [
           {
-            "x": "{core.container-size.0}",
+            "x": "{core.size.default.none}",
             "y": "{core.size.default.2}",
             "blur": "{core.size.default.8}",
-            "spread": "{core.container-size.0}",
+            "spread": "{core.size.default.none}",
             "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
             "type": "dropShadow"
           },
           {
-            "x": "{core.container-size.0}",
+            "x": "{core.size.default.none}",
             "y": "{core.size.default.4}",
             "blur": "{core.size.default.16}",
-            "spread": "{core.container-size.0}",
+            "spread": "{core.size.default.none}",
             "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
             "type": "dropShadow"
           }
@@ -44,15 +44,15 @@
       "md": {
         "value": [
           {
-            "x": "{core.container-size.0}",
+            "x": "{core.size.default.none}",
             "y": "{core.size.default.4}",
             "blur": "{core.size.default.20}",
-            "spread": "{core.container-size.0}",
+            "spread": "{core.size.default.none}",
             "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
             "type": "dropShadow"
           },
           {
-            "x": "{core.container-size.0}",
+            "x": "{core.size.default.none}",
             "y": "{core.size.default.12}",
             "blur": "{core.size.default.32}",
             "spread": "-2",
