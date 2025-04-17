@@ -64,7 +64,7 @@
             }
           },
           "press": {
-            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.8})",
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
             "type": "color",
             "attributes": {
               "category": "color"
