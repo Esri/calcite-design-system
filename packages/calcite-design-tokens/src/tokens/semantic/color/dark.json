@@ -78,6 +78,13 @@
             "attributes": {
               "category": "color"
             }
+          },
+          "press": {
+            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
           }
         },
         "scrim": {
