@@ -1920,10 +1920,24 @@ describe("calcite-input-number", () => {
             shadowSelector: `.${CSS.suffix}`,
             targetProp: "inlineSize",
           },
-          "--calcite-input-number-height": {
-            shadowSelector: `input`,
-            targetProp: "blockSize",
-          },
+          "--calcite-input-number-height": [
+            {
+              shadowSelector: `input`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.suffix}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.numberButtonWrapper}`,
+              targetProp: "blockSize",
+            },
+          ],
           "--calcite-input-number-background-color": {
             shadowSelector: `input`,
             targetProp: "backgroundColor",
@@ -1932,19 +1946,28 @@ describe("calcite-input-number", () => {
             shadowSelector: `input`,
             targetProp: "color",
           },
-          "--calcite-input-number-text-color-focus": {
-            shadowSelector: `input`,
-            targetProp: "color",
-            state: "focus",
-          },
           "--calcite-input-number-corner-radius": {
             shadowSelector: `input`,
             targetProp: "borderRadius",
           },
-          "--calcite-input-number-border-color": {
-            shadowSelector: `input`,
-            targetProp: "borderColor",
-          },
+          "--calcite-input-number-border-color": [
+            {
+              shadowSelector: `input`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.suffix}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.numberButtonItem}`,
+              targetProp: "borderColor",
+            },
+          ],
           "--calcite-input-prefix-background-color": {
             shadowSelector: `.${CSS.prefix}`,
             targetProp: "backgroundColor",
@@ -1962,11 +1985,11 @@ describe("calcite-input-number", () => {
             targetProp: "color",
           },
           "--calcite-input-actions-icon-color": {
-            shadowSelector: `.${CSS.numberButtonItem}`,
+            shadowSelector: `calcite-icon`,
             targetProp: "color",
           },
           "--calcite-input-actions-icon-color-hover": {
-            shadowSelector: `.${CSS.numberButtonItem}`,
+            shadowSelector: `calcite-icon`,
             targetProp: "color",
             state: "hover",
           },
@@ -1979,6 +2002,11 @@ describe("calcite-input-number", () => {
             targetProp: "backgroundColor",
             state: "hover",
           },
+          "--calcite-input-number-text-color-focus": {
+            shadowSelector: `input`,
+            targetProp: "color",
+            state: "focus",
+          },
           "--calcite-input-actions-background-color-press": {
             shadowSelector: `.${CSS.numberButtonItem}`,
             targetProp: "backgroundColor",
@@ -1989,13 +2017,13 @@ describe("calcite-input-number", () => {
     });
 
     describe("loading", () => {
-      themed(html` <calcite-input-number loading></calcite-input-number> `, {
+      themed(html`<calcite-input-number loading></calcite-input-number>`, {
         "--calcite-input-number-loading-background-color": {
-          shadowSelector: `.${CSS.loader} >>> calcite-progress`,
+          shadowSelector: `calcite-progress`,
           targetProp: "--calcite-progress-background-color",
         },
         "--calcite-input-loading-fill-color": {
-          shadowSelector: `.${CSS.loader} >>> calcite-progress`,
+          shadowSelector: `calcite-progress`,
           targetProp: "--calcite-progress-fill-color",
         },
       });

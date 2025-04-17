@@ -252,8 +252,10 @@ input:focus {
   @apply pointer-events-none
     absolute
     block;
-  --calcite-progress-background-color: var(--calcite-input-loading-background-color);
-  --calcite-progress-fill-color: var(--calcite-input-loading-fill-color);
+  calcite-progress {
+    --calcite-progress-background-color: var(--calcite-input-loading-background-color);
+    --calcite-progress-fill-color: var(--calcite-input-loading-fill-color);
+  }
 }
 
 // slotted action
@@ -350,40 +352,12 @@ input:focus {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  @apply border
-  border-solid;
-  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
+  border-inline-start-width: 1px;
   border-inline-end-width: theme("borderWidth.0");
-  &:hover {
-    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
-    calcite-icon {
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
-  &:hover {
-    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
-    calcite-icon {
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"]:hover {
-  background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
-  calcite-icon {
-    color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"]:hover {
-  background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
-  calcite-icon {
-    color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
-  }
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
@@ -412,11 +386,20 @@ input:focus {
   & calcite-icon {
     @apply transition-default pointer-events-none;
   }
-  &:active {
-    background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
-  }
+
   &:disabled {
     @apply pointer-events-none;
+  }
+
+  &:hover {
+    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
+    calcite-icon {
+      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
+    }
+  }
+
+  &:active {
+    background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 
