@@ -265,19 +265,20 @@
 }
 
 .content-container {
-  @apply bg-background
+  @apply pointer-events-none
   flex
   flex-col
   flex-nowrap
   items-stretch
-  pointer-events-auto
   self-stretch
   relative
   box-border;
 }
 
 .content {
-  @apply flex
+  @apply pointer-events-auto
+  bg-background
+  flex
   flex-col
   flex-nowrap
   items-stretch
