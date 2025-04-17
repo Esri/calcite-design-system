@@ -2018,7 +2018,7 @@ describe("calcite-input-number", () => {
 
     describe("loading", () => {
       themed(html`<calcite-input-number loading></calcite-input-number>`, {
-        "--calcite-input-number-loading-background-color": {
+        "--calcite-input-loading-background-color": {
           shadowSelector: `calcite-progress`,
           targetProp: "--calcite-progress-background-color",
         },
