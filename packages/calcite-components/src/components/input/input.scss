@@ -142,7 +142,7 @@ input {
     text-ellipsis;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-text-color, var(--calcite-color-text-1));
   transition:
     var(--calcite-animation-timing),
     block-size 0,
