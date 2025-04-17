@@ -554,19 +554,35 @@ describe("calcite-input-number", () => {
       await input.callMethod("setFocus");
       await page.waitForChanges();
 
+      const eventSpy = await page.spyOnEvent("keydown");
       await page.keyboard.down("ArrowUp");
       await page.waitForTimeout(delayFor2UpdatesInMs);
       await page.waitForEvent("calciteInputNumberInput");
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
 
       const totalNudgesUp = calciteInputNumberInput.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
+      await page.waitForChanges();
       await page.waitForTimeout(delayFor2UpdatesInMs);
+
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEventTimes(4);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
 
       const totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
@@ -1644,6 +1660,28 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("1.");
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
+  });
+
+  it("emits change event when value set directly and then cleared in 'de' locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-input-number lang="de" value="0" clearable></calcite-input-number>
+    `);
+
+    const calciteInputNumberChange = await page.spyOnEvent("calciteInputNumberChange");
+    const inputEl = await page.find("calcite-input-number");
+    const clearButtonEl = await page.find("calcite-input-number >>> .clear-button");
+
+    inputEl.setProperty("value", "49.173126");
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("49.173126");
+
+    await clearButtonEl.click();
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("");
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
   });
 
   it("sanitize leading zeros from value", async () => {

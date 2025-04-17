@@ -14,6 +14,8 @@
  * @prop --calcite-accordion-item-end-icon-color: Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-expand-icon-color: Specifies the component's expand icon color.
  * @prop --calcite-accordion-item-header-background-color: Specifies the component's `heading` background color.
+ * @prop --calcite-accordion-item-header-background-color-hover: Specifies the component's `heading` background color when hovered.
+ * @prop --calcite-accordion-item-header-background-color-press: Specifies the component's `heading` background color when pressed.
  * @prop --calcite-accordion-item-heading-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-accordion-item-icon-color: [Deprecated] Use `--calcite-icon-color`. Specifies the component's default icon color.
  * @prop --calcite-accordion-item-start-icon-color: Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
@@ -42,7 +44,38 @@
 
   .header {
     background-color: var(--calcite-accordion-item-header-background-color);
+
+    &:hover {
+      background-color: var(--calcite-internal-accordion-item-header-background-color-hover);
+    }
+
+    &:active {
+      background-color: var(--calcite-internal-accordion-item-header-background-color-press);
+    }
   }
+}
+
+.header--solid {
+  --calcite-internal-accordion-item-header-background-color-hover: var(
+    --calcite-accordion-item-header-background-color-hover,
+    var(--calcite-color-foreground-2)
+  );
+
+  --calcite-internal-accordion-item-header-background-color-press: var(
+    --calcite-accordion-item-header-background-color-press,
+    var(--calcite-color-foreground-3)
+  );
+}
+
+.header--transparent {
+  --calcite-internal-accordion-item-header-background-color-hover: var(
+    --calcite-accordion-item-header-background-color-hover,
+    var(--calcite-color-transparent-hover)
+  );
+  --calcite-internal-accordion-item-header-background-color-press: var(
+    --calcite-accordion-item-header-background-color-press,
+    var(--calcite-color-transparent-press)
+  );
 }
 
 // icon position variants for child
@@ -123,16 +156,10 @@
   &:focus,
   &:hover,
   &:active {
-    color: var(
-      --calcite-accordion-item-heading-text-color,
-      var(--calcite-accordion-text-color-hover, var(--calcite-color-text-2))
-    );
+    color: var(--calcite-accordion-item-heading-text-color, var(--calcite-accordion-text-color-hover));
 
     .heading {
-      color: var(
-        --calcite-accordion-item-heading-text-color,
-        var(--calcite-accordion-text-color-press, var(--calcite-color-text-1))
-      );
+      color: var(--calcite-accordion-item-heading-text-color, var(--calcite-accordion-text-color-press));
     }
   }
 }
@@ -214,7 +241,7 @@
   text-align: initial;
 }
 
-:host(:not(:focus):not(:hover):not([expanded])) {
+:host(:not([expanded])) {
   .heading {
     color: var(
       --calcite-accordion-item-heading-text-color,

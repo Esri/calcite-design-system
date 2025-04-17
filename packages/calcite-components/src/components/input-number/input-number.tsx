@@ -660,6 +660,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -868,11 +869,12 @@ export class InputNumber
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
-    this.value = ["-", "."].includes(newValue) ? "" : newValue;
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.value = validNewValue;
 
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
-      this.setPreviousEmittedNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(validNewValue);
     }
 
     if (nativeEvent) {

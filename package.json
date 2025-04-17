@@ -97,7 +97,7 @@
     "happy-dom": "17.4.4",
     "husky": "9.1.7",
     "jest-axe": "10.0.0",
-    "lerna": "8.2.1",
+    "lerna": "8.2.2",
     "lint-staged": "15.5.0",
     "markdownlint-cli2": "0.17.2",
     "playwright": "1.51.1",
@@ -122,7 +122,7 @@
     "typescript": "5.6.3",
     "typescript-eslint": "8.29.1",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "5.4.17",
+    "vite": "5.4.18",
     "vite-plugin-dts": "4.5.3",
     "vitest": "2.1.9"
   },
