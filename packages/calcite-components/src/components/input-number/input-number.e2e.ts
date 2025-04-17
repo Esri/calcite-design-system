@@ -1672,15 +1672,9 @@ describe("calcite-input-number", () => {
     const inputEl = await page.find("calcite-input-number");
     const clearButtonEl = await page.find("calcite-input-number >>> .clear-button");
 
-    await page.evaluate(async () => {
-      await customElements.whenDefined("calcite-input-number");
-      const el = await document.querySelector("calcite-input-number").componentOnReady();
-      requestAnimationFrame(() => {
-        el.value = "49.173126";
-      });
-    });
-
+    inputEl.setProperty("value", "49.173126");
     await page.waitForChanges();
+
     expect(await inputEl.getProperty("value")).toBe("49.173126");
 
     await clearButtonEl.click();
