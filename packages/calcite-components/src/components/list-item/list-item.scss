@@ -399,6 +399,13 @@
   }
 }
 
+.drag-container,
+.selection-container,
+.expanded-container,
+.actions-start {
+  padding-block-end: var(--calcite-spacing-px);
+}
+
 .expanded-container,
 .selection-container {
   @apply cursor-pointer;
