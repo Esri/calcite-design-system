@@ -423,30 +423,32 @@ export class ShellPanel extends LitElement {
     };
 
     const contentNode = (
-      <div
-        class={{
-          [CSS_UTILITY.rtl]: dir === "rtl",
-          [CSS.content]: true,
-          [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
-          [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
-          [getAnimationDir()]: displayMode === "overlay",
-          [getDimensionClass("width", this.width, this.widthScale)]: !!(
-            this.width || this.widthScale
-          ),
-          [getDimensionClass("height", this.height, this.heightScale)]: !!(
-            this.height || this.heightScale
-          ),
-        }}
-        hidden={collapsed}
-        key="content"
-        ref={this.storeContentEl}
-      >
-        {this.renderHeader()}
-        <div class={CSS.contentBody}>
-          <slot />
+      <div class={CSS.contentContainer}>
+        <div
+          class={{
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.content]: true,
+            [CSS.contentOverlay]: displayMode === "overlay",
+            [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
+            [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
+            [getAnimationDir()]: displayMode === "overlay",
+            [getDimensionClass("width", this.width, this.widthScale)]: !!(
+              this.width || this.widthScale
+            ),
+            [getDimensionClass("height", this.height, this.heightScale)]: !!(
+              this.height || this.heightScale
+            ),
+          }}
+          hidden={collapsed}
+          key="content"
+          ref={this.storeContentEl}
+        >
+          {this.renderHeader()}
+          <div class={CSS.contentBody}>
+            <slot />
+          </div>
+          {separatorNode}
         </div>
-        {separatorNode}
       </div>
     );
 

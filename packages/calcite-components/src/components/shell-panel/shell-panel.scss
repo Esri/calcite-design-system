@@ -131,7 +131,7 @@
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  //overflow: hidden;
+  overflow: hidden;
 }
 
 :host([layout="vertical"][position="start"]) .float-all {
@@ -264,10 +264,20 @@
   @apply flex flex-auto overflow-hidden;
 }
 
-.content {
+.content-container {
   @apply bg-background
-  pointer-events-auto
   flex
+  flex-col
+  flex-nowrap
+  items-stretch
+  pointer-events-auto
+  self-stretch
+  relative
+  box-border;
+}
+
+.content {
+  @apply flex
   flex-col
   flex-nowrap
   items-stretch
@@ -351,7 +361,7 @@
   mt-2
   mb-auto
   h-auto
-  //overflow-hidden
+  overflow-hidden
   rounded;
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
