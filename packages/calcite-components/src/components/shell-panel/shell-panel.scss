@@ -146,7 +146,8 @@
   border-inline: 1px solid var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
 }
 
-:host([layout="horizontal"]) .container {
+:host([layout="horizontal"]) .container,
+:host([layout="horizontal"]) .content-container {
   @apply w-full h-auto;
   flex-direction: column;
 }
