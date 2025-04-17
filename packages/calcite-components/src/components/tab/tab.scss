@@ -18,6 +18,11 @@
 
 .content {
   @apply box-border;
+
+  padding-block: var(
+    --calcite-tab-content-space-y,
+    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
+  );
 }
 
 .scale-s {
@@ -42,11 +47,6 @@
 }
 
 .container {
-  margin-block: var(
-    --calcite-tab-content-space-y,
-    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
-  );
-
   @apply focus-base hidden h-full w-full overflow-auto;
 
   &:focus {

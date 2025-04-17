@@ -28,7 +28,7 @@ describe("calcite-tab", () => {
       themed("calcite-tab", {
         "--calcite-tab-content-space-y": {
           shadowSelector: `.${CSS.content}`,
-          targetProp: "marginBlock",
+          targetProp: "paddingBlock",
         },
       });
     });
