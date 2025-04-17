@@ -71,6 +71,15 @@
             }
           }
         },
+        "inverse": {
+          "hover": {
+            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          }
+        },
         "scrim": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})",
           "type": "color",
