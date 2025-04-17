@@ -826,30 +826,15 @@ export class Combobox
         }
         break;
       case "ArrowDown":
-        // console.log(
-        //   "this.el.shadowRoot.activeElement === this.textInput.value",
-        //   this.el.shadowRoot.activeElement === this.textInput.value,
-        // );
-
         if (this.filteredItems.length) {
-          // console.log("filteredItems else if block", this.filteredItems);
-          if (
-            this.el.shadowRoot.activeElement === this.textInput.value &&
-            this.selectAll &&
-            (this.activeItemIndex === 0 || this.activeItemIndex === this.filteredItems.length - 1)
-          ) {
-            // console.log("textinputvalue is active", this.textInput.value);
-            this.open = true;
-            this.checkboxReferenceEl.focus();
-            event.preventDefault();
-          }
           event.preventDefault();
 
-          if (this.open) {
-            this.shiftActiveItemIndex(1);
+          this.open = true;
+
+          if (this.selectAll && this.checkboxReferenceEl) {
+            this.checkboxReferenceEl.focus();
           } else {
-            this.open = true;
-            this.ensureRecentSelectedItemIsActive();
+            this.shiftActiveItemIndex(1);
           }
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
@@ -1751,20 +1736,24 @@ export class Combobox
 
   private selectAllKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
+
     if (this.el.shadowRoot.activeElement === this.checkboxReferenceEl) {
       if (isActivationKey(key)) {
         this.selectAllChangeHandler();
         event.preventDefault();
       }
+
       switch (key) {
         case "ArrowDown":
           if (this.filteredItems.length) {
-            console.log("selectAllKeyDownHandler arrow down block");
             event.preventDefault();
+
             this.checkboxReferenceEl.blur();
-            // this.shiftActiveItemIndex(1);
-            this.textInput.value.focus();
+            this.shiftActiveItemIndex(1);
           }
+          break;
+
+        case "ArrowUp":
           break;
       }
     }
