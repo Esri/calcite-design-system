@@ -319,3 +319,37 @@ export const primaryAsADownload = (): string =>
       <calcite-dropdown-item>Option 4</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-split-button>`;
+
+export const primaryAsADownloadAppearanceOutline = (): string =>
+  html` <calcite-split-button
+    download
+    appearance="outline"
+    scale="m"
+    primary-text="Primary Option"
+    primary-icon-start="download"
+    dropdown-icon-type="overflow"
+    href="/"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
+
+export const primaryAsADownloadAppearanceOutlineFill = (): string =>
+  html` <calcite-split-button
+    download
+    appearance="outline-fill"
+    scale="m"
+    primary-text="Primary Option"
+    primary-icon-start="download"
+    dropdown-icon-type="overflow"
+    href="/"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
