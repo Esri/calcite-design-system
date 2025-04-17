@@ -33,11 +33,6 @@
  *
  */
 
-@mixin input-placeholder-styles {
-  @apply font-normal;
-  color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
-}
-
 :host {
   @apply block;
 }
@@ -158,21 +153,6 @@ input {
     @apply text-ellipsis;
   }
 }
-
-// Placeholder styles
-// Do not combine these style rules. The browser interprets the rule as one. When combined, properties like -ms can not be found in non-Microsoft browsers and thus the whole selector is invalidated and is ignored.
-:-ms-input-placeholder {
-  @include input-placeholder-styles;
-}
-
-::-ms-input-placeholder {
-  @include input-placeholder-styles;
-}
-
-::placeholder {
-  @include input-placeholder-styles;
-}
-// End Placeholder styles
 
 textarea {
   border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
@@ -635,3 +615,4 @@ input {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include input-placeholder-text();
