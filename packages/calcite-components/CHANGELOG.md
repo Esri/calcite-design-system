@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.15...@esri/calcite-components@3.2.0-next.16) (2025-04-17)
+
+### Bug Fixes
+
+- **split-button:** Fix duplicate border when `href` is set ([#11976](https://github.com/Esri/calcite-design-system/issues/11976)) ([6942c21](https://github.com/Esri/calcite-design-system/commit/6942c21e01a61586f09386e96481120c85948733)), closes [#11909](https://github.com/Esri/calcite-design-system/issues/11909)
+
 ## [3.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.14...@esri/calcite-components@3.2.0-next.15) (2025-04-16)
 
 ### Features
