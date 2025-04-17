@@ -267,12 +267,13 @@
 .content-container {
   @apply pointer-events-none
   flex
-  flex-col
-  flex-nowrap
+  flex-auto
   items-stretch
   self-stretch
   relative
-  box-border;
+  box-border
+  bg-transparent
+  h-full;
 }
 
 .content {
