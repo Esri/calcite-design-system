@@ -8,6 +8,7 @@ import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types/extensions.js";
 import { transformers, filters, headers, formats } from "../../build/registry/index.js";
 import { Platform } from "../../build/utils/enums.js";
+import { primitiveValueOutputReferences } from "../../build/utils/output-references.js";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/dark.json"],
@@ -29,6 +30,7 @@ const config: Config = {
         platform: Platform.scss,
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
+        outputReferences: primitiveValueOutputReferences,
       },
     },
     [Platform.css]: {
@@ -46,6 +48,7 @@ const config: Config = {
         platform: Platform.css,
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
+        outputReferences: primitiveValueOutputReferences,
       },
     },
     [Platform.es6]: {
@@ -57,6 +60,7 @@ const config: Config = {
         platform: Platform.es6,
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
+        outputReferences: primitiveValueOutputReferences,
       },
       files: [
         {
