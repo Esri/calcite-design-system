@@ -10,28 +10,28 @@
           }
         },
         "blk-005": {
-          "value": "#f8f8f8",
+          "value": "#f7f7f7",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-010": {
-          "value": "#f3f3f3",
+          "value": "#f2f2f2",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-020": {
-          "value": "#eaeaea",
+          "value": "#ebebeb",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-030": {
-          "value": "#dfdfdf",
+          "value": "#dedede",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -45,7 +45,7 @@
           }
         },
         "blk-050": {
-          "value": "#cacaca",
+          "value": "#c9c9c9",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -66,14 +66,14 @@
           }
         },
         "blk-080": {
-          "value": "#aaaaaa",
+          "value": "#ababab",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-090": {
-          "value": "#9f9f9f",
+          "value": "#9e9e9e",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -108,21 +108,21 @@
           }
         },
         "blk-140": {
-          "value": "#6a6a6a",
+          "value": "#6b6b6b",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-150": {
-          "value": "#606060",
+          "value": "#616161",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-160": {
-          "value": "#555555",
+          "value": "#545454",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -143,7 +143,7 @@
           }
         },
         "blk-190": {
-          "value": "#353535",
+          "value": "#363636",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -157,28 +157,28 @@
           }
         },
         "blk-210": {
-          "value": "#202020",
+          "value": "#212121",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-220": {
-          "value": "#151515",
+          "value": "#141414",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-230": {
-          "value": "#0b0b0b",
+          "value": "#0a0a0a",
           "type": "color",
           "attributes": {
             "category": "color"
           }
         },
         "blk-235": {
-          "value": "#060606",
+          "value": "#050505",
           "type": "color",
           "attributes": {
             "category": "color"
