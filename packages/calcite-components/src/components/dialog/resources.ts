@@ -41,5 +41,5 @@ export const dialogPlacements: DialogPlacement[] = [
 
 export const dialogResizeStep = 25;
 export const dialogDragStep = 25;
-export const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
-export const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };
+export const initialDragPosition: DialogDragPosition = { x: null, y: null };
+export const initialResizePosition: DialogResizePosition = { top: null, right: null, bottom: null, left: null };

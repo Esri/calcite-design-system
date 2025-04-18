@@ -98,12 +98,12 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   // #region State Properties
 
   @state() resizeValues: ResizeValues = {
-    inlineSize: 0,
-    blockSize: 0,
-    minInlineSize: 0,
-    minBlockSize: 0,
-    maxInlineSize: 0,
-    maxBlockSize: 0,
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
   };
 
   // #endregion
@@ -446,7 +446,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.updateSize({ size: null, type: "blockSize" });
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
@@ -454,6 +454,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     if (!contentEl || !open || !resizable || !resizeHandleEl) {
       return;
     }
+
+    await this.el.componentOnReady();
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentEl);

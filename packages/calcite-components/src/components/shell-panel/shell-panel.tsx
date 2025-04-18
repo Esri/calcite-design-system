@@ -52,12 +52,12 @@ export class ShellPanel extends LitElement {
   // #region State Properties
 
   @state() resizeValues: ResizeValues = {
-    inlineSize: 0,
-    blockSize: 0,
-    minInlineSize: 0,
-    minBlockSize: 0,
-    maxInlineSize: 0,
-    maxBlockSize: 0,
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
   };
 
   @state() hasHeader = false;
@@ -270,7 +270,7 @@ export class ShellPanel extends LitElement {
     this.updateSize({ size: null, type: "blockSize" });
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, contentEl, resizable, position, collapsed, resizeHandleEl, layout } = this;
@@ -278,6 +278,8 @@ export class ShellPanel extends LitElement {
     if (!contentEl || collapsed || !resizable || !resizeHandleEl) {
       return;
     }
+
+    await this.el.componentOnReady();
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentEl);

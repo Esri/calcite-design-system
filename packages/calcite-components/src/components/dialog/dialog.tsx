@@ -568,7 +568,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.updateTransform();
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
@@ -582,6 +582,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     if (resizable) {
+      await this.el.componentOnReady();
+
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
         window.getComputedStyle(transitionEl);
 
