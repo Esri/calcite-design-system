@@ -18211,7 +18211,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.success.press}"
     },
     {
-      "value": "{\\"light\\":\\"#edd317\\",\\"dark\\":\\"#ffc900\\"}",
+      "value": "#f89927",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18239,7 +18239,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.warning.default}"
     },
     {
-      "value": "{\\"light\\":\\"#d9bc00\\",\\"dark\\":\\"#ffee33\\"}",
+      "value": "{\"light\":\"#d17300\",\"dark\":\"#ffb54d\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18267,7 +18267,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.warning.hover}"
     },
     {
-      "value": "{\\"light\\":\\"#bfa200\\",\\"dark\\":\\"#f5d000\\"}",
+      "value": "{\"light\":\"#9a5b10\",\"dark\":\"#ff9500\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -53663,10 +53663,7 @@ export default {
         },
         warning: {
           default: {
-            value: {
-              light: "#edd317",
-              dark: "#ffc900",
-            },
+            value: "#f89927",
             type: "color",
             attributes: {
               category: "color",
@@ -53702,8 +53699,8 @@ export default {
           },
           hover: {
             value: {
-              light: "#d9bc00",
-              dark: "#ffee33",
+              light: "#d17300",
+              dark: "#ffb54d",
             },
             type: "color",
             attributes: {
@@ -53740,8 +53737,8 @@ export default {
           },
           press: {
             value: {
-              light: "#bfa200",
-              dark: "#f5d000",
+              light: "#9a5b10",
+              dark: "#ff9500",
             },
             type: "color",
             attributes: {
