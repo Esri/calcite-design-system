@@ -182,7 +182,7 @@ describe("calcite-input-time-picker", () => {
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
-    expect(await inputTimePicker.getProperty("value")).toBe("");
+    expect(await inputTimePicker.getProperty("value")).toBeUndefined();
   });
 
   describe("openClose", () => {
@@ -221,13 +221,19 @@ describe("calcite-input-time-picker", () => {
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`,
+      `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly" step=".001"></calcite-input-time-picker>`,
     );
 
     const component = await page.find("#canReadOnly");
+    const hourInput = await page.find(`#canReadOnly >>> .${CSS.hour}`);
+    const minuteInput = await page.find(`#canReadOnly >>> .${CSS.minute}`);
+    const secondInput = await page.find(`#canReadOnly >>> .${CSS.second}`);
+    const fractionalSecondInput = await page.find(`#canReadOnly >>> .${CSS.fractionalSecond}`);
+    const meridiemInput = await page.find(`#canReadOnly >>> .${CSS.meridiem}`);
     const popover = await page.find("#canReadOnly >>> calcite-popover");
+    const emptyInputValue = "--:--:--.--- --";
 
-    expect(await getInputValue(page)).toBe("");
+    expect(await getInputValue(page)).toBe(emptyInputValue);
 
     await component.click();
     await page.waitForChanges();
@@ -239,10 +245,35 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
     expect(await popover.getProperty("open")).toBe(false);
 
-    await component.type("attention attention");
+    await hourInput.type("12");
+    await hourInput.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(await getInputValue(page)).toBe("");
+    expect(await getInputValue(page)).toBe(emptyInputValue);
+
+    await minuteInput.type("30");
+    await minuteInput.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe(emptyInputValue);
+
+    await secondInput.type("45");
+    await secondInput.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe(emptyInputValue);
+
+    await fractionalSecondInput.type("001");
+    await fractionalSecondInput.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe(emptyInputValue);
+
+    await meridiemInput.type("p");
+    await meridiemInput.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe(emptyInputValue);
   });
 
   describe("direct value setting", () => {

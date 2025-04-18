@@ -598,7 +598,7 @@ export class InputTimePicker
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
-    const isInteractive = !this.disabled || !this.readOnly;
+    const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
@@ -623,7 +623,7 @@ export class InputTimePicker
                 [CSS.input]: true,
               }}
               onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive && handleHourKeyDownEvent}
+              onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
               ref={this.setHourEl}
               role="spinbutton"
               tabIndex={0}
@@ -643,7 +643,7 @@ export class InputTimePicker
                 [CSS.minute]: true,
               }}
               onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive && handleMinuteKeyDownEvent}
+              onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
               ref={this.setMinuteEl}
               role="spinbutton"
               tabIndex={0}
@@ -664,7 +664,7 @@ export class InputTimePicker
                   [CSS.second]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive && handleSecondKeyDownEvent}
+                onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
                 ref={this.setSecondEl}
                 role="spinbutton"
                 tabIndex={0}
@@ -689,7 +689,7 @@ export class InputTimePicker
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive && handleFractionalSecondKeyDownEvent}
+                onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
                 ref={this.setFractionalSecondEl}
                 role="spinbutton"
                 tabIndex={0}
@@ -747,7 +747,7 @@ export class InputTimePicker
 
   private renderMeridiem(position: "start" | "end"): JsxNode {
     const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
-    const isInteractive = !this.disabled || !this.readOnly;
+    const isInteractive = !this.disabled && !this.readOnly;
     return (
       <span
         aria-label={this.intlMeridiem}
@@ -763,7 +763,7 @@ export class InputTimePicker
           [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
-        onKeyDown={isInteractive && handleMeridiemKeyDownEvent}
+        onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
         ref={this.setMeridiemEl}
         role="spinbutton"
         tabIndex={0}
