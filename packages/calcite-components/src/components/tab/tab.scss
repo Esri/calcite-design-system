@@ -8,7 +8,13 @@
  */
 
 :host {
-  @apply hidden h-full w-full;
+  @apply hidden;
+}
+
+:host,
+.container,
+.content {
+  @apply h-full w-full;
 }
 
 :host([selected]),
