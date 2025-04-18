@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.17...@esri/calcite-components@3.2.0-next.18) (2025-04-18)
+
+### Bug Fixes
+
+- **tab:** fix focus outline placement on scrolling tabs ([#11967](https://github.com/Esri/calcite-design-system/issues/11967)) ([e9bb472](https://github.com/Esri/calcite-design-system/commit/e9bb4729ed9dab8a934883c9cfaf0d268ed3983d)), closes [#10419](https://github.com/Esri/calcite-design-system/issues/10419)
+
 ## [3.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.16...@esri/calcite-components@3.2.0-next.17) (2025-04-17)
 
 ### Bug Fixes
