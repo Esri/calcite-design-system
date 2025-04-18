@@ -957,7 +957,6 @@ exports[`generated tokens > CSS > global should match 1`] = `
 
 :root {
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-status-warning: #f89927;
   --calcite-border-width-none: 0;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-md: 2px;
@@ -18336,7 +18335,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.success.press}"
     },
     {
-      "value": "#f89927",
+      "value": "{\\"light\\":\\"#f89927\\",\\"dark\\":\\"#f89927\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -30095,7 +30094,7 @@ export const calciteColorStatusSuccessPress = {
   light: "#1a6324",
   dark: "#00b81b",
 };
-export const calciteColorStatusWarning = "#f89927";
+export const calciteColorStatusWarning = { light: "#f89927", dark: "#f89927" };
 export const calciteColorStatusWarningHover = {
   light: "#d17300",
   dark: "#ffb54d",
@@ -30573,7 +30572,7 @@ export const calciteColorStatusInfoPress: { light: string; dark: string };
 export const calciteColorStatusSuccess: { light: string; dark: string };
 export const calciteColorStatusSuccessHover: { light: string; dark: string };
 export const calciteColorStatusSuccessPress: { light: string; dark: string };
-export const calciteColorStatusWarning: string;
+export const calciteColorStatusWarning: { light: string; dark: string };
 export const calciteColorStatusWarningHover: { light: string; dark: string };
 export const calciteColorStatusWarningPress: { light: string; dark: string };
 export const calciteColorStatusDanger: { light: string; dark: string };
@@ -53954,7 +53953,10 @@ export default {
         },
         warning: {
           default: {
-            value: "#f89927",
+            value: {
+              light: "#f89927",
+              dark: "#f89927",
+            },
             type: "color",
             attributes: {
               category: "color",
@@ -68963,7 +68965,6 @@ exports[`generated tokens > SCSS > global should match 1`] = `
 // Do not edit directly, this file was auto-generated.
 
 $calcite-color-background-none: rgba(255, 255, 255, 0);
-$calcite-color-status-warning: #f89927;
 $calcite-border-width-none: 0;
 $calcite-border-width-sm: 1px;
 $calcite-border-width-md: 2px;
