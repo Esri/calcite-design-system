@@ -53690,7 +53690,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-060}",
+              value: "{core.color.high-saturation.orange-yellow.h-oy-060}",
               type: "color",
               attributes: {
                 category: "color",
@@ -53728,7 +53728,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-070}",
+              value: "{core.color.vibrant.orange-yellow.v-oy-180}",
               type: "color",
               attributes: {
                 category: "color",
@@ -53766,7 +53766,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-080}",
+              value: "{core.color.high-saturation.orange-yellow.h-oy-080}",
               type: "color",
               attributes: {
                 category: "color",
