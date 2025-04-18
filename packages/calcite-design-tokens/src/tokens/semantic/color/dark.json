@@ -165,21 +165,21 @@
         },
         "warning": {
           "default": {
-            "value": "{core.color.dark.yellow.d-yy-420}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "hover": {
-            "value": "{core.color.vibrant.yellow.v-yy-140}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-120}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "press": {
-            "value": "{core.color.vibrant.yellow.v-yy-160}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-140}",
             "type": "color",
             "category": "color"
           }
