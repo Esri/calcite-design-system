@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.8...@esri/calcite-design-tokens@3.1.0-next.0) (2025-04-18)
+
+### Features
+
+- **tokens:** add transparency-inverse tokens ([#11974](https://github.com/Esri/calcite-design-system/issues/11974)) ([d394568](https://github.com/Esri/calcite-design-system/commit/d3945682b62a9fba19639dade630a6862e77d5b1)), closes [#11565](https://github.com/Esri/calcite-design-system/issues/11565)
+
 ## [3.0.2-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.2-next.7...@esri/calcite-design-tokens@3.0.2-next.8) (2025-04-15)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

@@ -823,6 +823,8 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-opacity-4: 0.04;
   --calcite-opacity-8: 0.08;
   --calcite-opacity-10: 0.1;
+  --calcite-opacity-12: 0.12;
+  --calcite-opacity-16: 0.16;
   --calcite-opacity-20: 0.2;
   --calcite-opacity-30: 0.3;
   --calcite-opacity-40: 0.4;
@@ -906,8 +908,10 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-3: #151515;
   --calcite-color-foreground-current: #214155;
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-brand: #009af2;
@@ -1106,6 +1110,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
@@ -1150,6 +1156,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand: #007ac2;
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
     --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+    --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent: rgba(0, 0, 0, 0);
@@ -1196,8 +1204,10 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand: #009af2;
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
     --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-    --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+    --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+    --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+    --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
     --calcite-color-foreground-3: #151515;
     --calcite-color-foreground-2: #202020;
@@ -1239,6 +1249,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
@@ -1283,8 +1295,10 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-foreground-3: #151515;
   --calcite-color-foreground-2: #202020;
@@ -1311,6 +1325,8 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-brand: #007ac2;
@@ -15894,6 +15910,58 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.opacity.10}"
     },
     {
+      "value": "0.12",
+      "type": "opacity",
+      "attributes": {
+        "category": "opacity",
+        "type": "opacity",
+        "item": "12",
+        "names": {
+          "scss": "$calcite-opacity-12",
+          "css": "var(--calcite-opacity-12)",
+          "js": "core.opacity.12",
+          "docs": "core.opacity.12",
+          "es6": "calciteOpacity12"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "opacity"
+        }
+      },
+      "filePath": "src/tokens/core/opacity.json",
+      "isSource": false,
+      "name": "Opacity 12",
+      "path": ["core", "opacity", "12"],
+      "key": "{core.opacity.12}"
+    },
+    {
+      "value": "0.16",
+      "type": "opacity",
+      "attributes": {
+        "category": "opacity",
+        "type": "opacity",
+        "item": "16",
+        "names": {
+          "scss": "$calcite-opacity-16",
+          "css": "var(--calcite-opacity-16)",
+          "js": "core.opacity.16",
+          "docs": "core.opacity.16",
+          "es6": "calciteOpacity16"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "opacity"
+        }
+      },
+      "filePath": "src/tokens/core/opacity.json",
+      "isSource": false,
+      "name": "Opacity 16",
+      "path": ["core", "opacity", "16"],
+      "key": "{core.opacity.16}"
+    },
+    {
       "value": "0.2",
       "type": "opacity",
       "attributes": {
@@ -17822,7 +17890,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.transparent.default.default}"
     },
     {
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.04)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.12)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17850,7 +17918,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.transparent.default.hover}"
     },
     {
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.08)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.16)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17876,6 +17944,62 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "name": "Color Transparent Press",
       "path": ["semantic", "color", "transparent", "default", "press"],
       "key": "{semantic.color.transparent.default.press}"
+    },
+    {
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.12)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.04)\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "type": "color",
+        "item": "transparent",
+        "subitem": "inverse",
+        "state": "hover",
+        "names": {
+          "scss": "$calcite-color-transparent-inverse-hover",
+          "css": "var(--calcite-color-transparent-inverse-hover)",
+          "js": "semantic.color.transparent.inverse.hover",
+          "docs": "semantic.color.transparent.inverse.hover",
+          "es6": "calciteColorTransparentInverseHover"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Transparent Inverse Hover",
+      "path": ["semantic", "color", "transparent", "inverse", "hover"],
+      "key": "{semantic.color.transparent.inverse.hover}"
+    },
+    {
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.16)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.08)\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "type": "color",
+        "item": "transparent",
+        "subitem": "inverse",
+        "state": "press",
+        "names": {
+          "scss": "$calcite-color-transparent-inverse-press",
+          "css": "var(--calcite-color-transparent-inverse-press)",
+          "js": "semantic.color.transparent.inverse.press",
+          "docs": "semantic.color.transparent.inverse.press",
+          "es6": "calciteColorTransparentInversePress"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Transparent Inverse Press",
+      "path": ["semantic", "color", "transparent", "inverse", "press"],
+      "key": "{semantic.color.transparent.inverse.press}"
     },
     {
       "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
@@ -29188,6 +29312,8 @@ export const calciteOpacity0 = "0";
 export const calciteOpacity4 = "0.04";
 export const calciteOpacity8 = "0.08";
 export const calciteOpacity10 = "0.1";
+export const calciteOpacity12 = "0.12";
+export const calciteOpacity16 = "0.16";
 export const calciteOpacity20 = "0.2";
 export const calciteOpacity30 = "0.3";
 export const calciteOpacity40 = "0.4";
@@ -29799,6 +29925,8 @@ export const calciteOpacity0: string;
 export const calciteOpacity4: string;
 export const calciteOpacity8: string;
 export const calciteOpacity10: string;
+export const calciteOpacity12: string;
+export const calciteOpacity16: string;
 export const calciteOpacity20: string;
 export const calciteOpacity30: string;
 export const calciteOpacity40: string;
@@ -29919,11 +30047,19 @@ export const calciteColorTransparent = {
 };
 export const calciteColorTransparentHover = {
   light: "rgba(0, 0, 0, 0.04)",
-  dark: "rgba(255, 255, 255, 0.04)",
+  dark: "rgba(255, 255, 255, 0.12)",
 };
 export const calciteColorTransparentPress = {
   light: "rgba(0, 0, 0, 0.08)",
-  dark: "rgba(255, 255, 255, 0.08)",
+  dark: "rgba(255, 255, 255, 0.16)",
+};
+export const calciteColorTransparentInverseHover = {
+  light: "rgba(255, 255, 255, 0.12)",
+  dark: "rgba(0, 0, 0, 0.04)",
+};
+export const calciteColorTransparentInversePress = {
+  light: "rgba(255, 255, 255, 0.16)",
+  dark: "rgba(0, 0, 0, 0.08)",
 };
 export const calciteColorTransparentScrim = {
   light: "rgba(255, 255, 255, 0.85)",
@@ -30416,6 +30552,14 @@ export const calciteColorForegroundCurrent: { light: string; dark: string };
 export const calciteColorTransparent: { light: string; dark: string };
 export const calciteColorTransparentHover: { light: string; dark: string };
 export const calciteColorTransparentPress: { light: string; dark: string };
+export const calciteColorTransparentInverseHover: {
+  light: string;
+  dark: string;
+};
+export const calciteColorTransparentInversePress: {
+  light: string;
+  dark: string;
+};
 export const calciteColorTransparentScrim: { light: string; dark: string };
 export const calciteColorTransparentTint: { light: string; dark: string };
 export const calciteColorBrand: { light: string; dark: string };
@@ -49844,6 +49988,72 @@ export default {
         path: ["core", "opacity", "10"],
         key: "{core.opacity.10}",
       },
+      12: {
+        value: "0.12",
+        type: "opacity",
+        attributes: {
+          category: "opacity",
+          type: "opacity",
+          item: "12",
+          names: {
+            scss: "$calcite-opacity-12",
+            css: "var(--calcite-opacity-12)",
+            js: "core.opacity.12",
+            docs: "core.opacity.12",
+            es6: "calciteOpacity12",
+          },
+          "calcite-schema": {
+            system: "calcite",
+            tier: "core",
+            type: "opacity",
+          },
+        },
+        filePath: "src/tokens/core/opacity.json",
+        isSource: false,
+        original: {
+          value: "12%",
+          type: "opacity",
+          attributes: {
+            category: "opacity",
+          },
+        },
+        name: "Opacity 12",
+        path: ["core", "opacity", "12"],
+        key: "{core.opacity.12}",
+      },
+      16: {
+        value: "0.16",
+        type: "opacity",
+        attributes: {
+          category: "opacity",
+          type: "opacity",
+          item: "16",
+          names: {
+            scss: "$calcite-opacity-16",
+            css: "var(--calcite-opacity-16)",
+            js: "core.opacity.16",
+            docs: "core.opacity.16",
+            es6: "calciteOpacity16",
+          },
+          "calcite-schema": {
+            system: "calcite",
+            tier: "core",
+            type: "opacity",
+          },
+        },
+        filePath: "src/tokens/core/opacity.json",
+        isSource: false,
+        original: {
+          value: "16%",
+          type: "opacity",
+          attributes: {
+            category: "opacity",
+          },
+        },
+        name: "Opacity 16",
+        path: ["core", "opacity", "16"],
+        key: "{core.opacity.16}",
+      },
       20: {
         value: "0.2",
         type: "opacity",
@@ -52766,6 +52976,8 @@ declare const tokens: {
       "4": DesignToken;
       "8": DesignToken;
       "10": DesignToken;
+      "12": DesignToken;
+      "16": DesignToken;
       "20": DesignToken;
       "30": DesignToken;
       "40": DesignToken;
@@ -53123,7 +53335,7 @@ export default {
           hover: {
             value: {
               light: "rgba(0, 0, 0, 0.04)",
-              dark: "rgba(255, 255, 255, 0.04)",
+              dark: "rgba(255, 255, 255, 0.12)",
             },
             type: "color",
             attributes: {
@@ -53161,7 +53373,7 @@ export default {
           press: {
             value: {
               light: "rgba(0, 0, 0, 0.08)",
-              dark: "rgba(255, 255, 255, 0.08)",
+              dark: "rgba(255, 255, 255, 0.16)",
             },
             type: "color",
             attributes: {
@@ -53195,6 +53407,84 @@ export default {
             name: "Color Transparent Press",
             path: ["semantic", "color", "transparent", "default", "press"],
             key: "{semantic.color.transparent.default.press}",
+          },
+        },
+        inverse: {
+          hover: {
+            value: {
+              light: "rgba(255, 255, 255, 0.12)",
+              dark: "rgba(0, 0, 0, 0.04)",
+            },
+            type: "color",
+            attributes: {
+              category: "color",
+              type: "color",
+              item: "transparent",
+              subitem: "inverse",
+              state: "hover",
+              names: {
+                scss: "$calcite-color-transparent-inverse-hover",
+                css: "var(--calcite-color-transparent-inverse-hover)",
+                js: "semantic.color.transparent.inverse.hover",
+                docs: "semantic.color.transparent.inverse.hover",
+                es6: "calciteColorTransparentInverseHover",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "color",
+                type: "color",
+              },
+            },
+            filePath: "src/tokens/semantic/color/light.json",
+            isSource: false,
+            original: {
+              value: "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Transparent Inverse Hover",
+            path: ["semantic", "color", "transparent", "inverse", "hover"],
+            key: "{semantic.color.transparent.inverse.hover}",
+          },
+          press: {
+            value: {
+              light: "rgba(255, 255, 255, 0.16)",
+              dark: "rgba(0, 0, 0, 0.08)",
+            },
+            type: "color",
+            attributes: {
+              category: "color",
+              type: "color",
+              item: "transparent",
+              subitem: "inverse",
+              state: "press",
+              names: {
+                scss: "$calcite-color-transparent-inverse-press",
+                css: "var(--calcite-color-transparent-inverse-press)",
+                js: "semantic.color.transparent.inverse.press",
+                docs: "semantic.color.transparent.inverse.press",
+                es6: "calciteColorTransparentInversePress",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "color",
+                type: "color",
+              },
+            },
+            filePath: "src/tokens/semantic/color/light.json",
+            isSource: false,
+            original: {
+              value: "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Transparent Inverse Press",
+            path: ["semantic", "color", "transparent", "inverse", "press"],
+            key: "{semantic.color.transparent.inverse.press}",
           },
         },
         scrim: {
@@ -62604,6 +62894,10 @@ declare const tokens: {
           hover: DesignToken;
           press: DesignToken;
         };
+        inverse: {
+          hover: DesignToken;
+          press: DesignToken;
+        };
         scrim: DesignToken;
         tint: DesignToken;
       };
@@ -68543,6 +68837,8 @@ $calcite-opacity-0: 0;
 $calcite-opacity-4: 0.04;
 $calcite-opacity-8: 0.08;
 $calcite-opacity-10: 0.1;
+$calcite-opacity-12: 0.12;
+$calcite-opacity-16: 0.16;
 $calcite-opacity-20: 0.2;
 $calcite-opacity-30: 0.3;
 $calcite-opacity-40: 0.4;
@@ -68623,8 +68919,10 @@ $calcite-color-foreground-2: #202020;
 $calcite-color-foreground-3: #151515;
 $calcite-color-foreground-current: #214155;
 $calcite-color-transparent: rgba(255, 255, 255, 0);
-$calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
-$calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
+$calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+$calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+$calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
 $calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-brand: #009af2;
@@ -68820,6 +69118,8 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
@@ -68864,8 +69164,10 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-foreground-3: #151515;
   --calcite-color-foreground-2: #202020;
@@ -68890,6 +69192,8 @@ $calcite-color-foreground-current: #c7eaff;
 $calcite-color-transparent: rgba(0, 0, 0, 0);
 $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+$calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
 $calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-brand: #007ac2;
