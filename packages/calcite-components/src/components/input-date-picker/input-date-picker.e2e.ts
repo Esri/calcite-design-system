@@ -68,6 +68,7 @@ describe("calcite-input-date-picker", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-date-picker");
+    labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
   });
 
   describe("disabled", () => {
