@@ -35,7 +35,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.13",
+    "@arcgis/lumina-compiler": "^4.32.14",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -135,8 +135,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "20.7.1",
-    "@nx/nx-linux-x64-gnu": "20.7.1",
-    "@nx/nx-win32-x64-msvc": "20.7.1"
+    "@nx/nx-darwin-arm64": "20.8.0",
+    "@nx/nx-linux-x64-gnu": "20.8.0",
+    "@nx/nx-win32-x64-msvc": "20.8.0"
   }
 }
