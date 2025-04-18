@@ -920,9 +920,9 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-status-success: #36da43;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success-press: #00b81b;
-  --calcite-color-status-warning: #ffc900;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning-press: #f5d000;
+  --calcite-color-status-warning: #f89927;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning-press: #ff9500;
   --calcite-color-status-danger: #fe583e;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger-press: #d90012;
@@ -1091,9 +1091,9 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -1135,9 +1135,9 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-status-danger-press: #7c1d13;
     --calcite-color-status-danger-hover: #a82b1e;
     --calcite-color-status-danger: #d83020;
-    --calcite-color-status-warning-press: #bfa200;
-    --calcite-color-status-warning-hover: #d9bc00;
-    --calcite-color-status-warning: #edd317;
+    --calcite-color-status-warning-press: #9a5b10;
+    --calcite-color-status-warning-hover: #d17300;
+    --calcite-color-status-warning: #f89927;
     --calcite-color-status-success-press: #1a6324;
     --calcite-color-status-success-hover: #288835;
     --calcite-color-status-success: #35ac46;
@@ -1181,9 +1181,9 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-status-danger-press: #d90012;
     --calcite-color-status-danger-hover: #ff0015;
     --calcite-color-status-danger: #fe583e;
-    --calcite-color-status-warning-press: #f5d000;
-    --calcite-color-status-warning-hover: #ffee33;
-    --calcite-color-status-warning: #ffc900;
+    --calcite-color-status-warning-press: #ff9500;
+    --calcite-color-status-warning-hover: #ffb54d;
+    --calcite-color-status-warning: #f89927;
     --calcite-color-status-success-press: #00b81b;
     --calcite-color-status-success-hover: #3bed52;
     --calcite-color-status-success: #36da43;
@@ -1224,9 +1224,9 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -1268,9 +1268,9 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #f5d000;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning: #ffc900;
+  --calcite-color-status-warning-press: #ff9500;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #00b81b;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success: #36da43;
@@ -1323,9 +1323,9 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-status-success: #35ac46;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success-press: #1a6324;
-  --calcite-color-status-warning: #edd317;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning-press: #bfa200;
+  --calcite-color-status-warning: #f89927;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning-press: #9a5b10;
   --calcite-color-status-danger: #d83020;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger-press: #7c1d13;
@@ -29958,14 +29958,14 @@ export const calciteColorStatusSuccessPress = {
   light: "#1a6324",
   dark: "#00b81b",
 };
-export const calciteColorStatusWarning = { light: "#edd317", dark: "#ffc900" };
+export const calciteColorStatusWarning = "#f89927";
 export const calciteColorStatusWarningHover = {
-  light: "#d9bc00",
-  dark: "#ffee33",
+  light: "#d17300",
+  dark: "#ffb54d",
 };
 export const calciteColorStatusWarningPress = {
-  light: "#bfa200",
-  dark: "#f5d000",
+  light: "#9a5b10",
+  dark: "#ff9500",
 };
 export const calciteColorStatusDanger = { light: "#d83020", dark: "#fe583e" };
 export const calciteColorStatusDangerHover = {
@@ -30428,7 +30428,7 @@ export const calciteColorStatusInfoPress: { light: string; dark: string };
 export const calciteColorStatusSuccess: { light: string; dark: string };
 export const calciteColorStatusSuccessHover: { light: string; dark: string };
 export const calciteColorStatusSuccessPress: { light: string; dark: string };
-export const calciteColorStatusWarning: { light: string; dark: string };
+export const calciteColorStatusWarning: string;
 export const calciteColorStatusWarningHover: { light: string; dark: string };
 export const calciteColorStatusWarningPress: { light: string; dark: string };
 export const calciteColorStatusDanger: { light: string; dark: string };
@@ -68637,9 +68637,9 @@ $calcite-color-status-info-press: #009af2;
 $calcite-color-status-success: #36da43;
 $calcite-color-status-success-hover: #3bed52;
 $calcite-color-status-success-press: #00b81b;
-$calcite-color-status-warning: #ffc900;
-$calcite-color-status-warning-hover: #ffee33;
-$calcite-color-status-warning-press: #f5d000;
+$calcite-color-status-warning: #f89927;
+$calcite-color-status-warning-hover: #ffb54d;
+$calcite-color-status-warning-press: #ff9500;
 $calcite-color-status-danger: #fe583e;
 $calcite-color-status-danger-hover: #ff0015;
 $calcite-color-status-danger-press: #d90012;
@@ -68805,9 +68805,9 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -68849,9 +68849,9 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #f5d000;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning: #ffc900;
+  --calcite-color-status-warning-press: #ff9500;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #00b81b;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success: #36da43;
@@ -68902,9 +68902,9 @@ $calcite-color-status-info-press: #00304d;
 $calcite-color-status-success: #35ac46;
 $calcite-color-status-success-hover: #288835;
 $calcite-color-status-success-press: #1a6324;
-$calcite-color-status-warning: #edd317;
-$calcite-color-status-warning-hover: #d9bc00;
-$calcite-color-status-warning-press: #bfa200;
+$calcite-color-status-warning: #f89927;
+$calcite-color-status-warning-hover: #d17300;
+$calcite-color-status-warning-press: #9a5b10;
 $calcite-color-status-danger: #d83020;
 $calcite-color-status-danger-hover: #a82b1e;
 $calcite-color-status-danger-press: #7c1d13;
