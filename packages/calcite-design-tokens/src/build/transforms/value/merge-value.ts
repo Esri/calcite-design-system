@@ -1,8 +1,10 @@
-import { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { PlatformConfig } from "../../../types/extensions.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
+import { state } from "../../shared/state.js";
 
 let dictionaries: {
   light: Dictionary;
@@ -10,15 +12,17 @@ let dictionaries: {
 };
 
 const transformValueMergeValues: ValueTransform["transform"] = async (token, config) => {
-  const { options } = config;
+  const { options } = config as PlatformConfig;
 
-  if (!options?.platform) {
+  if (!options.platform) {
     throw new Error("options.platform is required to merge values");
   }
 
   if (!dictionaries) {
-    const darkDictionary = await dark.getPlatformTokens(options.platform, { cache: true });
-    const lightDictionary = await light.getPlatformTokens(options.platform, { cache: true });
+    const [darkDictionary, lightDictionary] = await Promise.all([
+      dark.getPlatformTokens(options.platform, { cache: true }),
+      light.getPlatformTokens(options.platform, { cache: true }),
+    ]);
 
     dictionaries = { dark: darkDictionary, light: lightDictionary };
   }
@@ -28,10 +32,13 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
     (t: TransformedToken) => t.path.join("/") === token.path.join("/"),
   );
 
-  if (tokenIndex > -1) {
+  const lightToken = dictionaries.light.allTokens[tokenIndex];
+  const darkToken = dictionaries.dark.allTokens[tokenIndex];
+
+  if (tokenIndex > -1 && lightToken.key && !state.sameValueThemeTokens.has(lightToken.key)) {
     return {
-      dark: dictionaries.dark.allTokens[tokenIndex].value,
-      light: dictionaries.light.allTokens[tokenIndex].value,
+      light: lightToken.value,
+      dark: darkToken.value,
     };
   }
 

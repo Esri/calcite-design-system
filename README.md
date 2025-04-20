@@ -19,17 +19,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 <tbody>
 <tr>
   <td align="center">
-    <a href="https://github.com/driskull">
-      <img src="https://avatars.githubusercontent.com/u/1231455?v=4" width="100;" alt="driskull"/>
-      <br />
-      <sub><b>Matt Driscoll</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/jcfranco">
       <img src="https://avatars.githubusercontent.com/u/197440?v=4" width="100;" alt="jcfranco"/>
       <br />
       <sub><b>JC Franco</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/driskull">
+      <img src="https://avatars.githubusercontent.com/u/1231455?v=4" width="100;" alt="driskull"/>
+      <br />
+      <sub><b>Matt Driscoll</b></sub>
     </a>
   </td>
   <td align="center">
@@ -114,17 +114,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
-      <br />
-      <sub><b>Katrina Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
+      <br />
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -209,6 +209,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/bpatterson88">
+      <img src="https://avatars.githubusercontent.com/u/15875886?v=4" width="100;" alt="bpatterson88"/>
+      <br />
+      <sub><b>Ben Patterson</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/vcolavin">
       <img src="https://avatars.githubusercontent.com/u/5898204?v=4" width="100;" alt="vcolavin"/>
       <br />
@@ -220,13 +227,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/25360903?v=4" width="100;" alt="y0n4"/>
       <br />
       <sub><b>Yona N</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/bpatterson88">
-      <img src="https://avatars.githubusercontent.com/u/15875886?v=4" width="100;" alt="bpatterson88"/>
-      <br />
-      <sub><b>Ben Patterson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -253,6 +253,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/matgalla">
+      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
+      <br />
+      <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/MikeTschudi">
       <img src="https://avatars.githubusercontent.com/u/2125181?v=4" width="100;" alt="MikeTschudi"/>
       <br />
@@ -273,6 +280,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Ethan Borgen</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/gpbmike">
       <img src="https://avatars.githubusercontent.com/u/8754?v=4" width="100;" alt="gpbmike"/>
@@ -280,8 +289,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Mike Horn</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/Apahadi73">
       <img src="https://avatars.githubusercontent.com/u/36856709?v=4" width="100;" alt="Apahadi73"/>
@@ -317,6 +324,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Alex Abreu</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/annierm18">
       <img src="https://avatars.githubusercontent.com/u/25759835?v=4" width="100;" alt="annierm18"/>
@@ -324,8 +333,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Aine Fitzgerald Coleman</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/anveshrmekala">
       <img src="https://avatars.githubusercontent.com/u/107427943?v=4" width="100;" alt="anveshrmekala"/>
@@ -361,6 +368,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Ninad Kulkarni</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/nwhittaker">
       <img src="https://avatars.githubusercontent.com/u/421496?v=4" width="100;" alt="nwhittaker"/>
@@ -368,8 +377,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nathan Whittaker</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/oknoway">
       <img src="https://avatars.githubusercontent.com/u/354970?v=4" width="100;" alt="oknoway"/>
@@ -405,6 +412,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Bjorn Svensson</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/drewdaemon">
       <img src="https://avatars.githubusercontent.com/u/315764?v=4" width="100;" alt="drewdaemon"/>
@@ -412,8 +421,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Drew Tate</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/allieorth">
       <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
@@ -443,6 +450,6 @@ This material is licensed for use under the Esri Master License Agreement (MLA),
 
 See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
-For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+For additional information, refer to [Calcite's licensing](https://developers.arcgis.com/calcite-design-system/resources/licensing) and contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>

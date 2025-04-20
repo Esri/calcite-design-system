@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import {
   createEvent,
@@ -323,8 +324,11 @@ export class InputDatePicker
   }
 
   set value(value: string | string[]) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
+    const valueChanged = value !== this._value;
+    const invalidValueCleared =
+      value === "" && (this.startInput?.value !== "" || this.endInput?.value !== "");
+
+    if (valueChanged || invalidValueCleared) {
       this._value = value;
       this.valueWatcher(value);
     }

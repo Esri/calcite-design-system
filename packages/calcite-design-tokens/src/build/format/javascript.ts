@@ -1,8 +1,8 @@
 import prettierSync from "@prettier/sync";
-import { FormatFn } from "style-dictionary/types";
+import type { FormatFn } from "style-dictionary/types";
 import { convertTokenData, fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../types/interfaces.js";
+import { RegisterFn } from "../../types/interfaces.js";
 import { cleanAttributes } from "./utils/index.js";
 
 export const formatJsPlatform: FormatFn = async ({ dictionary, file }) => {

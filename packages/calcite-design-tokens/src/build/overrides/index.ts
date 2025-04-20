@@ -1,7 +1,9 @@
 import StyleDictionary from "style-dictionary";
-import { Config, PlatformConfig, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Config, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
+import { PlatformConfig } from "../../types/extensions.js";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
+import { Platform } from "../utils/enums.js";
 
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.
@@ -25,7 +27,8 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
   sds.forEach((sd) => {
     overrideTransform("fontFamily/css", sd, (ogTransform) => ({
       transform: (token, config, options) => {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const { platform } = (config as PlatformConfig).options;
+        const isStylesheet = platform === Platform.scss || platform === Platform.css;
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -38,7 +41,8 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
 
     overrideTransform("shadow/css/shorthand", sd, (ogTransform) => ({
       transform: (token, config, options) => {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const { platform } = (config as PlatformConfig).options;
+        const isStylesheet = platform === Platform.scss || platform === Platform.css;
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -97,8 +101,14 @@ function overrideTokenStudioTransforms(): void {
         const ogType = token.type;
         token.type = "shadow"; // force the transform to process object structure
         const transformed = {};
-        transformThemeColor("light", transformed, { token, transform: ogTransform as ValueTransform, config, options });
-        transformThemeColor("dark", transformed, { token, transform: ogTransform as ValueTransform, config, options });
+        const context = {
+          token,
+          transform: ogTransform as ValueTransform,
+          config: config as PlatformConfig,
+          options,
+        } as const;
+        transformThemeColor("light", transformed, context);
+        transformThemeColor("dark", transformed, context);
         token.type = ogType;
 
         return transformed;
@@ -145,7 +155,8 @@ function overrideTokenStudioTransforms(): void {
       const shouldSkip = isFontRelated(token) && token.name.includes("medium-italic");
 
       if (shouldSkip) {
-        const isStylesheet = config.options?.platform === "scss" || config.options?.platform === "css";
+        const { platform } = config.options as PlatformConfig;
+        const isStylesheet = platform === Platform.scss || platform === Platform.css;
         return isStylesheet ? `"${token.value}"` : token.value;
       }
 

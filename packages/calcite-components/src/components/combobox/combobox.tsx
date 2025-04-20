@@ -100,6 +100,8 @@ export class Combobox
 
   // #region Private Properties
 
+  private closeButtonEl = createRef<HTMLButtonElement>();
+
   private allSelectedIndicatorChipEl: Chip["el"];
 
   private chipContainerEl: HTMLDivElement;
@@ -1865,6 +1867,7 @@ export class Combobox
               disabled={this.disabled}
               key="close-button"
               label={this.messages.clear}
+              ref={this.closeButtonEl}
               scale={this.scale}
             />
           ) : null}

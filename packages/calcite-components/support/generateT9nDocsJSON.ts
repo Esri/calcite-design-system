@@ -1,16 +1,13 @@
 // generates a JSON file containing the per component t9n translation values
 (async () => {
-  const { dirname, resolve } = await import("path");
-  const { fileURLToPath } = await import("url");
+  const { resolve } = await import("path");
   const {
     existsSync,
     promises: { readFile, readdir, writeFile },
   } = await import("fs");
   try {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-
-    const outFile = resolve(__dirname, "..", "dist", "docs", "translations.json");
-    const assetsPaths = resolve(__dirname, "..", "dist", "calcite", "assets");
+    const outFile = resolve(import.meta.dirname, "..", "dist", "docs", "translations.json");
+    const assetsPaths = resolve(import.meta.dirname, "..", "dist", "calcite", "assets");
     const components = await readdir(assetsPaths);
 
     const data = {};

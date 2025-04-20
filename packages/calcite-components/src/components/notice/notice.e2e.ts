@@ -145,20 +145,20 @@ describe("calcite-notice", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-notice-close-text-color": {
+          "--calcite-notice-close-icon-color": {
             shadowSelector: `.${CSS.close}`,
             targetProp: "color",
           },
-          "--calcite-notice-close-text-color-hover": [
+          "--calcite-notice-close-icon-color-hover": [
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "color",
-              state: "focus",
+              state: { focus: { attribute: "class", value: CSS.close } },
             },
             {
               shadowSelector: `.${CSS.close}`,
               targetProp: "color",
-              state: "hover",
+              state: { hover: { attribute: "class", value: CSS.close } },
             },
           ],
           "--calcite-notice-close-background-color-focus": [

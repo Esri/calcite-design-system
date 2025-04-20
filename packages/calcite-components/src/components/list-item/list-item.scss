@@ -66,6 +66,11 @@
   &::before {
     background-color: var(--calcite-list-selection-border-color, var(--calcite-color-brand));
   }
+
+  &:focus {
+    box-shadow: inset var(--calcite-border-width-lg) 0 0 0
+      var(--calcite-list-selection-border-color, var(--calcite-color-brand));
+  }
 }
 
 .nested-container {

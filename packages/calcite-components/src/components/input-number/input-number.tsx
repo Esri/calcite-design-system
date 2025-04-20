@@ -660,6 +660,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -823,6 +824,9 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
+    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
+    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
+
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? valueHandleInteger
@@ -846,21 +850,31 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.displayedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-        : newLocalizedValue;
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
 
+    // adds localized leading zeros
+    if (hasLeadingZeros) {
+      newLocalizedValue = `${
+        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
+        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
-    this.value = ["-", "."].includes(newValue) ? "" : newValue;
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.value = validNewValue;
 
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
-      this.setPreviousEmittedNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(validNewValue);
     }
 
     if (nativeEvent) {
