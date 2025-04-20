@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.21...@esri/calcite-components@3.2.0-next.22) (2025-04-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text, text-area, combobox:** pass AA for placeholder text color ([#11972](https://github.com/Esri/calcite-design-system/issues/11972)) ([2115fff](https://github.com/Esri/calcite-design-system/commit/2115fff21b859d7b5129d4380a5e9ffad3d5257e)), closes [#10361](https://github.com/Esri/calcite-design-system/issues/10361)
+
 ## [3.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.20...@esri/calcite-components@3.2.0-next.21) (2025-04-18)
 
 **Note:** Version bump only for package @esri/calcite-components
