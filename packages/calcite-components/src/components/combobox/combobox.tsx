@@ -391,7 +391,7 @@ export class Combobox
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
-  @property({ reflect: true }) selectAll = false;
+  @property({ reflect: true }) selectAllEnabled = false;
 
   /**
    * Specifies the component's selected items.
@@ -1470,25 +1470,6 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
 
-    if (this.isSelectAllOptionChecked) {
-      return (
-        <calcite-chip
-          appearance={readOnly ? "outline" : "solid"}
-          class="chip"
-          closable={readOnly}
-          data-test-id="chip-all-selected"
-          id="chip-all-selected"
-          key="all-selected"
-          label={messages.allSelected}
-          scale={scale}
-          title={messages.allSelected}
-          value="all-selected"
-        >
-          {messages.allSelected}
-        </calcite-chip>
-      );
-    }
-
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         [CSS.chip]: true,
@@ -1730,7 +1711,7 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const selectAllComboboxItem = this.selectAll &&
+    const selectAllComboboxItem = this.selectAllEnabled &&
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
@@ -1771,7 +1752,7 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
-            {this.selectAll &&
+            {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
@@ -1859,6 +1840,10 @@ export class Combobox
             ref={this.setChipContainerEl}
           >
             {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
+            {!singleSelectionMode &&
+              !singleSelectionDisplay &&
+              this.selectAllEnabled &&
+              this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
