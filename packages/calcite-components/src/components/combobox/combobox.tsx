@@ -53,7 +53,6 @@ import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { isActivationKey } from "../../utils/key";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -238,7 +237,7 @@ export class Combobox
 
   referenceEl: HTMLDivElement;
 
-  checkboxReferenceEl: HTMLInputElement;
+  selectAllComboboxItemReferenceEl: HTMLCalciteComboboxItemElement;
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
@@ -282,7 +281,7 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  @state() selectAllCheckedState: boolean = false;
+  @state() isSelectAllOptionChecked: boolean = false;
 
   // #endregion
 
@@ -393,9 +392,6 @@ export class Combobox
 
   /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
   @property({ reflect: true }) selectAll = false;
-
-  /** When `true`, selects all items. Does not apply to `selection-mode single`. */
-  @property({ reflect: true }) selectAllChecked = false;
 
   /**
    * Specifies the component's selected items.
@@ -605,10 +601,6 @@ export class Combobox
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
-
-    if (changes.has("selectAllChecked")) {
-      this.selectAllCheckedState = this.selectAllChecked;
-    }
   }
 
   override updated(): void {
@@ -655,12 +647,7 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
-  private selectAllChangeHandler(): void {
-    this.selectAllChecked = !this.selectAllChecked;
-    this.toggleSelectAll(this.selectAllChecked);
-  }
-
-  private toggleSelectAll(selectAll: boolean): void {
+  private toggleToSelectAll(selectAll: boolean): void {
     this.items.forEach((item) => {
       item.selected = selectAll;
     });
@@ -723,6 +710,9 @@ export class Combobox
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
+
+    this.handleSelectAllToggle();
+
     const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
@@ -778,6 +768,16 @@ export class Combobox
     );
   }
 
+  private handleSelectAllToggle() {
+    const selectAllComboboxItemIsSelected = this.items.find(
+      (item) => item.id === `${this.guid}-select-all` && item.selected,
+    );
+
+    this.isSelectAllOptionChecked = !!selectAllComboboxItemIsSelected?.selected;
+
+    this.toggleToSelectAll(this.isSelectAllOptionChecked);
+  }
+
   private keyDownHandler(event: KeyboardEvent): void {
     if (this.readOnly) {
       return;
@@ -830,12 +830,8 @@ export class Combobox
           event.preventDefault();
 
           this.open = true;
+          this.shiftActiveItemIndex(1);
 
-          if (this.selectAll && this.checkboxReferenceEl) {
-            this.checkboxReferenceEl.focus();
-          } else {
-            this.shiftActiveItemIndex(1);
-          }
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
           }
@@ -885,6 +881,8 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
+
+          this.handleSelectAllToggle();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
@@ -1060,7 +1058,7 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
-    if (this.selectAllChecked) {
+    if (this.isSelectAllOptionChecked) {
       this.selectedItems.forEach((item) => {
         const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
         if (chipEl) {
@@ -1129,8 +1127,8 @@ export class Combobox
     connectFloatingUI(this);
   }
 
-  private setCheckboxReferenceEl(el: HTMLInputElement): void {
-    this.checkboxReferenceEl = el;
+  private setSelectAllComboboxItemReferenceEl(el: HTMLCalciteComboboxItemElement): void {
+    this.selectAllComboboxItemReferenceEl = el;
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1331,6 +1329,14 @@ export class Combobox
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
       this.el.querySelectorAll(ComboboxItemSelector),
     );
+
+    if (this.selectAllComboboxItemReferenceEl) {
+      return [
+        this.selectAllComboboxItemReferenceEl,
+        ...items.filter((item) => withDisabled || !item.disabled),
+      ];
+    }
+
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
@@ -1415,6 +1421,7 @@ export class Combobox
   private shiftActiveItemIndex(delta: number): void {
     const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
+
     this.updateActiveItemIndex(newIndex);
     this.scrollToActiveOrSelectedItem();
   }
@@ -1461,7 +1468,7 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
 
-    if (this.selectAllChecked) {
+    if (this.isSelectAllOptionChecked) {
       return (
         <calcite-chip
           appearance={readOnly ? "outline" : "solid"}
@@ -1721,7 +1728,23 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    return this.filteredItems.map((item) => (
+    const selectAllComboboxItem = this.selectAll &&
+      this.selectionMode !== "single" &&
+      this.selectionMode !== "single-persist" && (
+        <calcite-combobox-item
+          ariaLabel="Select All"
+          class={{ [CSS.selectAllCheckbox]: true }}
+          id={`${this.guid}-select-all`}
+          role="option"
+          tabIndex="-1"
+          text-label="Select All"
+          value="Select All"
+        />
+      );
+
+    const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
+
+    return selectAllOptionAndFilteredItemsList.map((item: any) => {
       <li
         ariaLabel={item.label}
         ariaSelected={item.selected}
@@ -1730,33 +1753,8 @@ export class Combobox
         tabIndex="-1"
       >
         {item.heading || item.textLabel}
-      </li>
-    ));
-  }
-
-  private selectAllKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-
-    if (this.el.shadowRoot.activeElement === this.checkboxReferenceEl) {
-      if (isActivationKey(key)) {
-        this.selectAllChangeHandler();
-        event.preventDefault();
-      }
-
-      switch (key) {
-        case "ArrowDown":
-          if (this.filteredItems.length) {
-            event.preventDefault();
-
-            this.checkboxReferenceEl.blur();
-            this.shiftActiveItemIndex(1);
-          }
-          break;
-
-        case "ArrowUp":
-          break;
-      }
-    }
+      </li>;
+    });
   }
 
   private renderFloatingUIContainer(): JsxNode {
@@ -1774,24 +1772,15 @@ export class Combobox
             {this.selectAll &&
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
-                <li
-                  class={{ [CSS.label]: true, [CSS.selectAllCheckbox]: true }}
-                  id={this.guid}
-                  role="checkbox"
-                >
-                  <input
-                    aria-labelledby={`${this.guid}-select-all-label`}
-                    checked={this.selectAllCheckedState}
-                    id={`${this.guid}-select-all`}
-                    onChange={this.selectAllChangeHandler}
-                    onKeyDown={this.selectAllKeyDownHandler}
-                    ref={this.setCheckboxReferenceEl}
-                    type="checkbox"
-                  />
-                  <label htmlFor={`${this.guid}-select-all`} id={`${this.guid}-select-all-label`}>
-                    Select all
-                  </label>
-                </li>
+                <calcite-combobox-item
+                  ariaLabel="Select All"
+                  id={`${this.guid}-select-all`}
+                  ref={this.setSelectAllComboboxItemReferenceEl}
+                  role="option"
+                  tabIndex="-1"
+                  text-label="Select All"
+                  value="Select All"
+                />
               )}
             <slot />
           </ul>

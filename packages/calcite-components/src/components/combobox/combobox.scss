@@ -170,19 +170,6 @@
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
-.select-all-checkbox {
-  @apply flex items-center self-stretch sticky;
-
-  padding-block: var(--calcite-spacing-sm);
-  padding-inline: var(--calcite-spacing-md);
-  gap: var(--calcite-spacing-md);
-  inset-block-start: 0;
-  z-index: var(--calcite-z-index);
-
-  border-block-end: 1px solid var(--calcite-color-border-3);
-  background: var(--calcite-color-foreground-1);
-}
-
 .icon-end,
 .icon-start {
   @apply flex cursor-pointer items-center;
@@ -245,9 +232,10 @@ calcite-chip {
   @apply block;
 }
 
-.checkbox {
-  line-height: 0;
-  color: var(--calcite-color-border-input);
+.select-all-checkbox {
+  @apply sticky;
+
+  inset-block-start: 0;
 }
 
 @include form-validation-message();
