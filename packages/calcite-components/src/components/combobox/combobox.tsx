@@ -376,7 +376,7 @@ export class Combobox
   @property({ reflect: true }) placeholderIcon: IconNameOrString;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property({ reflect: true }) placeholderIconFlipRtl = false;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -829,8 +829,12 @@ export class Combobox
         if (this.filteredItems.length) {
           event.preventDefault();
 
-          this.open = true;
-          this.shiftActiveItemIndex(1);
+          if (this.open) {
+            this.shiftActiveItemIndex(1);
+          } else {
+            this.open = true;
+            this.ensureRecentSelectedItemIsActive();
+          }
 
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
@@ -1421,14 +1425,12 @@ export class Combobox
   private shiftActiveItemIndex(delta: number): void {
     const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
-
     this.updateActiveItemIndex(newIndex);
     this.scrollToActiveOrSelectedItem();
   }
 
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
-
     let activeDescendant: string = null;
     this.filteredItems.forEach((el, i) => {
       if (i === index) {
@@ -1790,7 +1792,7 @@ export class Combobox
   }
 
   private renderSelectedOrPlaceholderIcon(): JsxNode {
-    const { open, placeholderIcon, iconFlipRtl, selectedItems } = this;
+    const { open, placeholderIcon, placeholderIconFlipRtl, selectedItems } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
     const showPlaceholder = placeholderIcon && (open || !selectedItem);
@@ -1803,7 +1805,7 @@ export class Combobox
               [CSS.selectedIcon]: !showPlaceholder,
               [CSS.placeholderIcon]: showPlaceholder,
             }}
-            flipRtl={showPlaceholder ? iconFlipRtl : selectedItem.iconFlipRtl}
+            flipRtl={showPlaceholder ? placeholderIconFlipRtl : selectedItem.iconFlipRtl}
             icon={showPlaceholder ? placeholderIcon : selectedIcon}
             scale={getIconScale(this.scale)}
           />
