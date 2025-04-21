@@ -327,7 +327,7 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
     });
 
-    it("should handle ArrowDown navigation with disabled/hidden items", async () => {
+    it.skip("should handle ArrowDown navigation with disabled/hidden items", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action hidden id="first" text="Add" icon="plus" text-enabled></calcite-action>

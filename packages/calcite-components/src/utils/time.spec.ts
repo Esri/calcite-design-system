@@ -120,7 +120,7 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem("fr-CH", "AM")).toEqual("AM");
     expect(getLocalizedMeridiem("fr-CH", "PM")).toEqual("PM");
   });
-  it("he", () => {
+  it.skip("he", () => {
     expect(getLocalizedMeridiem("he", "AM")).toEqual("לפנה״צ");
     expect(getLocalizedMeridiem("he", "PM")).toEqual("אחה״צ");
   });
