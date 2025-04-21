@@ -41,5 +41,8 @@
   },
   "volta": {
     "extends": "../../package.json"
+  },
+  "devDependencies": {
+    "vitest": "2.1.9"
   }
 }
