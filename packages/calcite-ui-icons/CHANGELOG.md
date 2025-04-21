@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.1...@esri/calcite-ui-icons@4.2.0-next.2) (2025-04-21)
+
+### Features
+
+- add image display order web component icons ([#11992](https://github.com/Esri/calcite-design-system/issues/11992)) ([2249ba8](https://github.com/Esri/calcite-design-system/commit/2249ba88a921e99ceef4cd7503ac6ef41aae09d7))
+
 ## [4.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.0...@esri/calcite-ui-icons@4.2.0-next.1) (2025-04-08)
 
 ### Features
