@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.23...@esri/calcite-components@3.2.0-next.24) (2025-04-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.2.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.22...@esri/calcite-components@3.2.0-next.23) (2025-04-21)
+
+### Bug Fixes
+
+- **list-item:** align elements to the left of the item's content ([#11977](https://github.com/Esri/calcite-design-system/issues/11977)) ([b0ee19d](https://github.com/Esri/calcite-design-system/commit/b0ee19dadf20134e6efdac0cebed9b0162e4120a)), closes [#11031](https://github.com/Esri/calcite-design-system/issues/11031)
+
+## [3.2.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.21...@esri/calcite-components@3.2.0-next.22) (2025-04-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text, text-area, combobox:** pass AA for placeholder text color ([#11972](https://github.com/Esri/calcite-design-system/issues/11972)) ([2115fff](https://github.com/Esri/calcite-design-system/commit/2115fff21b859d7b5129d4380a5e9ffad3d5257e)), closes [#10361](https://github.com/Esri/calcite-design-system/issues/10361)
+
+## [3.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.20...@esri/calcite-components@3.2.0-next.21) (2025-04-18)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [3.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.19...@esri/calcite-components@3.2.0-next.20) (2025-04-18)
 
 **Note:** Version bump only for package @esri/calcite-components
