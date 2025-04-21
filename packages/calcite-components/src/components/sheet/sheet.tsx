@@ -398,6 +398,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
       case "End":
         this.updateSize({
@@ -405,6 +406,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
     }
   }

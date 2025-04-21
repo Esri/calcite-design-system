@@ -223,12 +223,14 @@ export class ShellPanel extends LitElement {
           size: layout === "horizontal" ? minBlockSize : minInlineSize,
           type: layout === "horizontal" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
       case "End":
         this.updateSize({
           size: layout === "horizontal" ? maxBlockSize : maxInlineSize,
           type: layout === "horizontal" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
     }
   }
