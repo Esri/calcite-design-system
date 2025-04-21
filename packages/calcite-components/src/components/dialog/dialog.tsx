@@ -16,15 +16,9 @@ import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { resizeShiftStep } from "../../utils/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import {
-  CSS,
-  dialogDragStep,
-  dialogResizeStep,
-  initialDragPosition,
-  initialResizePosition,
-  SLOTS,
-} from "./resources";
+import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 import { styles } from "./dialog.scss";
 
@@ -448,15 +442,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            size: this.getTransitionElDOMRect().height - resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom -= dialogResizeStep;
+          resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y -= dialogDragStep;
+          dragPosition.y -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -465,15 +459,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            size: this.getTransitionElDOMRect().height + resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom += dialogResizeStep;
+          resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y += dialogDragStep;
+          dragPosition.y += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -482,15 +476,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - dialogResizeStep,
+            size: this.getTransitionElDOMRect().width - resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right -= dialogResizeStep;
+          resizePosition.right -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x -= dialogDragStep;
+          dragPosition.x -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -499,15 +493,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width + dialogResizeStep,
+            size: this.getTransitionElDOMRect().width + resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right += dialogResizeStep;
+          resizePosition.right += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x += dialogDragStep;
+          dragPosition.x += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();

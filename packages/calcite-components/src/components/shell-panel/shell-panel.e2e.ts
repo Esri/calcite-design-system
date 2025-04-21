@@ -5,7 +5,8 @@ import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } f
 import { getElementXY } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
-import { CSS, resizeStep, SLOTS } from "./resources";
+import { resizeStep } from "../../utils/resources";
+import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {

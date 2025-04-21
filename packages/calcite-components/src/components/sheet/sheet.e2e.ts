@@ -4,7 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
-import { CSS, resizeShiftStep, resizeStep } from "./resources";
+import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
 
 describe("calcite-sheet properties", () => {

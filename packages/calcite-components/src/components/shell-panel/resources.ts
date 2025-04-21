@@ -17,6 +17,3 @@ export const SLOTS = {
   actionBar: "action-bar",
   header: "header",
 };
-
-export const resizeStep = 10;
-export const resizeShiftStep = 25;
