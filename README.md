@@ -114,17 +114,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
-      <br />
-      <sub><b>Katrina Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
+      <br />
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -253,6 +253,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/matgalla">
+      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
+      <br />
+      <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/MikeTschudi">
       <img src="https://avatars.githubusercontent.com/u/2125181?v=4" width="100;" alt="MikeTschudi"/>
       <br />
@@ -273,6 +280,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Ethan Borgen</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/gpbmike">
       <img src="https://avatars.githubusercontent.com/u/8754?v=4" width="100;" alt="gpbmike"/>
@@ -280,8 +289,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Mike Horn</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/Apahadi73">
       <img src="https://avatars.githubusercontent.com/u/36856709?v=4" width="100;" alt="Apahadi73"/>
@@ -308,13 +315,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/44479773?v=4" width="100;" alt="rpanichakit9541"/>
       <br />
       <sub><b>Rachapong Panichakit</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/matgalla">
-      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
-      <br />
-      <sub><b>Matt Gallagher</b></sub>
     </a>
   </td>
   <td align="center">

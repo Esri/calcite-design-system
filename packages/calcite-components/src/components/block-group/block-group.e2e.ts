@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
@@ -455,12 +456,13 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find("calcite-block-group");
         const eventName = `calciteSortHandleReorder`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
-            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true, cancelable: true }));
           },
           reorder,
           eventName,
@@ -564,8 +566,9 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find(`#${componentItemId}`);
         const eventName = `calciteSortHandleMove`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${componentItemId}`,
           (item: Block["el"], moveToId, eventName) => {
@@ -580,6 +583,7 @@ describe("calcite-block-group", () => {
                   },
                 },
                 bubbles: true,
+                cancelable: true,
               }),
             );
           },
