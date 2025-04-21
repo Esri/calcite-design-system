@@ -680,9 +680,16 @@
 
 :host([appearance="transparent"][kind="inverse"]) {
   button,
-  a,
-  calcite-loader {
-    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+  a {
+    &:hover {
+      background-color: var(--calcite-color-transparent-inverse-hover);
+    }
+    &:active {
+      background-color: var(--calcite-color-transparent-inverse-press);
+    }
+    calcite-loader {
+      --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+    }
   }
 }
 
