@@ -150,6 +150,14 @@ export function getLocalizedMeridiem(
   meridiem: Meridiem,
   numberingSystem: NumberingSystem = "latn",
 ): string {
+  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+  // @see https://issues.chromium.org/issues/40172622
+  // @see https://issues.chromium.org/issues/40676973
+  if (locale === "bs" || locale === "mk") {
+    const localeData = localizedTwentyFourHourMeridiems.get(locale);
+    return meridiem === "PM" ? localeData.pm : localeData.am;
+  }
+
   const formatter = createLocaleDateTimeFormatter({ hour12: true, locale, numberingSystem });
   const arbitraryAMHour = 6;
   const arbitraryPMHour = 18;
@@ -338,17 +346,11 @@ export function localizeTimePart({
   if (!date) {
     return;
   }
+  if (hour12 && part === "meridiem" && (locale === "bs" || locale === "mk")) {
+    return getLocalizedMeridiem(locale, value as Meridiem, numberingSystem);
+  }
   const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
   const parts = formatter.formatToParts(date);
-
-  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
-  // @see https://issues.chromium.org/issues/40172622
-  // @see https://issues.chromium.org/issues/40676973
-  if (part === "meridiem" && hour12 && (locale === "bs" || locale === "mk")) {
-    const localeData = localizedTwentyFourHourMeridiems.get(locale);
-    return date.getHours() > 11 ? localeData.am : localeData.pm;
-  }
-
   return getLocalizedTimePart(part, parts);
 }
 
@@ -362,7 +364,6 @@ interface LocalizeTimeStringParameters {
   value: string;
 }
 
-// TODO: remove this function after updating input-time-picker tests that rely on it
 export function localizeTimeString({
   fractionalSecondDigits,
   hour12,
@@ -396,15 +397,6 @@ export function localizeTimeString({
   });
   if (parts) {
     const parts = formatter.formatToParts(dateFromTimeString);
-    let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
-
-    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
-    // @see https://issues.chromium.org/issues/40172622
-    // @see https://issues.chromium.org/issues/40676973
-    if (hour12 && (locale === "bs" || locale === "mk")) {
-      const localeData = localizedTwentyFourHourMeridiems.get(locale);
-      localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
-    }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -414,7 +406,7 @@ export function localizeTimeString({
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
       localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem,
+      localizedMeridiem: getLocalizedMeridiem(locale, parseInt(hour) > 11 ? "PM" : "AM", numberingSystem),
     };
   } else {
     let result = formatter.format(dateFromTimeString) || null;
@@ -473,16 +465,6 @@ export function localizeTimeStringToParts({
       numberingSystem,
     });
     const parts = formatter.formatToParts(dateFromTimeString);
-    let localizedMeridiem = getLocalizedTimePart("meridiem", parts);
-
-    // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
-    // @see https://issues.chromium.org/issues/40172622
-    // @see https://issues.chromium.org/issues/40676973
-    if (hour12 && (locale === "bs" || locale === "mk")) {
-      const localeData = localizedTwentyFourHourMeridiems.get(locale);
-      localizedMeridiem = dateFromTimeString.getHours() > 11 ? localeData.am : localeData.pm;
-    }
-
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -492,7 +474,7 @@ export function localizeTimeStringToParts({
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
       localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem,
+      localizedMeridiem: getLocalizedMeridiem(locale, parseInt(hour) > 11 ? "PM" : "AM", numberingSystem),
     };
   }
   return null;

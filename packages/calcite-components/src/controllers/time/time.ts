@@ -6,6 +6,7 @@ import {
   formatTimePart,
   getLocaleHourFormat,
   getLocalizedDecimalSeparator,
+  getLocalizedMeridiem,
   getLocalizedTimePartSuffix,
   getMeridiem,
   getMeridiemOrder,
@@ -344,7 +345,7 @@ export class TimeController
       case "ArrowUp":
       case "ArrowDown":
         event.preventDefault();
-        this.toggleMeridiem();
+        this.toggleMeridiem(event.key);
         break;
       case " ":
       case "Spacebar":
@@ -416,15 +417,10 @@ export class TimeController
         step,
         value: newValue,
       });
-      if (newValue !== previousValue) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-        this.fractionalSecond = fractionalSecond;
-        if (localizedMeridiem) {
-          this.meridiem = getMeridiem(this.hour);
-        }
-      }
+      this.hour = hour;
+      this.minute = minute;
+      this.second = second;
+      this.fractionalSecond = fractionalSecond;
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -434,6 +430,7 @@ export class TimeController
       this.localizedFractionalSecond = localizedFractionalSecond;
       this.localizedSecondSuffix = localizedSecondSuffix;
       if (localizedMeridiem) {
+        this.meridiem = getMeridiem(this.hour);
         this.localizedMeridiem = localizedMeridiem;
       }
     } else {
@@ -542,22 +539,20 @@ export class TimeController
     if (previousValue !== newValue) {
       this.userChangedValue = true;
       this.component.value = newValue;
-      if (key === "hour" && this.meridiem) {
-        this.localizedMeridiem = newValue
-          ? localizeTimeStringToParts({
-              hour12,
-              locale,
-              numberingSystem,
-              value: newValue,
-              step,
-            })?.localizedMeridiem || null
-          : localizeTimePart({ hour12, value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      if (key === "hour" && hourFormat === "12") {
+        this.meridiem = getMeridiem(hour);
+        this.localizedMeridiem = getLocalizedMeridiem(locale, this.meridiem, numberingSystem);
       }
     }
   }
 
-  toggleMeridiem(): void {
-    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+  toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
+    let newMeridiem;
+    if (!this.meridiem) {
+      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
+    } else {
+      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    }
     this.setValuePart("meridiem", newMeridiem);
   }
 
