@@ -310,6 +310,30 @@
   min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
+:host([resizable][layout="vertical"][position="start"]) {
+  .content {
+    padding-inline-end: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][layout="vertical"][position="end"]) {
+  .content {
+    padding-inline-start: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][layout="horizontal"][position="start"]) {
+  .content {
+    padding-block-end: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
+:host([resizable][layout="horizontal"][position="end"]) {
+  .content {
+    padding-block-start: var(--calcite-size-fixed-sm-plus);
+  }
+}
+
 .content__header {
   @apply flex
   flex-initial
@@ -401,6 +425,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
   .content ::slotted(calcite-panel) {
     border-inline-start: none;
+  }
+}
+
+:host([resizable]) {
+  .content ::slotted(calcite-flow),
+  .content ::slotted(calcite-panel) {
+    border: none;
   }
 }
 
