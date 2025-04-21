@@ -3,51 +3,57 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-content-block-padding: Specifies the block padding of the component's content in the `default` slot.
+ * @prop --calcite-tab-content-space-y: Specifies the vertical space between the component's content in the `default` slot.
+ * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tab-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
  */
 
-:host([selected]) {
-  section,
-  .container {
-    @apply block;
-  }
-}
-
 :host {
-  @apply hidden h-full w-full;
+  @apply hidden;
 }
 
-:host([selected]) {
-  @apply block h-full w-full overflow-auto;
+:host,
+.container,
+.content {
+  @apply h-full w-full;
+}
+
+:host([selected]),
+:host([selected]) .container {
+  @apply flex flex-col;
 }
 
 .content {
   @apply box-border;
-  padding-block: var(--calcite-internal-tab-content-block-padding);
+
+  padding-block: var(
+    --calcite-tab-content-space-y,
+    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
+  );
 }
 
 .scale-s {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.1"));
-  @apply text-n2h;
+  --calcite-internal-tab-content-space-y: theme("spacing.1");
+
+  font-size: var(--calcite-font-size-sm);
+  line-height: 1rem;
 }
 
 .scale-m {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
-  @apply text-n1h;
+  --calcite-internal-tab-content-space-y: theme("spacing.2");
+
+  font-size: var(--calcite-font-size);
+  line-height: 1rem;
 }
 
 .scale-l {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
-  @apply text-0h;
-}
+  --calcite-internal-tab-content-space-y: theme("spacing.[2.5]");
 
-section,
-.container {
-  @apply hidden h-full w-full;
+  font-size: var(--calcite-font-size-md);
+  line-height: 1.25rem;
 }
 
 .container {
-  @apply focus-base;
+  @apply focus-base hidden h-full w-full overflow-auto;
 
   &:focus {
     @apply focus-inset;

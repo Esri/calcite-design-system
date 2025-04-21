@@ -11,24 +11,7 @@
         },
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "0",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "1": {
@@ -41,24 +24,7 @@
         },
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "1",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "2": {
@@ -71,24 +37,7 @@
         },
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "2",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "3": {
@@ -101,24 +50,7 @@
         },
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "3",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       },
       "4": {
@@ -131,24 +63,7 @@
         },
         "type": "boxShadow",
         "attributes": {
-          "calcite-schema": {
-            "system": "calcite",
-            "tier": "core",
-            "domain": "",
-            "component": "",
-            "pattern": "",
-            "element": "",
-            "category": "shadow",
-            "group": "",
-            "kind": "",
-            "appearance": "",
-            "property": "",
-            "variant": "",
-            "state": "",
-            "scale": "4",
-            "context": "",
-            "mode": ""
-          }
+          "category": "shadow"
         }
       }
     }

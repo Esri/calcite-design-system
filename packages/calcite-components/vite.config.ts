@@ -9,8 +9,12 @@ import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
+const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
 
 export default defineConfig({
+  build: { minify: false },
+  cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
+
   ssr: {
     noExternal: nonEsmDependencies,
   },
@@ -43,7 +47,7 @@ export default defineConfig({
         hydratedAttribute: "calcite-hydrated",
       },
       puppeteerTesting: {
-        enabled: true,
+        enabled: !runBrowserTests,
         waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
@@ -79,6 +83,7 @@ export default defineConfig({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true,
+          quiet: true,
         }),
       ],
     },
@@ -91,17 +96,15 @@ export default defineConfig({
   },
 
   test: {
-    // workaround for lumina puppeteer testing issue
-    browser: {
-      name: "chromium",
-      enabled: false,
-    },
+    browser: { name: "chromium", enabled: runBrowserTests, screenshotFailures: false },
+    include: [`**/*.${runBrowserTests ? "browser." : ""}{e2e,spec}.?(c|m)[jt]s?(x)`],
+    passWithNoTests: true,
     setupFiles: ["src/tests/setupTests.ts"],
-    include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
   },
   /*
    * While useLumina() pre-configures everything for you, you can still
    * provide any Vite, Vitest, ESBuild or Rollup configuration option.
+   * See https://vite.dev/config/
    * See https://vitest.dev/config/
    */
 });

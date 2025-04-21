@@ -1,14 +1,12 @@
 (async () => {
-  const { dirname, resolve } = await import("path");
-  const { fileURLToPath } = await import("url");
+  const { resolve } = await import("path");
   const {
     promises: { writeFile },
   } = await import("fs");
   const { default: browserslist } = await import("browserslist");
 
   try {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    const outFile = resolve(__dirname, "..", "dist", "docs", "supported-browsers.json");
+    const outFile = resolve(import.meta.dirname, "..", "dist", "docs", "supported-browsers.json");
     const supportedBrowsers = browserslist();
     await writeFile(outFile, JSON.stringify(supportedBrowsers), "utf-8");
   } catch (err) {

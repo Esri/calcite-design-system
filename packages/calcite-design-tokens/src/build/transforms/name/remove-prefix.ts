@@ -1,6 +1,6 @@
-import { NameTransform } from "style-dictionary/types";
+import type { NameTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
+import { RegisterFn } from "../../../types/interfaces.js";
 
 export const transformNameRemovePrefix: NameTransform["transform"] = ({ name }, config) => {
   return !config.prefix ? name : name.replace(config.prefix, "");

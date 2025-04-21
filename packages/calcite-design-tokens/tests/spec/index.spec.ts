@@ -1,10 +1,6 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
-import { describe, it, expect } from "vitest";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { describe, expect, it } from "vitest";
 
 enum Platform {
   CSS = "css",
@@ -58,8 +54,21 @@ function generateTests(platform: Platform, files: string[], internal = false) {
  * @param outputFilePath - The path to the output file to test, relative to the dist directory
  */
 function assertOutput(outputFilePath: string) {
-  const filePath = resolve(__dirname, "..", "..", "dist", outputFilePath);
-  let content = readFileSync(filePath, "utf-8");
-  content = content.slice(content.indexOf("*/") + 1);
+  const filePath = resolve(import.meta.dirname, "..", "..", "dist", outputFilePath);
+  const content = preprocessContent(readFileSync(filePath, "utf-8"), outputFilePath.split(".").pop());
   expect(content).toMatchSnapshot();
+}
+
+/**
+ * Preprocess the output file before snapshot comparison
+ *
+ * @param content
+ * @param extension
+ */
+function preprocessContent(content: string, extension: string): string {
+  if (extension === "json") {
+    content = content.replace(/"timestamp": \d+,\n/, '"timestamp": "TEST_TIMESTAMP",\n');
+  }
+
+  return content;
 }

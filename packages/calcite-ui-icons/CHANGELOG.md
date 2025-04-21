@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.0...@esri/calcite-ui-icons@4.2.0-next.1) (2025-04-08)
+
+### Features
+
+- add Meridian set icons ([#11899](https://github.com/Esri/calcite-design-system/issues/11899)) ([589f9d2](https://github.com/Esri/calcite-design-system/commit/589f9d27ae54266993cfaf04be408e38a61773bb))
+
+## [4.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.1-next.1...@esri/calcite-ui-icons@4.2.0-next.0) (2025-04-04)
+
+### Features
+
+- add new icons ([#11866](https://github.com/Esri/calcite-design-system/issues/11866)) ([df4d6b0](https://github.com/Esri/calcite-design-system/commit/df4d6b0c8c279e2eaa54edd8e11e258bff0983fa))
+
 ## [4.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.1-next.0...@esri/calcite-ui-icons@4.1.1-next.1) (2025-03-31)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

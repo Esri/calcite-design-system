@@ -1,6 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalPassThroughEnv": ["MODE"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

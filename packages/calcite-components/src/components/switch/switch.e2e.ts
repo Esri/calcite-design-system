@@ -151,9 +151,10 @@ describe("calcite-switch", () => {
           shadowSelector: `.${CSS.track}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-switch-border-color": {
+        "--calcite-switch-background-color-hover": {
           shadowSelector: `.${CSS.track}`,
-          targetProp: "borderColor",
+          targetProp: "backgroundColor",
+          state: "hover",
         },
         "--calcite-switch-corner-radius": {
           shadowSelector: `.${CSS.track}`,
@@ -162,6 +163,15 @@ describe("calcite-switch", () => {
         "--calcite-switch-handle-background-color": {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "backgroundColor",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed(html`calcite-switch`, {
+        "--calcite-switch-border-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderColor",
         },
         "--calcite-switch-handle-border-color": {
           shadowSelector: `.${CSS.handle}`,
