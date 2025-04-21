@@ -772,7 +772,7 @@ export class Combobox
 
   private handleSelectAllToggle() {
     const selectAllComboboxItemIsSelected = this.items.find(
-      (item) => item.id === `${this.guid}-select-all` && item.selected,
+      (item) => item.id === `${this.guid}-select-all-enabled` && item.selected,
     );
 
     this.isSelectAllOptionChecked = !!selectAllComboboxItemIsSelected?.selected;
@@ -830,7 +830,6 @@ export class Combobox
       case "ArrowDown":
         if (this.filteredItems.length) {
           event.preventDefault();
-
           if (this.open) {
             this.shiftActiveItemIndex(1);
           } else {
@@ -887,7 +886,6 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
-
           this.handleSelectAllToggle();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1719,7 +1717,7 @@ export class Combobox
         <calcite-combobox-item
           ariaLabel="Select All"
           class={{ [CSS.selectAllCheckbox]: true }}
-          id={`${this.guid}-select-all`}
+          id={`${this.guid}-select-all-enabled`}
           role="option"
           tabIndex="-1"
           text-label="Select All"
@@ -1759,7 +1757,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   ariaLabel="Select All"
-                  id={`${this.guid}-select-all`}
+                  id={`${this.guid}-select-all-enabled`}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   role="option"
                   tabIndex="-1"
