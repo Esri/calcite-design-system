@@ -713,7 +713,9 @@ export class Combobox
 
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
 
-    this.handleSelectAllToggle();
+    if (target.id === `${this.guid}-select-all-enabled` && this.selectAllEnabled) {
+      this.handleSelectAllToggle();
+    }
 
     const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
@@ -886,7 +888,9 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
-          this.handleSelectAllToggle();
+          if (item.id === `${this.guid}-select-all-enabled` && this.selectAllEnabled) {
+            this.handleSelectAllToggle();
+          }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
