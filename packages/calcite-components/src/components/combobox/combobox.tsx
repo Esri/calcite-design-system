@@ -710,10 +710,13 @@ export class Combobox
     if (this.ignoreSelectedEventsFlag) {
       return;
     }
-
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
 
-    if (target.id === `${this.guid}-select-all-enabled` && this.selectAllEnabled) {
+    const isSelectAllTarget = event
+      .composedPath()
+      .some((node) => (node as HTMLElement).id === `${this.guid}-select-all-enabled`);
+
+    if (isSelectAllTarget && this.selectAllEnabled) {
       this.handleSelectAllToggle();
     }
 
