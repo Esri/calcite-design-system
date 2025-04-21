@@ -3,14 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-actions-background-color: Specifies the background color of the action buttons.
- * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the action buttons when hovered.
- * @prop --calcite-input-actions-background-color-press: Specifies the background color of the action buttons when pressed.
- * @prop --calcite-input-actions-icon-color: Specifies the color of the action icons in the component.
- * @prop --calcite-input-actions-icon-color-hover: Specifies the color of the action icons when hovered.
- * @prop --calcite-input-actions-icon-color-press: Specifies the color of the action icons when pressed.
- * @prop --calcite-input-loading-background-color: Specifies the background color of the loader.
- * @prop --calcite-input-loading-fill-color: Specifies the fill color of the loader.
+ * @prop --calcite-input-actions-background-color: Specifies the background color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the component's `clearable` and `number-button-type` elements. when hovered.
+ * @prop --calcite-input-actions-background-color-press: Specifies the background color of the component's `clearable` and `number-button-type` elements. when pressed.
+ * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` and `number-button-type` elements. when hovered.
+ * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` and `number-button-type` elements. when pressed.
+ * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
+ * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
  * @prop --calcite-input-number-background-color: Specifies the background color of the component.
  * @prop --calcite-input-number-border-color: Specifies the border color of the component.
  * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
