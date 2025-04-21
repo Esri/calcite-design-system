@@ -125,9 +125,9 @@
     "vite-plugin-dts": "4.5.3"
   },
   "license": "SEE LICENSE.md",
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@10.9.2",
   "volta": {
-    "node": "20.18.3"
+    "node": "22.14.0"
   },
   "dependencies": {
     "patch-package": "8.0.0"
