@@ -44,6 +44,7 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl, segmentedControlTokens } from "./custom-theme/segmented-control";
 import { select, selectTokens } from "./custom-theme/select";
+import { radioButton, radioButtonTokens } from "./custom-theme/radio-button";
 import { radioButtonGroup, radioButtonGroupTokens } from "./custom-theme/radio-button-group";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
@@ -179,6 +180,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${inputMessage}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column">${radioButton}</div>
       <div class="demo-column">${radioButtonGroup}</div>
     </div>
     <div class="demo-row">
@@ -229,6 +231,7 @@ const componentTokens = {
   ...popoverTokens,
   ...progressTokens,
   ...segmentedControlTokens,
+  ...radioButtonTokens,
   ...radioButtonGroupTokens,
   ...ratingTokens,
   ...selectTokens,
