@@ -11,6 +11,8 @@ export const shellPanelTokens = {
   calciteShellPanelBorderColor: "",
   calciteShellPanelCornerRadius: "",
   calciteShellPanelShadow: "",
+  calciteShellPanelResizeBackgroundColor: "",
+  calciteShellPanelResizeTextColor: "",
 };
 
 export const shellPanel = html`<calcite-shell-panel
