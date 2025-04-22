@@ -428,10 +428,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([resizable]) {
+:host([resizable][layout="vertical"]) {
   .content ::slotted(calcite-flow),
   .content ::slotted(calcite-panel) {
-    border: none;
+    border-inline-start: none;
+    border-inline-end: none;
+  }
+}
+
+:host([resizable][layout="horizontal"]) {
+  .content ::slotted(calcite-flow),
+  .content ::slotted(calcite-panel) {
+    border-block-start: none;
+    border-block-end: none;
   }
 }
 
