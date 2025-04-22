@@ -8,16 +8,18 @@
  */
 
 :host {
-  @apply hidden h-full w-full;
+  @apply hidden;
 }
 
-:host([selected]) {
-  @apply block h-full w-full overflow-auto;
+:host,
+.container,
+.content {
+  @apply h-full w-full;
+}
 
-  section,
-  .container {
-    @apply block;
-  }
+:host([selected]),
+:host([selected]) .container {
+  @apply flex flex-col;
 }
 
 .content {
@@ -50,13 +52,8 @@
   line-height: 1.25rem;
 }
 
-section,
 .container {
-  @apply hidden h-full w-full;
-}
-
-.container {
-  @apply focus-base;
+  @apply focus-base hidden h-full w-full overflow-auto;
 
   &:focus {
     @apply focus-inset;

@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-
 import { expect, it } from "vitest";
 import { getTag, simplePageSetup } from "./utils";
 import { TagOrHTML } from "./interfaces";
