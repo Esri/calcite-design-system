@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.25...@esri/calcite-components@3.2.0-next.26) (2025-04-22)
+
+### Features
+
+- **radio-button-group:** add component tokens ([#11897](https://github.com/Esri/calcite-design-system/issues/11897)) ([ec0eeef](https://github.com/Esri/calcite-design-system/commit/ec0eeefa4312e0cdc943c0d17a52d568ae0ba8f7)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **radio-button:** add component tokens ([#11891](https://github.com/Esri/calcite-design-system/issues/11891)) ([4638e84](https://github.com/Esri/calcite-design-system/commit/4638e84eaa714ee85fe42837c2a516dff6d40fe3)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+- **time-picker:** add component tokens ([#11942](https://github.com/Esri/calcite-design-system/issues/11942)) ([8b3ef80](https://github.com/Esri/calcite-design-system/commit/8b3ef802ca77bd147e3003f041581d1bdd0e6035)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
 ## [3.2.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.24...@esri/calcite-components@3.2.0-next.25) (2025-04-22)
 
 ### Features
