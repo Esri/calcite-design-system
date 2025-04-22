@@ -23,6 +23,7 @@ import {
 import {
   connectSortableComponent,
   disconnectSortableComponent,
+  relatedDragElTimeoutMS,
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
@@ -71,6 +72,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   filterEl: Filter["el"];
 
   private focusableItems: ListItem["el"][] = [];
+
+  private relatedDragEl: ListItem["el"];
+
+  private relatedDragElTimer: number;
 
   handleSelector = "calcite-sort-handle";
 
@@ -633,7 +638,18 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.expanded = true;
+    if (relatedEl !== this.relatedDragEl) {
+      clearTimeout(this.relatedDragElTimer);
+    }
+
+    this.relatedDragEl = relatedEl;
+
+    if (relatedEl) {
+      this.relatedDragElTimer = window.setTimeout(
+        () => (relatedEl.expanded = true),
+        relatedDragElTimeoutMS,
+      );
+    }
   }
 
   onDragStart(detail: ListDragDetail): void {
