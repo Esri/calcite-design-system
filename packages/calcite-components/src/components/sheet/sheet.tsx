@@ -627,7 +627,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} ref={this.setContentEl}>
+        <div class={CSS.content} id="sheet-content" ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>
