@@ -567,13 +567,17 @@
 }
 
 :host([appearance="outline-fill"][split-child="primary"]) button,
-:host([appearance="outline"][split-child="primary"]) button {
+:host([appearance="outline"][split-child="primary"]) button,
+:host([appearance="outline-fill"][split-child="primary"]) a,
+:host([appearance="outline"][split-child="primary"]) a {
   border-inline-end-width: 0;
   border-inline-start-width: theme("borderWidth.DEFAULT");
 }
 
 :host([appearance="outline-fill"][split-child="secondary"]) button,
-:host([appearance="outline"][split-child="secondary"]) button {
+:host([appearance="outline"][split-child="secondary"]) button,
+:host([appearance="outline-fill"][split-child="secondary"]) a,
+:host([appearance="outline"][split-child="secondary"]) a {
   border-inline-start-width: 0;
   border-inline-end-width: theme("borderWidth.DEFAULT");
 }
@@ -676,9 +680,16 @@
 
 :host([appearance="transparent"][kind="inverse"]) {
   button,
-  a,
-  calcite-loader {
-    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+  a {
+    &:hover {
+      background-color: var(--calcite-color-transparent-inverse-hover);
+    }
+    &:active {
+      background-color: var(--calcite-color-transparent-inverse-press);
+    }
+    calcite-loader {
+      --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
+    }
   }
 }
 

@@ -4,6 +4,7 @@ import { PlatformConfig } from "../../../types/extensions.js";
 import { RegisterFn } from "../../../types/interfaces.js";
 import { dark, light } from "../../dictionaries/index.js";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
+import { state } from "../../shared/state.js";
 
 let dictionaries: {
   light: Dictionary;
@@ -31,16 +32,14 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
     (t: TransformedToken) => t.path.join("/") === token.path.join("/"),
   );
 
-  if (tokenIndex > -1) {
-    const lightValue = dictionaries.light.allTokens[tokenIndex].value;
-    const darkValue = dictionaries.dark.allTokens[tokenIndex].value;
+  const lightToken = dictionaries.light.allTokens[tokenIndex];
+  const darkToken = dictionaries.dark.allTokens[tokenIndex];
 
-    if (lightValue !== darkValue) {
-      return {
-        light: lightValue,
-        dark: darkValue,
-      };
-    }
+  if (tokenIndex > -1 && lightToken.key && !state.sameValueThemeTokens.has(lightToken.key)) {
+    return {
+      light: lightToken.value,
+      dark: darkToken.value,
+    };
   }
 
   return token.value;
