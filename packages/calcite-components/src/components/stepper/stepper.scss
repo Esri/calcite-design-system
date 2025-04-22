@@ -1,3 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-stepper-bar-gap: When `horizontal-single`, specifies the space between items in the step bar.
+ * @prop --calcite-stepper-bar-inactive-fill-color: When `horizontal-single`, specifies the fill color of inactive items in the step bar.
+ * @prop --calcite-stepper-bar-active-fill-color: When `horizontal-single`, specifies the fill color of active items in the step bar.
+ * @prop --calcite-stepper-bar-complete-fill-color: When `horizontal-single`, specifies the fill color of complete items in the step bar.
+ * @prop --calcite-stepper-bar-error-fill-color: When `horizontal-single`, specifies the fill color of error items in the step bar.
+ */
+
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
@@ -91,26 +103,26 @@
     @apply flex absolute justify-between items-start;
     block-size: 0.125rem;
     inline-size: 100%;
-    gap: var(--calcite-internal-step-bar-gap, 0.5rem);
+    gap: var(--calcite-stepper-bar-gap, var(--calcite-internal-step-bar-gap, 0.5rem));
   }
 
   .step-bar--inactive {
-    fill: var(--calcite-color-border-3, #dfdfdf);
+    fill: var(--calcite-stepper-bar-inactive-fill-color, var(--calcite-color-border-3, #dfdfdf));
     fill-opacity: 1;
     block-size: 100%;
   }
 
   .step-bar--active {
-    fill: var(--calcite-color-brand);
+    fill: var(--calcite-stepper-bar-active-fill-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {
-    fill: var(--calcite-color-brand);
+    fill: var(--calcite-stepper-bar-complete-fill-color, var(--calcite-color-brand));
     fill-opacity: 0.5;
   }
 
   .step-bar--error {
-    fill: var(--calcite-color-status-danger);
+    fill: var(--calcite-stepper-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 
   .step-bar--disabled {

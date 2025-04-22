@@ -57,6 +57,7 @@ import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation
 import { tileTokens, tile } from "./custom-theme/tile";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import { stepper, stepperTokens } from "./custom-theme/stepper";
 import {
   comboboxTokens,
   comboboxWithPlaceHolderIcon,
@@ -179,6 +180,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${tree}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${stepper}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -236,6 +240,7 @@ const componentTokens = {
   ...menuItemTokens,
   ...shellPanelTokens,
   ...meterTokens,
+  ...stepperTokens,
 };
 
 export default {
