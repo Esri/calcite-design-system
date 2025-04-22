@@ -15,7 +15,7 @@ const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
 const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
-const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}}`;
+const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
 
 export default defineConfig({
   build: { minify: false },
