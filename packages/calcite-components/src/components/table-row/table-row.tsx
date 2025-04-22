@@ -5,7 +5,12 @@ import { createRef } from "lit-html/directives/ref.js";
 import { render } from "lit-html";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
+import {
+  RowType,
+  TableInteractionMode,
+  TableRowFocusEvent,
+  TableRowSelectEvent,
+} from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
   InteractiveComponent,
@@ -112,12 +117,14 @@ export class TableRow extends LitElement implements InteractiveComponent {
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
   /** @private */
-  calciteInternalTableRowSelect = createEvent({ cancelable: false });
+  calciteInternalTableRowSelect = createEvent<TableRowSelectEvent>({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
   calciteTableRowSelect = createEvent({ cancelable: false });
 
   // #endregion
+
+  private userTriggered = false;
 
   // #region Lifecycle
 
@@ -158,7 +165,14 @@ export class TableRow extends LitElement implements InteractiveComponent {
     }
 
     if (changes.has("selected")) {
-      this.calciteInternalTableRowSelect.emit();
+      if (this.userTriggered) {
+        this.calciteTableRowSelect.emit();
+        this.userTriggered = false;
+      } else {
+        this.calciteInternalTableRowSelect.emit({
+          userTriggered: this.userTriggered,
+        });
+      }
     }
   }
 
@@ -329,7 +343,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private handleSelectionOfRow = (): void => {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
-      this.calciteTableRowSelect.emit();
+      this.userTriggered = true;
+      this.calciteInternalTableRowSelect.emit({ userTriggered: this.userTriggered });
     }
   };
 

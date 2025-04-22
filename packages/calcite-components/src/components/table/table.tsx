@@ -164,7 +164,6 @@ export class Table extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
     this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
@@ -204,14 +203,16 @@ export class Table extends LitElement {
     this.updateRows();
   }
 
-  private calciteTableRowSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(event.target as TableRow["el"]);
-    }
-  }
-
   private calciteInternalTableRowSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
+    if (!event.composedPath().includes(this.el)) {
+      return;
+    }
+
+    const { detail, target } = event;
+
+    if (detail.userTriggered) {
+      this.setSelectedItems(target as TableRow["el"]);
+    } else {
       this.updateSelectedItems(false);
     }
   }
