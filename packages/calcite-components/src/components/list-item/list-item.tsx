@@ -193,6 +193,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   /**
+   * When `true`, the item is a drop zone for drag and drop.
+   *
+   * @private
+   */
+  @property() dropSelected = false;
+
+  /**
    * Specifies the size of the component.
    *
    * @internal
@@ -1018,6 +1025,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
               [CSS.containerBorder]: showSelectionBorder,
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
+              [CSS.containerDropSelected]: this.dropSelected && expandable && !expanded,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}

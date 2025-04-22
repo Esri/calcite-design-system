@@ -9,6 +9,7 @@ export const CSS = {
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
+  containerDropSelected: "container--drop-selected",
   content: "content",
   contentBottom: "content-bottom",
   contentContainer: "content-container",
