@@ -99,7 +99,6 @@
     "lerna": "8.2.2",
     "lint-staged": "15.5.1",
     "markdownlint-cli2": "0.17.2",
-    "playwright": "1.52.0",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "puppeteer": "23.4.1",

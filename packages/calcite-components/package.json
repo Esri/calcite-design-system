@@ -56,11 +56,12 @@
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
     "test:stable": "vitest run",
-    "test:experimental": "EXPERIMENTAL_TESTS=true vitest run --browser.headless",
+    "test:experimental": "npm run util:ensure-playwright-workaround && EXPERIMENTAL_TESTS=true vitest run --browser.headless",
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
     "test:watch:stable": "vitest watch",
-    "test:watch:experimental": "EXPERIMENTAL_TESTS=true vitest watch --browser.headless",
+    "test:watch:experimental": "npm run util:ensure-playwright-workaround && EXPERIMENTAL_TESTS=true vitest watch --browser.headless",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
+    "util:ensure-playwright-workaround": "npx playwright install",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
@@ -96,6 +97,7 @@
     "@esri/calcite-tailwind-preset": "0.2.0-next.4",
     "@esri/eslint-plugin-calcite-components": "2.0.2-next.4",
     "@vitest/browser": "2.1.9",
+    "playwright": "1.52.0",
     "vitest": "2.1.9"
   },
   "volta": {
