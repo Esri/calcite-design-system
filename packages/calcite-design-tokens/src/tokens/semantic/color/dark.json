@@ -333,11 +333,11 @@
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
           "type": "color"
         },
-        "1-copy": {
+        "2": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
           "type": "color"
         },
-        "1-copy-copy": {
+        "3": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.16})",
           "type": "color"
         }
