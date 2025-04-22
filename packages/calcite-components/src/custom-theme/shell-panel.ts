@@ -1,18 +1,23 @@
 import { html } from "../../support/formatting";
 
 export const shellPanelTokens = {
-  calciteShellPanelWidth: "",
-  calciteShellPanelMaxWidth: "",
-  calciteShellPanelMinWidth: "",
-  calciteShellPanelHeight: "",
-  calciteShellPanelMaxHeight: "",
-  calciteShellPanelMinHeight: "",
-  calciteShellPanelZIndex: "",
+  calciteShellBackgroundColor: "",
+  calciteShellBorderColor: "",
+  calciteShellCornerRadius: "",
   calciteShellPanelBorderColor: "",
   calciteShellPanelCornerRadius: "",
-  calciteShellPanelShadow: "",
+  calciteShellPanelHeight: "",
+  calciteShellPanelMaxHeight: "",
+  calciteShellPanelMaxWidth: "",
+  calciteShellPanelMinHeight: "",
+  calciteShellPanelMinWidth: "",
   calciteShellPanelResizeBackgroundColor: "",
   calciteShellPanelResizeTextColor: "",
+  calciteShellPanelShadow: "",
+  calciteShellPanelWidth: "",
+  calciteShellPanelZIndex: "",
+  calciteShellShadow: "",
+  calciteShellTextColor: "",
 };
 
 export const shellPanel = html`<calcite-shell-panel

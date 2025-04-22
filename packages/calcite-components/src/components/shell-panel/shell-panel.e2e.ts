@@ -587,11 +587,11 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "boxShadow",
         },
-        "--calcite-shell-resize-background-color": {
+        "--calcite-shell-panel-resize-background-color": {
           shadowSelector: `.${CSS.resizeHandleBar}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-shell-resize-text-color": {
+        "--calcite-shell-panel-resize-text-color": {
           shadowSelector: `.${CSS.resizeHandleBar}`,
           targetProp: "color",
         },
