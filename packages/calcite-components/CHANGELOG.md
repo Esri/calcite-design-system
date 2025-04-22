@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.26...@esri/calcite-components@3.2.0-next.27) (2025-04-22)
+
+### Features
+
+- **shell-panel:** Improve visibility of resizable functionality and allow resizable for all displayMode values ([#11983](https://github.com/Esri/calcite-design-system/issues/11983)) ([a48e422](https://github.com/Esri/calcite-design-system/commit/a48e42299122d8aca644e1c608324fd9769b79b7)), closes [#5652](https://github.com/Esri/calcite-design-system/issues/5652)
+
 ## [3.2.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.25...@esri/calcite-components@3.2.0-next.26) (2025-04-22)
 
 ### Features
