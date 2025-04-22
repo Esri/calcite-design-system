@@ -76,6 +76,8 @@ jobs:
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v7
         with:
+          add-paths: |
+            **/THIRD-PARTY-LICENSES.md
           base: dev
           branch: ci/update-3rd-party-licenses
           delete-branch: true

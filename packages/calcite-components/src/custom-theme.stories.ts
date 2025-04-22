@@ -44,6 +44,8 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl, segmentedControlTokens } from "./custom-theme/segmented-control";
 import { select, selectTokens } from "./custom-theme/select";
+import { radioButton, radioButtonTokens } from "./custom-theme/radio-button";
+import { radioButtonGroup, radioButtonGroupTokens } from "./custom-theme/radio-button-group";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
@@ -55,6 +57,7 @@ import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./cus
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
+import { timePicker, timePickerTokens } from "./custom-theme/time-picker";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 import {
@@ -156,8 +159,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
-        ${selectedComboboxItem}
+        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
+        ${comboboxItem} ${selectedComboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${panel} ${shellPanel}
@@ -175,6 +178,10 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </div>
     <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${radioButton}</div>
+      <div class="demo-column">${radioButtonGroup}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${tree}</div>
@@ -224,6 +231,8 @@ const componentTokens = {
   ...popoverTokens,
   ...progressTokens,
   ...segmentedControlTokens,
+  ...radioButtonTokens,
+  ...radioButtonGroupTokens,
   ...ratingTokens,
   ...selectTokens,
   ...sliderTokens,
@@ -231,6 +240,7 @@ const componentTokens = {
   ...tabsTokens,
   ...textAreaTokens,
   ...tileTokens,
+  ...timePickerTokens,
   ...tooltipTokens,
   ...treeTokens,
   ...menuItemTokens,

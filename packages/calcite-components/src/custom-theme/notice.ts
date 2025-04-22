@@ -6,6 +6,9 @@ export const noticeTokens = {
   calciteNoticeCloseBackgroundColorPress: "",
   calciteNoticeCloseTextColorHover: "",
   calciteNoticeCloseTextColor: "",
+  calciteNoticeCloseIconColorHover: "",
+  calciteNoticeCloseIconColor: "",
+  calciteNoticeTitleTextColor: "",
   calciteNoticeContentTextColor: "",
 };
 
