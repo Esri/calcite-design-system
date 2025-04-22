@@ -11,6 +11,12 @@ import tailwindConfig from "./tailwind.config";
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
 
+const allDirsAndFiles = "**/*";
+const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
+const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
+const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}}`;
+const noBrowserTestMatch = `!${browserTestMatch}}`;
+
 export default defineConfig({
   build: { minify: false },
   cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
@@ -96,8 +102,8 @@ export default defineConfig({
   },
 
   test: {
-    browser: { name: "chromium", enabled: runBrowserTests, screenshotFailures: false },
-    include: [`**/*.${runBrowserTests ? "browser." : ""}{e2e,spec}.?(c|m)[jt]s?(x)`],
+    browser: { enabled: runBrowserTests, name: "chromium", provider: "playwright", screenshotFailures: false },
+    include: runBrowserTests ? [browserTestMatch] : [noBrowserTestMatch, allSpecAndE2ETestMatch],
     passWithNoTests: true,
     setupFiles: ["src/tests/setupTests.ts"],
   },

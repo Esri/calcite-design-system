@@ -12,7 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -23,7 +23,8 @@ import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
+import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { CSS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
@@ -99,12 +100,12 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   // #region State Properties
 
   @state() resizeValues: ResizeValues = {
-    inlineSize: 0,
-    blockSize: 0,
-    minInlineSize: 0,
-    minBlockSize: 0,
-    maxInlineSize: 0,
-    maxBlockSize: 0,
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
   };
 
   @state() get preventDocumentScroll(): boolean {
@@ -365,7 +366,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
     const rect = this.getContentElDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
-    const stepValue = shiftKey ? sheetResizeShiftStep : sheetResizeStep;
+    const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
       case "ArrowUp":
@@ -402,6 +403,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
       case "End":
         this.updateSize({
@@ -409,6 +411,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
     }
   }
@@ -450,7 +453,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.updateSize({ size: null, type: "blockSize" });
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
@@ -459,16 +462,18 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       return;
     }
 
+    await this.el.componentOnReady();
+
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+      inlineSize: getStylePixelValue(inlineSize),
+      blockSize: getStylePixelValue(blockSize),
+      minInlineSize: getStylePixelValue(minInlineSize),
+      minBlockSize: getStylePixelValue(minBlockSize),
+      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
 
     this.resizeValues = values;
