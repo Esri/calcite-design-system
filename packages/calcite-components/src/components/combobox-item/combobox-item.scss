@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-combobox-item-border-color: Specifies the component's border color.
  * @prop --calcite-combobox-text-color: Specifies the component's text and `icon` color.
  * @prop --calcite-combobox-text-color-hover: Specifies the component's text and `icon` color when hovered.
  * @prop --calcite-combobox-item-background-color-active: Specifies the component's background color when active.
@@ -161,6 +162,16 @@ ul:focus {
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+.select-all-checkbox {
+  position: sticky;
+  inset-block-start: 0;
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
+  z-index: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  border-block-end: 1px solid var(--calcite-combobox-item-border-color, var(--calcite-color-border-3));
 }
 
 @include item-hidden();
