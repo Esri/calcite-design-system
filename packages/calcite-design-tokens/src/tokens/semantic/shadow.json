@@ -38,7 +38,7 @@
             "x": "{core.size.default.none}",
             "y": "{core.size.default.6}",
             "blur": "{core.size.default.20}",
-            "spread": "-4",
+            "spread": "-{core.size.default.4}",
             "color": "{semantic.color.shadow.3}",
             "type": "dropShadow"
           },
@@ -46,7 +46,7 @@
             "x": "{core.size.default.none}",
             "y": "{core.size.default.4}",
             "blur": "{core.size.default.12}",
-            "spread": "-2",
+            "spread": "-{core.size.default.2}",
             "color": "{semantic.color.shadow.2}",
             "type": "dropShadow"
           }
