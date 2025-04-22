@@ -10,8 +10,22 @@
       },
       "sm": {
         "value": [
-          "{core.shadow.1}",
-          "{core.shadow.2}"
+          {
+            "x": "{core.size.default.none}",
+            "spread": "{core.size.default.none}",
+            "y": "{core.size.default.2}",
+            "blur": "{core.size.default.8}",
+            "color": "{semantic.color.shadow.3}",
+            "type": "dropShadow"
+          },
+          {
+            "spread": "{core.size.default.none}",
+            "x": "{core.size.default.none}",
+            "y": "{core.size.default.2}",
+            "blur": "{core.size.default.8}",
+            "color": "{semantic.color.shadow.1}",
+            "type": "dropShadow"
+          }
         ],
         "type": "boxShadow",
         "attributes": {
@@ -20,8 +34,22 @@
       },
       "md": {
         "value": [
-          "{core.shadow.3}",
-          "{core.shadow.4}"
+          {
+            "x": "{core.size.default.none}",
+            "spread": "-4",
+            "y": "{core.size.default.6}",
+            "blur": "{core.size.default.20}",
+            "color": "{semantic.color.shadow.3}",
+            "type": "dropShadow"
+          },
+          {
+            "x": "{core.size.default.none}",
+            "y": "{core.size.default.4}",
+            "blur": "{core.size.default.12}",
+            "spread": "-2",
+            "color": "{semantic.color.shadow.2}",
+            "type": "dropShadow"
+          }
         ],
         "type": "boxShadow",
         "attributes": {
