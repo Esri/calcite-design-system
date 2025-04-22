@@ -71,6 +71,22 @@
             }
           }
         },
+        "inverse": {
+          "hover": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          },
+          "press": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          }
+        },
         "scrim": {
           "value": "rgba({core.color.neutral.blk-000}, {core.opacity.85})",
           "type": "color",
@@ -167,21 +183,21 @@
         },
         "warning": {
           "default": {
-            "value": "{core.color.high-saturation.yellow.h-yy-060}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "hover": {
-            "value": "{core.color.high-saturation.yellow.h-yy-070}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-180}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "press": {
-            "value": "{core.color.high-saturation.yellow.h-yy-080}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-080}",
             "type": "color",
             "attributes": {
               "category": "color"

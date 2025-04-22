@@ -9,12 +9,11 @@ import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
-const runPuppeteerAndHappyDomTests = process.env.STABLE_TESTS === "true";
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
 
 export default defineConfig({
   build: { minify: false },
-  cacheDir: runPuppeteerAndHappyDomTests ? "node_modules/.vite/puppeteer" : undefined,
+  cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
 
   ssr: {
     noExternal: nonEsmDependencies,
@@ -48,7 +47,7 @@ export default defineConfig({
         hydratedAttribute: "calcite-hydrated",
       },
       puppeteerTesting: {
-        enabled: runPuppeteerAndHappyDomTests,
+        enabled: !runBrowserTests,
         waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
@@ -84,6 +83,7 @@ export default defineConfig({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true,
+          quiet: true,
         }),
       ],
     },
@@ -97,7 +97,7 @@ export default defineConfig({
 
   test: {
     browser: { name: "chromium", enabled: runBrowserTests, screenshotFailures: false },
-    include: [`**/*.${runPuppeteerAndHappyDomTests ? "" : "browser."}{e2e,spec}.?(c|m)[jt]s?(x)`],
+    include: [`**/*.${runBrowserTests ? "browser." : ""}{e2e,spec}.?(c|m)[jt]s?(x)`],
     passWithNoTests: true,
     setupFiles: ["src/tests/setupTests.ts"],
   },

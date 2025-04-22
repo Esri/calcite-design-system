@@ -249,3 +249,5 @@ calcite-chip {
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
+
+@include input-placeholder-text();

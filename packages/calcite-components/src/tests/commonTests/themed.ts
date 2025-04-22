@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-
 import type { RequireExactlyOne } from "type-fest";
 import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
