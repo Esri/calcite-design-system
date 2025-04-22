@@ -4,7 +4,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
+import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -16,15 +16,9 @@ import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { resizeShiftStep } from "../../utils/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import {
-  CSS,
-  dialogDragStep,
-  dialogResizeStep,
-  initialDragPosition,
-  initialResizePosition,
-  SLOTS,
-} from "./resources";
+import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 import { styles } from "./dialog.scss";
 
@@ -448,15 +442,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            size: this.getTransitionElDOMRect().height - resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom -= dialogResizeStep;
+          resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y -= dialogDragStep;
+          dragPosition.y -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -465,15 +459,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            size: this.getTransitionElDOMRect().height + resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom += dialogResizeStep;
+          resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y += dialogDragStep;
+          dragPosition.y += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -482,15 +476,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - dialogResizeStep,
+            size: this.getTransitionElDOMRect().width - resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right -= dialogResizeStep;
+          resizePosition.right -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x -= dialogDragStep;
+          dragPosition.x -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -499,15 +493,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width + dialogResizeStep,
+            size: this.getTransitionElDOMRect().width + resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right += dialogResizeStep;
+          resizePosition.right += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x += dialogDragStep;
+          dragPosition.x += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -568,7 +562,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.updateTransform();
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
@@ -582,6 +576,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     if (resizable) {
+      await this.el.componentOnReady();
+
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
         window.getComputedStyle(transitionEl);
 
@@ -595,12 +591,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+              width: getStylePixelValue(minInlineSize),
+              height: getStylePixelValue(minBlockSize),
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+              width: getStylePixelValue(maxInlineSize) || window.innerWidth,
+              height: getStylePixelValue(maxBlockSize) || window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
