@@ -8,7 +8,7 @@ export interface TableRowFocusEvent {
 }
 
 export interface TableRowSelectEvent {
-  userTriggered?: boolean;
+  userTriggered: boolean;
 }
 
 export type RowType = "head" | "body" | "foot";
