@@ -56,6 +56,7 @@ import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./cus
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
+import { timePicker, timePickerTokens } from "./custom-theme/time-picker";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
 import {
@@ -157,8 +158,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
-        ${selectedComboboxItem}
+        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
+        ${comboboxItem} ${selectedComboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${panel} ${shellPanel}
@@ -236,6 +237,7 @@ const componentTokens = {
   ...tabsTokens,
   ...textAreaTokens,
   ...tileTokens,
+  ...timePickerTokens,
   ...tooltipTokens,
   ...treeTokens,
   ...menuItemTokens,
