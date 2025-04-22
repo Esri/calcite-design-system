@@ -35,7 +35,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.32.14",
+    "@arcgis/lumina-compiler": "4.33.0-next.93",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -70,7 +70,6 @@
     "@types/shell-quote": "1.7.5",
     "@typescript-eslint/rule-tester": "8.29.1",
     "@typescript-eslint/utils": "8.29.1",
-    "@vitest/browser": "2.1.9",
     "@vitest/coverage-v8": "2.1.9",
     "@vitest/eslint-plugin": "1.1.39",
     "@whitespace/storybook-addon-html": "6.1.1",
@@ -123,13 +122,12 @@
     "typescript-eslint": "8.29.1",
     "typescript-strict-plugin": "2.4.4",
     "vite": "5.4.18",
-    "vite-plugin-dts": "4.5.3",
-    "vitest": "2.1.9"
+    "vite-plugin-dts": "4.5.3"
   },
   "license": "SEE LICENSE.md",
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@10.9.2",
   "volta": {
-    "node": "20.18.3"
+    "node": "22.14.0"
   },
   "dependencies": {
     "patch-package": "8.0.0"
