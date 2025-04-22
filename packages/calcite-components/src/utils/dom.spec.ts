@@ -11,10 +11,10 @@ import {
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
+  getStylePixelValue,
   hasVisibleContent,
   isBefore,
   isKeyboardTriggeredClick,
-  isPixelValue,
   isPrimaryPointerButton,
   setRequestedIcon,
   slotChangeGetAssignedElements,
@@ -544,14 +544,30 @@ describe("dom", () => {
     });
   });
 
-  describe("isPixelValue()", () => {
-    it("returns true for pixel values", () => {
-      expect(isPixelValue("10px")).toBe(true);
+  describe("getStylePixelValue()", () => {
+    it("returns the numeric value for 'px' values", () => {
+      expect(getStylePixelValue("10px")).toBe(10);
+      expect(getStylePixelValue("0px")).toBe(0);
+      expect(getStylePixelValue("123.45px")).toBe(123.45);
     });
 
-    it("returns false for non-pixel values", () => {
-      expect(isPixelValue("10%")).toBe(false);
-      expect(isPixelValue("10em")).toBe(false);
+    it("calculates the pixel value for 'vw' values", () => {
+      const viewportWidth = window.innerWidth;
+      expect(getStylePixelValue("50vw")).toBe((viewportWidth / 100) * 50);
+      expect(getStylePixelValue("100vw")).toBe(viewportWidth);
+    });
+
+    it("calculates the pixel value for 'vh' values", () => {
+      const viewportHeight = window.innerHeight;
+      expect(getStylePixelValue("50vh")).toBe((viewportHeight / 100) * 50);
+      expect(getStylePixelValue("100vh")).toBe(viewportHeight);
+    });
+
+    it("returns 0 for unsupported or invalid values", () => {
+      expect(getStylePixelValue("10em")).toBe(0);
+      expect(getStylePixelValue("abc")).toBe(0);
+      expect(getStylePixelValue("")).toBe(0);
+      expect(getStylePixelValue("10")).toBe(0);
     });
   });
 });

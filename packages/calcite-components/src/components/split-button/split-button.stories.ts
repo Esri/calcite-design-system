@@ -304,9 +304,43 @@ export const primaryAsALink = (): string =>
     </calcite-dropdown-group>
   </calcite-split-button>`;
 
+export const primaryAsALinkAppearanceOutline = (): string =>
+  html` <calcite-split-button
+    appearance="outline"
+    scale="m"
+    primary-text="Primary Option"
+    dropdown-icon-type="overflow"
+    href="split-button.html"
+    rel="external"
+    target="_blank"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
+
 export const primaryAsADownload = (): string =>
   html` <calcite-split-button
     download
+    scale="m"
+    primary-text="Primary Option"
+    primary-icon-start="download"
+    dropdown-icon-type="overflow"
+    href="/"
+  >
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`;
+
+export const primaryAsADownloadAppearanceOutlineFill = (): string =>
+  html` <calcite-split-button
+    download
+    appearance="outline-fill"
     scale="m"
     primary-text="Primary Option"
     primary-icon-start="download"

@@ -8,7 +8,7 @@ describe("calcite-tab", () => {
 
   describe("renders", () => {
     renders(tabHtml, { display: "none", visible: false });
-    renders(tabHtmlSelected, { display: "block", visible: true });
+    renders(tabHtmlSelected, { display: "flex", visible: true });
   });
 
   describe("honors hidden attribute", () => {

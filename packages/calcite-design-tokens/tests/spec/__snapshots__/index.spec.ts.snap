@@ -317,31 +317,31 @@ exports[`generated tokens > CSS > core should match 1`] = `
 
 :root {
   --calcite-color-neutral-blk-000: #ffffff;
-  --calcite-color-neutral-blk-005: #f8f8f8;
-  --calcite-color-neutral-blk-010: #f3f3f3;
-  --calcite-color-neutral-blk-020: #eaeaea;
-  --calcite-color-neutral-blk-030: #dfdfdf;
+  --calcite-color-neutral-blk-005: #f7f7f7;
+  --calcite-color-neutral-blk-010: #f2f2f2;
+  --calcite-color-neutral-blk-020: #ebebeb;
+  --calcite-color-neutral-blk-030: #dedede;
   --calcite-color-neutral-blk-040: #d4d4d4;
-  --calcite-color-neutral-blk-050: #cacaca;
+  --calcite-color-neutral-blk-050: #c9c9c9;
   --calcite-color-neutral-blk-060: #bfbfbf;
   --calcite-color-neutral-blk-070: #b5b5b5;
-  --calcite-color-neutral-blk-080: #aaaaaa;
-  --calcite-color-neutral-blk-090: #9f9f9f;
+  --calcite-color-neutral-blk-080: #ababab;
+  --calcite-color-neutral-blk-090: #9e9e9e;
   --calcite-color-neutral-blk-100: #949494;
   --calcite-color-neutral-blk-110: #8a8a8a;
   --calcite-color-neutral-blk-120: #808080;
   --calcite-color-neutral-blk-130: #757575;
-  --calcite-color-neutral-blk-140: #6a6a6a;
-  --calcite-color-neutral-blk-150: #606060;
-  --calcite-color-neutral-blk-160: #555555;
+  --calcite-color-neutral-blk-140: #6b6b6b;
+  --calcite-color-neutral-blk-150: #616161;
+  --calcite-color-neutral-blk-160: #545454;
   --calcite-color-neutral-blk-170: #4a4a4a;
   --calcite-color-neutral-blk-180: #404040;
-  --calcite-color-neutral-blk-190: #353535;
+  --calcite-color-neutral-blk-190: #363636;
   --calcite-color-neutral-blk-200: #2b2b2b;
-  --calcite-color-neutral-blk-210: #202020;
-  --calcite-color-neutral-blk-220: #151515;
-  --calcite-color-neutral-blk-230: #0b0b0b;
-  --calcite-color-neutral-blk-235: #060606;
+  --calcite-color-neutral-blk-210: #212121;
+  --calcite-color-neutral-blk-220: #141414;
+  --calcite-color-neutral-blk-230: #0a0a0a;
+  --calcite-color-neutral-blk-235: #050505;
   --calcite-color-neutral-blk-240: #000000;
   --calcite-color-low-saturation-blue-l-bb-010: #edf3f7;
   --calcite-color-low-saturation-blue-l-bb-020: #d7e1e7;
@@ -823,6 +823,8 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-opacity-4: 0.04;
   --calcite-opacity-8: 0.08;
   --calcite-opacity-10: 0.1;
+  --calcite-opacity-12: 0.12;
+  --calcite-opacity-16: 0.16;
   --calcite-opacity-20: 0.2;
   --calcite-opacity-30: 0.3;
   --calcite-opacity-40: 0.4;
@@ -899,15 +901,17 @@ exports[`generated tokens > CSS > dark should match 1`] = `
  */
 
 :root {
-  --calcite-color-background: #353535;
+  --calcite-color-background: #363636;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-foreground-1: #2b2b2b;
-  --calcite-color-foreground-2: #202020;
-  --calcite-color-foreground-3: #151515;
+  --calcite-color-foreground-2: #212121;
+  --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-current: #214155;
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-brand: #009af2;
@@ -920,26 +924,26 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-status-success: #36da43;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success-press: #00b81b;
-  --calcite-color-status-warning: #ffc900;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning-press: #f5d000;
+  --calcite-color-status-warning: #f89927;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning-press: #ff9500;
   --calcite-color-status-danger: #fe583e;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger-press: #d90012;
-  --calcite-color-inverse: #f8f8f8;
+  --calcite-color-inverse: #f7f7f7;
   --calcite-color-inverse-hover: #ffffff;
-  --calcite-color-inverse-press: #f3f3f3;
+  --calcite-color-inverse-press: #f2f2f2;
   --calcite-color-text-1: #ffffff;
   --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-3: #9f9f9f;
-  --calcite-color-text-inverse: #151515;
+  --calcite-color-text-3: #9e9e9e;
+  --calcite-color-text-inverse: #141414;
   --calcite-color-text-link: #00a0ff;
-  --calcite-color-border-1: #555555;
+  --calcite-color-border-1: #545454;
   --calcite-color-border-2: #4a4a4a;
   --calcite-color-border-3: #404040;
   --calcite-color-border-input: #757575;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-  --calcite-color-border-white: #f8f8f8;
+  --calcite-color-border-white: #f7f7f7;
 }
 "
 `;
@@ -1077,23 +1081,23 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-border-white: #ffffff;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #dfdfdf;
+  --calcite-color-border-3: #dedede;
   --calcite-color-border-2: #d4d4d4;
-  --calcite-color-border-1: #cacaca;
+  --calcite-color-border-1: #c9c9c9;
   --calcite-color-text-link: #00619b;
   --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6a6a6a;
+  --calcite-color-text-3: #6b6b6b;
   --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #151515;
-  --calcite-color-inverse-press: #202020;
+  --calcite-color-text-1: #141414;
+  --calcite-color-inverse-press: #212121;
   --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #353535;
+  --calcite-color-inverse: #363636;
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -1106,38 +1110,40 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-foreground-current: #c7eaff;
-  --calcite-color-foreground-3: #eaeaea;
-  --calcite-color-foreground-2: #f3f3f3;
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f8f8f8;
+  --calcite-color-background: #f7f7f7;
 }
 @media (prefers-color-scheme: light) {
   .calcite-mode-auto {
     --calcite-color-border-white: #ffffff;
     --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
     --calcite-color-border-input: #949494;
-    --calcite-color-border-3: #dfdfdf;
+    --calcite-color-border-3: #dedede;
     --calcite-color-border-2: #d4d4d4;
-    --calcite-color-border-1: #cacaca;
+    --calcite-color-border-1: #c9c9c9;
     --calcite-color-text-link: #00619b;
     --calcite-color-text-inverse: #ffffff;
-    --calcite-color-text-3: #6a6a6a;
+    --calcite-color-text-3: #6b6b6b;
     --calcite-color-text-2: #4a4a4a;
-    --calcite-color-text-1: #151515;
-    --calcite-color-inverse-press: #202020;
+    --calcite-color-text-1: #141414;
+    --calcite-color-inverse-press: #212121;
     --calcite-color-inverse-hover: #2b2b2b;
-    --calcite-color-inverse: #353535;
+    --calcite-color-inverse: #363636;
     --calcite-color-status-danger-press: #7c1d13;
     --calcite-color-status-danger-hover: #a82b1e;
     --calcite-color-status-danger: #d83020;
-    --calcite-color-status-warning-press: #bfa200;
-    --calcite-color-status-warning-hover: #d9bc00;
-    --calcite-color-status-warning: #edd317;
+    --calcite-color-status-warning-press: #9a5b10;
+    --calcite-color-status-warning-hover: #d17300;
+    --calcite-color-status-warning: #f89927;
     --calcite-color-status-success-press: #1a6324;
     --calcite-color-status-success-hover: #288835;
     --calcite-color-status-success: #35ac46;
@@ -1150,40 +1156,42 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand: #007ac2;
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
     --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+    --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent: rgba(0, 0, 0, 0);
     --calcite-color-foreground-current: #c7eaff;
-    --calcite-color-foreground-3: #eaeaea;
-    --calcite-color-foreground-2: #f3f3f3;
+    --calcite-color-foreground-3: #ebebeb;
+    --calcite-color-foreground-2: #f2f2f2;
     --calcite-color-foreground-1: #ffffff;
     --calcite-color-background-none: rgba(255, 255, 255, 0);
-    --calcite-color-background: #f8f8f8;
+    --calcite-color-background: #f7f7f7;
   }
 }
 @media (prefers-color-scheme: dark) {
   .calcite-mode-auto {
     --calcite-color-foreground-current: #214155;
-    --calcite-color-border-white: #f8f8f8;
+    --calcite-color-border-white: #f7f7f7;
     --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
     --calcite-color-border-input: #757575;
     --calcite-color-border-3: #404040;
     --calcite-color-border-2: #4a4a4a;
-    --calcite-color-border-1: #555555;
+    --calcite-color-border-1: #545454;
     --calcite-color-text-link: #00a0ff;
-    --calcite-color-text-inverse: #151515;
-    --calcite-color-text-3: #9f9f9f;
+    --calcite-color-text-inverse: #141414;
+    --calcite-color-text-3: #9e9e9e;
     --calcite-color-text-2: #bfbfbf;
     --calcite-color-text-1: #ffffff;
-    --calcite-color-inverse-press: #f3f3f3;
+    --calcite-color-inverse-press: #f2f2f2;
     --calcite-color-inverse-hover: #ffffff;
-    --calcite-color-inverse: #f8f8f8;
+    --calcite-color-inverse: #f7f7f7;
     --calcite-color-status-danger-press: #d90012;
     --calcite-color-status-danger-hover: #ff0015;
     --calcite-color-status-danger: #fe583e;
-    --calcite-color-status-warning-press: #f5d000;
-    --calcite-color-status-warning-hover: #ffee33;
-    --calcite-color-status-warning: #ffc900;
+    --calcite-color-status-warning-press: #ff9500;
+    --calcite-color-status-warning-hover: #ffb54d;
+    --calcite-color-status-warning: #f89927;
     --calcite-color-status-success-press: #00b81b;
     --calcite-color-status-success-hover: #3bed52;
     --calcite-color-status-success: #36da43;
@@ -1196,37 +1204,39 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand: #009af2;
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
     --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-    --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+    --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+    --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+    --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
-    --calcite-color-foreground-3: #151515;
-    --calcite-color-foreground-2: #202020;
+    --calcite-color-foreground-3: #141414;
+    --calcite-color-foreground-2: #212121;
     --calcite-color-foreground-1: #2b2b2b;
     --calcite-color-background-none: rgba(255, 255, 255, 0);
-    --calcite-color-background: #353535;
+    --calcite-color-background: #363636;
   }
 }
 .calcite-mode-light {
   --calcite-color-border-white: #ffffff;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #dfdfdf;
+  --calcite-color-border-3: #dedede;
   --calcite-color-border-2: #d4d4d4;
-  --calcite-color-border-1: #cacaca;
+  --calcite-color-border-1: #c9c9c9;
   --calcite-color-text-link: #00619b;
   --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6a6a6a;
+  --calcite-color-text-3: #6b6b6b;
   --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #151515;
-  --calcite-color-inverse-press: #202020;
+  --calcite-color-text-1: #141414;
+  --calcite-color-inverse-press: #212121;
   --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #353535;
+  --calcite-color-inverse: #363636;
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -1239,38 +1249,40 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-foreground-current: #c7eaff;
-  --calcite-color-foreground-3: #eaeaea;
-  --calcite-color-foreground-2: #f3f3f3;
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f8f8f8;
+  --calcite-color-background: #f7f7f7;
 }
 .calcite-mode-dark {
   --calcite-color-foreground-current: #214155;
-  --calcite-color-border-white: #f8f8f8;
+  --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
   --calcite-color-border-3: #404040;
   --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #555555;
+  --calcite-color-border-1: #545454;
   --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #151515;
-  --calcite-color-text-3: #9f9f9f;
+  --calcite-color-text-inverse: #141414;
+  --calcite-color-text-3: #9e9e9e;
   --calcite-color-text-2: #bfbfbf;
   --calcite-color-text-1: #ffffff;
-  --calcite-color-inverse-press: #f3f3f3;
+  --calcite-color-inverse-press: #f2f2f2;
   --calcite-color-inverse-hover: #ffffff;
-  --calcite-color-inverse: #f8f8f8;
+  --calcite-color-inverse: #f7f7f7;
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #f5d000;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning: #ffc900;
+  --calcite-color-status-warning-press: #ff9500;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #00b81b;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success: #36da43;
@@ -1283,14 +1295,16 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-3: #151515;
-  --calcite-color-foreground-2: #202020;
+  --calcite-color-foreground-3: #141414;
+  --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #353535;
+  --calcite-color-background: #363636;
 }
 "
 `;
@@ -1302,15 +1316,17 @@ exports[`generated tokens > CSS > light should match 1`] = `
  */
 
 :root {
-  --calcite-color-background: #f8f8f8;
+  --calcite-color-background: #f7f7f7;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-foreground-1: #ffffff;
-  --calcite-color-foreground-2: #f3f3f3;
-  --calcite-color-foreground-3: #eaeaea;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-current: #c7eaff;
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-brand: #007ac2;
@@ -1323,23 +1339,23 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-status-success: #35ac46;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success-press: #1a6324;
-  --calcite-color-status-warning: #edd317;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning-press: #bfa200;
+  --calcite-color-status-warning: #f89927;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning-press: #9a5b10;
   --calcite-color-status-danger: #d83020;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger-press: #7c1d13;
-  --calcite-color-inverse: #353535;
+  --calcite-color-inverse: #363636;
   --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse-press: #202020;
-  --calcite-color-text-1: #151515;
+  --calcite-color-inverse-press: #212121;
+  --calcite-color-text-1: #141414;
   --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-3: #6a6a6a;
+  --calcite-color-text-3: #6b6b6b;
   --calcite-color-text-inverse: #ffffff;
   --calcite-color-text-link: #00619b;
-  --calcite-color-border-1: #cacaca;
+  --calcite-color-border-1: #c9c9c9;
   --calcite-color-border-2: #d4d4d4;
-  --calcite-color-border-3: #dfdfdf;
+  --calcite-color-border-3: #dedede;
   --calcite-color-border-input: #949494;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-white: #ffffff;
@@ -1520,7 +1536,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-000}"
     },
     {
-      "value": "#f8f8f8",
+      "value": "#f7f7f7",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1547,7 +1563,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-005}"
     },
     {
-      "value": "#f3f3f3",
+      "value": "#f2f2f2",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1574,7 +1590,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-010}"
     },
     {
-      "value": "#eaeaea",
+      "value": "#ebebeb",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1601,7 +1617,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-020}"
     },
     {
-      "value": "#dfdfdf",
+      "value": "#dedede",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1655,7 +1671,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-040}"
     },
     {
-      "value": "#cacaca",
+      "value": "#c9c9c9",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1736,7 +1752,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-070}"
     },
     {
-      "value": "#aaaaaa",
+      "value": "#ababab",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1763,7 +1779,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-080}"
     },
     {
-      "value": "#9f9f9f",
+      "value": "#9e9e9e",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1898,7 +1914,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-130}"
     },
     {
-      "value": "#6a6a6a",
+      "value": "#6b6b6b",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1925,7 +1941,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-140}"
     },
     {
-      "value": "#606060",
+      "value": "#616161",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -1952,7 +1968,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-150}"
     },
     {
-      "value": "#555555",
+      "value": "#545454",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -2033,7 +2049,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-180}"
     },
     {
-      "value": "#353535",
+      "value": "#363636",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -2087,7 +2103,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-200}"
     },
     {
-      "value": "#202020",
+      "value": "#212121",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -2114,7 +2130,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-210}"
     },
     {
-      "value": "#151515",
+      "value": "#141414",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -2141,7 +2157,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-220}"
     },
     {
-      "value": "#0b0b0b",
+      "value": "#0a0a0a",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -2168,7 +2184,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.color.neutral.blk-230}"
     },
     {
-      "value": "#060606",
+      "value": "#050505",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -15894,6 +15910,58 @@ exports[`generated tokens > DOCS > core should match 1`] = `
       "key": "{core.opacity.10}"
     },
     {
+      "value": "0.12",
+      "type": "opacity",
+      "attributes": {
+        "category": "opacity",
+        "type": "opacity",
+        "item": "12",
+        "names": {
+          "scss": "$calcite-opacity-12",
+          "css": "var(--calcite-opacity-12)",
+          "js": "core.opacity.12",
+          "docs": "core.opacity.12",
+          "es6": "calciteOpacity12"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "opacity"
+        }
+      },
+      "filePath": "src/tokens/core/opacity.json",
+      "isSource": false,
+      "name": "Opacity 12",
+      "path": ["core", "opacity", "12"],
+      "key": "{core.opacity.12}"
+    },
+    {
+      "value": "0.16",
+      "type": "opacity",
+      "attributes": {
+        "category": "opacity",
+        "type": "opacity",
+        "item": "16",
+        "names": {
+          "scss": "$calcite-opacity-16",
+          "css": "var(--calcite-opacity-16)",
+          "js": "core.opacity.16",
+          "docs": "core.opacity.16",
+          "es6": "calciteOpacity16"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "opacity"
+        }
+      },
+      "filePath": "src/tokens/core/opacity.json",
+      "isSource": false,
+      "name": "Opacity 16",
+      "path": ["core", "opacity", "16"],
+      "key": "{core.opacity.16}"
+    },
+    {
       "value": "0.2",
       "type": "opacity",
       "attributes": {
@@ -17632,7 +17700,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
-      "value": "{\\"light\\":\\"#f8f8f8\\",\\"dark\\":\\"#353535\\"}",
+      "value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#363636\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17713,7 +17781,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.foreground.1}"
     },
     {
-      "value": "{\\"light\\":\\"#f3f3f3\\",\\"dark\\":\\"#202020\\"}",
+      "value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#212121\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17740,7 +17808,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.foreground.2}"
     },
     {
-      "value": "{\\"light\\":\\"#eaeaea\\",\\"dark\\":\\"#151515\\"}",
+      "value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#141414\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17822,7 +17890,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.transparent.default.default}"
     },
     {
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.04)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.12)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17850,7 +17918,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.transparent.default.hover}"
     },
     {
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.08)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.16)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17876,6 +17944,62 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "name": "Color Transparent Press",
       "path": ["semantic", "color", "transparent", "default", "press"],
       "key": "{semantic.color.transparent.default.press}"
+    },
+    {
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.12)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.04)\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "type": "color",
+        "item": "transparent",
+        "subitem": "inverse",
+        "state": "hover",
+        "names": {
+          "scss": "$calcite-color-transparent-inverse-hover",
+          "css": "var(--calcite-color-transparent-inverse-hover)",
+          "js": "semantic.color.transparent.inverse.hover",
+          "docs": "semantic.color.transparent.inverse.hover",
+          "es6": "calciteColorTransparentInverseHover"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Transparent Inverse Hover",
+      "path": ["semantic", "color", "transparent", "inverse", "hover"],
+      "key": "{semantic.color.transparent.inverse.hover}"
+    },
+    {
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.16)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.08)\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "type": "color",
+        "item": "transparent",
+        "subitem": "inverse",
+        "state": "press",
+        "names": {
+          "scss": "$calcite-color-transparent-inverse-press",
+          "css": "var(--calcite-color-transparent-inverse-press)",
+          "js": "semantic.color.transparent.inverse.press",
+          "docs": "semantic.color.transparent.inverse.press",
+          "es6": "calciteColorTransparentInversePress"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Transparent Inverse Press",
+      "path": ["semantic", "color", "transparent", "inverse", "press"],
+      "key": "{semantic.color.transparent.inverse.press}"
     },
     {
       "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
@@ -18211,7 +18335,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.success.press}"
     },
     {
-      "value": "{\\"light\\":\\"#edd317\\",\\"dark\\":\\"#ffc900\\"}",
+      "value": "{\\"light\\":\\"#f89927\\",\\"dark\\":\\"#f89927\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18239,7 +18363,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.warning.default}"
     },
     {
-      "value": "{\\"light\\":\\"#d9bc00\\",\\"dark\\":\\"#ffee33\\"}",
+      "value": "{\\"light\\":\\"#d17300\\",\\"dark\\":\\"#ffb54d\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18267,7 +18391,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.warning.hover}"
     },
     {
-      "value": "{\\"light\\":\\"#bfa200\\",\\"dark\\":\\"#f5d000\\"}",
+      "value": "{\\"light\\":\\"#9a5b10\\",\\"dark\\":\\"#ff9500\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18379,7 +18503,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.status.danger.press}"
     },
     {
-      "value": "{\\"light\\":\\"#353535\\",\\"dark\\":\\"#f8f8f8\\"}",
+      "value": "{\\"light\\":\\"#363636\\",\\"dark\\":\\"#f7f7f7\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18433,7 +18557,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.inverse.hover}"
     },
     {
-      "value": "{\\"light\\":\\"#202020\\",\\"dark\\":\\"#f3f3f3\\"}",
+      "value": "{\\"light\\":\\"#212121\\",\\"dark\\":\\"#f2f2f2\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18460,7 +18584,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.inverse.press}"
     },
     {
-      "value": "{\\"light\\":\\"#151515\\",\\"dark\\":\\"#ffffff\\"}",
+      "value": "{\\"light\\":\\"#141414\\",\\"dark\\":\\"#ffffff\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18514,7 +18638,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.text.2}"
     },
     {
-      "value": "{\\"light\\":\\"#6a6a6a\\",\\"dark\\":\\"#9f9f9f\\"}",
+      "value": "{\\"light\\":\\"#6b6b6b\\",\\"dark\\":\\"#9e9e9e\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18541,7 +18665,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.text.3}"
     },
     {
-      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#151515\\"}",
+      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#141414\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18595,7 +18719,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.text.link}"
     },
     {
-      "value": "{\\"light\\":\\"#cacaca\\",\\"dark\\":\\"#555555\\"}",
+      "value": "{\\"light\\":\\"#c9c9c9\\",\\"dark\\":\\"#545454\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18649,7 +18773,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.border.2}"
     },
     {
-      "value": "{\\"light\\":\\"#dfdfdf\\",\\"dark\\":\\"#404040\\"}",
+      "value": "{\\"light\\":\\"#dedede\\",\\"dark\\":\\"#404040\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18730,7 +18854,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.color.border.ghost}"
     },
     {
-      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#f8f8f8\\"}",
+      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#f7f7f7\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -28682,31 +28806,31 @@ exports[`generated tokens > ES6 > core should match 1`] = `
  */
 
 export const calciteColorNeutralBlk000 = "#ffffff";
-export const calciteColorNeutralBlk005 = "#f8f8f8";
-export const calciteColorNeutralBlk010 = "#f3f3f3";
-export const calciteColorNeutralBlk020 = "#eaeaea";
-export const calciteColorNeutralBlk030 = "#dfdfdf";
+export const calciteColorNeutralBlk005 = "#f7f7f7";
+export const calciteColorNeutralBlk010 = "#f2f2f2";
+export const calciteColorNeutralBlk020 = "#ebebeb";
+export const calciteColorNeutralBlk030 = "#dedede";
 export const calciteColorNeutralBlk040 = "#d4d4d4";
-export const calciteColorNeutralBlk050 = "#cacaca";
+export const calciteColorNeutralBlk050 = "#c9c9c9";
 export const calciteColorNeutralBlk060 = "#bfbfbf";
 export const calciteColorNeutralBlk070 = "#b5b5b5";
-export const calciteColorNeutralBlk080 = "#aaaaaa";
-export const calciteColorNeutralBlk090 = "#9f9f9f";
+export const calciteColorNeutralBlk080 = "#ababab";
+export const calciteColorNeutralBlk090 = "#9e9e9e";
 export const calciteColorNeutralBlk100 = "#949494";
 export const calciteColorNeutralBlk110 = "#8a8a8a";
 export const calciteColorNeutralBlk120 = "#808080";
 export const calciteColorNeutralBlk130 = "#757575";
-export const calciteColorNeutralBlk140 = "#6a6a6a";
-export const calciteColorNeutralBlk150 = "#606060";
-export const calciteColorNeutralBlk160 = "#555555";
+export const calciteColorNeutralBlk140 = "#6b6b6b";
+export const calciteColorNeutralBlk150 = "#616161";
+export const calciteColorNeutralBlk160 = "#545454";
 export const calciteColorNeutralBlk170 = "#4a4a4a";
 export const calciteColorNeutralBlk180 = "#404040";
-export const calciteColorNeutralBlk190 = "#353535";
+export const calciteColorNeutralBlk190 = "#363636";
 export const calciteColorNeutralBlk200 = "#2b2b2b";
-export const calciteColorNeutralBlk210 = "#202020";
-export const calciteColorNeutralBlk220 = "#151515";
-export const calciteColorNeutralBlk230 = "#0b0b0b";
-export const calciteColorNeutralBlk235 = "#060606";
+export const calciteColorNeutralBlk210 = "#212121";
+export const calciteColorNeutralBlk220 = "#141414";
+export const calciteColorNeutralBlk230 = "#0a0a0a";
+export const calciteColorNeutralBlk235 = "#050505";
 export const calciteColorNeutralBlk240 = "#000000";
 export const calciteColorLowSaturationBlueLBb010 = "#edf3f7";
 export const calciteColorLowSaturationBlueLBb020 = "#d7e1e7";
@@ -29188,6 +29312,8 @@ export const calciteOpacity0 = "0";
 export const calciteOpacity4 = "0.04";
 export const calciteOpacity8 = "0.08";
 export const calciteOpacity10 = "0.1";
+export const calciteOpacity12 = "0.12";
+export const calciteOpacity16 = "0.16";
 export const calciteOpacity20 = "0.2";
 export const calciteOpacity30 = "0.3";
 export const calciteOpacity40 = "0.4";
@@ -29799,6 +29925,8 @@ export const calciteOpacity0: string;
 export const calciteOpacity4: string;
 export const calciteOpacity8: string;
 export const calciteOpacity10: string;
+export const calciteOpacity12: string;
+export const calciteOpacity16: string;
 export const calciteOpacity20: string;
 export const calciteOpacity30: string;
 export const calciteOpacity40: string;
@@ -29904,11 +30032,11 @@ exports[`generated tokens > ES6 > global should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorBackground = { light: "#f8f8f8", dark: "#353535" };
+export const calciteColorBackground = { light: "#f7f7f7", dark: "#363636" };
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)";
 export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" };
-export const calciteColorForeground2 = { light: "#f3f3f3", dark: "#202020" };
-export const calciteColorForeground3 = { light: "#eaeaea", dark: "#151515" };
+export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#212121" };
+export const calciteColorForeground3 = { light: "#ebebeb", dark: "#141414" };
 export const calciteColorForegroundCurrent = {
   light: "#c7eaff",
   dark: "#214155",
@@ -29919,11 +30047,19 @@ export const calciteColorTransparent = {
 };
 export const calciteColorTransparentHover = {
   light: "rgba(0, 0, 0, 0.04)",
-  dark: "rgba(255, 255, 255, 0.04)",
+  dark: "rgba(255, 255, 255, 0.12)",
 };
 export const calciteColorTransparentPress = {
   light: "rgba(0, 0, 0, 0.08)",
-  dark: "rgba(255, 255, 255, 0.08)",
+  dark: "rgba(255, 255, 255, 0.16)",
+};
+export const calciteColorTransparentInverseHover = {
+  light: "rgba(255, 255, 255, 0.12)",
+  dark: "rgba(0, 0, 0, 0.04)",
+};
+export const calciteColorTransparentInversePress = {
+  light: "rgba(255, 255, 255, 0.16)",
+  dark: "rgba(0, 0, 0, 0.08)",
 };
 export const calciteColorTransparentScrim = {
   light: "rgba(255, 255, 255, 0.85)",
@@ -29958,14 +30094,14 @@ export const calciteColorStatusSuccessPress = {
   light: "#1a6324",
   dark: "#00b81b",
 };
-export const calciteColorStatusWarning = { light: "#edd317", dark: "#ffc900" };
+export const calciteColorStatusWarning = { light: "#f89927", dark: "#f89927" };
 export const calciteColorStatusWarningHover = {
-  light: "#d9bc00",
-  dark: "#ffee33",
+  light: "#d17300",
+  dark: "#ffb54d",
 };
 export const calciteColorStatusWarningPress = {
-  light: "#bfa200",
-  dark: "#f5d000",
+  light: "#9a5b10",
+  dark: "#ff9500",
 };
 export const calciteColorStatusDanger = { light: "#d83020", dark: "#fe583e" };
 export const calciteColorStatusDangerHover = {
@@ -29976,23 +30112,23 @@ export const calciteColorStatusDangerPress = {
   light: "#7c1d13",
   dark: "#d90012",
 };
-export const calciteColorInverse = { light: "#353535", dark: "#f8f8f8" };
+export const calciteColorInverse = { light: "#363636", dark: "#f7f7f7" };
 export const calciteColorInverseHover = { light: "#2b2b2b", dark: "#ffffff" };
-export const calciteColorInversePress = { light: "#202020", dark: "#f3f3f3" };
-export const calciteColorText1 = { light: "#151515", dark: "#ffffff" };
+export const calciteColorInversePress = { light: "#212121", dark: "#f2f2f2" };
+export const calciteColorText1 = { light: "#141414", dark: "#ffffff" };
 export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
-export const calciteColorText3 = { light: "#6a6a6a", dark: "#9f9f9f" };
-export const calciteColorTextInverse = { light: "#ffffff", dark: "#151515" };
+export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
+export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
 export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
-export const calciteColorBorder1 = { light: "#cacaca", dark: "#555555" };
+export const calciteColorBorder1 = { light: "#c9c9c9", dark: "#545454" };
 export const calciteColorBorder2 = { light: "#d4d4d4", dark: "#4a4a4a" };
-export const calciteColorBorder3 = { light: "#dfdfdf", dark: "#404040" };
+export const calciteColorBorder3 = { light: "#dedede", dark: "#404040" };
 export const calciteColorBorderInput = { light: "#949494", dark: "#757575" };
 export const calciteColorBorderGhost = {
   light: "rgba(0, 0, 0, 0.3)",
   dark: "rgba(117, 117, 117, 0.3)",
 };
-export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f8f8f8" };
+export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" };
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -30416,6 +30552,14 @@ export const calciteColorForegroundCurrent: { light: string; dark: string };
 export const calciteColorTransparent: { light: string; dark: string };
 export const calciteColorTransparentHover: { light: string; dark: string };
 export const calciteColorTransparentPress: { light: string; dark: string };
+export const calciteColorTransparentInverseHover: {
+  light: string;
+  dark: string;
+};
+export const calciteColorTransparentInversePress: {
+  light: string;
+  dark: string;
+};
 export const calciteColorTransparentScrim: { light: string; dark: string };
 export const calciteColorTransparentTint: { light: string; dark: string };
 export const calciteColorBrand: { light: string; dark: string };
@@ -31258,7 +31402,7 @@ export default {
           key: "{core.color.neutral.blk-000}",
         },
         "blk-005": {
-          value: "#f8f8f8",
+          value: "#f7f7f7",
           type: "color",
           attributes: {
             category: "color",
@@ -31281,7 +31425,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#f8f8f8",
+            value: "#f7f7f7",
             type: "color",
             attributes: {
               category: "color",
@@ -31292,7 +31436,7 @@ export default {
           key: "{core.color.neutral.blk-005}",
         },
         "blk-010": {
-          value: "#f3f3f3",
+          value: "#f2f2f2",
           type: "color",
           attributes: {
             category: "color",
@@ -31315,7 +31459,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#f3f3f3",
+            value: "#f2f2f2",
             type: "color",
             attributes: {
               category: "color",
@@ -31326,7 +31470,7 @@ export default {
           key: "{core.color.neutral.blk-010}",
         },
         "blk-020": {
-          value: "#eaeaea",
+          value: "#ebebeb",
           type: "color",
           attributes: {
             category: "color",
@@ -31349,7 +31493,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#eaeaea",
+            value: "#ebebeb",
             type: "color",
             attributes: {
               category: "color",
@@ -31360,7 +31504,7 @@ export default {
           key: "{core.color.neutral.blk-020}",
         },
         "blk-030": {
-          value: "#dfdfdf",
+          value: "#dedede",
           type: "color",
           attributes: {
             category: "color",
@@ -31383,7 +31527,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#dfdfdf",
+            value: "#dedede",
             type: "color",
             attributes: {
               category: "color",
@@ -31428,7 +31572,7 @@ export default {
           key: "{core.color.neutral.blk-040}",
         },
         "blk-050": {
-          value: "#cacaca",
+          value: "#c9c9c9",
           type: "color",
           attributes: {
             category: "color",
@@ -31451,7 +31595,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#cacaca",
+            value: "#c9c9c9",
             type: "color",
             attributes: {
               category: "color",
@@ -31530,7 +31674,7 @@ export default {
           key: "{core.color.neutral.blk-070}",
         },
         "blk-080": {
-          value: "#aaaaaa",
+          value: "#ababab",
           type: "color",
           attributes: {
             category: "color",
@@ -31553,7 +31697,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#aaaaaa",
+            value: "#ababab",
             type: "color",
             attributes: {
               category: "color",
@@ -31564,7 +31708,7 @@ export default {
           key: "{core.color.neutral.blk-080}",
         },
         "blk-090": {
-          value: "#9f9f9f",
+          value: "#9e9e9e",
           type: "color",
           attributes: {
             category: "color",
@@ -31587,7 +31731,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#9f9f9f",
+            value: "#9e9e9e",
             type: "color",
             attributes: {
               category: "color",
@@ -31734,7 +31878,7 @@ export default {
           key: "{core.color.neutral.blk-130}",
         },
         "blk-140": {
-          value: "#6a6a6a",
+          value: "#6b6b6b",
           type: "color",
           attributes: {
             category: "color",
@@ -31757,7 +31901,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#6a6a6a",
+            value: "#6b6b6b",
             type: "color",
             attributes: {
               category: "color",
@@ -31768,7 +31912,7 @@ export default {
           key: "{core.color.neutral.blk-140}",
         },
         "blk-150": {
-          value: "#606060",
+          value: "#616161",
           type: "color",
           attributes: {
             category: "color",
@@ -31791,7 +31935,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#606060",
+            value: "#616161",
             type: "color",
             attributes: {
               category: "color",
@@ -31802,7 +31946,7 @@ export default {
           key: "{core.color.neutral.blk-150}",
         },
         "blk-160": {
-          value: "#555555",
+          value: "#545454",
           type: "color",
           attributes: {
             category: "color",
@@ -31825,7 +31969,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#555555",
+            value: "#545454",
             type: "color",
             attributes: {
               category: "color",
@@ -31904,7 +32048,7 @@ export default {
           key: "{core.color.neutral.blk-180}",
         },
         "blk-190": {
-          value: "#353535",
+          value: "#363636",
           type: "color",
           attributes: {
             category: "color",
@@ -31927,7 +32071,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#353535",
+            value: "#363636",
             type: "color",
             attributes: {
               category: "color",
@@ -31972,7 +32116,7 @@ export default {
           key: "{core.color.neutral.blk-200}",
         },
         "blk-210": {
-          value: "#202020",
+          value: "#212121",
           type: "color",
           attributes: {
             category: "color",
@@ -31995,7 +32139,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#202020",
+            value: "#212121",
             type: "color",
             attributes: {
               category: "color",
@@ -32006,7 +32150,7 @@ export default {
           key: "{core.color.neutral.blk-210}",
         },
         "blk-220": {
-          value: "#151515",
+          value: "#141414",
           type: "color",
           attributes: {
             category: "color",
@@ -32029,7 +32173,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#151515",
+            value: "#141414",
             type: "color",
             attributes: {
               category: "color",
@@ -32040,7 +32184,7 @@ export default {
           key: "{core.color.neutral.blk-220}",
         },
         "blk-230": {
-          value: "#0b0b0b",
+          value: "#0a0a0a",
           type: "color",
           attributes: {
             category: "color",
@@ -32063,7 +32207,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#0b0b0b",
+            value: "#0a0a0a",
             type: "color",
             attributes: {
               category: "color",
@@ -32074,7 +32218,7 @@ export default {
           key: "{core.color.neutral.blk-230}",
         },
         "blk-235": {
-          value: "#060606",
+          value: "#050505",
           type: "color",
           attributes: {
             category: "color",
@@ -32097,7 +32241,7 @@ export default {
           filePath: "src/tokens/core/color.json",
           isSource: false,
           original: {
-            value: "#060606",
+            value: "#050505",
             type: "color",
             attributes: {
               category: "color",
@@ -49844,6 +49988,72 @@ export default {
         path: ["core", "opacity", "10"],
         key: "{core.opacity.10}",
       },
+      12: {
+        value: "0.12",
+        type: "opacity",
+        attributes: {
+          category: "opacity",
+          type: "opacity",
+          item: "12",
+          names: {
+            scss: "$calcite-opacity-12",
+            css: "var(--calcite-opacity-12)",
+            js: "core.opacity.12",
+            docs: "core.opacity.12",
+            es6: "calciteOpacity12",
+          },
+          "calcite-schema": {
+            system: "calcite",
+            tier: "core",
+            type: "opacity",
+          },
+        },
+        filePath: "src/tokens/core/opacity.json",
+        isSource: false,
+        original: {
+          value: "12%",
+          type: "opacity",
+          attributes: {
+            category: "opacity",
+          },
+        },
+        name: "Opacity 12",
+        path: ["core", "opacity", "12"],
+        key: "{core.opacity.12}",
+      },
+      16: {
+        value: "0.16",
+        type: "opacity",
+        attributes: {
+          category: "opacity",
+          type: "opacity",
+          item: "16",
+          names: {
+            scss: "$calcite-opacity-16",
+            css: "var(--calcite-opacity-16)",
+            js: "core.opacity.16",
+            docs: "core.opacity.16",
+            es6: "calciteOpacity16",
+          },
+          "calcite-schema": {
+            system: "calcite",
+            tier: "core",
+            type: "opacity",
+          },
+        },
+        filePath: "src/tokens/core/opacity.json",
+        isSource: false,
+        original: {
+          value: "16%",
+          type: "opacity",
+          attributes: {
+            category: "opacity",
+          },
+        },
+        name: "Opacity 16",
+        path: ["core", "opacity", "16"],
+        key: "{core.opacity.16}",
+      },
       20: {
         value: "0.2",
         type: "opacity",
@@ -52766,6 +52976,8 @@ declare const tokens: {
       "4": DesignToken;
       "8": DesignToken;
       "10": DesignToken;
+      "12": DesignToken;
+      "16": DesignToken;
       "20": DesignToken;
       "30": DesignToken;
       "40": DesignToken;
@@ -52860,8 +53072,8 @@ export default {
       background: {
         default: {
           value: {
-            light: "#f8f8f8",
-            dark: "#353535",
+            light: "#f7f7f7",
+            dark: "#363636",
           },
           type: "color",
           attributes: {
@@ -52970,8 +53182,8 @@ export default {
         },
         2: {
           value: {
-            light: "#f3f3f3",
-            dark: "#202020",
+            light: "#f2f2f2",
+            dark: "#212121",
           },
           type: "color",
           attributes: {
@@ -53007,8 +53219,8 @@ export default {
         },
         3: {
           value: {
-            light: "#eaeaea",
-            dark: "#151515",
+            light: "#ebebeb",
+            dark: "#141414",
           },
           type: "color",
           attributes: {
@@ -53123,7 +53335,7 @@ export default {
           hover: {
             value: {
               light: "rgba(0, 0, 0, 0.04)",
-              dark: "rgba(255, 255, 255, 0.04)",
+              dark: "rgba(255, 255, 255, 0.12)",
             },
             type: "color",
             attributes: {
@@ -53161,7 +53373,7 @@ export default {
           press: {
             value: {
               light: "rgba(0, 0, 0, 0.08)",
-              dark: "rgba(255, 255, 255, 0.08)",
+              dark: "rgba(255, 255, 255, 0.16)",
             },
             type: "color",
             attributes: {
@@ -53195,6 +53407,84 @@ export default {
             name: "Color Transparent Press",
             path: ["semantic", "color", "transparent", "default", "press"],
             key: "{semantic.color.transparent.default.press}",
+          },
+        },
+        inverse: {
+          hover: {
+            value: {
+              light: "rgba(255, 255, 255, 0.12)",
+              dark: "rgba(0, 0, 0, 0.04)",
+            },
+            type: "color",
+            attributes: {
+              category: "color",
+              type: "color",
+              item: "transparent",
+              subitem: "inverse",
+              state: "hover",
+              names: {
+                scss: "$calcite-color-transparent-inverse-hover",
+                css: "var(--calcite-color-transparent-inverse-hover)",
+                js: "semantic.color.transparent.inverse.hover",
+                docs: "semantic.color.transparent.inverse.hover",
+                es6: "calciteColorTransparentInverseHover",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "color",
+                type: "color",
+              },
+            },
+            filePath: "src/tokens/semantic/color/light.json",
+            isSource: false,
+            original: {
+              value: "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Transparent Inverse Hover",
+            path: ["semantic", "color", "transparent", "inverse", "hover"],
+            key: "{semantic.color.transparent.inverse.hover}",
+          },
+          press: {
+            value: {
+              light: "rgba(255, 255, 255, 0.16)",
+              dark: "rgba(0, 0, 0, 0.08)",
+            },
+            type: "color",
+            attributes: {
+              category: "color",
+              type: "color",
+              item: "transparent",
+              subitem: "inverse",
+              state: "press",
+              names: {
+                scss: "$calcite-color-transparent-inverse-press",
+                css: "var(--calcite-color-transparent-inverse-press)",
+                js: "semantic.color.transparent.inverse.press",
+                docs: "semantic.color.transparent.inverse.press",
+                es6: "calciteColorTransparentInversePress",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "color",
+                type: "color",
+              },
+            },
+            filePath: "src/tokens/semantic/color/light.json",
+            isSource: false,
+            original: {
+              value: "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Transparent Inverse Press",
+            path: ["semantic", "color", "transparent", "inverse", "press"],
+            key: "{semantic.color.transparent.inverse.press}",
           },
         },
         scrim: {
@@ -53664,8 +53954,8 @@ export default {
         warning: {
           default: {
             value: {
-              light: "#edd317",
-              dark: "#ffc900",
+              light: "#f89927",
+              dark: "#f89927",
             },
             type: "color",
             attributes: {
@@ -53690,7 +53980,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-060}",
+              value: "{core.color.high-saturation.orange-yellow.h-oy-060}",
               type: "color",
               attributes: {
                 category: "color",
@@ -53702,8 +53992,8 @@ export default {
           },
           hover: {
             value: {
-              light: "#d9bc00",
-              dark: "#ffee33",
+              light: "#d17300",
+              dark: "#ffb54d",
             },
             type: "color",
             attributes: {
@@ -53728,7 +54018,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-070}",
+              value: "{core.color.vibrant.orange-yellow.v-oy-180}",
               type: "color",
               attributes: {
                 category: "color",
@@ -53740,8 +54030,8 @@ export default {
           },
           press: {
             value: {
-              light: "#bfa200",
-              dark: "#f5d000",
+              light: "#9a5b10",
+              dark: "#ff9500",
             },
             type: "color",
             attributes: {
@@ -53766,7 +54056,7 @@ export default {
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             original: {
-              value: "{core.color.high-saturation.yellow.h-yy-080}",
+              value: "{core.color.high-saturation.orange-yellow.h-oy-080}",
               type: "color",
               attributes: {
                 category: "color",
@@ -53897,8 +54187,8 @@ export default {
       inverse: {
         default: {
           value: {
-            light: "#353535",
-            dark: "#f8f8f8",
+            light: "#363636",
+            dark: "#f7f7f7",
           },
           type: "color",
           attributes: {
@@ -53971,8 +54261,8 @@ export default {
         },
         press: {
           value: {
-            light: "#202020",
-            dark: "#f3f3f3",
+            light: "#212121",
+            dark: "#f2f2f2",
           },
           type: "color",
           attributes: {
@@ -54010,7 +54300,7 @@ export default {
       text: {
         1: {
           value: {
-            light: "#151515",
+            light: "#141414",
             dark: "#ffffff",
           },
           type: "color",
@@ -54084,8 +54374,8 @@ export default {
         },
         3: {
           value: {
-            light: "#6a6a6a",
-            dark: "#9f9f9f",
+            light: "#6b6b6b",
+            dark: "#9e9e9e",
           },
           type: "color",
           attributes: {
@@ -54122,7 +54412,7 @@ export default {
         inverse: {
           value: {
             light: "#ffffff",
-            dark: "#151515",
+            dark: "#141414",
           },
           type: "color",
           attributes: {
@@ -54197,8 +54487,8 @@ export default {
       border: {
         1: {
           value: {
-            light: "#cacaca",
-            dark: "#555555",
+            light: "#c9c9c9",
+            dark: "#545454",
           },
           type: "color",
           attributes: {
@@ -54271,7 +54561,7 @@ export default {
         },
         3: {
           value: {
-            light: "#dfdfdf",
+            light: "#dedede",
             dark: "#404040",
           },
           type: "color",
@@ -54383,7 +54673,7 @@ export default {
         white: {
           value: {
             light: "#ffffff",
-            dark: "#f8f8f8",
+            dark: "#f7f7f7",
           },
           type: "color",
           attributes: {
@@ -62604,6 +62894,10 @@ declare const tokens: {
           hover: DesignToken;
           press: DesignToken;
         };
+        inverse: {
+          hover: DesignToken;
+          press: DesignToken;
+        };
         scrim: DesignToken;
         tint: DesignToken;
       };
@@ -68037,31 +68331,31 @@ exports[`generated tokens > SCSS > core should match 1`] = `
 // Do not edit directly, this file was auto-generated.
 
 $calcite-color-neutral-blk-000: #ffffff;
-$calcite-color-neutral-blk-005: #f8f8f8;
-$calcite-color-neutral-blk-010: #f3f3f3;
-$calcite-color-neutral-blk-020: #eaeaea;
-$calcite-color-neutral-blk-030: #dfdfdf;
+$calcite-color-neutral-blk-005: #f7f7f7;
+$calcite-color-neutral-blk-010: #f2f2f2;
+$calcite-color-neutral-blk-020: #ebebeb;
+$calcite-color-neutral-blk-030: #dedede;
 $calcite-color-neutral-blk-040: #d4d4d4;
-$calcite-color-neutral-blk-050: #cacaca;
+$calcite-color-neutral-blk-050: #c9c9c9;
 $calcite-color-neutral-blk-060: #bfbfbf;
 $calcite-color-neutral-blk-070: #b5b5b5;
-$calcite-color-neutral-blk-080: #aaaaaa;
-$calcite-color-neutral-blk-090: #9f9f9f;
+$calcite-color-neutral-blk-080: #ababab;
+$calcite-color-neutral-blk-090: #9e9e9e;
 $calcite-color-neutral-blk-100: #949494;
 $calcite-color-neutral-blk-110: #8a8a8a;
 $calcite-color-neutral-blk-120: #808080;
 $calcite-color-neutral-blk-130: #757575;
-$calcite-color-neutral-blk-140: #6a6a6a;
-$calcite-color-neutral-blk-150: #606060;
-$calcite-color-neutral-blk-160: #555555;
+$calcite-color-neutral-blk-140: #6b6b6b;
+$calcite-color-neutral-blk-150: #616161;
+$calcite-color-neutral-blk-160: #545454;
 $calcite-color-neutral-blk-170: #4a4a4a;
 $calcite-color-neutral-blk-180: #404040;
-$calcite-color-neutral-blk-190: #353535;
+$calcite-color-neutral-blk-190: #363636;
 $calcite-color-neutral-blk-200: #2b2b2b;
-$calcite-color-neutral-blk-210: #202020;
-$calcite-color-neutral-blk-220: #151515;
-$calcite-color-neutral-blk-230: #0b0b0b;
-$calcite-color-neutral-blk-235: #060606;
+$calcite-color-neutral-blk-210: #212121;
+$calcite-color-neutral-blk-220: #141414;
+$calcite-color-neutral-blk-230: #0a0a0a;
+$calcite-color-neutral-blk-235: #050505;
 $calcite-color-neutral-blk-240: #000000;
 $calcite-color-low-saturation-blue-l-bb-010: #edf3f7;
 $calcite-color-low-saturation-blue-l-bb-020: #d7e1e7;
@@ -68543,6 +68837,8 @@ $calcite-opacity-0: 0;
 $calcite-opacity-4: 0.04;
 $calcite-opacity-8: 0.08;
 $calcite-opacity-10: 0.1;
+$calcite-opacity-12: 0.12;
+$calcite-opacity-16: 0.16;
 $calcite-opacity-20: 0.2;
 $calcite-opacity-30: 0.3;
 $calcite-opacity-40: 0.4;
@@ -68616,15 +68912,17 @@ exports[`generated tokens > SCSS > dark should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-background: #353535;
+$calcite-color-background: #363636;
 $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #2b2b2b;
-$calcite-color-foreground-2: #202020;
-$calcite-color-foreground-3: #151515;
+$calcite-color-foreground-2: #212121;
+$calcite-color-foreground-3: #141414;
 $calcite-color-foreground-current: #214155;
 $calcite-color-transparent: rgba(255, 255, 255, 0);
-$calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
-$calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
+$calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+$calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+$calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
 $calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-brand: #009af2;
@@ -68637,26 +68935,26 @@ $calcite-color-status-info-press: #009af2;
 $calcite-color-status-success: #36da43;
 $calcite-color-status-success-hover: #3bed52;
 $calcite-color-status-success-press: #00b81b;
-$calcite-color-status-warning: #ffc900;
-$calcite-color-status-warning-hover: #ffee33;
-$calcite-color-status-warning-press: #f5d000;
+$calcite-color-status-warning: #f89927;
+$calcite-color-status-warning-hover: #ffb54d;
+$calcite-color-status-warning-press: #ff9500;
 $calcite-color-status-danger: #fe583e;
 $calcite-color-status-danger-hover: #ff0015;
 $calcite-color-status-danger-press: #d90012;
-$calcite-color-inverse: #f8f8f8;
+$calcite-color-inverse: #f7f7f7;
 $calcite-color-inverse-hover: #ffffff;
-$calcite-color-inverse-press: #f3f3f3;
+$calcite-color-inverse-press: #f2f2f2;
 $calcite-color-text-1: #ffffff;
 $calcite-color-text-2: #bfbfbf;
-$calcite-color-text-3: #9f9f9f;
-$calcite-color-text-inverse: #151515;
+$calcite-color-text-3: #9e9e9e;
+$calcite-color-text-inverse: #141414;
 $calcite-color-text-link: #00a0ff;
-$calcite-color-border-1: #555555;
+$calcite-color-border-1: #545454;
 $calcite-color-border-2: #4a4a4a;
 $calcite-color-border-3: #404040;
 $calcite-color-border-input: #757575;
 $calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-$calcite-color-border-white: #f8f8f8;
+$calcite-color-border-white: #f7f7f7;
 "
 `;
 
@@ -68791,23 +69089,23 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-border-white: #ffffff;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #dfdfdf;
+  --calcite-color-border-3: #dedede;
   --calcite-color-border-2: #d4d4d4;
-  --calcite-color-border-1: #cacaca;
+  --calcite-color-border-1: #c9c9c9;
   --calcite-color-text-link: #00619b;
   --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6a6a6a;
+  --calcite-color-text-3: #6b6b6b;
   --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #151515;
-  --calcite-color-inverse-press: #202020;
+  --calcite-color-text-1: #141414;
+  --calcite-color-inverse-press: #212121;
   --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #353535;
+  --calcite-color-inverse: #363636;
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #bfa200;
-  --calcite-color-status-warning-hover: #d9bc00;
-  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #1a6324;
   --calcite-color-status-success-hover: #288835;
   --calcite-color-status-success: #35ac46;
@@ -68820,38 +69118,40 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-foreground-current: #c7eaff;
-  --calcite-color-foreground-3: #eaeaea;
-  --calcite-color-foreground-2: #f3f3f3;
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f8f8f8;
+  --calcite-color-background: #f7f7f7;
 }
 @mixin calcite-mode-dark {
   --calcite-color-foreground-current: #214155;
-  --calcite-color-border-white: #f8f8f8;
+  --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
   --calcite-color-border-3: #404040;
   --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #555555;
+  --calcite-color-border-1: #545454;
   --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #151515;
-  --calcite-color-text-3: #9f9f9f;
+  --calcite-color-text-inverse: #141414;
+  --calcite-color-text-3: #9e9e9e;
   --calcite-color-text-2: #bfbfbf;
   --calcite-color-text-1: #ffffff;
-  --calcite-color-inverse-press: #f3f3f3;
+  --calcite-color-inverse-press: #f2f2f2;
   --calcite-color-inverse-hover: #ffffff;
-  --calcite-color-inverse: #f8f8f8;
+  --calcite-color-inverse: #f7f7f7;
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #f5d000;
-  --calcite-color-status-warning-hover: #ffee33;
-  --calcite-color-status-warning: #ffc900;
+  --calcite-color-status-warning-press: #ff9500;
+  --calcite-color-status-warning-hover: #ffb54d;
+  --calcite-color-status-warning: #f89927;
   --calcite-color-status-success-press: #00b81b;
   --calcite-color-status-success-hover: #3bed52;
   --calcite-color-status-success: #36da43;
@@ -68864,14 +69164,16 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-3: #151515;
-  --calcite-color-foreground-2: #202020;
+  --calcite-color-foreground-3: #141414;
+  --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #353535;
+  --calcite-color-background: #363636;
 }
 "
 `;
@@ -68881,15 +69183,17 @@ exports[`generated tokens > SCSS > light should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-background: #f8f8f8;
+$calcite-color-background: #f7f7f7;
 $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #ffffff;
-$calcite-color-foreground-2: #f3f3f3;
-$calcite-color-foreground-3: #eaeaea;
+$calcite-color-foreground-2: #f2f2f2;
+$calcite-color-foreground-3: #ebebeb;
 $calcite-color-foreground-current: #c7eaff;
 $calcite-color-transparent: rgba(0, 0, 0, 0);
 $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+$calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
 $calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-brand: #007ac2;
@@ -68902,23 +69206,23 @@ $calcite-color-status-info-press: #00304d;
 $calcite-color-status-success: #35ac46;
 $calcite-color-status-success-hover: #288835;
 $calcite-color-status-success-press: #1a6324;
-$calcite-color-status-warning: #edd317;
-$calcite-color-status-warning-hover: #d9bc00;
-$calcite-color-status-warning-press: #bfa200;
+$calcite-color-status-warning: #f89927;
+$calcite-color-status-warning-hover: #d17300;
+$calcite-color-status-warning-press: #9a5b10;
 $calcite-color-status-danger: #d83020;
 $calcite-color-status-danger-hover: #a82b1e;
 $calcite-color-status-danger-press: #7c1d13;
-$calcite-color-inverse: #353535;
+$calcite-color-inverse: #363636;
 $calcite-color-inverse-hover: #2b2b2b;
-$calcite-color-inverse-press: #202020;
-$calcite-color-text-1: #151515;
+$calcite-color-inverse-press: #212121;
+$calcite-color-text-1: #141414;
 $calcite-color-text-2: #4a4a4a;
-$calcite-color-text-3: #6a6a6a;
+$calcite-color-text-3: #6b6b6b;
 $calcite-color-text-inverse: #ffffff;
 $calcite-color-text-link: #00619b;
-$calcite-color-border-1: #cacaca;
+$calcite-color-border-1: #c9c9c9;
 $calcite-color-border-2: #d4d4d4;
-$calcite-color-border-3: #dfdfdf;
+$calcite-color-border-3: #dedede;
 $calcite-color-border-input: #949494;
 $calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
 $calcite-color-border-white: #ffffff;

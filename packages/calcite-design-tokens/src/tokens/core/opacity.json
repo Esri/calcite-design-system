@@ -29,6 +29,20 @@
           "category": "opacity"
         }
       },
+      "12": {
+        "value": "12%",
+        "type": "opacity",
+        "attributes": {
+          "category": "opacity"
+        }
+      },
+      "16": {
+        "value": "16%",
+        "type": "opacity",
+        "attributes": {
+          "category": "opacity"
+        }
+      },
       "20": {
         "value": "20%",
         "type": "opacity",
