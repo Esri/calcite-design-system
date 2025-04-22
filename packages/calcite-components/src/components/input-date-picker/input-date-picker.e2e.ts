@@ -25,12 +25,7 @@ const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
   describe("accessibility", () => {
-    accessible(html`
-      <calcite-label>
-        Input Date Picker
-        <calcite-input-date-picker></calcite-input-date-picker>
-      </calcite-label>
-    `);
+    accessible(html` <calcite-input-date-picker label="Input Date Picker"></calcite-input-date-picker> `);
   });
 
   describe("renders", () => {
@@ -68,6 +63,10 @@ describe("calcite-input-date-picker", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-date-picker");
+  });
+
+  describe("labelable range", () => {
+    labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
   });
 
   describe("disabled", () => {
