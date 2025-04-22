@@ -10,13 +10,13 @@
 import { makeGenericController } from "@arcgis/components-controllers";
 import { LitElement } from "@arcgis/lumina";
 
-let count: number = 0;
+let openedComponentCount: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
 /**
  * Interface representing a component that can prevent document scrolling.
  */
-interface PreventDocumentScrollComponent extends LitElement {
+export interface PreventDocumentScrollComponent extends LitElement {
   /**
    * Indicates whether the component is currently opened.
    */
@@ -33,8 +33,6 @@ interface PreventDocumentScrollComponent extends LitElement {
  *
  * This controller tracks the number of components requesting scroll prevention
  * and ensures that the document's scroll behavior is only modified when necessary.
- *
- * @returns A controller function created by `makeGenericController`.
  */
 export const usePreventDocumentScroll = (): ReturnType<
   typeof makeGenericController<void, PreventDocumentScrollComponent>
@@ -43,24 +41,24 @@ export const usePreventDocumentScroll = (): ReturnType<
    * Adds a scroll prevention lock. If this is the first lock, the document's
    * overflow style is set to "hidden".
    */
-  const add = () => {
-    count++;
-    if (count === 1) {
+  function addOpenedComponent() {
+    openedComponentCount++;
+    if (openedComponentCount === 1) {
       initialDocumentOverflowStyle = document.documentElement.style.overflow;
       document.documentElement.style.overflow = "hidden";
     }
-  };
+  }
 
   /**
    * Removes a scroll prevention lock. If this is the last lock, the document's
    * overflow style is restored to its initial value.
    */
-  const remove = () => {
-    count--;
-    if (count === 0) {
+  function removeOpenedComponent() {
+    openedComponentCount--;
+    if (openedComponentCount === 0) {
       document.documentElement.style.overflow = initialDocumentOverflowStyle;
     }
-  };
+  }
 
   return makeGenericController<void, PreventDocumentScrollComponent>((component, controller) => {
     /**
@@ -70,7 +68,7 @@ export const usePreventDocumentScroll = (): ReturnType<
      */
     controller.onConnected(() => {
       if (component.opened && component.preventDocumentScroll) {
-        add();
+        addOpenedComponent();
       }
     });
 
@@ -88,17 +86,17 @@ export const usePreventDocumentScroll = (): ReturnType<
 
       if (changes.has("opened") && component.preventDocumentScroll) {
         if (component.opened) {
-          add();
+          addOpenedComponent();
         } else {
-          remove();
+          removeOpenedComponent();
         }
       }
 
       if (changes.has("preventDocumentScroll") && component.opened) {
         if (component.preventDocumentScroll) {
-          add();
+          addOpenedComponent();
         } else {
-          remove();
+          removeOpenedComponent();
         }
       }
     });
@@ -110,7 +108,7 @@ export const usePreventDocumentScroll = (): ReturnType<
      */
     controller.onDisconnected(() => {
       if (component.opened && component.preventDocumentScroll) {
-        remove();
+        removeOpenedComponent();
       }
     });
   });
