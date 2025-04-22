@@ -118,7 +118,8 @@ ul:focus {
   color: var(--calcite-color-border-input);
 }
 
-:host([selected]) .icon {
+:host([selected]) .icon,
+:host([indeterminate]) .icon {
   color: var(--calcite-combobox-selected-icon-color, var(--calcite-color-brand));
 }
 

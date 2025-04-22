@@ -716,8 +716,13 @@ export class Combobox
       .composedPath()
       .some((node) => (node as HTMLElement).id === `${this.guid}-select-all-enabled`);
 
-    if (isSelectAllTarget && this.selectAllEnabled) {
-      this.handleSelectAllToggle();
+    if (this.selectAllEnabled) {
+      if (isSelectAllTarget) {
+        this.selectAllComboboxItemReferenceEl.indeterminate = false;
+        this.handleSelectAllToggle();
+      } else {
+        this.selectAllComboboxItemReferenceEl.indeterminate = true;
+      }
     }
 
     const newIndex = this.filteredItems.indexOf(target);
@@ -891,8 +896,13 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
-          if (item.id === `${this.guid}-select-all-enabled` && this.selectAllEnabled) {
-            this.handleSelectAllToggle();
+          if (this.selectAllEnabled) {
+            if (item.id === `${this.guid}-select-all-enabled`) {
+              this.handleSelectAllToggle();
+              this.selectAllComboboxItemReferenceEl.indeterminate = false;
+            } else {
+              this.selectAllComboboxItemReferenceEl.indeterminate = true;
+            }
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();

@@ -14,7 +14,7 @@ import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./combobox-item.scss";
 
 declare global {
@@ -172,6 +172,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 
+  /**
+   * In multi selection mode, show as indeterminate when only some children are selected.
+   *
+   * @private
+   */
+  @property({ reflect: true }) indeterminate = false;
+
   // #endregion
 
   // #region Lifecycle
@@ -279,14 +286,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : "check-square-f";
+    const icon = disabled || isSingleSelect ? undefined : `${ICONS.checked}`;
     const selectionIcon = isSingleSelect
       ? this.selected
-        ? "circle-inset-large"
-        : "circle"
-      : this.selected
-        ? "check-square-f"
-        : "square";
+        ? `${ICONS.selectedSingle}`
+        : `${ICONS.circle}`
+      : this.indeterminate
+        ? `${ICONS.indeterminate}`
+        : this.selected
+          ? `${ICONS.checked}`
+          : `${ICONS.unchecked}`;
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
