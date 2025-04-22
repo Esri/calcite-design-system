@@ -22,7 +22,7 @@ import {
   getElementXY,
   isElementFocused,
   selectText,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {

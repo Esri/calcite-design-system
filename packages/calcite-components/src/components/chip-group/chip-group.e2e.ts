@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
 import { CSS as CHIP_CSS } from "../chip/resources";
-import { createSelectedItemsAsserter } from "../../tests/utils";
+import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-chip-group", () => {
   describe("renders", () => {

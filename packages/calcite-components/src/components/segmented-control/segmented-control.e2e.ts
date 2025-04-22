@@ -13,7 +13,7 @@ import {
   renders,
   themed,
 } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 

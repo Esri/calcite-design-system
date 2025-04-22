@@ -2,7 +2,7 @@ import { LuminaJsx } from "@arcgis/lumina";
 import { E2EElement, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { hiddenFormInputSlotName } from "../../../utils/form";
-import { isElementFocused } from "../../../tests/utils";
+import { isElementFocused } from "../../../tests/utils/puppeteer";
 import { html } from "../../../../support/formatting";
 
 export function testPostValidationFocusing(

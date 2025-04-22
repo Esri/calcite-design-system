@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compil
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementRect } from "../../tests/utils";
+import { getElementRect } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {

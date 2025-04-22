@@ -15,7 +15,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
