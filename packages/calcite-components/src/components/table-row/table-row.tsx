@@ -47,6 +47,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private tableRowSlotEl = createRef<HTMLSlotElement>();
 
+  private userTriggered = false;
+
   // #endregion
 
   // #region Public Properties
@@ -123,8 +125,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
   calciteTableRowSelect = createEvent({ cancelable: false });
 
   // #endregion
-
-  private userTriggered = false;
 
   // #region Lifecycle
 

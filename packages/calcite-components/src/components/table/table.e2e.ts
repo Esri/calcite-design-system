@@ -2741,7 +2741,7 @@ describe("keyboard navigation", () => {
     ).toEqual({ "0": CSS.selectionCell });
   });
 
-  it("updates selected property correctly when calciteTabRowSelect event is emitted", async () => {
+  it("updates table-row's selected property correctly when calciteTabRowSelect event is emitted", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" selection-mode="multiple">
