@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {

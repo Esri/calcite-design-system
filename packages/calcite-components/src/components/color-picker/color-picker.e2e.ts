@@ -11,7 +11,7 @@ import {
   selectText,
   toBeInteger,
   toBeNumber,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
