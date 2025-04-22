@@ -12,17 +12,17 @@
         "value": [
           {
             "x": "{core.size.default.none}",
-            "spread": "{core.size.default.none}",
             "y": "{core.size.default.2}",
             "blur": "{core.size.default.8}",
+            "spread": "{core.size.default.none}",
             "color": "{semantic.color.shadow.3}",
             "type": "dropShadow"
           },
           {
-            "spread": "{core.size.default.none}",
             "x": "{core.size.default.none}",
             "y": "{core.size.default.2}",
             "blur": "{core.size.default.8}",
+            "spread": "{core.size.default.none}",
             "color": "{semantic.color.shadow.1}",
             "type": "dropShadow"
           }
@@ -36,9 +36,9 @@
         "value": [
           {
             "x": "{core.size.default.none}",
-            "spread": "-4",
             "y": "{core.size.default.6}",
             "blur": "{core.size.default.20}",
+            "spread": "-4",
             "color": "{semantic.color.shadow.3}",
             "type": "dropShadow"
           },
