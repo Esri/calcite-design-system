@@ -34,7 +34,8 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText || "";
   const meridiem = (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText || "";
   const meridiemOrder = getMeridiemOrder(locale);
-  return `${meridiem && meridiemOrder === 0 ? meridiem + " " : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? " " + meridiem : ""}`;
+  const localesWithNoMeridiemSpacer = ["ja", "zh-CN", "zh-HK", "zh-TW"];
+  return `${meridiem && meridiemOrder === 0 ? (localesWithNoMeridiemSpacer.includes(locale) ? meridiem : meridiem + " ") : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? " " + meridiem : ""}`;
 }
 
 describe("calcite-input-time-picker", () => {
@@ -573,7 +574,6 @@ describe("calcite-input-time-picker", () => {
           expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
         });
 
-        // TODO: refactor this test to type the localized value correctly with the new masks
         it("supports localized 12-hour format", async () => {
           const initialValue = "00:00:00.000";
           const page = await newE2EPage();
@@ -585,7 +585,6 @@ describe("calcite-input-time-picker", () => {
               step=".001"
               value="${initialValue}"
             ></calcite-input-time-picker>
-            <input placeholder="${locale}" />
           `);
 
           const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -633,6 +632,15 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(2);
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: true,
+              includeSeconds: true,
+              locale,
+              value: "23:59:00.000",
+            }),
+          );
 
           await secondInput.click();
           await page.keyboard.press("ArrowDown");
@@ -640,6 +648,15 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(3);
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: true,
+              includeSeconds: true,
+              locale,
+              value: "23:59:59.000",
+            }),
+          );
 
           await fractionalSecondInput.click();
           await page.keyboard.press("ArrowDown");
@@ -647,6 +664,15 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(4);
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: true,
+              includeSeconds: true,
+              locale,
+              value: "23:59:59.999",
+            }),
+          );
 
           await meridiemInput.click();
           await page.keyboard.press("ArrowDown");
@@ -654,65 +680,115 @@ describe("calcite-input-time-picker", () => {
 
           expect(changeEvent).toHaveReceivedEventTimes(5);
           expect(await inputTimePicker.getProperty("value")).toBe("11:59:59.999");
-
-          // const delocalizedValue = await inputTimePicker.getProperty("value");
-          // const expectedLocalizedValue = localizeTimeString({
-          //   fractionalSecondDigits: 3,
-          //   hour12: true,
-          //   includeSeconds: true,
-          //   locale,
-          //   value: delocalizedValue,
-          // });
-
-          // expect(delocalizedValue).toBe("11:59:59.999");
-          // expect(await getInputValue(page, locale)).toBe(expectedLocalizedValue);
-
-          // await selectText(inputTimePicker);
-          // await page.keyboard.press("Backspace");
-
-          // localizedTimeToType = `4${localizedHourSuffix}15${localizedMinuteSuffix}30${localizedDecimalSeparator}003`;
-          // if (localizedSecondSuffix) {
-          //   localizedTimeToType += localizedSecondSuffix;
-          // }
-          // valueToType =
-          //   meridiemOrder === 0
-          //     ? `${localizedMeridiemToType} ${localizedTimeToType}`
-          //     : `${localizedTimeToType} ${localizedMeridiemToType}`;
-
-          // await page.keyboard.type(valueToType);
-          // await input.focus();
-          // await page.waitForChanges();
-
-          // expect(changeEvent).toHaveReceivedEventTimes(2);
-
-          // const delocalizedValueAfterBlur = await inputTimePicker.getProperty("value");
-          // const expectedLocalizedValueAfterBlur = localizeTimeString({
-          //   fractionalSecondDigits: 3,
-          //   hour12: true,
-          //   includeSeconds: true,
-          //   locale,
-          //   value: delocalizedValueAfterBlur,
-          // });
-
-          // expect(delocalizedValueAfterBlur).toBe("16:15:30.003");
-          // expect(await getInputValue(page)).toBe(expectedLocalizedValueAfterBlur);
-
-          // await inputTimePicker.setProperty("hourFormat", "24");
-          // await page.waitForChanges();
-
-          // expect(await getInputValue(page)).toBe(
-          //   localizeTimeString({
-          //     fractionalSecondDigits: 3,
-          //     hour12: false,
-          //     includeSeconds: true,
-          //     locale,
-          //     value: delocalizedValueAfterBlur,
-          //   }),
-          // );
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: true,
+              includeSeconds: true,
+              locale,
+              value: "11:59:59.999",
+            }),
+          );
         });
 
-        it.skip("supports localized 24-hour format", async () => {
-          // TODO: refactor this test to type the localized value correctly with the new masks
+        it("supports localized 24-hour format", async () => {
+          const initialValue = "00:00:00.000";
+          const page = await newE2EPage();
+          await page.setContent(html`
+            <calcite-input-time-picker
+              focus-trap-disabled
+              hour-format="24"
+              lang="${locale}"
+              step=".001"
+              value="${initialValue}"
+            ></calcite-input-time-picker>
+          `);
+
+          const inputTimePicker = await page.find("calcite-input-time-picker");
+          const hourInput = await page.find(`calcite-input-time-picker >>> .${CSS.hour}`);
+          const minuteInput = await page.find(`calcite-input-time-picker >>> .${CSS.minute}`);
+          const secondInput = await page.find(`calcite-input-time-picker >>> .${CSS.second}`);
+          const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`);
+          const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+          await page.waitForChanges();
+          expect(changeEvent).toHaveReceivedEventTimes(0);
+
+          const initialDelocalizedValue = await inputTimePicker.getProperty("value");
+          const expectedLocalizedInitialValue = localizeTimeString({
+            fractionalSecondDigits: 3,
+            hour12: false,
+            includeSeconds: true,
+            locale,
+            value: initialDelocalizedValue,
+          });
+
+          expect(initialDelocalizedValue).toBe(initialValue);
+          expect(await getInputValue(page, locale)).toBe(expectedLocalizedInitialValue);
+
+          await hourInput.click();
+          await page.keyboard.press("ArrowDown");
+          await page.waitForChanges();
+
+          expect(changeEvent).toHaveReceivedEventTimes(1);
+          expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: "23:00:00.000",
+            }),
+          );
+
+          await minuteInput.click();
+          await page.keyboard.press("ArrowDown");
+          await page.waitForChanges();
+
+          expect(changeEvent).toHaveReceivedEventTimes(2);
+          expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: "23:59:00.000",
+            }),
+          );
+
+          await secondInput.click();
+          await page.keyboard.press("ArrowDown");
+          await page.waitForChanges();
+
+          expect(changeEvent).toHaveReceivedEventTimes(3);
+          expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: "23:59:59.000",
+            }),
+          );
+
+          await fractionalSecondInput.click();
+          await page.keyboard.press("ArrowDown");
+          await page.waitForChanges();
+
+          expect(changeEvent).toHaveReceivedEventTimes(4);
+          expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+          expect(await getInputValue(page, locale)).toBe(
+            localizeTimeString({
+              fractionalSecondDigits: 3,
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              value: "23:59:59.999",
+            }),
+          );
         });
 
         it("directly changing the value reflects in the input and does not emit a change event", async () => {

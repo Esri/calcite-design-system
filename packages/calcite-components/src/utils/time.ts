@@ -473,7 +473,7 @@ export function localizeTimeStringToParts({
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
       localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
+      localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedMeridiem(locale, parseInt(hour) > 11 ? "PM" : "AM", numberingSystem),
     };
   }
