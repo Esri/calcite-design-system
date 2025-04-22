@@ -182,7 +182,7 @@ export function getLocalizedMeridiem(
   // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
   // @see https://issues.chromium.org/issues/40172622
   // @see https://issues.chromium.org/issues/40676973
-  if (["he", "bg", "mk"].includes(locale)) {
+  if (["he", "bs", "mk"].includes(locale)) {
     const localeData = localizedTwentyFourHourMeridiems.get(locale);
 
     if (localizedMeridiem === "AM") {
@@ -433,7 +433,7 @@ export function localizeTimeString({
   // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
   // @see https://issues.chromium.org/issues/40172622
   // @see https://issues.chromium.org/issues/40676973
-  if (["he", "bg", "mk"].includes(locale)) {
+  if (["he", "bs", "mk"].includes(locale)) {
     const localeData = localizedTwentyFourHourMeridiems.get(locale);
     if (result.includes("AM")) {
       result = result.replaceAll("AM", localeData.am);
@@ -441,7 +441,7 @@ export function localizeTimeString({
       result = result.replaceAll("PM", localeData.pm);
     }
     // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
-    if (result.indexOf(".") !== result.length - 1) {
+    if (locale === "mk" && result.indexOf(".") !== result.length - 1) {
       result = result.replace(".", ",");
     }
   }
