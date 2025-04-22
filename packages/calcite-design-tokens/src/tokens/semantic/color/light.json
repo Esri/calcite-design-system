@@ -335,15 +335,24 @@
       "shadow": {
         "1": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
         },
         "2": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
         },
         "3": {
           "value": "rgba({core.color.neutral.blk-240}, {core.opacity.10})",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
         }
       }
     }
