@@ -3,7 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, property } from "@arcgis/lumina";
 import { usePreventDocumentScroll } from "./usePreventDocumentScroll";
 
-describe.skip("usePreventDocumentScroll", () => {
+describe("usePreventDocumentScroll", () => {
   class Test extends LitElement {
     @property() opened = false;
 
