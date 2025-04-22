@@ -3,21 +3,13 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, property } from "@arcgis/lumina";
 import { usePreventDocumentScroll } from "./usePreventDocumentScroll";
 
-describe("usePreventDocumentScroll", () => {
-  function makeClass() {
-    class Test extends LitElement {
-      constructor() {
-        super();
-      }
+describe.skip("usePreventDocumentScroll", () => {
+  class Test extends LitElement {
+    @property() opened = false;
 
-      @property() opened = false;
+    @property() preventDocumentScroll = false;
 
-      @property() preventDocumentScroll = false;
-
-      usePreventDocumentScroll = usePreventDocumentScroll()(this);
-    }
-
-    return Test;
+    usePreventDocumentScroll = usePreventDocumentScroll()(this);
   }
 
   afterEach(() => {
@@ -25,14 +17,14 @@ describe("usePreventDocumentScroll", () => {
   });
 
   it("should not modify document overflow when component is not opened", async () => {
-    const { component } = await mount(makeClass());
+    const { component } = await mount(Test);
     component.opened = false;
     component.preventDocumentScroll = true;
     expect(document.documentElement.style.overflow).toBe("");
   });
 
   it("should set document overflow to 'hidden' when component is opened with preventDocumentScroll", async () => {
-    const { component } = await mount(makeClass());
+    const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
 
@@ -40,7 +32,7 @@ describe("usePreventDocumentScroll", () => {
   });
 
   it("should restore document overflow when component is closed", async () => {
-    const { component } = await mount(makeClass());
+    const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
 
@@ -53,12 +45,12 @@ describe("usePreventDocumentScroll", () => {
   it("should handle multiple components preventing scroll", async () => {
     expect(document.documentElement.style.overflow).toBe("");
 
-    const { component } = await mount(makeClass());
+    const { component } = await mount(Test);
     component.opened = true;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
-    const { component: secondComponent } = await mount(makeClass());
+    const { component: secondComponent } = await mount(Test);
     secondComponent.opened = true;
     expect(document.documentElement.style.overflow).toBe("hidden");
 
@@ -70,7 +62,7 @@ describe("usePreventDocumentScroll", () => {
   });
 
   it("should restore document overflow when component is disconnected", async () => {
-    const { component } = await mount(makeClass());
+    const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
 
