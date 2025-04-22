@@ -762,7 +762,7 @@ describe("calcite-sheet properties", () => {
     });
   });
 
-  describe.only("themed", () => {
+  describe("themed", () => {
     describe("default", () => {
       themed(
         html`<calcite-sheet open resizable display-mode="float" position="inline-start" width="l" height="m">
@@ -807,7 +807,7 @@ describe("calcite-sheet properties", () => {
             shadowSelector: `.${CSS.resizeHandleBar}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-sheet-resize-text-color": {
+          "--calcite-sheet-resize-icon-color": {
             shadowSelector: `.${CSS.resizeHandleBar}`,
             targetProp: "color",
           },

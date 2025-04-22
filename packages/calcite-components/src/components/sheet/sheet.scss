@@ -8,7 +8,7 @@
  * @prop --calcite-sheet-text-color: Specifies the text color of the component.
  *
  * @prop --calcite-sheet-resize-background-color: Specifies the background color of the resize handle.
- * @prop --calcite-sheet-resize-text-color: Specifies the text color of the resize handle.
+ * @prop --calcite-sheet-resize-icon-color: Specifies the text color of the resize handle.
  *
  * @prop --calcite-sheet-scrim-background: Specifies the background color of the sheet scrim.
  * @prop --calcite-sheet-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
@@ -272,14 +272,14 @@
 .resize-handle:active,
 .resize-handle:hover {
   .resize-handle-bar {
-    color: var(--calcite-sheet-resize-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-text-1));
     background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-foreground-3));
   }
 }
 
 .resize-handle-bar {
   @apply flex justify-center items-center pointer-events-none;
-  color: var(--calcite-sheet-resize-text-color, var(--calcite-color-border-input));
+  color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-border-input));
   background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-background));
 }
 
