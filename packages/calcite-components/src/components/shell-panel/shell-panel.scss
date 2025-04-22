@@ -10,7 +10,7 @@
  * @prop --calcite-shell-shadow: Specifies the shadow of the component.
  *
  * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
- * @prop --calcite-shell-panel-resize-text-color: Specifies the text color of the resize handle.
+ * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
  *
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
@@ -179,14 +179,14 @@
 .resize-handle:active,
 .resize-handle:hover {
   .resize-handle-bar {
-    color: var(--calcite-shell-panel-resize-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-text-1));
     background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-foreground-3));
   }
 }
 
 .resize-handle-bar {
   @apply flex justify-center items-center pointer-events-none;
-  color: var(--calcite-shell-panel-resize-text-color, var(--calcite-color-border-input));
+  color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-border-input));
   background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-background));
 }
 

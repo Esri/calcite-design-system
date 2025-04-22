@@ -591,7 +591,7 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.resizeHandleBar}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-shell-panel-resize-text-color": {
+        "--calcite-shell-panel-resize-icon-color": {
           shadowSelector: `.${CSS.resizeHandleBar}`,
           targetProp: "color",
         },
