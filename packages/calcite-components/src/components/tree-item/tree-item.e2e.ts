@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {

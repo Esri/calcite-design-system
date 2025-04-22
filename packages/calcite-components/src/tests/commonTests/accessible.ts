@@ -1,7 +1,7 @@
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
-import { GlobalTestProps } from "../utils";
+import { GlobalTestProps } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, ComponentTag } from "./interfaces";
 

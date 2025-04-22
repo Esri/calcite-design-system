@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
