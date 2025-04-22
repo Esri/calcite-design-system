@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForAnimationFrame } from "../tests/utils";
+import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { onToggleOpenCloseComponent } from "./openCloseComponent";
 
@@ -10,7 +10,7 @@ describe("openCloseComponent", () => {
     it("emits beforeOpen/beforeClose events when the transition starts and open/close events when the transition is done", async () => {
       const emittedEvents: string[] = [];
 
-      class TestComponent extends LitElement {
+      class Test extends LitElement {
         open = false;
 
         transitionEl!: HTMLDivElement;
@@ -33,7 +33,7 @@ describe("openCloseComponent", () => {
           emittedEvents.push("close");
         }
 
-        render(): JsxNode {
+        override render(): JsxNode {
           return (
             <div
               ref={(el) => {
@@ -47,7 +47,7 @@ describe("openCloseComponent", () => {
         }
       }
 
-      const { component } = await mount(TestComponent);
+      const { component } = await mount(Test);
 
       expect(emittedEvents).toEqual([]);
 
@@ -64,6 +64,7 @@ describe("openCloseComponent", () => {
 
       component.open = true;
       onToggleOpenCloseComponent(component);
+      await waitForAnimationFrame();
       expect(emittedEvents).toEqual(["beforeOpen"]);
 
       openingControlledPromise.resolve();
@@ -80,6 +81,7 @@ describe("openCloseComponent", () => {
 
       component.open = false;
       onToggleOpenCloseComponent(component);
+      await waitForAnimationFrame();
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
 
