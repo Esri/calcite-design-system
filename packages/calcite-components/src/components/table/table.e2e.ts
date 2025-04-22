@@ -9,6 +9,7 @@ import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
+import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
@@ -2738,5 +2739,53 @@ describe("keyboard navigation", () => {
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
+  });
+
+  it("updates selected property correctly when calciteTabRowSelect event is emitted", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table caption="Simple table" selection-mode="multiple">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell>row1</calcite-table-cell>
+          <calcite-table-cell>row1</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell>row2</calcite-table-cell>
+          <calcite-table-cell>row2</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    const row1 = await page.find("calcite-table-row");
+    expect(await row1.getProperty("selected")).toBe(false);
+    type TestWindow = typeof window & { selectedValue: boolean };
+
+    await page.evaluate(() => {
+      document.querySelector("calcite-table").addEventListener("calciteTableRowSelect", (event) => {
+        (window as TestWindow).selectedValue = (event.target as TableRow["el"]).selected;
+      });
+    });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
+      cell.click();
+    });
+
+    await page.waitForChanges();
+    expect(await page.evaluate(() => (window as TestWindow).selectedValue)).toBe(true);
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
+      cell.click();
+    });
+
+    await page.waitForChanges();
+    expect(await page.evaluate(() => (window as TestWindow).selectedValue)).toBe(false);
   });
 });
