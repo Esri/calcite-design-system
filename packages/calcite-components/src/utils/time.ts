@@ -441,7 +441,7 @@ export function localizeTimeString({
       result = result.replaceAll("PM", localeData.pm);
     }
     // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
-    if (locale === "mk" && result.indexOf(".") !== result.length - 1) {
+    if (locale !== "he" && result.indexOf(".") !== result.length - 1) {
       result = result.replace(".", ",");
     }
   }
