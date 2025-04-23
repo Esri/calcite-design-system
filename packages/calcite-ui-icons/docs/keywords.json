@@ -9507,5 +9507,217 @@
     "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
     "category": "Generic",
     "release": "4.0.1"
+  },
+  "browser-join": {
+    "alias": ["4.1.0", "windows", "web", "explore", "combine", "tables"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "browser-plus": {
+    "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "parameters": {
+    "alias": ["4.1.1", "text", "framework", "limitation", "restriction", "specification"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "map-information": {
+    "alias": ["4.1.1", "gis", "map", "guide", "instructions"],
+    "category": "GIS",
+    "release": "4.1.1"
+  },
+  "parameters-gear": {
+    "alias": ["4.1.1", "text", "limit", "guideline", "criteria", "tool"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "layer-set": {
+    "alias": ["4.1.1", "layers", "tier", "stack", "bed", "stratum"],
+    "category": "Layers",
+    "release": "4.1.1"
+  },
+  "double-float-set": {
+    "alias": ["4.1.1", "text", "floating", "precision", "memory"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "variable-plus": {
+    "alias": ["4.1.1", "text", "add", "changeable", "fluctating", "inconstant"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "parameters-plus": {
+    "alias": ["4.1.1", "text", "framework", "restriction", "guideline", "limit"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "multiple-variables-set": {
+    "alias": ["4.1.1", "symbols", "changeable", "many", "numbers"],
+    "category": "Symbols",
+    "release": "4.1.1"
+  },
+  "string-set": {
+    "alias": ["4.1.1", "text", "chain", "sequence", "series", "group", "collection"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "table-set": {
+    "alias": ["4.1.1", "generic", "setting", "cover", "arrangement", "columns", "features"],
+    "category": "Generic",
+    "release": "4.1.1"
+  },
+  "mooc": {
+    "alias": ["4.2.0", "education", "courses", "training", "online", "graduation", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-gis-workflow": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "gis",
+      "lab",
+      "workflow",
+      "plan",
+      "interact",
+      "system",
+      "roadmap",
+      "productivity",
+      "map"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-steps": {
+    "alias": ["4.2.0", "education", "learning", "plan", "steps", "workflow", "planner", "number", "chronological"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "storymap-experience": {
+    "alias": ["4.2.0", "education", "web", "app", "logo", "app", "product"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "document-learning": {
+    "alias": ["4.2.0", "education", "document", "learning", "pencil", "note", "folder", "write", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-web-course": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "web",
+      "course",
+      "online",
+      "virtual",
+      "internet",
+      "interactive",
+      "cloud"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "classroom-gis": {
+    "alias": ["4.2.0", "education", "classroom", "gis", "presenter", "desk", "podium", "map", "teacher"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "video-learning": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "video",
+      "learning",
+      "visual",
+      "coffee",
+      "playback",
+      "relax",
+      "record",
+      "clip",
+      "cup",
+      "warm"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "e-learning-gis": {
+    "alias": ["4.2.0", "education", "learning", "gis", "presenter", "online", "video", "virtual", "asynchronous"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "mosaic-method-mean": {
+    "alias": ["4.2.0", "gis", "analysis", "error", "computer", "diagnosis"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-by-attribute": {
+    "alias": ["4.2.0", "gis", "sort-by", "atttribute", "data", "mosaic"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-blend": {
+    "alias": ["4.2.0", "gis", "combine", "merge", "fuse", "composite"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-nadir": {
+    "alias": ["4.2.0", "gis", "raster", "bottom", "lowest-point", "rock-bottom", "data"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-center": {
+    "alias": ["4.2.0", "gis", "center", "target", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-first": {
+    "alias": ["4.2.0", "gis", "collage", "composition", "fusion", "first"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-last": {
+    "alias": ["4.2.0", "gis", "final", "terminal", "concluding", "completion", "culmination"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-north-west": {
+    "alias": ["4.2.0", "gis", "number", "method", "modify", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-lock-raster": {
+    "alias": ["4.2.0", "gis", "technique", "select", "attribute", "spatial", "control"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-maximum": {
+    "alias": ["4.2.0", "gis", "dataset", "mixture", "collage", "blend", "variety"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-minimum": {
+    "alias": ["4.2.0", "gis", "smallest", "minimum", "collage", "small-scale"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-sum": {
+    "alias": ["4.2.0", "gis", "blend", "mix", "whole", "total"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-none": {
+    "alias": ["4.2.0", "gis", "nothing", "uncombined", "unblended", "separated", "disassembled"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-seamline": {
+    "alias": ["4.2.0", "gis", "boundary", "edge", "line", "border"],
+    "category": "GIS",
+    "release": "4.2.0"
   }
 }

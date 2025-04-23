@@ -7,7 +7,7 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
+import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
@@ -70,6 +70,13 @@ export class AccordionItem extends LitElement {
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /**
+   * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
+   *
+   * @private
+   */
+  @property() appearance: Extract<"solid" | "transparent", Appearance>;
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
@@ -184,6 +191,7 @@ export class AccordionItem extends LitElement {
       return;
     }
 
+    this.appearance = closestAccordionParent.appearance;
     this.iconPosition = closestAccordionParent.iconPosition;
     this.iconType = closestAccordionParent.iconType;
     this.scale = closestAccordionParent.scale;
@@ -283,7 +291,13 @@ export class AccordionItem extends LitElement {
           [`icon-type--${this.iconType}`]: true,
         }}
       >
-        <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{
+            [CSS.header]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [`header--${this.appearance}`]: true,
+          }}
+        >
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}

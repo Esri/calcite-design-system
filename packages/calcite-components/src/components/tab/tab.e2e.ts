@@ -1,5 +1,6 @@
 import { describe } from "vitest";
-import { defaults, renders, hidden } from "../../tests/commonTests";
+import { defaults, renders, hidden, themed } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";
@@ -7,7 +8,7 @@ describe("calcite-tab", () => {
 
   describe("renders", () => {
     renders(tabHtml, { display: "none", visible: false });
-    renders(tabHtmlSelected, { display: "block", visible: true });
+    renders(tabHtmlSelected, { display: "flex", visible: true });
   });
 
   describe("honors hidden attribute", () => {
@@ -20,5 +21,16 @@ describe("calcite-tab", () => {
       { propertyName: "selected", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
     ]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tab", {
+        "--calcite-tab-content-space-y": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "paddingBlock",
+        },
+      });
+    });
   });
 });

@@ -11,7 +11,7 @@ import {
   selectText,
   toBeInteger,
   toBeNumber,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
@@ -134,7 +134,7 @@ describe("calcite-color-picker", () => {
 
     const buttons = await findAll(page, `calcite-color-picker >>> .${CSS.container} calcite-button`);
 
-    expect(buttons).toHaveLength(2);
+    expect(buttons).toHaveLength(4);
 
     for (const button of buttons) {
       expect(await button.getProperty("type")).toBe("button");

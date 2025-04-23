@@ -1,10 +1,9 @@
 // @ts-strict-ignore
-
 import type { RequireExactlyOne } from "type-fest";
 import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
-import { skipAnimations, toElementHandle } from "../utils";
+import { skipAnimations, toElementHandle } from "../utils/puppeteer";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 

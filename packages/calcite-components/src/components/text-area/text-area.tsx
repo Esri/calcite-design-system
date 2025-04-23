@@ -1,3 +1,5 @@
+// @ts-strict-ignore
+import { throttle } from "lodash-es";
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -36,7 +38,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
 declare global {
@@ -75,27 +77,59 @@ export class TextArea
 
   private footerEl = createRef<HTMLElement>();
 
+  private validationMessageEl: HTMLDivElement;
+
   formEl: HTMLFormElement;
 
   private guid = guid();
 
   labelEl: Label["el"];
 
+  private textAreaEl: HTMLTextAreaElement;
+
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
-    await componentLoaded(this);
-    const isFooterHidden = this.footerEl.value.classList.contains(CSS.hide);
+    await this.componentOnReady();
+    const {
+      textAreaHeight,
+      textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth,
+      validationMessageHeight,
+    } = this.getHeightAndWidthOfElements();
+    if (footerWidth > 0 && footerWidth !== textAreaWidth) {
+      this.footerEl.value.style.width = `${textAreaWidth}px`;
+    }
 
-    if (!isFooterHidden) {
-      const { textAreaWidth, footerWidth } = this.getWidthOfTextareaAndFooter();
-      if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-        this.footerEl.value.style.width = `${textAreaWidth}px`;
-      }
+    if (this.resize === "none") {
+      return;
+    }
+
+    const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
+    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+      this.updateSizeToAuto("width");
+    }
+    if (
+      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      elStyleHeight !== "auto"
+    ) {
+      this.updateSizeToAuto("height");
     }
   });
 
-  private textAreaEl: HTMLTextAreaElement;
+  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
+
+  // throttle is used to avoid flashing of textarea when user resizes.
+  private updateSizeToAuto = throttle(
+    (dimension: "height" | "width"): void => {
+      this.el.style[dimension] = "auto";
+    },
+    RESIZE_TIMEOUT,
+    { leading: false },
+  );
 
   // #endregion
 
@@ -292,12 +326,14 @@ export class TextArea
 
   override updated(): void {
     updateHostInteraction(this);
+    this.setTextAreaHeight();
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+    this.updateSizeToAuto?.cancel();
   }
 
   // #endregion
@@ -368,16 +404,43 @@ export class TextArea
     this.resizeObserver?.observe(el);
   }
 
-  private getWidthOfTextareaAndFooter(): {
+  private setTextAreaHeight(): void {
+    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
+      this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
+      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
+    }
+  }
+
+  private getHeightAndWidthOfElements(): {
+    textAreaHeight: number;
     textAreaWidth: number;
+    elHeight: number;
+    elWidth: number;
+    footerHeight: number;
     footerWidth: number;
+    validationMessageHeight: number;
   } {
-    const textAreaWidth = this.textAreaEl.getBoundingClientRect().width;
-    const footerWidth = this.footerEl.value.getBoundingClientRect().width;
+    const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
+      ? this.textAreaEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
+    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl.value
+      ? this.footerEl.value.getBoundingClientRect()
+      : NO_DIMENSIONS;
+
+    const { height: validationMessageHeight } = this.validationMessageEl
+      ? this.validationMessageEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
 
     return {
+      textAreaHeight,
       textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
       footerWidth,
+      validationMessageHeight,
     };
   }
 
@@ -389,6 +452,13 @@ export class TextArea
 
   private isCharacterLimitExceeded(): boolean {
     return this.value?.length > this.maxLength;
+  }
+
+  private setValidationRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+    this.validationMessageEl = el;
   }
 
   // #endregion
@@ -470,6 +540,7 @@ export class TextArea
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
+            ref={this.setValidationRef}
             scale={this.scale}
             status={this.status}
           />

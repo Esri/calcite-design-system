@@ -11,7 +11,6 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
   focusFirstTabbable,
@@ -25,6 +24,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -35,9 +35,6 @@ declare global {
     "calcite-modal": Modal;
   }
 }
-
-let totalOpenModals: number = 0;
-let initialDocumentOverflowStyle: string = "";
 
 /**
  * @deprecated Use the `calcite-dialog` component instead.
@@ -81,6 +78,8 @@ export class Modal extends LitElement implements OpenCloseComponent {
       },
     },
   })(this);
+
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
   private ignoreOpenChange = false;
 
@@ -132,6 +131,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   @state() titleEl: HTMLElement;
 
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
+
   // #endregion
 
   // #region Public Properties
@@ -144,6 +147,14 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @private
+   */
+  @property() embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
@@ -314,9 +325,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
+    this.embedded = false;
   }
 
   // #endregion
@@ -426,16 +437,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
     this.titleId = ensureId(this.titleEl);
     this.contentId = ensureId(this.contentEl);
-
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      if (totalOpenModals === 0) {
-        initialDocumentOverflowStyle = document.documentElement.style.overflow;
-      }
-
-      totalOpenModals++;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
   }
 
   private handleOutsideClose(): void {
@@ -461,18 +462,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
       }
     }
 
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      totalOpenModals--;
-      if (totalOpenModals === 0) {
-        this.removeOverflowHiddenClass();
-      }
-    }
-
     this.opened = false;
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private updateSizeCssVars(): void {

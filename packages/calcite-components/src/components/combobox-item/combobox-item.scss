@@ -1,32 +1,47 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-text-color: Specifies the component's text and `icon` color.
+ * @prop --calcite-combobox-text-color-hover: Specifies the component's text and `icon` color when hovered.
+ * @prop --calcite-combobox-item-background-color-active: Specifies the component's background color when active.
+ * @prop --calcite-combobox-item-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-combobox-selected-icon-color: Specifies the component's selected indicator icon color.
+ * @prop --calcite-combobox-description-text-color: Specifies the component's `description` and `shortHeading` text color.
+ * @prop --calcite-combobox-description-text-color-press: Specifies the component's `description` and `shortHeading` text color when hovered.
+ * @prop --calcite-combobox-heading-text-color: Specifies the component's `heading` text color.
+ */
+
 @include base-component();
 
 .scale--s {
   @apply text-n2h;
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-xs);
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-combobox-item-spacing-unit-s: theme("spacing[1.5]");
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[1.5]");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-sm);
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-combobox-item-spacing-unit-s: theme("spacing[2.5]");
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
+  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-selector-icon-size: theme("spacing.6");
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size);
 }
 
 .container {
   --calcite-combobox-item-indent-value: calc(
-    var(--calcite-combobox-item-spacing-unit-l) * var(--calcite-combobox-item-spacing-indent-multiplier)
+    var(--calcite-internal-combobox-item-spacing-unit-l) * var(--calcite-combobox-item-spacing-indent-multiplier)
   );
 }
 
@@ -47,8 +62,7 @@ ul:focus {
 }
 
 .label {
-  @apply text-color-3
-  focus-base
+  @apply focus-base
   relative
   box-border
   flex
@@ -57,14 +71,16 @@ ul:focus {
   cursor-pointer
   items-center
   no-underline
-  duration-150
   ease-in-out;
   @include word-break();
   justify-content: space-around;
-  gap: var(--calcite-combobox-item-spacing-unit-l);
-  padding-block: var(--calcite-combobox-item-spacing-unit-s);
-  padding-inline-end: var(--calcite-combobox-item-spacing-unit-l);
+  gap: var(--calcite-internal-combobox-item-spacing-unit-l);
+  padding-block: var(--calcite-internal-combobox-item-spacing-unit-s);
+  padding-inline-end: var(--calcite-internal-combobox-item-spacing-unit-l);
   padding-inline-start: var(--calcite-combobox-item-indent-value);
+
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
+  transition-duration: var(--calcite-animation-timing);
 }
 
 :host([disabled]) .label {
@@ -75,34 +91,35 @@ ul:focus {
   @apply focus-inset;
 }
 
+.label:hover {
+  background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-foreground-2));
+  color: var(--calcite-combobox-text-color-hover, var(--calcite-color-text-1));
+}
+
+.label:active {
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-3));
+}
+
 :host([selected]) .label,
 .label:active {
-  @apply text-color-1;
+  color: var(--calcite-combobox-text-color-hover, var(--calcite-color-text-1));
 
   .description,
   .short-text {
-    @apply text-color-2;
+    color: var(--calcite-combobox-description-text-color-press, var(--calcite-color-text-2));
   }
-}
-
-.label:hover {
-  @apply text-color-1 bg-foreground-2;
-}
-
-.label:active {
-  background-color: var(--calcite-color-foreground-3);
 }
 
 .icon {
   @apply inline-flex
-    opacity-0
     duration-150
     ease-in-out;
+
+  color: var(--calcite-color-border-input);
 }
 
 :host([selected]) .icon {
-  @apply opacity-100;
-  color: theme("backgroundColor.brand");
+  color: var(--calcite-combobox-selected-icon-color, var(--calcite-color-brand));
 }
 
 .icon--custom {
@@ -124,25 +141,22 @@ ul:focus {
   white-space: nowrap;
 }
 
-.title {
-  color: var(--calcite-color-text-1);
+.heading {
+  color: var(--calcite-combobox-heading-text-color, var(--calcite-color-text-1));
+}
+
+.description,
+.short-text {
+  color: var(--calcite-combobox-description-text-color, var(--calcite-color-text-3));
 }
 
 :host([selected]) {
-  .title {
+  .heading {
     @apply font-medium;
   }
 }
 
-.label,
-.label:hover {
-  .description,
-  .short-text {
-    @apply text-color-3;
-  }
-}
-
-.title,
+.heading,
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);

@@ -17,7 +17,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -493,6 +493,11 @@ describe("calcite-block", () => {
             shadowSelector: `.${CSS.toggle}`,
             targetProp: "backgroundColor",
             state: "hover",
+          },
+          "--calcite-block-header-background-color-press": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-block >>> .${CSS.toggle}` },
           },
           "--calcite-block-text-color": [
             { shadowSelector: `.${CSS.description}`, targetProp: "color" },

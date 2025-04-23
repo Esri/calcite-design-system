@@ -1,6 +1,5 @@
 export const CSS = {
   container: "container",
-  searchIcon: "search-icon",
 };
 
 export const ICONS = {

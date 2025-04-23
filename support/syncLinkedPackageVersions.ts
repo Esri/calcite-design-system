@@ -84,7 +84,7 @@
 
     console.log("Deployable packages:", changedPackagesData);
 
-    await exec("markdownlint packages/{*}/CHANGELOG.md --fix");
+    await exec("markdownlint-cli2 packages/{*}/CHANGELOG.md --fix");
 
     // add/commit changed files
     await exec(

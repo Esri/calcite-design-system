@@ -17,25 +17,25 @@
  */
 
 :host {
-  @apply block relative h-full;
+  @apply inline-block relative w-full h-full;
 
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
     --calcite-text-area-footer-border-color,
     var(--calcite-internal-text-area-border-color)
   );
-  --calcite-internal-text-area-footer-block-size: 2.25rem;
 }
 
 .text-area,
 .footer {
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
   background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  padding-block: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-spacing-md);
 }
 
 .text-area {
   @apply relative font-sans block box-border w-full m-0;
-  block-size: calc(100% - var(--calcite-internal-text-area-footer-block-size,));
 
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
 
@@ -85,7 +85,7 @@
   @apply flex box-border items-center;
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
-  block-size: var(--calcite-internal-text-area-footer-block-size);
+  min-block-size: 2.25rem;
 }
 
 .character-limit {
@@ -141,12 +141,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-text-area-footer-block-size: 1.75rem;
   .text-area,
   .footer,
   .character-limit {
     @apply pl-2;
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--2));
+  }
+
+  .footer {
+    min-block-size: 1.75rem;
   }
 
   .text-area {
@@ -155,14 +158,17 @@
 }
 
 :host([scale="m"]) {
-  .text-area,
+  .text-area {
+    @apply py-2 px-3;
+  }
+
   .footer {
     @apply py-2 px-3;
+    min-block-size: 2.25rem;
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-text-area-footer-block-size: 3rem;
   .text-area,
   .footer {
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
@@ -170,6 +176,12 @@
     padding-inline: var(--calcite-spacing-lg);
   }
 
+  .footer {
+    min-block-size: 2.75rem;
+  }
+
+  .text-area,
+  .footer,
   .character-limit {
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
     padding-inline-start: var(--calcite-spacing-lg);
@@ -195,3 +207,4 @@
 @include hidden-form-input();
 @include disabled();
 @include base-component();
+@include input-placeholder-text();

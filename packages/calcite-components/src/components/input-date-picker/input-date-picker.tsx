@@ -1,4 +1,5 @@
-import { PropertyValues } from "lit";
+// @ts-strict-ignore
+import { PropertyValues, isServer } from "lit";
 import {
   createEvent,
   h,
@@ -63,7 +64,6 @@ import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -198,6 +198,9 @@ export class InputDatePicker
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
@@ -324,8 +327,11 @@ export class InputDatePicker
   }
 
   set value(value: string | string[]) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
+    const valueChanged = value !== this._value;
+    const invalidValueCleared =
+      value === "" && (this.startInput?.value !== "" || this.endInput?.value !== "");
+
+    if (valueChanged || invalidValueCleared) {
       this._value = value;
       this.valueWatcher(value);
     }
@@ -826,7 +832,7 @@ export class InputDatePicker
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
@@ -1097,6 +1103,7 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
+                  label={this.label}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
@@ -1181,6 +1188,7 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
+                    label={this.label}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}

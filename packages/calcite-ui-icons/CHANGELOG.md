@@ -3,19 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [4.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.1-next.1...@esri/calcite-ui-icons@4.1.0-next.0) (2025-03-15)
+## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.1...@esri/calcite-ui-icons@4.2.0-next.2) (2025-04-21)
 
 ### Features
 
-- add language-2 ([#11739](https://github.com/Esri/calcite-design-system/issues/11739)) ([5040857](https://github.com/Esri/calcite-design-system/commit/5040857d194c2856142690cb0c47e0497e8d7b30))
+- add image display order web component icons ([#11992](https://github.com/Esri/calcite-design-system/issues/11992)) ([2249ba8](https://github.com/Esri/calcite-design-system/commit/2249ba88a921e99ceef4cd7503ac6ef41aae09d7))
 
-## [4.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.1-next.0...@esri/calcite-ui-icons@4.0.1-next.1) (2025-03-04)
+## [4.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.0...@esri/calcite-ui-icons@4.2.0-next.1) (2025-04-08)
+
+### Features
+
+- add Meridian set icons ([#11899](https://github.com/Esri/calcite-design-system/issues/11899)) ([589f9d2](https://github.com/Esri/calcite-design-system/commit/589f9d27ae54266993cfaf04be408e38a61773bb))
+
+## [4.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.1-next.1...@esri/calcite-ui-icons@4.2.0-next.0) (2025-04-04)
+
+### Features
+
+- add new icons ([#11866](https://github.com/Esri/calcite-design-system/issues/11866)) ([df4d6b0](https://github.com/Esri/calcite-design-system/commit/df4d6b0c8c279e2eaa54edd8e11e258bff0983fa))
+
+## [4.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.1-next.0...@esri/calcite-ui-icons@4.1.1-next.1) (2025-03-31)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
 
-## [4.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0-next.13...@esri/calcite-ui-icons@4.0.1-next.0) (2025-02-10)
+## [4.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.0-next.3...@esri/calcite-ui-icons@4.1.1-next.0) (2025-03-28)
 
-**Note:** Version bump only for package @esri/calcite-ui-icons
+### Bug Fixes
+
+- update tags ([#11808](https://github.com/Esri/calcite-design-system/issues/11808)) ([3d015f7](https://github.com/Esri/calcite-design-system/commit/3d015f72c2ff53039feebf38b5bc053b020984b2))
+
+## [4.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0...@esri/calcite-ui-icons@4.1.0) (2025-03-26)
+
+### Features
+
+- Add browser join and browser plus ([#11779](https://github.com/Esri/calcite-design-system/issues/11779)) ([8f69b2d](https://github.com/Esri/calcite-design-system/commit/8f69b2db1e4b1fa74a48f5d4914b8c445a68bbdc))
+- Update check ([#11799](https://github.com/Esri/calcite-design-system/issues/11799)) ([5058939](https://github.com/Esri/calcite-design-system/commit/5058939ec13e967ac0156372e107881c22522864))
+- Add language-2 ([#11739](https://github.com/Esri/calcite-design-system/issues/11739)) ([989df67](https://github.com/Esri/calcite-design-system/commit/989df6752d28ca173aeb4824b7c4408d7f1047e9))
 
 ## [4.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@3.32.0...@esri/calcite-ui-icons@4.0.0) (2025-02-08)
 

@@ -4,7 +4,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
+import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -16,15 +16,10 @@ import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
+import { resizeShiftStep } from "../../utils/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import {
-  CSS,
-  dialogDragStep,
-  dialogResizeStep,
-  initialDragPosition,
-  initialResizePosition,
-  SLOTS,
-} from "./resources";
+import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 import { styles } from "./dialog.scss";
 
@@ -33,9 +28,6 @@ declare global {
     "calcite-dialog": Dialog;
   }
 }
-
-let totalOpenDialogs: number = 0;
-let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot - A slot for adding content.
@@ -81,6 +73,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
+
   private ignoreOpenChange = false;
 
   private interaction: Interactable;
@@ -122,6 +116,10 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   @state() hasFooter = true;
 
   @state() opened = false;
+
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded && this.modal;
+  }
 
   // #endregion
 
@@ -328,9 +326,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
-      this.updateOverflowHiddenClass();
-    }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -355,7 +350,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.embedded = false;
     this.cleanupInteractions();
@@ -448,15 +442,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            size: this.getTransitionElDOMRect().height - resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom -= dialogResizeStep;
+          resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y -= dialogDragStep;
+          dragPosition.y -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -465,15 +459,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            size: this.getTransitionElDOMRect().height + resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom += dialogResizeStep;
+          resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y += dialogDragStep;
+          dragPosition.y += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -482,15 +476,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - dialogResizeStep,
+            size: this.getTransitionElDOMRect().width - resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right -= dialogResizeStep;
+          resizePosition.right -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x -= dialogDragStep;
+          dragPosition.x -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -499,15 +493,15 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width + dialogResizeStep,
+            size: this.getTransitionElDOMRect().width + resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right += dialogResizeStep;
+          resizePosition.right += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x += dialogDragStep;
+          dragPosition.x += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -568,7 +562,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.updateTransform();
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
@@ -582,6 +576,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     if (resizable) {
+      await this.el.componentOnReady();
+
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
         window.getComputedStyle(transitionEl);
 
@@ -595,12 +591,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
+              width: getStylePixelValue(minInlineSize),
+              height: getStylePixelValue(minBlockSize),
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+              width: getStylePixelValue(maxInlineSize) || window.innerWidth,
+              height: getStylePixelValue(maxBlockSize) || window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
@@ -717,7 +713,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       this.openEnd,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
-    this.updateOverflowHiddenClass();
   }
 
   private handleOutsideClose(): void {
@@ -743,31 +738,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       }
     }
 
-    totalOpenDialogs--;
     this.opened = false;
-    this.updateOverflowHiddenClass();
-  }
-
-  private updateOverflowHiddenClass(): void {
-    if (this.opened && !this.embedded && this.modal) {
-      this.addOverflowHiddenClass();
-    } else {
-      this.removeOverflowHiddenClass();
-    }
-  }
-
-  private addOverflowHiddenClass(): void {
-    if (totalOpenDialogs === 0) {
-      initialDocumentOverflowStyle = document.documentElement.style.overflow;
-    }
-
-    totalOpenDialogs++;
-    // use an inline style instead of a utility class to avoid global class declarations.
-    document.documentElement.style.setProperty("overflow", "hidden");
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver(): void {

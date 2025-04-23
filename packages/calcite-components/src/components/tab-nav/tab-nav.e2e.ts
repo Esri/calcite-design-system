@@ -1,9 +1,9 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementRect } from "../../tests/utils";
+import { getElementRect } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
@@ -27,27 +27,58 @@ describe("calcite-tab-nav", () => {
     t9n("calcite-tab-nav");
   });
 
-  it("emits on user interaction", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-tab-nav>
-        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-      </calcite-tab-nav>`,
-    );
-    const activeEventSpy = await page.spyOnEvent("calciteTabChange");
-    const firstTabTitle = await page.find("calcite-tab-title");
+  describe("calciteTabChange event", () => {
+    let page: E2EPage;
+    let activeEventSpy: EventSpy;
+    let firstTabTitle: E2EElement;
 
-    firstTabTitle.setProperty("selected", true);
-    await page.waitForChanges();
-    expect(activeEventSpy).toHaveReceivedEventTimes(0);
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-tab-nav>
+          <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+        </calcite-tab-nav>`,
+      );
+      activeEventSpy = await page.spyOnEvent("calciteTabChange");
+      firstTabTitle = await page.find("calcite-tab-title");
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(0);
+    });
 
-    await firstTabTitle.click();
-    await page.waitForChanges();
-    expect(activeEventSpy).toHaveReceivedEventTimes(1);
+    it("emits on user interaction", async () => {
+      await firstTabTitle.click();
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(1);
 
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-    expect(activeEventSpy).toHaveReceivedEventTimes(2);
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      expect(activeEventSpy).toHaveReceivedEventTimes(2);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      expect(activeEventSpy).toHaveReceivedEventTimes(3);
+    });
+
+    it("does not emit when selected programmatically", async () => {
+      firstTabTitle.setProperty("selected", true);
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(0);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(0);
+
+      await firstTabTitle.click();
+      await page.waitForChanges();
+      expect(activeEventSpy).toHaveReceivedEventTimes(0);
+    });
   });
 
   it("focuses on keyboard interaction", async () => {
@@ -239,6 +270,29 @@ describe("calcite-tab-nav", () => {
       await scrollEnd;
 
       await assertScrollButtonVisibility(true, false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-tab-nav></calcite-tab-nav>`, {
+        "--calcite-tab-border-color": {
+          shadowSelector: `.${CSS.scrollBackwardContainerButton}::before`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tab-text-color": {
+          shadowSelector: `.${CSS.scrollButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html`<calcite-tabs bordered></calcite-tabs>`, {
+        "--calcite-tab-background-color": {
+          targetProp: "backgroundColor",
+        },
+      });
     });
   });
 });

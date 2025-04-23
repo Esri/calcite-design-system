@@ -22,10 +22,12 @@ import {
   createEventTimePropValuesAsserter,
   findAll,
   getElementXY,
+  isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
@@ -1869,14 +1871,10 @@ describe("calcite-combobox", () => {
         await page.waitForChanges();
 
         await element.press("ArrowLeft");
-        expect(chips[0]).not.toHaveClass("chip--active");
-        expect(chips[1]).not.toHaveClass("chip--active");
-        expect(chips[2]).toHaveClass("chip--active");
+        expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-2"]`, { shadowed: true })).toBe(true);
 
         await element.press("ArrowLeft");
-        expect(chips[0]).not.toHaveClass("chip--active");
-        expect(chips[1]).toHaveClass("chip--active");
-        expect(chips[2]).not.toHaveClass("chip--active");
+        expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-1"]`, { shadowed: true })).toBe(true);
 
         await element.press("Delete");
         chips = await findAll(page, "#myCombobox >>> calcite-chip");
@@ -2975,5 +2973,107 @@ describe("calcite-combobox", () => {
 
     const combobox = await page.find("calcite-combobox");
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
+        <calcite-combobox-item-group value="Trees" label="Trees">
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox-item-group>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+      </calcite-combobox>`;
+
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-input-height": {
+          shadowSelector: `.${CSS.input}`,
+          selector: "calcite-combobox",
+          targetProp: "height",
+        },
+        "--calcite-combobox-input-background-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          selector: "calcite-combobox",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-combobox-input-border-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          selector: "calcite-combobox",
+          targetProp: "borderColor",
+        },
+        "--calcite-combobox-input-text-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          selector: "calcite-combobox",
+          targetProp: "color",
+        },
+        "--calcite-combobox-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          selector: "calcite-combobox",
+          targetProp: "color",
+        },
+        "--calcite-combobox-icon-color-hover": {
+          shadowSelector: `.${CSS.icon}`,
+          selector: "calcite-combobox",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-combobox-background-color": {
+          shadowSelector: `.${CSS.listContainer}`,
+          selector: "calcite-combobox",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-combobox-item-group-text-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".title",
+          targetProp: "color",
+        },
+        "--calcite-combobox-item-group-border-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".title",
+          targetProp: "borderBottomColor",
+        },
+      };
+      themed(comboboxHTML, comboboxTokens);
+    });
+
+    describe("placeholder icon", () => {
+      const comboboxWithPlaceHolderIconHTML = html` <calcite-combobox
+        label="test"
+        placeholder="select element"
+        placeholder-icon="layers"
+      >
+        <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox>`;
+
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-icon-color": {
+          shadowSelector: `.${CSS.placeholderIcon}`,
+          selector: "calcite-combobox",
+          targetProp: "color",
+        },
+      };
+      themed(comboboxWithPlaceHolderIconHTML, comboboxTokens);
+    });
+
+    describe("single select", () => {
+      const singleSelectComboboxHTML = html` <calcite-combobox label="test" selection-mode="single">
+        <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+      </calcite-combobox>`;
+
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-input-text-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          selector: "calcite-combobox",
+          targetProp: "color",
+        },
+      };
+      themed(singleSelectComboboxHTML, comboboxTokens);
+    });
   });
 });
