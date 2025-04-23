@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.28...@esri/calcite-components@3.2.0-next.29) (2025-04-23)
+
+### Bug Fixes
+
+- **dialog, modal, sheet:** fix page scrolling after closing ([#12006](https://github.com/Esri/calcite-design-system/issues/12006)) ([824bf91](https://github.com/Esri/calcite-design-system/commit/824bf91087658fa1ca905a0a6800203c79eadd72)), closes [#11729](https://github.com/Esri/calcite-design-system/issues/11729) [#11408](https://github.com/Esri/calcite-design-system/issues/11408) [#12018](https://github.com/Esri/calcite-design-system/issues/12018)
+
 ## [3.2.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.27...@esri/calcite-components@3.2.0-next.28) (2025-04-22)
 
 ### Bug Fixes
