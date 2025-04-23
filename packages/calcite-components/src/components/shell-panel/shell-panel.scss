@@ -1,6 +1,8 @@
 /**
  * CSS Custom Properties
  *
+ * These properties can be overridden using the component's tag as selector.
+ *
  * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
  * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius
@@ -15,7 +17,6 @@
  * @prop --calcite-shell-panel-text-color: Specifies the text color of the component.
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
- * These properties can be overridden using the component's tag as selector.
  *
  */
 
