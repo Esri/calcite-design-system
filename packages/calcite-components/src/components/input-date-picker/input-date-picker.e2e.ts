@@ -633,6 +633,21 @@ describe("calcite-input-date-picker", () => {
       expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
     });
 
+    it("parses/formats gregorian calendar locales when locale falls back to `ar`", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="ar-SA" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonthByIndex(page, 1);
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+    });
+
     it("parses/formats bosnian calendar locales when date is selected", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-date-picker lang="bs" value="2023-05-31"></calcite-input-date-picker>`);
