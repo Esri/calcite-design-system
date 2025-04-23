@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -42,7 +42,7 @@ import { isValidNumber } from "../../utils/number";
 import { RequiredTimeComponentProperties, TimeController } from "../../controllers/time/time";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, TEXT } from "./resources";
+import { CSS, IDS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -124,34 +124,6 @@ export class InputTimePicker
 
   /** When `true`, the clock icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * aria-label for the hour input
-   *
-   * @default "Hour"
-   */
-  @property() intlHour = TEXT.hour;
-
-  /**
-   * aria-label for the meridiem (am/pm) input
-   *
-   * @default "AM/PM"
-   */
-  @property() intlMeridiem = TEXT.meridiem;
-
-  /**
-   * aria-label for the minute input
-   *
-   * @default "Minute"
-   */
-  @property() intlMinute = TEXT.minute;
-
-  /**
-   * aria-label for the second input
-   *
-   * @default "Second"
-   */
-  @property() intlSecond = TEXT.second;
 
   /**
    * When the component resides in a form,
@@ -567,28 +539,6 @@ export class InputTimePicker
       minute,
       second,
     } = this.time;
-    // console.log(
-    //   "render",
-    //   this.value,
-    //   hour,
-    //   ":",
-    //   minute,
-    //   ":",
-    //   second,
-    //   ".",
-    //   fractionalSecond,
-    //   this.time.meridiem,
-    //   "|",
-    //   localizedHour,
-    //   localizedHourSuffix,
-    //   localizedMinute,
-    //   localizedMinuteSuffix,
-    //   localizedSecond,
-    //   localizedDecimalSeparator,
-    //   localizedFractionalSecond,
-    //   localizedSecondSuffix,
-    //   this.time.localizedMeridiem,
-    // );
     const emptyPlaceholder = "--";
     const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
     const hourIsNumber = isValidNumber(hour);
@@ -602,17 +552,19 @@ export class InputTimePicker
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
+          aria-label={getLabelText(this)}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
           ref={this.setContainerEl}
+          role="combobox"
         >
           <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
-              aria-label={this.intlHour}
+              aria-label={this.messages.hour}
               aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
@@ -632,7 +584,7 @@ export class InputTimePicker
             </span>
             <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
             <span
-              aria-label={this.intlMinute}
+              aria-label={this.messages.minute}
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
@@ -653,7 +605,7 @@ export class InputTimePicker
             {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
             {showSecond && (
               <span
-                aria-label={this.intlSecond}
+                aria-label={this.messages.second}
                 aria-valuemax="59"
                 aria-valuemin="0"
                 aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
@@ -677,8 +629,7 @@ export class InputTimePicker
             )}
             {showFractionalSecond && (
               <span
-                // TODO: add translated message fractionalSecond and others from time-picker
-                // aria-label={this.messages.fractionalSecond}
+                aria-label={this.messages.fractionalSecond}
                 aria-valuemax="999"
                 aria-valuemin="1"
                 aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
@@ -750,7 +701,7 @@ export class InputTimePicker
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <span
-        aria-label={this.intlMeridiem}
+        aria-label={this.messages.meridiem}
         aria-valuemax="2"
         aria-valuemin="1"
         aria-valuenow={(meridiem === "PM" && "2") || "1"}

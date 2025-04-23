@@ -24,10 +24,3 @@ export const CSS = {
 export const IDS = {
   validationMessage: "inputTimePickerValidationMessage",
 };
-
-export const TEXT = {
-  hour: "Hour",
-  meridiem: "AM/PM",
-  minute: "Minute",
-  second: "Second",
-};
