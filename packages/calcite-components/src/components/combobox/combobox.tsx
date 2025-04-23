@@ -1733,7 +1733,7 @@ export class Combobox
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
           ariaLabel="Select All"
-          class={{ [CSS.selectAllCheckbox]: true }}
+          class={CSS.selectAllCheckbox}
           id={`${this.guid}-select-all-enabled`}
           role="option"
           tabIndex="-1"

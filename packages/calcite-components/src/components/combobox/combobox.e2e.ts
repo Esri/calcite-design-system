@@ -2977,7 +2977,6 @@ describe("calcite-combobox", () => {
 
   describe("selectAllEnabled", async () => {
     let page: E2EPage;
-    let selectAllCheckbox: E2EElement;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -2998,13 +2997,16 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
     });
 
-    it("should toggle all items on and off with a click", async () => {
+    async function testToggleAllItems(
+      page: E2EPage,
+      toggleAction: ([selectAllCheckbox, combobox]: [E2EElement, E2EElement]) => Promise<void>,
+    ): Promise<void> {
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
-      expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+      expect(combobox).toHaveAttribute("open");
 
-      selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
-      await selectAllCheckbox.click();
+      const selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
+      await toggleAction([selectAllCheckbox, combobox]);
 
       let allComboboxItems = await findAll(page, "calcite-combobox-item");
       for (const item of allComboboxItems) {
@@ -3012,7 +3014,7 @@ describe("calcite-combobox", () => {
       }
       expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
 
-      await selectAllCheckbox.click();
+      await toggleAction([selectAllCheckbox, combobox]);
 
       allComboboxItems = await findAll(page, "calcite-combobox-item");
       for (const item of allComboboxItems) {
@@ -3021,77 +3023,30 @@ describe("calcite-combobox", () => {
 
       const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
       expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
+    }
+
+    it("should toggle all items on and off with a click", async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      await testToggleAllItems(page, async ([selectAllCheckbox, _combobox]) => {
+        await selectAllCheckbox.click();
+      });
     });
 
     it("should toggle all items on and off with KeyDown press `enter`", async () => {
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-
-      expect(await page.find("calcite-combobox")).toHaveAttribute("open");
-
-      await combobox.press("Enter");
-      await page.waitForChanges();
-
-      let allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(true);
-      }
-      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
-
-      await combobox.press("Enter");
-      await page.waitForChanges();
-
-      allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(false);
-      }
-
-      const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
-      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      await testToggleAllItems(page, async ([_selectAllCheckbox, combobox]) => {
+        await combobox.press("Enter");
+      });
     });
 
-    it("indeterminate state works with click", async () => {
+    it("indeterminate state", async () => {
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
-
-      expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+      expect(combobox).toHaveAttribute("open");
 
       await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
 
-      selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
-      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
-
-      await (await combobox.find("calcite-combobox-item[value=Flowers]")).click();
-
-      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeDefined();
-
-      const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
-      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
-
-      await selectAllCheckbox.click();
-      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(false);
-      expect(await selectAllCheckbox.getProperty("selected")).toBe(true);
-
-      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeNull();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeNull();
-
-      const allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(true);
-      }
-    });
-
-    it("indeterminate state works with KeyDown press `enter`", async () => {
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-
-      expect(await page.find("calcite-combobox")).toHaveAttribute("open");
-      await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
-
-      selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
+      const selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
       expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(true);
       expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
 
