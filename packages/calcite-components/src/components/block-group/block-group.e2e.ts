@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";

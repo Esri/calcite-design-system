@@ -2,7 +2,7 @@
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
-import { waitForAnimationFrame } from "../tests/utils";
+import { waitForAnimationFrame } from "../tests/utils/puppeteer";
 import { createControlledPromise } from "../tests/utils/promises";
 import { guidPattern } from "./guid.spec";
 import {

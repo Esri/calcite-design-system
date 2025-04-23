@@ -21,6 +21,7 @@ import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { CSS } from "./resources";
@@ -64,9 +65,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
-  private ignoreOpenChange = false;
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private initialOverflowCSS: string;
+  private ignoreOpenChange = false;
 
   private interaction: Interactable;
 
@@ -106,6 +107,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     maxInlineSize: null,
     maxBlockSize: null,
   };
+
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
 
   // #endregion
 
@@ -290,7 +295,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.embedded = false;
     this.cleanupInteractions();
@@ -551,11 +555,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       this.openEnd,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
-    if (!this.embedded) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
   }
 
   private handleOutsideClose(): void {
@@ -582,11 +581,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     }
 
     this.opened = false;
-    this.removeOverflowHiddenClass();
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
   }
 
   private handleMutationObserver(): void {

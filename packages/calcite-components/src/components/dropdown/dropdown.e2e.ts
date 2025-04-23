@@ -19,7 +19,7 @@ import {
   getFocusedElementProp,
   isElementFocused,
   skipAnimations,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";

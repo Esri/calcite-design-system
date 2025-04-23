@@ -12,7 +12,7 @@ import {
   renders,
   themed,
 } from "../../tests/commonTests";
-import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
+import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
 

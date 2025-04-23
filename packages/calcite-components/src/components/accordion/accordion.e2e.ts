@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-accordion", () => {
