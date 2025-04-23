@@ -354,7 +354,7 @@ describe("calcite-input-time-picker", () => {
 
       await page.waitForChanges();
 
-      expect(await getInputValue(page)).toBe(expectedInputValue);
+      expect(await getInputValue(page, locale)).toBe(expectedInputValue);
       expect(await inputTimePicker.getProperty("value")).toBe(expectedValue);
     });
   });
@@ -571,7 +571,7 @@ describe("calcite-input-time-picker", () => {
           });
 
           expect(initialDelocalizedValue).toBe("14:02:30.001");
-          expect(await getInputValue(page)).toBe(expectedLocalizedInitialValue);
+          expect(await getInputValue(page, locale)).toBe(expectedLocalizedInitialValue);
         });
 
         it("supports localized 12-hour format", async () => {
