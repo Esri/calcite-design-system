@@ -2975,6 +2975,85 @@ describe("calcite-combobox", () => {
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 
+  describe("selectAllEnabled", async () => {
+    let page: E2EPage;
+    let combobox: E2EElement;
+    let selectAllCheckbox: E2EElement;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item value="Pine" text-label="Pine">
+              <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Flowers" text-label="Flowers">
+            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+      combobox = await page.find("calcite-combobox");
+
+      await combobox.click();
+      expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+
+      selectAllCheckbox = await page.find(`calcite-combobox >>> ${CSS.selectAllCheckbox}`);
+    });
+
+    it("should toggle all items on and off", async () => {
+      await selectAllCheckbox.click();
+
+      let allComboboxItems = await findAll(page, "calcite-combobox-item");
+      for (const item of allComboboxItems) {
+        expect(await item.getProperty("selected")).toBe(true);
+      }
+      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
+
+      await selectAllCheckbox.click();
+
+      allComboboxItems = await findAll(page, "calcite-combobox-item");
+      for (const item of allComboboxItems) {
+        expect(await item.getProperty("selected")).toBe(false);
+      }
+
+      const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
+      expect(chip.classList.contains("chip--invisible")).toBe(true);
+    });
+
+    it("indeterminate", async () => {
+      await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
+
+      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(true);
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
+
+      await (await combobox.find("calcite-combobox-item[value=Flowers]")).click();
+
+      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(true);
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeDefined();
+
+      const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
+      expect(chip.classList.contains("chip--invisible")).toBe(true);
+
+      await selectAllCheckbox.click();
+      expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(false);
+      expect(await selectAllCheckbox.getProperty("selected")).toBe(true);
+
+      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeNull();
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeNull();
+
+      const allComboboxItems = await findAll(page, "calcite-combobox-item");
+      for (const item of allComboboxItems) {
+        expect(await item.getProperty("selected")).toBe(true);
+      }
+    });
+  });
+
   describe("theme", () => {
     describe("default", () => {
       const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
