@@ -3002,7 +3002,7 @@ describe("calcite-combobox", () => {
       await combobox.click();
       expect(await page.find("calcite-combobox")).toHaveAttribute("open");
 
-      selectAllCheckbox = await page.find(`calcite-combobox >>> ${CSS.selectAllCheckbox}`);
+      selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
     });
 
     it("should toggle all items on and off", async () => {
