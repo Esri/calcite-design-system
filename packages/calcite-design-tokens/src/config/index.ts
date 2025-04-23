@@ -13,13 +13,7 @@ import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.j
 import { Platform } from "../build/utils/enums.js";
 
 const commonExpand = {
-  include: ["color"],
   typesMap: {
-    light: "color",
-    dark: "color",
-    fontSizes: "fontSize",
-    lineHeights: "lineHeight",
-    space: "spacing",
     ...sdTypes,
   },
 };
