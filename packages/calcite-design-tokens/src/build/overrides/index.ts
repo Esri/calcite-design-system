@@ -2,7 +2,7 @@ import StyleDictionary from "style-dictionary";
 import type { Config, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { PlatformConfig } from "../../types/extensions.js";
-import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../utils/token-types.js";
+import { isBreakpoint, isBreakpointRelated, isFontRelated } from "../utils/token-types.js";
 import { Platform } from "../utils/enums.js";
 
 /**
@@ -120,8 +120,7 @@ function overrideTokenStudioTransforms(): void {
 
   overrideTransform("ts/size/px", sd, (ogTransform) => ({
     filter: (token, options) => {
-      const shouldSkip =
-        token.isSource && (isFontRelated(token) || isCornerRadius(token) || isBreakpointRelated(token));
+      const shouldSkip = token.isSource && isBreakpointRelated(token);
       return !shouldSkip && (!ogTransform.filter || ogTransform.filter(token, options));
     },
   }));
