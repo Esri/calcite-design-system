@@ -23,7 +23,7 @@ const platforms: {
 ];
 
 describe("generated tokens", () => {
-  platforms.forEach(({ name, files }) => generateTests(name, files));
+  platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 });
 
 /**
@@ -34,15 +34,15 @@ describe("generated tokens", () => {
  * @param internal - Whether the test is for internal files
  */
 function generateTests(platform: Platform, files: string[], internal = false) {
-  describe(platform.toUpperCase(), () => {
+  const internalTestAnnotation = internal ? " (internal)" : "";
+  describe(`${platform.toUpperCase()}${internalTestAnnotation}`, () => {
     files.forEach((file) => {
       const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
-      const internalTestAnnotation = internal ? " (internal)" : "";
 
       it(`${file}${internalTestAnnotation} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
 
       if (platform === "es6" || platform === "js") {
-        it(`${file}${internalTestAnnotation} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));
+        it(`${file} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));
       }
     });
   });
