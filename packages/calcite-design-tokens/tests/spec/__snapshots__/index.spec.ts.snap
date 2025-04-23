@@ -1504,7 +1504,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > core should match 1`] = `
+exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -17695,7 +17695,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > global should match 1`] = `
+exports[`generated tokens > DOCS (internal) > global (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -24948,7 +24948,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > semantic should match 1`] = `
+exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -31357,7 +31357,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > JS > core should match 1`] = `
+exports[`generated tokens > JS (internal) > core (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -52314,7 +52314,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > core types should match 1`] = `
+exports[`generated tokens > JS (internal) > core types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -53059,7 +53059,7 @@ declare const tokens: {
 "
 `;
 
-exports[`generated tokens > JS > global should match 1`] = `
+exports[`generated tokens > JS (internal) > global (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -62856,7 +62856,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > global types should match 1`] = `
+exports[`generated tokens > JS (internal) > global types should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -63221,7 +63221,7 @@ declare const tokens: {
 "
 `;
 
-exports[`generated tokens > JS > semantic should match 1`] = `
+exports[`generated tokens > JS (internal) > semantic (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -68092,7 +68092,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > semantic types should match 1`] = `
+exports[`generated tokens > JS (internal) > semantic types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
