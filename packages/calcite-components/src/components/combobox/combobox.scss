@@ -236,12 +236,6 @@ calcite-chip {
   @apply block;
 }
 
-.select-all-checkbox {
-  @apply sticky;
-
-  inset-block-start: 0;
-}
-
 @include disabled();
 @include x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",

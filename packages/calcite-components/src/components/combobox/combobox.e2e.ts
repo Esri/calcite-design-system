@@ -3022,7 +3022,7 @@ describe("calcite-combobox", () => {
       }
 
       const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
-      expect(chip.classList.contains("chip--invisible")).toBe(true);
+      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
     });
 
     it("indeterminate", async () => {
@@ -3037,7 +3037,7 @@ describe("calcite-combobox", () => {
       expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeDefined();
 
       const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
-      expect(chip.classList.contains("chip--invisible")).toBe(true);
+      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
 
       await selectAllCheckbox.click();
       expect(await selectAllCheckbox.getProperty("indeterminate")).toBe(false);
