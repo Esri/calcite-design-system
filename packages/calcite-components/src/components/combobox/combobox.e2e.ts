@@ -3003,7 +3003,7 @@ describe("calcite-combobox", () => {
     ): Promise<void> {
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
-      expect(combobox).toHaveAttribute("open");
+      expect(await combobox.getProperty("open")).toBe(true);
 
       const selectAllCheckbox = await page.find(`calcite-combobox >>> .${CSS.selectAllCheckbox}`);
       await toggleAction([selectAllCheckbox, combobox]);
@@ -3042,7 +3042,7 @@ describe("calcite-combobox", () => {
     it("indeterminate state", async () => {
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
-      expect(combobox).toHaveAttribute("open");
+      expect(await combobox.getProperty("open")).toBe(true);
 
       await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
 
