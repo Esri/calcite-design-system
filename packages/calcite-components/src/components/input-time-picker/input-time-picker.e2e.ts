@@ -15,7 +15,12 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import {
+  getFocusedElementProp,
+  isElementFocused,
+  skipAnimations,
+  waitForAnimationFrame,
+} from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";

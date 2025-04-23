@@ -19,7 +19,7 @@ import {
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
-import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 

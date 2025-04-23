@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.27...@esri/calcite-components@3.2.0-next.28) (2025-04-22)
+
+### Bug Fixes
+
+- **input-date-picker:** add label property for screen readers and AT ([#11995](https://github.com/Esri/calcite-design-system/issues/11995)) ([f4e1664](https://github.com/Esri/calcite-design-system/commit/f4e1664e38f6dacac8b907d4702359c7d6e63228)), closes [#8480](https://github.com/Esri/calcite-design-system/issues/8480)
+
 ## [3.2.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.26...@esri/calcite-components@3.2.0-next.27) (2025-04-22)
 
 ### Features
