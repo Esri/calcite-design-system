@@ -1,7 +1,6 @@
 import { it, expect, describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, property } from "@arcgis/lumina";
-import { waitForAnimationFrame } from "../tests/utils/timing";
 import { usePreventDocumentScroll } from "./usePreventDocumentScroll";
 
 describe("usePreventDocumentScroll", () => {
@@ -19,7 +18,7 @@ describe("usePreventDocumentScroll", () => {
     const { component } = await mount(Test);
     component.opened = false;
     component.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("");
   });
@@ -30,7 +29,7 @@ describe("usePreventDocumentScroll", () => {
     const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
   });
@@ -41,12 +40,12 @@ describe("usePreventDocumentScroll", () => {
     const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
     component.opened = false;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("");
   });
@@ -57,24 +56,24 @@ describe("usePreventDocumentScroll", () => {
     const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
     const { component: secondComponent } = await mount(Test);
     secondComponent.opened = true;
     secondComponent.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
     secondComponent.opened = false;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
     component.opened = false;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("");
   });
@@ -85,7 +84,7 @@ describe("usePreventDocumentScroll", () => {
     const { component } = await mount(Test);
     component.opened = true;
     component.preventDocumentScroll = true;
-    await waitForAnimationFrame();
+    await component.updateComplete;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
 
