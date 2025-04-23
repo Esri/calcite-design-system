@@ -1,9 +1,7 @@
 import { html } from "../../support/formatting";
 
 export const shellPanelTokens = {
-  calciteShellBackgroundColor: "",
-  calciteShellBorderColor: "",
-  calciteShellCornerRadius: "",
+  calciteShellPanelBackgroundColor: "",
   calciteShellPanelBorderColor: "",
   calciteShellPanelCornerRadius: "",
   calciteShellPanelHeight: "",

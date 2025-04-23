@@ -567,39 +567,6 @@ describe("calcite-shell-panel", () => {
   describe("themed", () => {
     describe("default", () => {
       themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {
-        "--calcite-shell-background-color": {
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-shell-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineStartColor",
-        },
-        "--calcite-shell-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-        "--calcite-shell-text-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "color",
-        },
-        "--calcite-shell-shadow": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "boxShadow",
-        },
-        "--calcite-shell-panel-resize-background-color": {
-          shadowSelector: `.${CSS.resizeHandleBar}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-shell-panel-resize-icon-color": {
-          shadowSelector: `.${CSS.resizeHandleBar}`,
-          targetProp: "color",
-        },
-      });
-    });
-
-    describe("default deprecated", () => {
-      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
         "--calcite-shell-panel-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
@@ -612,6 +579,22 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderInlineStartColor",
         },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
       });
     });
 
@@ -619,7 +602,7 @@ describe("calcite-shell-panel", () => {
       themed(
         html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
         {
-          "--calcite-shell-border-color": {
+          "--calcite-shell-panel-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineEndColor",
           },
@@ -628,14 +611,14 @@ describe("calcite-shell-panel", () => {
       themed(
         html`<calcite-shell-panel layout="horizontal" slot="panel-top" display-mode="float-all"></calcite-shell-panel>`,
         {
-          "--calcite-shell-border-color": {
+          "--calcite-shell-panel-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineColor",
           },
         },
       );
       themed(html`<calcite-shell-panel slot="panel-top" display-mode="float-all"></calcite-shell-panel>`, {
-        "--calcite-shell-border-color": {
+        "--calcite-shell-panel-border-color": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderInlineStartColor",
         },
@@ -648,7 +631,7 @@ describe("calcite-shell-panel", () => {
           display-mode="float-all"
         ></calcite-shell-panel>`,
         {
-          "--calcite-shell-border-color": {
+          "--calcite-shell-panel-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineColor",
           },
@@ -661,7 +644,7 @@ describe("calcite-shell-panel", () => {
           display-mode="float-all"
         ></calcite-shell-panel>`,
         {
-          "--calcite-shell-border-color": {
+          "--calcite-shell-panel-border-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderInlineStartColor",
           },

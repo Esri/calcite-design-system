@@ -1,28 +1,21 @@
 /**
  * CSS Custom Properties
  *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-shell-background-color: Specifies the background color of the component.
- * @prop --calcite-shell-border-color: Specifies the border color of the component.
- * @prop --calcite-shell-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-shell-text-color: Specifies the text color of the component.
- * @prop --calcite-shell-shadow: Specifies the shadow of the component.
- *
- * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
- * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
- *
- * @prop --calcite-shell-panel-width: Specifies the width of the component.
- * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
- * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
+ * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
+ * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius
  * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
+ * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
+ * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
+ * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
+ * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
+ * @prop --calcite-shell-panel-text-color: Specifies the text color of the component.
+ * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
- *
- * @prop --calcite-shell-panel-border-color: [Deprecated] Use `--calcite-shell-border-color`. When `displayMode` is `"float-all"`, specifies the component's border color.
- * @prop --calcite-shell-panel-corner-radius: [Deprecated] Use `--calcite-shell-corner-radius`. When `displayMode` is `"float-all"`, specifies the component's corner radius
- * @prop --calcite-shell-panel-shadow: [Deprecated] Use `--calcite-shell-shadow`. When `displayMode` is `"float-all"`, specifies the component's shadow.
+ * These properties can be overridden using the component's tag as selector.
  *
  */
 
@@ -125,7 +118,7 @@
   bg-transparent
   h-full;
 
-  color: var(--calcite-shell-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 
   * {
     @apply box-border;
@@ -139,17 +132,14 @@
 
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
-  box-shadow: var(--calcite-shell-shadow, var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm)));
-  border-radius: var(
-    --calcite-shell-corner-radius,
-    var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round))
-  );
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   overflow: hidden;
 }
 
 :host([layout="vertical"][position="start"]) .float-all {
   border-inline-start: var(--calcite-border-width-sm) solid
-    var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
+    var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
 }
 
 :host([layout="vertical"][position="end"]) .float-all {
@@ -309,7 +299,7 @@
   p-0
   relative
   box-border;
-  background-color: var(--calcite-shell-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
@@ -376,7 +366,7 @@
   --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
   box-shadow: var(
-    --calcite-shell-shadow,
+    --calcite-shell-panel-shadow,
     var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow)
@@ -419,13 +409,13 @@
   --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
   box-shadow: var(
-    --calcite-shell-shadow,
+    --calcite-shell-panel-shadow,
     var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow)
   );
 
-  border-radius: var(--calcite-shell-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   margin-inline: var(--calcite-spacing-sm);
   margin-block-start: var(--calcite-spacing-sm);
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
