@@ -651,59 +651,5 @@ describe("calcite-shell-panel", () => {
         },
       );
     });
-
-    describe("border configurations deprecated", () => {
-      themed(
-        html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
-        {
-          "--calcite-shell-panel-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineEndColor",
-          },
-        },
-      );
-      themed(
-        html`<calcite-shell-panel layout="horizontal" slot="panel-top" display-mode="float-all"></calcite-shell-panel>`,
-        {
-          "--calcite-shell-panel-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineColor",
-          },
-        },
-      );
-      themed(html`<calcite-shell-panel slot="panel-top" display-mode="float-all"></calcite-shell-panel>`, {
-        "--calcite-shell-panel-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineStartColor",
-        },
-      });
-      themed(
-        html`<calcite-shell-panel
-          layout="horizontal"
-          position="end"
-          slot="panel-bottom"
-          display-mode="float-all"
-        ></calcite-shell-panel>`,
-        {
-          "--calcite-shell-panel-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineColor",
-          },
-        },
-      );
-      themed(
-        html`<calcite-shell-panel
-          layout="vertical"
-          slot="panel-bottom"
-          display-mode="float-all"
-        ></calcite-shell-panel>`,
-        {
-          "--calcite-shell-panel-border-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderInlineStartColor",
-          },
-        },
-      );
-    });
   });
 });
