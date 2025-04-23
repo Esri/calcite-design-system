@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toBeInteger } from "../tests/utils";
+import { toBeInteger } from "../tests/utils/puppeteer";
 import { breakpoints } from "./responsive";
 
 describe("breakpoints", () => {

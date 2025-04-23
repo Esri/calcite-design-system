@@ -13,7 +13,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import type { Popover } from "./popover";
