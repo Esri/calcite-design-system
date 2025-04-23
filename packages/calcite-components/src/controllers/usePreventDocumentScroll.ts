@@ -90,9 +90,7 @@ export const usePreventDocumentScroll = (): ReturnType<
         } else {
           removeOpenedComponent();
         }
-      }
-
-      if (changes.has("preventDocumentScroll") && component.opened) {
+      } else if (changes.has("preventDocumentScroll") && component.opened) {
         if (component.preventDocumentScroll) {
           addOpenedComponent();
         } else {
