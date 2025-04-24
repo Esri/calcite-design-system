@@ -16,6 +16,27 @@
             "category": "corner"
           }
         },
+        "none": {
+          "value": "{core.size.default.none}",
+          "type": "borderRadius",
+          "attributes": {
+            "category": "corner"
+          }
+        },
+        "xs": {
+          "value": "{core.size.default.2}",
+          "type": "borderRadius",
+          "attributes": {
+            "category": "corner"
+          }
+        },
+        "sm": {
+          "value": "{core.size.default.4}",
+          "type": "borderRadius",
+          "attributes": {
+            "category": "corner"
+          }
+        },
         "round": {
           "value": "{core.size.default.4}",
           "type": "borderRadius",
