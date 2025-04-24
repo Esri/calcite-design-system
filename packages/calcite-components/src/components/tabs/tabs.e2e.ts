@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import type { TabTitle } from "../tab-title/tab-title";

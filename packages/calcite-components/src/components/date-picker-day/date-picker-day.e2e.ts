@@ -1,7 +1,7 @@
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { disabled } from "../../tests/commonTests";
-import { newProgrammaticE2EPage } from "../../tests/utils";
+import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";
 
 describe("calcite-date-picker-day", () => {

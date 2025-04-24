@@ -16,7 +16,7 @@ import {
 } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { getCity, toUserFriendlyName } from "./utils";
 
 /*

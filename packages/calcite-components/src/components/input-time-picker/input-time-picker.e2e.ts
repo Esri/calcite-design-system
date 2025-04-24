@@ -27,7 +27,7 @@ import {
   selectText,
   skipAnimations,
   waitForAnimationFrame,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
