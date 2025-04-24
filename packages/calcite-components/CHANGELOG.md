@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.30...@esri/calcite-components@3.2.0-next.31) (2025-04-24)
+
+### Bug Fixes
+
+- **input-date-picker:** ensure ar-fallback when the locale is ar-SA ([#12025](https://github.com/Esri/calcite-design-system/issues/12025)) ([08e0cf3](https://github.com/Esri/calcite-design-system/commit/08e0cf373bdb36a496779949ecef9ec07d919c07))
+
 ## [3.2.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.29...@esri/calcite-components@3.2.0-next.30) (2025-04-24)
 
 ### Features
