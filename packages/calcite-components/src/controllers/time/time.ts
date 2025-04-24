@@ -27,7 +27,7 @@ import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
 export type RequiredTimeComponentProperties = {
-  handleChangeEvent: () => void;
+  handleChangeEvent: (previousValue: string) => void;
   hasUpdated: boolean;
   hourFormat: HourFormat;
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
@@ -113,7 +113,7 @@ export class TimeController
     }
     if (changes.has("value") && this.component.hasUpdated) {
       if (this.userChangedValue) {
-        this.component.handleChangeEvent();
+        this.component.handleChangeEvent(changes.get("value"));
         this.userChangedValue = false;
       } else {
         this.setValue(this.component.value);

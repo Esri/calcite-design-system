@@ -201,12 +201,11 @@ describe("calcite-input-time-picker", () => {
 
     await inputTimePicker.callMethod("setFocus");
     await page.waitForChanges();
-    await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
-    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+    expect(await getInputValue(page)).toBe("02:59 PM");
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {

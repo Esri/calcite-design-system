@@ -235,8 +235,11 @@ export class InputTimePicker
    * @private
    */
   @method()
-  async handleChangeEvent(): Promise<void> {
-    this.calciteInputTimePickerChange.emit();
+  async handleChangeEvent(previousValue: string): Promise<void> {
+    const changeEvent = this.calciteInputTimePickerChange.emit();
+    if (changeEvent.defaultPrevented) {
+      this.time.setValue(previousValue);
+    }
   }
 
   /**
