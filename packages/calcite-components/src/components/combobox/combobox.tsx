@@ -1732,12 +1732,12 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
-          ariaLabel="Select All"
+          ariaLabel={this.messages.selectAll}
           class={CSS.selectAllCheckbox}
           id={`${this.guid}-select-all-enabled`}
           role="option"
           tabIndex="-1"
-          text-label="Select All"
+          text-label={this.messages.selectAll}
           value="Select All"
         />
       );
@@ -1773,13 +1773,13 @@ export class Combobox
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
-                  ariaLabel="Select All"
+                  ariaLabel={this.messages.selectAll}
                   class={{ [CSS.selectAllCheckbox]: true }}
                   id={`${this.guid}-select-all-enabled`}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   role="option"
                   tabIndex="-1"
-                  text-label="Select All"
+                  text-label={this.messages.selectAll}
                   value="Select All"
                 />
               )}
