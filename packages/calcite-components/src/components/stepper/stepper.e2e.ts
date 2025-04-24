@@ -987,7 +987,7 @@ describe("calcite-stepper", () => {
     });
   });
 
-  describe.only("theme", () => {
+  describe("theme", () => {
     describe("horizontal-single", () => {
       themed(
         html`<calcite-stepper layout="horizontal-single" scale="m"
