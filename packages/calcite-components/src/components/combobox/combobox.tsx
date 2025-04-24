@@ -392,6 +392,9 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
+  @property({ reflect: true }) selectAllEnabled = false;
+
   /**
    * Specifies the component's selected items.
    *
@@ -711,13 +714,15 @@ export class Combobox
 
     const isSelectAllTarget = event
       .composedPath()
-      .some((node) => (node as HTMLElement).id === `${this.guid}-select-all-enabled`);
+      .some((node) => (node as HTMLElement) === this.selectAllComboboxItemReferenceEl);
 
-    if (isSelectAllTarget) {
-      this.selectAllComboboxItemReferenceEl.indeterminate = false;
-      this.handleSelectAllToggle();
-    } else {
-      this.selectAllComboboxItemReferenceEl.indeterminate = true;
+    if (this.selectAllEnabled) {
+      if (isSelectAllTarget) {
+        this.selectAllComboboxItemReferenceEl.indeterminate = false;
+        this.handleSelectAllToggle();
+      } else {
+        this.selectAllComboboxItemReferenceEl.indeterminate = true;
+      }
     }
 
     const newIndex = this.filteredItems.indexOf(target);
@@ -777,7 +782,7 @@ export class Combobox
 
   private handleSelectAllToggle() {
     const selectAllComboboxItemIsSelected = this.items.find(
-      (item) => item.id === `${this.guid}-select-all-enabled` && item.selected,
+      (item) => item === this.selectAllComboboxItemReferenceEl,
     );
 
     this.isSelectAllOptionChecked = !!selectAllComboboxItemIsSelected?.selected;
@@ -891,11 +896,13 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
-          if (item.id === `${this.guid}-select-all-enabled`) {
-            this.handleSelectAllToggle();
-            this.selectAllComboboxItemReferenceEl.indeterminate = false;
-          } else {
-            this.selectAllComboboxItemReferenceEl.indeterminate = true;
+          if (this.selectAllEnabled) {
+            if (item.id === `${this.guid}-select-all-enabled`) {
+              this.handleSelectAllToggle();
+              this.selectAllComboboxItemReferenceEl.indeterminate = false;
+            } else {
+              this.selectAllComboboxItemReferenceEl.indeterminate = true;
+            }
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1721,7 +1728,8 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const selectAllComboboxItem = this.selectionMode !== "single" &&
+    const selectAllComboboxItem = this.selectAllEnabled &&
+      this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
           ariaLabel="Select All"
@@ -1761,18 +1769,20 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
-            {this.selectionMode !== "single" && this.selectionMode !== "single-persist" && (
-              <calcite-combobox-item
-                ariaLabel="Select All"
-                class={{ [CSS.selectAllCheckbox]: true }}
-                id={`${this.guid}-select-all-enabled`}
-                ref={this.setSelectAllComboboxItemReferenceEl}
-                role="option"
-                tabIndex="-1"
-                text-label="Select All"
-                value="Select All"
-              />
-            )}
+            {this.selectAllEnabled &&
+              this.selectionMode !== "single" &&
+              this.selectionMode !== "single-persist" && (
+                <calcite-combobox-item
+                  ariaLabel="Select All"
+                  class={{ [CSS.selectAllCheckbox]: true }}
+                  id={`${this.guid}-select-all-enabled`}
+                  ref={this.setSelectAllComboboxItemReferenceEl}
+                  role="option"
+                  tabIndex="-1"
+                  text-label="Select All"
+                  value="Select All"
+                />
+              )}
             <slot />
           </ul>
         </div>
@@ -1850,6 +1860,7 @@ export class Combobox
             {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
             {!singleSelectionMode &&
               !singleSelectionDisplay &&
+              this.selectAllEnabled &&
               this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
