@@ -1084,6 +1084,19 @@ export class Combobox
       });
     }
 
+    if (
+      this.selectAllComboboxItemReferenceEl &&
+      this.selectAllComboboxItemReferenceEl.indeterminate === true
+    ) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.showChip(chipEl);
+        }
+      });
+      // todo: recover value of select all and hide chip generated for it
+    }
+
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.closable,
