@@ -566,7 +566,7 @@ describe("calcite-shell-panel", () => {
 
   describe("themed", () => {
     describe("default", () => {
-      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
+      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {
         "--calcite-shell-panel-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
@@ -579,8 +579,25 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderInlineStartColor",
         },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
       });
     });
+
     describe("border configurations", () => {
       themed(
         html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
