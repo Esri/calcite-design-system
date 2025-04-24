@@ -7,7 +7,7 @@ export interface TableRowFocusEvent {
   lastCell: boolean;
 }
 
-export interface TableRowSelectEvent {
+export interface InternalTableRowSelectEvent {
   userTriggered: boolean;
 }
 

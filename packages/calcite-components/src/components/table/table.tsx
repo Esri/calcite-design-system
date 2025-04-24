@@ -215,6 +215,7 @@ export class Table extends LitElement {
     } else {
       this.updateSelectedItems(false);
     }
+    event.stopPropagation();
   }
 
   private calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
