@@ -1734,7 +1734,7 @@ export class Combobox
           role="option"
           tabIndex="-1"
           text-label={this.messages.selectAll}
-          value="Select All"
+          value={this.messages.selectAll}
         />
       );
 
@@ -1776,7 +1776,7 @@ export class Combobox
                   role="option"
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
-                  value="Select All"
+                  value={this.messages.selectAll}
                 />
               )}
             <slot />
