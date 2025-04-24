@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
-import { skipAnimations } from "./utils";
+import { skipAnimations } from "./utils/puppeteer";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`

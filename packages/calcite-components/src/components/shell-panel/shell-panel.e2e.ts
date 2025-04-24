@@ -2,7 +2,7 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
@@ -566,7 +566,7 @@ describe("calcite-shell-panel", () => {
 
   describe("themed", () => {
     describe("default", () => {
-      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
+      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {
         "--calcite-shell-panel-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
@@ -579,8 +579,25 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderInlineStartColor",
         },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
       });
     });
+
     describe("border configurations", () => {
       themed(
         html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,

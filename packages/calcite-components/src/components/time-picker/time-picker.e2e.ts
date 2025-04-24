@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
-import { getElementXY, getFocusedElementProp } from "../../tests/utils";
+import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedLocales } from "../../utils/locale";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";

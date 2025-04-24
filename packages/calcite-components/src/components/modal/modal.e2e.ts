@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { defaults, focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 import type { Modal } from "./modal";
 
@@ -34,6 +34,10 @@ describe("calcite-modal", () => {
       {
         propertyName: "widthScale",
         defaultValue: "m",
+      },
+      {
+        propertyName: "embedded",
+        defaultValue: false,
       },
     ]);
   });
