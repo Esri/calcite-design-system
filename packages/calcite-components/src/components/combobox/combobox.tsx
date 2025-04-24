@@ -714,6 +714,10 @@ export class Combobox
         this.toggleSelectAll();
       } else {
         this.selectAllComboboxItemReferenceEl.indeterminate = true;
+        if (this.isAllOptionsSelectedExceptSelectAll()) {
+          this.selectAllComboboxItemReferenceEl.indeterminate = false;
+          this.selectAllComboboxItemReferenceEl.selected = true;
+        }
       }
     }
 
@@ -1370,6 +1374,15 @@ export class Combobox
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
+  private getAllItemsExceptSelectAll(
+    withDisabled: boolean = false,
+  ): HTMLCalciteComboboxItemElement["el"][] {
+    const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
+      this.el.querySelectorAll(ComboboxItemSelector),
+    );
+    return items.filter((item) => withDisabled || !item.disabled);
+  }
+
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroupSelector));
   }
@@ -1475,6 +1488,13 @@ export class Combobox
 
   private isAllSelected(): boolean {
     return this.getItems().length === this.getSelectedItems().length;
+  }
+
+  private isAllOptionsSelectedExceptSelectAll(): boolean {
+    const filteredSelectedItems = this.getSelectedItems().filter(
+      (item) => item !== this.selectAllComboboxItemReferenceEl,
+    );
+    return this.getAllItemsExceptSelectAll().length === filteredSelectedItems.length;
   }
 
   private isMulti(): boolean {

@@ -3071,6 +3071,54 @@ describe("calcite-combobox", () => {
         expect(await item.getProperty("selected")).toBe(true);
       }
     });
+
+    async function testToggleListItems(
+      page: E2EPage,
+      toggleAction: ([listItem, combobox]: [E2EElement, E2EElement]) => Promise<void>,
+    ): Promise<void> {
+      const combobox = await page.find("calcite-combobox");
+      await combobox.click();
+      expect(await combobox.getProperty("open")).toBe(true);
+
+      const allComboboxItems = await findAll(page, "calcite-combobox-item");
+      for (const item of allComboboxItems) {
+        item.setProperty("selected", true);
+      }
+      await page.waitForChanges();
+      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
+
+      const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
+      await toggleAction([listItem, combobox]);
+
+      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      expect(await selectAll.getProperty("indeterminate")).toBe(true);
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
+
+      await toggleAction([listItem, combobox]);
+
+      expect(await selectAll.getProperty("indeterminate")).toBe(false);
+      expect(await selectAll.getProperty("selected")).toBe(true);
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeNull();
+
+      await toggleAction([listItem, combobox]);
+
+      expect(await selectAll.getProperty("indeterminate")).toBe(true);
+      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
+    }
+
+    it("should toggle indeterminate state to All Selected when list items are toggled with a click", async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      await testToggleListItems(page, async ([listItem, _combobox]) => {
+        await listItem.click();
+      });
+    });
+
+    it.only("should toggle indeterminate state to All Selected when list items are toggled with a keydownEnter", async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      await testToggleAllItems(page, async ([_listItem, combobox]) => {
+        await combobox.press("Enter");
+      });
+    });
   });
 
   describe("theme", () => {
