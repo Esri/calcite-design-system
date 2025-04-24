@@ -902,6 +902,10 @@ export class Combobox
               this.selectAllComboboxItemReferenceEl.indeterminate = false;
             } else {
               this.selectAllComboboxItemReferenceEl.indeterminate = true;
+              if (this.isAllOptionsSelectedExceptSelectAll()) {
+                this.selectAllComboboxItemReferenceEl.indeterminate = false;
+                this.selectAllComboboxItemReferenceEl.selected = true;
+              }
             }
           }
         } else if (this.activeChipIndex > -1) {
