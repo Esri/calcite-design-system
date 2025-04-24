@@ -283,7 +283,7 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  @state() isSelectAllOptionChecked: boolean = false;
+  @state() selectAll: boolean = false;
 
   // #endregion
 
@@ -649,14 +649,6 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
-  private toggleToSelectAll(selectAll: boolean): void {
-    this.items.forEach((item) => {
-      item.selected = selectAll;
-    });
-    this.selectedItems = this.getSelectedItems();
-    this.emitComboboxChange();
-  }
-
   private handleDisabledChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -719,7 +711,7 @@ export class Combobox
     if (this.selectAllEnabled) {
       if (isSelectAllTarget) {
         this.selectAllComboboxItemReferenceEl.indeterminate = false;
-        this.handleSelectAllToggle();
+        this.toggleSelectAll();
       } else {
         this.selectAllComboboxItemReferenceEl.indeterminate = true;
       }
@@ -780,14 +772,18 @@ export class Combobox
     );
   }
 
-  private handleSelectAllToggle() {
+  private toggleSelectAll() {
     const selectAllComboboxItemIsSelected = this.items.find(
       (item) => item === this.selectAllComboboxItemReferenceEl,
     );
 
-    this.isSelectAllOptionChecked = !!selectAllComboboxItemIsSelected?.selected;
+    this.selectAll = !!selectAllComboboxItemIsSelected?.selected;
 
-    this.toggleToSelectAll(this.isSelectAllOptionChecked);
+    this.items.forEach((item) => {
+      item.selected = this.selectAll;
+    });
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -898,7 +894,7 @@ export class Combobox
           event.preventDefault();
           if (this.selectAllEnabled) {
             if (item.id === `${this.guid}-select-all-enabled`) {
-              this.handleSelectAllToggle();
+              this.toggleSelectAll();
               this.selectAllComboboxItemReferenceEl.indeterminate = false;
             } else {
               this.selectAllComboboxItemReferenceEl.indeterminate = true;
@@ -1079,7 +1075,7 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
-    if (this.isSelectAllOptionChecked) {
+    if (this.selectAll) {
       this.selectedItems.forEach((item) => {
         const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
         if (chipEl) {
@@ -1733,7 +1729,7 @@ export class Combobox
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
           ariaLabel={this.messages.selectAll}
-          class={CSS.selectAllCheckbox}
+          class={CSS.selectAll}
           id={`${this.guid}-select-all-enabled`}
           role="option"
           tabIndex="-1"
@@ -1774,7 +1770,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   ariaLabel={this.messages.selectAll}
-                  class={{ [CSS.selectAllCheckbox]: true }}
+                  class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled`}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   role="option"

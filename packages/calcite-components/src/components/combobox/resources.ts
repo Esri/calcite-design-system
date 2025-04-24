@@ -12,7 +12,7 @@ export const CSS = {
   labelIcon: "label-icon",
   listContainer: "list-container",
   placeholderIcon: "placeholder-icon",
-  selectAllCheckbox: "select-all-checkbox",
+  selectAll: "select-all",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   selectedIcon: "selected-icon",
