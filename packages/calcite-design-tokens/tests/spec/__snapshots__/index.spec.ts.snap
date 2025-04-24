@@ -994,9 +994,9 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4; /* Deprecated */
+  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
   --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4; /* Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
   --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
   --calcite-font-text-decoration-none: none; /* Deprecated */
   --calcite-font-text-decoration-underline: underline; /* Deprecated */
@@ -1429,9 +1429,9 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4; /* Deprecated */
+  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
   --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4; /* Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
   --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
   --calcite-font-text-decoration-none: none; /* Deprecated */
   --calcite-font-text-decoration-underline: underline; /* Deprecated */
@@ -1504,7 +1504,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > core should match 1`] = `
+exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -17695,7 +17695,7 @@ exports[`generated tokens > DOCS > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > global should match 1`] = `
+exports[`generated tokens > DOCS (internal) > global (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -20512,7 +20512,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.font.line-height.relative.loose}"
     },
     {
-      "value": "-0.4",
+      "value": "-0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -20584,7 +20584,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
       "key": "{semantic.font.letter-spacing.normal}"
     },
     {
-      "value": "0.4",
+      "value": "0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -24948,7 +24948,7 @@ exports[`generated tokens > DOCS > global should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS > semantic should match 1`] = `
+exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -26584,7 +26584,7 @@ exports[`generated tokens > DOCS > semantic should match 1`] = `
       "key": "{semantic.font.line-height.relative.loose}"
     },
     {
-      "value": "-0.4",
+      "value": "-0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -26656,7 +26656,7 @@ exports[`generated tokens > DOCS > semantic should match 1`] = `
       "key": "{semantic.font.letter-spacing.normal}"
     },
     {
-      "value": "0.4",
+      "value": "0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -30190,9 +30190,9 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
-export const calciteFontLetterSpacingTight = "-0.4"; // Deprecated
+export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
-export const calciteFontLetterSpacingWide = "0.4"; // Deprecated
+export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
 export const calciteFontParagraphSpacingNormal = "4px"; // Deprecated
 export const calciteFontTextDecorationNone = "none"; // Deprecated
 export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
@@ -31087,9 +31087,9 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
-export const calciteFontLetterSpacingTight = "-0.4"; // Deprecated
+export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
-export const calciteFontLetterSpacingWide = "0.4"; // Deprecated
+export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
 export const calciteFontParagraphSpacingNormal = "4px"; // Deprecated
 export const calciteFontTextDecorationNone = "none"; // Deprecated
 export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
@@ -31357,7 +31357,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > JS > core should match 1`] = `
+exports[`generated tokens > JS (internal) > core (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -52314,7 +52314,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > core types should match 1`] = `
+exports[`generated tokens > JS (internal) > core types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -53059,7 +53059,7 @@ declare const tokens: {
 "
 `;
 
-exports[`generated tokens > JS > global should match 1`] = `
+exports[`generated tokens > JS (internal) > global (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -56842,7 +56842,7 @@ export default {
       },
       "letter-spacing": {
         tight: {
-          value: "-0.4",
+          value: "-0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -56930,7 +56930,7 @@ export default {
           key: "{semantic.font.letter-spacing.normal}",
         },
         wide: {
-          value: "0.4",
+          value: "0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -62856,7 +62856,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > global types should match 1`] = `
+exports[`generated tokens > JS (internal) > global types should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -63221,7 +63221,7 @@ declare const tokens: {
 "
 `;
 
-exports[`generated tokens > JS > semantic should match 1`] = `
+exports[`generated tokens > JS (internal) > semantic (internal) should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -65362,7 +65362,7 @@ export default {
       },
       "letter-spacing": {
         tight: {
-          value: "-0.4",
+          value: "-0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -65450,7 +65450,7 @@ export default {
           key: "{semantic.font.letter-spacing.normal}",
         },
         wide: {
-          value: "0.4",
+          value: "0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -68092,7 +68092,7 @@ export default {
 "
 `;
 
-exports[`generated tokens > JS > semantic types should match 1`] = `
+exports[`generated tokens > JS (internal) > semantic types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -69002,9 +69002,9 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
-$calcite-font-letter-spacing-tight: -0.4; // Deprecated
+$calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
-$calcite-font-letter-spacing-wide: 0.4; // Deprecated
+$calcite-font-letter-spacing-wide: 0.4px; // Deprecated
 $calcite-font-paragraph-spacing-normal: 4px; // Deprecated
 $calcite-font-text-decoration-none: none; // Deprecated
 $calcite-font-text-decoration-underline: underline; // Deprecated
@@ -69623,9 +69623,9 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
-$calcite-font-letter-spacing-tight: -0.4; // Deprecated
+$calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
-$calcite-font-letter-spacing-wide: 0.4; // Deprecated
+$calcite-font-letter-spacing-wide: 0.4px; // Deprecated
 $calcite-font-paragraph-spacing-normal: 4px; // Deprecated
 $calcite-font-text-decoration-none: none; // Deprecated
 $calcite-font-text-decoration-underline: underline; // Deprecated

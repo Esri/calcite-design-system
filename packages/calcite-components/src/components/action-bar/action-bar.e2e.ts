@@ -14,7 +14,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { findAll, getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { CSS, SLOTS } from "./resources";

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "3.1.0-next.2",
+  "version": "3.1.0-next.4",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -41,5 +41,8 @@
   },
   "volta": {
     "extends": "../../package.json"
+  },
+  "devDependencies": {
+    "vitest": "2.1.9"
   }
 }

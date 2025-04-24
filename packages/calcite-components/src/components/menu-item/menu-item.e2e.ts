@@ -2,7 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
-import { getFocusedElementProp } from "../../tests/utils";
+import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "../../../src/components/menu-item/resources";
 import { Layout } from "./interfaces";
