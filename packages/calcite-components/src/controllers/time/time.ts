@@ -61,8 +61,6 @@ export class TimeController
   extends GenericController<TimeProperties, RequiredTimeComponentProperties>
   implements TimeProperties
 {
-  // #region Public Properties
-
   fractionalSecond: string;
   hour: string;
   hourFormat: EffectiveHourFormat;
@@ -81,10 +79,6 @@ export class TimeController
   minute: string;
   second: string;
   userChangedValue: boolean = false;
-
-  // #endregion
-
-  // #region Lifecycle
 
   hostConnected(): void {
     this.setHourFormat();
@@ -122,10 +116,6 @@ export class TimeController
     }
   }
 
-  // #endregion
-
-  // #region Private Methods
-
   private decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
@@ -146,6 +136,10 @@ export class TimeController
     this.setValuePart(key, newValue);
   }
 
+  private decrementSecond(): void {
+    this.decrementMinuteOrSecond("second");
+  }
+
   private incrementHour(): void {
     const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
     this.setValuePart("hour", newHour);
@@ -160,6 +154,45 @@ export class TimeController
     this.setValuePart(key, newValue);
   }
 
+  private incrementSecond(): void {
+    this.incrementMinuteOrSecond("second");
+  }
+
+  private nudgeFractionalSecond(direction: "up" | "down"): void {
+    const stepDecimal = getDecimals(this.component.step);
+    const stepPrecision = decimalPlaces(this.component.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue;
+    let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
+    let newFractionalSecond;
+    if (direction === "up") {
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    if (direction === "down") {
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    this.setValuePart("fractionalSecond", newFractionalSecond);
+  }
+
   private setHourFormat(): void {
     const { hourFormat, messages } = this.component;
     const locale = messages._lang as SupportedLocale;
@@ -172,12 +205,14 @@ export class TimeController
     this.meridiemOrder = getMeridiemOrder(locale);
   }
 
-  // #endregion
-
-  // #region Public Methods
-
-  decrementSecond(): void {
-    this.decrementMinuteOrSecond("second");
+  private toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
+    let newMeridiem;
+    if (!this.meridiem) {
+      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
+    } else {
+      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    }
+    this.setValuePart("meridiem", newMeridiem);
   }
 
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
@@ -355,45 +390,6 @@ export class TimeController
     }
   };
 
-  incrementSecond(): void {
-    this.incrementMinuteOrSecond("second");
-  }
-
-  nudgeFractionalSecond(direction: "up" | "down"): void {
-    const stepDecimal = getDecimals(this.component.step);
-    const stepPrecision = decimalPlaces(this.component.step);
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue;
-    let nudgedValueRounded;
-    let nudgedValueRoundedDecimals;
-    let newFractionalSecond;
-    if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    if (direction === "down") {
-      nudgedValue =
-        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - stepDecimal
-          : fractionalSecondAsFloat - stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
-        Math.sign(nudgedValueRoundedDecimals) === 1
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    this.setValuePart("fractionalSecond", newFractionalSecond);
-  }
-
   setValue(value: string): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
@@ -547,16 +543,4 @@ export class TimeController
       }
     }
   }
-
-  toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
-    let newMeridiem;
-    if (!this.meridiem) {
-      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
-    } else {
-      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    }
-    this.setValuePart("meridiem", newMeridiem);
-  }
-
-  // #endregion
 }
