@@ -552,6 +552,7 @@ describe("calcite-input-time-picker", () => {
 
     supportedLocales.forEach((locale: SupportedLocale) => {
       const localeHourFormat = getLocaleHourFormat(locale);
+      const step = 0.001;
 
       describe(`${locale} (${localeHourFormat}-hour)`, () => {
         it(`uses the locale's preferred setting when hour-format="user"`, async () => {
@@ -561,16 +562,16 @@ describe("calcite-input-time-picker", () => {
             <calcite-input-time-picker
               focus-trap-disabled
               lang="${locale}"
-              step=".001"
+              step="${step}"
               value="${initialDelocalizedValue}"
             ></calcite-input-time-picker>
             <input placeholder="${locale}" />
           `);
 
           const expectedLocalizedInitialValue = localizeTimeString({
-            fractionalSecondDigits: 3,
             includeSeconds: true,
             locale,
+            step,
             value: initialDelocalizedValue,
           });
 
@@ -586,7 +587,7 @@ describe("calcite-input-time-picker", () => {
               focus-trap-disabled
               hour-format="12"
               lang="${locale}"
-              step=".001"
+              step="${step}"
               value="${initialValue}"
             ></calcite-input-time-picker>
           `);
@@ -604,10 +605,10 @@ describe("calcite-input-time-picker", () => {
 
           const initialDelocalizedValue = await inputTimePicker.getProperty("value");
           const expectedLocalizedInitialValue = localizeTimeString({
-            fractionalSecondDigits: 3,
             hour12: true,
             includeSeconds: true,
             locale,
+            step,
             value: initialDelocalizedValue,
           });
 
@@ -622,10 +623,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: true,
               includeSeconds: true,
               locale,
+              step,
               value: "23:00:00.000",
             }),
           );
@@ -638,10 +639,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: true,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:00.000",
             }),
           );
@@ -654,10 +655,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: true,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:59.000",
             }),
           );
@@ -670,10 +671,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: true,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:59.999",
             }),
           );
@@ -686,10 +687,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("11:59:59.999");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: true,
               includeSeconds: true,
               locale,
+              step,
               value: "11:59:59.999",
             }),
           );
@@ -720,10 +721,10 @@ describe("calcite-input-time-picker", () => {
 
           const initialDelocalizedValue = await inputTimePicker.getProperty("value");
           const expectedLocalizedInitialValue = localizeTimeString({
-            fractionalSecondDigits: 3,
             hour12: false,
             includeSeconds: true,
             locale,
+            step,
             value: initialDelocalizedValue,
           });
 
@@ -738,10 +739,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: false,
               includeSeconds: true,
               locale,
+              step,
               value: "23:00:00.000",
             }),
           );
@@ -754,10 +755,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: false,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:00.000",
             }),
           );
@@ -770,10 +771,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: false,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:59.000",
             }),
           );
@@ -786,10 +787,10 @@ describe("calcite-input-time-picker", () => {
           expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
           expect(await getInputValue(page, locale)).toBe(
             localizeTimeString({
-              fractionalSecondDigits: 3,
               hour12: false,
               includeSeconds: true,
               locale,
+              step,
               value: "23:59:59.999",
             }),
           );

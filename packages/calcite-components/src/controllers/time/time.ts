@@ -12,8 +12,9 @@ import {
   getMeridiemOrder,
   HourFormat,
   isValidTime,
+  LocalizedTime,
   localizeTimePart,
-  localizeTimeStringToParts,
+  localizeTimeString,
   maxTenthForMinuteAndSecond,
   Meridiem,
   MinuteOrSecond,
@@ -410,13 +411,14 @@ export class TimeController
         localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
-      } = localizeTimeStringToParts({
+      } = localizeTimeString({
         hour12,
         locale,
         numberingSystem,
+        parts: true,
         step,
         value: newValue,
-      });
+      }) as LocalizedTime;
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -541,7 +543,7 @@ export class TimeController
       this.component.value = newValue;
       if (key === "hour" && hourFormat === "12") {
         this.meridiem = getMeridiem(hour);
-        this.localizedMeridiem = getLocalizedMeridiem(locale, this.meridiem, numberingSystem);
+        this.localizedMeridiem = getLocalizedMeridiem({ locale, meridiem: this.meridiem });
       }
     }
   }
