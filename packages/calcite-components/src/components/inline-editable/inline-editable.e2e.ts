@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
