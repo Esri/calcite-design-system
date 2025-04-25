@@ -36,6 +36,10 @@
   border-radius: inherit;
 }
 
+:host([full-width]) {
+  flex: 1 0 auto;
+}
+
 :host([drag-handle]) {
   @apply cursor-move;
   --calcite-internal-action-text-color: var(--calcite-color-border-input);

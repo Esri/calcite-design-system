@@ -25,15 +25,15 @@ const getMaxActionCount = ({
   actionHeight,
   groupCount,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
+  layout: Extract<"horizontal" | "vertical" | "horizontal-fill", Layout>;
   height: number;
   actionWidth: number;
   width: number;
   actionHeight: number;
   groupCount: number;
 }): number => {
-  const maxContainerPx = layout === "horizontal" ? width : height;
-  const avgItemPx = layout === "horizontal" ? actionWidth : actionHeight;
+  const maxContainerPx = layout === "horizontal" || layout === "horizontal-fill" ? width : height;
+  const avgItemPx = layout === "horizontal" || layout === "horizontal-fill" ? actionWidth : actionHeight;
   return Math.floor((maxContainerPx - groupCount * groupBufferPx) / avgItemPx);
 };
 
@@ -46,7 +46,7 @@ export const getOverflowCount = ({
   height,
   groupCount,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
+  layout: Extract<"horizontal" | "vertical" | "horizontal-fill", Layout>;
   actionCount: number;
   actionWidth: number;
   width: number;

@@ -39,6 +39,10 @@ describe("calcite-action", () => {
         propertyName: "textEnabled",
         defaultValue: false,
       },
+      {
+        propertyName: "fullWidth",
+        defaultValue: false,
+      },
     ]);
   });
 
