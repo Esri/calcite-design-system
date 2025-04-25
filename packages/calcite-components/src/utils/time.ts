@@ -88,8 +88,8 @@ function createLocaleDateTimeFormatter({
   return getDateTimeFormat(locale, options);
 }
 
-function formatFractionalSecond(fractionalSecondAsInteger: string, step: number): string {
-  return parseFloat(`0.${fractionalSecondAsInteger}`).toFixed(decimalPlaces(step)).replace("0.", "");
+function formatFractionalSecond(fractionalSecondAsIntegerString: string, step: number): string {
+  return parseFloat(`0.${fractionalSecondAsIntegerString}`).toFixed(decimalPlaces(step)).replace("0.", "");
 }
 
 export function formatTimePart(number: number, minLength?: number): string {
