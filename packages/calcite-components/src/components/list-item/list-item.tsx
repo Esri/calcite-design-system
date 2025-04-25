@@ -802,7 +802,11 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         onClick={expandedClickHandler}
         title={tooltip}
       >
-        <calcite-icon icon={icon} key={icon} scale={iconScale} />
+        {this.dropSelected && expandable && !expanded ? (
+          <calcite-loader inline scale="s" />
+        ) : (
+          <calcite-icon icon={icon} key={icon} scale={iconScale} />
+        )}
       </div>
     );
   }
@@ -1025,7 +1029,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
               [CSS.containerBorder]: showSelectionBorder,
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
-              [CSS.containerDropSelected]: this.dropSelected && expandable && !expanded,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
