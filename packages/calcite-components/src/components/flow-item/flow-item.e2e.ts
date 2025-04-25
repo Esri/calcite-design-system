@@ -15,7 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";

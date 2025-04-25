@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import { activeAttr, CSS, SLOTS } from "./resources";
 

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { MoveEventDetail } from "./interfaces";
