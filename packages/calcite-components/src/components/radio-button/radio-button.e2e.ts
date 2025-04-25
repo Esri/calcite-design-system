@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "./radio-button";
 import { CSS } from "./resources";
 

@@ -35,7 +35,6 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "4.33.0-next.93",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -78,7 +77,7 @@
     "change-case": "5.4.4",
     "cheerio": "1.0.0",
     "chokidar": "4.0.3",
-    "chromatic": "11.28.0",
+    "chromatic": "11.28.2",
     "concurrently": "9.1.2",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
@@ -99,7 +98,6 @@
     "lerna": "8.2.2",
     "lint-staged": "15.5.1",
     "markdownlint-cli2": "0.17.2",
-    "playwright": "1.52.0",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "puppeteer": "23.4.1",

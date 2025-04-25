@@ -4,7 +4,7 @@ import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
-import { findAll, isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";

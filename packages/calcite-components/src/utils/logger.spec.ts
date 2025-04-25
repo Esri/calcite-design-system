@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { describe, expect, it, afterEach, beforeEach, vi, MockInstance } from "vitest";
-import { GlobalTestProps } from "../tests/utils";
+import { GlobalTestProps } from "../tests/utils/puppeteer";
 import { LogLevel } from "./logger";
 import { CalciteConfig } from "./config";
 

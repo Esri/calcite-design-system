@@ -17,7 +17,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 
