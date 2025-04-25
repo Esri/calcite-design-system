@@ -803,7 +803,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         title={tooltip}
       >
         {this.dropSelected && expandable && !expanded ? (
-          <calcite-loader inline label="" scale="s" />
+          <calcite-loader inline label="" scale={iconScale} />
         ) : (
           <calcite-icon icon={icon} key={icon} scale={iconScale} />
         )}
