@@ -56,6 +56,7 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
+  hourGlassActive: "hourglass-active",
 } as const;
 
 export const activeCellTestAttribute = "data-test-active";

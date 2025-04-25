@@ -773,7 +773,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale } = this;
+    const { el, expanded, expandable, messages, displayMode, scale, dropSelected } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -782,11 +782,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const dir = getElementDir(el);
 
     const icon = expandable
-      ? expanded
-        ? ICONS.open
-        : dir === "rtl"
-          ? ICONS.collapsedRTL
-          : ICONS.collapsedLTR
+      ? dropSelected && !expanded
+        ? ICONS.hourGlassActive
+        : expanded
+          ? ICONS.open
+          : dir === "rtl"
+            ? ICONS.collapsedRTL
+            : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
@@ -802,11 +804,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         onClick={expandedClickHandler}
         title={tooltip}
       >
-        {this.dropSelected && expandable && !expanded ? (
-          <calcite-loader inline label="" scale={iconScale} />
-        ) : (
-          <calcite-icon icon={icon} key={icon} scale={iconScale} />
-        )}
+        <calcite-icon icon={icon} key={icon} scale={iconScale} />
       </div>
     );
   }
