@@ -176,7 +176,24 @@ export function getLocalizedMeridiem(
     Date.UTC(0, 0, 0, meridiem === "AM" ? arbitraryAMHour : arbitraryPMHour, 0),
   );
   const parts = formatter.formatToParts(dateWithHourBasedOnMeridiem);
-  return getLocalizedTimePart("meridiem" as TimePart, parts);
+  const localizedMeridiem = getLocalizedTimePart("meridiem" as TimePart, parts);
+
+  // Node v22 doesn't return correct localized meridiem for Hebrew.
+  // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
+  // @see https://issues.chromium.org/issues/40172622
+  // @see https://issues.chromium.org/issues/40676973
+  if (["he", "bs", "mk"].includes(locale)) {
+    const localeData = localizedTwentyFourHourMeridiems.get(locale);
+
+    if (localizedMeridiem === "AM") {
+      return localeData.am;
+    }
+    if (localizedMeridiem === "PM") {
+      return localeData.pm;
+    }
+  }
+
+  return localizedMeridiem;
 }
 
 export function getLocalizedDecimalSeparator(locale: SupportedLocale, numberingSystem: NumberingSystem): string {
@@ -412,10 +429,11 @@ export function localizeTimeString({
     result = result.replaceAll(" ч.", "");
   }
 
+  // Node v22 doesn't return correct localized meridiem for Hebrew.
   // Chromium doesn't return correct localized meridiem for Bosnian or Macedonian.
   // @see https://issues.chromium.org/issues/40172622
   // @see https://issues.chromium.org/issues/40676973
-  if (locale === "bs" || locale === "mk") {
+  if (["he", "bs", "mk"].includes(locale)) {
     const localeData = localizedTwentyFourHourMeridiems.get(locale);
     if (result.includes("AM")) {
       result = result.replaceAll("AM", localeData.am);
@@ -423,7 +441,7 @@ export function localizeTimeString({
       result = result.replaceAll("PM", localeData.pm);
     }
     // This ensures just the decimal separator is replaced and not the period at the end of Macedonian meridiems.
-    if (result.indexOf(".") !== result.length - 1) {
+    if (locale !== "he" && result.indexOf(".") !== result.length - 1) {
       result = result.replace(".", ",");
     }
   }

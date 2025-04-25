@@ -2,9 +2,10 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
+import { resizeStep } from "../../utils/resources";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
@@ -137,7 +138,7 @@ describe("calcite-shell-panel", () => {
         const container = panel.shadowRoot.querySelector(containerClass);
         return container.firstElementChild.classList.contains(contentClass);
       },
-      `.${CSS.container}`,
+      `.${CSS.contentContainer}`,
       CSS.content,
     );
 
@@ -302,7 +303,7 @@ describe("calcite-shell-panel", () => {
     expect(panelHeight).toEqual(shellHeight);
   });
 
-  it("Should have separator when resizable", async () => {
+  it("Should have resize handle when resizable", async () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
@@ -320,23 +321,23 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    let separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
-    expect(separator).toBeNull();
+    let resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+    expect(resizeHandle).toBeNull();
 
     const panel = await page.find("calcite-shell-panel");
     panel.setProperty("resizable", true);
     await page.waitForChanges();
 
-    separator = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    expect(separator).toBeDefined();
+    expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
-    expect(await separator.getProperty("ariaOrientation")).toBe("horizontal");
-    expect(separator.getAttribute("role")).toBe("separator");
-    expect(separator.getAttribute("tabindex")).toBe("0");
-    expect(separator.getAttribute("aria-valuemax")).toBe("420");
-    expect(separator.getAttribute("aria-valuemin")).toBe("240");
-    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect(await resizeHandle.getProperty("ariaOrientation")).toBe("horizontal");
+    expect(await resizeHandle.getProperty("role")).toBe("separator");
+    expect(await resizeHandle.getProperty("tabIndex")).toBe(0);
+    expect(await resizeHandle.getProperty("ariaValueMax")).toBe("420");
+    expect(await resizeHandle.getProperty("ariaValueMin")).toBe("240");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
     expect((await content.getComputedStyle()).width).toBe("320px");
   });
 
@@ -358,60 +359,48 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
-    expect(separator).toBeDefined();
+    expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
     expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await separator.press("ArrowRight");
+    await resizeHandle.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("321");
-    expect((await content.getComputedStyle()).width).toBe("321px");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
+    expect((await content.getComputedStyle()).width).toBe("330px");
 
-    await separator.press("ArrowUp");
+    await resizeHandle.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("322");
-    expect((await content.getComputedStyle()).width).toBe("322px");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
+    expect((await content.getComputedStyle()).width).toBe("330px");
 
-    await separator.press("ArrowLeft");
+    await resizeHandle.press("ArrowLeft");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("321");
-    expect((await content.getComputedStyle()).width).toBe("321px");
-
-    await separator.press("ArrowDown");
-    await page.waitForChanges();
-
-    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
     expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await separator.press("PageDown");
+    await resizeHandle.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("310");
-    expect((await content.getComputedStyle()).width).toBe("310px");
-
-    await separator.press("PageUp");
-    await page.waitForChanges();
-
-    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
     expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await separator.press("Home");
+    await resizeHandle.press("Home");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("240");
     expect((await content.getComputedStyle()).width).toBe("240px");
 
-    await separator.press("End");
+    await resizeHandle.press("End");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("420");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("420");
     expect((await content.getComputedStyle()).width).toBe("420px");
   });
 
@@ -433,62 +422,52 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
     const initialHeight = parseInt((await content.getComputedStyle()).height);
 
-    expect(separator).toBeDefined();
+    expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
     expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await separator.press("ArrowRight");
+    await resizeHandle.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 1}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 1}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
 
-    await separator.press("ArrowUp");
+    await resizeHandle.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
     expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await separator.press("ArrowLeft");
+    await resizeHandle.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
     expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await separator.press("ArrowDown");
+    await resizeHandle.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 1}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 1}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
 
-    await separator.press("PageDown");
+    await resizeHandle.press("Home");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
     expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await separator.press("PageUp");
+    await resizeHandle.press("End");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 10}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 10}px`);
-
-    await separator.press("Home");
-    await page.waitForChanges();
-
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
-
-    await separator.press("End");
-    await page.waitForChanges();
-
-    expect(separator.getAttribute("aria-valuenow")).toBe(separator.getAttribute("aria-valuemax"));
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(separator.getAttribute("aria-valuemax"));
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(await resizeHandle.getProperty("ariaValueMax"));
+    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(
+      await resizeHandle.getProperty("ariaValueMax"),
+    );
   });
 
   it("Should resize via mouse", async () => {
@@ -509,22 +488,22 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
-    expect(separator).toBeDefined();
+    expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
     expect((await content.getComputedStyle()).width).toBe("320px");
 
-    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
+    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
 
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.mouse.move(x + 10, y);
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("330");
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
     expect((await content.getComputedStyle()).width).toBe("330px");
   });
 
@@ -546,22 +525,22 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
     const initialHeight = parseInt((await content.getComputedStyle()).height.replace("px", ""));
 
-    expect(separator).toBeDefined();
+    expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
     expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight}`);
-    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
+    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
 
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.mouse.move(x, y + 10);
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 10}`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + 10}`);
     expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight + 10}`);
   });
 
@@ -587,7 +566,7 @@ describe("calcite-shell-panel", () => {
 
   describe("themed", () => {
     describe("default", () => {
-      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all"></calcite-shell-panel>`, {
+      themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {
         "--calcite-shell-panel-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
@@ -600,8 +579,25 @@ describe("calcite-shell-panel", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderInlineStartColor",
         },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
       });
     });
+
     describe("border configurations", () => {
       themed(
         html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,

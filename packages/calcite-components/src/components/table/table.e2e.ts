@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
+import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
