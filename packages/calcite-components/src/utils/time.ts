@@ -293,10 +293,7 @@ export function isValidTime(value: string | Time): boolean {
   let minute;
   let second;
   if (typeof value === "string") {
-    const splitValue = value.split(":");
-    hour = splitValue[0];
-    minute = splitValue[1];
-    second = splitValue[2];
+    [hour, minute, second] = value.split(":");
   } else {
     hour = value.hour;
     minute = value.minute;
