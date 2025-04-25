@@ -3,7 +3,7 @@ import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
-export const relatedDragElExpandTimeoutMS = 2000;
+export const relatedDragElExpandTimeoutMS = 1500;
 
 export interface MoveDetail {
   toEl: HTMLElement;
