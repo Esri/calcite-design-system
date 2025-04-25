@@ -710,15 +710,9 @@ export class Combobox
 
     if (this.selectAllEnabled) {
       if (isSelectAllTarget) {
-        this.selectAllComboboxItemReferenceEl.indeterminate = false;
         this.toggleSelectAll();
-      } else {
-        this.selectAllComboboxItemReferenceEl.indeterminate = true;
-        if (this.isAllOptionsSelectedExceptSelectAll()) {
-          this.selectAllComboboxItemReferenceEl.indeterminate = false;
-          this.selectAllComboboxItemReferenceEl.selected = true;
-        }
       }
+      this.updateSelectAllState();
     }
 
     const newIndex = this.filteredItems.indexOf(target);
@@ -899,14 +893,8 @@ export class Combobox
           if (this.selectAllEnabled) {
             if (item.id === `${this.guid}-select-all-enabled`) {
               this.toggleSelectAll();
-              this.selectAllComboboxItemReferenceEl.indeterminate = false;
-            } else {
-              this.selectAllComboboxItemReferenceEl.indeterminate = true;
-              if (this.isAllOptionsSelectedExceptSelectAll()) {
-                this.selectAllComboboxItemReferenceEl.indeterminate = false;
-                this.selectAllComboboxItemReferenceEl.selected = true;
-              }
             }
+            this.updateSelectAllState();
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1102,7 +1090,6 @@ export class Combobox
           this.showChip(chipEl);
         }
       });
-      // todo: recover value of select all and hide chip generated for it
     }
 
     if (selectionDisplay === "fit") {
@@ -1513,6 +1500,28 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
+  private updateSelectAllState(): boolean {
+    if (!this.selectAllComboboxItemReferenceEl) {
+      return;
+    }
+
+    const allItems = this.getAllItemsExceptSelectAll();
+    const selectedItems = this.getSelectedItems().filter(
+      (item) => item !== this.selectAllComboboxItemReferenceEl,
+    );
+
+    if (selectedItems.length === 0) {
+      this.selectAllComboboxItemReferenceEl.indeterminate = false;
+      return (this.selectAllComboboxItemReferenceEl.selected = false);
+    } else if (selectedItems.length === allItems.length) {
+      this.selectAllComboboxItemReferenceEl.indeterminate = false;
+      return (this.selectAllComboboxItemReferenceEl.selected = true);
+    } else {
+      this.selectAllComboboxItemReferenceEl.indeterminate = true;
+      return (this.selectAllComboboxItemReferenceEl.selected = false);
+    }
+  }
+
   // #endregion
 
   // #region Rendering
@@ -1811,6 +1820,7 @@ export class Combobox
                   id={`${this.guid}-select-all-enabled`}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   role="option"
+                  selected={this.updateSelectAllState()}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
                   value="Select All"

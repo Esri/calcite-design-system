@@ -3113,11 +3113,39 @@ describe("calcite-combobox", () => {
       });
     });
 
-    it.only("should toggle indeterminate state to All Selected when list items are toggled with a keydownEnter", async () => {
+    it("should toggle indeterminate state to All Selected when list items are toggled with a keydownEnter", async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       await testToggleAllItems(page, async ([_listItem, combobox]) => {
         await combobox.press("Enter");
       });
+    });
+
+    it("should have indeterminate state when some items are initialized selected", async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
+          <calcite-combobox-item value="Trees" text-label="Trees" selected>
+            <calcite-combobox-item value="Pine" text-label="Pine" />
+          </calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      expect(await selectAll.getProperty("indeterminate")).toBe(true);
+    });
+
+    it("should have selectAll state true when all items are initialized selected", async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
+          <calcite-combobox-item value="Trees" text-label="Trees" selected>
+            <calcite-combobox-item value="Pine" text-label="Pine" selected />
+          </calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      await page.waitForChanges();
+      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      expect(await selectAll.getProperty("selected")).toBe(true);
     });
   });
 
