@@ -558,6 +558,7 @@ export async function findAll(
  * This util helps assert on a component's state at the time of an event firing.
  *
  * This is needed due to how Puppeteer works asynchronously, so the state at event emit-time might not be the same as the state at the time of the assertion.
+ * When specified, the `eventListenerTarget` will be used to listen for the event instead of the component itself.
  *
  * Note: values returned can only be serializable values.
  *
@@ -595,6 +596,7 @@ export async function findAll(
  * @param propValuesTarget.selector
  * @param propValuesTarget.eventName
  * @param propValuesTarget.props
+ * @param propValuesTarget.eventListenerTarget
  * @param onEvent
  */
 export async function createEventTimePropValuesAsserter<
@@ -606,18 +608,21 @@ export async function createEventTimePropValuesAsserter<
 >(
   page: E2EPage,
   propValuesTarget: {
-    selector: ComponentTag;
+    selector: ComponentTag | string;
     eventName: Events;
     props: Keys[];
+    eventListenerTarget?: string;
   },
   onEvent: (propValues: PropValues) => Promise<void>,
 ): Promise<() => Promise<void>> {
   // we set this up early to we capture state as soon as the event fires
+  const { selector, eventName, props, eventListenerTarget } = propValuesTarget;
   const callbackAfterEvent = page.$eval(
-    propValuesTarget.selector,
-    (element: El, eventName, props) => {
+    selector,
+    (element: El, eventName, props, eventListenerTarget) => {
+      const targetEl = eventListenerTarget ? document.querySelector(eventListenerTarget) : element;
       return new Promise<PropValues>((resolve) => {
-        element.addEventListener(
+        targetEl.addEventListener(
           eventName,
           () => {
             const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
@@ -627,8 +632,9 @@ export async function createEventTimePropValuesAsserter<
         );
       });
     },
-    propValuesTarget.eventName,
-    propValuesTarget.props,
+    eventName,
+    props,
+    eventListenerTarget,
   );
 
   return () => callbackAfterEvent.then(onEvent);

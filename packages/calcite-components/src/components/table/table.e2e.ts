@@ -3,7 +3,11 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
+import {
+  createEventTimePropValuesAsserter,
+  createSelectedItemsAsserter,
+  getFocusedElementProp,
+} from "../../tests/utils";
 import { CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
@@ -2762,30 +2766,46 @@ describe("keyboard navigation", () => {
 
     const row1 = await page.find("calcite-table-row");
     expect(await row1.getProperty("selected")).toBe(false);
-    type TestWindow = typeof window & { selectedValue: boolean };
-
-    await page.evaluate(() => {
-      document.querySelector("calcite-table").addEventListener("calciteTableRowSelect", (event) => {
-        (window as TestWindow).selectedValue = (event.target as TableRow["el"]).selected;
-      });
-    });
-
-    await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell.click();
-    });
-
-    await page.waitForChanges();
-    expect(await page.evaluate(() => (window as TestWindow).selectedValue)).toBe(true);
+    const propValueAsserter = await createEventTimePropValuesAsserter<TableRow>(
+      page,
+      {
+        eventListenerTarget: "calcite-table",
+        selector: 'calcite-table-row[id="row-1"]',
+        eventName: "calciteTableRowSelect",
+        props: ["selected"],
+      },
+      async (propValues) => {
+        expect(propValues["selected"]).toBe(true);
+      },
+    );
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
       const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
       cell.click();
     });
-
     await page.waitForChanges();
-    expect(await page.evaluate(() => (window as TestWindow).selectedValue)).toBe(false);
+    await expect(propValueAsserter()).resolves.toBe(undefined);
+
+    const propValueAsserter2 = await createEventTimePropValuesAsserter<TableRow>(
+      page,
+      {
+        eventListenerTarget: "calcite-table",
+        selector: 'calcite-table-row[id="row-1"]',
+        eventName: "calciteTableRowSelect",
+        props: ["selected"],
+      },
+      async (propValues) => {
+        expect(propValues["selected"]).toBe(false);
+      },
+    );
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
+      cell.click();
+    });
+    await page.waitForChanges();
+    await expect(propValueAsserter2()).resolves.toBe(undefined);
   });
 });
