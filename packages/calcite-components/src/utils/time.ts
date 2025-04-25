@@ -246,12 +246,13 @@ export function getMeridiem(hour: string): Meridiem {
 }
 
 export function getMeridiemOrder(locale: SupportedLocale): number {
-  const timeParts = getTimeParts({
+  const formatter = new Intl.DateTimeFormat(locale, {
+    hour: "2-digit",
     hour12: true,
-    value: "00:00:00",
-    locale,
-    numberingSystem: "latn",
+    minute: "2-digit",
+    timeZone: "UTC",
   });
+  const timeParts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0)));
   return timeParts.findIndex((value) => value.type === "dayPeriod");
 }
 
@@ -423,7 +424,7 @@ export function localizeTimeString({
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
       localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedMeridiem(locale, parseInt(hour) > 11 ? "PM" : "AM", numberingSystem),
+      localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
   } else {
     let result = formatter.format(dateFromTimeString) || null;
@@ -492,34 +493,8 @@ export function localizeTimeStringToParts({
       localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
       localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
       localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedMeridiem(locale, parseInt(hour) > 11 ? "PM" : "AM", numberingSystem),
+      localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
-  }
-  return null;
-}
-
-interface GetTimePartsParameters {
-  hour12?: boolean;
-  value: string;
-  locale: SupportedLocale;
-  numberingSystem: NumberingSystem;
-}
-
-export function getTimeParts({
-  hour12,
-  value,
-  locale,
-  numberingSystem,
-}: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
-  if (!isValidTime(value)) {
-    return null;
-  }
-  const { hour, minute, second = "0" } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
-    const parts = formatter.formatToParts(dateFromTimeString);
-    return parts;
   }
   return null;
 }

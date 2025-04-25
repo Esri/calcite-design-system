@@ -282,7 +282,7 @@ describe("localizeTimeString", () => {
       localizedDecimalSeparator: ",",
       localizedFractionalSecond: "121",
       localizedSecondSuffix: null,
-      localizedMeridiem: "AM",
+      localizedMeridiem: null,
     });
 
     expect(localizeTimeString({ parts: true, value: "06:45:30", locale: "fr" })).toEqual({
@@ -294,7 +294,7 @@ describe("localizeTimeString", () => {
       localizedDecimalSeparator: ",",
       localizedFractionalSecond: null,
       localizedSecondSuffix: null,
-      localizedMeridiem: "AM",
+      localizedMeridiem: null,
     });
 
     expect(
@@ -308,7 +308,7 @@ describe("localizeTimeString", () => {
       localizedDecimalSeparator: ",",
       localizedFractionalSecond: "121",
       localizedSecondSuffix: null,
-      localizedMeridiem: "AM",
+      localizedMeridiem: null,
     });
   });
 
