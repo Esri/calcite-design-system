@@ -300,7 +300,7 @@ export function isValidTime(value: string | Time): boolean {
   } else {
     hour = value.hour;
     minute = value.minute;
-    second = value && value.second;
+    second = value.second;
   }
   if (!hour || !minute) {
     return false;
@@ -314,6 +314,7 @@ export function isValidTime(value: string | Time): boolean {
   if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
     return true;
   }
+  return false;
 }
 
 function isValidTimePart(value: string, part: TimePart): boolean {

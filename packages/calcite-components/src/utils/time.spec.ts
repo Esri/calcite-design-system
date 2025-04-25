@@ -380,6 +380,17 @@ describe("isValidTime", () => {
     expect(isValidTime("12:30:45.12345678")).toBe(true);
     expect(isValidTime("12:30:45.123456789")).toBe(true);
   });
+  it("returns true when hour and minute are valid but seconds are omitted", () => {
+    expect(isValidTime("12:30")).toBe(true);
+    expect(isValidTime("18:40")).toBe(true);
+  });
+  it("returns false when time string doesn't contain in-range values with at least hour and minute", () => {
+    expect(isValidTime("12")).toBe(false);
+    expect(isValidTime("55")).toBe(false);
+    expect(isValidTime("34:30")).toBe(false);
+    expect(isValidTime("3:455")).toBe(false);
+    expect(isValidTime("3:44:333")).toBe(false);
+  });
 });
 
 describe("localizeTimeString", () => {
