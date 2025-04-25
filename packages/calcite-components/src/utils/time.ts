@@ -35,10 +35,10 @@ export type Meridiem = "AM" | "PM";
 export type MinuteOrSecond = "minute" | "second";
 
 export interface Time {
-  fractionalSecond: string;
+  fractionalSecond?: string;
   hour: string;
   minute: string;
-  second: string;
+  second?: string;
 }
 
 export type TimePart =
@@ -295,9 +295,7 @@ export function isValidTime(value: string | Time): boolean {
   if (typeof value === "string") {
     [hour, minute, second] = value.split(":");
   } else {
-    hour = value.hour;
-    minute = value.minute;
-    second = value.second;
+    ({ hour, minute, second } = value);
   }
   if (!hour || !minute) {
     return false;

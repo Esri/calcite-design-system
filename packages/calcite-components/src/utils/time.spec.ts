@@ -391,6 +391,36 @@ describe("isValidTime", () => {
     expect(isValidTime("3:455")).toBe(false);
     expect(isValidTime("3:44:333")).toBe(false);
   });
+  it("returns true when time object contains fractional seconds", () => {
+    expect(
+      isValidTime({
+        fractionalSecond: "123",
+        hour: "12",
+        minute: "30",
+        second: "45",
+      }),
+    ).toBe(true);
+    expect(
+      isValidTime({
+        fractionalSecond: "0",
+        hour: "12",
+        minute: "30",
+        second: "45",
+      }),
+    ).toBe(true);
+  });
+  it("returns true when hour and minute are valid but seconds are omitted in time object", () => {
+    expect(
+      isValidTime({
+        hour: "12",
+        minute: "30",
+      }),
+    ).toBe(true);
+  });
+  it("returns false when time object doesn't contain in-range values with at least hour and minute", () => {
+    expect(isValidTime({ hour: "6", minute: "350" })).toBe(false);
+    expect(isValidTime({ hour: "55", minute: "30" })).toBe(false);
+  });
 });
 
 describe("localizeTimeString", () => {
