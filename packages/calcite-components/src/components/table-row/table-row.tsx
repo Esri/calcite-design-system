@@ -9,7 +9,7 @@ import {
   RowType,
   TableInteractionMode,
   TableRowFocusEvent,
-  TableRowSelectEvent,
+  InternalTableRowSelectEvent,
 } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -119,7 +119,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
   /** @private */
-  calciteInternalTableRowSelect = createEvent<TableRowSelectEvent>({ cancelable: false });
+  calciteInternalTableRowSelect = createEvent<InternalTableRowSelectEvent>({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
   calciteTableRowSelect = createEvent({ cancelable: false });
