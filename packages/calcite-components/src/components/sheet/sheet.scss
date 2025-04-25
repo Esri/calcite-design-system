@@ -266,7 +266,7 @@
   --calcite-internal-sheet-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
-  z-index: var(--calcite-z-index-overlay);
+  z-index: var(--calcite-z-index-header);
 }
 
 .resize-handle:active,
