@@ -557,11 +557,13 @@ describe("toISOTimeString", () => {
       expect(toISOTimeString("1:2:3.4", 1)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.45", 1)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.456", 1)).toBe("01:02:03");
+
       expect(toISOTimeString("1:2", 10)).toBe("01:02:00");
       expect(toISOTimeString("1:2:3", 10)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.4", 10)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.45", 10)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.456", 10)).toBe("01:02:03");
+
       expect(toISOTimeString("1:2", 59)).toBe("01:02:00");
       expect(toISOTimeString("1:2:3", 59)).toBe("01:02:03");
       expect(toISOTimeString("1:2:3.4", 59)).toBe("01:02:03");
@@ -595,6 +597,7 @@ describe("toISOTimeString", () => {
       expect(toISOTimeString("01:02:03.4", 0.1)).toBe("01:02:03.4");
       expect(toISOTimeString("01:02:03.45", 0.1)).toBe("01:02:03.5");
       expect(toISOTimeString("01:02:03.456", 0.1)).toBe("01:02:03.5");
+
       expect(toISOTimeString("1:2", 0.01)).toBe("01:02:00.00");
       expect(toISOTimeString("1:2:3", 0.01)).toBe("01:02:03.00");
       expect(toISOTimeString("1:2:3.4", 0.01)).toBe("01:02:03.40");
@@ -611,6 +614,7 @@ describe("toISOTimeString", () => {
       expect(toISOTimeString("1:2:03", 0.01)).toBe("01:02:03.00");
       expect(toISOTimeString("1:2:03.4", 0.01)).toBe("01:02:03.40");
       expect(toISOTimeString("1:2:03.04", 0.01)).toBe("01:02:03.04");
+
       expect(toISOTimeString("1:2", 0.001)).toBe("01:02:00.000");
       expect(toISOTimeString("1:2:3", 0.001)).toBe("01:02:03.000");
       expect(toISOTimeString("1:2:3.4", 0.001)).toBe("01:02:03.400");
@@ -638,18 +642,22 @@ describe("toISOTimeString", () => {
       expect(toISOTimeString(":2")).toBeNull();
       expect(toISOTimeString("1:2:90")).toBeNull();
       expect(toISOTimeString("25:34")).toBeNull();
+
       expect(toISOTimeString("1", 1)).toBeNull();
       expect(toISOTimeString(":2", 1)).toBeNull();
       expect(toISOTimeString("1:2:90", 1)).toBeNull();
       expect(toISOTimeString("25:34", 1)).toBeNull();
+
       expect(toISOTimeString("1", 0.1)).toBeNull();
       expect(toISOTimeString(":2", 0.1)).toBeNull();
       expect(toISOTimeString("1:2:90", 0.1)).toBeNull();
       expect(toISOTimeString("25:34", 0.1)).toBeNull();
+
       expect(toISOTimeString("1", 0.01)).toBeNull();
       expect(toISOTimeString(":2", 0.01)).toBeNull();
       expect(toISOTimeString("1:2:90", 0.01)).toBeNull();
       expect(toISOTimeString("25:34", 0.01)).toBeNull();
+
       expect(toISOTimeString("1", 0.001)).toBeNull();
       expect(toISOTimeString(":2", 0.001)).toBeNull();
       expect(toISOTimeString("1:2:90", 0.001)).toBeNull();
