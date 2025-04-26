@@ -164,6 +164,7 @@ export class Table extends LitElement {
 
   constructor() {
     super();
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
     this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
@@ -203,18 +204,19 @@ export class Table extends LitElement {
     this.updateRows();
   }
 
+  private calciteTableRowSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.setSelectedItems(event.target as TableRow["el"]);
+    }
+    event.stopPropagation();
+  }
+
   private calciteInternalTableRowSelectListener(event: CustomEvent): void {
     if (!event.composedPath().includes(this.el)) {
       return;
     }
 
-    const { detail, target } = event;
-
-    if (detail.userTriggered) {
-      this.setSelectedItems(target as TableRow["el"]);
-    } else {
-      this.updateSelectedItems(false);
-    }
+    this.updateSelectedItems(false);
     event.stopPropagation();
   }
 
@@ -370,8 +372,7 @@ export class Table extends LitElement {
       if (elToMatch?.rowType === "head") {
         el.selected = this.selectedCount !== this.bodyRows?.length;
       } else {
-        el.selected =
-          elToMatch === el ? !el.selected : this.selectionMode === "multiple" ? el.selected : false;
+        el.selected = this.selectionMode === "multiple" || elToMatch === el ? el.selected : false;
       }
     });
     this.updateSelectedItems(true);

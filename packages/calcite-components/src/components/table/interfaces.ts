@@ -7,10 +7,6 @@ export interface TableRowFocusEvent {
   lastCell: boolean;
 }
 
-export interface InternalTableRowSelectEvent {
-  userTriggered: boolean;
-}
-
 export type RowType = "head" | "body" | "foot";
 
 export type TableLayout = "auto" | "fixed";

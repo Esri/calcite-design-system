@@ -5,12 +5,7 @@ import { createRef } from "lit-html/directives/ref.js";
 import { render } from "lit-html";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import {
-  RowType,
-  TableInteractionMode,
-  TableRowFocusEvent,
-  InternalTableRowSelectEvent,
-} from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
   InteractiveComponent,
@@ -48,6 +43,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
   private tableRowSlotEl = createRef<HTMLSlotElement>();
 
   private userTriggered = false;
+
+  private _selected = false;
 
   // #endregion
 
@@ -100,7 +97,18 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property() scale: Scale;
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      this.handleCellChanges();
+    }
+  }
 
   /** @private */
   @property() selectedRowCount: number;
@@ -119,7 +127,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
   /** @private */
-  calciteInternalTableRowSelect = createEvent<InternalTableRowSelectEvent>({ cancelable: false });
+  calciteInternalTableRowSelect = createEvent({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
   calciteTableRowSelect = createEvent({ cancelable: false });
@@ -149,7 +157,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("selectedRowCount") ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive"))
@@ -165,13 +172,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
     }
 
     if (changes.has("selected")) {
-      if (this.userTriggered) {
-        this.calciteTableRowSelect.emit();
-        this.userTriggered = false;
-      } else {
-        this.calciteInternalTableRowSelect.emit({
-          userTriggered: this.userTriggered,
-        });
+      if (!this.userTriggered) {
+        this.calciteInternalTableRowSelect.emit();
       }
     }
   }
@@ -344,7 +346,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
   private handleSelectionOfRow = (): void => {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
       this.userTriggered = true;
-      this.calciteInternalTableRowSelect.emit({ userTriggered: this.userTriggered });
+      this.selected = !this.selected;
+      this.calciteTableRowSelect.emit();
     }
   };
 
