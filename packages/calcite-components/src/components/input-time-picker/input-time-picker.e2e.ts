@@ -98,7 +98,7 @@ describe("calcite-input-time-picker", () => {
     labelable("calcite-input-time-picker");
   });
 
-  describe("focusing", () => {
+  describe("focusable", () => {
     describe("should focus the first focusable element when setFocus is called (ltr)", () => {
       focusable(`calcite-input-time-picker`, {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
