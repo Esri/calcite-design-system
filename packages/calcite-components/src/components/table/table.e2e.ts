@@ -2779,10 +2779,8 @@ describe("keyboard navigation", () => {
       },
     );
 
-    await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell.click();
+    await page.$eval("calcite-table-row[id='row-1'] >>> calcite-table-cell:first-child ", (el: TableCell["el"]) => {
+      el.click();
     });
     await page.waitForChanges();
     await expect(propValueAsserter()).resolves.toBe(undefined);
@@ -2800,10 +2798,8 @@ describe("keyboard navigation", () => {
       },
     );
 
-    await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell.click();
+    await page.$eval("calcite-table-row[id='row-1'] >>> calcite-table-cell:first-child ", (el: TableCell["el"]) => {
+      el.click();
     });
     await page.waitForChanges();
     await expect(propValueAsserter2()).resolves.toBe(undefined);
