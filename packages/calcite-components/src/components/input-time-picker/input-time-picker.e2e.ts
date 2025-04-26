@@ -267,7 +267,7 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("direct value setting", () => {
-    it("directly changing the value reflects in the input for 24-hour (french lang)", async () => {
+    it("directly changing the value updates the displayed value for 24-hour (french lang)", async () => {
       const locale = "fr";
       const numberingSystem = "latn";
 
@@ -796,7 +796,7 @@ describe("calcite-input-time-picker", () => {
           );
         });
 
-        it("directly changing the value reflects in the input and does not emit a change event", async () => {
+        it("directly changing the value updates the displayed value and does not emit a change event", async () => {
           const numberingSystem = "latn";
 
           const page = await newE2EPage();
