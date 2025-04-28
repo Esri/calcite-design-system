@@ -57,7 +57,7 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, TimeComponent> implements TimeProperties {
+export class TimeController extends GenericController<TimeProperties, TimeComponent> {
   fractionalSecond: string;
   hour: string;
   hourFormat: EffectiveHourFormat;
