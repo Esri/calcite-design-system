@@ -807,7 +807,6 @@ describe("calcite-input-time-picker", () => {
             const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
 
             inputTimePicker.setProperty("value", expectedValue);
-
             await page.waitForChanges();
 
             const inputValue = await getInputValue(page, locale);
