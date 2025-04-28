@@ -1794,10 +1794,9 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
-          ariaLabel={this.messages.selectAll}
           class={CSS.selectAll}
           id={`${this.guid}-select-all-enabled`}
-          role="option"
+          label={this.messages.selectAll}
           tabIndex="-1"
           text-label={this.messages.selectAll}
           value="select-all"
@@ -1835,11 +1834,10 @@ export class Combobox
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
-                  ariaLabel={this.messages.selectAll}
                   class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled`}
+                  label={this.messages.selectAll}
                   ref={this.setSelectAllComboboxItemReferenceEl}
-                  role="option"
                   selected={this.updateAndGetSelectAllState()}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
