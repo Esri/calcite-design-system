@@ -230,7 +230,7 @@ export class InputTimePicker
   // #region Public Methods
 
   /**
-   * Emits a change event.
+   * Emits a change event and resets to previous value if the event's default behavior is prevented.
    * Called by the Time Controller when the value is modified by the user.
    * @private
    */
