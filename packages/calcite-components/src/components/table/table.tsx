@@ -347,7 +347,8 @@ export class Table extends LitElement {
     });
   }
 
-  private updateSelectedItems(emit?: boolean): void {
+  private async updateSelectedItems(emit?: boolean): Promise<void> {
+    await this.updateComplete;
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;

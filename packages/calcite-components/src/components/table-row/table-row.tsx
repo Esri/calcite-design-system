@@ -171,10 +171,12 @@ export class TableRow extends LitElement implements InteractiveComponent {
       this.handleDelayedCellChanges();
     }
 
-    if (changes.has("selected")) {
-      if (!this.userTriggered) {
-        this.calciteInternalTableRowSelect.emit();
-      }
+    if (
+      changes.has("selected") &&
+      (this.hasUpdated || this.selected !== false) &&
+      !this.userTriggered
+    ) {
+      this.calciteInternalTableRowSelect.emit();
     }
   }
 
@@ -343,13 +345,19 @@ export class TableRow extends LitElement implements InteractiveComponent {
     this.cellCount = cells?.length;
   }
 
-  private handleSelectionOfRow = (): void => {
+  private clickHandler = (): void => {
+    this.handleSelectionOfRow();
+  };
+
+  private async handleSelectionOfRow(): Promise<void> {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
       this.userTriggered = true;
       this.selected = !this.selected;
+      console.log("selected", this.selected);
+      await this.updateComplete;
       this.calciteTableRowSelect.emit();
     }
-  };
+  }
 
   private handleKeyboardSelection = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
@@ -383,7 +391,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         alignment="center"
         bodyRowCount={this.bodyRowCount}
         key="selection-head"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         selectedRowCount={this.selectedRowCount}
@@ -395,7 +403,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       <calcite-table-cell
         alignment="center"
         key="selection-body"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
