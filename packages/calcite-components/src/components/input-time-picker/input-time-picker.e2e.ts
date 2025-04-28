@@ -417,6 +417,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page)).toBe("02:30 PM");
       expect(changeEvent).toHaveReceivedEventTimes(0);
     });
+
     it("lang and numberingSystem", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
@@ -455,6 +456,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page, "zh-HK")).toBe("下午02:30:25");
       expect(changeEvent).toHaveReceivedEventTimes(0);
     });
+
     it("step", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
