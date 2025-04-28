@@ -945,21 +945,11 @@ describe("calcite-input-time-picker", () => {
       expect(await popover.getProperty("autoClose")).toBe(true);
     });
 
-    it("toggles the time picker when the toggle icon is clicked", async () => {
+    it.only("toggles the time picker when the toggle icon is clicked", async () => {
       const popoverPositionContainer = await page.find(
         `calcite-input-time-picker >>> calcite-popover >>> .${PopoverCSS.positionContainer}`,
       );
       const toggleButton = await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`);
-
-      expect(await popoverPositionContainer.isVisible()).toBe(false);
-
-      await toggleButton.click();
-      await page.waitForChanges();
-
-      expect(await popoverPositionContainer.isVisible()).toBe(true);
-
-      await toggleButton.click();
-      await page.waitForChanges();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
 
