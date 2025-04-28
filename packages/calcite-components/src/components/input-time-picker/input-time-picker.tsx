@@ -375,6 +375,7 @@ export class InputTimePicker
 
   private keyDownHandler(event: KeyboardEvent): void {
     const { defaultPrevented, key } = event;
+    const { hourFormat, meridiemOrder } = this.time;
 
     if (defaultPrevented) {
       return;
@@ -398,11 +399,7 @@ export class InputTimePicker
         case this.hourEl:
           if (key === "ArrowRight") {
             this.setFocus("minute");
-          } else if (
-            key === "ArrowLeft" &&
-            this.time.hourFormat === "12" &&
-            this.time.meridiemOrder === 0
-          ) {
+          } else if (key === "ArrowLeft" && hourFormat === "12" && meridiemOrder === 0) {
             this.setFocus("meridiem");
           }
           break;
@@ -414,7 +411,7 @@ export class InputTimePicker
             case "ArrowRight":
               if (this.step !== 60) {
                 this.setFocus("second");
-              } else if (this.time.hourFormat === "12") {
+              } else if (hourFormat === "12") {
                 this.setFocus("meridiem");
               }
               break;
@@ -428,7 +425,7 @@ export class InputTimePicker
             case "ArrowRight":
               if (decimalPlaces(this.step) > 0) {
                 this.setFocus("fractionalSecond");
-              } else if (this.time.hourFormat === "12") {
+              } else if (hourFormat === "12") {
                 this.setFocus("meridiem");
               }
               break;
@@ -440,14 +437,14 @@ export class InputTimePicker
               this.setFocus("second");
               break;
             case "ArrowRight":
-              if (this.time.hourFormat === "12" && this.time.meridiemOrder !== 0) {
+              if (hourFormat === "12" && meridiemOrder !== 0) {
                 this.setFocus("meridiem");
               }
               break;
           }
           break;
         case this.meridiemEl:
-          if (key === "ArrowLeft" && this.time.meridiemOrder !== 0) {
+          if (key === "ArrowLeft" && meridiemOrder !== 0) {
             if (showFractionalSecond) {
               this.setFocus("fractionalSecond");
             } else if (showSecond) {
@@ -455,7 +452,7 @@ export class InputTimePicker
             } else {
               this.setFocus("minute");
             }
-          } else if (key === "ArrowRight" && this.time.meridiemOrder === 0) {
+          } else if (key === "ArrowRight" && meridiemOrder === 0) {
             this.setFocus("hour");
           }
           break;
