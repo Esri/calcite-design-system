@@ -29,31 +29,115 @@ import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
 export interface TimeComponent extends LitElement {
+  /**
+   * Method on the component to call when the value changes.
+   */
   handleChangeEvent: (previousValue: string) => void;
+  /**
+   * Specifies the component's hour format, where:
+   *
+   * `"user"` displays the user's locale format,
+   * `"12"` displays a 12-hour format, and
+   * `"24"` displays a 24-hour format.
+   *
+   * @default "user"
+   */
   hourFormat: HourFormat;
+  /**
+   * Translated messages and locale information
+   *
+   * @internal
+   */
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
   numberingSystem: NumberingSystem;
+  /**
+   * Specifies the granularity the component's `value` must adhere to (in seconds).
+   */
   step: number;
+  /**
+   * The component's time value in ISO (24-hour) format.
+   */
   value: string;
 }
 
 type TimeProperties = {
+  /**
+   * The fractional second portion of the time value.
+   */
   fractionalSecond: string;
+  /**
+   * The hour portion of the time value (in ISO 24-hour format).
+   */
   hour: string;
+  /**
+   * The effective hour format, calculated based on the component's hour-format property.
+   * The component's hour-format of "user" will resolve to the locale's default hour format.
+   *
+   * `"12"` displays a 12-hour format, and
+   * `"24"` displays a 24-hour format.
+   */
   hourFormat: EffectiveHourFormat;
+  /**
+   * The language and region code to localize the time value.
+   */
   locale: SupportedLocale;
+  /**
+   * The decimal separator used by the locale.
+   */
   localizedDecimalSeparator: string;
+  /**
+   * The decimal separator used by the locale.
+   */
   localizedFractionalSecond: string;
+  /**
+   * The localized fractional second portion of the time value.
+   */
   localizedHour: string;
+  /**
+   * The hour suffix used by the locale.
+   */
   localizedHourSuffix: string;
+  /**
+   * The localized meridiem portion of the time value, when hourFormat resolves to 12.
+   */
   localizedMeridiem: string;
+  /**
+   * The localized minute portion of the time value.
+   */
   localizedMinute: string;
+  /**
+   * The localized minute suffix used by the locale.
+   */
   localizedMinuteSuffix: string;
+  /**
+   * The localized second portion of the time value.
+   */
   localizedSecond: string;
+  /**
+   * The localized second suffix used by the locale.
+   */
   localizedSecondSuffix: string;
+  /**
+   * The effective meridiem of the time value, when hourFormat resolves to 12.
+   *
+   * `"AM"` for hours between 0 and 12
+   * `"PM"` for hours between 12 and 23
+   */
   meridiem: Meridiem;
+  /**
+   * An integer representing the order in which the meridiem appears for the locale within an array of values returned by Intl.DateTimeFormat.
+   */
   meridiemOrder: number;
+  /**
+   * The minute portion of the time value.
+   */
   minute: string;
+  /**
+   * The second portion of the time value.
+   */
   second: string;
 };
 
