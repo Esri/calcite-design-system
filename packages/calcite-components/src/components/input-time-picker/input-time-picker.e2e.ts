@@ -491,6 +491,11 @@ describe("calcite-input-time-picker", () => {
       const localeHourFormat = getLocaleHourFormat(locale);
       const meridiemOrder = getMeridiemOrder(locale);
       const step = 0.001;
+      const hour = CSS.hour;
+      const minute = CSS.minute;
+      const second = CSS.second;
+      const fractionalSecond = CSS.fractionalSecond;
+      const meridiem = CSS.meridiem;
 
       describe(`${locale} (${localeHourFormat}-hour)`, () => {
         it(`uses the locale's preferred setting when hour-format="user"`, async () => {
@@ -518,7 +523,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         describe("12-hour format", () => {
-          it("supports localized 12-hour format", async () => {
+          it("supports display and editing in localized 12-hour format", async () => {
             const initialValue = "00:00:00.000";
             const page = await newE2EPage();
             await page.setContent(html`
@@ -532,11 +537,11 @@ describe("calcite-input-time-picker", () => {
             `);
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
-            const hourInput = await page.find(`calcite-input-time-picker >>> .${CSS.hour}`);
-            const minuteInput = await page.find(`calcite-input-time-picker >>> .${CSS.minute}`);
-            const secondInput = await page.find(`calcite-input-time-picker >>> .${CSS.second}`);
-            const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`);
-            const meridiemInput = await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`);
+            const hourInput = await page.find(`calcite-input-time-picker >>> .${hour}`);
+            const minuteInput = await page.find(`calcite-input-time-picker >>> .${minute}`);
+            const secondInput = await page.find(`calcite-input-time-picker >>> .${second}`);
+            const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${fractionalSecond}`);
+            const meridiemInput = await page.find(`calcite-input-time-picker >>> .${meridiem}`);
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
             await page.waitForChanges();
@@ -645,35 +650,40 @@ describe("calcite-input-time-picker", () => {
               await page.keyboard.press("Tab");
               await page.waitForChanges();
 
-              expect(await isElementFocused(page, `.${CSS.meridiem}`, { shadowed: true })).toBe(true);
+              expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
             }
 
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
-            expect(await isElementFocused(page, `.${CSS.hour}`, { shadowed: true })).toBe(true);
+            expect(await isElementFocused(page, `.${hour}`, { shadowed: true })).toBe(true);
 
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
-            expect(await isElementFocused(page, `.${CSS.minute}`, { shadowed: true })).toBe(true);
+            expect(await isElementFocused(page, `.${minute}`, { shadowed: true })).toBe(true);
 
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
-            expect(await isElementFocused(page, `.${CSS.second}`, { shadowed: true })).toBe(true);
+            expect(await isElementFocused(page, `.${second}`, { shadowed: true })).toBe(true);
 
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
-            expect(await isElementFocused(page, `.${CSS.fractionalSecond}`, { shadowed: true })).toBe(true);
+            expect(await isElementFocused(page, `.${fractionalSecond}`, { shadowed: true })).toBe(true);
 
             if (meridiemOrder !== 0) {
               await page.keyboard.press("Tab");
               await page.waitForChanges();
 
-              expect(await isElementFocused(page, `.${CSS.meridiem}`, { shadowed: true })).toBe(true);
+              expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
             }
+
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `calcite-input-time-picker`)).toBe(false);
           });
 
           it("arrow keys focus each input in the correct sequence", async () => {
@@ -681,12 +691,6 @@ describe("calcite-input-time-picker", () => {
             await page.setContent(html`
               <calcite-input-time-picker hour-format="12" lang="${locale}" step="${step}"></calcite-input-time-picker>
             `);
-            const hour = CSS.hour;
-            const minute = CSS.minute;
-            const second = CSS.second;
-            const fractionalSecond = CSS.fractionalSecond;
-            const meridiem = CSS.meridiem;
-
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
@@ -721,107 +725,234 @@ describe("calcite-input-time-picker", () => {
             expect(
               await isElementFocused(page, `.${meridiemOrder === 0 ? fractionalSecond : meridiem}`, { shadowed: true }),
             ).toBe(true);
+
+            await page.keyboard.press("ArrowRight");
+            await page.waitForChanges();
+
+            expect(
+              await isElementFocused(page, `.${meridiemOrder === 0 ? fractionalSecond : meridiem}`, { shadowed: true }),
+            ).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(
+              await isElementFocused(page, `.${meridiemOrder === 0 ? second : fractionalSecond}`, { shadowed: true }),
+            ).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${meridiemOrder === 0 ? minute : second}`, { shadowed: true })).toBe(
+              true,
+            );
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${meridiemOrder === 0 ? hour : minute}`, { shadowed: true })).toBe(
+              true,
+            );
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${meridiemOrder === 0 ? meridiem : hour}`, { shadowed: true })).toBe(
+              true,
+            );
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${meridiemOrder === 0 ? meridiem : hour}`, { shadowed: true })).toBe(
+              true,
+            );
           });
         });
 
-        it("supports localized 24-hour format", async () => {
-          const initialValue = "00:00:00.000";
-          const page = await newE2EPage();
-          await page.setContent(html`
-            <calcite-input-time-picker
-              focus-trap-disabled
-              hour-format="24"
-              lang="${locale}"
-              step=".001"
-              value="${initialValue}"
-            ></calcite-input-time-picker>
-          `);
+        describe("24-hour format", () => {
+          it("supports display and editing in localized 24-hour format", async () => {
+            const initialValue = "00:00:00.000";
+            const page = await newE2EPage();
+            await page.setContent(html`
+              <calcite-input-time-picker
+                focus-trap-disabled
+                hour-format="24"
+                lang="${locale}"
+                step=".001"
+                value="${initialValue}"
+              ></calcite-input-time-picker>
+            `);
 
-          const inputTimePicker = await page.find("calcite-input-time-picker");
-          const hourInput = await page.find(`calcite-input-time-picker >>> .${CSS.hour}`);
-          const minuteInput = await page.find(`calcite-input-time-picker >>> .${CSS.minute}`);
-          const secondInput = await page.find(`calcite-input-time-picker >>> .${CSS.second}`);
-          const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`);
-          const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+            const inputTimePicker = await page.find("calcite-input-time-picker");
+            const hourInput = await page.find(`calcite-input-time-picker >>> .${hour}`);
+            const minuteInput = await page.find(`calcite-input-time-picker >>> .${minute}`);
+            const secondInput = await page.find(`calcite-input-time-picker >>> .${second}`);
+            const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${fractionalSecond}`);
+            const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
-          await page.waitForChanges();
-          expect(changeEvent).toHaveReceivedEventTimes(0);
+            await page.waitForChanges();
+            expect(changeEvent).toHaveReceivedEventTimes(0);
 
-          const initialDelocalizedValue = await inputTimePicker.getProperty("value");
-          const expectedLocalizedInitialValue = localizeTimeString({
-            hour12: false,
-            includeSeconds: true,
-            locale,
-            step,
-            value: initialDelocalizedValue,
+            const initialDelocalizedValue = await inputTimePicker.getProperty("value");
+            const expectedLocalizedInitialValue = localizeTimeString({
+              hour12: false,
+              includeSeconds: true,
+              locale,
+              step,
+              value: initialDelocalizedValue,
+            });
+
+            expect(initialDelocalizedValue).toBe(initialValue);
+            expect(await getInputValue(page, locale)).toBe(expectedLocalizedInitialValue);
+
+            await hourInput.click();
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:00:00.000",
+              }),
+            );
+
+            await minuteInput.click();
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(2);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:00.000",
+              }),
+            );
+
+            await secondInput.click();
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(3);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.000",
+              }),
+            );
+
+            await fractionalSecondInput.click();
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(4);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.999",
+              }),
+            );
           });
 
-          expect(initialDelocalizedValue).toBe(initialValue);
-          expect(await getInputValue(page, locale)).toBe(expectedLocalizedInitialValue);
+          it("tabbing focuses each input in the correct sequence", async () => {
+            const page = await newE2EPage();
+            await page.setContent(html`
+              <calcite-input-time-picker hour-format="24" lang="${locale}" step="${step}"></calcite-input-time-picker>
+            `);
 
-          await hourInput.click();
-          await page.keyboard.press("ArrowDown");
-          await page.waitForChanges();
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
 
-          expect(changeEvent).toHaveReceivedEventTimes(1);
-          expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
-          expect(await getInputValue(page, locale)).toBe(
-            localizeTimeString({
-              hour12: false,
-              includeSeconds: true,
-              locale,
-              step,
-              value: "23:00:00.000",
-            }),
-          );
+            expect(await isElementFocused(page, `.${hour}`, { shadowed: true })).toBe(true);
 
-          await minuteInput.click();
-          await page.keyboard.press("ArrowDown");
-          await page.waitForChanges();
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
 
-          expect(changeEvent).toHaveReceivedEventTimes(2);
-          expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
-          expect(await getInputValue(page, locale)).toBe(
-            localizeTimeString({
-              hour12: false,
-              includeSeconds: true,
-              locale,
-              step,
-              value: "23:59:00.000",
-            }),
-          );
+            expect(await isElementFocused(page, `.${minute}`, { shadowed: true })).toBe(true);
 
-          await secondInput.click();
-          await page.keyboard.press("ArrowDown");
-          await page.waitForChanges();
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
 
-          expect(changeEvent).toHaveReceivedEventTimes(3);
-          expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
-          expect(await getInputValue(page, locale)).toBe(
-            localizeTimeString({
-              hour12: false,
-              includeSeconds: true,
-              locale,
-              step,
-              value: "23:59:59.000",
-            }),
-          );
+            expect(await isElementFocused(page, `.${second}`, { shadowed: true })).toBe(true);
 
-          await fractionalSecondInput.click();
-          await page.keyboard.press("ArrowDown");
-          await page.waitForChanges();
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
 
-          expect(changeEvent).toHaveReceivedEventTimes(4);
-          expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
-          expect(await getInputValue(page, locale)).toBe(
-            localizeTimeString({
-              hour12: false,
-              includeSeconds: true,
-              locale,
-              step,
-              value: "23:59:59.999",
-            }),
-          );
+            expect(await isElementFocused(page, `.${fractionalSecond}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `calcite-input-time-picker`)).toBe(false);
+          });
+
+          it("arrow keys focus each input in the correct sequence", async () => {
+            const page = await newE2EPage();
+            await page.setContent(html`
+              <calcite-input-time-picker hour-format="24" lang="${locale}" step="${step}"></calcite-input-time-picker>
+            `);
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${hour}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowRight");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${minute}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowRight");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${second}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowRight");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${fractionalSecond}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowRight");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${fractionalSecond}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${second}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${minute}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${hour}`, { shadowed: true })).toBe(true);
+
+            await page.keyboard.press("ArrowLeft");
+            await page.waitForChanges();
+
+            expect(await isElementFocused(page, `.${hour}`, { shadowed: true })).toBe(true);
+          });
         });
 
         it("directly changing the value updates the displayed value and does not emit a change event", async () => {
