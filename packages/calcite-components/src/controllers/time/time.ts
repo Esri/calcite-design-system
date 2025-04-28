@@ -1,6 +1,7 @@
 import { PropertyValues } from "lit";
 import { GenericController, T9nMeta } from "@arcgis/components-controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
+import { LitElement } from "@arcgis/lumina";
 import {
   EffectiveHourFormat,
   formatTimePart,
@@ -27,15 +28,14 @@ import { capitalizeWord } from "../../utils/text";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
-export type TimeComponent = {
+export interface TimeComponent extends LitElement {
   handleChangeEvent: (previousValue: string) => void;
-  hasUpdated: boolean;
   hourFormat: HourFormat;
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   numberingSystem: NumberingSystem;
   step: number;
   value: string;
-};
+}
 
 type TimeProperties = {
   fractionalSecond: string;
