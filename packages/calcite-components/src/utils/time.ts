@@ -284,8 +284,7 @@ export function isValidTime(value: string | Time): boolean {
   if (
     !value ||
     (typeof value === "string" && (value.startsWith(":") || value.endsWith(":"))) ||
-    (typeof value !== "string" && !value.hour) ||
-    (typeof value !== "string" && !value.minute)
+    (typeof value !== "string" && (!value.hour || !value.minute))
   ) {
     return false;
   }
