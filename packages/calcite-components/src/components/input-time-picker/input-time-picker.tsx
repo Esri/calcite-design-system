@@ -223,7 +223,7 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  @property({ reflect: true }) value: string;
+  @property() value: string;
 
   // #endregion
 
