@@ -1518,7 +1518,7 @@ export class Combobox
 
   private updateAndGetSelectAllState(): boolean {
     if (!this.selectAllComboboxItemReferenceEl) {
-      return;
+      return false;
     }
 
     const allItems = this.getAllItemsExceptSelectAll();
