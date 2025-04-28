@@ -6,7 +6,6 @@ import {
   isValidTime,
   localizeTimeString,
   parseTimeString,
-  Time,
   toISOTimeString,
 } from "./time";
 
@@ -708,96 +707,70 @@ describe("toISOTimeString", () => {
 
   describe("passing in a Time object", () => {
     it("returns hh:mm value when step is 60 (default)", () => {
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time)).toBe("01:02");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time)).toBe("01:02");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time)).toBe("01:02");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time)).toBe("01:02");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time)).toBe("01:02");
+      expect(toISOTimeString({ hour: "1", minute: "2" })).toBe("01:02");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" })).toBe("01:02");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" })).toBe("01:02");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" })).toBe("01:02");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" })).toBe("01:02");
     });
 
     it("returns hh:mm:ss value when step is less than 60 and greater than 0", () => {
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 1)).toBe("01:02:00");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 1)).toBe("01:02:03");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 1)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 1)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 1)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 10)).toBe("01:02:00");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 10)).toBe("01:02:03");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 10)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 10)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 10)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 59)).toBe("01:02:00");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 59)).toBe("01:02:03");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 59)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 59)).toBe(
-        "01:02:03",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 59)).toBe(
-        "01:02:03",
-      );
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 1)).toBe("01:02:00");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 1)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 1)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 1)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 1)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 10)).toBe("01:02:00");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 10)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 10)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 10)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 10)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 59)).toBe("01:02:00");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 59)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 59)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 59)).toBe("01:02:03");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 59)).toBe("01:02:03");
     });
 
     it("returns hh:mm:ss.sss value when step is less than 1 (fractional second)", () => {
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 0.1)).toBe("01:02:00.0");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 0.1)).toBe("01:02:03.0");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 0.1)).toBe(
-        "01:02:03.4",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 0.1)).toBe(
-        "01:02:03.5",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 0.1)).toBe(
-        "01:02:03.5",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 0.01)).toBe("01:02:00.00");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 0.01)).toBe("01:02:03.00");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 0.01)).toBe(
-        "01:02:03.40",
-      );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 0.01)).toBe(
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 0.1)).toBe("01:02:00.0");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 0.1)).toBe("01:02:03.0");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 0.1)).toBe("01:02:03.4");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 0.1)).toBe("01:02:03.5");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 0.1)).toBe("01:02:03.5");
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 0.01)).toBe("01:02:00.00");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 0.01)).toBe("01:02:03.00");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 0.01)).toBe("01:02:03.40");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 0.01)).toBe(
         "01:02:03.45",
       );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 0.01)).toBe(
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 0.01)).toBe(
         "01:02:03.46",
       );
-      expect(toISOTimeString({ hour: "1", minute: "2" } as Time, 0.001)).toBe("01:02:00.000");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" } as Time, 0.001)).toBe("01:02:03.000");
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" } as Time, 0.001)).toBe(
+      expect(toISOTimeString({ hour: "1", minute: "2" }, 0.001)).toBe("01:02:00.000");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3" }, 0.001)).toBe("01:02:03.000");
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "4" }, 0.001)).toBe(
         "01:02:03.400",
       );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" } as Time, 0.001)).toBe(
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "45" }, 0.001)).toBe(
         "01:02:03.450",
       );
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" } as Time, 0.001)).toBe(
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "3", fractionalSecond: "456" }, 0.001)).toBe(
         "01:02:03.456",
       );
     });
 
     it("returns null value when hour or minute is missing or when any value is out of range", () => {
-      expect(toISOTimeString({ hour: "1" } as Time)).toBeNull();
-      expect(toISOTimeString({ minute: "2" } as Time)).toBeNull();
-      expect(toISOTimeString({ second: "3" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "25", minute: "34" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "12", minute: "61" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "50", minute: "70" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "26", minute: "2", second: "30" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "12", minute: "90", second: "30" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "1", minute: "2", second: "90" } as Time)).toBeNull();
-      expect(toISOTimeString({ hour: "51", minute: "200", second: "90" } as Time)).toBeNull();
+      expect(toISOTimeString({ hour: "1", minute: null })).toBeNull();
+      expect(toISOTimeString({ hour: null, minute: "2" })).toBeNull();
+      expect(toISOTimeString({ hour: null, minute: null, second: "3" })).toBeNull();
+      expect(toISOTimeString({ hour: "25", minute: "34" })).toBeNull();
+      expect(toISOTimeString({ hour: "12", minute: "61" })).toBeNull();
+      expect(toISOTimeString({ hour: "50", minute: "70" })).toBeNull();
+      expect(toISOTimeString({ hour: "26", minute: "2", second: "30" })).toBeNull();
+      expect(toISOTimeString({ hour: "12", minute: "90", second: "30" })).toBeNull();
+      expect(toISOTimeString({ hour: "1", minute: "2", second: "90" })).toBeNull();
+      expect(toISOTimeString({ hour: "51", minute: "200", second: "90" })).toBeNull();
     });
   });
 });
