@@ -3113,7 +3113,7 @@ describe("calcite-combobox", () => {
       });
     });
 
-    it("should toggle indeterminate state to All Selected when list items are toggled with a keydownEnter", async () => {
+    it("should toggle indeterminate state to All Selected when list items are toggled with a keydown `Enter`", async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       await testToggleAllItems(page, async ([_listItem, combobox]) => {
         await combobox.press("Enter");

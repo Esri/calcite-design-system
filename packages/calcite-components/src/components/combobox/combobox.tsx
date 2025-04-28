@@ -713,6 +713,18 @@ export class Combobox
         this.toggleSelectAll();
       }
       this.updateSelectAllState();
+
+      // TODO: Doesn't hide the last element
+      if (this.isAllSelected()) {
+        this.selectedItems.forEach((item) => {
+          const chipEl = this.referenceEl.querySelector<Chip["el"]>(
+            `#${chipUidPrefix}${item.guid}`,
+          );
+          if (chipEl) {
+            this.hideChip(chipEl);
+          }
+        });
+      }
     }
 
     const newIndex = this.filteredItems.indexOf(target);
@@ -895,6 +907,17 @@ export class Combobox
               this.toggleSelectAll();
             }
             this.updateSelectAllState();
+            // TODO: doesn't hide the last element
+            if (this.isAllSelected()) {
+              this.selectedItems.forEach((item) => {
+                const chipEl = this.referenceEl.querySelector<Chip["el"]>(
+                  `#${chipUidPrefix}${item.guid}`,
+                );
+                if (chipEl) {
+                  this.hideChip(chipEl);
+                }
+              });
+            }
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1529,7 +1552,11 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
 
-    return this.selectedItems.map((item, i) => {
+    const filteredSelectedItems = this.selectedItems.filter(
+      (item) => item !== this.selectAllComboboxItemReferenceEl,
+    );
+
+    return filteredSelectedItems.map((item, i) => {
       const chipClasses = {
         [CSS.chip]: true,
       };
@@ -1780,7 +1807,7 @@ export class Combobox
           role="option"
           tabIndex="-1"
           text-label={this.messages.selectAll}
-          value="Select All"
+          value="select-all"
         />
       );
 
@@ -1823,7 +1850,7 @@ export class Combobox
                   selected={this.updateSelectAllState()}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
-                  value="Select All"
+                  value="select-all"
                 />
               )}
             <slot />
