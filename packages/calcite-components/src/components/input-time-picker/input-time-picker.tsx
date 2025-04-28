@@ -234,7 +234,6 @@ export class InputTimePicker
    * Called by the Time Controller when the value is modified by the user.
    * @private
    */
-  @method()
   async handleChangeEvent(previousValue: string): Promise<void> {
     const changeEvent = this.calciteInputTimePickerChange.emit();
     if (changeEvent.defaultPrevented) {
