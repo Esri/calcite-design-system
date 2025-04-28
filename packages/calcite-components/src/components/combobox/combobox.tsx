@@ -712,7 +712,7 @@ export class Combobox
       if (isSelectAllTarget) {
         this.toggleSelectAll();
       }
-      this.updateSelectAllState();
+      this.updateAndGetSelectAllState();
 
       // TODO: Doesn't hide the last element
       if (this.isAllSelected()) {
@@ -903,10 +903,10 @@ export class Combobox
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
           if (this.selectAllEnabled) {
-            if (item.id === `${this.guid}-select-all-enabled`) {
+            if (item === this.selectAllComboboxItemReferenceEl) {
               this.toggleSelectAll();
             }
-            this.updateSelectAllState();
+            this.updateAndGetSelectAllState();
             // TODO: doesn't hide the last element
             if (this.isAllSelected()) {
               this.selectedItems.forEach((item) => {
@@ -1504,13 +1504,6 @@ export class Combobox
     return this.getItems().length === this.getSelectedItems().length;
   }
 
-  private isAllOptionsSelectedExceptSelectAll(): boolean {
-    const filteredSelectedItems = this.getSelectedItems().filter(
-      (item) => item !== this.selectAllComboboxItemReferenceEl,
-    );
-    return this.getAllItemsExceptSelectAll().length === filteredSelectedItems.length;
-  }
-
   private isMulti(): boolean {
     return !isSingleLike(this.selectionMode);
   }
@@ -1523,7 +1516,7 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
-  private updateSelectAllState(): boolean {
+  private updateAndGetSelectAllState(): boolean {
     if (!this.selectAllComboboxItemReferenceEl) {
       return;
     }
@@ -1847,7 +1840,7 @@ export class Combobox
                   id={`${this.guid}-select-all-enabled`}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   role="option"
-                  selected={this.updateSelectAllState()}
+                  selected={this.updateAndGetSelectAllState()}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
                   value="select-all"
