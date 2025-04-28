@@ -287,7 +287,7 @@ describe("calcite-action-menu", () => {
     expect(await tooltipPositionContainer.isVisible()).toBe(false);
   });
 
-  it.only("should stop propagation of popover events", async () => {
+  it("should stop propagation of popover events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
