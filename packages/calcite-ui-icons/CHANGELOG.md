@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.2...@esri/calcite-ui-icons@4.2.0-next.3) (2025-04-28)
+
+### Bug Fixes
+
+- mosaic method blend and mosaic method north west ([#12053](https://github.com/Esri/calcite-design-system/issues/12053)) ([f62320d](https://github.com/Esri/calcite-design-system/commit/f62320da718c6c4a8041048e1064bf838eed7042))
+
 ## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.2.0-next.1...@esri/calcite-ui-icons@4.2.0-next.2) (2025-04-21)
 
 ### Features
