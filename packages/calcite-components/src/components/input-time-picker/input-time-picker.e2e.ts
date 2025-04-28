@@ -15,12 +15,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import {
-  getFocusedElementProp,
-  isElementFocused,
-  skipAnimations,
-  waitForAnimationFrame,
-} from "../../tests/utils/puppeteer";
+import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
@@ -428,22 +423,18 @@ describe("calcite-input-time-picker", () => {
 
       inputTimePicker.setProperty("lang", "da");
       await page.waitForChanges();
-      // waiting for an additional animation frame here allows for mutation observers and other things outside of Stencil's knowledge to complete before the page is ready to test
-      await waitForAnimationFrame();
 
       expect(await getInputValue(page, "da")).toBe("14.30.25");
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       inputTimePicker.setProperty("lang", "ar");
       await page.waitForChanges();
-      await waitForAnimationFrame();
 
       expect(await getInputValue(page, "ar")).toBe("02:30:25 م");
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       inputTimePicker.setProperty("numberingSystem", "arab");
       await page.waitForChanges();
-      await waitForAnimationFrame();
 
       expect(await getInputValue(page, "ar")).toBe("٠٢:٣٠:٢٥ م");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -451,7 +442,6 @@ describe("calcite-input-time-picker", () => {
       inputTimePicker.setProperty("lang", "zh-HK");
       inputTimePicker.setProperty("numberingSystem", "latn");
       await page.waitForChanges();
-      await waitForAnimationFrame();
 
       expect(await getInputValue(page, "zh-HK")).toBe("下午02:30:25");
       expect(changeEvent).toHaveReceivedEventTimes(0);
