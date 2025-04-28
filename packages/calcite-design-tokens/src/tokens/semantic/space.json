@@ -5,34 +5,34 @@
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "space"
-          }
+          },
+          "description": "deprecated, use --calcite-spacing-xxs instead"
         },
         "xs": {
           "value": "{core.size.default.6}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "space"
-          }
+          },
+          "description": "deprecated, use --calcite-spacing-xs instead"
         },
         "sm": {
           "value": "{core.size.default.8}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "space"
-          }
+          },
+          "description": "deprecated, use --calcite-spacing-sm instead"
         },
         "md": {
           "value": "{core.size.default.12}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "space"
-          }
+          },
+          "description": "deprecated, use --calcite-spacing-md instead"
         },
         "lg": {
           "value": "{core.size.default.14}",
@@ -61,10 +61,10 @@
         "xxxl": {
           "value": "{core.size.default.32}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "space"
-          }
+          },
+          "description": "deprecated, use --calcite-spacing-xxxl instead"
         }
       },
       "default": {
