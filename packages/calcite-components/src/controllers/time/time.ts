@@ -27,7 +27,7 @@ import { capitalizeWord } from "../../utils/text";
 import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
-export type RequiredTimeComponentProperties = {
+export type TimeComponent = {
   handleChangeEvent: (previousValue: string) => void;
   hasUpdated: boolean;
   hourFormat: HourFormat;
@@ -57,10 +57,7 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController
-  extends GenericController<TimeProperties, RequiredTimeComponentProperties>
-  implements TimeProperties
-{
+export class TimeController extends GenericController<TimeProperties, TimeComponent> implements TimeProperties {
   fractionalSecond: string;
   hour: string;
   hourFormat: EffectiveHourFormat;

@@ -39,7 +39,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { RequiredTimeComponentProperties, TimeController } from "../../controllers/time/time";
+import { TimeComponent, TimeController } from "../../controllers/time/time";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -52,11 +52,7 @@ declare global {
 
 export class InputTimePicker
   extends LitElement
-  implements
-    FormComponent,
-    InteractiveComponent,
-    LabelableComponent,
-    RequiredTimeComponentProperties
+  implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
 {
   // #region Static Members
 
