@@ -118,9 +118,6 @@ export class InputTimePicker
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** When `true`, the clock icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl = false;
-
   /**
    * When the component resides in a form,
    * specifies the maximum value.
@@ -555,7 +552,7 @@ export class InputTimePicker
           ref={this.setContainerEl}
           role="combobox"
         >
-          <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
+          <calcite-icon class={CSS.clockIcon} icon="clock" scale="s" />
           <div class={CSS.inputContainer} dir="ltr">
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
