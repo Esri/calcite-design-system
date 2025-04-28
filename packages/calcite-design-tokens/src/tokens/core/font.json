@@ -117,7 +117,10 @@
         "light": {
           "value": "Light",
           "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "category": "font"
+          }
         },
         "regular": {
           "value": "Regular",
