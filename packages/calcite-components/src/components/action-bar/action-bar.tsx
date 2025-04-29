@@ -296,7 +296,7 @@ export class ActionBar extends LitElement {
   private handleDefaultSlotChange(): void {
     this.updateGroups();
     if (this.layout === "horizontal-fill") {
-      const actions = Array.from(this.el.querySelectorAll("calcite-action"));
+      const actions = queryActions(this.el);
       actions.forEach((a) => {
         a.alignment = "center";
         a.fullWidth = true;
