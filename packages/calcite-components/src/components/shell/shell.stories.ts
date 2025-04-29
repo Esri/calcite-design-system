@@ -2407,4 +2407,4 @@ export const panelsWithOverflowingContent = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-panelsWithOverflowingContent.parameters = { chromatic: { viewports: [1200, 400] } };
+panelsWithOverflowingContent.parameters = { chromatic: { viewport: { width: 1200, height: 400 } } };
