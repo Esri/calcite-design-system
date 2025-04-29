@@ -530,7 +530,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     }
     if (newValue !== previousValue) {
       this.userChangedValue = false;
-      this.component.value = newValue;
+      this.component.value = newValue ?? "";
     }
   }
 
@@ -567,7 +567,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
             }
             break;
           default:
-            this.component.value = null;
+            this.component.value = "";
             break;
         }
         this.localizedHour = localizeTimePart({
@@ -617,7 +617,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
       this.userChangedValue = true;
-      this.component.value = newValue;
+      this.component.value = newValue ?? "";
       if (key === "hour" && hourFormat === "12") {
         this.meridiem = getMeridiem(hour);
         this.localizedMeridiem = getLocalizedMeridiem({ locale, meridiem: this.meridiem });

@@ -119,7 +119,7 @@ describe("calcite-input-time-picker", () => {
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
-    expect(await inputTimePicker.getProperty("value")).toBeUndefined();
+    expect(await inputTimePicker.getProperty("value")).toBe("");
   });
 
   describe("openClose", () => {
