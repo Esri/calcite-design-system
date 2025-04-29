@@ -510,7 +510,7 @@ export class InputTimePicker
   // #region Rendering
 
   override render(): JsxNode {
-    const { messages, readOnly } = this;
+    const { messages, readOnly, scale } = this;
     const {
       fractionalSecond,
       handleHourKeyDownEvent,
@@ -552,7 +552,7 @@ export class InputTimePicker
           ref={this.setContainerEl}
           role="combobox"
         >
-          <calcite-icon class={CSS.clockIcon} icon="clock" scale="s" />
+          <calcite-icon class={CSS.clockIcon} icon="clock" scale={scale === "l" ? "m" : "s"} />
           <div class={CSS.inputContainer} dir="ltr">
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span

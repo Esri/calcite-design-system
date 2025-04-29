@@ -8,8 +8,8 @@
 @function get-trailing-text-input-padding($chevron-spacing) {
   @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
 }
-
 .container {
+  --calcite-icon-color: var(--calcite-color-text-3);
   align-items: center;
   background-color: var(--calcite-color-foreground-1);
   border: 1px solid var(--calcite-color-border-input);
@@ -19,7 +19,7 @@
   flex-wrap: nowrap;
   font-weight: var(--calcite-font-weight-normal);
   inline-size: 100%;
-  padding-block: var(--calcite-spacing-xxs);
+  padding-block: var(--calcite-spacing-base);
   user-select: none;
 
   &:focus-within {
@@ -29,6 +29,7 @@
 
   &.read-only {
     background-color: var(--calcite-color-background);
+    font-weight: var(--calcite-font-weight-medium);
   }
 }
 
@@ -55,7 +56,6 @@
 }
 
 .toggle-icon {
-  --calcite-icon-color: var(--calcite-color-text-3);
   cursor: pointer;
   &:hover {
     --calcite-icon-color: var(--calcite-color-text-1);
@@ -71,25 +71,37 @@
 
 :host([scale="s"]) {
   .container {
+    block-size: 1.5rem;
     font-size: var(--calcite-font-size--2);
     gap: var(--calcite-spacing-xs);
     padding-inline: var(--calcite-spacing-xs);
+  }
+  .input-container {
+    line-height: 1rem;
   }
 }
 
 :host([scale="m"]) {
   .container {
+    block-size: 2rem;
     font-size: var(--calcite-font-size--1);
     gap: var(--calcite-spacing-md);
     padding-inline: var(--calcite-spacing-md);
+  }
+  .input-container {
+    line-height: 1.5rem;
   }
 }
 
 :host([scale="l"]) {
   .container {
+    block-size: 2.75rem;
     font-size: var(--calcite-font-size-0);
     gap: var(--calcite-spacing-lg);
     padding-inline: var(--calcite-spacing-lg);
+  }
+  .input-container {
+    line-height: 2.25rem;
   }
 }
 
