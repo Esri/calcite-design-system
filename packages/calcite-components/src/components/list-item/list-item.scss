@@ -457,6 +457,12 @@
   display: none;
 }
 
+.container--drop-selected {
+  @apply border
+      border-dashed
+      border-color-brand;
+}
+
 ::slotted(calcite-list:empty) {
   @apply border-t-0;
 }

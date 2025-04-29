@@ -17,6 +17,7 @@ export const CSS = {
   contentContainerUnavailable: "content-container--unavailable",
   contentContainerWrapper: "content-container-wrapper",
   contentContainerWrapperBordered: "content-container-wrapper--bordered",
+  containerDropSelected: "container--drop-selected",
   contentEnd: "content-end",
   contentStart: "content-start",
   customContent: "custom-content",

@@ -1027,6 +1027,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
               [CSS.containerBorder]: showSelectionBorder,
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
+              [CSS.containerDropSelected]: this.dropSelected && expandable && !expanded,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
