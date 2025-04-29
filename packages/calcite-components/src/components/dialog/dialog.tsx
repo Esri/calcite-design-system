@@ -61,7 +61,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: () => !this.modal,
+      clickOutsideDeactivates: () => !this.modal || this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -346,6 +346,10 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
+    }
+
+    if (changes.has("embedded") && this.embedded) {
+      this.updateFocusTrapElements();
     }
   }
 

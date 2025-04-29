@@ -67,7 +67,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: false,
+      clickOutsideDeactivates: () => this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -321,6 +321,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
+    }
+
+    if (changes.has("embedded") && (this.hasUpdated || this.embedded)) {
+      this.updateFocusTrapElements();
     }
   }
 

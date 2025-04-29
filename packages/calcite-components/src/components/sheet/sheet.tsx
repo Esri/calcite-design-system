@@ -53,7 +53,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: false,
+      clickOutsideDeactivates: () => this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -291,6 +291,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
     ) {
       this.setupInteractions();
+    }
+
+    if (changes.has("embedded") && (this.hasUpdated || this.embedded)) {
+      this.updateFocusTrapElements();
     }
   }
 
