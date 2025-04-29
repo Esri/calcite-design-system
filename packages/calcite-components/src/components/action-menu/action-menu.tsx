@@ -446,14 +446,6 @@ export class ActionMenu extends LitElement {
     this.open = false;
   }
 
-  private handlePopoverBeforeClose(event: CustomEvent<void>): void {
-    event.stopPropagation();
-  }
-
-  private handlePopoverBeforeOpen(event: CustomEvent<void>): void {
-    event.stopPropagation();
-  }
-
   // #endregion
 
   // #region Rendering
@@ -500,8 +492,6 @@ export class ActionMenu extends LitElement {
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
-        oncalcitePopoverBeforeClose={this.handlePopoverBeforeClose}
-        oncalcitePopoverBeforeOpen={this.handlePopoverBeforeOpen}
         oncalcitePopoverClose={this.handlePopoverClose}
         oncalcitePopoverOpen={this.handlePopoverOpen}
         overlayPositioning={overlayPositioning}

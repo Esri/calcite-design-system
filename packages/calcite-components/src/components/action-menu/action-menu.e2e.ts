@@ -304,9 +304,7 @@ describe("calcite-action-menu", () => {
     const trigger = await page.find("#trigger");
     const outside = await page.find("#outside");
 
-    const popoverBeforeOpen = await actionMenu.spyOnEvent("calcitePopoverBeforeOpen");
     const popoverOpen = await actionMenu.spyOnEvent("calcitePopoverOpen");
-    const popoverBeforeClose = await actionMenu.spyOnEvent("calcitePopoverBeforeClose");
     const popoverClose = await actionMenu.spyOnEvent("calcitePopoverClose");
 
     await trigger.click();
@@ -319,9 +317,7 @@ describe("calcite-action-menu", () => {
 
     expect(await actionMenu.getProperty("open")).toBe(false);
 
-    expect(popoverBeforeOpen).toHaveReceivedEventTimes(0);
     expect(popoverOpen).toHaveReceivedEventTimes(0);
-    expect(popoverBeforeClose).toHaveReceivedEventTimes(0);
     expect(popoverClose).toHaveReceivedEventTimes(0);
   });
 
