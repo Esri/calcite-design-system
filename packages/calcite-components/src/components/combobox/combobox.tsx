@@ -1794,7 +1794,6 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
-          class={CSS.selectAll}
           id={`${this.guid}-select-all-enabled`}
           label={this.messages.selectAll}
           tabIndex="-1"
@@ -1809,6 +1808,7 @@ export class Combobox
       <li
         ariaLabel={item.label}
         ariaSelected={item.selected}
+        class={CSS.selectAll}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
         tabIndex="-1"
