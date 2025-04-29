@@ -1797,7 +1797,6 @@ export class Combobox
           id={`${this.guid}-select-all-enabled`}
           label={this.messages.selectAll}
           tabIndex="-1"
-          text-label={this.messages.selectAll}
           value="select-all"
         />
       );
