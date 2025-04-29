@@ -130,9 +130,9 @@ export class InputTimePicker
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
-   * Translated messages and locale information
+   * Made into a prop for testing purposes only
    *
-   * @internal
+   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
