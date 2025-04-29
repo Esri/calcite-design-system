@@ -353,7 +353,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
       this.userTriggered = true;
       this.selected = !this.selected;
-      console.log("selected", this.selected);
       await this.updateComplete;
       this.calciteTableRowSelect.emit();
     }
