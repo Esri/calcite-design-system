@@ -322,10 +322,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       this.handleOpenedChange(this.opened);
     }
-
-    if (changes.has("embedded") && (this.hasUpdated || this.embedded !== false)) {
-      this.updateFocusTrapElements();
-    }
   }
 
   override disconnectedCallback(): void {
