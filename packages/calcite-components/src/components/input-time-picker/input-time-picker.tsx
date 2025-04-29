@@ -334,7 +334,9 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as TimePicker["el"];
     const value = target.value;
+    const previousValue = this.value;
     this.time.setValue(value);
+    this.handleChangeEvent(previousValue);
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
