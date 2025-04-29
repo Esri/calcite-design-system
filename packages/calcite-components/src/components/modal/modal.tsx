@@ -323,7 +323,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
       this.handleOpenedChange(this.opened);
     }
 
-    if (changes.has("embedded") && (this.hasUpdated || this.embedded)) {
+    if (changes.has("embedded") && (this.hasUpdated || this.embedded !== false)) {
       this.updateFocusTrapElements();
     }
   }

@@ -293,7 +293,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       this.setupInteractions();
     }
 
-    if (changes.has("embedded") && (this.hasUpdated || this.embedded)) {
+    if (changes.has("embedded") && (this.hasUpdated || this.embedded !== false)) {
       this.updateFocusTrapElements();
     }
   }
