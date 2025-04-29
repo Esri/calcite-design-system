@@ -714,7 +714,6 @@ export class Combobox
       }
       this.updateAndGetSelectAllState();
 
-      // TODO: Doesn't hide the last element
       if (this.isAllSelected()) {
         this.selectedItems.forEach((item) => {
           const chipEl = this.referenceEl.querySelector<Chip["el"]>(
@@ -789,9 +788,7 @@ export class Combobox
 
     this.selectAll = !!selectAllComboboxItemIsSelected?.selected;
 
-    this.items.forEach((item) => {
-      item.selected = this.selectAll;
-    });
+    this.items.forEach((item) => (item.selected = this.selectAll));
     this.selectedItems = this.getSelectedItems();
     this.emitComboboxChange();
   }
@@ -907,7 +904,6 @@ export class Combobox
               this.toggleSelectAll();
             }
             this.updateAndGetSelectAllState();
-            // TODO: doesn't hide the last element
             if (this.isAllSelected()) {
               this.selectedItems.forEach((item) => {
                 const chipEl = this.referenceEl.querySelector<Chip["el"]>(

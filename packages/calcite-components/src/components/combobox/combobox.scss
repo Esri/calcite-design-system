@@ -165,7 +165,7 @@
 }
 
 .label {
-  @apply max-w-full flex-auto truncate p-0 font-normal;
+  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -240,7 +240,7 @@ calcite-chip {
   position: sticky;
   inset-block-start: 0;
   background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
-  z-index: 1;
+  z-index: var(--calcite-z-index-sticky);
   border-block-end-color: var(--calcite-combobox-item-border-color, var(--calcite-color-border-3));
   border-block-end-style: solid;
   border-block-end-width: var(--calcite-border-width-sm);
