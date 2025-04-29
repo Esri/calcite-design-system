@@ -1545,6 +1545,9 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
 
+    if (this.isAllSelected()) {
+      return null;
+    }
     const filteredSelectedItems = this.selectedItems.filter(
       (item) => item !== this.selectAllComboboxItemReferenceEl,
     );
