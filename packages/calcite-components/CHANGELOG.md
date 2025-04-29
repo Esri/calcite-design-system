@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.33...@esri/calcite-components@3.2.0-next.34) (2025-04-29)
+
+### Bug Fixes
+
+- **shell, sheet, dialog, modal:** Fix for slotted component interaction ([#12059](https://github.com/Esri/calcite-design-system/issues/12059)) ([19f6c26](https://github.com/Esri/calcite-design-system/commit/19f6c26d0830dc2b9cd92e85cc8f7f284315801e)), closes [#11657](https://github.com/Esri/calcite-design-system/issues/11657)
+
+## [3.2.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.32...@esri/calcite-components@3.2.0-next.33) (2025-04-29)
+
+### Bug Fixes
+
+- **action-menu:** stop propagation of internal popover events ([#12051](https://github.com/Esri/calcite-design-system/issues/12051)) ([f2d6675](https://github.com/Esri/calcite-design-system/commit/f2d66752debd10ebe3b023d7bd310d50385d389c)), closes [#12048](https://github.com/Esri/calcite-design-system/issues/12048)
+
 ## [3.2.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.31...@esri/calcite-components@3.2.0-next.32) (2025-04-28)
 
 ### Bug Fixes

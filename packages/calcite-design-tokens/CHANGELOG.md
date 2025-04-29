@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0-next.4...@esri/calcite-design-tokens@3.1.0-next.5) (2025-04-29)
+
+### Features
+
+- **semantic-tokens:** update and add to corner-radius tokens ([#12041](https://github.com/Esri/calcite-design-system/issues/12041)) ([01938ba](https://github.com/Esri/calcite-design-system/commit/01938babd5c35b4dd17ee479716ca69a5ba2622f)), closes [#11906](https://github.com/Esri/calcite-design-system/issues/11906)
+
 ## [3.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0-next.3...@esri/calcite-design-tokens@3.1.0-next.4) (2025-04-23)
 
 ### Bug Fixes
