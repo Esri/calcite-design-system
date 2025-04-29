@@ -110,5 +110,14 @@
   }
 }
 
+:host([status="invalid"]) {
+  .container {
+    border-color: var(--calcite-color-status-danger);
+    &:focus-within {
+      @apply focus-inset-danger;
+    }
+  }
+}
+
 @include form-validation-message();
 @include base-component();
