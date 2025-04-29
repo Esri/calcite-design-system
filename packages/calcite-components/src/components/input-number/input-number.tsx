@@ -1016,7 +1016,12 @@ export class InputNumber
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly
