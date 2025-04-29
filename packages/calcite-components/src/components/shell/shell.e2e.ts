@@ -145,7 +145,7 @@ describe("calcite-shell", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-shell>
+      html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
           <calcite-panel heading="Example">
             <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
@@ -158,8 +158,7 @@ describe("calcite-shell", () => {
             </calcite-sheet>
           </calcite-shell>
         </calcite-panel>
-        <calcite-shell></calcite-shell
-      ></calcite-shell>`,
+      </calcite-shell>`,
     );
     const block = await page.find("calcite-block");
     block.click();
@@ -182,8 +181,7 @@ describe("calcite-shell", () => {
             <calcite-dialog heading="Dialog" slot="dialogs" open modal> </calcite-dialog>
           </calcite-shell>
         </calcite-panel>
-        <calcite-shell></calcite-shell
-      ></calcite-shell>`,
+      </calcite-shell>`,
     );
     const block = await page.find("calcite-block");
 
@@ -209,8 +207,7 @@ describe("calcite-shell", () => {
             </calcite-modal>
           </calcite-shell>
         </calcite-panel>
-        <calcite-shell></calcite-shell
-      ></calcite-shell>`,
+      </calcite-shell>`,
     );
     const block = await page.find("calcite-block");
     block.click();
