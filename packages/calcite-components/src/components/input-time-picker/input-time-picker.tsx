@@ -718,12 +718,12 @@ export class InputTimePicker
 
   private renderToggleIcon(open: boolean): JsxNode {
     return (
-      <calcite-icon
-        class={CSS.toggleIcon}
-        icon={open ? "chevron-up" : "chevron-down"}
-        onClick={this.toggleIconClickHandler}
-        scale={getIconScale(this.scale)}
-      />
+      <span class={CSS.toggleIcon} onClick={this.toggleIconClickHandler}>
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
+      </span>
     );
   }
 

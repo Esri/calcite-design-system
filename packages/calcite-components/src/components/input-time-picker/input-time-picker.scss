@@ -56,7 +56,12 @@
 }
 
 .toggle-icon {
+  align-items: center;
+  block-size: 24px;
   cursor: pointer;
+  display: flex;
+  inline-size: 24px;
+  justify-content: center;
   &:hover {
     --calcite-icon-color: var(--calcite-color-text-1);
   }
