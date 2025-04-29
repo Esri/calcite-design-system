@@ -244,19 +244,11 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
-  /**
-   * Sets focus on the component.
-   *
-   * @param target
-   */
+  /** Sets focus on the component. */
   @method()
-  async setFocus(target?: TimePart): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentFocusable(this);
-    if (target) {
-      this[`${target || "hour"}El`]?.focus();
-    } else {
-      focusFirstTabbable(this.el);
-    }
+    focusFirstTabbable(this.el);
   }
 
   // #endregion
@@ -395,21 +387,21 @@ export class InputTimePicker
       switch (this.activeEl) {
         case this.hourEl:
           if (key === "ArrowRight") {
-            this.setFocus("minute");
+            this.setFocusPart("minute");
           } else if (key === "ArrowLeft" && hourFormat === "12" && meridiemOrder === 0) {
-            this.setFocus("meridiem");
+            this.setFocusPart("meridiem");
           }
           break;
         case this.minuteEl:
           switch (key) {
             case "ArrowLeft":
-              this.setFocus("hour");
+              this.setFocusPart("hour");
               break;
             case "ArrowRight":
               if (this.step !== 60) {
-                this.setFocus("second");
+                this.setFocusPart("second");
               } else if (hourFormat === "12") {
-                this.setFocus("meridiem");
+                this.setFocusPart("meridiem");
               }
               break;
           }
@@ -417,13 +409,13 @@ export class InputTimePicker
         case this.secondEl:
           switch (key) {
             case "ArrowLeft":
-              this.setFocus("minute");
+              this.setFocusPart("minute");
               break;
             case "ArrowRight":
               if (decimalPlaces(this.step) > 0) {
-                this.setFocus("fractionalSecond");
+                this.setFocusPart("fractionalSecond");
               } else if (hourFormat === "12") {
-                this.setFocus("meridiem");
+                this.setFocusPart("meridiem");
               }
               break;
           }
@@ -431,11 +423,11 @@ export class InputTimePicker
         case this.fractionalSecondEl:
           switch (key) {
             case "ArrowLeft":
-              this.setFocus("second");
+              this.setFocusPart("second");
               break;
             case "ArrowRight":
               if (hourFormat === "12" && meridiemOrder !== 0) {
-                this.setFocus("meridiem");
+                this.setFocusPart("meridiem");
               }
               break;
           }
@@ -443,14 +435,14 @@ export class InputTimePicker
         case this.meridiemEl:
           if (key === "ArrowLeft" && meridiemOrder !== 0) {
             if (showFractionalSecond) {
-              this.setFocus("fractionalSecond");
+              this.setFocusPart("fractionalSecond");
             } else if (showSecond) {
-              this.setFocus("second");
+              this.setFocusPart("second");
             } else {
-              this.setFocus("minute");
+              this.setFocusPart("minute");
             }
           } else if (key === "ArrowRight" && meridiemOrder === 0) {
-            this.setFocus("hour");
+            this.setFocusPart("hour");
           }
           break;
       }
@@ -468,6 +460,10 @@ export class InputTimePicker
 
   private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
+  }
+
+  private async setFocusPart(target: TimePart): Promise<void> {
+    this[`${target || "hour"}El`]?.focus();
   }
 
   private setFractionalSecondEl(el: HTMLSpanElement) {
