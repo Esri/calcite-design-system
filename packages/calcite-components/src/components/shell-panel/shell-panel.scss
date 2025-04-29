@@ -117,8 +117,7 @@
   flex-auto
   items-stretch
   bg-transparent
-  h-full
-  overflow-auto;
+  h-full;
 
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 
@@ -288,7 +287,8 @@
   relative
   box-border
   bg-transparent
-  h-full;
+  h-full
+  overflow-auto;
 }
 
 .content {
