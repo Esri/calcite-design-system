@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.31...@esri/calcite-components@3.2.0-next.32) (2025-04-28)
+
+### Bug Fixes
+
+- **shell-panel, sheet:** Resize handle overlaps dropdown within panel ([#12046](https://github.com/Esri/calcite-design-system/issues/12046)) ([2bb5c45](https://github.com/Esri/calcite-design-system/commit/2bb5c452c1621697bc018b5ce1d38c26df3d9450)), closes [#12042](https://github.com/Esri/calcite-design-system/issues/12042)
+
 ## [3.2.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.30...@esri/calcite-components@3.2.0-next.31) (2025-04-24)
 
 ### Bug Fixes
