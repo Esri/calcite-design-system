@@ -570,9 +570,9 @@ export const slottedModalAndAlert = (): string =>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
       dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
@@ -637,7 +637,7 @@ export const slottedModalAndAlert = (): string =>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
   </main>`);
@@ -647,9 +647,9 @@ export const slottedSheetOverlay = (): string =>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
       dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
@@ -723,7 +723,7 @@ export const slottedSheetOverlay = (): string =>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
     <script>
@@ -739,9 +739,9 @@ const slottedSheetHtml: string[] = [];
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
       dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
@@ -815,7 +815,7 @@ const slottedSheetHtml: string[] = [];
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
     </p>
     <script>
@@ -1973,6 +1973,41 @@ export const floatAllArrangements = (): string =>
       </calcite-action-bar>
       <calcite-panel heading="Example" closable>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>`;
+
+export const resizableShellPanelWithDropdown = (): string =>
+  html`<calcite-shell>
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+    ></div>
+    <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start" resizable width="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
+        <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
+        <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Map" id="panel-start">
+        <calcite-dropdown open width="m" overlay-positioning="fixed">
+          <calcite-button slot="trigger">Select landform</calcite-button>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
