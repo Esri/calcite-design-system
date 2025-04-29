@@ -2103,7 +2103,7 @@ export const floatAllArrangementsStart = (): string =>
   </calcite-shell>`;
 
 export const panelsWithOverflowingContent = (): string =>
-  html` <calcite-shell content-behind>
+  html` <calcite-shell content-behind style="width:1200px; height:400px;">
     <div
       style="
             width:100%;
@@ -2406,5 +2406,3 @@ export const panelsWithOverflowingContent = (): string =>
       </calcite-flow>
     </calcite-shell-panel>
   </calcite-shell>`;
-
-panelsWithOverflowingContent.parameters = { chromatic: { viewport: { width: 1200, height: 400 } } };
