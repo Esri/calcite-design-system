@@ -15,7 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils";
+import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
