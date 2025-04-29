@@ -674,7 +674,7 @@ export class InputNumber
       "Escape",
       "Tab",
     ];
-    if (event.altKey || event.ctrlKey || event.metaKey) {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
