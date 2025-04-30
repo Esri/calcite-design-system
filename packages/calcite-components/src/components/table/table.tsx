@@ -211,9 +211,12 @@ export class Table extends LitElement {
   }
 
   private calciteInternalTableRowSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      this.updateSelectedItems(false);
+    if (!event.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.updateSelectedItems(false);
+    event.stopPropagation();
   }
 
   private calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
@@ -343,7 +346,7 @@ export class Table extends LitElement {
     });
   }
 
-  private updateSelectedItems(emit?: boolean): void {
+  private async updateSelectedItems(emit?: boolean): Promise<void> {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
@@ -368,8 +371,7 @@ export class Table extends LitElement {
       if (elToMatch?.rowType === "head") {
         el.selected = this.selectedCount !== this.bodyRows?.length;
       } else {
-        el.selected =
-          elToMatch === el ? !el.selected : this.selectionMode === "multiple" ? el.selected : false;
+        el.selected = this.selectionMode === "multiple" || elToMatch === el ? el.selected : false;
       }
     });
     this.updateSelectedItems(true);
