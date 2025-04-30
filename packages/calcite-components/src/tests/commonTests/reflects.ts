@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { skipAnimations } from "../utils";
+import { skipAnimations } from "../utils/puppeteer";
 import { getTagAndPage, propToAttr } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 

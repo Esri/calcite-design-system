@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {

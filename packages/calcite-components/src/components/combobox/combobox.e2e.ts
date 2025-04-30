@@ -25,7 +25,7 @@ import {
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";

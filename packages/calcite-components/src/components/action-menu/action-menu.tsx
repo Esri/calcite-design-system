@@ -435,12 +435,14 @@ export class ActionMenu extends LitElement {
     this.open = value;
   }
 
-  private handlePopoverOpen(): void {
+  private handlePopoverOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = true;
     this.setFocus();
   }
 
-  private handlePopoverClose(): void {
+  private handlePopoverClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = false;
   }
 

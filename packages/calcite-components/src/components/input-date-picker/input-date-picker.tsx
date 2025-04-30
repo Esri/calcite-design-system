@@ -52,6 +52,7 @@ import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/l
 import { componentFocusable, getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
+  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
@@ -198,6 +199,9 @@ export class InputDatePicker
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
@@ -324,8 +328,11 @@ export class InputDatePicker
   }
 
   set value(value: string | string[]) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
+    const valueChanged = value !== this._value;
+    const invalidValueCleared =
+      value === "" && (this.startInput?.value !== "" || this.endInput?.value !== "");
+
+    if (valueChanged || invalidValueCleared) {
       this._value = value;
       this.valueWatcher(value);
     }
@@ -621,7 +628,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._lang),
+      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -1097,6 +1104,7 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
+                  label={this.label}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
@@ -1181,6 +1189,7 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
+                    label={this.label}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}

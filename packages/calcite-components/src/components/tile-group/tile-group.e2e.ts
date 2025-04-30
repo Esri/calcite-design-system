@@ -2,7 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils";
+import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { TileGroup } from "./tile-group";
 
 describe("calcite-tile-group", () => {
