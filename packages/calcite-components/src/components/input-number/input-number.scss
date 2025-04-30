@@ -443,7 +443,8 @@ input:focus {
 }
 
 .has-suffix input,
-.element-wrapper:has(.clear-button) input,
+:host .clearable input,
+:host(:not([read-only])) input,
 :host .suffix,
 :host .clear-button {
   border-start-end-radius: 0;

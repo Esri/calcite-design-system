@@ -1021,6 +1021,7 @@ export class InputNumber
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.hasSuffix]: this.suffixText,
             [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
           }}
           ref={this.inputWrapperEl}
         >
