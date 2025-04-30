@@ -155,15 +155,15 @@ export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private calciteTimePickerEl: TimePicker["el"];
 
@@ -186,17 +186,28 @@ export class InputTimePicker
 
   private _value = null;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
+    this.setInputValue(this.getLocalizedTimeString(params));
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() calciteInputEl: InputText["el"];
 
   @state() effectiveHourFormat: EffectiveHourFormat;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -232,13 +243,6 @@ export class InputTimePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -324,7 +328,6 @@ export class InputTimePicker
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -333,9 +336,9 @@ export class InputTimePicker
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -354,9 +357,9 @@ export class InputTimePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputTimePickerBeforeClose = createEvent({ cancelable: false });
@@ -373,9 +376,9 @@ export class InputTimePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -452,9 +455,9 @@ export class InputTimePicker
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private async langWatcher(): Promise<void> {
     await this.loadLocaleData();
@@ -983,10 +986,6 @@ export class InputTimePicker
     );
   }
 
-  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
-    this.setInputValue(this.getLocalizedTimeString(params));
-  };
-
   private setInputValue(newInputValue: string): void {
     if (!this.calciteInputEl) {
       return;
@@ -1040,9 +1039,9 @@ export class InputTimePicker
     this.open = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, messages, readOnly } = this;
@@ -1123,5 +1122,5 @@ export class InputTimePicker
     );
   }
 
-  // #endregion
+  //#endregion
 }

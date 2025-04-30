@@ -47,13 +47,13 @@ declare global {
  * @slot back - A slot for adding a back button.
  */
 export class Modal extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -107,9 +107,31 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() contentEl: HTMLElement;
 
@@ -135,9 +157,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     return !this.embedded;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: (el: Modal["el"]) => Promise<void>;
@@ -184,19 +206,11 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -221,9 +235,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets the scroll top of the component's content.
@@ -263,9 +277,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteModalBeforeClose = createEvent({ cancelable: false });
@@ -279,9 +293,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteModalOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -330,24 +344,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      this.focusTrapDisabled &&
-      this.open &&
-      !this.escapeDisabled &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
-    }
-  };
+  //#region Private Methods
 
   private handleHeaderSlotChange(event: Event): void {
     this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
@@ -478,9 +477,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
@@ -614,5 +613,5 @@ export class Modal extends LitElement implements OpenCloseComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 }

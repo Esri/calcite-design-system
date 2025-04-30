@@ -66,13 +66,13 @@ declare global {
 const throttleFor60FpsInMs = 16;
 
 export class ColorPicker extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;
@@ -86,10 +86,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       }
     | undefined;
 
-  private get baseColorFieldColor(): ColorInstance {
-    return this.color || this.previousColor || DEFAULT_COLOR;
-  }
-
   private checkerPattern: HTMLCanvasElement;
 
   private _color: InternalColor | null = DEFAULT_COLOR;
@@ -97,10 +93,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeNode: HTMLDivElement;
-
-  private get effectiveSliderWidth(): number {
-    return this.dynamicDimensions.slider.width;
-  }
 
   private hueScopeNode: HTMLDivElement;
 
@@ -130,262 +122,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private _valueWasSet = false;
 
-  // #endregion
-
-  // #region State Properties
-
-  @state() channelMode: ColorMode = "rgb";
-
-  @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
-
-  @state() colorFieldScopeLeft: number;
-
-  @state() colorFieldScopeTop: number;
-
-  @state() staticDimensions = STATIC_DIMENSIONS.m;
-
-  @state() hueScopeLeft: number;
-
-  @state() opacityScopeLeft: number;
-
-  @state() savedColors: string[] = [];
-
-  @state() scopeOrientation: "vertical" | "horizontal";
-
-  // #endregion
-
-  // #region Public Properties
-
-  /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
-   *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-   *
-   * @deprecated Use `clearable` instead
-   */
-  @property({ reflect: true }) allowEmpty = false;
-
-  /** When `true`, the component will allow updates to the color's alpha value. */
-  @property() alphaChannel = false;
-
-  /** When `true`, hides the RGB/HSV channel inputs. */
-  @property() channelsDisabled = false;
-
-  /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
-   *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-   */
-  @property({ reflect: true }) clearable = false;
-
-  /**
-   * Internal prop for advanced use-cases.
-   *
-   * @private
-   */
-  @property()
-  get color(): InternalColor | null {
-    return this._color;
-  }
-
-  set color(color: InternalColor | null) {
-    const oldColor = this._color;
-    this._color = color;
-    this.handleColorChange(color, oldColor);
-  }
-
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @property({ reflect: true }) disabled = false;
-
-  /**
-   * The format of `value`.
-   *
-   * When `"auto"`, the format will be inferred from `value` when set.
-   *
-   * @default "auto"
-   */
-  @property({ reflect: true }) format: Format = "auto";
-
-  /** When `true`, hides the hex input. */
-  @property() hexDisabled = false;
-
-  /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
-
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
-
-  /** When `true`, hides the saved colors section. */
-  @property({ reflect: true }) savedDisabled = false;
-
-  /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the storage ID for colors. */
-  @property({ reflect: true }) storageId: string;
-
-  /**
-   * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
-   *
-   * The type will be preserved as the color is updated.
-   *
-   * @default
-   *
-   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/color-picker/interfaces.ts#L10).
-   */
-  @property()
-  get value(): ColorValue | null {
-    return this._value;
-  }
-
-  set value(value: ColorValue | null) {
-    const oldValue = this._value;
-    this._value = value;
-    this.handleValueChange(value, oldValue);
-    this._valueWasSet = true;
-  }
-
-  // #endregion
-
-  // #region Public Methods
-
-  /** Sets focus on the component's first focusable element. */
-  @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
-  }
-
-  // #endregion
-
-  // #region Events
-
-  /** Fires when the color value has changed. */
-  calciteColorPickerChange = createEvent({ cancelable: false });
-
-  /**
-   * Fires as the color value changes.
-   *
-   * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
-   */
-  calciteColorPickerInput = createEvent({ cancelable: false });
-
-  // #endregion
-
-  // #region Lifecycle
-
-  constructor() {
-    super();
-    this.listen("keydown", this.handleChannelKeyUpOrDown, { capture: true });
-    this.listen("keyup", this.handleChannelKeyUpOrDown, { capture: true });
-  }
-
-  connectedCallback(): void {
-    this.observeResize();
-  }
-
-  async load(): Promise<void> {
-    if (!this._valueWasSet) {
-      this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
-    }
-
-    this.handleAllowEmptyOrClearableChange();
-
-    const { isClearable, color, format, value } = this;
-    const willSetNoColor = isClearable && !value;
-    const parsedMode = parseMode(value);
-    const valueIsCompatible =
-      willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
-
-    if (!valueIsCompatible) {
-      this.showIncompatibleColorWarning(value, format);
-    }
-    this.setMode(format, false);
-    this.internalColorSet(initialColor, false, "initial");
-
-    this.updateStaticDimensions(this.scale);
-    this.updateDynamicDimensions(STATIC_DIMENSIONS[this.scale].minWidth);
-
-    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
-
-    if (this.storageId && localStorage.getItem(storageKey)) {
-      this.savedColors = JSON.parse(localStorage.getItem(storageKey));
-    }
-  }
-
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (
-      (changes.has("allowEmpty") && (this.hasUpdated || this.allowEmpty !== false)) ||
-      (changes.has("clearable") && (this.hasUpdated || this.clearable !== false))
-    ) {
-      this.handleAllowEmptyOrClearableChange();
-    }
-
-    if (changes.has("alphaChannel") && (this.hasUpdated || this.alphaChannel !== false)) {
-      this.handleAlphaChannelChange(this.alphaChannel);
-    }
-
-    if (
-      this.hasUpdated &&
-      ((changes.has("alphaChannel") && this.alphaChannel !== false) ||
-        (changes.has("staticDimensions") && this.staticDimensions !== STATIC_DIMENSIONS.m))
-    ) {
-      this.handleAlphaChannelDimensionsChange();
-    }
-
-    if (
-      (changes.has("alphaChannel") && (this.hasUpdated || this.alphaChannel !== false)) ||
-      (changes.has("format") && (this.hasUpdated || this.format !== "auto"))
-    ) {
-      this.handleFormatOrAlphaChannelChange();
-    }
-
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
-      this.handleScaleChange(this.scale);
-    }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    this.handleAlphaChannelDimensionsChange();
-  }
-
-  override disconnectedCallback(): void {
-    window.removeEventListener(
-      "pointermove",
-      this.globalPointerMoveHandler,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.removeEventListener(
-      "pointerup",
-      this.globalPointerUpHandler,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    this.resizeObserver?.disconnect();
-  }
-
-  // #endregion
-
-  // #region Private Methods
-
-  private observeResize(): void {
-    this.resizeObserver?.observe(this.el);
-  }
 
   private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
     const { width, height } = this.dynamicDimensions.colorField;
@@ -495,6 +237,274 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.updateCanvasSize();
     this.drawColorControls();
   }, throttleFor60FpsInMs);
+
+  private updateDynamicDimensions = (width: number): void => {
+    const sliderDims = {
+      width: getSliderWidth(width, this.staticDimensions, this.alphaChannel),
+      height: this.staticDimensions.slider.height,
+    };
+
+    this.dynamicDimensions = {
+      colorField: getColorFieldDimensions(width),
+      slider: sliderDims,
+    };
+  };
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() channelMode: ColorMode = "rgb";
+
+  @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
+
+  @state() colorFieldScopeLeft: number;
+
+  @state() colorFieldScopeTop: number;
+
+  @state() staticDimensions = STATIC_DIMENSIONS.m;
+
+  @state() hueScopeLeft: number;
+
+  @state() opacityScopeLeft: number;
+
+  @state() savedColors: string[] = [];
+
+  @state() scopeOrientation: "vertical" | "horizontal";
+
+  //#endregion
+
+  //#region Public Properties
+
+  /**
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @deprecated Use `clearable` instead
+   */
+  @property({ reflect: true }) allowEmpty = false;
+
+  /** When `true`, the component will allow updates to the color's alpha value. */
+  @property() alphaChannel = false;
+
+  /** When `true`, hides the RGB/HSV channel inputs. */
+  @property() channelsDisabled = false;
+
+  /**
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+  @property({ reflect: true }) clearable = false;
+
+  /**
+   * Internal prop for advanced use-cases.
+   *
+   * @private
+   */
+  @property()
+  get color(): InternalColor | null {
+    return this._color;
+  }
+  set color(color: InternalColor | null) {
+    const oldColor = this._color;
+    this._color = color;
+    this.handleColorChange(color, oldColor);
+  }
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /**
+   * The format of `value`.
+   *
+   * When `"auto"`, the format will be inferred from `value` when set.
+   *
+   * @default "auto"
+   */
+  @property({ reflect: true }) format: Format = "auto";
+
+  /** When `true`, hides the hex input. */
+  @property() hexDisabled = false;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @property({ reflect: true }) numberingSystem: NumberingSystem;
+
+  /** When `true`, hides the saved colors section. */
+  @property({ reflect: true }) savedDisabled = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the storage ID for colors. */
+  @property({ reflect: true }) storageId: string;
+
+  /**
+   * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
+   *
+   * The type will be preserved as the color is updated.
+   *
+   * @default
+   *
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/color-picker/interfaces.ts#L10).
+   */
+  @property()
+  get value(): ColorValue | null {
+    return this._value;
+  }
+  set value(value: ColorValue | null) {
+    const oldValue = this._value;
+    this._value = value;
+    this.handleValueChange(value, oldValue);
+    this._valueWasSet = true;
+  }
+
+  //#endregion
+
+  //#region Public Methods
+
+  /** Sets focus on the component's first focusable element. */
+  @method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    focusFirstTabbable(this.el);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the color value has changed. */
+  calciteColorPickerChange = createEvent({ cancelable: false });
+
+  /**
+   * Fires as the color value changes.
+   *
+   * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   */
+  calciteColorPickerInput = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("keydown", this.handleChannelKeyUpOrDown, { capture: true });
+    this.listen("keyup", this.handleChannelKeyUpOrDown, { capture: true });
+  }
+
+  connectedCallback(): void {
+    this.observeResize();
+  }
+
+  async load(): Promise<void> {
+    if (!this._valueWasSet) {
+      this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
+    }
+
+    this.handleAllowEmptyOrClearableChange();
+
+    const { isClearable, color, format, value } = this;
+    const willSetNoColor = isClearable && !value;
+    const parsedMode = parseMode(value);
+    const valueIsCompatible =
+      willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
+
+    if (!valueIsCompatible) {
+      this.showIncompatibleColorWarning(value, format);
+    }
+    this.setMode(format, false);
+    this.internalColorSet(initialColor, false, "initial");
+
+    this.updateStaticDimensions(this.scale);
+    this.updateDynamicDimensions(STATIC_DIMENSIONS[this.scale].minWidth);
+
+    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
+
+    if (this.storageId && localStorage.getItem(storageKey)) {
+      this.savedColors = JSON.parse(localStorage.getItem(storageKey));
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (
+      (changes.has("allowEmpty") && (this.hasUpdated || this.allowEmpty !== false)) ||
+      (changes.has("clearable") && (this.hasUpdated || this.clearable !== false))
+    ) {
+      this.handleAllowEmptyOrClearableChange();
+    }
+
+    if (changes.has("alphaChannel") && (this.hasUpdated || this.alphaChannel !== false)) {
+      this.handleAlphaChannelChange(this.alphaChannel);
+    }
+
+    if (
+      this.hasUpdated &&
+      ((changes.has("alphaChannel") && this.alphaChannel !== false) ||
+        (changes.has("staticDimensions") && this.staticDimensions !== STATIC_DIMENSIONS.m))
+    ) {
+      this.handleAlphaChannelDimensionsChange();
+    }
+
+    if (
+      (changes.has("alphaChannel") && (this.hasUpdated || this.alphaChannel !== false)) ||
+      (changes.has("format") && (this.hasUpdated || this.format !== "auto"))
+    ) {
+      this.handleFormatOrAlphaChannelChange();
+    }
+
+    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.handleScaleChange(this.scale);
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    this.handleAlphaChannelDimensionsChange();
+  }
+
+  override disconnectedCallback(): void {
+    window.removeEventListener(
+      "pointermove",
+      this.globalPointerMoveHandler,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    window.removeEventListener(
+      "pointerup",
+      this.globalPointerUpHandler,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    this.resizeObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private get baseColorFieldColor(): ColorInstance {
+    return this.color || this.previousColor || DEFAULT_COLOR;
+  }
+
+  private get effectiveSliderWidth(): number {
+    return this.dynamicDimensions.slider.width;
+  }
+
+  private observeResize(): void {
+    this.resizeObserver?.observe(this.el);
+  }
 
   private handleAllowEmptyOrClearableChange(): void {
     this.isClearable = this.clearable || this.allowEmpty;
@@ -1102,18 +1112,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.drawOpacitySlider();
   }
 
-  private updateDynamicDimensions = (width: number): void => {
-    const sliderDims = {
-      width: getSliderWidth(width, this.staticDimensions, this.alphaChannel),
-      height: this.staticDimensions.slider.height,
-    };
-
-    this.dynamicDimensions = {
-      colorField: getColorFieldDimensions(width),
-      slider: sliderDims,
-    };
-  };
-
   private updateCanvasSize(
     context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
   ): void {
@@ -1459,9 +1457,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1768,5 +1766,5 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }
