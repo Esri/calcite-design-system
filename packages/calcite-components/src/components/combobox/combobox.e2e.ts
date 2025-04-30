@@ -3002,6 +3002,7 @@ describe("calcite-combobox", () => {
       toggleAction: ([selectAll, combobox]: [E2EElement, E2EElement]) => Promise<void>,
     ): Promise<void> {
       const combobox = await page.find("calcite-combobox");
+      const messages = await import("./assets/t9n/messages.json");
       await combobox.click();
       expect(await combobox.getProperty("open")).toBe(true);
 
@@ -3012,7 +3013,7 @@ describe("calcite-combobox", () => {
       for (const item of allComboboxItems) {
         expect(await item.getProperty("selected")).toBe(true);
       }
-      expect(await page.find(`calcite-combobox >>> calcite-chip[title="All selected"]`)).toBeDefined();
+      expect(await page.find(`calcite-combobox >>> calcite-chip[title="${messages.allSelected}"]`)).toBeDefined();
 
       await toggleAction([selectAll, combobox]);
 
@@ -3021,7 +3022,7 @@ describe("calcite-combobox", () => {
         expect(await item.getProperty("selected")).toBe(false);
       }
 
-      const chip = await page.find('calcite-combobox >>> calcite-chip[title="All selected"]');
+      const chip = await page.find(`calcite-combobox >>> calcite-chip[title="${messages.allSelected}"]`);
       expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
     }
 
