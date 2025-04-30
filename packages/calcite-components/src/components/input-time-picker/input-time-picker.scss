@@ -79,7 +79,8 @@
     block-size: 1.5rem;
     font-size: var(--calcite-font-size-sm);
     gap: var(--calcite-spacing-sm);
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-xxs);
   }
   .input-container {
     line-height: 1rem;
@@ -91,7 +92,8 @@
     block-size: 2rem;
     font-size: var(--calcite-font-size);
     gap: var(--calcite-spacing-md);
-    padding-inline: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-spacing-sm);
   }
   .input-container {
     line-height: 1.5rem;
@@ -102,8 +104,8 @@
   .container {
     block-size: 2.75rem;
     font-size: var(--calcite-font-size-md);
-    gap: var(--calcite-spacing-xl);
-    padding-inline: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-spacing-lg);
   }
   .input-container {
     line-height: 2.25rem;
