@@ -283,7 +283,9 @@
   items-stretch
   self-stretch
   relative
-  box-border;
+  box-border
+  w-full
+  h-full;
 }
 
 :host([layout="horizontal"]) .content-container {
