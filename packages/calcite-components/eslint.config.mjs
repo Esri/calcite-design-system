@@ -5,6 +5,7 @@ import vitestPlugin from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
+import luminaPlugin from "@arcgis/eslint-config/plugins/lumina";
 
 export default tseslint.config(
   {
@@ -16,6 +17,7 @@ export default tseslint.config(
     plugins: {
       "@esri/calcite-components": calcitePlugin,
       "unused-imports": unusedImports,
+      lumina: luminaPlugin,
     },
 
     languageOptions: {
@@ -26,6 +28,8 @@ export default tseslint.config(
     },
 
     rules: {
+      "lumina/member-ordering": "warn",
+
       "no-restricted-imports": [
         "error",
         {
