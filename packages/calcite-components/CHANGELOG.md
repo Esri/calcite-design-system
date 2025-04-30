@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.36...@esri/calcite-components@3.2.0-next.37) (2025-04-30)
+
+### Bug Fixes
+
+- **shell-panel:** handle overflow scrolling ([#12069](https://github.com/Esri/calcite-design-system/issues/12069)) ([9d5764e](https://github.com/Esri/calcite-design-system/commit/9d5764e694fb3b0705a593383706c6ba84ea0dc5)), closes [#12057](https://github.com/Esri/calcite-design-system/issues/12057)
+
 ## [3.2.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.35...@esri/calcite-components@3.2.0-next.36) (2025-04-30)
 
 ### Bug Fixes
