@@ -346,10 +346,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   private clickHandler = (): void => {
-    this.handleSelectionOfRow();
+    this.handleRowSelection();
   };
 
-  private async handleSelectionOfRow(): Promise<void> {
+  private async handleRowSelection(): Promise<void> {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
       this.userTriggered = true;
       this.selected = !this.selected;
@@ -363,7 +363,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       if (event.key === " ") {
         event.preventDefault();
       }
-      this.handleSelectionOfRow();
+      this.handleRowSelection();
     }
   };
 

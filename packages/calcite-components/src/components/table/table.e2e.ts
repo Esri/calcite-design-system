@@ -2764,44 +2764,38 @@ describe("keyboard navigation", () => {
       </calcite-table>`,
     );
 
-    const row1 = await page.find("calcite-table-row");
-    expect(await row1.getProperty("selected")).toBe(false);
-    const propValueAsserter = await createEventTimePropValuesAsserter<TableRow>(
-      page,
-      {
-        eventListenerTarget: "calcite-table",
-        selector: 'calcite-table-row[id="row-1"]',
-        eventName: "calciteTableRowSelect",
-        props: ["selected"],
-      },
-      async (propValues) => {
-        expect(propValues["selected"]).toBe(true);
-      },
-    );
+    async function selectRow(rowSelector: string): Promise<void> {
+      await page.$eval(rowSelector + " >>> calcite-table-cell:first-child", (el: TableCell["el"]) => {
+        el.click();
+      });
+      await page.waitForChanges();
+    }
 
-    await page.$eval("calcite-table-row[id='row-1'] >>> calcite-table-cell:first-child ", (el: TableCell["el"]) => {
-      el.click();
-    });
-    await page.waitForChanges();
-    await expect(propValueAsserter()).resolves.toBe(undefined);
+    const rowSelector = "calcite-table-row[id='row-1']";
+    const rowElement = await page.find(rowSelector);
+    expect(await rowElement.getProperty("selected")).toBe(false);
 
-    const propValueAsserter2 = await createEventTimePropValuesAsserter<TableRow>(
-      page,
-      {
-        eventListenerTarget: "calcite-table",
-        selector: 'calcite-table-row[id="row-1"]',
-        eventName: "calciteTableRowSelect",
-        props: ["selected"],
-      },
-      async (propValues) => {
-        expect(propValues["selected"]).toBe(false);
-      },
-    );
+    async function propValueAsserter(expectedPropValue: boolean): Promise<() => Promise<void>> {
+      return await createEventTimePropValuesAsserter<TableRow>(
+        page,
+        {
+          eventListenerSelector: "calcite-table",
+          selector: rowSelector,
+          eventName: "calciteTableRowSelect",
+          props: ["selected"],
+        },
+        async (propValues) => {
+          expect(propValues["selected"]).toBe(expectedPropValue);
+        },
+      );
+    }
 
-    await page.$eval("calcite-table-row[id='row-1'] >>> calcite-table-cell:first-child ", (el: TableCell["el"]) => {
-      el.click();
-    });
-    await page.waitForChanges();
-    await expect(propValueAsserter2()).resolves.toBe(undefined);
+    const rowSelected = await propValueAsserter(true);
+    await selectRow(rowSelector);
+    await expect(rowSelected()).resolves.toBe(undefined);
+
+    const rowDeselected = await propValueAsserter(false);
+    await selectRow(rowSelector);
+    await expect(rowDeselected()).resolves.toBe(undefined);
   });
 });

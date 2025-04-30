@@ -208,7 +208,6 @@ export class Table extends LitElement {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
     }
-    event.stopPropagation();
   }
 
   private calciteInternalTableRowSelectListener(event: CustomEvent): void {
@@ -348,7 +347,6 @@ export class Table extends LitElement {
   }
 
   private async updateSelectedItems(emit?: boolean): Promise<void> {
-    await this.updateComplete;
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;

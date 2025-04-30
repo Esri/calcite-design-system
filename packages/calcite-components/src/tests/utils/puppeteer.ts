@@ -560,25 +560,28 @@ export async function findAll(
  *   const page = await newE2EPage();
  *   await page.setContent(html`
  *     <calcite-combobox>
- *       <!-- ... -->
+ *      <calcite-combobox-item value="A">A</calcite-combobox-item>
+ *      <!-- ... -->
  *     </calcite-combobox>
  *   `);
  *   const propValueAsserter = await createEventTimePropValuesAsserter<Combobox>(
  *     page,
  *     {
- *       selector: "calcite-combobox",
- *       eventName: "calciteComboboxChange",
- *       props: ["value", "selectedItems"],
+ *       selector: "calcite-combobox-item",
+ *       eventName: "calciteComboboxItemChange",
+ *       props: ["selected"],
+ *       eventListenerSelector: "calcite-combobox",
  *     },
  *     async (propValues) => {
- *       expect(propValues.value).toBe("K");
- *       expect(propValues.selectedItems).toHaveLength(1);
+ *       expect(propValues.selected).toBe(true)
  *     },
  *   );
  *   const combobox = await page.find("calcite-combobox");
- *   await combobox.callMethod("setFocus");
- *   await combobox.press("K");
- *   await combobox.press("Enter");
+ *   await element.click();
+ *   await page.waitForChanges();
+ *   const comboboxItem = await page.find("calcite-combobox-item#A");
+ *   await comboboxItem.click();
+ *   await page.waitForChanges();
  *
  *   await expect(propValueAsserter()).resolves.toBe(undefined);
  * });
@@ -588,7 +591,7 @@ export async function findAll(
  * @param propValuesTarget.selector
  * @param propValuesTarget.eventName
  * @param propValuesTarget.props
- * @param propValuesTarget.eventListenerTarget
+ * @param propValuesTarget.eventListenerSelector
  * @param onEvent
  */
 export async function createEventTimePropValuesAsserter<
@@ -603,16 +606,16 @@ export async function createEventTimePropValuesAsserter<
     selector: ComponentTag | string;
     eventName: Events;
     props: Keys[];
-    eventListenerTarget?: string;
+    eventListenerSelector?: string;
   },
   onEvent: (propValues: PropValues) => Promise<void>,
 ): Promise<() => Promise<void>> {
   // we set this up early to we capture state as soon as the event fires
-  const { selector, eventName, props, eventListenerTarget } = propValuesTarget;
+  const { selector, eventName, props, eventListenerSelector } = propValuesTarget;
   const callbackAfterEvent = page.$eval(
     selector,
-    (element: El, eventName, props, eventListenerTarget) => {
-      const targetEl = eventListenerTarget ? document.querySelector(eventListenerTarget) : element;
+    (element: El, eventName, props, eventListenerSelector) => {
+      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector) : element;
       return new Promise<PropValues>((resolve) => {
         targetEl.addEventListener(
           eventName,
@@ -626,7 +629,7 @@ export async function createEventTimePropValuesAsserter<
     },
     eventName,
     props,
-    eventListenerTarget,
+    eventListenerSelector,
   );
 
   return () => callbackAfterEvent.then(onEvent);
