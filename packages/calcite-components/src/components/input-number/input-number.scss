@@ -413,15 +413,14 @@ input:focus {
 }
 
 // border radius
-.has-prefix .prefix,
+.prefix,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"] {
   border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
   border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-.has-suffix .suffix,
-:host([number-button-type="vertical"][read-only]) .has-suffix .suffix,
-:host([clearable]) .clear-button,
+:host([read-only]) .suffix,
+:host([read-only]) .wrapper:not(.has-suffix) .clear-button,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
   border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
   border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
@@ -436,11 +435,8 @@ input:focus {
   border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-:host([clearable]) .has-suffix .clear-button {
-  border-end-end-radius: 0;
-  border-start-end-radius: 0;
-}
-
+:host(:not([read-only])[number-button-type="horizontal"]) .prefix,
+:host(:not([read-only])[number-button-type="horizontal"]) input,
 .has-prefix input {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
@@ -448,17 +444,9 @@ input:focus {
 
 .has-suffix input,
 .element-wrapper:has(.clear-button) input,
-:host([number-button-type="vertical"]) input,
-:host .has-suffix .suffix,
+:host .suffix,
 :host .clear-button {
   border-start-end-radius: 0;
-  border-end-end-radius: 0;
-}
-
-:host([number-button-type="horizontal"]) input {
-  border-start-start-radius: 0;
-  border-start-end-radius: 0;
-  border-end-start-radius: 0;
   border-end-end-radius: 0;
 }
 
