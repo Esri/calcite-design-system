@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.35...@esri/calcite-components@3.2.0-next.36) (2025-04-30)
+
+### Bug Fixes
+
+- **table-row:** update `selected` property on `calciteTabRowSelect` event ([#12015](https://github.com/Esri/calcite-design-system/issues/12015)) ([9b69f3d](https://github.com/Esri/calcite-design-system/commit/9b69f3dad6e2f42fff3cfd4576946061ca7df558)), closes [#11740](https://github.com/Esri/calcite-design-system/issues/11740)
+
 ## [3.2.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.34...@esri/calcite-components@3.2.0-next.35) (2025-04-29)
 
 ### Features
