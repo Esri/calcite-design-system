@@ -2026,10 +2026,24 @@ describe("calcite-input-number", () => {
               targetProp: "borderColor",
             },
           ],
-          "--calcite-input-number-corner-radius": {
-            shadowSelector: `input`,
-            targetProp: "borderRadius",
-          },
+          "--calcite-input-number-corner-radius": [
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderStartStartRadius",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderEndStartRadius",
+            },
+            {
+              shadowSelector: `[data-adjustment="up"]`,
+              targetProp: "borderStartEndRadius",
+            },
+            {
+              shadowSelector: `[data-adjustment="down"]`,
+              targetProp: "borderEndEndRadius",
+            },
+          ],
           "--calcite-input-number-height": [
             {
               shadowSelector: `input`,
