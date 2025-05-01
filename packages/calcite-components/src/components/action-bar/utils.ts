@@ -1,60 +1,44 @@
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Layout } from "../interfaces";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
-const groupBufferPx = 2;
-
-const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
-
-export const geActionDimensions = (actions: Action["el"][]): { actionWidth: number; actionHeight: number } => {
-  const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
-  const actionLen = actionsNotSlotted?.length;
-  return {
-    actionWidth: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientHeight || 0)) : 0,
-  };
-};
-
-const getMaxActionCount = ({
-  width,
-  actionWidth,
-  layout,
-  height,
-  actionHeight,
-  groupCount,
+const calculateMaxItems = ({
+  bufferPx,
+  itemSizes,
+  size,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
-  height: number;
-  actionWidth: number;
-  width: number;
-  actionHeight: number;
-  groupCount: number;
+  bufferPx: number;
+  itemSizes: number[];
+  size: number;
 }): number => {
-  const maxContainerPx = layout === "horizontal" ? width : height;
-  const avgItemPx = layout === "horizontal" ? actionWidth : actionHeight;
-  return Math.floor((maxContainerPx - groupCount * groupBufferPx) / avgItemPx);
+  const maxSize = size - bufferPx;
+  let breakpoint = itemSizes.length; // assume all items will fit
+  let sizeSum = 0;
+  for (const [index, size] of itemSizes.entries()) {
+    sizeSum = sizeSum + size;
+
+    if (sizeSum > maxSize) {
+      breakpoint = index;
+      break;
+    } else {
+      continue;
+    }
+  }
+
+  return breakpoint;
 };
 
 export const getOverflowCount = ({
-  layout,
-  actionCount,
-  actionWidth,
-  width,
-  actionHeight,
-  height,
-  groupCount,
+  bufferPx = 0,
+  itemSizes,
+  size,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
-  actionCount: number;
-  actionWidth: number;
-  width: number;
-  actionHeight: number;
-  height: number;
-  groupCount: number;
+  bufferPx?: number;
+  itemSizes: number[];
+  size: number;
 }): number => {
-  return Math.max(actionCount - getMaxActionCount({ width, actionWidth, layout, height, actionHeight, groupCount }), 0);
+  return Math.max(itemSizes.length - calculateMaxItems({ bufferPx, itemSizes, size }), 0);
 };
 
 export const queryActions = (el: HTMLElement): Action["el"][] => {
