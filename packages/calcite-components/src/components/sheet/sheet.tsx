@@ -79,14 +79,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
   openProp = "opened";
 
   transitionProp = "opacity" as const;
@@ -550,10 +542,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   private async openSheet(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
   }
 

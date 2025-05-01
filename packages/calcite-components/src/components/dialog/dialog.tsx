@@ -85,14 +85,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
   openProp = "opened";
 
   transitionProp = "opacity" as const;
@@ -372,8 +364,11 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   onOpen(): void {
-    this.calciteDialogOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteDialogOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -381,8 +376,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   onClose(): void {
-    this.calciteDialogClose.emit();
     this.focusTrap.deactivate();
+    this.calciteDialogClose.emit();
   }
 
   private toggleDialog(value: boolean): void {
@@ -708,10 +703,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private async openDialog(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
   }
 
