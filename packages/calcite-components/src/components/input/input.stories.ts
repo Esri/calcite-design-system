@@ -229,3 +229,13 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
     ></calcite-input>
   `);
+
+export const inputDateTimeLocal = (): string => html`
+  <calcite-input
+    clearable
+    icon="date-time"
+    step=".001"
+    type="datetime-local"
+    value="2024-05-09T12:00:00.000"
+  ></calcite-input>
+`;

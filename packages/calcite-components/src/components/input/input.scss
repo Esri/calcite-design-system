@@ -612,6 +612,16 @@ input {
   }
 }
 
+:host([type="datetime-local"]) {
+  .element-wrapper {
+    inline-size: 100%;
+
+    input {
+      display: inline-block;
+    }
+  }
+}
+
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
