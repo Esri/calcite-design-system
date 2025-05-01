@@ -176,7 +176,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
   locale = locale.toLowerCase();
 
   // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
-  if (locale === "nb") {
+  if (locale === "nb" || locale === "nn") {
     return "no";
   }
 
