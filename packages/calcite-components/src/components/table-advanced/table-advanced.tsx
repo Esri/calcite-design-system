@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
+import { LitElement, method, property, h, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import type { ColumnDefinition, OptionsData } from "tabulator-tables";
 import type { Input } from "../input/input";
@@ -52,12 +52,6 @@ export class TableAdvanced extends LitElement {
   /** Specifies the component's height. Default is `auto`. */
   @property() height: string = "auto";
 
-  /** When true, an input appears that can be used to scroll to a specific table row by row index. Default row index is `id`, a custom row index can be set in `rowIndexProp`. */
-  @property() scrollToRowEnabled = false;
-
-  /** Specifies the scroll to row input value. */
-  @property() scrollToRowInputValue: string;
-
   /** Specifies the property to be used as row index. Default is `id`. */
   @property() rowIndexProp: string = "id";
 
@@ -86,6 +80,23 @@ export class TableAdvanced extends LitElement {
 
   /** Specifies the property to be used to find frozen columns. Default is `name` */
   @property() frozenColumnProp: string = "name";
+
+  // #endregion
+
+  // #region Public Methods
+
+  /**
+   * Triggers scroll to row animation.
+   *
+   * @param rowLookUpProp Property used to find row object
+   * @param rowLookUpValue User input value
+   */
+  @method()
+  async scrollToRow(rowLookUpProp: any, rowLookUpValue: any): Promise<void> {
+    if (rowLookUpProp && rowLookUpValue) {
+      this.handleScrollToRow(rowLookUpProp, rowLookUpValue);
+    }
+  }
 
   // #endregion
 
@@ -156,28 +167,13 @@ export class TableAdvanced extends LitElement {
     }
   }
 
-  private scrollToRowChangeHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    this.scrollToRowInputValue = (event.target as Input["el"]).value;
-  }
+  private handleScrollToRow(rowLookUpProp: any, rowLookUpValue: any): void {
+    const row = this.tabulator.getRows().filter((row) => {
+      return row.getData()[rowLookUpProp] === rowLookUpValue;
+    });
 
-  private scrollToRowInputHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    this.scrollToRowInputValue = (event.target as Input["el"]).value;
-  }
-
-  private handleScrollToRow(): void {
-    if (this.scrollToRowInputValue) {
-      this.tabulator.scrollToRow(this.scrollToRowInputValue, "top", true);
-    }
-  }
-
-  private scrollToRowKeyDownHandler(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "Enter":
-        this.handleScrollToRow();
-        event.preventDefault();
-        break;
+    if (row[0]) {
+      this.tabulator.scrollToRow(row[0], "top", true);
     }
   }
 
@@ -234,26 +230,6 @@ export class TableAdvanced extends LitElement {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        {this.scrollToRowEnabled && (
-          <div>
-            <calcite-input
-              onKeyDown={this.scrollToRowKeyDownHandler}
-              oncalciteInputChange={this.scrollToRowChangeHandler}
-              oncalciteInputInput={this.scrollToRowInputHandler}
-              placeholder="Scroll"
-              type="text"
-              value={this.scrollToRowInputValue}
-            />
-            <button
-              onClick={() => {
-                this.handleScrollToRow();
-              }}
-            >
-              Scroll to row
-            </button>
-          </div>
-        )}
-
         {this.filterEnabled && (
           <div>
             <calcite-input
