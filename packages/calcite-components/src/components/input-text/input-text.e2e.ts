@@ -14,7 +14,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils";
+import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,

@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import { activeAttr, CSS, SLOTS } from "./resources";
 
@@ -285,6 +285,40 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
 
     expect(await tooltipPositionContainer.isVisible()).toBe(false);
+  });
+
+  it("should stop propagation of popover events", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-action-menu label="test">
+        <calcite-action id="trigger" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-menu>
+      <button id="outside">outside</button>
+    `);
+
+    await skipAnimations(page);
+
+    const actionMenu = await page.find("calcite-action-menu");
+    const trigger = await page.find("#trigger");
+    const outside = await page.find("#outside");
+
+    const popoverOpen = await actionMenu.spyOnEvent("calcitePopoverOpen");
+    const popoverClose = await actionMenu.spyOnEvent("calcitePopoverClose");
+
+    await trigger.click();
+    await page.waitForChanges();
+
+    expect(await actionMenu.getProperty("open")).toBe(true);
+
+    await outside.click();
+    await page.waitForChanges();
+
+    expect(await actionMenu.getProperty("open")).toBe(false);
+
+    expect(popoverOpen).toHaveReceivedEventTimes(0);
+    expect(popoverClose).toHaveReceivedEventTimes(0);
   });
 
   describe("Keyboard navigation", () => {

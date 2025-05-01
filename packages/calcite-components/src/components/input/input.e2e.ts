@@ -24,7 +24,7 @@ import {
   getElementXY,
   isElementFocused,
   selectText,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";

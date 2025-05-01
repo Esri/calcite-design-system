@@ -42,6 +42,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private tableRowSlotEl = createRef<HTMLSlotElement>();
 
+  private userTriggered = false;
+
+  private _selected = false;
+
   // #endregion
 
   // #region Public Properties
@@ -93,7 +97,18 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property() scale: Scale;
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      this.handleCellChanges();
+    }
+  }
 
   /** @private */
   @property() selectedRowCount: number;
@@ -142,7 +157,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("selectedRowCount") ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive"))
@@ -157,7 +171,11 @@ export class TableRow extends LitElement implements InteractiveComponent {
       this.handleDelayedCellChanges();
     }
 
-    if (changes.has("selected")) {
+    if (
+      changes.has("selected") &&
+      (this.hasUpdated || this.selected !== false) &&
+      !this.userTriggered
+    ) {
       this.calciteInternalTableRowSelect.emit();
     }
   }
@@ -327,18 +345,25 @@ export class TableRow extends LitElement implements InteractiveComponent {
     this.cellCount = cells?.length;
   }
 
-  private handleSelectionOfRow = (): void => {
+  private clickHandler = (): void => {
+    this.handleRowSelection();
+  };
+
+  private async handleRowSelection(): Promise<void> {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
+      this.userTriggered = true;
+      this.selected = !this.selected;
+      await this.updateComplete;
       this.calciteTableRowSelect.emit();
     }
-  };
+  }
 
   private handleKeyboardSelection = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
       if (event.key === " ") {
         event.preventDefault();
       }
-      this.handleSelectionOfRow();
+      this.handleRowSelection();
     }
   };
 
@@ -365,7 +390,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         alignment="center"
         bodyRowCount={this.bodyRowCount}
         key="selection-head"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         selectedRowCount={this.selectedRowCount}
@@ -377,7 +402,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       <calcite-table-cell
         alignment="center"
         key="selection-body"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
