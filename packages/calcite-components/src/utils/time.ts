@@ -181,12 +181,7 @@ export function getLocalizedMeridiem({
       const localeData = localizedTwentyFourHourMeridiems.get(locale);
       localizedMeridiem = meridiem === "PM" ? localeData.pm : localeData.am;
     } else {
-      const formatter = new Intl.DateTimeFormat(locale, {
-        hour: "2-digit",
-        hour12: true,
-        minute: "2-digit",
-        timeZone: "UTC",
-      });
+      const formatter = createLocaleDateTimeFormatter({ locale, hour12: true });
       const arbitraryAMHour = 6;
       const arbitraryPMHour = 18;
       const dateWithHourBasedOnMeridiem = new Date(
