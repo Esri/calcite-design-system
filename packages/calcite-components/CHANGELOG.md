@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.37...@esri/calcite-components@3.2.0-next.38) (2025-05-01)
+
+### Bug Fixes
+
+- **navigation:** add missing css display ([#12076](https://github.com/Esri/calcite-design-system/issues/12076)) ([90c5b5a](https://github.com/Esri/calcite-design-system/commit/90c5b5ac060c1b4f582172bc2781e5ec6ca5e27a)), closes [#11022](https://github.com/Esri/calcite-design-system/issues/11022)
+
 ## [3.2.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.36...@esri/calcite-components@3.2.0-next.37) (2025-04-30)
 
 ### Bug Fixes
