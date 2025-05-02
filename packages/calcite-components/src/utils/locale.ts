@@ -116,7 +116,6 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  * Gets the locale that best matches the context.
  *
  * @param locale – the BCP 47 locale code
- * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
  */
 export function getSupportedLocale(locale: string): SupportedLocale {
   if (!locale) {
