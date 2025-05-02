@@ -283,7 +283,10 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  @state() selectAll: boolean = false;
+  @state()
+  get allSelected(): boolean {
+    return this.selectedItems.length === this.items.length;
+  }
 
   // #endregion
 
@@ -714,7 +717,7 @@ export class Combobox
       }
       this.updateAndGetSelectAllState();
 
-      if (this.isAllSelected()) {
+      if (this.allSelected) {
         this.selectedItems.forEach((item) => {
           const chipEl = this.referenceEl.querySelector<Chip["el"]>(
             `#${chipUidPrefix}${item.guid}`,
@@ -786,9 +789,9 @@ export class Combobox
       (item) => item === this.selectAllComboboxItemReferenceEl,
     );
 
-    this.selectAll = !!selectAllComboboxItemIsSelected?.selected;
+    // this.selectAll = !!selectAllComboboxItemIsSelected?.selected;
 
-    this.items.forEach((item) => (item.selected = this.selectAll));
+    this.items.forEach((item) => (item.selected = !!selectAllComboboxItemIsSelected?.selected));
     this.selectedItems = this.getSelectedItems();
     this.emitComboboxChange();
   }
@@ -904,7 +907,7 @@ export class Combobox
               this.toggleSelectAll();
             }
             this.updateAndGetSelectAllState();
-            if (this.isAllSelected()) {
+            if (this.allSelected) {
               this.selectedItems.forEach((item) => {
                 const chipEl = this.referenceEl.querySelector<Chip["el"]>(
                   `#${chipUidPrefix}${item.guid}`,
@@ -1090,7 +1093,7 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
-    if (this.selectAll) {
+    if (this.allSelected && this.selectAllEnabled) {
       this.selectedItems.forEach((item) => {
         const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
         if (chipEl) {
@@ -1496,10 +1499,6 @@ export class Combobox
     }
   }
 
-  private isAllSelected(): boolean {
-    return this.getItems().length === this.getSelectedItems().length;
-  }
-
   private isMulti(): boolean {
     return !isSingleLike(this.selectionMode);
   }
@@ -1541,7 +1540,7 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
 
-    if (this.isAllSelected()) {
+    if (this.selectAllEnabled && this.allSelected) {
       return null;
     }
     const filteredSelectedItems = this.selectedItems.filter(
@@ -1596,7 +1595,7 @@ export class Combobox
         class={{
           chip: true,
           [CSS.chipInvisible]: !(
-            this.isAllSelected() &&
+            this.allSelected &&
             !selectedVisibleChipsCount &&
             !compactSelectionDisplay
           ),
@@ -1620,7 +1619,7 @@ export class Combobox
         class={{
           chip: true,
           [CSS.chipInvisible]: !(
-            this.isAllSelected() &&
+            this.allSelected &&
             !selectedVisibleChipsCount &&
             compactSelectionDisplay
           ),
@@ -1653,7 +1652,7 @@ export class Combobox
     } else {
       if (selectionDisplay === "single") {
         const selectedItemsCount = getSelectedItems().length;
-        if (this.isAllSelected()) {
+        if (this.allSelected) {
           chipInvisible = true;
         } else if (selectedItemsCount > 0) {
           chipInvisible = false;
@@ -1663,7 +1662,7 @@ export class Combobox
         label = `${selectedItemsCount} ${this.messages.selected}`;
       } else if (selectionDisplay === "fit") {
         chipInvisible = !!(
-          (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
+          (this.allSelected && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
         );
         label =
@@ -1702,7 +1701,7 @@ export class Combobox
 
     if (compactSelectionDisplay) {
       const selectedItemsCount = getSelectedItems().length;
-      if (this.isAllSelected()) {
+      if (this.allSelected) {
         chipInvisible = true;
       } else if (selectionDisplay === "fit") {
         chipInvisible = !(selectedHiddenChipsCount > 0);

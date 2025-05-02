@@ -3040,7 +3040,7 @@ describe("calcite-combobox", () => {
       });
     });
 
-    it.only("indeterminate state", async () => {
+    it("indeterminate state", async () => {
       const messages = await import("./assets/t9n/messages.json");
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
