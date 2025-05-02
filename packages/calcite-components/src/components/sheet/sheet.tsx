@@ -509,8 +509,11 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   onOpen(): void {
-    this.calciteSheetOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteSheetOpen.emit();
   }
 
   onBeforeClose(): void {

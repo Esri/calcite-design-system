@@ -132,9 +132,16 @@ describe("calcite-sheet properties", () => {
   });
 
   describe("focus-trap", () => {
-    focusTrap("calcite-sheet", {
-      toggleProp: "open",
-    });
+    focusTrap(
+      html` <calcite-sheet>
+        <!-- sheet has no default focusable parts -->
+        <input id="focusable-content" />
+      </calcite-sheet>`,
+      {
+        toggleProp: "open",
+        focusTargetSelector: "#focusable-content",
+      },
+    );
   });
 
   it("sets custom width correctly", async () => {

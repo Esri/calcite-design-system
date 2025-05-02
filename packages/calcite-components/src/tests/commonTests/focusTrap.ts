@@ -7,6 +7,12 @@ import { ComponentTestSetup } from "./interfaces";
 
 interface FocusTrapOptions {
   /**
+   * The selector for the element to focus when the component is opened.
+   * If not provided, the component itself will be used as the target.
+   */
+  focusTargetSelector?: string;
+
+  /**
    * The property that toggles the opening of the component.
    */
   toggleProp: string;
@@ -32,6 +38,7 @@ export function focusTrap(componentTestSetup: ComponentTestSetup, options: Focus
     let page: E2EPage;
     let tag: string;
     let element: E2EElement;
+    let focusTargetSelector: string;
 
     let openEvent: ReturnType<typeof page.waitForEvent>;
 
@@ -48,34 +55,35 @@ export function focusTrap(componentTestSetup: ComponentTestSetup, options: Focus
       element = await page.find(tag);
       const openEventName = `${camelCase(`${tag}${pascalCase(options.toggleProp)}`)}`;
       openEvent = page.waitForEvent(openEventName);
+      focusTargetSelector = options.focusTargetSelector || tag;
     });
 
     it("does not focus when false", async () => {
-      expect(await isElementFocused(page, tag)).toBe(false);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
       element.setProperty("focusTrapOptions", { initialFocus: false });
       await page.waitForChanges();
       await toggleComponent(page, element, options);
 
-      expect(await isElementFocused(page, tag)).toBe(false);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
     });
 
     it("focuses by default", async () => {
-      expect(await isElementFocused(page, tag)).toBe(false);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
       await toggleComponent(page, element, options);
 
-      expect(await isElementFocused(page, tag)).toBe(true);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
     });
 
     it("focuses when true", async () => {
-      expect(await isElementFocused(page, tag)).toBe(false);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
       element.setProperty("focusTrapOptions", { initialFocus: true });
       await page.waitForChanges();
       await toggleComponent(page, element, options);
 
-      expect(await isElementFocused(page, tag)).toBe(true);
+      expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
     });
 
     describe("when focusTrapDisabled = true", () => {
@@ -85,31 +93,31 @@ export function focusTrap(componentTestSetup: ComponentTestSetup, options: Focus
       });
 
       it("focuses when false", async () => {
-        expect(await isElementFocused(page, tag)).toBe(false);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
         element.setProperty("focusTrapOptions", { initialFocus: false });
         await page.waitForChanges();
         await toggleComponent(page, element, options);
 
-        expect(await isElementFocused(page, tag)).toBe(true);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
       });
 
       it("focuses by default", async () => {
-        expect(await isElementFocused(page, tag)).toBe(false);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
         await toggleComponent(page, element, options);
 
-        expect(await isElementFocused(page, tag)).toBe(true);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
       });
 
       it("focuses when true", async () => {
-        expect(await isElementFocused(page, tag)).toBe(false);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(false);
 
         element.setProperty("focusTrapOptions", { initialFocus: true });
         await page.waitForChanges();
         await toggleComponent(page, element, options);
 
-        expect(await isElementFocused(page, tag)).toBe(true);
+        expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
       });
     });
   });
