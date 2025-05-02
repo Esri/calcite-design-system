@@ -688,6 +688,7 @@ export class TimePicker extends LitElement {
         effectiveHourFormat,
         messages: { _lang: locale },
         numberingSystem,
+        step,
       } = this;
       const {
         localizedHour,
@@ -704,6 +705,7 @@ export class TimePicker extends LitElement {
         locale,
         numberingSystem,
         hour12: effectiveHourFormat === "12",
+        step,
       });
       this.hour = hour;
       this.minute = minute;
@@ -763,6 +765,7 @@ export class TimePicker extends LitElement {
       effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
+      step,
     } = this;
     const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
@@ -836,9 +839,16 @@ export class TimePicker extends LitElement {
           hour12,
           locale,
           numberingSystem,
+          step,
           value: this.value,
         })?.localizedMeridiem || null
-      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      : localizeTimePart({
+          hour12,
+          value: this.meridiem,
+          part: "meridiem",
+          locale,
+          numberingSystem,
+        });
     if (emit) {
       this.calciteTimePickerChange.emit();
     }
@@ -1060,7 +1070,7 @@ export class TimePicker extends LitElement {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "--"}
+              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
             </span>
             <span
               ariaLabel={this.messages.fractionalSecondDown}
