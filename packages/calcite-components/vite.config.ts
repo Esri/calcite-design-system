@@ -6,6 +6,7 @@ import stylelint from "stylelint";
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
+import { directoryPlugin } from "vite-plugin-list-directory-contents";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
@@ -26,6 +27,7 @@ export default defineConfig({
   },
 
   plugins: [
+    directoryPlugin({ baseDir: import.meta.dirname }),
     useLumina({
       build: {
         cdn: {
