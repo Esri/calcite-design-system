@@ -72,6 +72,14 @@ export class Dropdown
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  private onOpenEnd = (): void => {
+    this.focusOnFirstActiveOrDefaultItem();
+    this.el.removeEventListener(
+      "calciteDropdownOpen",
+      this.onOpenEnd,
+    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  };
+
   transitionProp = "opacity" as const;
 
   referenceEl: HTMLDivElement;
@@ -498,8 +506,7 @@ export class Dropdown
     this.calciteDropdownBeforeOpen.emit();
   }
 
-  async onOpen(): Promise<void> {
-    this.focusOnFirstActiveOrDefaultItem();
+  onOpen(): void {
     this.calciteDropdownOpen.emit();
   }
 
@@ -555,6 +562,10 @@ export class Dropdown
       event.preventDefault();
       this.focusLastDropdownItem = key === "ArrowUp";
       this.open = true;
+      this.el.addEventListener(
+        "calciteDropdownOpen",
+        this.onOpenEnd,
+      ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     }
   }
 
@@ -601,6 +612,12 @@ export class Dropdown
 
   private toggleDropdown() {
     this.open = !this.open;
+    if (this.open) {
+      this.el.addEventListener(
+        "calciteDropdownOpen",
+        this.onOpenEnd,
+      ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    }
   }
 
   private updateTabIndexOfItems(target: DropdownItem["el"]): void {
