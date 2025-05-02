@@ -3,44 +3,6 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
-const calculateMaxItems = ({
-  bufferSize,
-  containerSize,
-  itemSizes,
-}: {
-  bufferSize: number;
-  containerSize: number;
-  itemSizes: number[];
-}): number => {
-  const maxSize = containerSize - bufferSize;
-  let breakpoint = itemSizes.length; // assume all items will fit
-  let sizeSum = 0;
-  for (const [index, size] of itemSizes.entries()) {
-    sizeSum = sizeSum + size;
-
-    if (sizeSum > maxSize) {
-      breakpoint = index;
-      break;
-    } else {
-      continue;
-    }
-  }
-
-  return breakpoint;
-};
-
-export const getOverflowCount = ({
-  bufferSize = 0,
-  containerSize,
-  itemSizes,
-}: {
-  bufferSize?: number;
-  containerSize: number;
-  itemSizes: number[];
-}): number => {
-  return Math.max(itemSizes.length - calculateMaxItems({ bufferSize, itemSizes, containerSize }), 0);
-};
-
 export const queryActions = (el: HTMLElement): Action["el"][] => {
   return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
     action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
