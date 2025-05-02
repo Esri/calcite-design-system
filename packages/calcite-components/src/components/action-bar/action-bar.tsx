@@ -254,13 +254,18 @@ export class ActionBar extends LitElement {
       actions.push(expandToggleEl);
     }
 
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
+    const maxSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+
     return actions.map((action) => {
-      const size = layout === "horizontal" ? action.clientWidth : action.clientHeight;
-      if (size) {
-        this.actionSizes.set(action, size);
-        return size;
+      const actionSize = action[clientSize];
+
+      if (actionSize) {
+        this.actionSizes.set(action, actionSize);
+        return actionSize;
       }
-      return this.actionSizes.get(action) ?? 48; // todo: use better fallback size
+
+      return this.actionSizes.get(action) ?? maxSize;
     });
   }
 
