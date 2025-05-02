@@ -1,14 +1,12 @@
 // @ts-strict-ignore
-import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { LitElement, method, property, h, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import type { ColumnDefinition, OptionsData } from "tabulator-tables";
-import type { Input } from "../input/input";
 import { Scale } from "../interfaces";
-import { DEBOUNCE } from "../../utils/resources";
 import { CSS } from "./resources";
 import { styles } from "./table-advanced.scss";
+import { CustomFilterFunction } from "./interfaces";
 
 declare global {
   interface DeclareElements {
@@ -55,26 +53,6 @@ export class TableAdvanced extends LitElement {
   /** Specifies the property to be used as row index. Default is `id`. */
   @property() rowIndexProp: string = "id";
 
-  /** When true, an input appears that can be used to filter `calcite-table-advanced` items. Default filter property is `id`, a custom property can be set in `filterByProp`.  */
-  @property() filterEnabled = false;
-
-  /** Specifies the filter input value. */
-  @property() filterInputValue: string;
-
-  /** Specifies the property to be used to filter `calcite-table-advanced` items. Default is `id`. */
-  @property() filterByProp: string = "id";
-
-  /**
-   * Specifies a function to handle filtering.
-   *
-   * @example
-   * myTable.filterPredicate = (myTableItem) => {
-   *   // returns true to show the table item if some condition is met
-   *   return data.someProp == "someValue";
-   * };
-   */
-  @property() filterPredicate?: (item: any) => boolean;
-
   /** Specifies the table columns to always be visible when scrolling horizontally */
   @property() frozenColumns: Array<string>[] = [];
 
@@ -86,7 +64,50 @@ export class TableAdvanced extends LitElement {
   // #region Public Methods
 
   /**
+   * Triggers set filter.
+   *
+   * @example
+   *
+   * myTable.setFilter(customFilterFunction, filterParams)
+   *
+   * @param customFilterFunction Specifies a function to handle filtering
+   *
+   * @example
+   * customFilterFunction = (data, filterParams) => {
+   *     // returns true to show table items if some condition is met
+   *     return data.name === filterParams.name || data.rating <= filterParams.rating;
+   *  }
+   *
+   * @param filterParams Parameters passed to the filter
+   *
+   * @example
+   * filterParams = { name: "Frank Harbours", rating: 1 }
+   */
+  @method()
+  async setFilter(customFilterFunction: CustomFilterFunction, filterParams: any): Promise<void> {
+    if (typeof customFilterFunction === "function") {
+      this.tabulator.setFilter(customFilterFunction, filterParams);
+    }
+  }
+
+  /**
+   * Triggers clear filter.
+   *
+   * @example
+   *
+   * myTable.clearFilter()
+   */
+  @method()
+  async clearFilter(): Promise<void> {
+    this.tabulator.clearFilter(false);
+  }
+
+  /**
    * Triggers scroll to row animation.
+   *
+   * @example
+   *
+   * myTable.scrollToRow("name", "Brendon Philips")
    *
    * @param rowLookUpProp Property used to find row object
    * @param rowLookUpValue User input value
@@ -122,14 +143,6 @@ export class TableAdvanced extends LitElement {
     if (changes.has("columns") && this.hasUpdated) {
       this.columnsWatcher(this.columns);
     }
-
-    if (changes.has("filterPredicate") && this.hasUpdated) {
-      if (this.validFilterPredicate()) {
-        this.tabulator.setFilter(this.filterPredicate);
-      } else {
-        this.tabulator.clearFilter(false);
-      }
-    }
   }
 
   loaded(): void {
@@ -141,10 +154,6 @@ export class TableAdvanced extends LitElement {
           index: this.rowIndexProp,
           height: this.height,
         });
-
-    if (this.validFilterPredicate()) {
-      this.tabulator.setFilter(this.filterPredicate);
-    }
   }
 
   // #endregion
@@ -177,36 +186,6 @@ export class TableAdvanced extends LitElement {
     }
   }
 
-  private filterChangeHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    this.filterInputValue = (event.target as Input["el"]).value;
-
-    if (!this.validFilterPredicate()) {
-      this.handleSetFilter();
-    }
-  }
-
-  private filterInputHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    this.filterInputValue = (event.target as Input["el"]).value;
-
-    if (!this.validFilterPredicate()) {
-      this.handleSetFilter();
-    }
-  }
-
-  private handleSetFilter = debounce((): void => {
-    if (this.filterInputValue) {
-      this.tabulator.setFilter(this.filterByProp, "like", this.filterInputValue);
-    } else {
-      this.tabulator.clearFilter(false);
-    }
-  }, DEBOUNCE.filter);
-
-  private validFilterPredicate(): boolean {
-    return typeof this.filterPredicate === "function";
-  }
-
   private setFrozenColumns(columns: ColumnDefinition[]): Array<ColumnDefinition> {
     this.frozenColumns.forEach((frozenColumn) => {
       const column = columns.find(
@@ -230,18 +209,6 @@ export class TableAdvanced extends LitElement {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        {this.filterEnabled && (
-          <div>
-            <calcite-input
-              oncalciteInputChange={this.filterChangeHandler}
-              oncalciteInputInput={this.filterInputHandler}
-              placeholder="Filter"
-              type="text"
-              value={this.filterInputValue}
-            />
-          </div>
-        )}
-
         {this.customSlotTableEl ? (
           <span>{this.customSlotTableEl}</span>
         ) : (

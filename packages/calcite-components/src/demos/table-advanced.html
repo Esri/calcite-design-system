@@ -44,7 +44,9 @@
       <div class="parent">
         <div class="child title-text">Column Groups</div>
         <div class="child">
-          <calcite-table-advanced scale="m" filter-enabled filter-by-prop="name"></calcite-table-advanced>
+          <calcite-table-advanced scale="m"></calcite-table-advanced>
+          <button onclick="triggerSetFilter()">Set Filter</button>
+          <button onclick="triggerClearFilter()">Clear Filter</button>
         </div>
       </div>
 
@@ -415,9 +417,19 @@
       tableAdvancedColumnGroups.data = dataColumnGroups;
       tableAdvancedColumnGroups.columns = columnGroups;
 
-      tableAdvancedColumnGroups.filterPredicate = function (data) {
-        return data.name == "Frank Harbours" || data.rating <= 2;
+      const customFilterFunction = (data, filterParams) => {
+        return data.name === filterParams.name || data.rating <= filterParams.rating;
       };
+
+      const filterParams = { name: "Frank Harbours", rating: 1 };
+
+      function triggerSetFilter() {
+        tableAdvancedColumnGroups.setFilter(customFilterFunction, filterParams);
+      }
+
+      function triggerClearFilter() {
+        tableAdvancedColumnGroups.clearFilter();
+      }
 
       var dataFitToWidth = [
         { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
