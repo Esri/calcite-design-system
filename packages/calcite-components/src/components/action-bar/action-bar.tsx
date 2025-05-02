@@ -260,7 +260,7 @@ export class ActionBar extends LitElement {
         this.actionSizes.set(action, size);
         return size;
       }
-      return this.actionSizes.get(action); // todo: average fallback
+      return this.actionSizes.get(action) ?? 48; // todo: use better fallback size
     });
   }
 

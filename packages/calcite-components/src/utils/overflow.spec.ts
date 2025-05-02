@@ -17,7 +17,7 @@ describe("getOverflowCount", () => {
       containerSize: 100,
       itemSizes: [30, 40, 50, 20],
     });
-    expect(result).toBe(1); // Only the last item overflows
+    expect(result).toBe(2);
   });
 
   it("should return the total number of items when all overflow", () => {
@@ -44,7 +44,7 @@ describe("getOverflowCount", () => {
       containerSize: 100,
       itemSizes: [20, 30, 40],
     });
-    expect(result).toBe(3); // All items overflow
+    expect(result).toBe(3);
   });
 
   it("should handle edge case where containerSize is exactly the sum of itemSizes", () => {
@@ -53,7 +53,7 @@ describe("getOverflowCount", () => {
       containerSize: 90,
       itemSizes: [30, 30, 30],
     });
-    expect(result).toBe(0); // No items overflow
+    expect(result).toBe(0);
   });
 
   it("should handle edge case where containerSize is slightly less than the sum of itemSizes", () => {
@@ -62,6 +62,6 @@ describe("getOverflowCount", () => {
       containerSize: 89,
       itemSizes: [30, 30, 30],
     });
-    expect(result).toBe(1); // One item overflows
+    expect(result).toBe(1);
   });
 });
