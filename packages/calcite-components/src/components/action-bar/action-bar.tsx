@@ -53,8 +53,6 @@ export class ActionBar extends LitElement {
 
   // #region Private Properties
 
-  private actionSizes = new WeakMap<Action["el"], number>();
-
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -255,18 +253,8 @@ export class ActionBar extends LitElement {
     }
 
     const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
-    const maxSize = Math.max(...actions.map((action) => action[clientSize] || 0));
-
-    return actions.map((action) => {
-      const actionSize = action[clientSize];
-
-      if (actionSize) {
-        this.actionSizes.set(action, actionSize);
-        return actionSize;
-      }
-
-      return this.actionSizes.get(action) ?? maxSize;
-    });
+    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+    return actions.map((action) => action[clientSize] || fallbackSize);
   }
 
   private expandedHandler(): void {
