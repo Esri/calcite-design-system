@@ -96,6 +96,13 @@ export class Action extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
+   * When `true`, the component is full width
+   *
+   * @private
+   */
+  @property({ reflect: true }) fullWidth = false;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @private
