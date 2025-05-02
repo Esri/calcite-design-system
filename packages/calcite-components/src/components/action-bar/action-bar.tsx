@@ -81,9 +81,9 @@ export class ActionBar extends LitElement {
         : actionGroups.length;
 
     const overflowCount = getOverflowCount({
-      size: layout === "horizontal" ? width : height,
+      bufferSize: groupCount, // 1px border for each group
+      containerSize: layout === "horizontal" ? width : height,
       itemSizes,
-      bufferPx: groupCount, // 1px border for each group
     });
 
     overflowActions({

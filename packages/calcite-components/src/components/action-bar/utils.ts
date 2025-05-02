@@ -4,15 +4,15 @@ import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
 const calculateMaxItems = ({
-  bufferPx,
+  bufferSize,
+  containerSize,
   itemSizes,
-  size,
 }: {
-  bufferPx: number;
+  bufferSize: number;
+  containerSize: number;
   itemSizes: number[];
-  size: number;
 }): number => {
-  const maxSize = size - bufferPx;
+  const maxSize = containerSize - bufferSize;
   let breakpoint = itemSizes.length; // assume all items will fit
   let sizeSum = 0;
   for (const [index, size] of itemSizes.entries()) {
@@ -30,15 +30,15 @@ const calculateMaxItems = ({
 };
 
 export const getOverflowCount = ({
-  bufferPx = 0,
+  bufferSize = 0,
+  containerSize,
   itemSizes,
-  size,
 }: {
-  bufferPx?: number;
+  bufferSize?: number;
+  containerSize: number;
   itemSizes: number[];
-  size: number;
 }): number => {
-  return Math.max(itemSizes.length - calculateMaxItems({ bufferPx, itemSizes, size }), 0);
+  return Math.max(itemSizes.length - calculateMaxItems({ bufferSize, itemSizes, containerSize }), 0);
 };
 
 export const queryActions = (el: HTMLElement): Action["el"][] => {
