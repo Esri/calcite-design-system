@@ -317,6 +317,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       switch (key) {
         case "Backspace":
         case "Delete":
+          event.preventDefault();
           this.setValuePart("hour", null);
           break;
         case "ArrowDown":
@@ -351,6 +352,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       switch (key) {
         case "Backspace":
         case "Delete":
+          event.preventDefault();
           this.setValuePart("minute", null);
           break;
         case "ArrowDown":
@@ -385,6 +387,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       switch (key) {
         case "Backspace":
         case "Delete":
+          event.preventDefault();
           this.setValuePart("second", null);
           break;
         case "ArrowDown":
@@ -423,6 +426,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       switch (key) {
         case "Backspace":
         case "Delete":
+          event.preventDefault();
           this.setValuePart("fractionalSecond", null);
           break;
         case "ArrowDown":
@@ -450,6 +454,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
         break;
       case "Backspace":
       case "Delete":
+        event.preventDefault();
         this.setValuePart("meridiem");
         break;
       case "ArrowUp":
