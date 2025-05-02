@@ -53,6 +53,7 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
+import { componentFocusable } from "../../utils/component";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -377,6 +378,8 @@ export class Autocomplete
    */
   @method()
   async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
     return this.referenceEl.setFocus();
   }
 
