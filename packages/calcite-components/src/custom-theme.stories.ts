@@ -33,7 +33,14 @@ import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
 import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
-import { inputNumber } from "./custom-theme/input-number";
+import {
+  inputNumber,
+  inputNumberClearable,
+  inputNumberReadOnly,
+  inputNumberClearableReadOnly,
+  inputNumberReadOnlyWithPrefixSuffix,
+  inputNumberTokens,
+} from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
@@ -147,7 +154,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${inlineEditable} ${input} ${inputText} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
+        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -220,6 +228,7 @@ const componentTokens = {
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
+  ...inputNumberTokens,
   ...graphTokens,
   ...inputTokens,
   ...inputMessageTokens,
