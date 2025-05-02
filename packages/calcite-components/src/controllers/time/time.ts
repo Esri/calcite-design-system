@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { GenericController, T9nMeta } from "@arcgis/components-controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
-import { LitElement } from "@arcgis/lumina";
+import { createEvent, LitElement } from "@arcgis/lumina";
 import {
   EffectiveHourFormat,
   formatTimePart,
@@ -29,10 +29,6 @@ import { NumberingSystem, SupportedLocale } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 
 export interface TimeComponent extends LitElement {
-  /**
-   * Method on the component to call when the value changes.
-   */
-  handleChangeEvent: (previousValue: string) => void;
   /**
    * Specifies the component's hour format, where:
    *
@@ -64,6 +60,10 @@ export interface TimeComponent extends LitElement {
 }
 
 type TimeProperties = {
+  /**
+   * Change event that fires when the value is committed on Enter keypress or blur
+   */
+  calciteTimeChange: CustomEvent;
   /**
    * The fractional second portion of the time value.
    */
@@ -142,6 +142,7 @@ type TimeProperties = {
 };
 
 export class TimeController extends GenericController<TimeProperties, TimeComponent> {
+  calciteTimeChange = createEvent<string>();
   fractionalSecond: string;
   hour: string;
   hourFormat: EffectiveHourFormat;
@@ -184,14 +185,6 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       const oldStep = this.component.step;
       const newStep = changes.get("step");
       if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
-        this.setValue(this.component.value);
-      }
-    }
-    if (changes.has("value") && this.component.hasUpdated) {
-      if (this.userChangedValue) {
-        this.component.handleChangeEvent(changes.get("value"));
-        this.userChangedValue = false;
-      } else {
         this.setValue(this.component.value);
       }
     }
@@ -471,7 +464,7 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     }
   };
 
-  setValue(value: string): void {
+  setValue(value: string, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
@@ -529,8 +522,10 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
-      this.userChangedValue = false;
+      this.userChangedValue = userChangedValue;
       this.component.value = newValue ?? "";
+    } else {
+      this.component.requestUpdate();
     }
   }
 
@@ -616,12 +611,12 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
-      this.userChangedValue = true;
-      this.component.value = newValue ?? "";
       if (key === "hour" && hourFormat === "12") {
         this.meridiem = getMeridiem(hour);
         this.localizedMeridiem = getLocalizedMeridiem({ locale, meridiem: this.meridiem });
       }
+      this.userChangedValue = true;
+      this.calciteTimeChange.emit(newValue ?? "");
     }
   }
 }

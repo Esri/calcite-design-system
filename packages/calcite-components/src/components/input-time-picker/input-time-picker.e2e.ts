@@ -148,6 +148,7 @@ describe("calcite-input-time-picker", () => {
     await inputTimePicker.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.press("5");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
@@ -358,7 +359,7 @@ describe("calcite-input-time-picker", () => {
 
         expect(await getInputValue(page, "ar")).toBe("٠٢:٤٥:٣٠ م");
         expect(await inputTimePicker.getProperty("value")).toBe("14:45:30");
-        expect(changeEvent).toHaveReceivedEventTimes(5);
+        expect(changeEvent).toHaveReceivedEventTimes(1);
       });
 
       it("value displays correctly in the input when it is directly changed for arabic lang and arab numberingSystem", async () => {
@@ -439,6 +440,7 @@ describe("calcite-input-time-picker", () => {
                 step="${step}"
                 value="${initialValue}"
               ></calcite-input-time-picker>
+              <input id="blurTarget" placeholder="${locale}" />
             `);
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -447,6 +449,7 @@ describe("calcite-input-time-picker", () => {
             const secondInput = await page.find(`calcite-input-time-picker >>> .${second}`);
             const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${fractionalSecond}`);
             const meridiemInput = await page.find(`calcite-input-time-picker >>> .${meridiem}`);
+            const blurTarget = await page.find("#blurTarget");
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
             await page.waitForChanges();
@@ -468,7 +471,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -484,7 +487,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(2);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -500,7 +503,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(3);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -516,7 +519,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(4);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -532,7 +535,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(5);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("11:59:59.999");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -541,6 +544,52 @@ describe("calcite-input-time-picker", () => {
                 locale,
                 step,
                 value: "11:59:59.999",
+              }),
+            );
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(await inputTimePicker.getProperty("value")).toBe("11:59:59.999");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: true,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "11:59:59.999",
+              }),
+            );
+
+            await meridiemInput.click();
+            await page.keyboard.press("ArrowUp");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: true,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.999",
+              }),
+            );
+
+            await blurTarget.focus();
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(2);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: true,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.999",
               }),
             );
           });
@@ -687,6 +736,7 @@ describe("calcite-input-time-picker", () => {
                 step=".001"
                 value="${initialValue}"
               ></calcite-input-time-picker>
+              <input id="blurTarget" placeholder="${locale}" />
             `);
 
             const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -694,6 +744,7 @@ describe("calcite-input-time-picker", () => {
             const minuteInput = await page.find(`calcite-input-time-picker >>> .${minute}`);
             const secondInput = await page.find(`calcite-input-time-picker >>> .${second}`);
             const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${fractionalSecond}`);
+            const blurTarget = await page.find("#blurTarget");
             const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
             await page.waitForChanges();
@@ -715,7 +766,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:00:00.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -731,7 +782,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(2);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:00.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -747,7 +798,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(3);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.000");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -763,7 +814,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
 
-            expect(changeEvent).toHaveReceivedEventTimes(4);
+            expect(changeEvent).toHaveReceivedEventTimes(0);
             expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
             expect(await getInputValue(page, locale)).toBe(
               localizeTimeString({
@@ -772,6 +823,51 @@ describe("calcite-input-time-picker", () => {
                 locale,
                 step,
                 value: "23:59:59.999",
+              }),
+            );
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.999");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.999",
+              }),
+            );
+
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.998");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.998",
+              }),
+            );
+
+            await blurTarget.focus();
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(2);
+            expect(await inputTimePicker.getProperty("value")).toBe("23:59:59.998");
+            expect(await getInputValue(page, locale)).toBe(
+              localizeTimeString({
+                hour12: false,
+                includeSeconds: true,
+                locale,
+                step,
+                value: "23:59:59.998",
               }),
             );
           });
@@ -1559,7 +1655,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    it("updates value and fires change event when editing the value from the time picker", async () => {
+    it("updates value and fires change event on enter when editing the value from the time picker", async () => {
       const page = await newE2EPage();
       const nextSibling = "next-sibling";
       await page.setContent(
@@ -1582,7 +1678,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await inputTimePicker.getProperty("value")).toBe("01:00:00.000");
-      expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       const timePickerMinuteInput = await page.find(
         `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.minute}`,
@@ -1592,7 +1688,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await inputTimePicker.getProperty("value")).toBe("01:01:00.000");
-      expect(changeEvent).toHaveReceivedEventTimes(2);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       const timePickerSecondInput = await page.find(
         `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.second}`,
@@ -1603,7 +1699,7 @@ describe("calcite-input-time-picker", () => {
 
       expect(await inputTimePicker.getProperty("value")).toBe("01:01:01.000");
 
-      expect(changeEvent).toHaveReceivedEventTimes(3);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       const timePickerFractionalSecondInput = await page.find(
         `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.fractionalSecond}`,
@@ -1613,7 +1709,7 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await inputTimePicker.getProperty("value")).toBe("01:01:01.001");
-      expect(changeEvent).toHaveReceivedEventTimes(4);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
 
       const timePickerMeridiemInput = await page.find(
         `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.meridiem}`,
@@ -1623,7 +1719,13 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
 
       expect(await inputTimePicker.getProperty("value")).toBe("13:01:01.001");
-      expect(changeEvent).toHaveReceivedEventTimes(5);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await inputTimePicker.getProperty("value")).toBe("13:01:01.001");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
     });
   });
 });

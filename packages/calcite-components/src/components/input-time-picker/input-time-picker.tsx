@@ -54,44 +54,6 @@ export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
 {
-  // #region Static Members
-
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
-  static override styles = styles;
-
-  // #endregion
-
-  // #region Private Properties
-
-  private activeEl: HTMLSpanElement;
-
-  private calciteTimePickerEl: TimePicker["el"];
-
-  private containerEl: HTMLDivElement;
-
-  defaultValue: InputTimePicker["value"];
-
-  formEl: HTMLFormElement;
-
-  private fractionalSecondEl: HTMLSpanElement;
-
-  private hourEl: HTMLSpanElement;
-
-  private meridiemEl: HTMLSpanElement;
-
-  private minuteEl: HTMLSpanElement;
-
-  labelEl: Label["el"];
-
-  private popoverEl: Popover["el"];
-
-  private secondEl: HTMLSpanElement;
-
-  private time = new TimeController(this);
-
-  // #endregion
-
   // #region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -223,18 +185,6 @@ export class InputTimePicker
   // #region Public Methods
 
   /**
-   * Emits a change event and resets to previous value if the event's default behavior is prevented.
-   * Called by the Time Controller when the value is modified by the user.
-   * @private
-   */
-  async handleChangeEvent(previousValue: string): Promise<void> {
-    const changeEvent = this.calciteInputTimePickerChange.emit();
-    if (changeEvent.defaultPrevented) {
-      this.time.setValue(previousValue);
-    }
-  }
-
-  /**
    * Updates the position of the component.
    *
    * @param delayed If true, delay the repositioning.
@@ -276,7 +226,9 @@ export class InputTimePicker
 
   constructor() {
     super();
+    this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.listenOn(window, "calciteTimeChange", this.timeChangeHandler);
   }
 
   override connectedCallback(): void {
@@ -304,6 +256,17 @@ export class InputTimePicker
         this.open = false;
       }
     }
+
+    if (changes.has("value")) {
+      if (this.hasUpdated) {
+        if (!this.time.userChangedValue) {
+          this.time.setValue(this.value);
+          this.previousEmittedValue = this.value;
+        }
+      } else {
+        this.previousEmittedValue = this.value;
+      }
+    }
   }
 
   override updated(): void {
@@ -317,51 +280,63 @@ export class InputTimePicker
 
   // #endregion
 
+  // #region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private activeEl: HTMLSpanElement;
+
+  private containerEl: HTMLDivElement;
+
+  defaultValue: InputTimePicker["value"];
+
+  formEl: HTMLFormElement;
+
+  private fractionalSecondEl: HTMLSpanElement;
+
+  private hourEl: HTMLSpanElement;
+
+  private meridiemEl: HTMLSpanElement;
+
+  private minuteEl: HTMLSpanElement;
+
+  labelEl: Label["el"];
+
+  private popoverEl: Popover["el"];
+
+  private previousEmittedValue: string;
+
+  private secondEl: HTMLSpanElement;
+
+  private time = new TimeController(this);
+
+  // #endregion
+
   // #region Private Methods
 
-  private openHandler(): void {
-    if (this.disabled || this.readOnly) {
-      return;
+  private blurHandler(): void {
+    this.changeEventHandler();
+  }
+
+  /**
+   * Emits a change event and resets to previous value if the event's default behavior is prevented.
+   */
+  private changeEventHandler(): void {
+    const { previousEmittedValue, value } = this;
+    if (previousEmittedValue !== value) {
+      const changeEvent = this.calciteInputTimePickerChange.emit();
+      if (changeEvent.defaultPrevented) {
+        this.time.setValue(this.previousEmittedValue);
+      } else {
+        this.previousEmittedValue = value;
+      }
     }
-
-    if (this.popoverEl) {
-      // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
-      this.popoverEl.open = this.open;
-    }
-  }
-
-  private timePickerChangeHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    const target = event.target as TimePicker["el"];
-    const value = target.value;
-    const previousValue = this.value;
-    this.time.setValue(value);
-    this.handleChangeEvent(previousValue);
-  }
-
-  private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.calciteInputTimePickerBeforeOpen.emit();
-  }
-
-  private popoverOpenHandler(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.calciteInputTimePickerOpen.emit();
-  }
-
-  private popoverBeforeCloseHandler(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.calciteInputTimePickerBeforeClose.emit();
-  }
-
-  private popoverCloseHandler(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.calciteInputTimePickerClose.emit();
-    this.open = false;
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -376,10 +351,7 @@ export class InputTimePicker
       if (submitForm(this)) {
         event.preventDefault();
       }
-
-      if (event.composedPath().includes(this.calciteTimePickerEl)) {
-        return;
-      }
+      this.changeEventHandler();
     } else if (this.open && this.focusTrapDisabled && key === "Escape") {
       this.open = false;
       event.preventDefault();
@@ -455,6 +427,38 @@ export class InputTimePicker
     this.setFocus();
   }
 
+  private openHandler(): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
+    if (this.popoverEl) {
+      // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
+      this.popoverEl.open = this.open;
+    }
+  }
+
+  private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteInputTimePickerBeforeOpen.emit();
+  }
+
+  private popoverOpenHandler(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteInputTimePickerOpen.emit();
+  }
+
+  private popoverBeforeCloseHandler(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteInputTimePickerBeforeClose.emit();
+  }
+
+  private popoverCloseHandler(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteInputTimePickerClose.emit();
+    this.open = false;
+  }
+
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -484,19 +488,27 @@ export class InputTimePicker
     this.secondEl = el;
   }
 
-  private setCalciteTimePickerEl(el: TimePicker["el"]): void {
-    if (!el) {
-      return;
-    }
-    this.calciteTimePickerEl = el;
-  }
-
   private setMeridiemEl(el: HTMLSpanElement): void {
     this.meridiemEl = el;
   }
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("time", this, input);
+  }
+
+  private timeChangeHandler({ detail: newValue }): void {
+    if (newValue !== this.value) {
+      this.value = newValue;
+    }
+  }
+
   private timePartFocusHandler(event: FocusEvent): void {
     this.activeEl = event.currentTarget as HTMLSpanElement;
+  }
+
+  private timePickerChangeHandler(event: CustomEvent): void {
+    event.stopPropagation();
+    this.time.setValue((event.target as TimePicker["el"]).value, true);
   }
 
   private toggleIconClickHandler() {
@@ -665,7 +677,6 @@ export class InputTimePicker
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
-            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
