@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.38...@esri/calcite-components@3.2.0-next.39) (2025-05-02)
+
+### Features
+
+- **input-time-picker:** add separate hour, minute, second and meridiem input fields ([#11712](https://github.com/Esri/calcite-design-system/issues/11712)) ([bdffb56](https://github.com/Esri/calcite-design-system/commit/bdffb569a1a81d7785937e923a5141b7e1b9fbeb)), closes [#2709](https://github.com/Esri/calcite-design-system/issues/2709)
+- support `nn` locale ([#12079](https://github.com/Esri/calcite-design-system/issues/12079)) ([04b69f0](https://github.com/Esri/calcite-design-system/commit/04b69f039bf38ec613fcc0a4ddb67907a173efc6)), closes [#11978](https://github.com/Esri/calcite-design-system/issues/11978)
+
 ## [3.2.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.37...@esri/calcite-components@3.2.0-next.38) (2025-05-01)
 
 ### Bug Fixes
