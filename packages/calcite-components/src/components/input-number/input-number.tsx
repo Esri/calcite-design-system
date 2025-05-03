@@ -850,7 +850,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator) {
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -872,9 +872,27 @@ export class InputNumber
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
     this.value = validNewValue;
 
-    this.setInputNumberValue(newLocalizedValue);
+    const localizedCharWhitelist = new Set([
+      "e",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    // remove invalid characters from internal input
+    if (this?.childNumberEl?.value) {
+      const sanitizedChildElValue = Array.from(this?.childNumberEl?.value)
+        .filter((char) => localizedCharWhitelist.has(char))
+        .join("");
+
+      if (sanitizedChildElValue !== this?.childNumberEl?.value) {
+        this.setInputNumberValue(newLocalizedValue);
+      }
+    }
 
     if (origin === "direct") {
+      this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(validNewValue);
     }
 
