@@ -91,14 +91,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
   openProp = "opened";
 
   transitionProp = "opacity" as const;
@@ -383,8 +375,11 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   onOpen(): void {
     this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
-    this.calciteModalOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteModalOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -428,10 +423,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   private async openModal(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
 
     this.titleId = ensureId(this.titleEl);
