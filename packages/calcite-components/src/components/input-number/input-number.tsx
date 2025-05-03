@@ -674,7 +674,7 @@ export class InputNumber
       "Escape",
       "Tab",
     ];
-    if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) {
+    if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
@@ -840,6 +840,18 @@ export class InputNumber
         : sanitizedValue;
 
     let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+    const charWhitelist = new Set([
+      "e",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    newLocalizedValue = Array.from(newLocalizedValue)
+      .filter((char) => charWhitelist.has(char))
+      .join("");
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
