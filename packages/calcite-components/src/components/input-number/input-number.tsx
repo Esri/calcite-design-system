@@ -841,18 +841,6 @@ export class InputNumber
 
     let newLocalizedValue = numberStringFormatter.localize(newValue);
 
-    const charWhitelist = new Set([
-      "e",
-      numberStringFormatter.decimal,
-      numberStringFormatter.minusSign,
-      numberStringFormatter.group,
-      ...numberStringFormatter.digits,
-    ]);
-
-    newLocalizedValue = Array.from(newLocalizedValue)
-      .filter((char) => charWhitelist.has(char))
-      .join("");
-
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
@@ -862,7 +850,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
+    if (hasTrailingDecimalSeparator) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -884,8 +872,9 @@ export class InputNumber
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
     this.value = validNewValue;
 
+    this.setInputNumberValue(newLocalizedValue);
+
     if (origin === "direct") {
-      this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(validNewValue);
     }
 
