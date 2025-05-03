@@ -142,152 +142,43 @@ type TimeProperties = {
 };
 
 export class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  calciteTimeChange = createEvent<string>();
+  //#region Private Properties
+
   fractionalSecond: string;
+
   hour: string;
+
   hourFormat: EffectiveHourFormat;
+
   locale: SupportedLocale;
+
   localizedDecimalSeparator = ".";
+
   localizedFractionalSecond: string;
+
   localizedHour: string;
+
   localizedHourSuffix: string;
+
   localizedMeridiem: string;
+
   localizedMinute: string;
+
   localizedMinuteSuffix: string;
+
   localizedSecond: string;
+
   localizedSecondSuffix: string;
+
   meridiem: Meridiem;
+
   meridiemOrder: number;
+
   minute: string;
+
   second: string;
+
   userChangedValue: boolean = false;
-
-  hostConnected(): void {
-    this.setHourFormat();
-    this.setMeridiemOrder();
-    this.setValue(this.component.value);
-  }
-
-  hostUpdate(changes: PropertyValues): void {
-    if (changes.has("hourFormat")) {
-      this.setHourFormat();
-      this.setValue(this.component.value);
-    }
-    if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
-      this.setHourFormat();
-      this.setMeridiemOrder();
-      this.setValue(this.component.value);
-    }
-    if (changes.has("numberingSystem")) {
-      this.setValue(this.component.value);
-    }
-    if (changes.has("step")) {
-      const oldStep = this.component.step;
-      const newStep = changes.get("step");
-      if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
-        this.setValue(this.component.value);
-      }
-    }
-  }
-
-  private decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private decrementMinute(): void {
-    this.decrementMinuteOrSecond("minute");
-  }
-
-  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
-    let newValue;
-    if (isValidNumber(this[key])) {
-      const valueAsNumber = parseInt(this[key]);
-      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
-    } else {
-      newValue = 59;
-    }
-    this.setValuePart(key, newValue);
-  }
-
-  private decrementSecond(): void {
-    this.decrementMinuteOrSecond("second");
-  }
-
-  private incrementHour(): void {
-    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private incrementMinute(): void {
-    this.incrementMinuteOrSecond("minute");
-  }
-
-  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
-    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
-    this.setValuePart(key, newValue);
-  }
-
-  private incrementSecond(): void {
-    this.incrementMinuteOrSecond("second");
-  }
-
-  private nudgeFractionalSecond(direction: "up" | "down"): void {
-    const stepDecimal = getDecimals(this.component.step);
-    const stepPrecision = decimalPlaces(this.component.step);
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue;
-    let nudgedValueRounded;
-    let nudgedValueRoundedDecimals;
-    let newFractionalSecond;
-    if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    if (direction === "down") {
-      nudgedValue =
-        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - stepDecimal
-          : fractionalSecondAsFloat - stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
-        Math.sign(nudgedValueRoundedDecimals) === 1
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    this.setValuePart("fractionalSecond", newFractionalSecond);
-  }
-
-  private setHourFormat(): void {
-    const { hourFormat, messages } = this.component;
-    const locale = messages._lang as SupportedLocale;
-    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
-  }
-
-  private setMeridiemOrder(): void {
-    const { messages } = this.component;
-    const locale = messages._lang as SupportedLocale;
-    this.meridiemOrder = getMeridiemOrder(locale);
-  }
-
-  private toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
-    let newMeridiem;
-    if (!this.meridiem) {
-      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
-    } else {
-      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    }
-    this.setValuePart("meridiem", newMeridiem);
-  }
 
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
@@ -469,6 +360,143 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     }
   };
 
+  //#endregion
+
+  //#region Events
+
+  calciteTimeChange = createEvent<string>();
+
+  //#endregion
+
+  //#region Private Methods
+
+  hostConnected(): void {
+    this.setHourFormat();
+    this.setMeridiemOrder();
+    this.setValue(this.component.value);
+  }
+
+  hostUpdate(changes: PropertyValues): void {
+    if (changes.has("hourFormat")) {
+      this.setHourFormat();
+      this.setValue(this.component.value);
+    }
+    if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
+      this.setHourFormat();
+      this.setMeridiemOrder();
+      this.setValue(this.component.value);
+    }
+    if (changes.has("numberingSystem")) {
+      this.setValue(this.component.value);
+    }
+    if (changes.has("step")) {
+      const oldStep = this.component.step;
+      const newStep = changes.get("step");
+      if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
+        this.setValue(this.component.value);
+      }
+    }
+  }
+
+  private decrementHour(): void {
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  private decrementMinute(): void {
+    this.decrementMinuteOrSecond("minute");
+  }
+
+  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
+    let newValue;
+    if (isValidNumber(this[key])) {
+      const valueAsNumber = parseInt(this[key]);
+      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
+    } else {
+      newValue = 59;
+    }
+    this.setValuePart(key, newValue);
+  }
+
+  private decrementSecond(): void {
+    this.decrementMinuteOrSecond("second");
+  }
+
+  private incrementHour(): void {
+    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  private incrementMinute(): void {
+    this.incrementMinuteOrSecond("minute");
+  }
+
+  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
+    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
+    this.setValuePart(key, newValue);
+  }
+
+  private incrementSecond(): void {
+    this.incrementMinuteOrSecond("second");
+  }
+
+  private nudgeFractionalSecond(direction: "up" | "down"): void {
+    const stepDecimal = getDecimals(this.component.step);
+    const stepPrecision = decimalPlaces(this.component.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue;
+    let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
+    let newFractionalSecond;
+    if (direction === "up") {
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    if (direction === "down") {
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    this.setValuePart("fractionalSecond", newFractionalSecond);
+  }
+
+  private setHourFormat(): void {
+    const { hourFormat, messages } = this.component;
+    const locale = messages._lang as SupportedLocale;
+    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
+  }
+
+  private setMeridiemOrder(): void {
+    const { messages } = this.component;
+    const locale = messages._lang as SupportedLocale;
+    this.meridiemOrder = getMeridiemOrder(locale);
+  }
+
+  private toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
+    let newMeridiem;
+    if (!this.meridiem) {
+      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
+    } else {
+      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    }
+    this.setValuePart("meridiem", newMeridiem);
+  }
+
   setValue(value: string, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
@@ -624,4 +652,6 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
       this.calciteTimeChange.emit(newValue ?? "");
     }
   }
+
+  //#endregion
 }

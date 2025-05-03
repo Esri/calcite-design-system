@@ -47,13 +47,13 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class Dialog extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
@@ -95,9 +95,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string | null = null;
 
@@ -113,9 +120,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     return !this.embedded && this.modal;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -177,13 +184,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
@@ -195,7 +195,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -235,9 +234,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -280,14 +279,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
-  focusTrapDisabledOverride(): boolean {
-    return !this.modal && this.focusTrapDisabled;
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteDialogBeforeClose = createEvent({ cancelable: false });
@@ -304,9 +298,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Fires when the content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -347,9 +341,14 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
+  }
 
   private updateAssistiveText(): void {
     const { messages } = this;
@@ -736,9 +735,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { assistiveText, description, heading, opened } = this;
@@ -811,5 +810,5 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

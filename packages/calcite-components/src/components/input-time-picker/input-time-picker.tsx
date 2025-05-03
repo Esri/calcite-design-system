@@ -54,7 +54,52 @@ export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
 {
-  // #region Public Properties
+  //#region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private activeEl: HTMLSpanElement;
+
+  private containerEl: HTMLDivElement;
+
+  defaultValue: InputTimePicker["value"];
+
+  formEl: HTMLFormElement;
+
+  private fractionalSecondEl: HTMLSpanElement;
+
+  private hourEl: HTMLSpanElement;
+
+  private meridiemEl: HTMLSpanElement;
+
+  private minuteEl: HTMLSpanElement;
+
+  labelEl: Label["el"];
+
+  private popoverEl: Popover["el"];
+
+  private previousEmittedValue: string;
+
+  private secondEl: HTMLSpanElement;
+
+  private time = new TimeController(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -90,13 +135,6 @@ export class InputTimePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -180,9 +218,9 @@ export class InputTimePicker
   /** The time value in ISO (24-hour) format. */
   @property() value: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -201,9 +239,9 @@ export class InputTimePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputTimePickerBeforeClose = createEvent({ cancelable: false });
@@ -220,9 +258,9 @@ export class InputTimePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -278,47 +316,9 @@ export class InputTimePicker
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Static Members
-
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
-  static override styles = styles;
-
-  // #endregion
-
-  // #region Private Properties
-
-  private activeEl: HTMLSpanElement;
-
-  private containerEl: HTMLDivElement;
-
-  defaultValue: InputTimePicker["value"];
-
-  formEl: HTMLFormElement;
-
-  private fractionalSecondEl: HTMLSpanElement;
-
-  private hourEl: HTMLSpanElement;
-
-  private meridiemEl: HTMLSpanElement;
-
-  private minuteEl: HTMLSpanElement;
-
-  labelEl: Label["el"];
-
-  private popoverEl: Popover["el"];
-
-  private previousEmittedValue: string;
-
-  private secondEl: HTMLSpanElement;
-
-  private time = new TimeController(this);
-
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private blurHandler(): void {
     this.changeEventHandler();
@@ -515,9 +515,9 @@ export class InputTimePicker
     this.open = !this.open;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { messages, readOnly, scale } = this;
@@ -736,5 +736,5 @@ export class InputTimePicker
     );
   }
 
-  // #endregion
+  //#endregion
 }
