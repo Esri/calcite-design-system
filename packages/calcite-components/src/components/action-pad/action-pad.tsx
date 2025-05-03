@@ -25,15 +25,15 @@ declare global {
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionPad extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionGroups: ActionGroup["el"][];
 
@@ -44,15 +44,22 @@ export class ActionPad extends LitElement {
     this.calciteActionPadToggle.emit();
   };
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() expandTooltip: Tooltip["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
@@ -71,13 +78,6 @@ export class ActionPad extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -92,9 +92,9 @@ export class ActionPad extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -103,16 +103,16 @@ export class ActionPad extends LitElement {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionPadToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -141,9 +141,10 @@ export class ActionPad extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
@@ -177,9 +178,9 @@ export class ActionPad extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBottomActionGroup(): JsxNode {
     const {
@@ -233,5 +234,5 @@ export class ActionPad extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

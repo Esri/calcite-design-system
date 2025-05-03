@@ -37,13 +37,13 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class Sheet extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private contentEl: HTMLDivElement;
 
@@ -87,9 +87,24 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
 
-  // #region State Properties
+    if (
+      !defaultPrevented &&
+      !this.escapeDisabled &&
+      this.focusTrapDisabled &&
+      this.open &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
@@ -104,9 +119,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     return !this.embedded;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Passes a function to run before the component closes.
@@ -170,7 +185,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -196,7 +210,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
-
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
@@ -207,9 +220,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's "close" button - the first focusable item. */
   @method()
@@ -231,9 +244,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteSheetBeforeClose = createEvent({ cancelable: false });
@@ -247,9 +260,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteSheetOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -292,24 +305,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      !this.escapeDisabled &&
-      this.focusTrapDisabled &&
-      this.open &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
-    }
-  };
+  //#region Private Methods
 
   private toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {
@@ -578,9 +576,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { resizable, position, resizeValues } = this;
@@ -645,5 +643,5 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

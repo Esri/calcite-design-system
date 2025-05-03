@@ -30,13 +30,13 @@ declare global {
 
 /** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
 export class MenuItem extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private anchorEl = createRef<HTMLAnchorElement>();
 
@@ -44,17 +44,24 @@ export class MenuItem extends LitElement {
 
   private isFocused: boolean;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasSubmenu = false;
 
   @state() submenuItems: MenuItem["el"][];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
@@ -90,13 +97,6 @@ export class MenuItem extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
@@ -120,9 +120,9 @@ export class MenuItem extends LitElement {
   /** @private */
   @property() topLevelMenuLayout: Layout;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -131,9 +131,9 @@ export class MenuItem extends LitElement {
     this.anchorEl.value.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalMenuItemKeyEvent = createEvent<MenuItemCustomEvent>();
@@ -141,9 +141,9 @@ export class MenuItem extends LitElement {
   /** Emits when the component is selected. */
   calciteMenuItemSelect = createEvent();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -153,9 +153,9 @@ export class MenuItem extends LitElement {
     this.listen("focus", this.focusHandler);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleClickOut(event: Event): void {
     if (
@@ -273,9 +273,9 @@ export class MenuItem extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderIconStart(): JsxNode {
     return (
@@ -432,5 +432,5 @@ export class MenuItem extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
