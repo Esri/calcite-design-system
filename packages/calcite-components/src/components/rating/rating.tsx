@@ -46,13 +46,13 @@ export class Rating
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: Rating["value"];
 
@@ -74,15 +74,22 @@ export class Rating
 
   private _value = 0;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hoverValue: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies a cumulative average from previous ratings to display. */
   @property({ reflect: true }) average: number;
@@ -102,13 +109,6 @@ export class Rating
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the name of the component.
@@ -170,7 +170,6 @@ export class Rating
   get value(): number {
     return this._value;
   }
-
   set value(value: number) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -181,9 +180,9 @@ export class Rating
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -192,16 +191,16 @@ export class Rating
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's value changes. */
   calciteRatingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -257,9 +256,9 @@ export class Rating
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
@@ -379,9 +378,9 @@ export class Rating
     return currentValue === 1 ? 5 : currentValue - 1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const countString = this.count?.toString();
@@ -460,5 +459,5 @@ export class Rating
     );
   }
 
-  // #endregion
+  //#endregion
 }

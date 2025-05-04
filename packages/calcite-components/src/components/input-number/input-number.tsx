@@ -73,13 +73,13 @@ export class InputNumber
     NumericInputComponent,
     TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
@@ -98,10 +98,6 @@ export class InputNumber
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   labelEl: Label["el"];
 
@@ -135,17 +131,24 @@ export class InputNumber
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() displayedValue: string;
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -226,13 +229,6 @@ export class InputNumber
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -338,7 +334,6 @@ export class InputNumber
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -353,9 +348,9 @@ export class InputNumber
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -371,9 +366,9 @@ export class InputNumber
     this.childNumberEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new value is typed and committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
@@ -387,9 +382,9 @@ export class InputNumber
   /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -465,9 +460,13 @@ export class InputNumber
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -917,9 +916,9 @@ export class InputNumber
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -1071,5 +1070,5 @@ export class InputNumber
     );
   }
 
-  // #endregion
+  //#endregion
 }

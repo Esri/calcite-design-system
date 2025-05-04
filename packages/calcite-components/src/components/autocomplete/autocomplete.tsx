@@ -81,13 +81,13 @@ export class Autocomplete
     OpenCloseComponent,
     TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = guid();
 
@@ -127,9 +127,17 @@ export class Autocomplete
 
   private inputValueMatchPattern: RegExp;
 
-  // #endregion
+  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
-  // #region State Properties
+  private resizeObserver = createObserver("resize", () => {
+    this.setFloatingElSize();
+  });
+
+  private getAllItemsDebounced = debounce(this.getAllItems, 0);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() activeDescendant = "";
 
@@ -153,9 +161,9 @@ export class Autocomplete
     return this.items.filter((item) => !item.disabled);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -315,9 +323,9 @@ export class Autocomplete
   /** The component's value. */
   @property() value = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -380,9 +388,9 @@ export class Autocomplete
     return this.referenceEl.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAutocompleteBeforeClose = createEvent({ cancelable: false });
@@ -405,9 +413,9 @@ export class Autocomplete
   /** Fires each time a new `inputValue` is typed. */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -495,9 +503,9 @@ export class Autocomplete
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
@@ -550,12 +558,6 @@ export class Autocomplete
     await this.setFocus();
     this.open = false;
   }
-
-  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
-
-  private resizeObserver = createObserver("resize", () => {
-    this.setFloatingElSize();
-  });
 
   onLabelClick(): void {
     this.setFocus();
@@ -633,8 +635,6 @@ export class Autocomplete
   private handleContentBottomSlotChange(event: Event): void {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
-
-  private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
   private getAllItems(): void {
     const { el } = this;
@@ -763,9 +763,9 @@ export class Autocomplete
     this.transitionEl = el;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
@@ -893,5 +893,5 @@ export class Autocomplete
       ));
   }
 
-  // #endregion
+  //#endregion
 }

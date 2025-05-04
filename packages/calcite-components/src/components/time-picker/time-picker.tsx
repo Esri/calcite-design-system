@@ -43,14 +43,15 @@ function capitalize(str: string): string {
 }
 
 export class TimePicker extends LitElement {
-  // #region Static Members
+  //#region Static Members
+
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private fractionalSecondEl: HTMLSpanElement;
 
@@ -66,9 +67,16 @@ export class TimePicker extends LitElement {
 
   private secondEl: HTMLSpanElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() activeEl: HTMLSpanElement;
 
@@ -106,9 +114,9 @@ export class TimePicker extends LitElement {
 
   @state() showSecond: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's hour format, where:
@@ -124,13 +132,6 @@ export class TimePicker extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
@@ -143,9 +144,9 @@ export class TimePicker extends LitElement {
   /** The component's value in UTC (always 24-hour format). */
   @property() value: string = null;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -155,16 +156,16 @@ export class TimePicker extends LitElement {
     this.el?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when a user changes the component's time */
   calciteTimePickerChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -196,9 +197,10 @@ export class TimePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private blurHandler(): void {
     this.activeEl = undefined;
     this.pointerActivated = false;
@@ -870,7 +872,9 @@ export class TimePicker extends LitElement {
     this.setValue(this.sanitizeValue(this.value));
   }
 
-  // #endregion
+  //#endregion
+
+  //#region Rendering
 
   override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);
@@ -1148,5 +1152,5 @@ export class TimePicker extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
