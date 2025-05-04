@@ -880,14 +880,14 @@ export class InputNumber
       ...numberStringFormatter.digits,
     ]);
 
-    // remove invalid characters from internal input
+    // remove invalid characters from child input
     if (this?.childNumberEl?.value) {
-      const sanitizedChildElValue = Array.from(this?.childNumberEl?.value)
+      const sanitizedChildElValue = Array.from(this.childNumberEl.value)
         .filter((char) => localizedCharWhitelist.has(char))
         .join("");
 
-      if (sanitizedChildElValue !== this?.childNumberEl?.value) {
-        this.setInputNumberValue(newLocalizedValue);
+      if (sanitizedChildElValue !== this.childNumberEl.value) {
+        this.setInputNumberValue(sanitizedChildElValue);
       }
     }
 
