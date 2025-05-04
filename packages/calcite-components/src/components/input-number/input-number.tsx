@@ -873,6 +873,7 @@ export class InputNumber
 
     const localizedCharWhitelist = new Set([
       "e",
+      "E",
       numberStringFormatter.decimal,
       numberStringFormatter.minusSign,
       numberStringFormatter.group,
