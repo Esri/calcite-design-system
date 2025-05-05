@@ -883,12 +883,12 @@ export class InputNumber
     const childInputValue = this.childNumberEl?.value;
     // remove invalid characters from child input
     if (childInputValue) {
-      const sanitizedChildElValue = Array.from(childInputValue)
+      const sanitizedChildInputValue = Array.from(childInputValue)
         .filter((char) => localizedCharAllowlist.has(char))
         .join("");
 
-      if (sanitizedChildElValue !== childInputValue) {
-        this.setInputNumberValue(sanitizedChildElValue);
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
       }
     }
 
