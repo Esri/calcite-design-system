@@ -288,6 +288,11 @@ export class Combobox
     return this.selectedItems.length === this.items.length;
   }
 
+  @state()
+  get isIndeterminate(): boolean {
+    return this.selectedItems.length && this.selectedItems.length !== this.items.length;
+  }
+
   // #endregion
 
   // #region Public Properties
@@ -715,8 +720,6 @@ export class Combobox
       if (isSelectAllTarget) {
         this.toggleSelectAll();
       }
-      this.updateAndGetSelectAllState();
-
       if (this.allSelected) {
         this.selectedItems.forEach((item) => {
           const chipEl = this.referenceEl.querySelector<Chip["el"]>(
@@ -788,8 +791,6 @@ export class Combobox
     const selectAllComboboxItemIsSelected = this.items.find(
       (item) => item === this.selectAllComboboxItemReferenceEl,
     );
-
-    // this.selectAll = !!selectAllComboboxItemIsSelected?.selected;
 
     this.items.forEach((item) => (item.selected = !!selectAllComboboxItemIsSelected?.selected));
     this.selectedItems = this.getSelectedItems();
@@ -906,7 +907,6 @@ export class Combobox
             if (item === this.selectAllComboboxItemReferenceEl) {
               this.toggleSelectAll();
             }
-            this.updateAndGetSelectAllState();
             if (this.allSelected) {
               this.selectedItems.forEach((item) => {
                 const chipEl = this.referenceEl.querySelector<Chip["el"]>(
@@ -1833,9 +1833,10 @@ export class Combobox
                 <calcite-combobox-item
                   class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled`}
+                  indeterminate={this.isIndeterminate}
                   label={this.messages.selectAll}
                   ref={this.setSelectAllComboboxItemReferenceEl}
-                  selected={this.updateAndGetSelectAllState()}
+                  selected={this.allSelected}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
                   value="select-all"
