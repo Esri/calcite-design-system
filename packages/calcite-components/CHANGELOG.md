@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.40...@esri/calcite-components@3.2.0-next.41) (2025-05-05)
+
+### Bug Fixes
+
+- **autocomplete:** fix setFocus method in Safari ([#12092](https://github.com/Esri/calcite-design-system/issues/12092)) ([b1c2b56](https://github.com/Esri/calcite-design-system/commit/b1c2b56c883ea3dc59c7fbc121e364b337c12d9d)), closes [#12078](https://github.com/Esri/calcite-design-system/issues/12078)
+
 ## [3.2.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.39...@esri/calcite-components@3.2.0-next.40) (2025-05-03)
 
 ### Bug Fixes
