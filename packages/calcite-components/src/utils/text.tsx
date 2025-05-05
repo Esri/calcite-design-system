@@ -5,6 +5,16 @@ const CSS = {
 };
 
 /**
+ * Capitalizes the first letter in a provided word.
+ * Assumes an unbroken string of text representing a single word.
+ *
+ * @param word string
+ */
+export function capitalizeWord(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+/**
  * Highlight text based on a search pattern.
  *
  * Items using this in their rendering should include the `text-highlight-item` mixin from `includes.scss` in their styles.
