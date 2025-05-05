@@ -135,11 +135,11 @@ const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 const hasTrailingDecimalZeros = /0*$/;
-const charWhitelist = new Set(["e", "E", "-", ",", ".", ...numberKeys]);
+const charAllowlist = new Set(["e", "E", "-", ",", ".", ...numberKeys]);
 
 export const sanitizeNumberString = (numberString: string): string => {
   const strippedInvalidCharsValue = Array.from(numberString)
-    .filter((char) => charWhitelist.has(char))
+    .filter((char) => charAllowlist.has(char))
     .join("");
 
   return sanitizeExponentialNumberString(strippedInvalidCharsValue, (nonExpoNumString) => {

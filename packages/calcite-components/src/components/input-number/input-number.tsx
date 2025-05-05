@@ -871,7 +871,7 @@ export class InputNumber
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
     this.value = validNewValue;
 
-    const localizedCharWhitelist = new Set([
+    const localizedCharAllowlist = new Set([
       "e",
       "E",
       numberStringFormatter.decimal,
@@ -880,13 +880,14 @@ export class InputNumber
       ...numberStringFormatter.digits,
     ]);
 
+    const childInputValue = this.childNumberEl?.value;
     // remove invalid characters from child input
-    if (this?.childNumberEl?.value) {
-      const sanitizedChildElValue = Array.from(this.childNumberEl.value)
-        .filter((char) => localizedCharWhitelist.has(char))
+    if (childInputValue) {
+      const sanitizedChildElValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
         .join("");
 
-      if (sanitizedChildElValue !== this.childNumberEl.value) {
+      if (sanitizedChildElValue !== childInputValue) {
         this.setInputNumberValue(sanitizedChildElValue);
       }
     }
