@@ -6,17 +6,15 @@
 
   .calcite-sortable--ghost::before {
     content: "";
-    @apply box-border
-      border
-      border-dashed
-      border-color-brand
-      bg-foreground-2
+    @apply bg-brand
+      box-border
       absolute
       top-0
       start-0
       bottom-0
       end-0
       z-default;
+    block-size: var(--calcite-border-width-md);
   }
 
   .calcite-sortable--drag {

@@ -192,13 +192,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   /**
-   * When `true`, the item is a drop zone for drag and drop.
-   *
-   * @private
-   */
-  @property() dropSelected = false;
-
-  /**
    * Specifies the size of the component.
    *
    * @internal
@@ -772,7 +765,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale, dropSelected } = this;
+    const { el, expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -781,13 +774,11 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const dir = getElementDir(el);
 
     const icon = expandable
-      ? dropSelected && !expanded
-        ? ICONS.hourGlassActive
-        : expanded
-          ? ICONS.open
-          : dir === "rtl"
-            ? ICONS.collapsedRTL
-            : ICONS.collapsedLTR
+      ? expanded
+        ? ICONS.open
+        : dir === "rtl"
+          ? ICONS.collapsedRTL
+          : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
@@ -1026,7 +1017,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
               [CSS.containerBorder]: showSelectionBorder,
               [CSS.containerBorderSelected]: selectionBorderSelected,
               [CSS.containerBorderUnselected]: selectionBorderUnselected,
-              [CSS.containerDropSelected]: this.dropSelected && expandable && !expanded,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}

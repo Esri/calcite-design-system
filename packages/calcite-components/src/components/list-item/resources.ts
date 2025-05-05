@@ -17,7 +17,6 @@ export const CSS = {
   contentContainerUnavailable: "content-container--unavailable",
   contentContainerWrapper: "content-container-wrapper",
   contentContainerWrapperBordered: "content-container-wrapper--bordered",
-  containerDropSelected: "container--drop-selected",
   contentEnd: "content-end",
   contentStart: "content-start",
   customContent: "custom-content",
@@ -57,7 +56,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-  hourGlassActive: "hourglass-active",
 } as const;
 
 export const activeCellTestAttribute = "data-test-active";
