@@ -788,7 +788,7 @@ export class Combobox
   }
 
   private toggleSelectAll() {
-    const selectAllComboboxItemIsSelected = this.items.find(
+    const selectAllComboboxItemIsSelected = this.keyboardNavItems().find(
       (item) => item === this.selectAllComboboxItemReferenceEl,
     );
 
@@ -1305,7 +1305,9 @@ export class Combobox
   }
 
   private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === "" ? this.items : this.items.filter((item) => !isHidden(item));
+    return this.filterText === ""
+      ? this.keyboardNavItems()
+      : this.keyboardNavItems().filter((item) => !isHidden(item));
   }
 
   private updateItems(): void {
@@ -1377,6 +1379,14 @@ export class Combobox
       this.el.querySelectorAll(ComboboxItemSelector),
     );
 
+    return items.filter((item) => withDisabled || !item.disabled);
+  }
+
+  private keyboardNavItems(withDisabled: boolean = false): HTMLCalciteComboboxItemElement["el"][] {
+    const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
+      this.el.querySelectorAll(ComboboxItemSelector),
+    );
+
     if (this.selectAllComboboxItemReferenceEl) {
       return [
         this.selectAllComboboxItemReferenceEl,
@@ -1384,15 +1394,6 @@ export class Combobox
       ];
     }
 
-    return items.filter((item) => withDisabled || !item.disabled);
-  }
-
-  private getAllItemsExceptSelectAll(
-    withDisabled: boolean = false,
-  ): HTMLCalciteComboboxItemElement["el"][] {
-    const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
-      this.el.querySelectorAll(ComboboxItemSelector),
-    );
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
@@ -1509,28 +1510,6 @@ export class Combobox
     }
 
     this.textInput.value?.focus();
-  }
-
-  private updateAndGetSelectAllState(): boolean {
-    if (!this.selectAllComboboxItemReferenceEl) {
-      return false;
-    }
-
-    const allItems = this.getAllItemsExceptSelectAll();
-    const selectedItems = this.getSelectedItems().filter(
-      (item) => item !== this.selectAllComboboxItemReferenceEl,
-    );
-
-    if (selectedItems.length === 0) {
-      this.selectAllComboboxItemReferenceEl.indeterminate = false;
-      return (this.selectAllComboboxItemReferenceEl.selected = false);
-    } else if (selectedItems.length === allItems.length) {
-      this.selectAllComboboxItemReferenceEl.indeterminate = false;
-      return (this.selectAllComboboxItemReferenceEl.selected = true);
-    } else {
-      this.selectAllComboboxItemReferenceEl.indeterminate = true;
-      return (this.selectAllComboboxItemReferenceEl.selected = false);
-    }
   }
 
   // #endregion
