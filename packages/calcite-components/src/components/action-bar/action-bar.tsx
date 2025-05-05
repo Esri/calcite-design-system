@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  Fragment,
-  h,
-  method,
-  state,
-  JsxNode,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
@@ -31,6 +22,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
+import { DisplayMode } from "./interfaces";
 
 declare global {
   interface DeclareElements {
@@ -129,6 +121,15 @@ export class ActionBar extends LitElement {
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
+
+  /**
+   * Specifies the display mode of the component, where:
+   *
+   * `"dock"` displays at full height.
+   *
+   * `"float"` does not display at full height.
+   */
+  @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
@@ -296,11 +297,10 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
-    this.setGroupLayout(groups);
-  }
-
-  private setGroupLayout(groups: ActionGroup["el"][]): void {
-    groups.forEach((group) => (group.layout = this.layout));
+    groups.forEach((group) => {
+      group.layout = this.layout;
+      group.scale = this.scale;
+    });
   }
 
   private handleDefaultSlotChange(): void {
@@ -376,10 +376,10 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <>
+      <div class={CSS.container}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
-      </>
+      </div>
     );
   }
 

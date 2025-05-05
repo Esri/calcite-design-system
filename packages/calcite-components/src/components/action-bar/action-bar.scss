@@ -3,17 +3,39 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-action-bar-background-color: Specifies the component's background color.
+ * @prop --calcite-action-bar-corner-radius: Specifies the component's border radius when `displayMode` is `"float"`.
  * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width.
  * @prop --calcite-action-bar-items-space: Specifies the space between slotted components in the component.
+ * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `displayMode` is `"float"`.
  */
 
 :host {
   @extend %component-host;
-  @apply pointer-events-auto
-    inline-flex
+  @apply inline-flex
     self-stretch;
+  background: transparent;
+}
 
+.container {
+  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-action-bar-shadow,
+    (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
+  );
+  @apply inline-flex
+  flex-col
+  overflow-hidden;
   gap: var(--calcite-action-bar-items-space, 0);
+  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+}
+
+:host([display-mode="float"]) {
+  .container {
+    @apply animate-in;
+    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+  }
 }
 
 :host([layout="vertical"]) {
@@ -23,7 +45,7 @@
     overflow-y: auto;
   }
 
-  &:host([expanded]) {
+  &:host([expanded]) .container {
     max-inline-size: var(--calcite-action-bar-expanded-max-width, auto);
   }
 
@@ -38,6 +60,10 @@
 
 :host([layout="horizontal"]) {
   @apply flex-row;
+
+  .container {
+    @apply flex-row;
+  }
 
   &:host([overflow-actions-disabled]) {
     overflow-x: auto;
