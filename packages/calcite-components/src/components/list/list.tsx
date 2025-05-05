@@ -636,6 +636,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
+    clearTimeout(this.relatedDragElTimer);
   }
 
   onDragMove({ relatedEl }: ListMoveDetail): void {
@@ -655,6 +656,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragStart(detail: ListDragDetail): void {
     detail.dragEl.sortHandleOpen = false;
+    clearTimeout(this.relatedDragElTimer);
     this.calciteListDragStart.emit(detail);
   }
 
