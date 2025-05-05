@@ -45,13 +45,13 @@ declare global {
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private expandToggleEl: Action["el"];
 
@@ -106,9 +106,16 @@ export class ActionBar extends LitElement {
     this.calciteActionBarToggle.emit();
   };
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() expandTooltip: Tooltip["el"];
 
@@ -116,9 +123,9 @@ export class ActionBar extends LitElement {
 
   @state() hasBottomActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
@@ -134,13 +141,6 @@ export class ActionBar extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
@@ -160,9 +160,9 @@ export class ActionBar extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Overflows actions that won't fit into menus.
@@ -182,16 +182,16 @@ export class ActionBar extends LitElement {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -239,9 +239,9 @@ export class ActionBar extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private getItemSizes(): number[] {
     const { el, layout, expandToggleEl } = this;
@@ -323,9 +323,9 @@ export class ActionBar extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBottomActionGroup(): JsxNode {
     const {
@@ -383,5 +383,5 @@ export class ActionBar extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

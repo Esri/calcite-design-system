@@ -42,13 +42,13 @@ const focusMap = new Map<List["el"], number>();
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionsEndEl = createRef<HTMLDivElement>();
 
@@ -64,9 +64,16 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private sortHandleEl: SortHandle["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
@@ -86,9 +93,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   @state() parentListEl: List["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
@@ -149,13 +156,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata: Record<string, unknown>;
 
@@ -182,7 +182,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -251,9 +250,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -278,9 +277,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     containerEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    *
@@ -341,9 +340,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Fires when the open button is clicked. */
   calciteListItemToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -407,9 +406,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private activeHandler(active: boolean): void {
     if (!active) {
@@ -699,9 +698,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     focusedEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
@@ -1048,5 +1047,5 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     );
   }
 
-  // #endregion
+  //#endregion
 }

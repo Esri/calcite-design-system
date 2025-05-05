@@ -1,6 +1,5 @@
 :host {
-  @apply inline-block
-    select-none;
+  display: inline-block;
 }
 
 @include disabled();
@@ -9,37 +8,117 @@
 @function get-trailing-text-input-padding($chevron-spacing) {
   @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
 }
+.container {
+  --calcite-icon-color: var(--calcite-color-text-3);
+  align-items: center;
+  background-color: var(--calcite-color-foreground-1);
+  border: 1px solid var(--calcite-color-border-input);
+  box-sizing: border-box;
+  display: flex;
+  color: var(--calcite-color-text-1);
+  flex-wrap: nowrap;
+  font-weight: var(--calcite-font-weight-normal);
+  inline-size: 100%;
+  padding-block: var(--calcite-spacing-base);
+  user-select: none;
 
-:host([scale="s"]) {
-  --calcite-toggle-spacing: theme("spacing.2");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
+  &:focus-within {
+    border-color: var(--calcite-color-brand);
+    @apply focus-inset;
+  }
+
+  &.read-only {
+    background-color: var(--calcite-color-background);
+    font-weight: var(--calcite-font-weight-medium);
+  }
 }
 
-:host([scale="m"]) {
-  --calcite-toggle-spacing: theme("spacing.3");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.6"))};
+.input-container {
+  display: flex;
+  flex-grow: 1;
 }
 
-:host([scale="l"]) {
-  --calcite-toggle-spacing: theme("spacing.4");
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
-}
-
-.input-wrapper {
-  @apply relative;
+.input {
+  align-items: center;
+  display: flex;
+  block-size: 100%;
+  justify-content: center;
+  min-inline-size: max-content;
+  &.empty {
+    inline-size: var(--calcite-spacing-xl);
+  }
+  &:focus,
+  &:hover:focus {
+    background-color: Highlight;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
 }
 
 .toggle-icon {
-  @apply absolute flex cursor-pointer items-center;
-  inset-inline-end: 0;
-  inset-block: 0;
-  padding-inline: var(--calcite-toggle-spacing);
-  --calcite-icon-color: var(--calcite-color-text-3);
+  align-items: center;
+  block-size: 24px;
+  cursor: pointer;
+  display: flex;
+  inline-size: 24px;
+  justify-content: center;
+  &:hover {
+    --calcite-icon-color: var(--calcite-color-text-1);
+  }
 }
 
-.input-wrapper:hover .toggle-icon,
-calcite-input-text:focus + .toggle-icon {
-  --calcite-icon-color: var(--calcite-color-text-1);
+.meridiem--start {
+  margin-inline-end: var(--calcite-spacing-xxs);
+}
+.meridiem--end {
+  margin-inline-start: var(--calcite-spacing-xxs);
+}
+
+:host([scale="s"]) {
+  .container {
+    block-size: 1.5rem;
+    font-size: var(--calcite-font-size-sm);
+    gap: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+  .input-container {
+    line-height: 1rem;
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    block-size: 2rem;
+    font-size: var(--calcite-font-size);
+    gap: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+  .input-container {
+    line-height: 1.5rem;
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    block-size: 2.75rem;
+    font-size: var(--calcite-font-size-md);
+    gap: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-spacing-lg);
+  }
+  .input-container {
+    line-height: 2.25rem;
+  }
+}
+
+:host([status="invalid"]) {
+  .container {
+    border-color: var(--calcite-color-status-danger);
+    &:focus-within {
+      @apply focus-inset-danger;
+    }
+  }
 }
 
 @include form-validation-message();
