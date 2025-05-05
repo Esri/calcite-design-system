@@ -589,7 +589,7 @@ describe("calcite-action-bar", () => {
     });
     describe(`displayMode="float"`, () => {
       themed(
-        html`<calcite-action-bar expanded layout="vertical">
+        html`<calcite-action-bar expanded layout="vertical" display-mode="float">
           <calcite-action-group>
             <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>
