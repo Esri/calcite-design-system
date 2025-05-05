@@ -164,6 +164,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private expandRelatedDragEl = (): void => {
+    if (this.relatedDragEl) {
+      this.relatedDragEl.expanded = true;
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -648,7 +654,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     if (relatedEl) {
       this.relatedDragElTimer = window.setTimeout(
-        () => (relatedEl.expanded = true),
+        this.expandRelatedDragEl,
         relatedDragElExpandTimeoutMS,
       );
     }
