@@ -92,13 +92,13 @@ export class Combobox
     OpenCloseComponent,
     FloatingUIComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -109,18 +109,6 @@ export class Combobox
   private data: ItemData[];
 
   defaultValue: Combobox["value"];
-
-  private emitComboboxChange(): void {
-    this.calciteComboboxChange.emit();
-  }
-
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
@@ -248,26 +236,22 @@ export class Combobox
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
-  }
-
   private textInput = createRef<HTMLInputElement>();
 
   transitionEl: HTMLDivElement;
 
   private _value: string | string[] = null;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() activeChipIndex = -1;
 
@@ -281,9 +265,9 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
@@ -299,7 +283,6 @@ export class Combobox
   get filterText(): string {
     return this._filterText;
   }
-
   set filterText(filterText: string) {
     const oldFilterText = this._filterText;
     if (filterText !== oldFilterText) {
@@ -340,13 +323,6 @@ export class Combobox
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the name of the component.
@@ -396,7 +372,6 @@ export class Combobox
   @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
     return this._selectedItems;
   }
-
   set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
     const oldSelectedItems = this._selectedItems;
     if (selectedItems !== oldSelectedItems) {
@@ -468,7 +443,6 @@ export class Combobox
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -477,9 +451,9 @@ export class Combobox
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -515,9 +489,9 @@ export class Combobox
     this.activeItemIndex = -1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed, and before the closing transition begins. */
   calciteComboboxBeforeClose = createEvent({ cancelable: false });
@@ -540,9 +514,9 @@ export class Combobox
   /** Fires when the component is open and animation is complete. */
   calciteComboboxOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -623,9 +597,32 @@ export class Combobox
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private emitComboboxChange(): void {
+    this.calciteComboboxChange.emit();
+  }
+
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
 
   private filterTextChange(value: string): void {
     this.updateActiveItemIndex(-1);
@@ -1412,9 +1409,9 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
@@ -1811,5 +1808,5 @@ export class Combobox
     );
   }
 
-  // #endregion
+  //#endregion
 }
