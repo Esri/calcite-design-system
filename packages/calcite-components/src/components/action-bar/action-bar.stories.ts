@@ -196,6 +196,21 @@ export const withDefinedWidths = (): string => html`
   </calcite-action-bar>
 `;
 
+export const gridLayout = (): string =>
+  html` <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled display-mode="float">
+    <calcite-action-group>
+      <calcite-action text="Northwest" icon="chevron-up-left"></calcite-action>
+      <calcite-action text="North" icon="chevron-up"></calcite-action>
+      <calcite-action text="Northeast" icon="chevron-up-right"></calcite-action>
+      <calcite-action text="West" icon="chevron-left"></calcite-action>
+      <calcite-action text="Center" icon="gps-on"></calcite-action>
+      <calcite-action text="East" icon="chevron-right"></calcite-action>
+      <calcite-action text="Southwest" icon="chevron-down-left"></calcite-action>
+      <calcite-action text="South" icon="chevron-down"></calcite-action>
+      <calcite-action text="Southeast" icon="chevron-down-right"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>

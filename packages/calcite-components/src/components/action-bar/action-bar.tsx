@@ -138,7 +138,8 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
-  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
