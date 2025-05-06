@@ -772,7 +772,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale } = this;
+    const { el, expanded, expandable, messages, displayMode, scale, dropSelected } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -781,11 +781,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const dir = getElementDir(el);
 
     const icon = expandable
-      ? expanded
-        ? ICONS.open
-        : dir === "rtl"
-          ? ICONS.collapsedRTL
-          : ICONS.collapsedLTR
+      ? dropSelected && !expanded
+        ? ICONS.hourGlassActive
+        : expanded
+          ? ICONS.open
+          : dir === "rtl"
+            ? ICONS.collapsedRTL
+            : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
