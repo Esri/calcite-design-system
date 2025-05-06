@@ -146,7 +146,7 @@ export class Combobox
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
-      this.filteredItems = this.getFilteredItems();
+      this.filteredItems = this.visibleKeyboardNavItems;
       this.filteredItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
@@ -273,8 +273,13 @@ export class Combobox
   }
 
   @state()
-  get isIndeterminate(): boolean {
+  get indeterminate(): boolean {
     return this.selectedItems.length > 0 && this.selectedItems.length !== this.items.length;
+  }
+
+  @state()
+  get visibleKeyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this.keyboardNavItems().filter((item) => !isHidden(item));
   }
 
   // #endregion
@@ -701,6 +706,21 @@ export class Combobox
     this.open = false;
   }
 
+  private handleSelectAll(isSelectAllTarget: boolean): void {
+    if (isSelectAllTarget) {
+      this.toggleSelectAll();
+    }
+
+    if (this.allSelected) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+  }
+
   private calciteComboboxItemChangeHandler(
     event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
   ): void {
@@ -714,19 +734,7 @@ export class Combobox
       .some((node) => (node as HTMLElement) === this.selectAllComboboxItemReferenceEl);
 
     if (this.selectAllEnabled) {
-      if (isSelectAllTarget) {
-        this.toggleSelectAll();
-      }
-      if (this.allSelected) {
-        this.selectedItems.forEach((item) => {
-          const chipEl = this.referenceEl.querySelector<Chip["el"]>(
-            `#${chipUidPrefix}${item.guid}`,
-          );
-          if (chipEl) {
-            this.hideChip(chipEl);
-          }
-        });
-      }
+      this.handleSelectAll(isSelectAllTarget);
     }
 
     const newIndex = this.filteredItems.indexOf(target);
@@ -835,11 +843,13 @@ export class Combobox
           if (this.open) {
             this.shiftActiveItemIndex(-1);
           }
+          this.scrollToActiveOrSelectedItem();
 
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
           }
         }
+        this.scrollToActiveOrSelectedItem();
         break;
       case "ArrowDown":
         if (this.filteredItems.length) {
@@ -850,6 +860,7 @@ export class Combobox
             this.open = true;
             this.ensureRecentSelectedItemIsActive();
           }
+          this.scrollToActiveOrSelectedItem();
 
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
@@ -900,20 +911,11 @@ export class Combobox
           const item = this.filteredItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
+
+          const isSelectAllTarget = item === this.selectAllComboboxItemReferenceEl;
+
           if (this.selectAllEnabled) {
-            if (item === this.selectAllComboboxItemReferenceEl) {
-              this.toggleSelectAll();
-            }
-            if (this.allSelected) {
-              this.selectedItems.forEach((item) => {
-                const chipEl = this.referenceEl.querySelector<Chip["el"]>(
-                  `#${chipUidPrefix}${item.guid}`,
-                );
-                if (chipEl) {
-                  this.hideChip(chipEl);
-                }
-              });
-            }
+            this.handleSelectAll(isSelectAllTarget);
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1099,10 +1101,7 @@ export class Combobox
       });
     }
 
-    if (
-      this.selectAllComboboxItemReferenceEl &&
-      this.selectAllComboboxItemReferenceEl.indeterminate === true
-    ) {
+    if (this.indeterminate) {
       this.selectedItems.forEach((item) => {
         const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
         if (chipEl) {
@@ -1301,12 +1300,6 @@ export class Combobox
     }
   }
 
-  private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === ""
-      ? this.keyboardNavItems()
-      : this.keyboardNavItems().filter((item) => !isHidden(item));
-  }
-
   private updateItems(): void {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
@@ -1317,7 +1310,7 @@ export class Combobox
     this.updateItemProps();
 
     this.selectedItems = this.getSelectedItems();
-    this.filteredItems = this.getFilteredItems();
+    this.filteredItems = this.visibleKeyboardNavItems;
   }
 
   private updateItemProps(): void {
@@ -1379,19 +1372,15 @@ export class Combobox
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
-  private keyboardNavItems(withDisabled: boolean = false): HTMLCalciteComboboxItemElement["el"][] {
-    const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
-      this.el.querySelectorAll(ComboboxItemSelector),
-    );
-
+  private keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
     if (this.selectAllComboboxItemReferenceEl) {
       return [
         this.selectAllComboboxItemReferenceEl,
-        ...items.filter((item) => withDisabled || !item.disabled),
+        ...this.items.filter((item) => !item.disabled),
       ];
     }
 
-    return items.filter((item) => withDisabled || !item.disabled);
+    return this.items.filter((item) => !item.disabled);
   }
 
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
@@ -1470,6 +1459,17 @@ export class Combobox
     }
 
     item.scrollIntoView({ block: "nearest" });
+
+    const stickyElement = this.selectAllComboboxItemReferenceEl;
+    const stickyHeight = stickyElement?.offsetHeight || 0;
+
+    const listContainer = this.listContainerEl;
+    const itemRect = item.getBoundingClientRect();
+    const containerRect = listContainer.getBoundingClientRect();
+
+    if (itemRect.top < containerRect.top + stickyHeight) {
+      listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
+    }
   }
 
   private shiftActiveItemIndex(delta: number): void {
@@ -1519,6 +1519,7 @@ export class Combobox
     if (this.selectAllEnabled && this.allSelected) {
       return null;
     }
+
     const filteredSelectedItems = this.selectedItems.filter(
       (item) => item !== this.selectAllComboboxItemReferenceEl,
     );
@@ -1777,7 +1778,7 @@ export class Combobox
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
 
-    return selectAllOptionAndFilteredItemsList.map((item: any) => {
+    return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
       return (
         <li
           ariaLabel={item.label}
@@ -1811,7 +1812,7 @@ export class Combobox
                 <calcite-combobox-item
                   class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled`}
-                  indeterminate={this.isIndeterminate}
+                  indeterminate={this.indeterminate}
                   label={this.messages.selectAll}
                   ref={this.setSelectAllComboboxItemReferenceEl}
                   selected={this.allSelected}

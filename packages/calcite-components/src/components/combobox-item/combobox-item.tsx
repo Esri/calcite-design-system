@@ -286,16 +286,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : `${ICONS.checked}`;
+    const icon = disabled || isSingleSelect ? undefined : ICONS.checked;
     const selectionIcon = isSingleSelect
       ? this.selected
-        ? `${ICONS.selectedSingle}`
-        : `${ICONS.circle}`
+        ? ICONS.selectedSingle
+        : ICONS.circle
       : this.indeterminate
-        ? `${ICONS.indeterminate}`
+        ? ICONS.indeterminate
         : this.selected
-          ? `${ICONS.checked}`
-          : `${ICONS.unchecked}`;
+          ? ICONS.checked
+          : ICONS.unchecked;
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
