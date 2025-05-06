@@ -752,8 +752,8 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`,
     );
 
-    const item = await page.find("calcite-combobox-item");
-    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    const item = await page.find("calcite-combobox-item#item-0");
+    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(a11yItem).not.toBeNull();
     expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
@@ -763,7 +763,7 @@ describe("calcite-combobox", () => {
     item.setProperty("selected", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
@@ -771,7 +771,7 @@ describe("calcite-combobox", () => {
     item.setProperty("label", label);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
 
@@ -779,7 +779,7 @@ describe("calcite-combobox", () => {
     item.setProperty("textLabel", textLabel);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(textLabel);
 
@@ -787,14 +787,14 @@ describe("calcite-combobox", () => {
     item.setProperty("heading", heading);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(heading);
 
     item.setProperty("disabled", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
 
     expect(a11yItem).toBeNull();
   });
@@ -3048,7 +3048,7 @@ describe("calcite-combobox", () => {
 
       await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
 
-      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("indeterminate")).toBe(true);
       expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
 
@@ -3093,7 +3093,7 @@ describe("calcite-combobox", () => {
       const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
       await toggleAction([listItem, combobox]);
 
-      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("indeterminate")).toBe(true);
       expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
 
@@ -3133,7 +3133,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>`,
       );
       await page.waitForChanges();
-      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("indeterminate")).toBe(true);
     });
 
@@ -3147,7 +3147,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>`,
       );
       await page.waitForChanges();
-      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("selected")).toBe(true);
     });
 

@@ -290,7 +290,7 @@ export class Combobox
 
   @state()
   get isIndeterminate(): boolean {
-    return this.selectedItems.length && this.selectedItems.length !== this.items.length;
+    return this.selectedItems.length > 0 && this.selectedItems.length !== this.items.length;
   }
 
   // #endregion
@@ -1781,16 +1781,18 @@ export class Combobox
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
 
     return selectAllOptionAndFilteredItemsList.map((item: any) => {
-      <li
-        ariaLabel={item.label}
-        ariaSelected={item.selected}
-        class={CSS.selectAll}
-        id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
-        role="option"
-        tabIndex="-1"
-      >
-        {item.heading || item.textLabel}
-      </li>;
+      return (
+        <li
+          ariaLabel={item.label}
+          ariaSelected={item.selected}
+          class={CSS.selectAll}
+          id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
+          role="option"
+          tabIndex="-1"
+        >
+          {item.heading || item.textLabel}
+        </li>
+      );
     });
   }
 
