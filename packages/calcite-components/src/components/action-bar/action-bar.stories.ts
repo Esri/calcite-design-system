@@ -5,9 +5,7 @@ import { ActionBar } from "./action-bar";
 
 const { position } = ATTRIBUTES;
 
-type ActionBarStoryArgs = Pick<ActionBar, "expandDisabled" | "expanded" | "displayMode" | "position">;
-
-const displayModeValues = ["dock", "float"];
+type ActionBarStoryArgs = Pick<ActionBar, "expandDisabled" | "expanded" | "floating" | "position">;
 
 export default {
   title: "Components/Action Bar",
@@ -15,15 +13,11 @@ export default {
     expandDisabled: false,
     expanded: false,
     position: position.defaultValue,
-    displayMode: displayModeValues[0],
+    floating: false,
   },
   argTypes: {
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
-      control: { type: "select" },
-    },
-    displayMode: {
-      options: displayModeValues,
       control: { type: "select" },
     },
   },
@@ -33,7 +27,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
   <calcite-action-bar
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
-    display-mode="${args.displayMode}"
+    floating="${args.floating}"
     position="${args.position}"
   >
     <calcite-action-group>
@@ -46,8 +40,8 @@ export const simple = (args: ActionBarStoryArgs): string => html`
   </calcite-action-bar>
 `;
 
-export const float = (args: ActionBarStoryArgs): string => html`
-  <calcite-action-bar position="${args.position}" display-mode="float">
+export const floating = (args: ActionBarStoryArgs): string => html`
+  <calcite-action-bar position="${args.position}" floating>
     <calcite-action-group>
       <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
       <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
@@ -58,13 +52,13 @@ export const float = (args: ActionBarStoryArgs): string => html`
   </calcite-action-bar>
 `;
 
-export const floatWithDefinedWidths = (): string => html`
+export const floatingWithDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {
       --calcite-action-bar-expanded-max-width: 150px;
     }
   </style>
-  <calcite-action-bar display-mode="float" expanded>
+  <calcite-action-bar floating expanded>
     <calcite-action-group expanded>
       <calcite-action text-enabled text="Add to my custom action bar application" icon="plus"></calcite-action>
       <calcite-action text-enabled text="Save to my custom action bar application" icon="save"></calcite-action>
@@ -75,8 +69,8 @@ export const floatWithDefinedWidths = (): string => html`
   </calcite-action-bar>
 `;
 
-export const floatWithGroups = (): string =>
-  html`<calcite-action-bar display-mode="float" layout="horizontal">
+export const floatingWithGroups = (): string =>
+  html`<calcite-action-bar floating layout="horizontal">
     <calcite-action-group>
       <calcite-action text="Add" icon="plus" appearance="solid" scale="m"></calcite-action>
       <calcite-action text="Save" icon="save" appearance="solid" scale="m"></calcite-action>
@@ -96,8 +90,8 @@ export const floatWithGroups = (): string =>
     >
   </calcite-action-bar>`;
 
-export const floatDarkModeRTL = (): string =>
-  html` <calcite-action-bar display-mode="float" position="start" dir="rtl" class="calcite-mode-dark">
+export const floatingDarkModeRTL = (): string =>
+  html` <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
       <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
@@ -107,7 +101,7 @@ export const floatDarkModeRTL = (): string =>
     </calcite-action-group>
   </calcite-action-bar>`;
 
-floatDarkModeRTL.parameters = { themes: modesDarkDefault };
+floatingDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const horizontal = (): string => html`
   <div style="width: 500px;">
@@ -197,7 +191,7 @@ export const withDefinedWidths = (): string => html`
 `;
 
 export const gridLayout = (): string =>
-  html` <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled display-mode="float">
+  html` <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled floating>
     <calcite-action-group>
       <calcite-action text="Northwest" icon="chevron-up-left"></calcite-action>
       <calcite-action text="North" icon="chevron-up"></calcite-action>

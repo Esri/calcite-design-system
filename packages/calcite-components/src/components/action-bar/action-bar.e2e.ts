@@ -36,8 +36,8 @@ describe("calcite-action-bar", () => {
         defaultValue: false,
       },
       {
-        propertyName: "displayMode",
-        defaultValue: "dock",
+        propertyName: "floating",
+        defaultValue: false,
       },
       {
         propertyName: "expanded",
@@ -69,8 +69,8 @@ describe("calcite-action-bar", () => {
         value: true,
       },
       {
-        propertyName: "displayMode",
-        value: "float",
+        propertyName: "floating",
+        value: true,
       },
       {
         propertyName: "overlayPositioning",
@@ -587,9 +587,9 @@ describe("calcite-action-bar", () => {
         },
       );
     });
-    describe(`displayMode="float"`, () => {
+    describe("floating", () => {
       themed(
-        html`<calcite-action-bar expanded layout="vertical" display-mode="float">
+        html`<calcite-action-bar expanded layout="vertical" floating>
           <calcite-action-group>
             <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>

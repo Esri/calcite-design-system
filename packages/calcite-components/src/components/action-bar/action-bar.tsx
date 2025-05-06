@@ -22,7 +22,6 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
-import { DisplayMode } from "./interfaces";
 
 declare global {
   interface DeclareElements {
@@ -123,13 +122,9 @@ export class ActionBar extends LitElement {
   @property() actionsEndGroupLabel: string;
 
   /**
-   * Specifies the display mode of the component, where:
-   *
-   * `"dock"` displays at full height.
-   *
-   * `"float"` does not display at full height.
+   * When `true`, the component is in a floating state.
    */
-  @property({ reflect: true }) displayMode: DisplayMode = "dock";
+  @property({ reflect: true }) floating = false;
 
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
