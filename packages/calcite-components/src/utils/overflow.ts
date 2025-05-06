@@ -1,9 +1,18 @@
-const calculateMaxItems = ({
-  bufferSize,
+/**
+ * Calculates the maximum number of items that can fit within a container.
+ *
+ * @param params - The parameters for the calculation.
+ * @param params.bufferSize - The buffer size to subtract from the container size (default is 0).
+ * @param params.containerSize - The total size of the container.
+ * @param params.itemSizes - An array of sizes for each item.
+ * @returns The maximum number of items that can fit within the container.
+ */
+export const calculateMaxItems = ({
+  bufferSize = 0,
   containerSize,
   itemSizes,
 }: {
-  bufferSize: number;
+  bufferSize?: number;
   containerSize: number;
   itemSizes: number[];
 }): number => {

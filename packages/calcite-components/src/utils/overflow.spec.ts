@@ -1,5 +1,61 @@
 import { describe, expect, it } from "vitest";
-import { getOverflowCount } from "./overflow";
+import { calculateMaxItems, getOverflowCount } from "./overflow";
+
+describe("calculateMaxItems", () => {
+  it("should return the total number of items if all items fit within the container", () => {
+    const result = calculateMaxItems({
+      bufferSize: 0,
+      containerSize: 100,
+      itemSizes: [20, 30, 40],
+    });
+    expect(result).toBe(3);
+  });
+
+  it("should return the correct number of items that fit when some items overflow", () => {
+    const result = calculateMaxItems({
+      bufferSize: 0,
+      containerSize: 50,
+      itemSizes: [20, 30, 40],
+    });
+    expect(result).toBe(2);
+  });
+
+  it("should return 0 if no items fit within the container", () => {
+    const result = calculateMaxItems({
+      bufferSize: 0,
+      containerSize: 10,
+      itemSizes: [20, 30, 40],
+    });
+    expect(result).toBe(0);
+  });
+
+  it("should account for the buffer size when calculating the maximum items", () => {
+    const result = calculateMaxItems({
+      bufferSize: 10,
+      containerSize: 50,
+      itemSizes: [20, 30, 40],
+    });
+    expect(result).toBe(1);
+  });
+
+  it("should return 0 if the container size is less than or equal to the buffer size", () => {
+    const result = calculateMaxItems({
+      bufferSize: 50,
+      containerSize: 50,
+      itemSizes: [20, 30, 40],
+    });
+    expect(result).toBe(0);
+  });
+
+  it("should return the total number of items if the itemSizes array is empty", () => {
+    const result = calculateMaxItems({
+      bufferSize: 0,
+      containerSize: 100,
+      itemSizes: [],
+    });
+    expect(result).toBe(0);
+  });
+});
 
 describe("getOverflowCount", () => {
   it("should return 0 when no items overflow", () => {
