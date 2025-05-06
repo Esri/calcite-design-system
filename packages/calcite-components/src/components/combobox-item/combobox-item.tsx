@@ -29,25 +29,25 @@ declare global {
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
 export class ComboboxItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
-
-  @state() hasContent = false;
-
-  // #endregion
-
-  // #region Private Properties
+  //#region Private Properties
 
   private _selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region State Properties
+
+  @state() hasContent = false;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
@@ -158,9 +158,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    *  */
   @property({ reflect: true }) itemHidden = false;
 
-  // #endregion
+  /**
+   * In multi selection mode, show as indeterminate when only some children are selected.
+   *
+   * @private
+   */
+  @property({ reflect: true }) indeterminate = false;
 
-  // #region Events
+  //#endregion
+
+  //#region Events
 
   /** Fires whenever the component is selected or unselected. */
   calciteComboboxItemChange = createEvent({ cancelable: false });
@@ -172,16 +179,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 
-  /**
-   * In multi selection mode, show as indeterminate when only some children are selected.
-   *
-   * @private
-   */
-  @property({ reflect: true }) indeterminate = false;
+  //#endregion
 
-  // #endregion
-
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
@@ -207,9 +207,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private emitItemChange(): void {
     this.calciteInternalComboboxItemChange.emit();
@@ -234,9 +234,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.toggleSelected();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderIcon(iconPath: IconNameOrString): JsxNode {
     return this.icon ? (
@@ -356,5 +356,5 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

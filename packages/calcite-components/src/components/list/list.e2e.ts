@@ -22,7 +22,7 @@ import {
   GlobalTestProps,
   isElementFocused,
   newProgrammaticE2EPage,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";

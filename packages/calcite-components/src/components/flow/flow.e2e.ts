@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { findAll, isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
 import { CSS } from "./resources";

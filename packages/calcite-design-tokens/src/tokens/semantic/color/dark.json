@@ -40,7 +40,7 @@
           }
         },
         "current": {
-          "value": "#214155",
+          "value": "{core.color.medium-saturation.blue.m-bb-090}",
           "type": "color",
           "attributes": {
             "category": "color"

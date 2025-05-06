@@ -48,3 +48,6 @@ export const DEBOUNCE = {
   resize: 150,
   reposition: 100,
 };
+
+export const resizeStep = 10;
+export const resizeShiftStep = 25;
