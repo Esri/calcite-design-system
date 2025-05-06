@@ -353,11 +353,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     return !this.modal && this.focusTrapDisabled;
   }
 
-  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
-  focusTrapDisabledOverride(): boolean {
-    return !this.modal && this.focusTrapDisabled;
-  }
-
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =

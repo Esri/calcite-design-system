@@ -529,14 +529,6 @@ export class Input
     return this.childElType === "textarea";
   }
 
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
-  }
-
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
-  }
-
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
   }

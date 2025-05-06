@@ -377,10 +377,6 @@ export class InputText
     return this.clearable && this.value.length > 0;
   }
 
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
-
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
   }

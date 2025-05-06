@@ -603,10 +603,6 @@ export class Combobox
 
   //#region Private Methods
 
-  private emitComboboxChange(): void {
-    this.calciteComboboxChange.emit();
-  }
-
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
       return ["description", "label", "metadata", "shortHeading", "textLabel"];
@@ -615,27 +611,8 @@ export class Combobox
     return this.filterProps.filter((prop) => prop !== "el");
   }
 
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
-  }
-
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
-  }
-
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
   }
 
   private get showingInlineIcon(): boolean {

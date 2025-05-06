@@ -161,10 +161,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     return this.editingEnabled && this.controls;
   }
 
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
-
   private disabledWatcher(disabled: boolean): void {
     if (this.inputElement) {
       this.inputElement.disabled = disabled;
