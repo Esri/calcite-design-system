@@ -184,4 +184,10 @@
   }
 }
 
+.chevron-disabled {
+  @apply pointer-events-none opacity-disabled cursor-default;
+  background-color: var(--calcite-color-foreground-1);
+  // --calcite-action-text-color: var(--calcite-date-picker-header-action-text-color-disabled);
+}
+
 @include base-component();
