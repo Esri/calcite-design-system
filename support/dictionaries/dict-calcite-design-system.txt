@@ -587,6 +587,10 @@ Wallis
 ## typescript
 enumify
 
+## units of measurement
+decisecond
+centisecond
+
 ## web
 CLDR
 
@@ -597,9 +601,9 @@ hexa
 saturationv
 interactjs
 
+### interactjs
+resizeend
+resizestart
+
 ### stylelint
 stylelintrc
-
-### units of measurement
-decisecond
-centisecond

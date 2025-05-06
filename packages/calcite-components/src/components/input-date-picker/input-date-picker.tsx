@@ -52,6 +52,7 @@ import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/l
 import { componentFocusable, getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
+  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
@@ -89,15 +90,15 @@ export class InputDatePicker
     LabelableComponent,
     OpenCloseComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private commonDateSeparators = [".", "-", "/"];
 
@@ -165,9 +166,16 @@ export class InputDatePicker
 
   private valueAsDateChangedExternally = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() datePickerActiveDate: Date;
 
@@ -175,9 +183,9 @@ export class InputDatePicker
 
   @state() private localeData: DateLocaleData;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -215,13 +223,6 @@ export class InputDatePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -325,7 +326,6 @@ export class InputDatePicker
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
     const valueChanged = value !== this._value;
     const invalidValueCleared =
@@ -340,9 +340,9 @@ export class InputDatePicker
   /** The component's value as a full date object. */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -375,9 +375,9 @@ export class InputDatePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
@@ -394,9 +394,9 @@ export class InputDatePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -527,9 +527,9 @@ export class InputDatePicker
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
@@ -627,7 +627,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._lang),
+      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -1058,9 +1058,9 @@ export class InputDatePicker
     focusedInput.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1242,5 +1242,5 @@ export class InputDatePicker
     );
   }
 
-  // #endregion
+  //#endregion
 }
