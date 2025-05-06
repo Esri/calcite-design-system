@@ -643,14 +643,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
     clearTimeout(this.relatedDragElTimer);
+    this.setDropSelected(false);
   }
 
   onDragMove({ relatedEl }: ListMoveDetail): void {
     if (relatedEl !== this.relatedDragEl) {
       clearTimeout(this.relatedDragElTimer);
+      this.setDropSelected(false);
     }
 
     this.relatedDragEl = relatedEl;
+    this.setDropSelected(true);
 
     if (relatedEl) {
       this.relatedDragElTimer = window.setTimeout(
@@ -671,6 +674,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.updateListItems();
 
     this.calciteListOrderChange.emit(detail);
+  }
+
+  private setDropSelected(value: boolean): void {
+    if (this.relatedDragEl) {
+      this.relatedDragEl.dropSelected = value;
+    }
   }
 
   private setParentList(): void {
