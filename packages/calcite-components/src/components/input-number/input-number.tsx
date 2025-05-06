@@ -871,6 +871,27 @@ export class InputNumber
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
     this.value = validNewValue;
 
+    const localizedCharAllowlist = new Set([
+      "e",
+      "E",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    const childInputValue = this.childNumberEl?.value;
+    // remove invalid characters from child input
+    if (childInputValue) {
+      const sanitizedChildInputValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
+      }
+    }
+
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(validNewValue);
