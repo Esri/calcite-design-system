@@ -1,10 +1,10 @@
 @mixin sortable-helper-classes() {
-  .calcite-sortable--ghost {
+  :host(.calcite-sortable--ghost) {
     position: relative;
     overflow: hidden;
   }
 
-  .calcite-sortable--ghost::before {
+  :host(.calcite-sortable--ghost)::before {
     content: "";
     @apply box-border
       border
@@ -19,7 +19,7 @@
       z-default;
   }
 
-  .calcite-sortable--drag {
+  :host(.calcite-sortable--drag) {
     @apply shadow-2;
   }
 }

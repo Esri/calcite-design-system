@@ -226,3 +226,5 @@ calcite-action-menu {
 }
 
 @include base-component();
+
+@include sortable-helper-classes();
