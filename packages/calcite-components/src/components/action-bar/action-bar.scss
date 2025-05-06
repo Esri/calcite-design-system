@@ -18,15 +18,9 @@
 }
 
 .container {
-  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-action-bar-shadow,
-    (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
-  );
   @apply inline-flex
   flex-col
-  overflow-hidden;
+  flex-auto;
   gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
 }
@@ -35,13 +29,19 @@
   .container {
     @apply animate-in;
     border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+    --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+    --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
+    box-shadow: var(
+      --calcite-action-bar-shadow,
+      (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
+    );
   }
 }
 
 :host([layout="vertical"]) {
   @apply flex-col;
 
-  &:host([overflow-actions-disabled]) {
+  &:host([overflow-actions-disabled]) .container {
     overflow-y: auto;
   }
 
@@ -65,7 +65,7 @@
     @apply flex-row;
   }
 
-  &:host([overflow-actions-disabled]) {
+  &:host([overflow-actions-disabled]) .container {
     overflow-x: auto;
   }
 
