@@ -499,7 +499,10 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: { press: `calcite-block >>> .${CSS.toggle}` },
           },
-          "--calcite-block-text-color": [{ shadowSelector: `.${CSS.contentStart}`, targetProp: "color" }],
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
           "--calcite-block-heading-text-color-press": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
@@ -511,11 +514,11 @@ describe("calcite-block", () => {
           },
           "--calcite-block-icon-color": [
             {
-              shadowSelector: `.${CSS.iconEnd}`,
+              shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",
             },
             {
-              shadowSelector: `.${CSS.iconStart}`,
+              shadowSelector: `.${CSS.iconEnd}`,
               targetProp: "color",
             },
             {
