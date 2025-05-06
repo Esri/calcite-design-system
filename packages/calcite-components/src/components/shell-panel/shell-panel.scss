@@ -277,6 +277,15 @@
   @apply flex flex-auto overflow-hidden;
 }
 
+.action-bar-container {
+  @apply pointer-events-auto
+  flex
+  flex-auto
+  box-border
+  w-full
+  h-full;
+}
+
 .content-container {
   @apply flex
   flex-auto
@@ -288,6 +297,7 @@
   h-full;
 }
 
+:host([layout="horizontal"]) .action-bar-container,
 :host([layout="horizontal"]) .content-container {
   flex-direction: column;
 }
