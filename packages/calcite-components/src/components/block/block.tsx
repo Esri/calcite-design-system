@@ -25,7 +25,7 @@ import { SortHandle } from "../sort-handle/sort-handle";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { styles as blockStyles } from "./block.scss";
+import { styles } from "./block.scss";
 
 declare global {
   interface DeclareElements {
@@ -44,7 +44,7 @@ declare global {
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   //#region Static Members
 
-  static override styles = [blockStyles, sortableStyles];
+  static override styles = [styles, sortableStyles];
 
   //#endregion
 
