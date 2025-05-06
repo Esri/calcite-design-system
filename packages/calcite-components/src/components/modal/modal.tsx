@@ -11,7 +11,6 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
   slotChangeGetAssignedElements,
@@ -23,6 +22,7 @@ import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -35,9 +35,6 @@ declare global {
   }
 }
 
-let totalOpenModals: number = 0;
-let initialDocumentOverflowStyle: string = "";
-
 /**
  * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
@@ -49,13 +46,13 @@ let initialDocumentOverflowStyle: string = "";
  * @slot back - A slot for adding a back button.
  */
 export class Modal extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -69,7 +66,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: false,
+      clickOutsideDeactivates: () => this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -81,6 +78,8 @@ export class Modal extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
+
   private ignoreOpenChange = false;
 
   private modalContent = createRef<HTMLDivElement>();
@@ -90,14 +89,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
   );
 
   private _open = false;
-
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
 
   openProp = "opened";
 
@@ -114,6 +105,8 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -129,11 +122,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     }
   };
 
-  private focusSetter = useSetFocus<this>()(this);
+  //#endregion
 
-  // #endregion
-
-  // #region State Properties
+  //#region State Properties
 
   @state() contentEl: HTMLElement;
 
@@ -155,9 +146,13 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   @state() titleEl: HTMLElement;
 
-  // #endregion
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: (el: Modal["el"]) => Promise<void>;
@@ -167,6 +162,14 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @private
+   */
+  @property() embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
@@ -225,9 +228,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets the scroll top of the component's content.
@@ -268,9 +271,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteModalBeforeClose = createEvent({ cancelable: false });
@@ -284,9 +287,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteModalOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -330,14 +333,14 @@ export class Modal extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
+    this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleHeaderSlotChange(event: Event): void {
     this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
@@ -374,8 +377,11 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   onOpen(): void {
     this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
-    this.calciteModalOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteModalOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -419,24 +425,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   private async openModal(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
 
     this.titleId = ensureId(this.titleEl);
     this.contentId = ensureId(this.contentEl);
-
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      if (totalOpenModals === 0) {
-        initialDocumentOverflowStyle = document.documentElement.style.overflow;
-      }
-
-      totalOpenModals++;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
   }
 
   private handleOutsideClose(): void {
@@ -462,18 +454,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
       }
     }
 
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      totalOpenModals--;
-      if (totalOpenModals === 0) {
-        this.removeOverflowHiddenClass();
-      }
-    }
-
     this.opened = false;
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private updateSizeCssVars(): void {
@@ -489,9 +470,9 @@ export class Modal extends LitElement implements OpenCloseComponent {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
@@ -625,5 +606,5 @@ export class Modal extends LitElement implements OpenCloseComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 }

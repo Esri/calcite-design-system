@@ -51,6 +51,7 @@ import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/l
 import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
+  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
@@ -89,15 +90,15 @@ export class InputDatePicker
     LabelableComponent,
     OpenCloseComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private commonDateSeparators = [".", "-", "/"];
 
@@ -174,9 +175,9 @@ export class InputDatePicker
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() datePickerActiveDate: Date;
 
@@ -184,9 +185,9 @@ export class InputDatePicker
 
   @state() private localeData: DateLocaleData;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -341,9 +342,9 @@ export class InputDatePicker
   /** The component's value as a full date object. */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -377,9 +378,9 @@ export class InputDatePicker
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
@@ -396,9 +397,9 @@ export class InputDatePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -529,9 +530,9 @@ export class InputDatePicker
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
@@ -629,7 +630,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._lang),
+      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -1060,9 +1061,9 @@ export class InputDatePicker
     focusedInput.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1244,5 +1245,5 @@ export class InputDatePicker
     );
   }
 
-  // #endregion
+  //#endregion
 }

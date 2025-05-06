@@ -44,15 +44,15 @@ function capitalize(str: string): string {
 }
 
 export class TimePicker extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private fractionalSecondEl: HTMLSpanElement;
 
@@ -77,9 +77,9 @@ export class TimePicker extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() activeEl: HTMLSpanElement;
 
@@ -117,9 +117,9 @@ export class TimePicker extends LitElement {
 
   @state() showSecond: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's hour format, where:
@@ -147,9 +147,9 @@ export class TimePicker extends LitElement {
   /** The component's value in UTC (always 24-hour format). */
   @property() value: string = null;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -159,16 +159,16 @@ export class TimePicker extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when a user changes the component's time */
   calciteTimePickerChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -200,9 +200,9 @@ export class TimePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private blurHandler(): void {
     this.activeEl = undefined;
@@ -693,6 +693,7 @@ export class TimePicker extends LitElement {
         effectiveHourFormat,
         messages: { _lang: locale },
         numberingSystem,
+        step,
       } = this;
       const {
         localizedHour,
@@ -709,6 +710,7 @@ export class TimePicker extends LitElement {
         locale,
         numberingSystem,
         hour12: effectiveHourFormat === "12",
+        step,
       });
       this.hour = hour;
       this.minute = minute;
@@ -768,6 +770,7 @@ export class TimePicker extends LitElement {
       effectiveHourFormat,
       messages: { _lang: locale },
       numberingSystem,
+      step,
     } = this;
     const hour12 = effectiveHourFormat === "12";
     if (key === "meridiem") {
@@ -841,9 +844,16 @@ export class TimePicker extends LitElement {
           hour12,
           locale,
           numberingSystem,
+          step,
           value: this.value,
         })?.localizedMeridiem || null
-      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
+      : localizeTimePart({
+          hour12,
+          value: this.meridiem,
+          part: "meridiem",
+          locale,
+          numberingSystem,
+        });
     if (emit) {
       this.calciteTimePickerChange.emit();
     }
@@ -865,7 +875,9 @@ export class TimePicker extends LitElement {
     this.setValue(this.sanitizeValue(this.value));
   }
 
-  // #endregion
+  //#endregion
+
+  //#region Rendering
 
   // #region Rendering
 
@@ -1067,7 +1079,7 @@ export class TimePicker extends LitElement {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "--"}
+              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
             </span>
             <span
               ariaLabel={this.messages.fractionalSecondDown}
@@ -1145,5 +1157,5 @@ export class TimePicker extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

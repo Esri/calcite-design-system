@@ -42,13 +42,13 @@ const focusMap = new Map<List["el"], number>();
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionsEndEl = createRef<HTMLDivElement>();
 
@@ -73,9 +73,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
@@ -95,9 +95,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   @state() parentListEl: List["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
@@ -252,9 +252,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -280,9 +280,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    *
@@ -343,9 +343,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Fires when the open button is clicked. */
   calciteListItemToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -409,9 +409,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private activeHandler(active: boolean): void {
     if (!active) {
@@ -701,9 +701,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     focusedEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
@@ -1050,5 +1050,5 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     );
   }
 
-  // #endregion
+  //#endregion
 }

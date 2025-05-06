@@ -965,8 +965,11 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0;
-  --calcite-corner-radius-round: 4px;
+  --calcite-corner-radius-sharp: 0; /* deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-none: 0;
+  --calcite-corner-radius-xs: 2px;
+  --calcite-corner-radius-sm: 4px;
+  --calcite-corner-radius-round: 4px; /* deprecated, use --calcite-corner-radius-sm instead */
   --calcite-corner-radius-pill: 100%;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /* Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /* Font family for code with fallbacks */
@@ -994,9 +997,9 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4; /* Deprecated */
+  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
   --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4; /* Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
   --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
   --calcite-font-text-decoration-none: none; /* Deprecated */
   --calcite-font-text-decoration-underline: underline; /* Deprecated */
@@ -1171,7 +1174,6 @@ exports[`generated tokens > CSS > index should match 1`] = `
 }
 @media (prefers-color-scheme: dark) {
   .calcite-mode-auto {
-    --calcite-color-foreground-current: #214155;
     --calcite-color-border-white: #f7f7f7;
     --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
     --calcite-color-border-input: #757575;
@@ -1209,6 +1211,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
+    --calcite-color-foreground-current: #214155;
     --calcite-color-foreground-3: #141414;
     --calcite-color-foreground-2: #212121;
     --calcite-color-foreground-1: #2b2b2b;
@@ -1262,7 +1265,6 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-background: #f7f7f7;
 }
 .calcite-mode-dark {
-  --calcite-color-foreground-current: #214155;
   --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
@@ -1300,6 +1302,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-foreground-current: #214155;
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -1400,8 +1403,11 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0;
-  --calcite-corner-radius-round: 4px;
+  --calcite-corner-radius-sharp: 0; /* deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-none: 0;
+  --calcite-corner-radius-xs: 2px;
+  --calcite-corner-radius-sm: 4px;
+  --calcite-corner-radius-round: 4px; /* deprecated, use --calcite-corner-radius-sm instead */
   --calcite-corner-radius-pill: 100%;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /* Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /* Font family for code with fallbacks */
@@ -1429,9 +1435,9 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4; /* Deprecated */
+  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
   --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4; /* Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
   --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
   --calcite-font-text-decoration-none: none; /* Deprecated */
   --calcite-font-text-decoration-underline: underline; /* Deprecated */
@@ -19610,9 +19616,16 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
       "type": "dimension",
       "attributes": {
         "category": "corner",
-        "type": "corner",
+        "type": "dimension",
         "item": "radius",
         "subitem": "sharp",
+        "value": "0",
+        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "filePath": "src/tokens/semantic/corner.json",
+        "isSource": true,
+        "name": "calcite-semantic-corner-radius-sharp",
+        "path": ["semantic", "corner", "radius", "sharp"],
+        "comment": "deprecated, use --calcite-conder-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -19626,11 +19639,67 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated, use --calcite-conder-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
+      "comment": "deprecated, use --calcite-conder-radius-none instead",
       "key": "{semantic.corner.radius.sharp}"
+    },
+    {
+      "value": "0",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "corner",
+        "item": "radius",
+        "subitem": "none",
+        "names": {
+          "scss": "$calcite-corner-radius-none",
+          "css": "var(--calcite-corner-radius-none)",
+          "js": "semantic.corner.radius.none",
+          "docs": "semantic.corner.radius.none",
+          "es6": "calciteCornerRadiusNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius None",
+      "path": ["semantic", "corner", "radius", "none"],
+      "key": "{semantic.corner.radius.none}"
+    },
+    {
+      "value": "2px",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "corner",
+        "item": "radius",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-corner-radius-xs",
+          "css": "var(--calcite-corner-radius-xs)",
+          "js": "semantic.corner.radius.xs",
+          "docs": "semantic.corner.radius.xs",
+          "es6": "calciteCornerRadiusXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius Xs",
+      "path": ["semantic", "corner", "radius", "xs"],
+      "key": "{semantic.corner.radius.xs}"
     },
     {
       "value": "4px",
@@ -19639,7 +19708,41 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
         "category": "corner",
         "type": "corner",
         "item": "radius",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-corner-radius-sm",
+          "css": "var(--calcite-corner-radius-sm)",
+          "js": "semantic.corner.radius.sm",
+          "docs": "semantic.corner.radius.sm",
+          "es6": "calciteCornerRadiusSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius Sm",
+      "path": ["semantic", "corner", "radius", "sm"],
+      "key": "{semantic.corner.radius.sm}"
+    },
+    {
+      "value": "4px",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "dimension",
+        "item": "radius",
         "subitem": "round",
+        "value": "4px",
+        "description": "deprecated, use --calcite-corner-radius-sm instead",
+        "filePath": "src/tokens/semantic/corner.json",
+        "isSource": true,
+        "name": "calcite-semantic-corner-radius-round",
+        "path": ["semantic", "corner", "radius", "round"],
+        "comment": "deprecated, use --calcite-corner-radius-sm instead",
         "names": {
           "scss": "$calcite-corner-radius-round",
           "css": "var(--calcite-corner-radius-round)",
@@ -19653,10 +19756,12 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated, use --calcite-corner-radius-sm instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Round",
       "path": ["semantic", "corner", "radius", "round"],
+      "comment": "deprecated, use --calcite-corner-radius-sm instead",
       "key": "{semantic.corner.radius.round}"
     },
     {
@@ -20512,7 +20617,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
       "key": "{semantic.font.line-height.relative.loose}"
     },
     {
-      "value": "-0.4",
+      "value": "-0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -20584,7 +20689,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
       "key": "{semantic.font.letter-spacing.normal}"
     },
     {
-      "value": "0.4",
+      "value": "0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -25682,9 +25787,16 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
       "type": "dimension",
       "attributes": {
         "category": "corner",
-        "type": "corner",
+        "type": "dimension",
         "item": "radius",
         "subitem": "sharp",
+        "value": "0",
+        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "filePath": "src/tokens/semantic/corner.json",
+        "isSource": true,
+        "name": "calcite-semantic-corner-radius-sharp",
+        "path": ["semantic", "corner", "radius", "sharp"],
+        "comment": "deprecated, use --calcite-conder-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -25698,11 +25810,67 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated, use --calcite-conder-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
+      "comment": "deprecated, use --calcite-conder-radius-none instead",
       "key": "{semantic.corner.radius.sharp}"
+    },
+    {
+      "value": "0",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "corner",
+        "item": "radius",
+        "subitem": "none",
+        "names": {
+          "scss": "$calcite-corner-radius-none",
+          "css": "var(--calcite-corner-radius-none)",
+          "js": "semantic.corner.radius.none",
+          "docs": "semantic.corner.radius.none",
+          "es6": "calciteCornerRadiusNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius None",
+      "path": ["semantic", "corner", "radius", "none"],
+      "key": "{semantic.corner.radius.none}"
+    },
+    {
+      "value": "2px",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "corner",
+        "item": "radius",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-corner-radius-xs",
+          "css": "var(--calcite-corner-radius-xs)",
+          "js": "semantic.corner.radius.xs",
+          "docs": "semantic.corner.radius.xs",
+          "es6": "calciteCornerRadiusXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius Xs",
+      "path": ["semantic", "corner", "radius", "xs"],
+      "key": "{semantic.corner.radius.xs}"
     },
     {
       "value": "4px",
@@ -25711,7 +25879,41 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
         "category": "corner",
         "type": "corner",
         "item": "radius",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-corner-radius-sm",
+          "css": "var(--calcite-corner-radius-sm)",
+          "js": "semantic.corner.radius.sm",
+          "docs": "semantic.corner.radius.sm",
+          "es6": "calciteCornerRadiusSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/corner.json",
+      "isSource": true,
+      "name": "Corner Radius Sm",
+      "path": ["semantic", "corner", "radius", "sm"],
+      "key": "{semantic.corner.radius.sm}"
+    },
+    {
+      "value": "4px",
+      "type": "dimension",
+      "attributes": {
+        "category": "corner",
+        "type": "dimension",
+        "item": "radius",
         "subitem": "round",
+        "value": "4px",
+        "description": "deprecated, use --calcite-corner-radius-sm instead",
+        "filePath": "src/tokens/semantic/corner.json",
+        "isSource": true,
+        "name": "calcite-semantic-corner-radius-round",
+        "path": ["semantic", "corner", "radius", "round"],
+        "comment": "deprecated, use --calcite-corner-radius-sm instead",
         "names": {
           "scss": "$calcite-corner-radius-round",
           "css": "var(--calcite-corner-radius-round)",
@@ -25725,10 +25927,12 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated, use --calcite-corner-radius-sm instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Round",
       "path": ["semantic", "corner", "radius", "round"],
+      "comment": "deprecated, use --calcite-corner-radius-sm instead",
       "key": "{semantic.corner.radius.round}"
     },
     {
@@ -26584,7 +26788,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
       "key": "{semantic.font.line-height.relative.loose}"
     },
     {
-      "value": "-0.4",
+      "value": "-0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -26656,7 +26860,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
       "key": "{semantic.font.letter-spacing.normal}"
     },
     {
-      "value": "0.4",
+      "value": "0.4px",
       "type": "dimension",
       "description": "Deprecated",
       "attributes": {
@@ -30150,8 +30354,11 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0";
-export const calciteCornerRadiusRound = "4px";
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusNone = "0";
+export const calciteCornerRadiusXs = "2px";
+export const calciteCornerRadiusSm = "4px";
+export const calciteCornerRadiusRound = "4px"; // deprecated, use --calcite-corner-radius-sm instead
 export const calciteCornerRadiusPill = "100%";
 export const calciteFontFamily = [
   "Avenir Next",
@@ -30190,9 +30397,9 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
-export const calciteFontLetterSpacingTight = "-0.4"; // Deprecated
+export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
-export const calciteFontLetterSpacingWide = "0.4"; // Deprecated
+export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
 export const calciteFontParagraphSpacingNormal = "4px"; // Deprecated
 export const calciteFontTextDecorationNone = "none"; // Deprecated
 export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
@@ -30644,8 +30851,11 @@ export const calciteContainerSizeMargin: string;
 export const calciteContainerSizeGutter: string; /** for fluid grid widths */
 export const calciteContainerSizeContentFluid: string; /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
-export const calciteCornerRadius: string;
+export const calciteCornerRadius: string; /** deprecated, use --calcite-conder-radius-none instead */
 export const calciteCornerRadiusSharp: string;
+export const calciteCornerRadiusNone: string;
+export const calciteCornerRadiusXs: string;
+export const calciteCornerRadiusSm: string; /** deprecated, use --calcite-corner-radius-sm instead */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string; /** Primary font with fallbacks */
 export const calciteFontFamily: string[]; /** Font family for code with fallbacks */
@@ -31047,8 +31257,11 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0";
-export const calciteCornerRadiusRound = "4px";
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusNone = "0";
+export const calciteCornerRadiusXs = "2px";
+export const calciteCornerRadiusSm = "4px";
+export const calciteCornerRadiusRound = "4px"; // deprecated, use --calcite-corner-radius-sm instead
 export const calciteCornerRadiusPill = "100%";
 export const calciteFontFamily = [
   "Avenir Next",
@@ -31087,9 +31300,9 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
-export const calciteFontLetterSpacingTight = "-0.4"; // Deprecated
+export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
-export const calciteFontLetterSpacingWide = "0.4"; // Deprecated
+export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
 export const calciteFontParagraphSpacingNormal = "4px"; // Deprecated
 export const calciteFontTextDecorationNone = "none"; // Deprecated
 export const calciteFontTextDecorationUnderline = "underline"; // Deprecated
@@ -31236,8 +31449,11 @@ export const calciteContainerSizeMargin: string;
 export const calciteContainerSizeGutter: string; /** for fluid grid widths */
 export const calciteContainerSizeContentFluid: string; /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
-export const calciteCornerRadius: string;
+export const calciteCornerRadius: string; /** deprecated, use --calcite-conder-radius-none instead */
 export const calciteCornerRadiusSharp: string;
+export const calciteCornerRadiusNone: string;
+export const calciteCornerRadiusXs: string;
+export const calciteCornerRadiusSm: string; /** deprecated, use --calcite-corner-radius-sm instead */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string; /** Primary font with fallbacks */
 export const calciteFontFamily: string[]; /** Font family for code with fallbacks */
@@ -55682,15 +55898,59 @@ export default {
           type: "dimension",
           attributes: {
             category: "corner",
-            type: "corner",
+            type: "dimension",
             item: "radius",
             subitem: "sharp",
+            value: "0",
+            description: "deprecated, use --calcite-conder-radius-none instead",
+            filePath: "src/tokens/semantic/corner.json",
+            isSource: true,
+            name: "calcite-semantic-corner-radius-sharp",
+            path: ["semantic", "corner", "radius", "sharp"],
+            comment: "deprecated, use --calcite-conder-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
               js: "semantic.corner.radius.sharp",
               docs: "semantic.corner.radius.sharp",
               es6: "calciteCornerRadiusSharp",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          description: "deprecated, use --calcite-conder-radius-none instead",
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.none}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+            description: "deprecated, use --calcite-conder-radius-none instead",
+          },
+          name: "Corner Radius Sharp",
+          path: ["semantic", "corner", "radius", "sharp"],
+          comment: "deprecated, use --calcite-conder-radius-none instead",
+          key: "{semantic.corner.radius.sharp}",
+        },
+        none: {
+          value: "0",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "corner",
+            item: "radius",
+            subitem: "none",
+            names: {
+              scss: "$calcite-corner-radius-none",
+              css: "var(--calcite-corner-radius-none)",
+              js: "semantic.corner.radius.none",
+              docs: "semantic.corner.radius.none",
+              es6: "calciteCornerRadiusNone",
             },
             "calcite-schema": {
               system: "calcite",
@@ -55707,24 +55967,58 @@ export default {
               category: "corner",
             },
           },
-          name: "Corner Radius Sharp",
-          path: ["semantic", "corner", "radius", "sharp"],
-          key: "{semantic.corner.radius.sharp}",
+          name: "Corner Radius None",
+          path: ["semantic", "corner", "radius", "none"],
+          key: "{semantic.corner.radius.none}",
         },
-        round: {
+        xs: {
+          value: "2px",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "corner",
+            item: "radius",
+            subitem: "xs",
+            names: {
+              scss: "$calcite-corner-radius-xs",
+              css: "var(--calcite-corner-radius-xs)",
+              js: "semantic.corner.radius.xs",
+              docs: "semantic.corner.radius.xs",
+              es6: "calciteCornerRadiusXs",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.2}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+          },
+          name: "Corner Radius Xs",
+          path: ["semantic", "corner", "radius", "xs"],
+          key: "{semantic.corner.radius.xs}",
+        },
+        sm: {
           value: "4px",
           type: "dimension",
           attributes: {
             category: "corner",
             type: "corner",
             item: "radius",
-            subitem: "round",
+            subitem: "sm",
             names: {
-              scss: "$calcite-corner-radius-round",
-              css: "var(--calcite-corner-radius-round)",
-              js: "semantic.corner.radius.round",
-              docs: "semantic.corner.radius.round",
-              es6: "calciteCornerRadiusRound",
+              scss: "$calcite-corner-radius-sm",
+              css: "var(--calcite-corner-radius-sm)",
+              js: "semantic.corner.radius.sm",
+              docs: "semantic.corner.radius.sm",
+              es6: "calciteCornerRadiusSm",
             },
             "calcite-schema": {
               system: "calcite",
@@ -55741,8 +56035,52 @@ export default {
               category: "corner",
             },
           },
+          name: "Corner Radius Sm",
+          path: ["semantic", "corner", "radius", "sm"],
+          key: "{semantic.corner.radius.sm}",
+        },
+        round: {
+          value: "4px",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "dimension",
+            item: "radius",
+            subitem: "round",
+            value: "4px",
+            description: "deprecated, use --calcite-corner-radius-sm instead",
+            filePath: "src/tokens/semantic/corner.json",
+            isSource: true,
+            name: "calcite-semantic-corner-radius-round",
+            path: ["semantic", "corner", "radius", "round"],
+            comment: "deprecated, use --calcite-corner-radius-sm instead",
+            names: {
+              scss: "$calcite-corner-radius-round",
+              css: "var(--calcite-corner-radius-round)",
+              js: "semantic.corner.radius.round",
+              docs: "semantic.corner.radius.round",
+              es6: "calciteCornerRadiusRound",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          description: "deprecated, use --calcite-corner-radius-sm instead",
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.4}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+            description: "deprecated, use --calcite-corner-radius-sm instead",
+          },
           name: "Corner Radius Round",
           path: ["semantic", "corner", "radius", "round"],
+          comment: "deprecated, use --calcite-corner-radius-sm instead",
           key: "{semantic.corner.radius.round}",
         },
         pill: {
@@ -56842,7 +57180,7 @@ export default {
       },
       "letter-spacing": {
         tight: {
-          value: "-0.4",
+          value: "-0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -56930,7 +57268,7 @@ export default {
           key: "{semantic.font.letter-spacing.normal}",
         },
         wide: {
-          value: "0.4",
+          value: "0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -62988,6 +63326,9 @@ declare const tokens: {
       radius: {
         default: DesignToken;
         sharp: DesignToken;
+        none: DesignToken;
+        xs: DesignToken;
+        sm: DesignToken;
         round: DesignToken;
         pill: DesignToken;
       };
@@ -64202,15 +64543,59 @@ export default {
           type: "dimension",
           attributes: {
             category: "corner",
-            type: "corner",
+            type: "dimension",
             item: "radius",
             subitem: "sharp",
+            value: "0",
+            description: "deprecated, use --calcite-conder-radius-none instead",
+            filePath: "src/tokens/semantic/corner.json",
+            isSource: true,
+            name: "calcite-semantic-corner-radius-sharp",
+            path: ["semantic", "corner", "radius", "sharp"],
+            comment: "deprecated, use --calcite-conder-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
               js: "semantic.corner.radius.sharp",
               docs: "semantic.corner.radius.sharp",
               es6: "calciteCornerRadiusSharp",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          description: "deprecated, use --calcite-conder-radius-none instead",
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.none}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+            description: "deprecated, use --calcite-conder-radius-none instead",
+          },
+          name: "Corner Radius Sharp",
+          path: ["semantic", "corner", "radius", "sharp"],
+          comment: "deprecated, use --calcite-conder-radius-none instead",
+          key: "{semantic.corner.radius.sharp}",
+        },
+        none: {
+          value: "0",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "corner",
+            item: "radius",
+            subitem: "none",
+            names: {
+              scss: "$calcite-corner-radius-none",
+              css: "var(--calcite-corner-radius-none)",
+              js: "semantic.corner.radius.none",
+              docs: "semantic.corner.radius.none",
+              es6: "calciteCornerRadiusNone",
             },
             "calcite-schema": {
               system: "calcite",
@@ -64227,24 +64612,58 @@ export default {
               category: "corner",
             },
           },
-          name: "Corner Radius Sharp",
-          path: ["semantic", "corner", "radius", "sharp"],
-          key: "{semantic.corner.radius.sharp}",
+          name: "Corner Radius None",
+          path: ["semantic", "corner", "radius", "none"],
+          key: "{semantic.corner.radius.none}",
         },
-        round: {
+        xs: {
+          value: "2px",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "corner",
+            item: "radius",
+            subitem: "xs",
+            names: {
+              scss: "$calcite-corner-radius-xs",
+              css: "var(--calcite-corner-radius-xs)",
+              js: "semantic.corner.radius.xs",
+              docs: "semantic.corner.radius.xs",
+              es6: "calciteCornerRadiusXs",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.2}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+          },
+          name: "Corner Radius Xs",
+          path: ["semantic", "corner", "radius", "xs"],
+          key: "{semantic.corner.radius.xs}",
+        },
+        sm: {
           value: "4px",
           type: "dimension",
           attributes: {
             category: "corner",
             type: "corner",
             item: "radius",
-            subitem: "round",
+            subitem: "sm",
             names: {
-              scss: "$calcite-corner-radius-round",
-              css: "var(--calcite-corner-radius-round)",
-              js: "semantic.corner.radius.round",
-              docs: "semantic.corner.radius.round",
-              es6: "calciteCornerRadiusRound",
+              scss: "$calcite-corner-radius-sm",
+              css: "var(--calcite-corner-radius-sm)",
+              js: "semantic.corner.radius.sm",
+              docs: "semantic.corner.radius.sm",
+              es6: "calciteCornerRadiusSm",
             },
             "calcite-schema": {
               system: "calcite",
@@ -64261,8 +64680,52 @@ export default {
               category: "corner",
             },
           },
+          name: "Corner Radius Sm",
+          path: ["semantic", "corner", "radius", "sm"],
+          key: "{semantic.corner.radius.sm}",
+        },
+        round: {
+          value: "4px",
+          type: "dimension",
+          attributes: {
+            category: "corner",
+            type: "dimension",
+            item: "radius",
+            subitem: "round",
+            value: "4px",
+            description: "deprecated, use --calcite-corner-radius-sm instead",
+            filePath: "src/tokens/semantic/corner.json",
+            isSource: true,
+            name: "calcite-semantic-corner-radius-round",
+            path: ["semantic", "corner", "radius", "round"],
+            comment: "deprecated, use --calcite-corner-radius-sm instead",
+            names: {
+              scss: "$calcite-corner-radius-round",
+              css: "var(--calcite-corner-radius-round)",
+              js: "semantic.corner.radius.round",
+              docs: "semantic.corner.radius.round",
+              es6: "calciteCornerRadiusRound",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "semantic",
+              type: "dimension",
+            },
+          },
+          description: "deprecated, use --calcite-corner-radius-sm instead",
+          filePath: "src/tokens/semantic/corner.json",
+          isSource: true,
+          original: {
+            value: "{core.size.default.4}",
+            type: "dimension",
+            attributes: {
+              category: "corner",
+            },
+            description: "deprecated, use --calcite-corner-radius-sm instead",
+          },
           name: "Corner Radius Round",
           path: ["semantic", "corner", "radius", "round"],
+          comment: "deprecated, use --calcite-corner-radius-sm instead",
           key: "{semantic.corner.radius.round}",
         },
         pill: {
@@ -65362,7 +65825,7 @@ export default {
       },
       "letter-spacing": {
         tight: {
-          value: "-0.4",
+          value: "-0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -65450,7 +65913,7 @@ export default {
           key: "{semantic.font.letter-spacing.normal}",
         },
         wide: {
-          value: "0.4",
+          value: "0.4px",
           type: "dimension",
           description: "Deprecated",
           attributes: {
@@ -68148,6 +68611,9 @@ declare const tokens: {
       radius: {
         default: DesignToken;
         sharp: DesignToken;
+        none: DesignToken;
+        xs: DesignToken;
+        sm: DesignToken;
         round: DesignToken;
         pill: DesignToken;
       };
@@ -68973,8 +69439,11 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0;
-$calcite-corner-radius-round: 4px;
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-none: 0;
+$calcite-corner-radius-xs: 2px;
+$calcite-corner-radius-sm: 4px;
+$calcite-corner-radius-round: 4px; // deprecated, use --calcite-corner-radius-sm instead
 $calcite-corner-radius-pill: 100%;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
@@ -69002,9 +69471,9 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
-$calcite-font-letter-spacing-tight: -0.4; // Deprecated
+$calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
-$calcite-font-letter-spacing-wide: 0.4; // Deprecated
+$calcite-font-letter-spacing-wide: 0.4px; // Deprecated
 $calcite-font-paragraph-spacing-normal: 4px; // Deprecated
 $calcite-font-text-decoration-none: none; // Deprecated
 $calcite-font-text-decoration-underline: underline; // Deprecated
@@ -69131,7 +69600,6 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-background: #f7f7f7;
 }
 @mixin calcite-mode-dark {
-  --calcite-color-foreground-current: #214155;
   --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
@@ -69169,6 +69637,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-foreground-current: #214155;
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -69594,8 +70063,11 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0;
-$calcite-corner-radius-round: 4px;
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-none: 0;
+$calcite-corner-radius-xs: 2px;
+$calcite-corner-radius-sm: 4px;
+$calcite-corner-radius-round: 4px; // deprecated, use --calcite-corner-radius-sm instead
 $calcite-corner-radius-pill: 100%;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
@@ -69623,9 +70095,9 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
-$calcite-font-letter-spacing-tight: -0.4; // Deprecated
+$calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
-$calcite-font-letter-spacing-wide: 0.4; // Deprecated
+$calcite-font-letter-spacing-wide: 0.4px; // Deprecated
 $calcite-font-paragraph-spacing-normal: 4px; // Deprecated
 $calcite-font-text-decoration-none: none; // Deprecated
 $calcite-font-text-decoration-underline: underline; // Deprecated

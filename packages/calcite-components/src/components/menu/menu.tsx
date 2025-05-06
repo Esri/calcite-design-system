@@ -18,15 +18,15 @@ declare global {
 type Layout = "horizontal" | "vertical";
 
 export class Menu extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
@@ -41,9 +41,9 @@ export class Menu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Accessible name for the component.
@@ -58,9 +58,9 @@ export class Menu extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -70,9 +70,9 @@ export class Menu extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -89,9 +89,9 @@ export class Menu extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -169,9 +169,9 @@ export class Menu extends LitElement {
     return (this.el.role || "menubar") as LuminaJsx.AriaAttributes["role"];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -181,5 +181,5 @@ export class Menu extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

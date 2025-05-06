@@ -20,6 +20,7 @@ import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -36,13 +37,13 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class Sheet extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private contentEl: HTMLDivElement;
 
@@ -52,7 +53,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: false,
+      clickOutsideDeactivates: () => this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -64,9 +65,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
-  private ignoreOpenChange = false;
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private initialOverflowCSS: string;
+  private ignoreOpenChange = false;
 
   private interaction: Interactable;
 
@@ -78,14 +79,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
   openProp = "opened";
 
   transitionProp = "opacity" as const;
@@ -93,6 +86,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   private resizeHandleEl: HTMLDivElement;
 
   transitionEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -109,11 +104,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     }
   };
 
-  private focusSetter = useSetFocus<this>()(this);
+  //#endregion
 
-  // #endregion
-
-  // #region State Properties
+  //#region State Properties
 
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
@@ -124,9 +117,13 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     maxBlockSize: null,
   };
 
-  // #endregion
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * Passes a function to run before the component closes.
@@ -225,9 +222,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's "close" button - the first focusable item. */
   @method()
@@ -250,9 +247,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteSheetBeforeClose = createEvent({ cancelable: false });
@@ -266,9 +263,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteSheetOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -306,15 +303,14 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.embedded = false;
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {
@@ -514,8 +510,11 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   onOpen(): void {
-    this.calciteSheetOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteSheetOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -547,16 +546,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   private async openSheet(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
-    if (!this.embedded) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
   }
 
   private handleOutsideClose(): void {
@@ -583,20 +573,15 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     }
 
     this.opened = false;
-    this.removeOverflowHiddenClass();
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
   }
 
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { resizable, position, resizeValues } = this;
@@ -628,7 +613,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} ref={this.setContentEl}>
+        <div class={CSS.content} id="sheet-content" ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>
@@ -661,5 +646,5 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

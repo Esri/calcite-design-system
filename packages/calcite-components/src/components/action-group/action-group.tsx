@@ -25,15 +25,15 @@ declare global {
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
 export class ActionGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /**
    * Made into a prop for testing purposes only
@@ -44,15 +44,15 @@ export class ActionGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasMenuActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
@@ -94,9 +94,9 @@ export class ActionGroup extends LitElement {
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -106,9 +106,9 @@ export class ActionGroup extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -120,9 +120,9 @@ export class ActionGroup extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
@@ -132,9 +132,9 @@ export class ActionGroup extends LitElement {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderMenu(): JsxNode {
     const {
@@ -185,5 +185,5 @@ export class ActionGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

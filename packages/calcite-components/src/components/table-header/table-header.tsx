@@ -18,13 +18,13 @@ declare global {
 }
 
 export class TableHeader extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
 
@@ -37,17 +37,17 @@ export class TableHeader extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() focused = false;
 
   @state() screenReaderText = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the alignment of the component. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -106,9 +106,9 @@ export class TableHeader extends LitElement {
   /** @private */
   @property() selectionMode: SelectionMode;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -118,9 +118,9 @@ export class TableHeader extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
     this.updateScreenReaderText();
@@ -132,9 +132,9 @@ export class TableHeader extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private updateScreenReaderText(): void {
     let text = "";
@@ -159,9 +159,9 @@ export class TableHeader extends LitElement {
     this.focused = true;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const scope = this.rowSpan
@@ -224,5 +224,5 @@ export class TableHeader extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

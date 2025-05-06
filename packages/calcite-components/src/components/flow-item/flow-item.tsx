@@ -42,13 +42,13 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class FlowItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private backButtonEl: Action["el"];
 
@@ -63,9 +63,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
   @property() beforeBack: () => Promise<void>;
@@ -135,9 +135,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @property() showBackButton = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -174,9 +174,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the back button is clicked. */
   calciteFlowItemBack = createEvent();
@@ -193,9 +193,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -211,9 +211,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
@@ -256,9 +256,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     this.containerEl = node;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBackButton(): JsxNode {
     const { el } = this;
@@ -344,5 +344,5 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,9 +1,16 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { defaults, focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
+import {
+  GlobalTestProps,
+  isElementFocused,
+  newProgrammaticE2EPage,
+  skipAnimations,
+  waitForAnimationFrame,
+} from "../../tests/utils/puppeteer";
+import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { CSS, SLOTS } from "./resources";
 import type { Modal } from "./modal";
 
@@ -35,7 +42,17 @@ describe("calcite-modal", () => {
         propertyName: "widthScale",
         defaultValue: "m",
       },
+      {
+        propertyName: "embedded",
+        defaultValue: false,
+      },
     ]);
+  });
+
+  describe("focus-trap", () => {
+    focusTrap("calcite-modal", {
+      toggleProp: "open",
+    });
   });
 
   it("should hide closeButton when disabled", async () => {
@@ -330,22 +347,29 @@ describe("calcite-modal", () => {
     });
 
     it("subsequently opening a modal dynamically gets focus trapped", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-modal open id="modal1">
-          <div slot="header">Modal 1</div>
-          <div slot="content">
-            <calcite-button id="openButton">open second modal</calcite-button>
-          </div>
-        </calcite-modal>
-      `);
-      let openEvent = page.waitForEvent("calciteModalOpen");
+      const page = await newProgrammaticE2EPage();
       await skipAnimations(page);
-      await page.waitForChanges();
-
+      let openEvent = page.waitForEvent("calciteModalOpen");
       await page.evaluate(() => {
-        const btn = document.getElementById("openButton");
-        btn.addEventListener("click", () => {
+        const modal = document.createElement("calcite-modal");
+        modal.open = true;
+        modal.id = "modal1";
+        document.body.append(modal);
+
+        const header = document.createElement("div");
+        header.slot = "header";
+        header.innerHTML = "Modal 1";
+        modal.append(header);
+        const content = document.createElement("div");
+        content.slot = "content";
+        const button = document.createElement("calcite-button");
+        button.id = "openButton";
+        button.innerHTML = "Open Modal 2";
+        content.append(button);
+
+        modal.append(content);
+
+        button.addEventListener("click", () => {
           const button = document.createElement("calcite-button");
           button.innerHTML = "focusable";
           button.slot = "content";
@@ -362,6 +386,7 @@ describe("calcite-modal", () => {
 
       openEvent = page.waitForEvent("calciteModalOpen");
       await page.click("#openButton");
+      await page.waitForChanges();
       await openEvent;
 
       expect(await isElementFocused(page, "#modal2")).toBe(true);

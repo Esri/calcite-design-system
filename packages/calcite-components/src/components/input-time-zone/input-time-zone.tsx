@@ -53,15 +53,15 @@ export class InputTimeZone
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private comboboxEl: Combobox["el"];
 
@@ -88,9 +88,9 @@ export class InputTimeZone
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, an empty value (`null`) will be allowed as a `value`.
@@ -227,9 +227,9 @@ export class InputTimeZone
     this._value = value;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -239,9 +239,9 @@ export class InputTimeZone
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputTimeZoneBeforeClose = createEvent({ cancelable: false });
@@ -258,9 +258,9 @@ export class InputTimeZone
   /** Fires after the component is opened and animation is complete. */
   calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     connectForm(this);
@@ -316,9 +316,9 @@ export class InputTimeZone
     disconnectLabel(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private async handleTimeZoneItemPropsChange(): Promise<void> {
     if (!this.timeZoneItems || !this.hasUpdated) {
@@ -489,9 +489,9 @@ export class InputTimeZone
     return value ? this.normalizer(value) : value;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -580,5 +580,5 @@ export class InputTimeZone
     ));
   }
 
-  // #endregion
+  //#endregion
 }

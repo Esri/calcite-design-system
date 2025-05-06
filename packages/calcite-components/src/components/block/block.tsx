@@ -41,13 +41,13 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   transitionProp = "margin-top" as const;
 
@@ -64,9 +64,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasContentStart = false;
 
@@ -78,9 +78,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   @state() hasMenuActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -197,9 +197,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) status: Status;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first tabbable element. */
   @method()
@@ -209,9 +209,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -244,9 +244,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   calciteBlockToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.transitionEl = this.el;
@@ -278,9 +278,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
@@ -359,9 +359,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderScrim(): JsxNode {
     const { loading } = this;
@@ -564,5 +564,5 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     );
   }
 
-  // #endregion
+  //#endregion
 }

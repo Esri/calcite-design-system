@@ -36,15 +36,15 @@ const maxItemBreakpoints = {
 };
 
 export class Pagination extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
     this.setMaxItemsToBreakpoint(width);
@@ -62,9 +62,9 @@ export class Pagination extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() isXXSmall: boolean;
 
@@ -74,9 +74,9 @@ export class Pagination extends LitElement {
 
   @state() totalPages: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
@@ -99,9 +99,9 @@ export class Pagination extends LitElement {
   /** Specifies the total number of items. */
   @property({ reflect: true }) totalItems = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Set a specified page as active.
@@ -149,16 +149,16 @@ export class Pagination extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the selected page changes. */
   calcitePaginationChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
@@ -210,9 +210,9 @@ export class Pagination extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleTotalPages(): void {
     if (this.pageSize < 1) {
@@ -314,9 +314,9 @@ export class Pagination extends LitElement {
     this.emitUpdate();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
@@ -540,5 +540,5 @@ export class Pagination extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

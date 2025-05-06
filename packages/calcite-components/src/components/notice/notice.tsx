@@ -41,13 +41,13 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
 export class Notice extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /** The close button element. */
   private closeButton = createRef<HTMLButtonElement>();
@@ -68,15 +68,15 @@ export class Notice extends LitElement implements OpenCloseComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasActionEnd = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
@@ -105,9 +105,9 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -126,9 +126,9 @@ export class Notice extends LitElement implements OpenCloseComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteNoticeBeforeClose = createEvent({ cancelable: false });
@@ -142,9 +142,9 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteNoticeOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
@@ -167,9 +167,9 @@ export class Notice extends LitElement implements OpenCloseComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   onBeforeClose(): void {
     this.calciteNoticeBeforeClose.emit();
@@ -203,9 +203,9 @@ export class Notice extends LitElement implements OpenCloseComponent {
     this.hasActionEnd = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const closeButton = (
@@ -243,5 +243,5 @@ export class Notice extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

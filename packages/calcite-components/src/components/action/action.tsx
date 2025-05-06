@@ -29,13 +29,13 @@ declare global {
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 export class Action extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = `calcite-action-${guid()}`;
 
@@ -56,9 +56,9 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
@@ -117,9 +117,9 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -129,9 +129,9 @@ export class Action extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -145,9 +145,9 @@ export class Action extends LitElement implements InteractiveComponent {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = (event.target as HTMLSlotElement)
@@ -163,9 +163,9 @@ export class Action extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderTextContainer(): JsxNode {
     const { text, textEnabled } = this;
@@ -316,5 +316,5 @@ export class Action extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

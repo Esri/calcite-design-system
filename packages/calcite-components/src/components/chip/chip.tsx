@@ -30,13 +30,13 @@ declare global {
  * @slot image - A slot for adding an image.
  */
 export class Chip extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -51,17 +51,17 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() private hasImage = false;
 
   @state() private hasText = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<
@@ -131,9 +131,9 @@ export class Chip extends LitElement implements InteractiveComponent {
   /** The component's value. */
   @property() value: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -147,9 +147,9 @@ export class Chip extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's close button is selected. */
   calciteChipClose = createEvent({ cancelable: false });
@@ -166,9 +166,9 @@ export class Chip extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalSyncSelectedChips = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -202,9 +202,9 @@ export class Chip extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private watchSelected(selected: boolean): void {
     if (this.selectionMode === "none") {
@@ -290,9 +290,9 @@ export class Chip extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChipImage(): JsxNode {
     return (
@@ -403,5 +403,5 @@ export class Chip extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

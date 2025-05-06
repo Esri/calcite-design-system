@@ -2,9 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
 
@@ -128,6 +129,19 @@ describe("calcite-sheet properties", () => {
   describe("openClose", () => {
     openClose("calcite-sheet");
     openClose.initial("calcite-sheet");
+  });
+
+  describe("focus-trap", () => {
+    focusTrap(
+      html` <calcite-sheet>
+        <!-- sheet has no default focusable parts -->
+        <input id="focusable-content" />
+      </calcite-sheet>`,
+      {
+        toggleProp: "open",
+        focusTargetSelector: "#focusable-content",
+      },
+    );
   });
 
   it("sets custom width correctly", async () => {
@@ -759,6 +773,60 @@ describe("calcite-sheet properties", () => {
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${minSize}px`);
+    });
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-sheet open resizable display-mode="float" position="inline-start" width="l" height="m">
+          <calcite-panel heading="hello world">test!</calcite-panel>
+        </calcite-sheet>`,
+        {
+          "--calcite-sheet-background-color": {
+            shadowSelector: `#sheet-content.${CSS.content}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-sheet-border-color": {
+            shadowSelector: `.${CSS.resizeHandleBar}`,
+            targetProp: "borderInlineStartColor",
+          },
+          "--calcite-sheet-corner-radius": [
+            {
+              shadowSelector: `#sheet-content.${CSS.content}`,
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${CSS.contentContainer}`,
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${CSS.resizeHandleBar}`,
+              targetProp: "borderStartEndRadius",
+            },
+          ],
+          "--calcite-sheet-text-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "color",
+          },
+          "--calcite-sheet-shadow": {
+            shadowSelector: `#sheet-content.${CSS.content}`,
+            targetProp: "boxShadow",
+          },
+          "--calcite-sheet-resize-background-color": {
+            shadowSelector: `.${CSS.resizeHandleBar}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-sheet-resize-icon-color": {
+            shadowSelector: `.${CSS.resizeHandleBar}`,
+            targetProp: "color",
+          },
+        },
+      );
     });
   });
 });

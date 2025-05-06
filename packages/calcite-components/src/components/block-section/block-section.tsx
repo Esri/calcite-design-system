@@ -19,13 +19,13 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class BlockSection extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /**
    * Made into a prop for testing purposes only
@@ -36,9 +36,9 @@ export class BlockSection extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is expanded to show child components. */
   @property({ reflect: true }) expanded = false;
@@ -92,9 +92,9 @@ export class BlockSection extends LitElement {
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first tabbable element. */
   @method()
@@ -104,16 +104,16 @@ export class BlockSection extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleHeaderKeyDown(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
@@ -128,9 +128,9 @@ export class BlockSection extends LitElement {
     this.calciteBlockSectionToggle.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
@@ -253,5 +253,5 @@ export class BlockSection extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

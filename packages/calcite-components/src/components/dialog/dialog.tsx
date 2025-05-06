@@ -15,6 +15,7 @@ import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -27,9 +28,6 @@ declare global {
     "calcite-dialog": Dialog;
   }
 }
-
-let totalOpenDialogs: number = 0;
-let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot - A slot for adding content.
@@ -49,13 +47,13 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class Dialog extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
@@ -63,7 +61,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: () => !this.modal,
+      clickOutsideDeactivates: () => !this.modal || this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -75,6 +73,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
+
   private ignoreOpenChange = false;
 
   private interaction: Interactable;
@@ -84,14 +84,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   );
 
   private _open = false;
-
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
 
   openProp = "opened";
 
@@ -112,9 +104,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() assistiveText: string | null = null;
 
@@ -126,9 +118,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   @state() opened = false;
 
-  // #endregion
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded && this.modal;
+  }
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -240,9 +236,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -286,9 +282,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteDialogBeforeClose = createEvent({ cancelable: false });
@@ -305,9 +301,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Fires when the content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -319,9 +315,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
-      this.updateOverflowHiddenClass();
-    }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -346,15 +339,19 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.embedded = false;
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
+  }
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
@@ -374,8 +371,11 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   onOpen(): void {
-    this.calciteDialogOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteDialogOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -383,8 +383,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   onClose(): void {
-    this.calciteDialogClose.emit();
     this.focusTrap.deactivate();
+    this.calciteDialogClose.emit();
   }
 
   private toggleDialog(value: boolean): void {
@@ -710,12 +710,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private async openDialog(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
-    this.updateOverflowHiddenClass();
   }
 
   private handleOutsideClose(): void {
@@ -741,40 +736,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       }
     }
 
-    totalOpenDialogs--;
     this.opened = false;
-    this.updateOverflowHiddenClass();
-  }
-
-  private updateOverflowHiddenClass(): void {
-    if (this.opened && !this.embedded && this.modal) {
-      this.addOverflowHiddenClass();
-    } else {
-      this.removeOverflowHiddenClass();
-    }
-  }
-
-  private addOverflowHiddenClass(): void {
-    if (totalOpenDialogs === 0) {
-      initialDocumentOverflowStyle = document.documentElement.style.overflow;
-    }
-
-    totalOpenDialogs++;
-    // use an inline style instead of a utility class to avoid global class declarations.
-    document.documentElement.style.setProperty("overflow", "hidden");
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { assistiveText, description, heading, opened } = this;
@@ -847,5 +818,5 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

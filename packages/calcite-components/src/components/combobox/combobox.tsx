@@ -92,13 +92,13 @@ export class Combobox
     OpenCloseComponent,
     FloatingUIComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -251,9 +251,9 @@ export class Combobox
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() activeChipIndex = -1;
 
@@ -267,9 +267,9 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
@@ -453,9 +453,9 @@ export class Combobox
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -491,9 +491,9 @@ export class Combobox
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed, and before the closing transition begins. */
   calciteComboboxBeforeClose = createEvent({ cancelable: false });
@@ -516,9 +516,9 @@ export class Combobox
   /** Fires when the component is open and animation is complete. */
   calciteComboboxOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -599,9 +599,32 @@ export class Combobox
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private emitComboboxChange(): void {
+    this.calciteComboboxChange.emit();
+  }
+
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
 
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
@@ -1411,9 +1434,9 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
@@ -1810,5 +1833,5 @@ export class Combobox
     );
   }
 
-  // #endregion
+  //#endregion
 }

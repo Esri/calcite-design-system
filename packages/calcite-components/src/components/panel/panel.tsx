@@ -48,13 +48,13 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl: HTMLElement;
 
@@ -71,9 +71,9 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasActionBar = false;
 
@@ -103,9 +103,9 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   @state() showHeaderContent = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -168,9 +168,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -197,9 +197,9 @@ export class Panel extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: false });
@@ -210,9 +210,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Fires when the collapse button is clicked. */
   calcitePanelToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -245,9 +245,9 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private resizeHandler(): void {
     const { panelScrollEl } = this;
@@ -387,9 +387,9 @@ export class Panel extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderHeaderContent(): JsxNode {
     const { heading, headingLevel, description, hasHeaderContent } = this;
@@ -669,5 +669,5 @@ export class Panel extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

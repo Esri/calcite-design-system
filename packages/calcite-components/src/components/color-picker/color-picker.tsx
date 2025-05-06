@@ -61,13 +61,13 @@ declare global {
 const throttleFor60FpsInMs = 16;
 
 export class ColorPicker extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;
@@ -247,9 +247,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() channelMode: ColorMode = "rgb";
 
@@ -269,9 +269,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   @state() scopeOrientation: "vertical" | "horizontal";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, an empty color (`null`) will be allowed as a `value`.
@@ -361,9 +361,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this._valueWasSet = true;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -387,9 +387,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   calciteColorPickerInput = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -487,9 +487,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private get baseColorFieldColor(): ColorInstance {
     return this.color || this.previousColor || DEFAULT_COLOR;
@@ -1454,9 +1454,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1763,5 +1763,5 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -44,13 +44,13 @@ const manager = new AlertManager();
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 export class Alert extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private autoCloseTimeoutId: number = null;
 
@@ -77,9 +77,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasEndActions = false;
 
@@ -87,9 +87,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
 
   @state() numberStringFormatter = new NumberStringFormat();
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * This internal property, managed by the AlertManager, is used
@@ -161,9 +161,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's "close" button, the first focusable item.
@@ -177,9 +177,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAlertBeforeClose = createEvent({ cancelable: false });
@@ -193,9 +193,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteAlertOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     const open = this.open;
@@ -250,9 +250,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
     this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleActiveChange(): void {
     onToggleOpenCloseComponent(this);
@@ -384,9 +384,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
     this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
@@ -485,5 +485,5 @@ export class Alert extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

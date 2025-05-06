@@ -60,13 +60,13 @@ export class TextArea
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "spellcheck"],
@@ -139,17 +139,17 @@ export class TextArea
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() endSlotHasElements: boolean;
 
   @state() startSlotHasElements: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's number of columns.
@@ -288,9 +288,9 @@ export class TextArea
    */
   @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -307,9 +307,9 @@ export class TextArea
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new `value` is typed and committed. */
   calciteTextAreaChange = createEvent();
@@ -317,9 +317,9 @@ export class TextArea
   /** Fires each time a new `value` is typed. */
   calciteTextAreaInput = createEvent();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     connectLabel(this);
@@ -338,9 +338,9 @@ export class TextArea
     this.updateSizeToAuto?.cancel();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -463,9 +463,9 @@ export class TextArea
     this.validationMessageEl = el;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
@@ -567,5 +567,5 @@ export class TextArea
     return null;
   }
 
-  // #endregion
+  //#endregion
 }

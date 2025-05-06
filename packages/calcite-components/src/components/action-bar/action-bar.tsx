@@ -39,13 +39,13 @@ declare global {
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionGroups: ActionGroup["el"][];
 
@@ -113,9 +113,9 @@ export class ActionBar extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() expandTooltip: Tooltip["el"];
 
@@ -123,9 +123,9 @@ export class ActionBar extends LitElement {
 
   @state() hasBottomActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
@@ -160,9 +160,9 @@ export class ActionBar extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Overflows actions that won't fit into menus.
@@ -182,16 +182,16 @@ export class ActionBar extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -239,9 +239,9 @@ export class ActionBar extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private expandedHandler(): void {
     const { el, expanded } = this;
@@ -309,9 +309,9 @@ export class ActionBar extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBottomActionGroup(): JsxNode {
     const {
@@ -368,5 +368,5 @@ export class ActionBar extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
