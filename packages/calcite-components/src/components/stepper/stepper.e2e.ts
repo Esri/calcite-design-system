@@ -996,10 +996,16 @@ describe("calcite-stepper", () => {
           ><calcite-stepper-item heading="Item 3" error> </calcite-stepper-item>
         </calcite-stepper>`,
         {
-          "--calcite-stepper-bar-gap": {
-            shadowSelector: `.${CSS.stepBarContainer}`,
-            targetProp: "gap",
-          },
+          "--calcite-stepper-bar-gap": [
+            {
+              shadowSelector: `.${CSS.stepBarContainer}`,
+              targetProp: "gap",
+            },
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "gap",
+            },
+          ],
           "--calcite-stepper-bar-inactive-fill-color": {
             shadowSelector: `.${CSS.stepBarInactive}`,
             targetProp: "fill",
