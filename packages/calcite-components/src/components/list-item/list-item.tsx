@@ -10,7 +10,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
@@ -20,6 +19,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
@@ -71,6 +71,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -258,24 +260,25 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    const {
-      containerEl: { value: containerEl },
-      parentListEl,
-    } = this;
-    const focusIndex = focusMap.get(parentListEl);
+    return this.focusSetter(() => {
+      const {
+        containerEl: { value: containerEl },
+        parentListEl,
+      } = this;
+      const focusIndex = focusMap.get(parentListEl);
 
-    if (typeof focusIndex === "number") {
-      const cells = this.getGridCells();
-      if (cells[focusIndex]) {
-        this.focusCell(cells[focusIndex]);
-      } else {
-        containerEl?.focus();
+      if (typeof focusIndex === "number") {
+        const cells = this.getGridCells();
+        if (cells[focusIndex]) {
+          this.focusCell(cells[focusIndex]);
+        } else {
+          return containerEl;
+        }
+        return;
       }
-      return;
-    }
 
-    containerEl?.focus();
+      return containerEl;
+    });
   }
 
   //#endregion

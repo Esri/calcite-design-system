@@ -28,6 +28,7 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -75,6 +76,8 @@ export class TimePicker extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -153,9 +156,9 @@ export class TimePicker extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   //#endregion
@@ -879,6 +882,8 @@ export class TimePicker extends LitElement {
   //#endregion
 
   //#region Rendering
+
+  // #region Rendering
 
   override render(): JsxNode {
     const hourIsNumber = isValidNumber(this.hour);

@@ -14,7 +14,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import { getElementWidth, getTextWidth } from "../../utils/dom";
+import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -44,7 +44,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
@@ -58,6 +57,7 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -248,6 +248,8 @@ export class Combobox
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -482,11 +484,11 @@ export class Combobox
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.textInput.value?.focus();
-    this.activeChipIndex = -1;
-    this.activeItemIndex = -1;
+    return this.focusSetter(() => {
+      this.activeChipIndex = -1;
+      this.activeItemIndex = -1;
+      return this.textInput.value;
+    });
   }
 
   //#endregion
@@ -601,16 +603,16 @@ export class Combobox
 
   //#region Private Methods
 
-  private emitComboboxChange(): void {
-    this.calciteComboboxChange.emit();
-  }
-
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
       return ["description", "label", "metadata", "shortHeading", "textLabel"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private emitComboboxChange(): void {
+    this.calciteComboboxChange.emit();
   }
 
   private get showingInlineIcon(): boolean {
@@ -1339,7 +1341,7 @@ export class Combobox
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
       this.activeChipIndex = -1;
-      this.setFocus();
+      focusElement(this.textInput.value);
     } else {
       this.activeChipIndex = newIndex;
       this.focusChip();

@@ -15,13 +15,12 @@ import {
   opacityToAlpha,
   rgbToHex,
 } from "../color-picker/utils";
-import { focusElement } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
 import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
 import type { ColorPicker } from "../color-picker/color-picker";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./color-picker-hex-input.scss";
 
@@ -47,6 +46,8 @@ export class ColorPickerHexInput extends LitElement {
   private opacityInputNode: InputNumber["el"];
 
   private previousNonNullValue: string;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -103,9 +104,9 @@ export class ColorPickerHexInput extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return focusElement(this.hexInputNode);
+    return this.focusSetter(() => {
+      return this.hexInputNode;
+    });
   }
 
   // #endregion
@@ -156,6 +157,7 @@ export class ColorPickerHexInput extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private onHexInputBlur(): void {
     const node = this.hexInputNode;
     const inputValue = node.value;

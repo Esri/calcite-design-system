@@ -25,12 +25,12 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import { styles } from "./segmented-control.scss";
 
@@ -60,6 +60,8 @@ export class SegmentedControl
   private items: SegmentedControlItem["el"][] = [];
 
   labelEl: Label["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -151,9 +153,9 @@ export class SegmentedControl
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.selectedItem || this.items[0])?.focus();
+    return this.focusSetter(() => {
+      return this.selectedItem || this.items[0];
+    });
   }
 
   // #endregion
@@ -217,6 +219,7 @@ export class SegmentedControl
   // #endregion
 
   // #region Private Methods
+
   private valueHandler(value: string): void {
     const { items } = this;
     items.forEach((item) => (item.checked = item.value === value));

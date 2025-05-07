@@ -9,11 +9,11 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
@@ -51,6 +51,8 @@ export class Filter extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -129,9 +131,9 @@ export class Filter extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.textInput.value?.setFocus();
+    return this.focusSetter(() => {
+      return this.textInput.value;
+    });
   }
 
   //#endregion

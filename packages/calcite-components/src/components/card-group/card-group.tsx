@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -10,6 +10,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./card-group.scss";
 
 declare global {
@@ -31,6 +32,8 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   private items: Card["el"][] = [];
 
   private slotRefEl = createRef<HTMLSlotElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -66,10 +69,11 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await this.componentOnReady();
-    if (!this.disabled) {
-      focusElement(this.items[0]);
-    }
+    return this.focusSetter(() => {
+      if (!this.disabled) {
+        return this.items[0];
+      }
+    });
   }
 
   // #endregion
@@ -110,6 +114,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);

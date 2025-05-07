@@ -13,10 +13,10 @@ import {
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { focusFirstTabbable } from "../../utils/dom";
 import { CSS, IDS } from "./resources";
 import { styles } from "./radio-button-group.scss";
@@ -38,6 +38,8 @@ export class RadioButtonGroup extends LitElement {
   // #region Private Properties
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -97,14 +99,14 @@ export class RadioButtonGroup extends LitElement {
   /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    if (this.selectedItem && !this.selectedItem.disabled) {
-      focusFirstTabbable(this.selectedItem);
-    }
-    if (this.radioButtons.length > 0) {
-      focusFirstTabbable(this.getFocusableRadioButton());
-    }
+    return this.focusSetter(() => {
+      if (this.selectedItem && !this.selectedItem.disabled) {
+        return this.selectedItem;
+      }
+      if (this.radioButtons.length > 0) {
+        focusFirstTabbable(this.getFocusableRadioButton());
+      }
+    });
   }
 
   // #endregion
@@ -153,6 +155,7 @@ export class RadioButtonGroup extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =

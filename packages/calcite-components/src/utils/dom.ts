@@ -264,13 +264,14 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
  *
  * @param {Element} el An element.
+ * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  */
-export async function focusElement(el: FocusableElement): Promise<void> {
+export async function focusElement(el: FocusableElement, context?: HTMLElement): Promise<void> {
   if (!el) {
     return;
   }
 
-  return isCalciteFocusable(el) ? el.setFocus() : el.focus();
+  return isCalciteFocusable(el) && context !== el ? el.setFocus() : focusFirstTabbable(el);
 }
 
 /**
@@ -561,7 +562,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget);
+  focusElement(focusTarget, focusTarget);
   return focusTarget;
 };
 

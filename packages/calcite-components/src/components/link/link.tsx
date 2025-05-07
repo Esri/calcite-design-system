@@ -1,16 +1,16 @@
 // @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./link.scss";
 
 declare global {
@@ -39,6 +39,8 @@ export class Link extends LitElement implements InteractiveComponent {
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -80,9 +82,9 @@ export class Link extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.childEl);
+    return this.focusSetter(() => {
+      return this.childEl;
+    });
   }
 
   // #endregion

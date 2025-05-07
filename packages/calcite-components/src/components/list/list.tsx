@@ -26,7 +26,6 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
@@ -35,6 +34,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
@@ -158,6 +158,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -348,13 +350,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
+    return this.focusSetter(() => {
+      if (this.filterEnabled) {
+        return this.filterEl;
+      }
 
-    if (this.filterEnabled) {
-      return this.filterEl?.setFocus();
-    }
-
-    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
+      return this.focusableItems.find((listItem) => listItem.active);
+    });
   }
 
   //#endregion

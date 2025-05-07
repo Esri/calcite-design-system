@@ -1,6 +1,5 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElement } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -14,9 +13,9 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -47,6 +46,8 @@ export class Switch
   labelEl: Label["el"];
 
   private switchEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -88,9 +89,9 @@ export class Switch
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.switchEl);
+    return this.focusSetter(() => {
+      return this.switchEl;
+    });
   }
 
   // #endregion
