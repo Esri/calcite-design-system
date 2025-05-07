@@ -26,7 +26,10 @@
   );
 
   // avoids host to shrink beyond the textarea
-  min-block-size: var(--calcite-text-area-min-height, 0);
+  min-block-size: var(
+    --calcite-text-area-min-height,
+    calc(calc(2 * var(--calcite-internal-text-area-padding-block)) + calc(2 * var(--calcite-border-width-sm)))
+  );
   min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
 }
 
@@ -132,7 +135,7 @@
 
 .text-area.text-area--only {
   @apply h-full;
-  min-block-size: var(--calcite-text-area-min-height);
+  min-block-size: var(--calcite-text-area-min-height, 0);
 }
 
 :host([resize="none"]) .text-area {
