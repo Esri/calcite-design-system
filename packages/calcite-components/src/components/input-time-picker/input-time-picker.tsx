@@ -496,7 +496,12 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler({ detail: newValue }): void {
+  private timeChangeHandler(event): void {
+    if (this.disabled) {
+      return;
+    }
+
+    const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
     }
