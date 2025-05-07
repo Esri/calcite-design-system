@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   focusFirstTabbable,
@@ -101,7 +100,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   @state() hasStartActions = false;
 
-  @state() isClosed = false;
+  @state() _closed = false;
 
   @state() showHeaderContent = false;
 
@@ -116,7 +115,13 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @property({ reflect: true }) closed = false;
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    this.handleSetClosed(value);
+  }
 
   /**
    * Specifies the direction of the collapse.
@@ -220,24 +225,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.listen("keydown", this.panelKeyDownHandler);
   }
 
-  async load(): Promise<void> {
-    this.isClosed = this.closed;
-  }
-
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("closed") && this.hasUpdated) {
-      if (this.closed) {
-        this.close();
-      } else {
-        this.open();
-      }
-    }
-  }
-
   override updated(): void {
     updateHostInteraction(this);
   }
@@ -249,6 +236,17 @@ export class Panel extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Methods
+
+  private async handleSetClosed(value: boolean): Promise<void> {
+    try {
+      if (value) {
+        await this.beforeClose?.();
+      }
+      this._closed = value;
+    } catch {
+      return;
+    }
+  }
 
   private resizeHandler(): void {
     const { panelScrollEl } = this;
@@ -285,26 +283,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   private handleUserClose(): void {
     this.closed = true;
     this.calcitePanelClose.emit();
-  }
-
-  private open(): void {
-    this.isClosed = false;
-  }
-
-  private async close(): Promise<void> {
-    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
-
-    try {
-      await beforeClose();
-    } catch {
-      // close prevented
-      requestAnimationFrame(() => {
-        this.closed = false;
-      });
-      return;
-    }
-
-    this.isClosed = true;
   }
 
   private collapse(): void {
@@ -645,15 +623,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, isClosed } = this;
+    const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article
-        ariaBusy={loading}
-        class={CSS.container}
-        hidden={isClosed}
-        ref={this.setContainerRef}
-      >
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.setContainerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
