@@ -11,13 +11,14 @@ export const stepperItemTokens = {
   calciteStepperItemSelectedIconColor: "",
   calciteStepperItemDescriptionTextColor: "",
   calciteStepperItemDescriptionTextColorHover: "",
-  calciteStepperItemBorderColor: "",
-  calciteStepperItemBorderColorHover: "",
-  calciteStepperItemCompleteBorderColor: "",
-  calciteStepperItemCompleteBorderColorHover: "",
-  calciteStepperItemErrorBorderColor: "",
-  calciteStepperItemErrorBorderColorHover: "",
-  calciteStepperItemSelectedBorderColor: "",
+  calciteStepperBarGap: "",
+  calciteStepperBarFillColor: "",
+  calciteStepperBarFillColorHover: "",
+  calciteStepperBarCompleteFillColor: "",
+  calciteStepperBarCompleteFillColorHover: "",
+  calciteStepperBarErrorFillColor: "",
+  calciteStepperBarErrorFillColorHover: "",
+  calciteStepperBarSelectedFillColor: "",
 };
 
 export const stepperItem = html`<calcite-stepper layout="horizontal" scale="m"

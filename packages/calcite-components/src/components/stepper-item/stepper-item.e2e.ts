@@ -42,6 +42,10 @@ describe("calcite-stepper-item", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-stepper-item heading="Item" description="description"></calcite-stepper-item>`, {
+        "--calcite-stepper-bar-gap": {
+          selector: `calcite-stepper-item`,
+          targetProp: "marginBlockEnd",
+        },
         "--calcite-stepper-item-background-color-press": [
           {
             shadowSelector: `.${CSS.container}`,
@@ -162,7 +166,7 @@ describe("calcite-stepper-item", () => {
       describe("horizontal", () => {
         describe("default", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="horizontal"></calcite-stepper-item>`, {
-            "--calcite-stepper-item-border-color-hover": [
+            "--calcite-stepper-bar-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.stepperItemHeader}`,
                 targetProp: "borderColor",
@@ -183,11 +187,11 @@ describe("calcite-stepper-item", () => {
         });
         describe("complete", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="horizontal" complete></calcite-stepper-item>`, {
-            "--calcite-stepper-item-complete-border-color": {
+            "--calcite-stepper-bar-complete-fill-color": {
               shadowSelector: `.${CSS.stepperItemHeader}`,
               targetProp: "borderColor",
             },
-            "--calcite-stepper-item-complete-border-color-hover": [
+            "--calcite-stepper-bar-complete-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.stepperItemHeader}`,
                 targetProp: "borderColor",
@@ -203,11 +207,11 @@ describe("calcite-stepper-item", () => {
         });
         describe("error", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="horizontal" error></calcite-stepper-item>`, {
-            "--calcite-stepper-item-error-border-color": {
+            "--calcite-stepper-bar-error-fill-color": {
               shadowSelector: `.${CSS.stepperItemHeader}`,
               targetProp: "borderColor",
             },
-            "--calcite-stepper-item-error-border-color-hover": [
+            "--calcite-stepper-bar-error-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.stepperItemHeader}`,
                 targetProp: "borderColor",
@@ -223,7 +227,7 @@ describe("calcite-stepper-item", () => {
         });
         describe("selected", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="horizontal" selected></calcite-stepper-item>`, {
-            "--calcite-stepper-item-selected-border-color": {
+            "--calcite-stepper-bar-selected-fill-color": {
               shadowSelector: `.${CSS.stepperItemHeader}`,
               targetProp: "borderColor",
             },
@@ -233,14 +237,14 @@ describe("calcite-stepper-item", () => {
       describe("vertical", () => {
         describe("default", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="vertical"></calcite-stepper-item>`, {
-            "--calcite-stepper-item-border-color-hover": [
+            "--calcite-stepper-bar-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.container}`,
                 targetProp: "borderColor",
                 state: "hover",
               },
             ],
-            "--calcite-stepper-item-border-color": {
+            "--calcite-stepper-bar-fill-color": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "borderColor",
             },
@@ -248,11 +252,11 @@ describe("calcite-stepper-item", () => {
         });
         describe("complete", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="vertical" complete></calcite-stepper-item>`, {
-            "--calcite-stepper-item-complete-border-color": {
+            "--calcite-stepper-bar-complete-fill-color": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "borderColor",
             },
-            "--calcite-stepper-item-complete-border-color-hover": [
+            "--calcite-stepper-bar-complete-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.container}`,
                 targetProp: "borderColor",
@@ -263,11 +267,11 @@ describe("calcite-stepper-item", () => {
         });
         describe("error", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="vertical" error></calcite-stepper-item>`, {
-            "--calcite-stepper-item-error-border-color": {
+            "--calcite-stepper-bar-error-fill-color": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "borderColor",
             },
-            "--calcite-stepper-item-error-border-color-hover": [
+            "--calcite-stepper-bar-error-fill-color-hover": [
               {
                 shadowSelector: `.${CSS.container}`,
                 targetProp: "borderColor",
@@ -278,7 +282,7 @@ describe("calcite-stepper-item", () => {
         });
         describe("selected", () => {
           themed(html`<calcite-stepper-item heading="Item" layout="vertical" selected></calcite-stepper-item>`, {
-            "--calcite-stepper-item-selected-border-color": {
+            "--calcite-stepper-bar-selected-fill-color": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "borderColor",
             },

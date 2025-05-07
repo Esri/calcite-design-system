@@ -13,13 +13,14 @@
  * @prop --calcite-stepper-item-selected-icon-color: Specifies the component's icon and number color when selected.
  * @prop --calcite-stepper-item-description-text-color: Specifies the component's description and number text color.
  * @prop --calcite-stepper-item-description-text-color-hover: Specifies the component's description text color when hovered, focused or selected.
- * @prop --calcite-stepper-item-border-color: Specifies the component's border color.
- * @prop --calcite-stepper-item-border-color-hover: Specifies the component's border color when hovered or focused.
- * @prop --calcite-stepper-item-complete-border-color: Specifies the component's border color when complete.
- * @prop --calcite-stepper-item-complete-border-color-hover: When item is complete, specifies the component's border color when hovered or focused.
- * @prop --calcite-stepper-item-error-border-color: Specifies the component's border color when in error.
- * @prop --calcite-stepper-item-error-border-color-hover: When item is error, specifies the component's border color when hovered or focused.
- * @prop --calcite-stepper-item-selected-border-color: Specifies the component's border color when selected.
+ * @prop --calcite-stepper-bar-gap: Specifies the component's bottom spacing.
+ * @prop --calcite-stepper-bar-fill-color: Specifies the component's fill color.
+ * @prop --calcite-stepper-bar-fill-color-hover: Specifies the component's fill color when hovered or focused.
+ * @prop --calcite-stepper-bar-complete-fill-color: Specifies the component's fill color when complete.
+ * @prop --calcite-stepper-bar-complete-fill-color-hover: When item is complete, specifies the component's fill color when hovered or focused.
+ * @prop --calcite-stepper-bar-error-fill-color: Specifies the component's fill color when in error.
+ * @prop --calcite-stepper-bar-error-fill-color-hover: When item is error, specifies the component's fill color when hovered or focused.
+ * @prop --calcite-stepper-bar-selected-fill-color: Specifies the component's fill color when selected.
 */
 
 :host([scale="s"]) {
@@ -64,7 +65,7 @@
   flex-grow
   flex-col
   self-start;
-  margin-block-end: var(--calcite-internal-stepper-item-spacing-unit-s);
+  margin-block-end: var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
 }
 
 :host .container {
@@ -235,7 +236,7 @@
   py-0;
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-internal-stepper-item-spacing-unit-l);
-  border-color: var(--calcite-stepper-item-border-color, var(--calcite-color-border-3));
+  border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3));
 
   & .stepper-item-icon {
     @apply order-3 mt-px mb-0;
@@ -251,20 +252,17 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: var(
-    --calcite-stepper-item-complete-border-color,
-    rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5)
-  );
+  border-color: var(--calcite-stepper-bar-complete-fill-color, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-stepper-item-complete-border-color-hover, var(--calcite-color-brand));
+  border-color: var(--calcite-stepper-bar-complete-fill-color-hover, var(--calcite-color-brand));
 }
 :host([layout="vertical"][error]) .container {
-  border-color: var(--calcite-stepper-item-error-border-color, var(--calcite-color-status-danger));
+  border-color: var(--calcite-stepper-bar-error-fill-color, var(--calcite-color-status-danger));
 }
 :host([layout="vertical"][selected]) .container {
-  border-color: var(--calcite-stepper-item-selected-border-color, var(--calcite-color-brand));
+  border-color: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
 
   & .stepper-item-content:not(:empty) {
     margin-block-end: var(--calcite-internal-stepper-item-spacing-unit-l);
@@ -272,11 +270,11 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-stepper-item-border-color-hover, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
+  border-color: var(--calcite-stepper-bar-fill-color-hover, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-stepper-item-error-border-color-hover, var(--calcite-color-status-danger-hover));
+  border-color: var(--calcite-stepper-bar-error-fill-color-hover, var(--calcite-color-status-danger-hover));
 }
 
 :host([layout="horizontal"]),
@@ -293,7 +291,7 @@
     border-t-2
     focus-base;
     grid-row: items;
-    border-color: var(--calcite-stepper-item-border-color, var(--calcite-color-border-3));
+    border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3));
 
     &:focus {
       @apply focus-outset duration-0;
@@ -332,7 +330,7 @@
 :host([layout="horizontal-single"][complete]) {
   .stepper-item-header {
     border-color: var(
-      --calcite-stepper-item-complete-border-color,
+      --calcite-stepper-bar-complete-fill-color,
       rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5)
     );
   }
@@ -342,19 +340,19 @@
 :host([layout="horizontal-single"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][complete]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-stepper-item-complete-border-color-hover, var(--calcite-color-brand));
+    border-color: var(--calcite-stepper-bar-complete-fill-color-hover, var(--calcite-color-brand));
   }
 }
 :host([layout="horizontal"][error]),
 :host([layout="horizontal-single"][error]) {
   .stepper-item-header {
-    border-color: var(--calcite-stepper-item-error-border-color, var(--calcite-color-status-danger));
+    border-color: var(--calcite-stepper-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 }
 :host([layout="horizontal"][selected]),
 :host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
-    border-color: var(--calcite-stepper-item-selected-border-color, var(--calcite-color-brand));
+    border-color: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
   }
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])),
@@ -362,10 +360,7 @@
 :host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(
-      --calcite-stepper-item-border-color-hover,
-      rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5)
-    );
+    border-color: var(--calcite-stepper-bar-fill-color-hover, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
   }
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
@@ -373,7 +368,7 @@
 :host([layout="horizontal-single"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][error]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-stepper-item-error-border-color-hover, var(--calcite-color-status-danger-hover));
+    border-color: var(--calcite-stepper-bar-error-fill-color-hover, var(--calcite-color-status-danger-hover));
   }
 }
 
