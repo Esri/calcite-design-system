@@ -153,8 +153,7 @@
     var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
-:host([layout="horizontal"]) .container,
-:host([layout="horizontal"]) .content-container {
+:host([layout="horizontal"]) .container {
   @apply w-full h-auto;
   flex-direction: column;
 }
@@ -279,15 +278,18 @@
 }
 
 .content-container {
-  @apply pointer-events-none
-  flex
+  @apply flex
   flex-auto
   items-stretch
   self-stretch
   relative
   box-border
-  bg-transparent
+  w-full
   h-full;
+}
+
+:host([layout="horizontal"]) .content-container {
+  flex-direction: column;
 }
 
 .content {
