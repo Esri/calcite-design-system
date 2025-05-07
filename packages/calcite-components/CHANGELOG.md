@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.44...@esri/calcite-components@3.2.0-next.45) (2025-05-07)
+
+### Bug Fixes
+
+- fix memory leak caused when disconnecting floating-ui ([#12107](https://github.com/Esri/calcite-design-system/issues/12107)) ([eda7d13](https://github.com/Esri/calcite-design-system/commit/eda7d13b2d0c352da7376d4b428538ac14227c25)), closes [#10648](https://github.com/Esri/calcite-design-system/issues/10648)
+
+## [3.2.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.43...@esri/calcite-components@3.2.0-next.44) (2025-05-07)
+
+### Bug Fixes
+
+- **list, block-group:** List nested in shadow DOM loses drop zone styling ([#12105](https://github.com/Esri/calcite-design-system/issues/12105)) ([8861059](https://github.com/Esri/calcite-design-system/commit/8861059b797b34c02ce14d9c26da219a6e16ab32)), closes [#10636](https://github.com/Esri/calcite-design-system/issues/10636)
+
 ## [3.2.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.42...@esri/calcite-components@3.2.0-next.43) (2025-05-06)
 
 ### Features
