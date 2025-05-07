@@ -5694,6 +5694,46 @@
           </calcite-list>
         </div>
       </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Shadow list sortable</div>
+
+        <div class="child">
+          <my-shadow-list />
+          <template id="my-list">
+            <calcite-list drag-enabled>
+              <calcite-list-item
+                label="Hiking trails"
+                description="Designated routes for hikers to use."
+                value="hiking-trails"
+              >
+                <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+                <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+                <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+              </calcite-list-item>
+            </calcite-list>
+          </template>
+          <script>
+            customElements.define(
+              "my-shadow-list",
+              class extends HTMLElement {
+                constructor() {
+                  super();
+
+                  const template = document.getElementById("my-list");
+                  const templateContent = template.content;
+
+                  this.attachShadow({ mode: "open" }).appendChild(templateContent.cloneNode(true));
+                }
+              },
+            );
+          </script>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

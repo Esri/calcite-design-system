@@ -1081,6 +1081,25 @@ describe("calcite-input-number", () => {
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
   });
 
+  it("prevent typing invalid characters", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const input = await page.find("calcite-input-number");
+    const internalInput = await page.find("calcite-input-number >>> input");
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await typeNumberValue(page, "是");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("");
+    expect(await internalInput.getProperty("value")).toBe("");
+
+    await typeNumberValue(page, "-1士2大3.4夫5李6");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123.456");
+    expect(await internalInput.getProperty("value")).toBe("-123.456");
+  });
+
   it("allows any valid number", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);

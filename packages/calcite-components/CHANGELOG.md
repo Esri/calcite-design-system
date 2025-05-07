@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.44...@esri/calcite-components@3.2.0-next.45) (2025-05-07)
+
+### Bug Fixes
+
+- fix memory leak caused when disconnecting floating-ui ([#12107](https://github.com/Esri/calcite-design-system/issues/12107)) ([eda7d13](https://github.com/Esri/calcite-design-system/commit/eda7d13b2d0c352da7376d4b428538ac14227c25)), closes [#10648](https://github.com/Esri/calcite-design-system/issues/10648)
+
+## [3.2.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.43...@esri/calcite-components@3.2.0-next.44) (2025-05-07)
+
+### Bug Fixes
+
+- **list, block-group:** List nested in shadow DOM loses drop zone styling ([#12105](https://github.com/Esri/calcite-design-system/issues/12105)) ([8861059](https://github.com/Esri/calcite-design-system/commit/8861059b797b34c02ce14d9c26da219a6e16ab32)), closes [#10636](https://github.com/Esri/calcite-design-system/issues/10636)
+
+## [3.2.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.42...@esri/calcite-components@3.2.0-next.43) (2025-05-06)
+
+### Features
+
+- **fab:** enhance component's interactivity states ([#12097](https://github.com/Esri/calcite-design-system/issues/12097)) ([92bc3ca](https://github.com/Esri/calcite-design-system/commit/92bc3ca4fcd436e0fcbb4f914d0d5944ada1b3e6)), closes [#10004](https://github.com/Esri/calcite-design-system/issues/10004)
+
+## [3.2.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.41...@esri/calcite-components@3.2.0-next.42) (2025-05-05)
+
+### Bug Fixes
+
+- **input-number:** prevent entry of invalid characters ([#12093](https://github.com/Esri/calcite-design-system/issues/12093)) ([c459b86](https://github.com/Esri/calcite-design-system/commit/c459b862abbe42afcc7b2043191236e53d02b91a)), closes [#8640](https://github.com/Esri/calcite-design-system/issues/8640)
+
+## [3.2.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.40...@esri/calcite-components@3.2.0-next.41) (2025-05-05)
+
+### Bug Fixes
+
+- **autocomplete:** fix setFocus method in Safari ([#12092](https://github.com/Esri/calcite-design-system/issues/12092)) ([b1c2b56](https://github.com/Esri/calcite-design-system/commit/b1c2b56c883ea3dc59c7fbc121e364b337c12d9d)), closes [#12078](https://github.com/Esri/calcite-design-system/issues/12078)
+
+## [3.2.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.39...@esri/calcite-components@3.2.0-next.40) (2025-05-03)
+
+### Bug Fixes
+
+- **dialog, modal, sheet:** honor `initialFocus` when opening components ([#12084](https://github.com/Esri/calcite-design-system/issues/12084)) ([c86e122](https://github.com/Esri/calcite-design-system/commit/c86e12224b6418cabb550ad99a482e8844b82bea)), closes [#11781](https://github.com/Esri/calcite-design-system/issues/11781)
+
 ## [3.2.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.38...@esri/calcite-components@3.2.0-next.39) (2025-05-02)
 
 ### Features

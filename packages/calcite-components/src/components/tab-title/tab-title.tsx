@@ -43,13 +43,13 @@ declare global {
  * @slot - A slot for adding text.
  */
 export class TabTitle extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -66,18 +66,25 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     this.calciteInternalTabIconChanged.emit();
   });
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() controls: string;
 
   /** determine if there is slotted text for styling purposes */
   @state() hasText = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
   @property({ reflect: true }) bordered = false;
@@ -107,13 +114,6 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
    *
    *  `@internal`
@@ -141,9 +141,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) tab: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * This activates a tab in order for it and its associated tab-title be selected.
@@ -192,9 +192,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTabIconChanged = createEvent({ cancelable: false });
@@ -236,9 +236,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** Fires when a `calcite-tab` is closed. */
   calciteTabsClose = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -300,9 +300,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private selectedHandler(): void {
     if (this.selected) {
@@ -388,9 +388,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     this.calciteTabsClose.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { el, closed } = this;
@@ -466,5 +466,5 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }
