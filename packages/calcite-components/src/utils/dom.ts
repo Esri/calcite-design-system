@@ -562,7 +562,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget);
+  focusElement(focusTarget, focusTarget);
   return focusTarget;
 };
 

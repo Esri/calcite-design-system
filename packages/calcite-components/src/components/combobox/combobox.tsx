@@ -14,7 +14,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import { getElementWidth, getTextWidth } from "../../utils/dom";
+import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -1341,7 +1341,7 @@ export class Combobox
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
       this.activeChipIndex = -1;
-      this.setFocus();
+      focusElement(this.textInput.value);
     } else {
       this.activeChipIndex = newIndex;
       this.focusChip();
