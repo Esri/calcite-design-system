@@ -68,6 +68,8 @@ export class TimePicker extends LitElement {
 
   private secondEl: HTMLSpanElement;
 
+  private stepPrecision: number;
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -338,7 +340,7 @@ export class TimePicker extends LitElement {
   private fractionalSecondKeyDownHandler(event: KeyboardEvent): void {
     const { key } = event;
     if (numberKeys.includes(key)) {
-      const stepPrecision = decimalPlaces(this.step);
+      const { stepPrecision } = this;
       const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
       const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
 
@@ -570,7 +572,7 @@ export class TimePicker extends LitElement {
 
   private nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.step);
-    const stepPrecision = decimalPlaces(this.step);
+    const { stepPrecision } = this;
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
     let nudgedValue;
@@ -613,8 +615,9 @@ export class TimePicker extends LitElement {
   }
 
   private sanitizeFractionalSecond(fractionalSecond: string): string {
-    return fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
-      ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
+    const { stepPrecision } = this;
+    return fractionalSecond && stepPrecision !== fractionalSecond.length
+      ? parseFloat(`0.${fractionalSecond}`).toFixed(stepPrecision).replace("0.", "")
       : fractionalSecond;
   }
 
@@ -798,7 +801,7 @@ export class TimePicker extends LitElement {
         });
       }
     } else if (key === "fractionalSecond") {
-      const stepPrecision = decimalPlaces(this.step);
+      const { stepPrecision } = this;
       if (typeof value === "number") {
         this.fractionalSecond =
           value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
@@ -861,7 +864,8 @@ export class TimePicker extends LitElement {
 
   private toggleSecond(): void {
     this.showSecond = this.step < 60;
-    this.showFractionalSecond = decimalPlaces(this.step) > 0;
+    this.stepPrecision = decimalPlaces(this.step);
+    this.showFractionalSecond = this.stepPrecision > 0;
   }
 
   private updateLocale() {
@@ -1079,7 +1083,7 @@ export class TimePicker extends LitElement {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+              {this.localizedFractionalSecond || "".padStart(this.stepPrecision, "-")}
             </span>
             <span
               ariaLabel={this.messages.fractionalSecondDown}
