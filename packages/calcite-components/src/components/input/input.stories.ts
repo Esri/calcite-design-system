@@ -230,12 +230,27 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
     ></calcite-input>
   `);
 
-export const inputDateTimeLocal = (): string => html`
-  <calcite-input
-    clearable
-    icon="date-time"
-    step=".001"
-    type="datetime-local"
-    value="2024-05-09T12:00:00.000"
-  ></calcite-input>
+export const shrinkingInputDoesNotObscureCalendarIcon = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel slot="panel-start" position="start" resizable>
+      <calcite-panel heading="Map">
+        <calcite-block heading="Block 1" open>
+          <calcite-label>
+            Calcite datetime picker
+            <calcite-input
+              clearable
+              icon="date-time"
+              step=".001"
+              type="datetime-local"
+              value="2024-05-09T12:00:00.000"
+            ></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Native datetime picker
+            <input step=".001" type="datetime-local" value="2024-05-09T12:00:00.000" />
+          </calcite-label>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>
 `;
