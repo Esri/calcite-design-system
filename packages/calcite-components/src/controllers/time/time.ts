@@ -505,15 +505,15 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedDecimalSeparator,
-        localizedFractionalSecond,
-        localizedSecondSuffix,
-        localizedMeridiem,
+        hour: localizedHour,
+        hourSuffix: localizedHourSuffix,
+        minute: localizedMinute,
+        minuteSuffix: localizedMinuteSuffix,
+        second: localizedSecond,
+        secondSuffix: localizedSecondSuffix,
+        decimalSeparator: localizedDecimalSeparator,
+        fractionalSecond: localizedFractionalSecond,
+        meridiem: localizedMeridiem,
       } = localizeTimeString({
         hour12,
         locale,

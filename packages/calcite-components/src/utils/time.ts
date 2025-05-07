@@ -19,15 +19,15 @@ export type HourFormat = "user" | EffectiveHourFormat;
 export const hourFormats: EffectiveHourFormat[] = ["12", "24"];
 
 export interface LocalizedTime {
-  localizedHour: string;
-  localizedHourSuffix: string;
-  localizedMinute: string;
-  localizedMinuteSuffix: string;
-  localizedSecond: string;
-  localizedDecimalSeparator: string;
-  localizedFractionalSecond: string;
-  localizedSecondSuffix: string;
-  localizedMeridiem: string;
+  hour: string;
+  hourSuffix: string;
+  minute: string;
+  minuteSuffix: string;
+  second: string;
+  decimalSeparator: string;
+  fractionalSecond: string;
+  secondSuffix: string;
+  meridiem: string;
 }
 
 export type Meridiem = "AM" | "PM";
@@ -432,15 +432,15 @@ export function localizeTimeString({
   if (toParts) {
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
-      localizedHour: getLocalizedTimePart("hour", parts),
-      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedMinute: getLocalizedTimePart("minute", parts),
-      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
-      localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts, locale),
+      hour: getLocalizedTimePart("hour", parts),
+      hourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      minute: getLocalizedTimePart("minute", parts),
+      minuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      second: getLocalizedTimePart("second", parts),
+      decimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      fractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
+      secondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
+      meridiem: getLocalizedTimePart("meridiem", parts, locale),
     };
   } else {
     let result = formatter.format(dateFromTimeString) || null;
@@ -509,15 +509,15 @@ export function localizeTimeStringToParts({
     });
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
-      localizedHour: getLocalizedTimePart("hour", parts),
-      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedMinute: getLocalizedTimePart("minute", parts),
-      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
-      localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts, locale),
+      hour: getLocalizedTimePart("hour", parts),
+      hourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      minute: getLocalizedTimePart("minute", parts),
+      minuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      second: getLocalizedTimePart("second", parts),
+      decimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      fractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
+      secondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
+      meridiem: getLocalizedTimePart("meridiem", parts, locale),
     };
   }
   return null;
