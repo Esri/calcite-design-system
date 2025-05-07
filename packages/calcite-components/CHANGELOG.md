@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.45...@esri/calcite-components@3.2.0-next.46) (2025-05-07)
+
+### Bug Fixes
+
+- **date-picker-month:** fix height of calendar to 6 rows ([#12085](https://github.com/Esri/calcite-design-system/issues/12085)) ([0820138](https://github.com/Esri/calcite-design-system/commit/0820138d47d1c4ab663d818031e3bfcfa2a54eec)), closes [#9305](https://github.com/Esri/calcite-design-system/issues/9305)
+
 ## [3.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.44...@esri/calcite-components@3.2.0-next.45) (2025-05-07)
 
 ### Bug Fixes
