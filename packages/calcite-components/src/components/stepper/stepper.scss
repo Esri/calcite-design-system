@@ -58,21 +58,21 @@
     grid-template-areas:
       "items"
       "content";
-    gap: var(--calcite-stepper-bar-gap, theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
   }
 }
 
 :host([layout="horizontal"][scale="s"]),
 :host([layout="horizontal-single"][scale="s"]) {
   .container {
-    gap: var(--calcite-stepper-bar-gap, theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: theme("spacing.1") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
   }
 }
 
 :host([layout="horizontal"][scale="l"]),
 :host([layout="horizontal-single"][scale="l"]) {
   .container {
-    gap: var(--calcite-stepper-bar-gap, theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: theme("spacing.3") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
   }
 }
 
