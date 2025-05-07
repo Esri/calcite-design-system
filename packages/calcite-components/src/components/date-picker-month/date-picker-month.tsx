@@ -581,15 +581,14 @@ export class DatePickerMonth extends LitElement {
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    if (!this.range) {
-      const numDaysDisplayed = curMonDays.length + prevMonDays.length + nextMonDays.length;
-      if (numDaysDisplayed < NUM_DAYS_TO_DISPLAY) {
-        const initialDay = nextMonDays.length ? nextMonDays[nextMonDays.length - 1] : 0;
-        for (let i = 1; i <= NUM_DAYS_TO_DISPLAY - numDaysDisplayed; i++) {
-          nextMonDays.push(initialDay + i);
-        }
+    const numDaysDisplayed = curMonDays.length + prevMonDays.length + nextMonDays.length;
+    if (numDaysDisplayed < NUM_DAYS_TO_DISPLAY) {
+      const initialDay = nextMonDays.length ? nextMonDays[nextMonDays.length - 1] : 0;
+      for (let i = 1; i <= NUM_DAYS_TO_DISPLAY - numDaysDisplayed; i++) {
+        nextMonDays.push(initialDay + i);
       }
     }
+
     const nextMonth = month + 1;
     const endCalendarPrevMonDays = this.getPreviousMonthDays(nextMonth, year, startOfWeek);
     const endCalendarCurrMonDays = this.getCurrentMonthDays(nextMonth, year);
