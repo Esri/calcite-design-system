@@ -266,7 +266,7 @@ export class InputTimePicker
     super();
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
-    this.listenOn(window, "calciteTimeChange", this.timeChangeHandler);
+    this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
   override connectedCallback(): void {
@@ -496,12 +496,7 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
-    if (this.disabled || !event.composedPath().includes(this.el)) {
-      return;
-    }
-
-    const newValue = event.detail;
+  private timeChangeHandler({ detail: newValue }): void {
     if (newValue !== this.value) {
       this.value = newValue;
     }
