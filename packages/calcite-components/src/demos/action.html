@@ -639,6 +639,143 @@
 
       <hr />
 
+      <!-- Action bar floating -->
+      <div class="parent-action-bar">
+        <div class="child right-aligned-text">action bar floating: basic</div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating scale="s">
+            <calcite-action-group label="test">
+              <calcite-action scale="s" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="s" text="Cool" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group label="test2" scale="s">
+              <calcite-action scale="s" text="Add" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating scale="m">
+            <calcite-action-group label="Revert">
+              <calcite-action scale="m" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="m" text="Cool" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group label="Add things" scale="m">
+              <calcite-action scale="m" text="Add" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating scale="l">
+            <calcite-action-group>
+              <calcite-action scale="l" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="l" text="Cool" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Add" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+      </div>
+
+      <div class="parent-action-bar">
+        <div class="child right-aligned-text">tooltip on expand toogle</div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating id="action-bar-floating-test" scale="s">
+            <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
+            <calcite-action scale="s" text="Add" icon="plus"></calcite-action>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating id="action-bar-floating-test" scale="m">
+            <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
+            <calcite-action scale="m" text="Add" icon="plus"></calcite-action>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating id="action-bar-floating-test" scale="l">
+            <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
+            <calcite-action scale="l" text="Add" icon="plus"></calcite-action>
+          </calcite-action-bar>
+        </div>
+      </div>
+
+      <div class="parent-action-bar">
+        <div class="child right-aligned-text">horizontal</div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating layout="horizontal" scale="s">
+            <calcite-action-group>
+              <calcite-action scale="s" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="s" text="Redo" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="s" text="Title" icon="title"></calcite-action>
+              <calcite-action scale="s" text="Text" icon="text"></calcite-action>
+              <calcite-action scale="s" text="Bold" icon="bold"></calcite-action>
+              <calcite-action scale="s" text="Italics" icon="italicize"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="s" text="Cut" icon="scissors"></calcite-action>
+              <calcite-action scale="s" text="Add" icon="plus-square"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="s" text="Remove" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating layout="horizontal" scale="m">
+            <calcite-action-group>
+              <calcite-action scale="m" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="m" text="Redo" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="m" text="Title" icon="title"></calcite-action>
+              <calcite-action scale="m" text="Text" icon="text"></calcite-action>
+              <calcite-action scale="m" text="Bold" icon="bold"></calcite-action>
+              <calcite-action scale="m" text="Italics" icon="italicize"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="m" text="Cut" icon="scissors"></calcite-action>
+              <calcite-action scale="m" text="Add" icon="plus-square"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="m" text="Remove" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="child-action-bar">
+          <calcite-action-bar floating layout="horizontal" scale="l">
+            <calcite-action-group>
+              <calcite-action scale="l" text="Undo" icon="undo"> </calcite-action>
+              <calcite-action scale="l" text="Redo" icon="redo"> </calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Title" icon="title"></calcite-action>
+              <calcite-action scale="l" text="Text" icon="text"></calcite-action>
+              <calcite-action scale="l" text="Bold" icon="bold"></calcite-action>
+              <calcite-action scale="l" text="Italics" icon="italicize"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Cut" icon="scissors"></calcite-action>
+              <calcite-action scale="l" text="Add" icon="plus-square"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action scale="l" text="Remove" icon="trash"> </calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+      </div>
+      <hr />
+
       <!--
       **************************************************
       * ACTION PAD
