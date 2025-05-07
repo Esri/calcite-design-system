@@ -276,17 +276,18 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
 }
 
 export function isValidTime(value: string | Time): boolean {
+  const isString = typeof value === "string";
   if (
     !value ||
-    (typeof value === "string" && (value.startsWith(":") || value.endsWith(":"))) ||
-    (typeof value !== "string" && (!value.hour || !value.minute))
+    (isString && (value.startsWith(":") || value.endsWith(":"))) ||
+    (!isString && (!value.hour || !value.minute))
   ) {
     return false;
   }
   let hour;
   let minute;
   let second;
-  if (typeof value === "string") {
+  if (isString) {
     [hour, minute, second] = value.split(":");
   } else {
     ({ hour, minute, second } = value);
