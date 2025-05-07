@@ -314,13 +314,18 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     return false;
   }
   const valueAsNumber = Number(value);
+  const isZeroOrGreater = valueAsNumber >= 0;
+  const isLessThanMaxHour = valueAsNumber < 24;
+  const isLessThanMaxSecond = valueAsNumber < 60;
+  const isLessThanMaxFractionalSecond = valueAsNumber <= 999;
+
   if (part === "hour") {
-    return valueAsNumber >= 0 && valueAsNumber < 24;
+    return isZeroOrGreater && isLessThanMaxHour;
   }
   if (part === "fractionalSecond") {
-    return valueAsNumber >= 0 && valueAsNumber <= 999;
+    return isZeroOrGreater && isLessThanMaxFractionalSecond;
   }
-  return valueAsNumber >= 0 && valueAsNumber < 60;
+  return isZeroOrGreater && isLessThanMaxSecond;
 }
 
 interface LocalizeTimePartParameters {
