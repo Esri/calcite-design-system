@@ -245,7 +245,7 @@ function getLocalizedTimePart(
       const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
       secondSuffixPart = parts[secondIndex + 1];
     }
-    return secondSuffixPart && secondSuffixPart.type === "literal" ? secondSuffixPart.value?.trim() || null : null;
+    return (secondSuffixPart?.type === "literal" && secondSuffixPart.value?.trim()) || null;
   }
   if (part === "meridiem") {
     const meridiemFromBrowser = parts.find(({ type }) => type === "dayPeriod")?.value || null;
