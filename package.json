@@ -35,6 +35,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
+    "@arcgis/eslint-config": "4.32.14",
     "@cspell/dict-gis": "1.0.1",
     "@cspell/dict-pokemon": "1.0.1",
     "@cspell/dict-scientific-terms-us": "3.0.6",
@@ -89,6 +90,7 @@
     "eslint-plugin-jsdoc": "50.6.9",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-unicorn": "58.0.0",
+    "eslint-plugin-unused-imports": "4.1.4",
     "generate-license-file": "4.0.0",
     "globals": "16.0.0",
     "globby": "14.1.0",
@@ -108,7 +110,7 @@
     "shell-quote": "1.8.2",
     "storybook": "8.6.12",
     "storybook-addon-rtl": "1.0.1",
-    "style-dictionary": "4.3.3",
+    "style-dictionary": "4.4.0",
     "stylelint": "16.18.0",
     "stylelint-config-recommended-scss": "14.1.0",
     "stylelint-use-logical-spec": "5.0.1",

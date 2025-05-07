@@ -11,6 +11,9 @@
  * @prop --calcite-block-heading-text-color-press: When the component is `expanded`, specifies the `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the component's text color.
+ * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
+ * @prop --calcite-block-icon-color: Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
+ * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
  */
 
 :host {
@@ -66,7 +69,7 @@
 
 .icon--start,
 .icon--end {
-  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
 }
 
 .actions-end {
@@ -131,7 +134,7 @@ calcite-handle {
     mt-0.5
     p-0;
 
-  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
 }
 
 .icon {
@@ -172,11 +175,11 @@ calcite-handle {
   ease-in-out;
 
   margin-inline-end: var(--calcite-spacing-md);
-  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
 }
 
 .toggle:hover .toggle-icon {
-  color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
+  color: var(--calcite-block-icon-color-hover, var(--calcite-color-text-1));
 }
 
 .container {
@@ -216,12 +219,12 @@ calcite-action-menu {
   }
 
   .description {
-    color: var(--calcite-block-text-color, var(--calcite-color-text-2));
+    color: var(--calcite-block-description-text-color, var(--calcite-color-text-2));
   }
 
   .icon--start,
   .icon--end {
-    color: var(--calcite-block-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
   }
 }
 

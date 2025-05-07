@@ -581,12 +581,6 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
  * @param component - A floating-ui component.
  */
 export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  const { floatingEl, referenceEl } = component;
-
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (trackedState?.state === "active") {

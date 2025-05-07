@@ -25,6 +25,7 @@ import { comboboxItem, comboboxItemTokens, selectedComboboxItem } from "./custom
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
 import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
+import { filter, filterTokens } from "./custom-theme/filter";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -61,6 +62,7 @@ import { tileTokens, tile } from "./custom-theme/tile";
 import { timePicker, timePickerTokens } from "./custom-theme/time-picker";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import { stepper, stepperTokens } from "./custom-theme/stepper";
 import {
   comboboxTokens,
   comboboxWithPlaceHolderIcon,
@@ -178,6 +180,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${fabLoading}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column">${filter}</div>
+    </div>
+    <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
     </div>
     <div class="demo-row">
@@ -188,10 +193,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${tree}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${stepperItem}</div>
+      <div class="demo-column">${stepper}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${stepperItemVertical}</div>
+      <div class="demo-column">${stepperItem}</div>
     </div>
   </div>`;
 
@@ -219,6 +225,7 @@ const componentTokens = {
   ...DropdownItemTokens,
   ...DropdownGroupTokens,
   ...fabTokens,
+  ...filterTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
@@ -254,6 +261,7 @@ const componentTokens = {
   ...menuItemTokens,
   ...shellPanelTokens,
   ...meterTokens,
+  ...stepperTokens,
 };
 
 export default {
