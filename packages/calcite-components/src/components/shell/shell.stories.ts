@@ -52,12 +52,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-    layout: "fullscreen",
-  },
 };
 
 const actionBarStartContentHTML = html`
@@ -1017,10 +1011,6 @@ position:relative;
     </calcite-shell-center-row>
   </calcite-shell>`;
 
-shellPanelZIndex_TestOnly.parameters = {
-  chromatic: { delay: 800 },
-};
-
 export const resizableShellPanels = (): string =>
   html`<calcite-shell
     style="
@@ -1149,10 +1139,6 @@ position:relative;
       <p>Bottom Panel</p>
     </calcite-shell-panel>
   </calcite-shell>`;
-
-resizableShellPanels.parameters = {
-  chromatic: { delay: 500 },
-};
 
 export const overlayDisplayMode_TestOnly = (): string =>
   html`<calcite-shell
@@ -1390,10 +1376,6 @@ position:relative;
       <calcite-panel heading="Example"> Example </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
-
-overlayDisplayMode_TestOnly.parameters = {
-  chromatic: { delay: 500 },
-};
 
 export const panelEndWithPositionStart_TestOnly = (): string =>
   html`<calcite-shell>

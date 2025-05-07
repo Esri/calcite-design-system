@@ -40,7 +40,6 @@ export default {
     },
   },
   parameters: {
-    chromatic: { delay: 1500 },
     options: {
       // for stability, we use a timezone unaffected by daylight savings time
       timezone: "America/Mexico_City",

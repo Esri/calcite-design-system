@@ -999,6 +999,3 @@ withDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };
 withDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
-withDescriptionShortLabelAndContentSlots.parameters = {
-  chromatic: { delay: 1000 },
-};

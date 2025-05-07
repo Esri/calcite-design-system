@@ -67,11 +67,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 /** Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */

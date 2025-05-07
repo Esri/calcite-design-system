@@ -257,18 +257,13 @@ export const scrollingContainerSetup_TestOnly = (): string =>
         <p></p>
       </div>
     </calcite-block>
-    <script>
-      (async () => {
-        const block = document.querySelector("calcite-block");
-        await customElements.whenDefined("calcite-block");
-        await block.componentOnReady();
+    <script type="module">
+      await customElements.whenDefined("calcite-block");
+      await block.componentOnReady();
 
-        const scrollContainer = document.querySelector(".scroll-container");
-        scrollContainer.scrollTo(0, 500);
-      })();
+      const scrollContainer = document.querySelector(".scroll-container");
+      scrollContainer.scrollTo(0, 500);
     </script>`;
-
-scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
 
 export const toggleDisplayWithLongText_TestOnly = (): string =>
   html`<calcite-block expanded heading="Calcite block" style="width:150px">

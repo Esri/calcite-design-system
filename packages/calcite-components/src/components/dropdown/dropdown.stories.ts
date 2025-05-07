@@ -49,11 +49,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 export const simple = (args: DropdownStoryArgs): string => html`
@@ -281,10 +276,6 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
-
-scrollingAfterCertainItems_TestOnly.parameters = {
-  chromatic: { delay: 1500 },
-};
 
 export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   <!-- we use large scale to test max viewport height-->

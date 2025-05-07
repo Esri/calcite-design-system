@@ -25,11 +25,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-  },
 };
 
 const panelHTML = html`<calcite-panel heading="Ultrices neque"

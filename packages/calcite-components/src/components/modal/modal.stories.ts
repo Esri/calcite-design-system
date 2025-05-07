@@ -35,11 +35,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-  },
 };
 
 export const simple = (args: ModalStoryArgs): string => html`
@@ -129,10 +124,6 @@ export const withTooltips_TestOnly = (): string => html`
   </calcite-modal>
   <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
 `;
-
-withTooltips_TestOnly.parameters = {
-  chromatic: { delay: 500 },
-};
 
 export const withCSSVars_TestOnly = (): string => html`
   <button id="button">Open</button>

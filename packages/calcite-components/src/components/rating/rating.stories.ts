@@ -90,10 +90,6 @@ export const Focus_TestOnly = (): string =>
       })();
     </script>`;
 
-Focus_TestOnly.parameters = {
-  chromatic: { delay: 500 },
-};
-
 export const validationMessageAllScales_TestOnly = (): string => html`
   <style>
     .container {
