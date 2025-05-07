@@ -1719,6 +1719,7 @@ export class Combobox
           "input-wrap--single": single,
         }}
       >
+        {console.log("selectedItem", selectedItem)}
         {showLabel && (
           <span
             class={{
@@ -1769,7 +1770,7 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <calcite-combobox-item
-          id={`${this.guid}-select-all-enabled`}
+          id={`${this.guid}-select-all-enabled-accessible`}
           label={this.messages.selectAll}
           tabIndex="-1"
           value="select-all"
@@ -1778,7 +1779,7 @@ export class Combobox
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
 
-    return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
+    return selectAllOptionAndFilteredItemsList.map((item: any) => {
       return (
         <li
           ariaLabel={item.label}
@@ -1811,7 +1812,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
-                  id={`${this.guid}-select-all-enabled`}
+                  id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={this.messages.selectAll}
                   ref={this.setSelectAllComboboxItemReferenceEl}

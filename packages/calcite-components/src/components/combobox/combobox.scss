@@ -110,8 +110,8 @@
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
 
-  &.selection-display-fit,
-  &.selection-display-single {
+  &.selection-display--fit,
+  &.selection-display--single {
     @apply flex-nowrap overflow-hidden;
   }
 }
