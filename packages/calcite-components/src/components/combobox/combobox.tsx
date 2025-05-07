@@ -207,8 +207,6 @@ export class Combobox
 
   private internalValueChangeFlag = false;
 
-  private items: HTMLCalciteComboboxItemElement["el"][] = [];
-
   labelEl: Label["el"];
 
   private listContainerEl: HTMLDivElement;
@@ -226,8 +224,6 @@ export class Combobox
   placement: LogicalPlacement = defaultMenuPlacement;
 
   referenceEl: HTMLDivElement;
-
-  selectAllComboboxItemReferenceEl: HTMLCalciteComboboxItemElement;
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
@@ -267,6 +263,10 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
+  @state() selectAllComboboxItemReferenceEl: HTMLCalciteComboboxItemElement;
+
+  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
+
   @state()
   get allSelected(): boolean {
     return this.selectedItems.length === this.items.length;
@@ -279,7 +279,19 @@ export class Combobox
 
   @state()
   get visibleKeyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.keyboardNavItems().filter((item) => !isHidden(item));
+    return this.keyboardNavItems.filter((item) => !isHidden(item));
+  }
+
+  @state()
+  get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
+    if (this.selectAllComboboxItemReferenceEl) {
+      return [
+        this.selectAllComboboxItemReferenceEl,
+        ...this.items.filter((item) => !item.disabled),
+      ];
+    }
+
+    return this.items.filter((item) => !item.disabled);
   }
 
   // #endregion
@@ -793,7 +805,7 @@ export class Combobox
   }
 
   private toggleSelectAll() {
-    const selectAllComboboxItemIsSelected = this.keyboardNavItems().find(
+    const selectAllComboboxItemIsSelected = this.keyboardNavItems.find(
       (item) => item === this.selectAllComboboxItemReferenceEl,
     );
 
@@ -1372,17 +1384,6 @@ export class Combobox
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
-  private keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    if (this.selectAllComboboxItemReferenceEl) {
-      return [
-        this.selectAllComboboxItemReferenceEl,
-        ...this.items.filter((item) => !item.disabled),
-      ];
-    }
-
-    return this.items.filter((item) => !item.disabled);
-  }
-
   private getGroupItems(): HTMLCalciteComboboxItemGroupElement["el"][] {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroupSelector));
   }
@@ -1769,9 +1770,10 @@ export class Combobox
     const selectAllComboboxItem = this.selectAllEnabled &&
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
-        <calcite-combobox-item
-          id={`${this.guid}-select-all-enabled-accessible`}
-          label={this.messages.selectAll}
+        <li
+          aria-label={this.messages.selectAll}
+          aria-selected={this.allSelected}
+          id={`${this.guid}-select-all-enabled-screen-reader`}
           tabIndex="-1"
           value="select-all"
         />
