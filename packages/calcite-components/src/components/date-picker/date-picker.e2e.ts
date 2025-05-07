@@ -1246,7 +1246,11 @@ async function selectSelectedDay(page: E2EPage): Promise<void> {
 }
 
 async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
-  return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
+  const days = await findAll(
+    page,
+    `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+  );
+  return days.find((d) => !d.classList.contains("noncurrent"));
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
