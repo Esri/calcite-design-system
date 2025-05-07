@@ -48,6 +48,26 @@ describe("useSetFocus", () => {
     expect(document.activeElement).toBe(el);
   });
 
+  it("focuses focusable host component", async () => {
+    class Test extends LitElement {
+      private focusSetter = useSetFocus()(this);
+
+      async setFocus(): Promise<void> {
+        return this.focusSetter(() => this.el);
+      }
+
+      override render(): JsxNode {
+        return <div tabIndex={0} />;
+      }
+    }
+
+    const { el } = await mount(Test);
+
+    expect(document.activeElement).not.toBe(el);
+    await el.setFocus();
+    expect(document.activeElement).toBe(el);
+  });
+
   it("bails if component is blurred before setFocus resolves", async () => {
     class Test extends LitElement {
       focusSetter = useSetFocus()(this);
