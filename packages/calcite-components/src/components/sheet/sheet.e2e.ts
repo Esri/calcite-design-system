@@ -5,6 +5,7 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
 
@@ -128,6 +129,19 @@ describe("calcite-sheet properties", () => {
   describe("openClose", () => {
     openClose("calcite-sheet");
     openClose.initial("calcite-sheet");
+  });
+
+  describe("focus-trap", () => {
+    focusTrap(
+      html` <calcite-sheet>
+        <!-- sheet has no default focusable parts -->
+        <input id="focusable-content" />
+      </calcite-sheet>`,
+      {
+        toggleProp: "open",
+        focusTargetSelector: "#focusable-content",
+      },
+    );
   });
 
   it("sets custom width correctly", async () => {

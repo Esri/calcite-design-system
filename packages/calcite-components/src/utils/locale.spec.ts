@@ -187,8 +187,7 @@ describe("getDateTimeFormat()", () => {
 
 describe("getSupportedLocale", () => {
   function assertAllContexts(locale: string, expectedLocale: string): void {
-    expect(getSupportedLocale(locale, "cldr")).toBe(expectedLocale);
-    expect(getSupportedLocale(locale, "t9n")).toBe(expectedLocale);
+    expect(getSupportedLocale(locale)).toBe(expectedLocale);
   }
 
   it("returns `en` if there is no locale", () => {
@@ -223,13 +222,12 @@ describe("getSupportedLocale", () => {
       assertAllContexts("nb", "no");
     });
 
-    it("maps `zh` to `zh-CN`", () => {
-      assertAllContexts("zh", "zh-CN");
+    it("maps `nn` to `no`", () => {
+      assertAllContexts("nn", "no");
     });
 
-    it("maps `pt` to `pt-BR` with t9n context", () => {
-      expect(getSupportedLocale("pt", "t9n")).toBe("pt-BR");
-      expect(getSupportedLocale("pt", "cldr")).toBe("pt");
+    it("maps `zh` to `zh-CN`", () => {
+      assertAllContexts("zh", "zh-CN");
     });
   });
 });

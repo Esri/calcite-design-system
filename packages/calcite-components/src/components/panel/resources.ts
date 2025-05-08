@@ -22,6 +22,7 @@ export const CSS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",
   headerSlottedContent: "header-slotted-content",
+  menuAction: "menu-action",
 };
 
 export const IDS = {

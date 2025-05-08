@@ -58,13 +58,13 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 export class List extends LitElement implements InteractiveComponent, SortableComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   dragSelector = listItemSelector;
 
@@ -152,9 +152,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willPerformFilter: boolean = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string;
 
@@ -186,9 +193,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
@@ -276,13 +283,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
    * Specifies the nesting behavior of `calcite-list-item`s, where
    *
    * `"flat"` displays `calcite-list-item`s in a uniform list, and
@@ -326,9 +326,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Emits a `calciteListMoveHalt` event.
@@ -357,9 +357,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
@@ -380,15 +380,15 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /** Fires when the component's item order changes. */
-  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
-
   /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
-  // #endregion
+  /** Fires when the component's item order changes. */
+  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
-  // #region Lifecycle
+  //#endregion
+
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -465,9 +465,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     disconnectSortableComponent(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleListItemChange(): void {
     this.willPerformFilter = true;
@@ -1057,9 +1057,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1179,5 +1179,5 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }
