@@ -274,7 +274,7 @@ export class Combobox
 
   @state()
   get indeterminate(): boolean {
-    return this.selectedItems.length > 0 && this.selectedItems.length !== this.items.length;
+    return this.selectedItems.length > 0 && !this.allSelected;
   }
 
   @state()
@@ -284,14 +284,13 @@ export class Combobox
 
   @state()
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    if (this.selectAllComboboxItemReferenceEl) {
-      return [
-        this.selectAllComboboxItemReferenceEl,
-        ...this.items.filter((item) => !item.disabled),
-      ];
+    const { selectAllComboboxItemReferenceEl, items } = this;
+
+    if (selectAllComboboxItemReferenceEl) {
+      return [selectAllComboboxItemReferenceEl, ...items.filter((item) => !item.disabled)];
     }
 
-    return this.items.filter((item) => !item.disabled);
+    return items.filter((item) => !item.disabled);
   }
 
   // #endregion
@@ -805,11 +804,8 @@ export class Combobox
   }
 
   private toggleSelectAll() {
-    const selectAllComboboxItemIsSelected = this.keyboardNavItems.find(
-      (item) => item === this.selectAllComboboxItemReferenceEl,
-    );
-
-    this.items.forEach((item) => (item.selected = !!selectAllComboboxItemIsSelected?.selected));
+    const toggledValue = !this.allSelected;
+    this.items.forEach((item) => (item.selected = toggledValue));
     this.selectedItems = this.getSelectedItems();
     this.emitComboboxChange();
   }
@@ -1781,7 +1777,7 @@ export class Combobox
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
 
-    return selectAllOptionAndFilteredItemsList.map((item: any) => {
+    return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
       return (
         <li
           ariaLabel={item.label}
