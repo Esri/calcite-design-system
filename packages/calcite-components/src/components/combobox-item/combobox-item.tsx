@@ -159,7 +159,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) itemHidden = false;
 
   /**
-   * In multi selection mode, show as indeterminate when only some children are selected.
+   * When `selectionMode` is `"multiple"` or `"ancestors"` and one or more, but not all `calcite-combobox-item`s are selected, displays an indeterminate "select all" checkbox.
    *
    * @private
    */

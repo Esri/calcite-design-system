@@ -146,7 +146,6 @@ export class Combobox
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
-      this.filteredItems = this.visibleKeyboardNavItems;
       this.filteredItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
@@ -278,11 +277,6 @@ export class Combobox
   }
 
   @state()
-  get visibleKeyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.keyboardNavItems.filter((item) => !isHidden(item));
-  }
-
-  @state()
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
     const { selectAllComboboxItemReferenceEl, items } = this;
 
@@ -327,7 +321,9 @@ export class Combobox
    *
    * @readonly
    */
-  @property() filteredItems: HTMLCalciteComboboxItemElement["el"][] = [];
+  @property() get filteredItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this.keyboardNavItems.filter((item) => !isHidden(item));
+  }
 
   /** Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
@@ -392,7 +388,7 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, provides a toggle for selecting all items. Does not apply to `selection-mode single`. */
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
@@ -1326,7 +1322,6 @@ export class Combobox
     this.updateItemProps();
 
     this.selectedItems = this.getSelectedItems();
-    this.filteredItems = this.visibleKeyboardNavItems;
   }
 
   private updateItemProps(): void {
@@ -1758,7 +1753,9 @@ export class Combobox
           id={`${this.guid}-select-all-enabled-screen-reader`}
           tabIndex="-1"
           value="select-all"
-        />
+        >
+          Select All
+        </li>
       );
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
