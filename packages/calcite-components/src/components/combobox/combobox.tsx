@@ -1748,8 +1748,8 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <li
-          aria-label={this.messages.selectAll}
-          aria-selected={this.allSelected}
+          ariaLabel={this.messages.selectAll}
+          ariaSelected={this.allSelected}
           id={`${this.guid}-select-all-enabled-screen-reader`}
           tabIndex="-1"
           value="select-all"

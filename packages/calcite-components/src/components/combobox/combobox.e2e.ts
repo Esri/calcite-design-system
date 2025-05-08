@@ -3175,6 +3175,27 @@ describe("calcite-combobox", () => {
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeNull();
     });
+
+    it("should update aria-selected on items when toggling 'Select All'", async () => {
+      const combobox = await page.find("calcite-combobox");
+      await combobox.click();
+
+      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
+      await selectAll.click();
+      await page.waitForChanges();
+
+      let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+      expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
+
+      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(3)`);
+      expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
+
+      await selectAll.click();
+      await page.waitForChanges();
+
+      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+      expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
+    });
   });
 
   describe("theme", () => {
