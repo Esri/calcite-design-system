@@ -106,10 +106,7 @@ input {
     w-full;
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
-  border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
   &:placeholder-shown {
     @apply text-ellipsis;
   }

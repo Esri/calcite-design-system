@@ -1979,12 +1979,12 @@ describe("calcite-input-number", () => {
             {
               shadowSelector: `.${CSS.numberButtonItem}`,
               targetProp: "backgroundColor",
-              state: { press: { attribute: "class", value: CSS.numberButtonItem } },
+              state: { press: `calcite-input-number >>> .${CSS.numberButtonItem}` },
             },
             {
               shadowSelector: `.${CSS.clearButton}`,
               targetProp: "backgroundColor",
-              state: { press: { attribute: "class", value: CSS.clearButton } },
+              state: { press: `calcite-input-number >>> .${CSS.clearButton}` },
             },
           ],
           "--calcite-input-actions-icon-color": {
