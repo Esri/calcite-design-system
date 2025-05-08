@@ -59,7 +59,7 @@ export class Action extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active = false;
+  @property({ reflect: true }) active = false; // todo?
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
@@ -114,6 +114,14 @@ export class Action extends LitElement implements InteractiveComponent {
 
   /** Indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
+
+  /**
+   * Specifies the type of the action.
+   * - `"button"`: A standard button action.
+   * - `"toggle"`: A toggleable action that can switch between active and inactive states.
+   * - `"expand-toggle"`: A toggleable action specifically for expanding or collapsing content.
+   */
+  @property({ reflect: true }) type: "button" | "toggle" | "expand-toggle" = "button";
 
   //#endregion
 
@@ -244,6 +252,7 @@ export class Action extends LitElement implements InteractiveComponent {
       indicatorId,
       buttonId,
       messages,
+      type,
     } = this;
     const labelFallback = label || text || "";
 
@@ -272,8 +281,9 @@ export class Action extends LitElement implements InteractiveComponent {
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
           ariaDisabled={this.disabled ? this.disabled : null}
+          ariaExpanded={type === "expand-toggle" ? active : null}
           ariaLabel={ariaLabel}
-          ariaPressed={active}
+          ariaPressed={type === "toggle" ? active : null}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -289,8 +299,9 @@ export class Action extends LitElement implements InteractiveComponent {
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
+        ariaExpanded={type === "expand-toggle" ? active : null}
         ariaLabel={ariaLabel}
-        ariaPressed={active}
+        ariaPressed={type === "toggle" ? active : null}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
