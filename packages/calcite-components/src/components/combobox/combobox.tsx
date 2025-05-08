@@ -1753,9 +1753,7 @@ export class Combobox
           id={`${this.guid}-select-all-enabled-screen-reader`}
           tabIndex="-1"
           value="select-all"
-        >
-          Select All
-        </li>
+        />
       );
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
