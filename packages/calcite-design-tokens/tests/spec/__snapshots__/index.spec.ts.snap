@@ -7,28 +7,28 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
  */
 
 :root {
-  --calcite-container-size-height-xxs-min: 0; /* Small handheld devices and mini-windows */
-  --calcite-container-size-width-xxs-min: 0; /* Small handheld devices and mini-windows */
-  --calcite-container-size-height-xxs-max: 154px; /* Small handheld devices and mini-windows */
-  --calcite-container-size-height-xs-min: 155px; /* Handheld devices */
-  --calcite-container-size-height-xs-max: 328px; /* Handheld devices */
-  --calcite-container-size-height-sm-min: 329px; /* Small tablets */
-  --calcite-container-size-height-sm-max: 504px; /* Small tablets */
-  --calcite-container-size-height-md-min: 505px; /* Small laptops */
-  --calcite-container-size-height-md-max: 678px; /* Small laptops */
-  --calcite-container-size-height-lg-min: 679px; /* Large laptops and desktop computers */
-  --calcite-container-size-height-lg-max: 854px; /* Large laptops and desktop computers */
-  --calcite-container-size-height-xl-min: 855px; /* Projectors and televisions */
-  --calcite-container-size-width-xxs-max: 320px; /* Small handheld devices and mini-windows */
-  --calcite-container-size-width-xs-min: 321px; /* Handheld devices */
-  --calcite-container-size-width-xs-max: 476px; /* Handheld devices */
-  --calcite-container-size-width-sm-min: 477px; /* Small tablets */
-  --calcite-container-size-width-sm-max: 768px; /* Small tablets */
-  --calcite-container-size-width-md-min: 769px; /* Small laptops */
-  --calcite-container-size-width-md-max: 1152px; /* Small laptops */
-  --calcite-container-size-width-lg-min: 1153px; /* Large laptops and desktop computers */
-  --calcite-container-size-width-lg-max: 1440px; /* Large laptops and desktop computers */
-  --calcite-container-size-width-xl-min: 1441px; /* Projectors and televisions */
+  --calcite-container-size-height-xxs-min: 0; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xxs-min: 0; /** Small handheld devices and mini-windows */
+  --calcite-container-size-height-xxs-max: 154px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
+  --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
+  --calcite-container-size-height-sm-min: 329px; /** Small tablets */
+  --calcite-container-size-height-sm-max: 504px; /** Small tablets */
+  --calcite-container-size-height-md-min: 505px; /** Small laptops */
+  --calcite-container-size-height-md-max: 678px; /** Small laptops */
+  --calcite-container-size-height-lg-min: 679px; /** Large laptops and desktop computers */
+  --calcite-container-size-height-lg-max: 854px; /** Large laptops and desktop computers */
+  --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
+  --calcite-container-size-width-xxs-max: 320px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
+  --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
+  --calcite-container-size-width-sm-min: 477px; /** Small tablets */
+  --calcite-container-size-width-sm-max: 768px; /** Small tablets */
+  --calcite-container-size-width-md-min: 769px; /** Small laptops */
+  --calcite-container-size-width-md-max: 1152px; /** Small laptops */
+  --calcite-container-size-width-lg-min: 1153px; /** Large laptops and desktop computers */
+  --calcite-container-size-width-lg-max: 1440px; /** Large laptops and desktop computers */
+  --calcite-container-size-width-xl-min: 1441px; /** Projectors and televisions */
 }
 "
 `;
@@ -790,35 +790,35 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-container-size-854: 854px;
   --calcite-container-size-1152: 1152px;
   --calcite-container-size-1440: 1440px;
-  --calcite-font-family-andale-mono: 'Andale Mono'; /* Fallback for Monaco */
+  --calcite-font-family-andale-mono: 'Andale Mono'; /** Fallback for Monaco */
   --calcite-font-family-avenir-next-pro: 'Avenir Next LT Pro';
   --calcite-font-family-avenir-next-world: 'Avenir Next World';
-  --calcite-font-family-avenir-next: 'Avenir Next'; /* Primary font family */
-  --calcite-font-family-avenir: Avenir; /* Fallback for Avenir Next */
-  --calcite-font-family-consolas: Consolas; /* Fallback for Monaco */
-  --calcite-font-family-helvetica-neue: 'Helvetica Neue'; /* Fallback for Avenir Next */
-  --calcite-font-family-lucida-console: 'Lucida Console'; /* Fallback for Monaco */
+  --calcite-font-family-avenir-next: 'Avenir Next'; /** Primary font family */
+  --calcite-font-family-avenir: Avenir; /** Fallback for Avenir Next */
+  --calcite-font-family-consolas: Consolas; /** Fallback for Monaco */
+  --calcite-font-family-helvetica-neue: 'Helvetica Neue'; /** Fallback for Avenir Next */
+  --calcite-font-family-lucida-console: 'Lucida Console'; /** Fallback for Monaco */
   --calcite-font-family-monaco: Monaco;
-  --calcite-font-family-monospace: monospace; /* Fallback for Monaco */
-  --calcite-font-family-sans-serif: sans-serif; /* Fallback for Avenir Next */
-  --calcite-font-style-italic: italic; /* used in ratings */
-  --calcite-font-weight-ultralight: 200; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-family-monospace: monospace; /** Fallback for Monaco */
+  --calcite-font-family-sans-serif: sans-serif; /** Fallback for Avenir Next */
+  --calcite-font-style-italic: italic; /** used in ratings */
+  --calcite-font-weight-ultralight: 200; /** only for Avenir Next World (secondary font family) */
   --calcite-font-weight-thin: 100;
-  --calcite-font-weight-light: 300; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-light: 300; /** only for Avenir Next World (secondary font family) */
   --calcite-font-weight-regular: 400;
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-medium-italic: "Medium Italic";
   --calcite-font-weight-demi: 600;
   --calcite-font-weight-bold: 700;
-  --calcite-font-weight-extrabold: 800; /* only for Avenir Next World (secondary font family) */
-  --calcite-font-weight-black: 900; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-extrabold: 800; /** only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-black: 900; /** only for Avenir Next World (secondary font family) */
   --calcite-font-weight-heavy: 900;
-  --calcite-font-text-decoration-none: none; /* Deprecated */
-  --calcite-font-text-decoration-underline: underline; /* Deprecated */
-  --calcite-font-text-case-none: none; /* Deprecated */
-  --calcite-font-text-case-uppercase: uppercase; /* Deprecated */
-  --calcite-font-text-case-lowercase: lowercase; /* Deprecated */
-  --calcite-font-text-case-capitalize: capitalize; /* Deprecated */
+  --calcite-font-text-decoration-none: none; /** Deprecated */
+  --calcite-font-text-decoration-underline: underline; /** Deprecated */
+  --calcite-font-text-case-none: none; /** Deprecated */
+  --calcite-font-text-case-uppercase: uppercase; /** Deprecated */
+  --calcite-font-text-case-lowercase: lowercase; /** Deprecated */
+  --calcite-font-text-case-capitalize: capitalize; /** Deprecated */
   --calcite-opacity-0: 0;
   --calcite-opacity-4: 0.04;
   --calcite-opacity-8: 0.08;
@@ -963,19 +963,19 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-border-width-lg: 4px;
   --calcite-container-size-margin: 24px;
   --calcite-container-size-gutter: 16px;
-  --calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
-  --calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /* deprecated, use --calcite-conder-radius-none instead */
+  --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
+  --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
-  --calcite-corner-radius-round: 4px; /* deprecated, use --calcite-corner-radius-sm instead */
+  --calcite-corner-radius-round: 4px; /** deprecated, use --calcite-corner-radius-sm instead */
   --calcite-corner-radius-pill: 100%;
-  --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /* Primary font with fallbacks */
-  --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /* Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
+  --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
+  --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
   --calcite-font-weight-regular: 400;
-  --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+  --calcite-font-weight-normal: 400; /** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -986,44 +986,44 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px;
-  --calcite-font-style-emphasis: italic; /* used in ratings */
+  --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-relative: auto; /* 1 */
-  --calcite-font-line-height-relative-tight: 1.25; /* 1.25 */
-  --calcite-font-line-height-relative-snug: 1.375; /* 1.375 */
-  --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
-  --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
-  --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
-  --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
-  --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
-  --calcite-font-text-decoration-none: none; /* Deprecated */
-  --calcite-font-text-decoration-underline: underline; /* Deprecated */
-  --calcite-font-text-case-none: none; /* Deprecated */
-  --calcite-font-text-case-uppercase: uppercase; /* Deprecated */
-  --calcite-font-text-case-lowercase: lowercase; /* Deprecated */
-  --calcite-font-text-case-capitalize: capitalize; /* Deprecated */
+  --calcite-font-line-height-relative: auto; /** 1 */
+  --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
+  --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
+  --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
+  --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
+  --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated */
+  --calcite-font-letter-spacing-normal: 0; /** Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated */
+  --calcite-font-paragraph-spacing-normal: 4px; /** Deprecated */
+  --calcite-font-text-decoration-none: none; /** Deprecated */
+  --calcite-font-text-decoration-underline: underline; /** Deprecated */
+  --calcite-font-text-case-none: none; /** Deprecated */
+  --calcite-font-text-case-uppercase: uppercase; /** Deprecated */
+  --calcite-font-text-case-lowercase: lowercase; /** Deprecated */
+  --calcite-font-text-case-capitalize: capitalize; /** Deprecated */
   --calcite-opacity-light: 0.4;
   --calcite-opacity-half: 0.5;
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-full: 1;
   --calcite-opacity-disabled: 0.5;
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-  --calcite-size-fixed-xxxs: 2px; /* deprecated */
-  --calcite-size-fixed-xxs: 4px; /* deprecated */
-  --calcite-size-fixed-xs: 6px; /* deprecated */
-  --calcite-size-fixed-sm: 8px; /* deprecated */
-  --calcite-size-fixed-sm-plus: 10px; /* deprecated */
-  --calcite-size-fixed-md: 12px; /* deprecated */
-  --calcite-size-fixed-md-plus: 14px; /* deprecated */
-  --calcite-size-fixed-lg: 16px; /* deprecated */
-  --calcite-size-fixed-xl: 20px; /* deprecated */
-  --calcite-size-fixed-xxl: 24px; /* deprecated */
-  --calcite-size-fixed-xxxl: 32px; /* deprecated */
+  --calcite-size-fixed-xxxs: 2px; /** deprecated */
+  --calcite-size-fixed-xxs: 4px; /** deprecated */
+  --calcite-size-fixed-xs: 6px; /** deprecated */
+  --calcite-size-fixed-sm: 8px; /** deprecated */
+  --calcite-size-fixed-sm-plus: 10px; /** deprecated */
+  --calcite-size-fixed-md: 12px; /** deprecated */
+  --calcite-size-fixed-md-plus: 14px; /** deprecated */
+  --calcite-size-fixed-lg: 16px; /** deprecated */
+  --calcite-size-fixed-xl: 20px; /** deprecated */
+  --calcite-size-fixed-xxl: 24px; /** deprecated */
+  --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
   --calcite-size-xxxs: 0.75rem;
   --calcite-size-xxs: 0.875rem;
@@ -1034,14 +1034,14 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-size-xl: 3rem;
   --calcite-size-xxl: 4rem;
   --calcite-size-xxxl: 6rem;
-  --calcite-spacing-fixed-xxs: 4px; /* deprecated */
-  --calcite-spacing-fixed-xs: 6px; /* deprecated */
-  --calcite-spacing-fixed-sm: 8px; /* deprecated */
-  --calcite-spacing-fixed-md: 12px; /* deprecated */
-  --calcite-spacing-fixed-lg: 14px; /* deprecated */
-  --calcite-spacing-fixed-xl: 16px; /* deprecated */
-  --calcite-spacing-fixed-xxl: 20px; /* deprecated */
-  --calcite-spacing-fixed-xxxl: 32px; /* deprecated */
+  --calcite-spacing-fixed-xxs: 4px; /** deprecated */
+  --calcite-spacing-fixed-xs: 6px; /** deprecated */
+  --calcite-spacing-fixed-sm: 8px; /** deprecated */
+  --calcite-spacing-fixed-md: 12px; /** deprecated */
+  --calcite-spacing-fixed-lg: 14px; /** deprecated */
+  --calcite-spacing-fixed-xl: 16px; /** deprecated */
+  --calcite-spacing-fixed-xxl: 20px; /** deprecated */
+  --calcite-spacing-fixed-xxxl: 32px; /** deprecated */
   --calcite-spacing-none: 0;
   --calcite-spacing-px: 1px;
   --calcite-spacing-base: 2px;
@@ -1373,47 +1373,47 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
  */
 
 :root {
-  --calcite-container-size-height-xxs-min: 0; /* Small handheld devices and mini-windows */
-  --calcite-container-size-width-xxs-min: 0; /* Small handheld devices and mini-windows */
+  --calcite-container-size-height-xxs-min: 0; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xxs-min: 0; /** Small handheld devices and mini-windows */
   --calcite-border-width-none: 0;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-md: 2px;
   --calcite-border-width-lg: 4px;
-  --calcite-container-size-height-xxs-max: 154px; /* Small handheld devices and mini-windows */
-  --calcite-container-size-height-xs-min: 155px; /* Handheld devices */
-  --calcite-container-size-height-xs-max: 328px; /* Handheld devices */
-  --calcite-container-size-height-sm-min: 329px; /* Small tablets */
-  --calcite-container-size-height-sm-max: 504px; /* Small tablets */
-  --calcite-container-size-height-md-min: 505px; /* Small laptops */
-  --calcite-container-size-height-md-max: 678px; /* Small laptops */
-  --calcite-container-size-height-lg-min: 679px; /* Large laptops and desktop computers */
-  --calcite-container-size-height-lg-max: 854px; /* Large laptops and desktop computers */
-  --calcite-container-size-height-xl-min: 855px; /* Projectors and televisions */
-  --calcite-container-size-width-xxs-max: 320px; /* Small handheld devices and mini-windows */
-  --calcite-container-size-width-xs-min: 321px; /* Handheld devices */
-  --calcite-container-size-width-xs-max: 476px; /* Handheld devices */
-  --calcite-container-size-width-sm-min: 477px; /* Small tablets */
-  --calcite-container-size-width-sm-max: 768px; /* Small tablets */
-  --calcite-container-size-width-md-min: 769px; /* Small laptops */
-  --calcite-container-size-width-md-max: 1152px; /* Small laptops */
-  --calcite-container-size-width-lg-min: 1153px; /* Large laptops and desktop computers */
-  --calcite-container-size-width-lg-max: 1440px; /* Large laptops and desktop computers */
-  --calcite-container-size-width-xl-min: 1441px; /* Projectors and televisions */
+  --calcite-container-size-height-xxs-max: 154px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
+  --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
+  --calcite-container-size-height-sm-min: 329px; /** Small tablets */
+  --calcite-container-size-height-sm-max: 504px; /** Small tablets */
+  --calcite-container-size-height-md-min: 505px; /** Small laptops */
+  --calcite-container-size-height-md-max: 678px; /** Small laptops */
+  --calcite-container-size-height-lg-min: 679px; /** Large laptops and desktop computers */
+  --calcite-container-size-height-lg-max: 854px; /** Large laptops and desktop computers */
+  --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
+  --calcite-container-size-width-xxs-max: 320px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
+  --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
+  --calcite-container-size-width-sm-min: 477px; /** Small tablets */
+  --calcite-container-size-width-sm-max: 768px; /** Small tablets */
+  --calcite-container-size-width-md-min: 769px; /** Small laptops */
+  --calcite-container-size-width-md-max: 1152px; /** Small laptops */
+  --calcite-container-size-width-lg-min: 1153px; /** Large laptops and desktop computers */
+  --calcite-container-size-width-lg-max: 1440px; /** Large laptops and desktop computers */
+  --calcite-container-size-width-xl-min: 1441px; /** Projectors and televisions */
   --calcite-container-size-margin: 24px;
   --calcite-container-size-gutter: 16px;
-  --calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
-  --calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /* deprecated, use --calcite-conder-radius-none instead */
+  --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
+  --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
-  --calcite-corner-radius-round: 4px; /* deprecated, use --calcite-corner-radius-sm instead */
+  --calcite-corner-radius-round: 4px; /** deprecated, use --calcite-corner-radius-sm instead */
   --calcite-corner-radius-pill: 100%;
-  --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /* Primary font with fallbacks */
-  --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /* Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
+  --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
+  --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
   --calcite-font-weight-regular: 400;
-  --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+  --calcite-font-weight-normal: 400; /** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -1424,44 +1424,44 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px;
-  --calcite-font-style-emphasis: italic; /* used in ratings */
+  --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-relative: auto; /* 1 */
-  --calcite-font-line-height-relative-tight: 1.25; /* 1.25 */
-  --calcite-font-line-height-relative-snug: 1.375; /* 1.375 */
-  --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
-  --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
-  --calcite-font-line-height-relative-loose: 2; /* 2 */
-  --calcite-font-letter-spacing-tight: -0.4px; /* Deprecated */
-  --calcite-font-letter-spacing-normal: 0; /* Deprecated */
-  --calcite-font-letter-spacing-wide: 0.4px; /* Deprecated */
-  --calcite-font-paragraph-spacing-normal: 4px; /* Deprecated */
-  --calcite-font-text-decoration-none: none; /* Deprecated */
-  --calcite-font-text-decoration-underline: underline; /* Deprecated */
-  --calcite-font-text-case-none: none; /* Deprecated */
-  --calcite-font-text-case-uppercase: uppercase; /* Deprecated */
-  --calcite-font-text-case-lowercase: lowercase; /* Deprecated */
-  --calcite-font-text-case-capitalize: capitalize; /* Deprecated */
+  --calcite-font-line-height-relative: auto; /** 1 */
+  --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
+  --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
+  --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
+  --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
+  --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated */
+  --calcite-font-letter-spacing-normal: 0; /** Deprecated */
+  --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated */
+  --calcite-font-paragraph-spacing-normal: 4px; /** Deprecated */
+  --calcite-font-text-decoration-none: none; /** Deprecated */
+  --calcite-font-text-decoration-underline: underline; /** Deprecated */
+  --calcite-font-text-case-none: none; /** Deprecated */
+  --calcite-font-text-case-uppercase: uppercase; /** Deprecated */
+  --calcite-font-text-case-lowercase: lowercase; /** Deprecated */
+  --calcite-font-text-case-capitalize: capitalize; /** Deprecated */
   --calcite-opacity-light: 0.4;
   --calcite-opacity-half: 0.5;
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-full: 1;
   --calcite-opacity-disabled: 0.5;
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-  --calcite-size-fixed-xxxs: 2px; /* deprecated */
-  --calcite-size-fixed-xxs: 4px; /* deprecated */
-  --calcite-size-fixed-xs: 6px; /* deprecated */
-  --calcite-size-fixed-sm: 8px; /* deprecated */
-  --calcite-size-fixed-sm-plus: 10px; /* deprecated */
-  --calcite-size-fixed-md: 12px; /* deprecated */
-  --calcite-size-fixed-md-plus: 14px; /* deprecated */
-  --calcite-size-fixed-lg: 16px; /* deprecated */
-  --calcite-size-fixed-xl: 20px; /* deprecated */
-  --calcite-size-fixed-xxl: 24px; /* deprecated */
-  --calcite-size-fixed-xxxl: 32px; /* deprecated */
+  --calcite-size-fixed-xxxs: 2px; /** deprecated */
+  --calcite-size-fixed-xxs: 4px; /** deprecated */
+  --calcite-size-fixed-xs: 6px; /** deprecated */
+  --calcite-size-fixed-sm: 8px; /** deprecated */
+  --calcite-size-fixed-sm-plus: 10px; /** deprecated */
+  --calcite-size-fixed-md: 12px; /** deprecated */
+  --calcite-size-fixed-md-plus: 14px; /** deprecated */
+  --calcite-size-fixed-lg: 16px; /** deprecated */
+  --calcite-size-fixed-xl: 20px; /** deprecated */
+  --calcite-size-fixed-xxl: 24px; /** deprecated */
+  --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
   --calcite-size-xxxs: 0.75rem;
   --calcite-size-xxs: 0.875rem;
@@ -1472,14 +1472,14 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-size-xl: 3rem;
   --calcite-size-xxl: 4rem;
   --calcite-size-xxxl: 6rem;
-  --calcite-spacing-fixed-xxs: 4px; /* deprecated */
-  --calcite-spacing-fixed-xs: 6px; /* deprecated */
-  --calcite-spacing-fixed-sm: 8px; /* deprecated */
-  --calcite-spacing-fixed-md: 12px; /* deprecated */
-  --calcite-spacing-fixed-lg: 14px; /* deprecated */
-  --calcite-spacing-fixed-xl: 16px; /* deprecated */
-  --calcite-spacing-fixed-xxl: 20px; /* deprecated */
-  --calcite-spacing-fixed-xxxl: 32px; /* deprecated */
+  --calcite-spacing-fixed-xxs: 4px; /** deprecated */
+  --calcite-spacing-fixed-xs: 6px; /** deprecated */
+  --calcite-spacing-fixed-sm: 8px; /** deprecated */
+  --calcite-spacing-fixed-md: 12px; /** deprecated */
+  --calcite-spacing-fixed-lg: 14px; /** deprecated */
+  --calcite-spacing-fixed-xl: 16px; /** deprecated */
+  --calcite-spacing-fixed-xxl: 20px; /** deprecated */
+  --calcite-spacing-fixed-xxxl: 32px; /** deprecated */
   --calcite-spacing-none: 0;
   --calcite-spacing-px: 1px;
   --calcite-spacing-base: 2px;
@@ -28956,49 +28956,28 @@ exports[`generated tokens > ES6 > breakpoints types should match 1`] = `
  */
 
 /** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeightXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeHeightXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeHeightSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeHeightMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeHeightLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
-export const calciteContainerSizeHeightXl: {
-  min: string;
-}; /** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidthXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeWidthXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeWidthSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeWidthMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeWidthLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
+export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeHeightXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeHeightSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeHeightMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLg: { min: string; max: string };
+/** Projectors and televisions */
+export const calciteContainerSizeHeightXl: { min: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidthXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeWidthXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeWidthSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeWidthMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLg: { min: string; max: string };
+/** Projectors and televisions */
 export const calciteContainerSizeWidthXl: { min: string };
 "
 `;
@@ -30095,35 +30074,54 @@ export const calciteContainerSize678: string;
 export const calciteContainerSize768: string;
 export const calciteContainerSize854: string;
 export const calciteContainerSize1152: string;
-export const calciteContainerSize1440: string; /** Fallback for Monaco */
+export const calciteContainerSize1440: string;
+/** Fallback for Monaco */
 export const calciteFontFamilyAndaleMono: string;
 export const calciteFontFamilyAvenirNextPro: string;
-export const calciteFontFamilyAvenirNextWorld: string; /** Primary font family */
-export const calciteFontFamilyAvenirNext: string; /** Fallback for Avenir Next */
-export const calciteFontFamilyAvenir: string; /** Fallback for Monaco */
-export const calciteFontFamilyConsolas: string; /** Fallback for Avenir Next */
-export const calciteFontFamilyHelveticaNeue: string; /** Fallback for Monaco */
+export const calciteFontFamilyAvenirNextWorld: string;
+/** Primary font family */
+export const calciteFontFamilyAvenirNext: string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilyAvenir: string;
+/** Fallback for Monaco */
+export const calciteFontFamilyConsolas: string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilyHelveticaNeue: string;
+/** Fallback for Monaco */
 export const calciteFontFamilyLucidaConsole: string;
-export const calciteFontFamilyMonaco: string; /** Fallback for Monaco */
-export const calciteFontFamilyMonospace: string; /** Fallback for Avenir Next */
-export const calciteFontFamilySansSerif: string; /** used in ratings */
-export const calciteFontStyleItalic: string; /** only for Avenir Next World (secondary font family) */
+export const calciteFontFamilyMonaco: string;
+/** Fallback for Monaco */
+export const calciteFontFamilyMonospace: string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilySansSerif: string;
+/** used in ratings */
+export const calciteFontStyleItalic: string;
+/** only for Avenir Next World (secondary font family) */
 export const calciteFontWeightUltralight: string;
-export const calciteFontWeightThin: string; /** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightThin: string;
+/** only for Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
 export const calciteFontWeightMediumItalic: string;
 export const calciteFontWeightDemi: string;
-export const calciteFontWeightBold: string; /** only for Avenir Next World (secondary font family) */
-export const calciteFontWeightExtrabold: string; /** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightBold: string;
+/** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightExtrabold: string;
+/** only for Avenir Next World (secondary font family) */
 export const calciteFontWeightBlack: string;
-export const calciteFontWeightHeavy: string; /** Deprecated */
-export const calciteFontTextDecorationNone: string; /** Deprecated */
-export const calciteFontTextDecorationUnderline: string; /** Deprecated */
-export const calciteFontTextCaseNone: string; /** Deprecated */
-export const calciteFontTextCaseUppercase: string; /** Deprecated */
-export const calciteFontTextCaseLowercase: string; /** Deprecated */
+export const calciteFontWeightHeavy: string;
+/** Deprecated */
+export const calciteFontTextDecorationNone: string;
+/** Deprecated */
+export const calciteFontTextDecorationUnderline: string;
+/** Deprecated */
+export const calciteFontTextCaseNone: string;
+/** Deprecated */
+export const calciteFontTextCaseUppercase: string;
+/** Deprecated */
+export const calciteFontTextCaseLowercase: string;
+/** Deprecated */
 export const calciteFontTextCaseCapitalize: string;
 export const calciteOpacity0: string;
 export const calciteOpacity4: string;
@@ -30802,65 +30800,53 @@ export const calciteColorBorderWhite: { light: string; dark: string };
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
-export const calciteBorderWidthLg: string; /** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeightXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeHeightXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeHeightSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeHeightMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeHeightLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
-export const calciteContainerSizeHeightXl: {
-  min: string;
-}; /** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidthXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeWidthXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeWidthSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeWidthMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeWidthLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
+export const calciteBorderWidthLg: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeHeightXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeHeightSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeHeightMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLg: { min: string; max: string };
+/** Projectors and televisions */
+export const calciteContainerSizeHeightXl: { min: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidthXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeWidthXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeWidthSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeWidthMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLg: { min: string; max: string };
+/** Projectors and televisions */
 export const calciteContainerSizeWidthXl: { min: string };
 export const calciteContainerSizeMargin: string;
-export const calciteContainerSizeGutter: string; /** for fluid grid widths */
-export const calciteContainerSizeContentFluid: string; /** only for lg breakpoint fixed grid width */
+export const calciteContainerSizeGutter: string;
+/** for fluid grid widths */
+export const calciteContainerSizeContentFluid: string;
+/** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
-export const calciteCornerRadius: string; /** deprecated, use --calcite-conder-radius-none instead */
+export const calciteCornerRadius: string;
+/** deprecated, use --calcite-conder-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
-export const calciteCornerRadiusSm: string; /** deprecated, use --calcite-corner-radius-sm instead */
+export const calciteCornerRadiusSm: string;
+/** deprecated, use --calcite-corner-radius-sm instead */
 export const calciteCornerRadiusRound: string;
-export const calciteCornerRadiusPill: string; /** Primary font with fallbacks */
-export const calciteFontFamily: string[]; /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[]; /** For Avenir Next World (secondary font family) */
-export const calciteFontWeightLight: string; /** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+export const calciteCornerRadiusPill: string;
+/** Primary font with fallbacks */
+export const calciteFontFamily: string[];
+/** Font family for code with fallbacks */
+export const calciteFontFamilyCode: string[];
+/** For Avenir Next World (secondary font family) */
+export const calciteFontWeightLight: string;
+/** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
 export const calciteFontWeightNormal: string;
 export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
@@ -30872,27 +30858,44 @@ export const calciteFontSize: string;
 export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
-export const calciteFontSizeXxl: string; /** used in ratings */
+export const calciteFontSizeXxl: string;
+/** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
-export const calciteFontLineHeightFixedXl: string; /** 1 */
-export const calciteFontLineHeightRelative: string; /** 1.25 */
-export const calciteFontLineHeightRelativeTight: string; /** 1.375 */
-export const calciteFontLineHeightRelativeSnug: string; /** 1.5 */
-export const calciteFontLineHeightRelativeNormal: string; /** 1.625 */
-export const calciteFontLineHeightRelativeRelaxed: string; /** 2 */
-export const calciteFontLineHeightRelativeLoose: string; /** Deprecated */
-export const calciteFontLetterSpacingTight: string; /** Deprecated */
-export const calciteFontLetterSpacingNormal: string; /** Deprecated */
-export const calciteFontLetterSpacingWide: string; /** Deprecated */
-export const calciteFontParagraphSpacingNormal: string; /** Deprecated */
-export const calciteFontTextDecorationNone: string; /** Deprecated */
-export const calciteFontTextDecorationUnderline: string; /** Deprecated */
-export const calciteFontTextCaseNone: string; /** Deprecated */
-export const calciteFontTextCaseUppercase: string; /** Deprecated */
-export const calciteFontTextCaseLowercase: string; /** Deprecated */
+export const calciteFontLineHeightFixedXl: string;
+/** 1 */
+export const calciteFontLineHeightRelative: string;
+/** 1.25 */
+export const calciteFontLineHeightRelativeTight: string;
+/** 1.375 */
+export const calciteFontLineHeightRelativeSnug: string;
+/** 1.5 */
+export const calciteFontLineHeightRelativeNormal: string;
+/** 1.625 */
+export const calciteFontLineHeightRelativeRelaxed: string;
+/** 2 */
+export const calciteFontLineHeightRelativeLoose: string;
+/** Deprecated */
+export const calciteFontLetterSpacingTight: string;
+/** Deprecated */
+export const calciteFontLetterSpacingNormal: string;
+/** Deprecated */
+export const calciteFontLetterSpacingWide: string;
+/** Deprecated */
+export const calciteFontParagraphSpacingNormal: string;
+/** Deprecated */
+export const calciteFontTextDecorationNone: string;
+/** Deprecated */
+export const calciteFontTextDecorationUnderline: string;
+/** Deprecated */
+export const calciteFontTextCaseNone: string;
+/** Deprecated */
+export const calciteFontTextCaseUppercase: string;
+/** Deprecated */
+export const calciteFontTextCaseLowercase: string;
+/** Deprecated */
 export const calciteFontTextCaseCapitalize: string;
 export const calciteOpacityLight: string;
 export const calciteOpacityHalf: string;
@@ -30919,17 +30922,28 @@ export const calciteShadowMd: {
   color: string;
   x: string;
   y: string;
-}[]; /** deprecated */
-export const calciteSizeFixedXxxs: string; /** deprecated */
-export const calciteSizeFixedXxs: string; /** deprecated */
-export const calciteSizeFixedXs: string; /** deprecated */
-export const calciteSizeFixedSm: string; /** deprecated */
-export const calciteSizeFixedSmPlus: string; /** deprecated */
-export const calciteSizeFixedMd: string; /** deprecated */
-export const calciteSizeFixedMdPlus: string; /** deprecated */
-export const calciteSizeFixedLg: string; /** deprecated */
-export const calciteSizeFixedXl: string; /** deprecated */
-export const calciteSizeFixedXxl: string; /** deprecated */
+}[];
+/** deprecated */
+export const calciteSizeFixedXxxs: string;
+/** deprecated */
+export const calciteSizeFixedXxs: string;
+/** deprecated */
+export const calciteSizeFixedXs: string;
+/** deprecated */
+export const calciteSizeFixedSm: string;
+/** deprecated */
+export const calciteSizeFixedSmPlus: string;
+/** deprecated */
+export const calciteSizeFixedMd: string;
+/** deprecated */
+export const calciteSizeFixedMdPlus: string;
+/** deprecated */
+export const calciteSizeFixedLg: string;
+/** deprecated */
+export const calciteSizeFixedXl: string;
+/** deprecated */
+export const calciteSizeFixedXxl: string;
+/** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
 export const calciteSizeXxxs: string;
@@ -30940,14 +30954,22 @@ export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
 export const calciteSizeXxl: string;
-export const calciteSizeXxxl: string; /** deprecated */
-export const calciteSpacingFixedXxs: string; /** deprecated */
-export const calciteSpacingFixedXs: string; /** deprecated */
-export const calciteSpacingFixedSm: string; /** deprecated */
-export const calciteSpacingFixedMd: string; /** deprecated */
-export const calciteSpacingFixedLg: string; /** deprecated */
-export const calciteSpacingFixedXl: string; /** deprecated */
-export const calciteSpacingFixedXxl: string; /** deprecated */
+export const calciteSizeXxxl: string;
+/** deprecated */
+export const calciteSpacingFixedXxs: string;
+/** deprecated */
+export const calciteSpacingFixedXs: string;
+/** deprecated */
+export const calciteSpacingFixedSm: string;
+/** deprecated */
+export const calciteSpacingFixedMd: string;
+/** deprecated */
+export const calciteSpacingFixedLg: string;
+/** deprecated */
+export const calciteSpacingFixedXl: string;
+/** deprecated */
+export const calciteSpacingFixedXxl: string;
+/** deprecated */
 export const calciteSpacingFixedXxxl: string;
 export const calciteSpacingNone: string;
 export const calciteSpacingPx: string;
@@ -31400,65 +31422,53 @@ exports[`generated tokens > ES6 > semantic types should match 1`] = `
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
-export const calciteBorderWidthLg: string; /** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeightXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeHeightXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeHeightSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeHeightMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeHeightLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
-export const calciteContainerSizeHeightXl: {
-  min: string;
-}; /** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidthXxs: {
-  min: string;
-  max: string;
-}; /** Handheld devices */
-export const calciteContainerSizeWidthXs: {
-  min: string;
-  max: string;
-}; /** Small tablets */
-export const calciteContainerSizeWidthSm: {
-  min: string;
-  max: string;
-}; /** Small laptops */
-export const calciteContainerSizeWidthMd: {
-  min: string;
-  max: string;
-}; /** Large laptops and desktop computers */
-export const calciteContainerSizeWidthLg: {
-  min: string;
-  max: string;
-}; /** Projectors and televisions */
+export const calciteBorderWidthLg: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeHeightXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeHeightSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeHeightMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLg: { min: string; max: string };
+/** Projectors and televisions */
+export const calciteContainerSizeHeightXl: { min: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidthXxs: { min: string; max: string };
+/** Handheld devices */
+export const calciteContainerSizeWidthXs: { min: string; max: string };
+/** Small tablets */
+export const calciteContainerSizeWidthSm: { min: string; max: string };
+/** Small laptops */
+export const calciteContainerSizeWidthMd: { min: string; max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLg: { min: string; max: string };
+/** Projectors and televisions */
 export const calciteContainerSizeWidthXl: { min: string };
 export const calciteContainerSizeMargin: string;
-export const calciteContainerSizeGutter: string; /** for fluid grid widths */
-export const calciteContainerSizeContentFluid: string; /** only for lg breakpoint fixed grid width */
+export const calciteContainerSizeGutter: string;
+/** for fluid grid widths */
+export const calciteContainerSizeContentFluid: string;
+/** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
-export const calciteCornerRadius: string; /** deprecated, use --calcite-conder-radius-none instead */
+export const calciteCornerRadius: string;
+/** deprecated, use --calcite-conder-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
-export const calciteCornerRadiusSm: string; /** deprecated, use --calcite-corner-radius-sm instead */
+export const calciteCornerRadiusSm: string;
+/** deprecated, use --calcite-corner-radius-sm instead */
 export const calciteCornerRadiusRound: string;
-export const calciteCornerRadiusPill: string; /** Primary font with fallbacks */
-export const calciteFontFamily: string[]; /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[]; /** For Avenir Next World (secondary font family) */
-export const calciteFontWeightLight: string; /** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+export const calciteCornerRadiusPill: string;
+/** Primary font with fallbacks */
+export const calciteFontFamily: string[];
+/** Font family for code with fallbacks */
+export const calciteFontFamilyCode: string[];
+/** For Avenir Next World (secondary font family) */
+export const calciteFontWeightLight: string;
+/** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
 export const calciteFontWeightNormal: string;
 export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
@@ -31470,27 +31480,44 @@ export const calciteFontSize: string;
 export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
-export const calciteFontSizeXxl: string; /** used in ratings */
+export const calciteFontSizeXxl: string;
+/** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
-export const calciteFontLineHeightFixedXl: string; /** 1 */
-export const calciteFontLineHeightRelative: string; /** 1.25 */
-export const calciteFontLineHeightRelativeTight: string; /** 1.375 */
-export const calciteFontLineHeightRelativeSnug: string; /** 1.5 */
-export const calciteFontLineHeightRelativeNormal: string; /** 1.625 */
-export const calciteFontLineHeightRelativeRelaxed: string; /** 2 */
-export const calciteFontLineHeightRelativeLoose: string; /** Deprecated */
-export const calciteFontLetterSpacingTight: string; /** Deprecated */
-export const calciteFontLetterSpacingNormal: string; /** Deprecated */
-export const calciteFontLetterSpacingWide: string; /** Deprecated */
-export const calciteFontParagraphSpacingNormal: string; /** Deprecated */
-export const calciteFontTextDecorationNone: string; /** Deprecated */
-export const calciteFontTextDecorationUnderline: string; /** Deprecated */
-export const calciteFontTextCaseNone: string; /** Deprecated */
-export const calciteFontTextCaseUppercase: string; /** Deprecated */
-export const calciteFontTextCaseLowercase: string; /** Deprecated */
+export const calciteFontLineHeightFixedXl: string;
+/** 1 */
+export const calciteFontLineHeightRelative: string;
+/** 1.25 */
+export const calciteFontLineHeightRelativeTight: string;
+/** 1.375 */
+export const calciteFontLineHeightRelativeSnug: string;
+/** 1.5 */
+export const calciteFontLineHeightRelativeNormal: string;
+/** 1.625 */
+export const calciteFontLineHeightRelativeRelaxed: string;
+/** 2 */
+export const calciteFontLineHeightRelativeLoose: string;
+/** Deprecated */
+export const calciteFontLetterSpacingTight: string;
+/** Deprecated */
+export const calciteFontLetterSpacingNormal: string;
+/** Deprecated */
+export const calciteFontLetterSpacingWide: string;
+/** Deprecated */
+export const calciteFontParagraphSpacingNormal: string;
+/** Deprecated */
+export const calciteFontTextDecorationNone: string;
+/** Deprecated */
+export const calciteFontTextDecorationUnderline: string;
+/** Deprecated */
+export const calciteFontTextCaseNone: string;
+/** Deprecated */
+export const calciteFontTextCaseUppercase: string;
+/** Deprecated */
+export const calciteFontTextCaseLowercase: string;
+/** Deprecated */
 export const calciteFontTextCaseCapitalize: string;
 export const calciteOpacityLight: string;
 export const calciteOpacityHalf: string;
@@ -31517,17 +31544,28 @@ export const calciteShadowMd: {
   color: string;
   x: string;
   y: string;
-}[]; /** deprecated */
-export const calciteSizeFixedXxxs: string; /** deprecated */
-export const calciteSizeFixedXxs: string; /** deprecated */
-export const calciteSizeFixedXs: string; /** deprecated */
-export const calciteSizeFixedSm: string; /** deprecated */
-export const calciteSizeFixedSmPlus: string; /** deprecated */
-export const calciteSizeFixedMd: string; /** deprecated */
-export const calciteSizeFixedMdPlus: string; /** deprecated */
-export const calciteSizeFixedLg: string; /** deprecated */
-export const calciteSizeFixedXl: string; /** deprecated */
-export const calciteSizeFixedXxl: string; /** deprecated */
+}[];
+/** deprecated */
+export const calciteSizeFixedXxxs: string;
+/** deprecated */
+export const calciteSizeFixedXxs: string;
+/** deprecated */
+export const calciteSizeFixedXs: string;
+/** deprecated */
+export const calciteSizeFixedSm: string;
+/** deprecated */
+export const calciteSizeFixedSmPlus: string;
+/** deprecated */
+export const calciteSizeFixedMd: string;
+/** deprecated */
+export const calciteSizeFixedMdPlus: string;
+/** deprecated */
+export const calciteSizeFixedLg: string;
+/** deprecated */
+export const calciteSizeFixedXl: string;
+/** deprecated */
+export const calciteSizeFixedXxl: string;
+/** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
 export const calciteSizeXxxs: string;
@@ -31538,14 +31576,22 @@ export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
 export const calciteSizeXxl: string;
-export const calciteSizeXxxl: string; /** deprecated */
-export const calciteSpacingFixedXxs: string; /** deprecated */
-export const calciteSpacingFixedXs: string; /** deprecated */
-export const calciteSpacingFixedSm: string; /** deprecated */
-export const calciteSpacingFixedMd: string; /** deprecated */
-export const calciteSpacingFixedLg: string; /** deprecated */
-export const calciteSpacingFixedXl: string; /** deprecated */
-export const calciteSpacingFixedXxl: string; /** deprecated */
+export const calciteSizeXxxl: string;
+/** deprecated */
+export const calciteSpacingFixedXxs: string;
+/** deprecated */
+export const calciteSpacingFixedXs: string;
+/** deprecated */
+export const calciteSpacingFixedSm: string;
+/** deprecated */
+export const calciteSpacingFixedMd: string;
+/** deprecated */
+export const calciteSpacingFixedLg: string;
+/** deprecated */
+export const calciteSpacingFixedXl: string;
+/** deprecated */
+export const calciteSpacingFixedXxl: string;
+/** deprecated */
 export const calciteSpacingFixedXxxl: string;
 export const calciteSpacingNone: string;
 export const calciteSpacingPx: string;
