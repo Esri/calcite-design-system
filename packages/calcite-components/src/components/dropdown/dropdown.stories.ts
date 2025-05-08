@@ -51,7 +51,7 @@ export default {
   },
   parameters: {
     chromatic: {
-      delay: 1500,
+      delay: 2000,
     },
   },
 };
