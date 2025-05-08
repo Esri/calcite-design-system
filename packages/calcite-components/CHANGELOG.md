@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.50...@esri/calcite-components@3.2.0-next.51) (2025-05-08)
+
+### Bug Fixes
+
+- **text-area:** height is no longer fixed when viewport resized to narrow dimensions ([#11247](https://github.com/Esri/calcite-design-system/issues/11247)) ([eae373c](https://github.com/Esri/calcite-design-system/commit/eae373ca7bc4bdc77b209086e4f299153ac902dc))
+
 ## [3.2.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.49...@esri/calcite-components@3.2.0-next.50) (2025-05-08)
 
 ### Bug Fixes
