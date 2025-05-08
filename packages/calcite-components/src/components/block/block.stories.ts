@@ -259,7 +259,7 @@ export const scrollingContainerSetup_TestOnly = (): string =>
     </calcite-block>
     <script type="module">
       await customElements.whenDefined("calcite-block");
-      await block.componentOnReady();
+      const block = await document.querySelector("calcite-block").componentOnReady();
 
       const scrollContainer = document.querySelector(".scroll-container");
       scrollContainer.scrollTo(0, 500);
