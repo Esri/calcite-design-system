@@ -79,7 +79,7 @@
   }
 
   &.footer--slotted {
-    min-inline-size: var(--calcite-text-area-min-width, theme("spacing.72"));
+    min-inline-size: theme("spacing.72");
   }
 
   &:not(.text-area--only, .text-area--invalid) {
