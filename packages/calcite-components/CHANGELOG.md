@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.49...@esri/calcite-components@3.2.0-next.50) (2025-05-08)
+
+### Bug Fixes
+
+- **panel:** fix `--calcite-panel-header-action-text-color-press` ([#12110](https://github.com/Esri/calcite-design-system/issues/12110)) ([c47743d](https://github.com/Esri/calcite-design-system/commit/c47743d4f2be7d728f5c360b7952c28db472a90e))
+
 ## [3.2.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.48...@esri/calcite-components@3.2.0-next.49) (2025-05-08)
 
 ### Features
