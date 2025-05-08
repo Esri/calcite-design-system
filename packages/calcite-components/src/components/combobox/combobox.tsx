@@ -1265,27 +1265,35 @@ export class Combobox
     }
 
     if (this.isMulti()) {
-      item.selected = value;
-      this.updateAncestors(item);
-      this.selectedItems = this.getSelectedItems();
-      this.emitComboboxChange();
-      this.resetText();
-      this.filterItems("");
+      this.handleMultiSelection(item, value);
     } else {
-      this.ignoreSelectedEventsFlag = true;
-      this.items.forEach((el) => (el.selected = el === item ? value : false));
-      this.ignoreSelectedEventsFlag = false;
-      this.selectedItems = this.getSelectedItems();
-      this.emitComboboxChange();
-
-      if (this.textInput.value) {
-        this.textInput.value.value = getLabel(item);
-      }
-      this.open = false;
-      this.updateActiveItemIndex(-1);
-      this.resetText();
-      this.filterItems("");
+      this.handleSingleSelection(item, value);
     }
+  }
+
+  private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
+    item.selected = value;
+    this.updateAncestors(item);
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
+    this.resetText();
+    this.filterItems("");
+  }
+
+  private handleSingleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
+    this.ignoreSelectedEventsFlag = true;
+    this.items.forEach((el) => (el.selected = el === item ? value : false));
+    this.ignoreSelectedEventsFlag = false;
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
+
+    if (this.textInput.value) {
+      this.textInput.value.value = getLabel(item);
+    }
+    this.open = false;
+    this.updateActiveItemIndex(-1);
+    this.resetText();
+    this.filterItems("");
   }
 
   private updateAncestors(item: HTMLCalciteComboboxItemElement["el"]): void {
