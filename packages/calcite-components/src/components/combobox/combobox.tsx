@@ -1556,14 +1556,15 @@ export class Combobox
     });
   }
 
-  private renderAllSelectedIndicatorChip(): JsxNode {
+  private renderAllSelectedIndicatorChip(compact: boolean): JsxNode {
     const {
       compactSelectionDisplay,
       scale,
       selectedVisibleChipsCount,
       setAllSelectedIndicatorChipEl,
     } = this;
-    const label = this.messages.allSelected;
+    const label = compact ? this.messages.all || "All" : this.messages.allSelected;
+
     return (
       <calcite-chip
         class={{
@@ -1571,34 +1572,11 @@ export class Combobox
           [CSS.chipInvisible]: !(
             this.allSelected &&
             !selectedVisibleChipsCount &&
-            !compactSelectionDisplay
+            (compact ? compactSelectionDisplay : !compactSelectionDisplay)
           ),
         }}
         label={label}
         ref={setAllSelectedIndicatorChipEl}
-        scale={scale}
-        title={label}
-        value=""
-      >
-        {label}
-      </calcite-chip>
-    );
-  }
-
-  private renderAllSelectedIndicatorChipCompact(): JsxNode {
-    const { compactSelectionDisplay, scale, selectedVisibleChipsCount } = this;
-    const label = this.messages.all || "All";
-    return (
-      <calcite-chip
-        class={{
-          chip: true,
-          [CSS.chipInvisible]: !(
-            this.allSelected &&
-            !selectedVisibleChipsCount &&
-            compactSelectionDisplay
-          ),
-        }}
-        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1898,13 +1876,13 @@ export class Combobox
             {!singleSelectionMode &&
               !singleSelectionDisplay &&
               this.selectAllEnabled &&
-              this.renderAllSelectedIndicatorChip()}
+              this.renderAllSelectedIndicatorChip(false)}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
                 this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
-                this.renderAllSelectedIndicatorChipCompact(),
+                this.renderAllSelectedIndicatorChip(false),
+                this.renderAllSelectedIndicatorChip(true),
               ]}
             <label
               class={CSS.screenReadersOnly}
