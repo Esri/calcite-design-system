@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
- * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
- * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-press: Specifies the component's background color when active, selected, or expanded.
+ * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active, selected, or expanded.
  * @prop --calcite-action-background-color: Specifies the component's background color.
  * @prop --calcite-action-corner-radius-end-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end end.
  * @prop --calcite-action-corner-radius-end-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end start.
@@ -127,7 +127,9 @@
   @apply w-auto flex-auto opacity-100;
 }
 
-:host([active]) {
+:host([active]),
+:host([selected]),
+:host([expanded]) {
   .button {
     &,
     &:hover,
@@ -166,8 +168,12 @@
 }
 
 :host([appearance="transparent"]) {
-  &:host([active]) .button {
-    background-color: var(--calcite-color-transparent-press);
+  &:host([active]),
+  &:host([selected]),
+  &:host([expanded]) {
+    .button {
+      background-color: var(--calcite-color-transparent-press);
+    }
   }
 
   .button {
@@ -282,7 +288,9 @@
     );
   }
 
-  &:host([active]) {
+  &:host([active]),
+  &:host([selected]),
+  &:host([expanded]) {
     .button,
     .button:hover,
     .button:focus {

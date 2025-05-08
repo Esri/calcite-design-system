@@ -235,7 +235,7 @@ export class ActionMenu extends LitElement {
 
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
-      this.menuButtonEl.active = open;
+      this.menuButtonEl.expanded = open;
     }
 
     if (this.popoverEl) {
@@ -265,7 +265,7 @@ export class ActionMenu extends LitElement {
       return;
     }
 
-    menuButtonEl.active = open;
+    menuButtonEl.expanded = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
     menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
     menuButtonEl.setAttribute("aria-haspopup", "true");

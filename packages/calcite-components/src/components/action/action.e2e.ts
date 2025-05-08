@@ -8,7 +8,7 @@ describe("calcite-action", () => {
   describe("defaults", () => {
     defaults("calcite-action", [
       {
-        propertyName: "active",
+        propertyName: "active", // (deprecated)
         defaultValue: false,
       },
       {
@@ -37,6 +37,14 @@ describe("calcite-action", () => {
       },
       {
         propertyName: "textEnabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "selected",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expanded",
         defaultValue: false,
       },
     ]);
@@ -86,6 +94,14 @@ describe("calcite-action", () => {
       },
       {
         propertyName: "textEnabled",
+        value: true,
+      },
+      {
+        propertyName: "selected",
+        value: true,
+      },
+      {
+        propertyName: "expanded",
         value: true,
       },
     ]);
@@ -298,11 +314,13 @@ describe("calcite-action", () => {
         },
       );
     });
-    describe("active", () => {
+    describe("selected/active/expanded", () => {
       themed(
         html`<calcite-action
           scale="s"
+          selected
           active
+          expanded
           text="click-me"
           label="hello world"
           text-enabled

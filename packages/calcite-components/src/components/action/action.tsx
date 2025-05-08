@@ -58,8 +58,12 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active = false; // todo?
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @deprecated Use `selected` or `expanded` instead.
+   */
+  @property({ reflect: true }) active = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
@@ -84,6 +88,11 @@ export class Action extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /**
+   * When `true`, the component is expanded to show additional content or functionality.
+   */
+  @property({ reflect: true }) expanded = false;
+
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
@@ -102,6 +111,11 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  /**
+   * When `true`, the component is selected.
+   */
+  @property({ reflect: true }) selected = false;
+
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -118,8 +132,8 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * Specifies the type of the action.
    * - `"button"`: A standard button action.
-   * - `"toggle"`: A toggleable action that can switch between active and inactive states.
-   * - `"expand-toggle"`: A toggleable action specifically for expanding or collapsing content.
+   * - `"toggle"`: An action that can switch between active and inactive states.
+   * - `"expand-toggle"`: An action specifically for expanding or collapsing content.
    */
   @property({ reflect: true }) type: "button" | "toggle" | "expand-toggle" = "button";
 
