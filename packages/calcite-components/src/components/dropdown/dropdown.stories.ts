@@ -49,6 +49,11 @@ export default {
       control: { type: "select" },
     },
   },
+  parameters: {
+    chromatic: {
+      delay: 1500,
+    },
+  },
 };
 
 export const simple = (args: DropdownStoryArgs): string => html`

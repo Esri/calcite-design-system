@@ -17,7 +17,7 @@ const preview: Preview = {
       },
     },
     chromatic: {
-      delay: 1000,
+      delay: 250,
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.15,
     },

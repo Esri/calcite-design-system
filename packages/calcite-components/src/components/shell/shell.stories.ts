@@ -52,6 +52,11 @@ export default {
       control: { type: "select" },
     },
   },
+  parameters: {
+    chromatic: {
+      delay: 1000,
+    },
+  },
 };
 
 const actionBarStartContentHTML = html`
