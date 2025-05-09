@@ -5,6 +5,7 @@ export const CSS = {
   stepperItemHeader: "stepper-item-header",
   stepperItemHeading: "stepper-item-heading",
   stepperItemHeaderText: "stepper-item-header-text",
+  stepperItemIcon: "stepper-item-icon",
   stepperItemNumber: "stepper-item-number",
   visuallyHidden: "visually-hidden",
 };

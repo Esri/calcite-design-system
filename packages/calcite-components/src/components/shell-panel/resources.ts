@@ -1,5 +1,6 @@
 export const CSS = {
   container: "container",
+  actionBarContainer: "action-bar-container",
   contentContainer: "content-container",
   content: "content",
   contentHeader: "content__header",
