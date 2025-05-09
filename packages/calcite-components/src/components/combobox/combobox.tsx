@@ -1748,6 +1748,7 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <li
+          ariaLabel={this.messages.selectAll}
           ariaSelected={this.allSelected}
           id={`${this.guid}-select-all-enabled-screen-reader`}
           role="option"
