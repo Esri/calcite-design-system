@@ -10,22 +10,8 @@
       },
       "sm": {
         "value": [
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.2}",
-            "blur": "{core.size.default.8}",
-            "spread": "{core.size.default.none}",
-            "color": "{semantic.color.shadow.3}",
-            "type": "dropShadow"
-          },
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.2}",
-            "blur": "{core.size.default.8}",
-            "spread": "{core.size.default.none}",
-            "color": "{semantic.color.shadow.1}",
-            "type": "dropShadow"
-          }
+          "{test.shadow.sm-1}",
+          "{test.shadow.sm-2}"
         ],
         "type": "boxShadow",
         "attributes": {
@@ -34,23 +20,69 @@
       },
       "md": {
         "value": [
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.6}",
-            "blur": "{core.size.default.20}",
-            "spread": "-{core.size.default.4}",
-            "color": "{semantic.color.shadow.3}",
-            "type": "dropShadow"
-          },
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.4}",
-            "blur": "{core.size.default.12}",
-            "spread": "-{core.size.default.2}",
-            "color": "{semantic.color.shadow.2}",
-            "type": "dropShadow"
-          }
+          "{test.shadow.md-1}",
+          "{test.shadow.md-2}"
         ],
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      }
+    }
+  },
+  "test": {
+    "shadow": {
+      "sm-1": {
+        "value": {
+          "x": "{core.size.default.none}",
+          "y": "{core.size.default.2}",
+          "blur": "{core.size.default.8}",
+          "spread": "{core.size.default.none}",
+          "color": "{semantic.color.shadow.3}",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      },
+      "sm-2": {
+        "value": {
+          "x": "{core.size.default.none}",
+          "y": "{core.size.default.2}",
+          "blur": "{core.size.default.8}",
+          "spread": "{core.size.default.none}",
+          "color": "{semantic.color.shadow.1}",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      },
+      "md-1": {
+        "value": {
+          "x": "{core.size.default.none}",
+          "y": "{core.size.default.6}",
+          "blur": "{core.size.default.20}",
+          "spread": "-{core.size.default.4}",
+          "color": "{semantic.color.shadow.3}",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      },
+      "md-2": {
+        "value": {
+          "x": "{core.size.default.none}",
+          "y": "{core.size.default.4}",
+          "blur": "{core.size.default.12}",
+          "spread": "-{core.size.default.2}",
+          "color": "{semantic.color.shadow.2}",
+          "type": "dropShadow"
+        },
         "type": "boxShadow",
         "attributes": {
           "category": "shadow"

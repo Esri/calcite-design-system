@@ -67,41 +67,5 @@
         }
       }
     }
-  },
-  "test": {
-    "shadow": {
-      "sm-1": {
-        "value": [
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.2}",
-            "blur": "{core.size.default.8}",
-            "spread": "{core.size.default.none}",
-            "color": "{semantic.color.shadow.3}",
-            "type": "dropShadow"
-          }
-        ],
-        "type": "boxShadow",
-        "attributes": {
-          "category": "test shadow - do not use"
-        }
-      },
-      "sm-2": {
-        "value": [
-          {
-            "x": "{core.size.default.none}",
-            "y": "{core.size.default.2}",
-            "blur": "{core.size.default.8}",
-            "spread": "{core.size.default.none}",
-            "color": "{semantic.color.shadow.1}",
-            "type": "dropShadow"
-          }
-        ],
-        "type": "boxShadow",
-        "attributes": {
-          "category": "test shadow - do not use"
-        }
-      }
-    }
   }
 }
