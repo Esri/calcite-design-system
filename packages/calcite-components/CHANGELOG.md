@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.54...@esri/calcite-components@3.2.0-next.55) (2025-05-09)
+
+### Bug Fixes
+
+- **list:** remove auto expanding behavior when dragging ([#12121](https://github.com/Esri/calcite-design-system/issues/12121)) ([e8ca139](https://github.com/Esri/calcite-design-system/commit/e8ca139264c123febde5c43bb4e141698e2ed3f2)), closes [#11650](https://github.com/Esri/calcite-design-system/issues/11650)
+
+## [3.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.53...@esri/calcite-components@3.2.0-next.54) (2025-05-09)
+
+### Features
+
+- **action-bar:** add floating property and "grid" layout value ([#12103](https://github.com/Esri/calcite-design-system/issues/12103)) ([35d2693](https://github.com/Esri/calcite-design-system/commit/35d26934b2cd5c69b38811ae44f06d4ddcba52a8)), closes [#7507](https://github.com/Esri/calcite-design-system/issues/7507)
+
+## [3.2.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.52...@esri/calcite-components@3.2.0-next.53) (2025-05-09)
+
+### Bug Fixes
+
+- **autocomplete:** should open on key input and close when key input is cleared ([#12113](https://github.com/Esri/calcite-design-system/issues/12113)) ([0641254](https://github.com/Esri/calcite-design-system/commit/064125466d41ff777a0e5dbd5355477275e68f45)), closes [#12096](https://github.com/Esri/calcite-design-system/issues/12096)
+- **list:** correctly set the drag order and set size on filtered items ([#12075](https://github.com/Esri/calcite-design-system/issues/12075)) ([6ed9529](https://github.com/Esri/calcite-design-system/commit/6ed952922bcc9632f60c4a241ca587e9918cb8ee)), closes [#12074](https://github.com/Esri/calcite-design-system/issues/12074)
+
 ## [3.2.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.51...@esri/calcite-components@3.2.0-next.52) (2025-05-08)
 
 ### Features
