@@ -25,7 +25,7 @@ const getMaxActionCount = ({
   actionHeight,
   groupCount,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
+  layout: Extract<"horizontal" | "vertical" | "grid", Layout>;
   height: number;
   actionWidth: number;
   width: number;
@@ -46,7 +46,7 @@ export const getOverflowCount = ({
   height,
   groupCount,
 }: {
-  layout: Extract<"horizontal" | "vertical", Layout>;
+  layout: Extract<"horizontal" | "vertical" | "grid", Layout>;
   actionCount: number;
   actionWidth: number;
   width: number;
