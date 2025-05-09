@@ -22,7 +22,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-dialog` component instead.
+ * @deprecated Use the `calcite-action-pad` component instead.
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
