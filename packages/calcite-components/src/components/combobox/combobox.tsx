@@ -917,10 +917,8 @@ export class Combobox
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
 
-          const isSelectAllTarget = item === this.selectAllComboboxItemReferenceEl;
-
           if (this.selectAllEnabled) {
-            this.handleSelectAll(isSelectAllTarget);
+            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl);
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1578,6 +1576,7 @@ export class Combobox
             !selectedVisibleChipsCount &&
             (compact ? compactSelectionDisplay : !compactSelectionDisplay)
           ),
+          [CSS.allSelected]: true,
         }}
         label={label}
         ref={setAllSelectedIndicatorChipEl}
