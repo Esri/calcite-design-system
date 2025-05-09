@@ -135,9 +135,14 @@ const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 const hasTrailingDecimalZeros = /0*$/;
+const charAllowlist = new Set(["e", "E", "-", ",", ".", ...numberKeys]);
 
-export const sanitizeNumberString = (numberString: string): string =>
-  sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
+export const sanitizeNumberString = (numberString: string): string => {
+  const strippedInvalidCharsValue = Array.from(numberString)
+    .filter((char) => charAllowlist.has(char))
+    .join("");
+
+  return sanitizeExponentialNumberString(strippedInvalidCharsValue, (nonExpoNumString) => {
     const sanitizedValue = nonExpoNumString
       .replace(allHyphensExceptTheStart, "")
       .replace(decimalOnlyAtEndOfString, "")
@@ -148,6 +153,7 @@ export const sanitizeNumberString = (numberString: string): string =>
         : getBigDecimalAsString(sanitizedValue)
       : nonExpoNumString;
   });
+};
 
 export function getBigDecimalAsString(sanitizedValue: string): string {
   const sanitizedValueDecimals = sanitizedValue.split(".")[1];
