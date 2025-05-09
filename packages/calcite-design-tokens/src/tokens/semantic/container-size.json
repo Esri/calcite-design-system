@@ -71,7 +71,7 @@
       "width": {
         "xxs": {
           "value": {
-            "min": "0",
+            "min": 0,
             "max": "{core.container-size.320}"
           },
           "type": "dimension",
