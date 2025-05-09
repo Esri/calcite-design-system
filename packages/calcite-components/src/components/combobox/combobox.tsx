@@ -798,8 +798,10 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.items.forEach((item) => (item.selected = toggledValue));
-    this.selectedItems = this.getSelectedItems();
+    this.selectedItems = this.items.filter((item) => {
+      item.selected = toggledValue;
+      return toggledValue;
+    });
     this.emitComboboxChange();
   }
 
@@ -1038,6 +1040,10 @@ export class Combobox
     chipEls,
     availableHorizontalChipElSpace,
     chipContainerElGap,
+  }: {
+    chipEls: Chip["el"][];
+    availableHorizontalChipElSpace: number;
+    chipContainerElGap: number;
   }): void {
     chipEls.forEach((chipEl: Chip["el"]) => {
       if (!chipEl.selected) {
@@ -1744,7 +1750,6 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist" && (
         <li
-          ariaLabel={this.messages.selectAll}
           ariaSelected={this.allSelected}
           id={`${this.guid}-select-all-enabled-screen-reader`}
           role="option"
