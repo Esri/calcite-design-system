@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.54...@esri/calcite-components@3.2.0-next.55) (2025-05-09)
+
+### Bug Fixes
+
+- **list:** remove auto expanding behavior when dragging ([#12121](https://github.com/Esri/calcite-design-system/issues/12121)) ([e8ca139](https://github.com/Esri/calcite-design-system/commit/e8ca139264c123febde5c43bb4e141698e2ed3f2)), closes [#11650](https://github.com/Esri/calcite-design-system/issues/11650)
+
 ## [3.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.53...@esri/calcite-components@3.2.0-next.54) (2025-05-09)
 
 ### Features
