@@ -1753,7 +1753,7 @@ export class Combobox
           role="option"
           tabIndex="-1"
         >
-          Select All
+          {this.messages.selectAll}
         </li>
       );
 
