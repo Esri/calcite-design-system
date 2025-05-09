@@ -224,14 +224,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
