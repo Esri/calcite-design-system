@@ -93,6 +93,12 @@ export class Action extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) expanded = false;
 
+  /**
+   * When `true`, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) focused = false;
+
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
@@ -114,7 +120,7 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is selected.
    */
-  @property({ reflect: true }) selected = false;
+  @property({ reflect: true }) selected = false; // todo: pressed?
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -254,7 +260,6 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private renderButton(): JsxNode {
     const {
-      active,
       compact,
       disabled,
       icon,
@@ -267,6 +272,8 @@ export class Action extends LitElement implements InteractiveComponent {
       buttonId,
       messages,
       type,
+      expanded,
+      selected,
     } = this;
     const labelFallback = label || text || "";
 
@@ -295,9 +302,9 @@ export class Action extends LitElement implements InteractiveComponent {
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
           ariaDisabled={this.disabled ? this.disabled : null}
-          ariaExpanded={type === "expand-toggle" ? active : null} // todo
+          ariaExpanded={type === "expand-toggle" ? expanded : null}
           ariaLabel={ariaLabel}
-          ariaPressed={type === "toggle" ? active : null} // todo
+          ariaPressed={type === "toggle" ? selected : null}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -315,9 +322,9 @@ export class Action extends LitElement implements InteractiveComponent {
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
-        ariaExpanded={type === "expand-toggle" ? active : null} //todo
+        ariaExpanded={type === "expand-toggle" ? expanded : null}
         ariaLabel={ariaLabel}
-        ariaPressed={type === "toggle" ? active : null} //todo
+        ariaPressed={type === "toggle" ? selected : null}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}

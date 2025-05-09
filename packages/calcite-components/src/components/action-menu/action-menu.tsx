@@ -20,7 +20,7 @@ import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -116,8 +116,8 @@ export class ActionMenu extends LitElement {
       action.id = id;
     }
 
-    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
-    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
+    // Used to style the "activeMenuItemIndex" action using token focus styling.
+    action.focused = index === activeMenuItemIndex;
   };
 
   // #endregion
