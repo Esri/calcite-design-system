@@ -123,6 +123,25 @@ describe("calcite-action", () => {
     slots("calcite-action", SLOTS);
   });
 
+  // todo: tests for aria attributes
+
+  it("should have proper aria attributes internally", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action text="hello world" text-enabled></calcite-action>`);
+
+    const action = await page.find("calcite-action");
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
+
+    expect(button.getProperty("ariaBusy")).toBe("false");
+    expect(button.getProperty("ariaExpanded")).toBe(undefined);
+    expect(button.getProperty("ariaPressed")).toBe(undefined);
+
+    action.setProperty("loading", true);
+    await page.waitForChanges();
+
+    expect(button.getProperty("ariaBusy")).toBe("true");
+  });
+
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world" text-enabled></calcite-action>`);

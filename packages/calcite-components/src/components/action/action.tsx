@@ -295,9 +295,9 @@ export class Action extends LitElement implements InteractiveComponent {
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
           ariaDisabled={this.disabled ? this.disabled : null}
-          ariaExpanded={type === "expand-toggle" ? active : null}
+          ariaExpanded={type === "expand-toggle" ? active : null} // todo
           ariaLabel={ariaLabel}
-          ariaPressed={type === "toggle" ? active : null}
+          ariaPressed={type === "toggle" ? active : null} // todo
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -309,13 +309,15 @@ export class Action extends LitElement implements InteractiveComponent {
       );
     }
 
+    // todo: support mixed aria-pressed states?
+
     return (
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
-        ariaExpanded={type === "expand-toggle" ? active : null}
+        ariaExpanded={type === "expand-toggle" ? active : null} //todo
         ariaLabel={ariaLabel}
-        ariaPressed={type === "toggle" ? active : null}
+        ariaPressed={type === "toggle" ? active : null} //todo
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
