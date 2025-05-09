@@ -744,6 +744,8 @@ export class Combobox
     const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
+
+    this.selectedItems = this.getSelectedItems();
   }
 
   private calciteInternalComboboxItemChangeHandler(
@@ -1523,11 +1525,7 @@ export class Combobox
       return null;
     }
 
-    const filteredSelectedItems = this.selectedItems.filter(
-      (item) => item !== this.selectAllComboboxItemReferenceEl,
-    );
-
-    return filteredSelectedItems.map((item, i) => {
+    return this.selectedItems.map((item, i) => {
       const chipClasses = {
         [CSS.chip]: true,
       };
