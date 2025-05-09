@@ -554,34 +554,33 @@ export function toISOTimeString(value: string | Time, step: number = 60): string
   if (!isValidTime(value)) {
     return null;
   }
-  let isoTimeString;
+
+  let hour;
+  let minute;
+  let second;
+  let secondDecimal;
+  let fractionalSecond;
+  let isoTimeString = null;
+
   if (typeof value === "string") {
-    const [hour, minute, secondDecimal] = value.split(":");
-    let second = secondDecimal;
-    let fractionalSecond = null;
-    if (secondDecimal?.includes(".")) {
-      [second, fractionalSecond] = secondDecimal.split(".");
-    }
+    [hour, minute, secondDecimal] = value.split(":");
+    [second, fractionalSecond] = secondDecimal?.split(".") || ["0"];
+  } else {
+    hour = value.hour;
+    minute = value.minute;
+    second = value.second;
+    fractionalSecond = value.fractionalSecond;
+  }
+
+  if (hour && minute) {
     isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
     if (step < 60) {
       isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
       if (step < 1) {
-        isoTimeString += `.${formatFractionalSecond(fractionalSecond, step)}`;
+        isoTimeString += `.${formatFractionalSecond(fractionalSecond || "0", step)}`;
       }
-    }
-  } else {
-    const { hour, minute } = value;
-    if (hour && minute) {
-      isoTimeString = `${formatTimePart(parseInt(value.hour))}:${formatTimePart(parseInt(value.minute))}`;
-      if (step < 60) {
-        isoTimeString += `:${formatTimePart(parseInt(value.second || "0"))}`;
-        if (step < 1) {
-          isoTimeString += `.${formatFractionalSecond(value.fractionalSecond || "0", step)}`;
-        }
-      }
-    } else {
-      isoTimeString = null;
     }
   }
+
   return isoTimeString;
 }
