@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.53...@esri/calcite-components@3.2.0-next.54) (2025-05-09)
+
+### Features
+
+- **action-bar:** add floating property and "grid" layout value ([#12103](https://github.com/Esri/calcite-design-system/issues/12103)) ([35d2693](https://github.com/Esri/calcite-design-system/commit/35d26934b2cd5c69b38811ae44f06d4ddcba52a8)), closes [#7507](https://github.com/Esri/calcite-design-system/issues/7507)
+
 ## [3.2.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.52...@esri/calcite-components@3.2.0-next.53) (2025-05-09)
 
 ### Bug Fixes
