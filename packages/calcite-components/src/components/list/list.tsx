@@ -38,7 +38,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListDisplayMode } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -636,10 +636,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
-  }
-
-  onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.expanded = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
