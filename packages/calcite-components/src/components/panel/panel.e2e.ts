@@ -735,6 +735,29 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "backgroundColor",
         },
+        "--calcite-panel-header-action-background-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-panel-header-action-background-color-hover": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-panel-header-action-background-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
+        },
+        "--calcite-panel-header-action-text-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-panel-header-action-text-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
+        },
         "--calcite-panel-header-background-color": {
           shadowSelector: `.${CSS.header}`,
           targetProp: "backgroundColor",

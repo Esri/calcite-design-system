@@ -71,6 +71,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   filterEl: Filter["el"];
 
+  defaultSlotEl: HTMLSlotElement;
+
   private focusableItems: ListItem["el"][] = [];
 
   private relatedDragEl: ListItem["el"];
@@ -107,6 +109,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
+      defaultSlotEl,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -147,6 +150,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
+    if (defaultSlotEl) {
+      updateListItemChildren(defaultSlotEl);
+    }
   }, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
@@ -686,8 +692,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
-    updateListItemChildren(event.target as HTMLSlotElement);
+  private handleDefaultSlotChange(): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
@@ -844,6 +849,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     filterEl.value = filterText;
     filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
+  }
+
+  private setDefaultSlotEl(el: HTMLSlotElement): void {
+    this.defaultSlotEl = el;
   }
 
   private setFilterEl(el: Filter["el"]): void {
@@ -1159,7 +1168,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
-              <slot onSlotChange={this.handleDefaultSlotChange} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>
           <div

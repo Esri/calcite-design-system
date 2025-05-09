@@ -524,6 +524,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         placement={menuPlacement}
       >
         <calcite-action
+          class={CSS.menuAction}
           icon={ICONS.menu}
           scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
