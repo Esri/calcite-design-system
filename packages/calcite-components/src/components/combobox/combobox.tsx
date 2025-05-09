@@ -735,10 +735,7 @@ export class Combobox
       return;
     }
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
-
-    const isSelectAllTarget = event
-      .composedPath()
-      .some((node) => (node as HTMLElement) === this.selectAllComboboxItemReferenceEl);
+    const isSelectAllTarget = event.composedPath().includes(this.selectAllComboboxItemReferenceEl);
 
     if (this.selectAllEnabled) {
       this.handleSelectAll(isSelectAllTarget);
@@ -1566,7 +1563,7 @@ export class Combobox
       selectedVisibleChipsCount,
       setAllSelectedIndicatorChipEl,
     } = this;
-    const label = compact ? this.messages.all || "All" : this.messages.allSelected;
+    const label = compact ? this.messages.all : this.messages.allSelected;
 
     return (
       <calcite-chip
@@ -1697,7 +1694,6 @@ export class Combobox
           "input-wrap--single": single,
         }}
       >
-        {console.log("selectedItem", selectedItem)}
         {showLabel && (
           <span
             class={{
@@ -1751,9 +1747,11 @@ export class Combobox
           ariaLabel={this.messages.selectAll}
           ariaSelected={this.allSelected}
           id={`${this.guid}-select-all-enabled-screen-reader`}
+          role="option"
           tabIndex="-1"
-          value="select-all"
-        />
+        >
+          Select All
+        </li>
       );
 
     const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
