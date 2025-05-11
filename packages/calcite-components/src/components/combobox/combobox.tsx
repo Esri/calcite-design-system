@@ -1566,6 +1566,7 @@ export class Combobox
       setAllSelectedIndicatorChipEl,
     } = this;
     const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
+    console.log("scale", scale);
 
     return (
       <calcite-chip
@@ -1772,7 +1773,7 @@ export class Combobox
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { setFloatingEl, setContainerEl, open } = this;
+    const { setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
@@ -1792,6 +1793,7 @@ export class Combobox
                   indeterminate={this.indeterminate}
                   label={this.messages.selectAll}
                   ref={this.setSelectAllComboboxItemReferenceEl}
+                  scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
                   text-label={this.messages.selectAll}
