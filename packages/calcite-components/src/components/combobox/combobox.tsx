@@ -1566,7 +1566,6 @@ export class Combobox
       setAllSelectedIndicatorChipEl,
     } = this;
     const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
-    console.log("scale", scale);
 
     return (
       <calcite-chip
@@ -1882,8 +1881,6 @@ export class Combobox
             {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
-                this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
                 this.renderAllSelectedIndicatorChip(),
               ]}
             <label
