@@ -1558,24 +1558,20 @@ export class Combobox
     });
   }
 
-  private renderAllSelectedIndicatorChip(compact: boolean): JsxNode {
+  private renderAllSelectedIndicatorChip(): JsxNode {
     const {
       compactSelectionDisplay,
       scale,
       selectedVisibleChipsCount,
       setAllSelectedIndicatorChipEl,
     } = this;
-    const label = compact ? this.messages.all : this.messages.allSelected;
+    const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
 
     return (
       <calcite-chip
         class={{
           chip: true,
-          [CSS.chipInvisible]: !(
-            this.allSelected &&
-            !selectedVisibleChipsCount &&
-            (compact ? compactSelectionDisplay : !compactSelectionDisplay)
-          ),
+          [CSS.chipInvisible]: !(this.allSelected && !selectedVisibleChipsCount),
           [CSS.allSelected]: true,
         }}
         label={label}
@@ -1880,13 +1876,13 @@ export class Combobox
             {!singleSelectionMode &&
               !singleSelectionDisplay &&
               this.selectAllEnabled &&
-              this.renderAllSelectedIndicatorChip(false)}
+              this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
                 this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(false),
-                this.renderAllSelectedIndicatorChip(true),
+                this.renderAllSelectedIndicatorChip(),
+                this.renderAllSelectedIndicatorChip(),
               ]}
             <label
               class={CSS.screenReadersOnly}
