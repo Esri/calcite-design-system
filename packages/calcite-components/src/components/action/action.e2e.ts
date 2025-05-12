@@ -156,7 +156,7 @@ describe("calcite-action", () => {
     it("expanded", async () => {
       expect(await button.getProperty("ariaExpanded")).toBe(null);
 
-      action.setProperty("type", "expand-toggle");
+      action.setProperty("type", "expand");
       await page.waitForChanges();
 
       expect(await button.getProperty("ariaExpanded")).toBe("false");
@@ -314,7 +314,7 @@ describe("calcite-action", () => {
     accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
     accessible(`<calcite-action type="button" text="hello world"></calcite-action>`);
     accessible(`<calcite-action type="toggle" pressed text="hello world"></calcite-action>`);
-    accessible(`<calcite-action type="expand-toggle" expanded text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="expand" expanded text="hello world"></calcite-action>`);
   });
 
   it("should have a tooltip", async () => {

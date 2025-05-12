@@ -463,6 +463,7 @@ export class ActionMenu extends LitElement {
           scale={scale}
           text={label}
           textEnabled={expanded}
+          type="expand"
         />
       </slot>
     );

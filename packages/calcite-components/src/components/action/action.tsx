@@ -89,7 +89,7 @@ export class Action extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * When `true` and the `type` is `"expand-toggle"`, the component is expanded to show additional content or functionality.
+   * When `true` and the `type` is `"expand"`, the component is expanded to show additional content or functionality.
    */
   @property({ reflect: true }) expanded = false;
 
@@ -139,9 +139,9 @@ export class Action extends LitElement implements InteractiveComponent {
    * Specifies the type of the action.
    * - `"button"`: A standard button action.
    * - `"toggle"`: An action that can switch between active and inactive states.
-   * - `"expand-toggle"`: An action specifically for expanding or collapsing content.
+   * - `"expand"`: An action specifically for expanding or collapsing content.
    */
-  @property({ reflect: true }) type: "button" | "toggle" | "expand-toggle" = "button";
+  @property({ reflect: true }) type: "button" | "toggle" | "expand" = "button";
 
   //#endregion
 
@@ -302,7 +302,7 @@ export class Action extends LitElement implements InteractiveComponent {
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
           ariaDisabled={this.disabled ? this.disabled : null}
-          ariaExpanded={type === "expand-toggle" ? expanded : null}
+          ariaExpanded={type === "expand" ? expanded : null}
           ariaLabel={ariaLabel}
           ariaPressed={type === "toggle" ? pressed : null}
           class={buttonClasses}
@@ -320,7 +320,7 @@ export class Action extends LitElement implements InteractiveComponent {
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
-        ariaExpanded={type === "expand-toggle" ? expanded : null}
+        ariaExpanded={type === "expand" ? expanded : null}
         ariaLabel={ariaLabel}
         ariaPressed={type === "toggle" ? pressed : null}
         class={buttonClasses}

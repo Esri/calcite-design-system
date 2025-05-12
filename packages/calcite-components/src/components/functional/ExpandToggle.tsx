@@ -110,6 +110,7 @@ export const ExpandToggle = ({
       text={text}
       textEnabled={expanded}
       title={!expanded && !tooltip ? text : null}
+      type="expand"
     />
   );
 

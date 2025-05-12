@@ -332,6 +332,7 @@ export class MenuItem extends LitElement {
 
   private renderDropdownAction(dir: Direction): JsxNode {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
+    // todo: should this be a expand type?
     return (
       <calcite-action
         class={CSS.dropdownAction}

@@ -166,6 +166,7 @@ export class ActionGroup extends LitElement {
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.more}
           textEnabled={expanded}
+          type="expand"
         />
         <slot name={SLOTS.menuActions} onSlotChange={this.handleMenuActionsSlotChange} />
         <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />

@@ -467,14 +467,15 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const collapseNode = collapsible ? (
       <calcite-action
-        ariaExpanded={!collapsed}
         ariaLabel={collapse}
+        expanded={!collapsed}
         icon={collapsed ? icons[0] : icons[1]}
         id={IDS.collapse}
         onClick={this.collapse}
         scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
+        type="expand"
       />
     ) : null;
 
@@ -528,6 +529,7 @@ export class Panel extends LitElement implements InteractiveComponent {
           scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
+          type="expand"
         />
         <slot
           name={SLOTS.headerMenuActions}

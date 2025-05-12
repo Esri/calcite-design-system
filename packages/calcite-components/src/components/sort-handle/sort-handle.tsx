@@ -267,16 +267,17 @@ export class SortHandle extends LitElement implements InteractiveComponent {
           widthScale={widthScale}
         >
           <calcite-action
-            active={open}
             appearance="transparent"
             class={CSS.handle}
             dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
+            pressed={open}
             scale={scale}
             slot="trigger"
             text={text}
             title={text}
+            type="toggle"
           />
           {this.renderGroup()}
           {this.renderMoveToGroup()}

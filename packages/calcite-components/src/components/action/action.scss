@@ -129,7 +129,7 @@
 
 :host([active]),
 :host([type="toggle"][pressed]),
-:host([type="expand-toggle"][expanded]) {
+:host([type="expand"][expanded]) {
   .button {
     &,
     &:hover,
@@ -169,7 +169,7 @@
 :host([appearance="transparent"]) {
   &:host([active]),
   &:host([type="toggle"][pressed]),
-  &:host([type="expand-toggle"][expanded]) {
+  &:host([type="expand"][expanded]) {
     .button {
       background-color: var(--calcite-color-transparent-press);
     }
@@ -289,7 +289,7 @@
 
   &:host([active]),
   &:host([type="toggle"][pressed]),
-  &:host([type="expand-toggle"][expanded]) {
+  &:host([type="expand"][expanded]) {
     .button,
     .button:hover,
     .button:focus {

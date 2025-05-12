@@ -60,7 +60,7 @@ export default {
       control: { type: "select" },
     },
     type: {
-      options: ["button", "toggle", "expand-toggle"],
+      options: ["button", "toggle", "expand"],
       control: { type: "select" },
     },
   },
