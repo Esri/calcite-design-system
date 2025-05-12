@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.56...@esri/calcite-components@3.2.0-next.57) (2025-05-12)
+
+### Bug Fixes
+
+- **sort-handle:** allow move and reorder events to be cancelled ([#12095](https://github.com/Esri/calcite-design-system/issues/12095)) ([a23105d](https://github.com/Esri/calcite-design-system/commit/a23105df29903f8a9c4e79684449a44fdce149b8)), closes [#11774](https://github.com/Esri/calcite-design-system/issues/11774) [/github.com/Esri/calcite-design-system/blob/b1c2b56c883ea3dc59c7fbc121e364b337c12d9d/packages/calcite-components/src/components/block/block.tsx#L312-L332](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/b1c2b56c883ea3dc59c7fbc121e364b337c12d9d/packages/calcite-components/src/components/block/block.tsx/issues/L312-L332)
+
 ## [3.2.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.55...@esri/calcite-components@3.2.0-next.56) (2025-05-12)
 
 ### Features
