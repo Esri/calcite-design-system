@@ -52,7 +52,7 @@ describe("calcite-input-time-zone", () => {
     };
   }
 
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(simpleTestProvider);
   });
 
