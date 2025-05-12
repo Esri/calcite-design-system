@@ -128,8 +128,8 @@
 }
 
 :host([active]),
-:host([pressed]),
-:host([expanded]) {
+:host([type="toggle"][pressed]),
+:host([type="expand-toggle"][expanded]) {
   .button {
     &,
     &:hover,
@@ -166,11 +166,10 @@
     margin-inline-end: theme("spacing.0");
   }
 }
-
 :host([appearance="transparent"]) {
   &:host([active]),
-  &:host([pressed]),
-  &:host([expanded]) {
+  &:host([type="toggle"][pressed]),
+  &:host([type="expand-toggle"][expanded]) {
     .button {
       background-color: var(--calcite-color-transparent-press);
     }
@@ -289,8 +288,8 @@
   }
 
   &:host([active]),
-  &:host([pressed]),
-  &:host([expanded]) {
+  &:host([type="toggle"][pressed]),
+  &:host([type="expand-toggle"][expanded]) {
     .button,
     .button:hover,
     .button:focus {

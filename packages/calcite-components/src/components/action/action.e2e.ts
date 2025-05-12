@@ -312,6 +312,9 @@ describe("calcite-action", () => {
     accessible(`<calcite-action text="hello world"></calcite-action>`);
     accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
     accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="button" text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="toggle" pressed text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="expand-toggle" expanded text="hello world"></calcite-action>`);
   });
 
   it("should have a tooltip", async () => {

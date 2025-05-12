@@ -100,7 +100,7 @@ export const disabledAndTextOnly_TestOnly = (): string => html`
       text-enabled
     ></calcite-action>
     <calcite-action
-      active
+      pressed
       icon="banana"
       alignment="start"
       appearance="solid"
@@ -120,7 +120,7 @@ export const activeAndAppearanceTransparent_TestOnly = (): string => html`
       alignment="start"
       label="Label"
       scale="m"
-      active
+      pressed
       appearance="transparent"
       text="Text"
       text-enabled
@@ -162,7 +162,7 @@ export const indicatorTextEnabled_TestOnly = (): string => html`
     appearance="solid"
     indicator
     scale="m"
-    active
+    pressed
     text="click-me"
     text-enabled
     icon="gear"
@@ -170,11 +170,11 @@ export const indicatorTextEnabled_TestOnly = (): string => html`
 `;
 
 export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
-  <calcite-action indicator scale="m" active text="click-me" text-enabled></calcite-action>
+  <calcite-action indicator scale="m" pressed text="click-me" text-enabled></calcite-action>
 `;
 
 export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
-  <calcite-action indicator active text="click-me"></calcite-action>
+  <calcite-action indicator pressed text="click-me"></calcite-action>
 `;
 
 export const noTextHeight_TestOnly = (): string => html`

@@ -89,7 +89,7 @@ export class Action extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * When `true`, the component is expanded to show additional content or functionality.
+   * When `true` and the `type` is `"expand-toggle"`, the component is expanded to show additional content or functionality.
    */
   @property({ reflect: true }) expanded = false;
 
@@ -118,7 +118,7 @@ export class Action extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the component is pressed.
+   * When `true` and the `type` is `"toggle"`, the component is pressed.
    */
   @property({ reflect: true }) pressed: boolean = false;
 
