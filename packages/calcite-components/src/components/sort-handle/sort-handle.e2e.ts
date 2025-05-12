@@ -75,8 +75,9 @@ describe("calcite-sort-handle", () => {
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+    expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("fires calciteSortHandleMove event", async () => {
@@ -104,8 +105,9 @@ describe("calcite-sort-handle", () => {
 
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    expect(await calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+    expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("is disabled when no moveToItems, setPosition < 1 or setSize < 2", async () => {
