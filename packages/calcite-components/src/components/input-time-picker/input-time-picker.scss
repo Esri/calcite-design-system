@@ -50,15 +50,9 @@
   &:focus,
   &:hover:focus {
     background-color: Highlight;
+    color: HighlightText;
     outline: 2px solid transparent;
     outline-offset: 2px;
-  }
-}
-
-.container.invert-focus-text-color {
-  .input:focus,
-  .input:hover:focus {
-    color: var(--calcite-color-text-inverse);
   }
 }
 

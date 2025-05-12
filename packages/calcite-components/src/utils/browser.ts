@@ -21,7 +21,3 @@ export function getUserAgentString(): string {
     ? uaData.brands.map(({ brand, version }) => `${brand}/${version}`).join(" ")
     : navigator.userAgent;
 }
-
-export function getUserAgentPlatform(): string {
-  return (navigator as any).platform;
-}
