@@ -3,13 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-item-border-color: Specifies the component's border color.
  * @prop --calcite-combobox-text-color: Specifies the component's text and `icon` color.
  * @prop --calcite-combobox-text-color-hover: Specifies the component's text and `icon` color when hovered.
  * @prop --calcite-combobox-item-background-color-active: Specifies the component's background color when active.
  * @prop --calcite-combobox-item-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-combobox-item-shadow: Specifies the component's shadow.
-
  * @prop --calcite-combobox-selected-icon-color: Specifies the component's selected indicator icon color.
  * @prop --calcite-combobox-description-text-color: Specifies the component's `description` and `shortHeading` text color.
  * @prop --calcite-combobox-description-text-color-press: Specifies the component's `description` and `shortHeading` text color when hovered.
@@ -121,8 +118,7 @@ ul:focus {
   color: var(--calcite-color-border-input);
 }
 
-:host([selected]) .icon,
-:host([indeterminate]) .icon {
+:host([selected]) .icon {
   color: var(--calcite-combobox-selected-icon-color, var(--calcite-color-brand));
 }
 

@@ -752,8 +752,8 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`,
     );
 
-    const item = await page.find("calcite-combobox-item#item-0");
-    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    const item = await page.find("calcite-combobox-item");
+    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(a11yItem).not.toBeNull();
     expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
@@ -763,7 +763,7 @@ describe("calcite-combobox", () => {
     item.setProperty("selected", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
@@ -771,7 +771,7 @@ describe("calcite-combobox", () => {
     item.setProperty("label", label);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
 
@@ -779,7 +779,7 @@ describe("calcite-combobox", () => {
     item.setProperty("textLabel", textLabel);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(textLabel);
 
@@ -787,14 +787,14 @@ describe("calcite-combobox", () => {
     item.setProperty("heading", heading);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(heading);
 
     item.setProperty("disabled", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(a11yItem).toBeNull();
   });
@@ -2973,227 +2973,6 @@ describe("calcite-combobox", () => {
 
     const combobox = await page.find("calcite-combobox");
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
-  });
-
-  describe("selectAllEnabled", async () => {
-    let page: E2EPage;
-
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees">
-            <calcite-combobox-item value="Pine" text-label="Pine">
-              <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
-            </calcite-combobox-item>
-            <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Flowers" text-label="Flowers">
-            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-          </calcite-combobox-item>
-        </calcite-combobox>`,
-      );
-      await page.waitForChanges();
-    });
-
-    async function testToggleAllItems(
-      page: E2EPage,
-      toggleAction: ([selectAll, combobox]: [E2EElement, E2EElement]) => Promise<void>,
-    ): Promise<void> {
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-      expect(await combobox.getProperty("open")).toBe(true);
-
-      const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
-      await toggleAction([selectAll, combobox]);
-
-      let allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(true);
-      }
-      expect(await page.find(`calcite-combobox >>> calcite-chip.${CSS.allSelected}`)).toBeDefined();
-
-      await toggleAction([selectAll, combobox]);
-
-      allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(false);
-      }
-
-      const chip = await page.find(`calcite-combobox >>> calcite-chip.${CSS.allSelected}`);
-      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
-    }
-
-    it("should toggle all items on and off with a click", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([selectAll, _combobox]) => {
-        await selectAll.click();
-      });
-    });
-
-    it("should toggle all items on and off with KeyDown press `enter`", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([_selectAll, combobox]) => {
-        await combobox.press("Enter");
-      });
-    });
-
-    it("indeterminate state", async () => {
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-      expect(await combobox.getProperty("open")).toBe(true);
-
-      await (await combobox.find("calcite-combobox-item[value=Sequoia]")).click();
-
-      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
-      expect(await selectAll.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
-
-      await (await combobox.find("calcite-combobox-item[value=Flowers]")).click();
-
-      expect(await selectAll.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeDefined();
-
-      const chip = await page.find(`calcite-combobox >>> calcite-chip.${CSS.allSelected}`);
-      expect(chip.classList.contains(`${CSS.chipInvisible}`)).toBe(true);
-
-      await selectAll.click();
-      expect(await selectAll.getProperty("indeterminate")).toBe(false);
-      expect(await selectAll.getProperty("selected")).toBe(true);
-
-      expect(await page.find(`calcite-combobox >>> calcite-chip.${CSS.allSelected}`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeNull();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Flowers]`)).toBeNull();
-
-      const allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        expect(await item.getProperty("selected")).toBe(true);
-      }
-    });
-
-    async function testToggleListItems(
-      page: E2EPage,
-      toggleAction: ([listItem, combobox]: [E2EElement, E2EElement]) => Promise<void>,
-    ): Promise<void> {
-      const messages = await import("./assets/t9n/messages.json");
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-      expect(await combobox.getProperty("open")).toBe(true);
-
-      const allComboboxItems = await findAll(page, "calcite-combobox-item");
-      for (const item of allComboboxItems) {
-        item.setProperty("selected", true);
-      }
-      await page.waitForChanges();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeDefined();
-
-      const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
-      await toggleAction([listItem, combobox]);
-
-      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
-      expect(await selectAll.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
-
-      await toggleAction([listItem, combobox]);
-
-      expect(await selectAll.getProperty("indeterminate")).toBe(false);
-      expect(await selectAll.getProperty("selected")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeNull();
-
-      await toggleAction([listItem, combobox]);
-
-      expect(await selectAll.getProperty("indeterminate")).toBe(true);
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value=Sequoia]`)).toBeDefined();
-    }
-
-    it("should toggle indeterminate state to `All Selected` when list items are toggled with a click", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleListItems(page, async ([listItem, _combobox]) => {
-        await listItem.click();
-      });
-    });
-
-    it("should toggle indeterminate state to `All Selected` when list items are toggled with a keydown `Enter`", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([_listItem, combobox]) => {
-        await combobox.press("Enter");
-      });
-    });
-
-    it("should have indeterminate state when some items are initialized selected", async () => {
-      page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Pine" />
-          </calcite-combobox-item>
-        </calcite-combobox>`,
-      );
-      await page.waitForChanges();
-      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
-      expect(await selectAll.getProperty("indeterminate")).toBe(true);
-    });
-
-    it("should have selectAll state true when all items are initialized selected", async () => {
-      page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Pine" selected />
-          </calcite-combobox-item>
-        </calcite-combobox>`,
-      );
-      await page.waitForChanges();
-      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
-      expect(await selectAll.getProperty("selected")).toBe(true);
-    });
-
-    it("should bring back all the chips except `All Selected` when one item is deselected", async () => {
-      page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Maple" selected />
-            <calcite-combobox-item value="Pine" text-label="Pine" selected />
-          </calcite-combobox-item>
-        </calcite-combobox>`,
-      );
-      await page.waitForChanges();
-      const messages = await import("./assets/t9n/messages.json");
-
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-      await page.waitForChanges();
-
-      const listItem = await combobox.find("calcite-combobox-item[value=Pine]");
-      await listItem.click();
-
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="Trees"]`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeNull();
-    });
-
-    it("should update aria-selected on items when toggling 'Select All'", async () => {
-      const combobox = await page.find("calcite-combobox");
-      await combobox.click();
-
-      const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
-      await selectAll.click();
-      await page.waitForChanges();
-
-      let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
-      expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
-
-      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(3)`);
-      expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
-
-      await selectAll.click();
-      await page.waitForChanges();
-
-      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
-      expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
-    });
   });
 
   describe("theme", () => {
