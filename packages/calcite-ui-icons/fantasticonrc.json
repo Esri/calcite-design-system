@@ -1217,6 +1217,10 @@
     "e-learning-gis": 61754,
     "document-learning": 61755,
     "classroom-gis": 61756,
-    "mosaic-method-none": 61757
+    "mosaic-method-none": 61757,
+    "spike-data-visualization": 61758,
+    "spike-data-visualization-outlined-open": 61759,
+    "spike-data-visualization-outlined-f": 61760,
+    "spike-data-visualization-open": 61761
   }
 }
