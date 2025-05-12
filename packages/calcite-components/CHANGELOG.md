@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.55...@esri/calcite-components@3.2.0-next.56) (2025-05-12)
+
+### Features
+
+- **text-area:** Add design tokens for corner radius, shadow, footer background color ([#12124](https://github.com/Esri/calcite-design-system/issues/12124)) ([c9e9721](https://github.com/Esri/calcite-design-system/commit/c9e9721b9d7ea3a36a818a79ed4652aca8260dba)), closes [#12064](https://github.com/Esri/calcite-design-system/issues/12064)
+
 ## [3.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.54...@esri/calcite-components@3.2.0-next.55) (2025-05-09)
 
 ### Bug Fixes
