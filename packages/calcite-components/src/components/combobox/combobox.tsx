@@ -1739,8 +1739,21 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    type ComboboxListItem = HTMLElement | HTMLCalciteComboboxItemElement["el"];
-    const selectAllOptionAndFilteredItemsList: ComboboxListItem[] = this.filteredItems;
+    const mappedListBoxOptions = this.filteredItems.map(
+      (item: HTMLCalciteComboboxItemElement["el"]) => {
+        return (
+          <li
+            ariaLabel={item.label}
+            ariaSelected={item.selected}
+            id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
+            role="option"
+            tabIndex="-1"
+          >
+            {item.heading || item.textLabel}
+          </li>
+        );
+      },
+    );
 
     if (
       this.selectAllEnabled &&
@@ -1757,26 +1770,14 @@ export class Combobox
         >
           {this.messages.selectAll}
         </li>
-      ) as unknown as HTMLElement;
+      );
 
       if (selectAllComboboxItem) {
-        selectAllOptionAndFilteredItemsList.unshift(selectAllComboboxItem);
+        mappedListBoxOptions.unshift(selectAllComboboxItem);
       }
     }
 
-    return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
-      return (
-        <li
-          ariaLabel={item.label}
-          ariaSelected={item.selected}
-          id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
-          role="option"
-          tabIndex="-1"
-        >
-          {item.heading || item.textLabel}
-        </li>
-      );
-    });
+    return mappedListBoxOptions;
   }
 
   private renderFloatingUIContainer(): JsxNode {
