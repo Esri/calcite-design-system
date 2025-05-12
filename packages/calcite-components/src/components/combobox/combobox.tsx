@@ -1753,14 +1753,16 @@ export class Combobox
         </li>
       );
 
-    const selectAllOptionAndFilteredItemsList = [selectAllComboboxItem, ...this.filteredItems];
+    const selectAllOptionAndFilteredItemsList = [
+      selectAllComboboxItem,
+      ...this.filteredItems,
+    ].filter(Boolean);
 
     return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
       return (
         <li
           ariaLabel={item.label}
           ariaSelected={item.selected}
-          class={CSS.selectAll}
           id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
           role="option"
           tabIndex="-1"
