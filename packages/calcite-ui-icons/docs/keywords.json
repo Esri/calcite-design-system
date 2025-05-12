@@ -9719,5 +9719,50 @@
     "alias": ["4.2.0", "gis", "boundary", "edge", "line", "border"],
     "category": "GIS",
     "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "calendar-heat-chart": {
+    "alias": ["4.2.0", "gis", "data", "display", "calendar", "value", "patterns"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "matrix-heat-chart": {
+    "alias": ["4.2.0", "gis", "analysis", "categorical", "count", "variable"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "progress-bar-chart": {
+    "alias": ["4.2.0", "charts and graphs", "indicator", "input", "control", "adjustment"],
+    "category": "Charts and Graphs",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "open", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outline", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
+    "category": "Generic",
+    "release": "4.2.0"
   }
 }

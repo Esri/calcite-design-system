@@ -20,6 +20,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
+import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -44,7 +45,7 @@ const focusMap = new Map<List["el"], number>();
 export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
   //#endregion
 
@@ -223,14 +224,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
