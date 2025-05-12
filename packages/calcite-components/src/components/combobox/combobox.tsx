@@ -1739,9 +1739,15 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const selectAllComboboxItem = this.selectAllEnabled &&
+    type ComboboxListItem = HTMLElement | HTMLCalciteComboboxItemElement["el"];
+    const selectAllOptionAndFilteredItemsList: ComboboxListItem[] = this.filteredItems;
+
+    if (
+      this.selectAllEnabled &&
       this.selectionMode !== "single" &&
-      this.selectionMode !== "single-persist" && (
+      this.selectionMode !== "single-persist"
+    ) {
+      const selectAllComboboxItem = (
         <li
           ariaLabel={this.messages.selectAll}
           ariaSelected={this.allSelected}
@@ -1751,12 +1757,12 @@ export class Combobox
         >
           {this.messages.selectAll}
         </li>
-      );
+      ) as unknown as HTMLElement;
 
-    const selectAllOptionAndFilteredItemsList = [
-      selectAllComboboxItem,
-      ...this.filteredItems,
-    ].filter(Boolean);
+      if (selectAllComboboxItem) {
+        selectAllOptionAndFilteredItemsList.unshift(selectAllComboboxItem);
+      }
+    }
 
     return selectAllOptionAndFilteredItemsList.map((item: HTMLCalciteComboboxItemElement["el"]) => {
       return (

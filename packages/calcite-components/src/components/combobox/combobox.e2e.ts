@@ -747,7 +747,7 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-combobox open>
+      html`<calcite-combobox>
         <calcite-combobox-item id="item-0" value="item-0"></calcite-combobox-item>
       </calcite-combobox>`,
     );
