@@ -244,7 +244,7 @@ export class Combobox
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
+  messages = useT9n<typeof T9nStrings>();
 
   //#endregion
 
