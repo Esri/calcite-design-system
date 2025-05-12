@@ -15,6 +15,7 @@ export const CSS = {
   footerEndSlotOnly: "footer--end-only",
   textArea: "text-area",
   textAreaOnly: "text-area--only",
+  wrapper: "wrapper",
 };
 
 export const IDS = {
