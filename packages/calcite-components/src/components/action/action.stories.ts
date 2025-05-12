@@ -9,6 +9,9 @@ const { alignment, appearance, scale } = ATTRIBUTES;
 type ActionStoryArgs = Pick<
   Action,
   | "active"
+  | "pressed"
+  | "expanded"
+  | "type"
   | "alignment"
   | "appearance"
   | "disabled"
@@ -28,13 +31,16 @@ export default {
     alignment: alignment.defaultValue,
     appearance: appearance.defaultValue,
     disabled: false,
+    expanded: false,
     icon: "banana",
     indicator: false,
     label: "Label",
     loading: false,
+    pressed: false,
     scale: scale.defaultValue,
     text: "",
     textEnabled: true,
+    type: "button",
   },
   argTypes: {
     alignment: {
@@ -53,6 +59,10 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    type: {
+      options: ["button", "toggle", "expand-toggle"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -60,16 +70,19 @@ export const simple = (args: ActionStoryArgs): string => html`
   <div>
     <calcite-action
       ${boolean("active", args.active)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("expanded", args.expanded)}
+      ${boolean("indicator", args.indicator)}
+      ${boolean("loading", args.loading)}
+      ${boolean("pressed", args.pressed)}
+      ${boolean("text-enabled style", args.textEnabled)}
       alignment="${args.alignment}"
       appearance="${args.appearance}"
-      ${boolean("disabled", args.disabled)}
       icon="${args.icon}"
-      ${boolean("indicator", args.indicator)}
       label="${args.label}"
-      ${boolean("loading", args.loading)}
       scale="${args.scale}"
       text="${args.text}"
-      ${boolean("text-enabled style", args.textEnabled)}
+      type="${args.type}"
     ></calcite-action>
   </div>
 `;

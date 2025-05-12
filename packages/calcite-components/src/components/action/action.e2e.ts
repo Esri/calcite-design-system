@@ -40,7 +40,11 @@ describe("calcite-action", () => {
         defaultValue: false,
       },
       {
-        propertyName: "selected",
+        propertyName: "type",
+        defaultValue: "button",
+      },
+      {
+        propertyName: "pressed",
         defaultValue: false,
       },
       {
@@ -97,7 +101,11 @@ describe("calcite-action", () => {
         value: true,
       },
       {
-        propertyName: "selected",
+        propertyName: "type",
+        value: "button",
+      },
+      {
+        propertyName: "pressed",
         value: true,
       },
       {
@@ -159,7 +167,7 @@ describe("calcite-action", () => {
       expect(await button.getProperty("ariaExpanded")).toBe("true");
     });
 
-    it("selected", async () => {
+    it("pressed", async () => {
       expect(await button.getProperty("ariaPressed")).toBe(null);
 
       action.setProperty("type", "toggle");
@@ -167,7 +175,7 @@ describe("calcite-action", () => {
 
       expect(await button.getProperty("ariaPressed")).toBe("false");
 
-      action.setProperty("selected", true);
+      action.setProperty("pressed", true);
       await page.waitForChanges();
 
       expect(await button.getProperty("ariaPressed")).toBe("true");
@@ -383,11 +391,11 @@ describe("calcite-action", () => {
         },
       );
     });
-    describe("selected/active/expanded", () => {
+    describe("pressed/active/expanded", () => {
       themed(
         html`<calcite-action
           scale="s"
-          selected
+          pressed
           active
           expanded
           text="click-me"
