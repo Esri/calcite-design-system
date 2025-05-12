@@ -120,7 +120,7 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is pressed.
    */
-  @property({ reflect: true }) pressed: boolean | "mixed" = false;
+  @property({ reflect: true }) pressed: boolean = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
