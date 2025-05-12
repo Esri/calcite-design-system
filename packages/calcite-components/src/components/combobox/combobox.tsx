@@ -1881,6 +1881,7 @@ export class Combobox
             {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
+                this.renderSelectedIndicatorChipCompact(),
                 this.renderAllSelectedIndicatorChip(),
               ]}
             <label
