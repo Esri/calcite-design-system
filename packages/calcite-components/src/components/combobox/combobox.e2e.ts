@@ -747,13 +747,19 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-combobox>
+      html`<calcite-combobox open>
         <calcite-combobox-item id="item-0" value="item-0"></calcite-combobox-item>
       </calcite-combobox>`,
     );
 
+    await page.waitForChanges();
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.callMethod("componentOnReady");
+    expect(combobox).not.toBeNull();
+
     const item = await page.find("calcite-combobox-item#item-0");
-    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(a11yItem).not.toBeNull();
     expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
@@ -763,7 +769,7 @@ describe("calcite-combobox", () => {
     item.setProperty("selected", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
@@ -771,7 +777,7 @@ describe("calcite-combobox", () => {
     item.setProperty("label", label);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
 
@@ -779,7 +785,7 @@ describe("calcite-combobox", () => {
     item.setProperty("textLabel", textLabel);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(textLabel);
 
@@ -787,7 +793,7 @@ describe("calcite-combobox", () => {
     item.setProperty("heading", heading);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(await a11yItem.getProperty("textContent")).toBe(heading);
 
