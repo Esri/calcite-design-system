@@ -55,6 +55,13 @@
   }
 }
 
+.container.invert-focus-text-color {
+  .input:focus,
+  .input:hover:focus {
+    color: var(--calcite-color-text-inverse);
+  }
+}
+
 .toggle-icon {
   align-items: center;
   block-size: 24px;

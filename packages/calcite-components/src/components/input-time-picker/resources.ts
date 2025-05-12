@@ -9,6 +9,7 @@ export const CSS = {
   hourSuffix: "hour-suffix",
   input: "input",
   inputContainer: "input-container",
+  invertFocusTextColor: "invert-focus-text-color",
   meridiem: "meridiem",
   meridiemStart: "meridiem--start",
   meridiemEnd: "meridiem--end",

@@ -40,6 +40,7 @@ import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
 import { TimeComponent, TimeController } from "../../controllers/time/time";
+import { getUserAgentPlatform } from "../../utils/browser";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -96,6 +97,8 @@ export class InputTimePicker
   private secondEl: HTMLSpanElement;
 
   private time = new TimeController(this);
+
+  private userAgentPlatform: string;
 
   //#endregion
 
@@ -272,6 +275,7 @@ export class InputTimePicker
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+    this.userAgentPlatform = getUserAgentPlatform();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -525,7 +529,7 @@ export class InputTimePicker
   //#region Rendering
 
   override render(): JsxNode {
-    const { messages, readOnly, scale } = this;
+    const { messages, readOnly, scale, userAgentPlatform } = this;
     const {
       fractionalSecond,
       handleHourKeyDownEvent,
@@ -562,6 +566,7 @@ export class InputTimePicker
           aria-label={getLabelText(this)}
           class={{
             [CSS.container]: true,
+            [CSS.invertFocusTextColor]: userAgentPlatform == "Win32",
             [CSS.readOnly]: readOnly,
           }}
           ref={this.setContainerEl}
