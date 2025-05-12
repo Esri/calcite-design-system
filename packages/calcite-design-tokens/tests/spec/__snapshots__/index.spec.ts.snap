@@ -1174,7 +1174,6 @@ exports[`generated tokens > CSS > index should match 1`] = `
 }
 @media (prefers-color-scheme: dark) {
   .calcite-mode-auto {
-    --calcite-color-foreground-current: #214155;
     --calcite-color-border-white: #f7f7f7;
     --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
     --calcite-color-border-input: #757575;
@@ -1212,6 +1211,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
+    --calcite-color-foreground-current: #214155;
     --calcite-color-foreground-3: #141414;
     --calcite-color-foreground-2: #212121;
     --calcite-color-foreground-1: #2b2b2b;
@@ -1265,7 +1265,6 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-background: #f7f7f7;
 }
 .calcite-mode-dark {
-  --calcite-color-foreground-current: #214155;
   --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
@@ -1303,6 +1302,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-foreground-current: #214155;
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -69600,7 +69600,6 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-background: #f7f7f7;
 }
 @mixin calcite-mode-dark {
-  --calcite-color-foreground-current: #214155;
   --calcite-color-border-white: #f7f7f7;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-input: #757575;
@@ -69638,6 +69637,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-foreground-current: #214155;
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;

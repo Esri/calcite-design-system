@@ -39,21 +39,28 @@ declare global {
 }
 
 export class DatePicker extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private rangeValueChangedByUser = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   /** Active end date. */
   @state() activeEndDate: Date;
@@ -76,9 +83,9 @@ export class DatePicker extends LitElement {
 
   @state() startAsDate: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the component's active date. */
   @property() activeDate: Date;
@@ -103,13 +110,6 @@ export class DatePicker extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -141,9 +141,9 @@ export class DatePicker extends LitElement {
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Resets active date state.
@@ -163,9 +163,9 @@ export class DatePicker extends LitElement {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`. */
   calciteDatePickerChange = createEvent({ cancelable: false });
@@ -173,9 +173,9 @@ export class DatePicker extends LitElement {
   /** Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. */
   calciteDatePickerRangeChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -231,9 +231,9 @@ export class DatePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private activeDateWatcher(newValue: Date): void {
     if (!this.range) {
@@ -600,9 +600,9 @@ export class DatePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const date = dateFromRange(
@@ -672,5 +672,5 @@ export class DatePicker extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -23,20 +23,20 @@ declare global {
 
 /** @slot - A slot for adding text. */
 export class InputMessage extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /** the computed icon to render */
   private requestedIcon?: IconNameOrString;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies an icon to display. */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
@@ -50,9 +50,9 @@ export class InputMessage extends LitElement {
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
@@ -71,11 +71,9 @@ export class InputMessage extends LitElement {
     }
   }
 
-  // #endregion
-  // #region Private Methods
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const hidden = this.el.hidden;
@@ -102,5 +100,5 @@ export class InputMessage extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 }
