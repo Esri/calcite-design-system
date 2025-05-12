@@ -16,9 +16,11 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { Action } from "../action/action";
+import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -42,12 +44,14 @@ export class ActionBar extends LitElement {
 
   //#region Private Properties
 
+  private expandToggleEl: Action["el"];
+
   private actionGroups: ActionGroup["el"][];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -57,8 +61,8 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const actions = queryActions(el);
-    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const itemSizes = this.getItemSizes();
+
     this.updateGroups();
 
     const groupCount =
@@ -66,16 +70,10 @@ export class ActionBar extends LitElement {
         ? actionGroups.length + 1
         : actionGroups.length;
 
-    const { actionHeight, actionWidth } = geActionDimensions(actions);
-
     const overflowCount = getOverflowCount({
-      layout,
-      actionCount,
-      actionHeight,
-      actionWidth,
-      height,
-      width,
-      groupCount,
+      bufferSize: groupCount, // 1px border for each group
+      containerSize: layout === "horizontal" ? width : height,
+      itemSizes,
     });
 
     overflowActions({
@@ -242,6 +240,20 @@ export class ActionBar extends LitElement {
 
   //#region Private Methods
 
+  private getItemSizes(): number[] {
+    const { el, layout, expandToggleEl } = this;
+
+    const actions = queryActions(el);
+
+    if (expandToggleEl) {
+      actions.push(expandToggleEl);
+    }
+
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
+    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+    return actions.map((action) => action[clientSize] || fallbackSize);
+  }
+
   private expandedHandler(): void {
     const { el, expanded } = this;
     toggleChildActionText({ el, expanded });
@@ -334,6 +346,7 @@ export class ActionBar extends LitElement {
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={(el: Action["el"]) => (this.expandToggleEl = el)}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
