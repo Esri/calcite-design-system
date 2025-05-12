@@ -499,25 +499,38 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: { press: `calcite-block >>> .${CSS.toggle}` },
           },
-          "--calcite-block-text-color": [
-            { shadowSelector: `.${CSS.description}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
-          ],
-          "--calcite-block-heading-text-color-press": [
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
+          "--calcite-block-heading-text-color-press": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.heading } },
+          },
+          "--calcite-block-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-block-icon-color": [
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
             {
               shadowSelector: `.${CSS.toggleIcon}`,
               targetProp: "color",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.heading}`,
-              targetProp: "color",
-              state: { press: { attribute: "class", value: CSS.heading } },
             },
           ],
+          "--calcite-block-icon-color-hover": {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
         },
       );
     });
