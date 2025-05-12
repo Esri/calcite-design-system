@@ -61,7 +61,7 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is highlighted.
    *
-   * @deprecated Use `selected` or `expanded` instead.
+   * @deprecated Use `pressed` or `expanded` instead.
    */
   @property({ reflect: true }) active = false;
 
@@ -118,9 +118,9 @@ export class Action extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the component is selected.
+   * When `true`, the component is pressed.
    */
-  @property({ reflect: true }) selected = false; // todo: pressed?
+  @property({ reflect: true }) pressed: boolean | "mixed" = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -273,7 +273,7 @@ export class Action extends LitElement implements InteractiveComponent {
       messages,
       type,
       expanded,
-      selected,
+      pressed,
     } = this;
     const labelFallback = label || text || "";
 
@@ -304,7 +304,7 @@ export class Action extends LitElement implements InteractiveComponent {
           ariaDisabled={this.disabled ? this.disabled : null}
           ariaExpanded={type === "expand-toggle" ? expanded : null}
           ariaLabel={ariaLabel}
-          ariaPressed={type === "toggle" ? selected : null}
+          ariaPressed={type === "toggle" ? pressed : null}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -316,15 +316,13 @@ export class Action extends LitElement implements InteractiveComponent {
       );
     }
 
-    // todo: support mixed aria-pressed states?
-
     return (
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
         ariaExpanded={type === "expand-toggle" ? expanded : null}
         ariaLabel={ariaLabel}
-        ariaPressed={type === "toggle" ? selected : null}
+        ariaPressed={type === "toggle" ? pressed : null}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
