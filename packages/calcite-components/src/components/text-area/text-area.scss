@@ -46,6 +46,7 @@
 }
 
 .wrapper {
+  @apply h-full w-full box-border;
   box-shadow: var(--calcite-internal-text-area-shadow);
   border-radius: var(--calcite-internal-text-area-corner-radius);
 }
