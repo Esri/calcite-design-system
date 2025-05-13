@@ -273,6 +273,13 @@
             "category": "color"
           }
         },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-080}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
         "inverse": {
           "value": "{core.color.neutral.blk-000}",
           "type": "color",

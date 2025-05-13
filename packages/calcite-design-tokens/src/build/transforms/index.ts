@@ -1,5 +1,4 @@
 import { registerNameRemoveTier } from "./name/remove-tier.js";
-import { registerNameRemoveColorMode } from "./name/remove-color-mode.js";
 import { registerNameIncludePlusMinus } from "./name/include-plus-minus.js";
 import { registerValueSizePxToRem } from "./value/px-to-rem.js";
 import { registerNameRemoveDefault } from "./name/remove-default.js";
@@ -18,7 +17,6 @@ export function registerTransformers(): void {
   registerValueMergeValues();
   registerNameRemoveTier();
   registerNameRemoveDefault();
-  registerNameRemoveColorMode();
   registerNameRemovePrefix();
   registerNameIncludePlusMinus();
   registerNameCapitalCase();
@@ -40,7 +38,6 @@ export { TransformValueCorrectValue } from "./value/correct-value.js";
 export { TransformValueCorrectPropName } from "./value/correct-prop-name.js";
 export { TransformNameRemoveTier } from "./name/remove-tier.js";
 export { TransformNameRemoveDefault } from "./name/remove-default.js";
-export { TransformNameRemoveColorMode } from "./name/remove-color-mode.js";
 export { TransformNameRemovePrefix } from "./name/remove-prefix.js";
 export { TransformNameIncludePlusMinus } from "./name/include-plus-minus.js";
 export { TransformNameCapitalCase } from "./name/capital-case.js";
