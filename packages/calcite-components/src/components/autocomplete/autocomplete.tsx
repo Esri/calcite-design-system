@@ -11,7 +11,7 @@ import {
   stringOrBoolean,
   LuminaJsx,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { debounce, escapeRegExp } from "lodash-es";
 import {
   FlipPlacement,
