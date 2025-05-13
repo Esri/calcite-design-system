@@ -99,6 +99,7 @@
     "@esri/eslint-plugin-calcite-components": "2.0.2-next.5",
     "@vitest/browser": "2.1.9",
     "playwright": "1.52.0",
+    "vite-plugin-list-directory-contents": "1.4.5",
     "vitest": "2.1.9"
   },
   "volta": {
