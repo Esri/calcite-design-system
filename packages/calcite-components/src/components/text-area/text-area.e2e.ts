@@ -290,6 +290,18 @@ describe("calcite-text-area", () => {
           shadowSelector: `.${CSS.textArea}::placeholder`,
           targetProp: "color",
         },
+        "--calcite-text-area-corner-radius": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-text-area-shadow": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-text-area-footer-background-color": {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "backgroundColor",
+        },
       });
     });
 
