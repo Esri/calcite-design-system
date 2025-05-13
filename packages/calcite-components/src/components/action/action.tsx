@@ -61,7 +61,7 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is highlighted.
    *
-   * @deprecated Use `pressed` or `expanded` instead.
+   * @deprecated Use `type` with `pressed` or `expanded` instead.
    */
   @property({ reflect: true }) active = false;
 
