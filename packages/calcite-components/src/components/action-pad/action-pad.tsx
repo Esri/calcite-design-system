@@ -10,6 +10,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -21,6 +22,7 @@ declare global {
 }
 
 /**
+ * @deprecated Use the `calcite-action-pad` component instead.
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
@@ -121,6 +123,14 @@ export class ActionPad extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  async load(): Promise<void> {
+    logger.deprecated("component", {
+      name: "action-pad",
+      removalVersion: 4,
+      suggested: "action-bar",
+    });
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
