@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.57...@esri/calcite-components@3.2.0-next.58) (2025-05-13)
+
+### Features
+
+- **combobox:** add `selectAll` toggle property ([#11721](https://github.com/Esri/calcite-design-system/issues/11721)) ([7dab04f](https://github.com/Esri/calcite-design-system/commit/7dab04f5538892d7f3a1d4413431a43e8dfd4c79)), closes [#2311](https://github.com/Esri/calcite-design-system/issues/2311)
+
 ## [3.2.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.56...@esri/calcite-components@3.2.0-next.57) (2025-05-12)
 
 ### Bug Fixes
