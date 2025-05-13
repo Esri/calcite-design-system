@@ -153,6 +153,7 @@ export class TableAdvanced extends LitElement {
           columns: this.setFrozenColumns(this.columns) || [],
           index: this.rowIndexProp,
           height: this.height,
+          placeholder: "No Data Available", // display message to user on empty table
         });
   }
 
