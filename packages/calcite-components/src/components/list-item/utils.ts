@@ -44,9 +44,12 @@ export function updateListItemChildren(slotEl: HTMLSlotElement): void {
     .assignedElements({ flatten: true })
     .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
 
+  const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
+
   listItemChildren.forEach((listItem) => {
-    listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
-    listItem.setSize = listItemChildren.length;
+    const index = filteredListItemChildren.indexOf(listItem);
+    listItem.setPosition = index === -1 ? undefined : index + 1;
+    listItem.setSize = index === -1 ? undefined : filteredListItemChildren.length;
   });
 }
 

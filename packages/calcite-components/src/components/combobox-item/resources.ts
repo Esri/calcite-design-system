@@ -15,6 +15,14 @@ export const CSS = {
   heading: "heading",
 };
 
+export const ICONS = {
+  checked: "check-square-f",
+  circle: "circle",
+  indeterminate: "minus-square-f",
+  selectedSingle: "circle-inset-large",
+  unchecked: "square",
+};
+
 export const SLOTS = {
   contentEnd: "content-end",
   contentStart: "content-start",

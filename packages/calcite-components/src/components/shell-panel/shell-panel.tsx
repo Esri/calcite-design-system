@@ -458,7 +458,9 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <slot key="action-bar" name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      <div class={CSS.actionBarContainer} key="action-bar-container">
+        <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      </div>
     );
 
     const mainNodes = [actionBarNode, contentNode];
