@@ -50,6 +50,7 @@
   &:focus,
   &:hover:focus {
     background-color: Highlight;
+    color: HighlightText;
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
