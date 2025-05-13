@@ -41,8 +41,6 @@ declare global {
 export class DatePicker extends LitElement {
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
   static override styles = styles;
 
   //#endregion
