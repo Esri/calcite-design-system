@@ -1066,7 +1066,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius: var(--calcite-corner-radius-sharp);
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 }
@@ -1510,7 +1510,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius: var(--calcite-corner-radius-sharp);
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 }
@@ -56002,7 +56002,7 @@ export default {
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
-            value: "{semantic.corner.radius.sharp}",
+            value: "{semantic.corner.radius.none}",
             type: "dimension",
             attributes: {
               category: "corner",
@@ -64648,7 +64648,7 @@ export default {
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
-            value: "{semantic.corner.radius.sharp}",
+            value: "{semantic.corner.radius.none}",
             type: "dimension",
             attributes: {
               category: "corner",
@@ -69660,7 +69660,7 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius: $calcite-corner-radius-sharp;
+$calcite-corner-radius: $calcite-corner-radius-none;
 $calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 $calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 "
@@ -70287,7 +70287,7 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius: $calcite-corner-radius-sharp;
+$calcite-corner-radius: $calcite-corner-radius-none;
 $calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 $calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 "
