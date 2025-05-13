@@ -2,7 +2,7 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -545,7 +545,7 @@ describe("calcite-button", () => {
         await buttonEl.hover();
         await page.waitForChanges();
         const buttonHoverStyle = await buttonEl.getComputedStyle();
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.12)");
       });
     });
 

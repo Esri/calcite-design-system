@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
-import { dragAndDrop, findAll } from "../../tests/utils";
+import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {

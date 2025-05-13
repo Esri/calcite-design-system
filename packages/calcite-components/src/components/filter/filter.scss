@@ -1,3 +1,25 @@
+/**
+ * CSS Custom Properties
+ *
+ * @prop --calcite-filter-content-space: Specifies the padding of the component's content.
+ *
+ * @prop --calcite-filter-input-background-color: Specifies the input's background color.
+ * @prop --calcite-filter-input-border-color: Specifies the input's border color.
+ * @prop --calcite-filter-input-corner-radius: Specifies the input's corner radius.
+ * @prop --calcite-filter-input-shadow: Specifies the shadow around the input.
+ *
+ * @prop --calcite-filter-input-icon-color: Specifies the input's icon color.
+ * @prop --calcite-filter-input-text-color: Specifies the input's text color.
+ * @prop --calcite-filter-input-placeholder-text-color: Specifies the input's placeholder text color.
+ *
+ * @prop --calcite-filter-input-actions-background-color: Specifies the background color of the input's `clearable` element.
+ * @prop --calcite-filter-input-actions-background-color-hover: Specifies the background color of the input's `clearable` element when hovered.
+ * @prop --calcite-filter-input-actions-background-color-press: Specifies the background color of the input's `clearable` element when pressed.
+ * @prop --calcite-filter-input-actions-icon-color: Specifies the icon color of the input's `clearable` element.
+ * @prop --calcite-filter-input-actions-icon-color-hover: Specifies the icon color of the input's `clearable` element when hovered.
+ * @prop --calcite-filter-input-actions-icon-color-press: Specifies the icon color of the input's `clearable` element when pressed.
+ */
+
 :host {
   @extend %component-host;
   @apply flex w-full;
@@ -11,17 +33,17 @@
 
 :host([scale="s"]) {
   .container {
-    padding: var(--calcite-spacing-sm);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-sm));
   }
 }
 :host([scale="m"]) {
   .container {
-    padding: var(--calcite-spacing-md);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-md));
   }
 }
 :host([scale="l"]) {
   .container {
-    padding: var(--calcite-spacing-lg);
+    padding: var(--calcite-filter-content-space, var(--calcite-spacing-lg));
   }
 }
 
@@ -35,6 +57,19 @@ label {
 
 calcite-input {
   @apply w-full;
+  --calcite-input-background-color: var(--calcite-filter-input-background-color);
+  --calcite-input-border-color: var(--calcite-filter-input-border-color);
+  --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius);
+  --calcite-input-shadow: var(--calcite-filter-input-shadow);
+  --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
+  --calcite-input-text-color: var(--calcite-filter-input-text-color);
+  --calcite-input-placeholder-text-color: var(--calcite-filter-input-placeholder-text-color);
+  --calcite-input-actions-background-color: var(--calcite-filter-input-actions-background-color);
+  --calcite-input-actions-background-color-hover: var(--calcite-filter-input-actions-background-color-hover);
+  --calcite-input-actions-background-color-press: var(--calcite-filter-input-actions-background-color-press);
+  --calcite-input-actions-icon-color: var(--calcite-filter-input-actions-icon-color);
+  --calcite-input-actions-icon-color-hover: var(--calcite-filter-input-actions-icon-color-hover);
+  --calcite-input-actions-icon-color-press: var(--calcite-filter-input-actions-icon-color-press);
 }
 
 @include base-component();

@@ -43,19 +43,26 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer.
  */
 export class Card extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLDivElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() private hasContent = false;
 
@@ -73,9 +80,9 @@ export class Card extends LitElement implements InteractiveComponent {
 
   @state() hasTitle = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -88,13 +95,6 @@ export class Card extends LitElement implements InteractiveComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When `true`, the component is selectable.
@@ -120,9 +120,9 @@ export class Card extends LitElement implements InteractiveComponent {
   /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @property({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -133,9 +133,9 @@ export class Card extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
@@ -143,17 +143,17 @@ export class Card extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override updated(): void {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleThumbnailSlotChange(event: Event): void {
     this.hasThumbnail = slotChangeHasAssignedElement(event);
@@ -226,9 +226,9 @@ export class Card extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderCheckboxDeprecated(): JsxNode {
     return (
@@ -341,5 +341,5 @@ export class Card extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

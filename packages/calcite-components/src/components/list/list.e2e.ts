@@ -22,7 +22,7 @@ import {
   GlobalTestProps,
   isElementFocused,
   newProgrammaticE2EPage,
-} from "../../tests/utils";
+} from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
@@ -500,10 +500,20 @@ describe("calcite-list", () => {
       const list = await page.find("calcite-list");
       const eventSpy = await list.spyOnEvent("calciteListChange");
       const filter = await page.find(`calcite-list >>> calcite-filter`);
+      const items = await findAll(list, "calcite-list-item");
+      expect(items.length).toBe(2);
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
       expect(await list.getProperty("filterText")).toBeUndefined();
+
+      expect(await items[0].getProperty("filterHidden")).toBe(false);
+      expect(await items[0].getProperty("setPosition")).toBe(1);
+      expect(await items[0].getProperty("setSize")).toBe(2);
+
+      expect(await items[1].getProperty("filterHidden")).toBe(false);
+      expect(await items[1].getProperty("setPosition")).toBe(2);
+      expect(await items[1].getProperty("setSize")).toBe(2);
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
@@ -517,6 +527,14 @@ describe("calcite-list", () => {
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
       expect(await list.getProperty("filterText")).toBe("one");
+
+      expect(await items[0].getProperty("filterHidden")).toBe(false);
+      expect(await items[0].getProperty("setPosition")).toBe(1);
+      expect(await items[0].getProperty("setSize")).toBe(1);
+
+      expect(await items[1].getProperty("filterHidden")).toBe(true);
+      expect(await items[1].getProperty("setPosition")).toBe(undefined);
+      expect(await items[1].getProperty("setSize")).toBe(undefined);
 
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -533,6 +551,14 @@ describe("calcite-list", () => {
       expect(await list.getProperty("filteredData")).toHaveLength(1);
       expect(await list.getProperty("filterText")).toBe("two");
 
+      expect(await items[0].getProperty("filterHidden")).toBe(true);
+      expect(await items[0].getProperty("setPosition")).toBe(undefined);
+      expect(await items[0].getProperty("setSize")).toBe(undefined);
+
+      expect(await items[1].getProperty("filterHidden")).toBe(false);
+      expect(await items[1].getProperty("setPosition")).toBe(1);
+      expect(await items[1].getProperty("setSize")).toBe(1);
+
       const calciteListFilterEvent3 = list.waitForEvent("calciteListFilter");
       await page.keyboard.type(" blah");
       await page.waitForChanges();
@@ -542,6 +568,14 @@ describe("calcite-list", () => {
       expect(await list.getProperty("filteredItems")).toHaveLength(0);
       expect(await list.getProperty("filteredData")).toHaveLength(0);
       expect(await list.getProperty("filterText")).toBe("two blah");
+
+      expect(await items[0].getProperty("filterHidden")).toBe(true);
+      expect(await items[0].getProperty("setPosition")).toBe(undefined);
+      expect(await items[0].getProperty("setSize")).toBe(undefined);
+
+      expect(await items[1].getProperty("filterHidden")).toBe(true);
+      expect(await items[1].getProperty("setPosition")).toBe(undefined);
+      expect(await items[1].getProperty("setSize")).toBe(undefined);
     });
 
     it("selecting items after filtering", async () => {

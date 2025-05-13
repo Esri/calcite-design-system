@@ -13,7 +13,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {

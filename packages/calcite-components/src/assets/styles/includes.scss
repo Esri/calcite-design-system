@@ -8,7 +8,6 @@
 @import "host";
 @import "spacing";
 @import "floating-ui";
-@import "sortable";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
@@ -229,3 +228,25 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
     font-weight: var(--calcite-font-weight-bold);
   }
 }
+
+@mixin input-placeholder-styles {
+  @apply font-normal;
+  color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
+}
+
+// Placeholder styles
+// Do not combine these style rules. The browser interprets the rule as one. When combined, properties like -ms can not be found in non-Microsoft browsers and thus the whole selector is invalidated and is ignored.
+@mixin input-placeholder-text {
+  :-ms-input-placeholder {
+    @include input-placeholder-styles;
+  }
+
+  ::-ms-input-placeholder {
+    @include input-placeholder-styles;
+  }
+
+  ::placeholder {
+    @include input-placeholder-styles;
+  }
+}
+// End Placeholder styles
