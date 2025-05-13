@@ -270,14 +270,14 @@ export class SortHandle extends LitElement implements InteractiveComponent {
             appearance="transparent"
             class={CSS.handle}
             dragHandle
+            expanded={open}
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
-            pressed={open}
             scale={scale}
             slot="trigger"
             text={text}
             title={text}
-            type="toggle"
+            type="expand"
           />
           {this.renderGroup()}
           {this.renderMoveToGroup()}
