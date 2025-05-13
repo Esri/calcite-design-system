@@ -167,7 +167,7 @@ export class Navigation extends LitElement {
     return (
       <slot name={SLOTS.navigationAction} onSlotChange={this.handleMenuActionSlotChange}>
         {this.navigationAction && (
-          <calcite-action // todo: should this be a expand type?
+          <calcite-action
             icon={ICONS.hamburger}
             onClick={this.actionClickHandler}
             ref={this.navigationActionEl}

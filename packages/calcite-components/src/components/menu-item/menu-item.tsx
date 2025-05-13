@@ -332,10 +332,10 @@ export class MenuItem extends LitElement {
 
   private renderDropdownAction(dir: Direction): JsxNode {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
-    // todo: should this be a expand type?
     return (
       <calcite-action
         class={CSS.dropdownAction}
+        expanded={this.open}
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
@@ -348,6 +348,7 @@ export class MenuItem extends LitElement {
         onKeyDown={this.keyDownHandler}
         ref={this.dropdownActionEl}
         text={this.messages.open}
+        type="expand"
       />
     );
   }
