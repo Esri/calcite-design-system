@@ -67,7 +67,8 @@
                   <calcite-action icon="collection" text="Open"> </calcite-action>
                 </calcite-action-group>
                 <calcite-action-group>
-                  <calcite-action icon="layers" text="Layers" active id="layers-toggle"> </calcite-action>
+                  <calcite-action icon="layers" text="Layers" type="toggle" pressed id="layers-toggle">
+                  </calcite-action>
                   <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
                   <calcite-action icon="legend" text="Legend"> </calcite-action>
                   <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
@@ -97,7 +98,8 @@
                   <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                   <calcite-action text="Styles" icon="shapes"> </calcite-action>
                   <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
-                  <calcite-action text="Configure pop-ups" icon="popup" active id="popup-toggle"> </calcite-action>
+                  <calcite-action text="Configure pop-ups" icon="popup" type="toggle" pressed id="popup-toggle">
+                  </calcite-action>
                   <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
                   <calcite-action text="Labels" icon="label"> </calcite-action>
                   <calcite-action text="Table" icon="table"> </calcite-action>
@@ -508,9 +510,9 @@
               ? popupPanel.removeAttribute("collapsed")
               : popupPanel.setAttribute("collapsed", "");
 
-            popupToggle.hasAttribute("active")
-              ? popupToggle.removeAttribute("active")
-              : popupToggle.setAttribute("active", "");
+            popupToggle.hasAttribute("pressed")
+              ? popupToggle.removeAttribute("pressed")
+              : popupToggle.setAttribute("pressed", "");
           });
 
           const layersToggle = document.getElementById("layers-toggle");
@@ -521,9 +523,9 @@
               ? layersPanel.removeAttribute("collapsed")
               : layersPanel.setAttribute("collapsed", "");
 
-            layersToggle.hasAttribute("active")
-              ? layersToggle.removeAttribute("active")
-              : layersToggle.setAttribute("active", "");
+            layersToggle.hasAttribute("pressed")
+              ? layersToggle.removeAttribute("pressed")
+              : layersToggle.setAttribute("pressed", "");
           });
         </script>
       </main>
