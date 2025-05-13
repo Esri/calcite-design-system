@@ -215,7 +215,8 @@
       "semantic/size": "enabled",
       "semantic/space": "enabled"
     },
-    "group": "size"
+    "group": "size",
+    "$figmaVariableReferences": {}
   },
   {
     "id": "4f2ff40135954a29484f308bf4d63fb72ac0b2ff",
@@ -225,7 +226,8 @@
       "core/size": "source",
       "semantic/border": "enabled"
     },
-    "group": "border"
+    "group": "border",
+    "$figmaVariableReferences": {}
   },
   {
     "id": "989f4ebad3a73cd71a773e197b045e05e83909a8",
@@ -235,7 +237,8 @@
       "core/opacity": "source",
       "semantic/opacity": "enabled"
     },
-    "group": "opacity"
+    "group": "opacity",
+    "$figmaVariableReferences": {}
   },
   {
     "id": "e7b4691458b102b171ddbfea42c054eed44a32be",
@@ -245,7 +248,8 @@
       "semantic/font": "source",
       "semantic/typography": "enabled"
     },
-    "group": "typography"
+    "group": "typography",
+    "$figmaVariableReferences": {}
   },
   {
     "id": "226f0285af1785915aa048534e0205d4199834c0",
@@ -257,6 +261,7 @@
       "semantic/color/light": "source",
       "semantic/color/dark": "source"
     },
-    "group": "shadow"
+    "group": "shadow",
+    "$figmaVariableReferences": {}
   }
 ]
