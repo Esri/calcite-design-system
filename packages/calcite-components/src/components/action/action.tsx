@@ -89,7 +89,7 @@ export class Action extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * When `true` and the `type` is `"expand"`, the component is expanded to show additional content or functionality.
+   * When `true` and the `type` is `"expand"`, the component is expanded.
    */
   @property({ reflect: true }) expanded = false;
 
@@ -138,8 +138,8 @@ export class Action extends LitElement implements InteractiveComponent {
   /**
    * Specifies the type of the action.
    * - `"button"`: A standard button action.
-   * - `"toggle"`: An action that can switch between active and inactive states.
-   * - `"expand"`: An action specifically for expanding or collapsing content.
+   * - `"toggle"`: An action that can switch between pressed and unpressed states.
+   * - `"expand"`: An action specifically for indicating if a control is expanded or collapsed.
    */
   @property({ reflect: true }) type: "button" | "toggle" | "expand" = "button";
 
