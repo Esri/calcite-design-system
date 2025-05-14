@@ -15,8 +15,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - Mosaic method blend and mosaic method north west ([#12053](https://github.com/Esri/calcite-design-system/issues/12053)) ([cf7aa3a](https://github.com/Esri/calcite-design-system/commit/cf7aa3aa8bfdc7edf714cc344a0f56b9f124e1f0))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
 - Update tags ([#11808](https://github.com/Esri/calcite-design-system/issues/11808)) ([80b53e6](https://github.com/Esri/calcite-design-system/commit/80b53e61b429c783de4451d01a6c855d4e36b2ce))
 
 ## [4.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.0.0...@esri/calcite-ui-icons@4.1.0) (2025-03-26)

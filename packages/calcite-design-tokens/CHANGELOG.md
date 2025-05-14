@@ -17,8 +17,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - Correct value for letter-spacing tokens ([#12029](https://github.com/Esri/calcite-design-system/issues/12029)) ([5b3c15e](https://github.com/Esri/calcite-design-system/commit/5b3c15e3a97507bb1ee6622792b83660d96e711b))
 - **semantic-tokens:** Provide sufficient warning color contrast across components ([#11994](https://github.com/Esri/calcite-design-system/issues/11994)) ([a16cabf](https://github.com/Esri/calcite-design-system/commit/a16cabfb9630e68df9f3d3a32a2ac2b5770997fd))
 - **tokens:** Add missing core color tokens and fix incorrect values ([#11924](https://github.com/Esri/calcite-design-system/issues/11924)) ([6f9ab2c](https://github.com/Esri/calcite-design-system/commit/6f9ab2ce2ca70b27e355f6b990b5c6567da2060c))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
 
 ### Performance Improvements
 

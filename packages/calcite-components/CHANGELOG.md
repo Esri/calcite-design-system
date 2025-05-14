@@ -81,8 +81,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **table-row:** Update `selected` property on `calciteTabRowSelect` event ([#12015](https://github.com/Esri/calcite-design-system/issues/12015)) ([089df00](https://github.com/Esri/calcite-design-system/commit/089df009ce5e5e930ab74ce839734ea19e07fb51))
 - **text-area:** Height is no longer fixed when viewport resized to narrow dimensions ([#11247](https://github.com/Esri/calcite-design-system/issues/11247)) ([28048ac](https://github.com/Esri/calcite-design-system/commit/28048ac8703e504d7f7c009e47e1a09b5e50114e))
 - **text-area:** No longer changes height & width when status is invalid ([#11826](https://github.com/Esri/calcite-design-system/issues/11826)) ([97dc878](https://github.com/Esri/calcite-design-system/commit/97dc8785dee695eee158d98f87d792aea0805f8f))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
 
 ### Deprecations
 
