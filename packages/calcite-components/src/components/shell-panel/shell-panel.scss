@@ -4,16 +4,16 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
- * @prop --calcite-shell-panel-border-color: Specifies the component's border color when `displayMode` is `"float-all"`.
- * @prop --calcite-shell-panel-corner-radius: Specifies the component's corner radius when `displayMode` is `"float-all"`.
- * @prop --calcite-shell-panel-height: Specifies the height of the component when `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`.
- * @prop --calcite-shell-panel-max-height: Specifies the maximum height of the component when `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`.
+ * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
+ * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
- * @prop --calcite-shell-panel-min-height: Specifies the minimum height of the component when `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
  * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
  * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
- * @prop --calcite-shell-panel-shadow: Specifies the component's shadow when `displayMode` is `"float-all"`.
+ * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
  * @prop --calcite-shell-panel-text-color: Specifies the text color of the component.
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
