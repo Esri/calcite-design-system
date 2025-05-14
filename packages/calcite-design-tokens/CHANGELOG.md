@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1...@esri/calcite-design-tokens@3.1.0) (2025-05-14)
+
+
+### Features
+
+* **semantic-tokens:** Add `--calcite-color-text-highlight` tokens ([#12068](https://github.com/Esri/calcite-design-system/issues/12068)) ([6ab8f97](https://github.com/Esri/calcite-design-system/commit/6ab8f9718f55465ca48aa04b7d999978eb45a6e5))
+* **semantic-tokens:** Update and add to corner-radius tokens ([#12041](https://github.com/Esri/calcite-design-system/issues/12041)) ([3c65c35](https://github.com/Esri/calcite-design-system/commit/3c65c3573c1205de599ca1ec0db58d64e7988942))
+* **tokens:** Add transparency-inverse tokens ([#11974](https://github.com/Esri/calcite-design-system/issues/11974)) ([db09167](https://github.com/Esri/calcite-design-system/commit/db09167b516bf9420a6971b23079db7b85e76867))
+* **tokens:** Update core neutral color values ([#11993](https://github.com/Esri/calcite-design-system/issues/11993)) ([46378fa](https://github.com/Esri/calcite-design-system/commit/46378fab2cfea7a92a96b3d2c6e86bbc9deca80e))
+
+
+### Bug Fixes
+
+* Correct value for letter-spacing tokens ([#12029](https://github.com/Esri/calcite-design-system/issues/12029)) ([5b3c15e](https://github.com/Esri/calcite-design-system/commit/5b3c15e3a97507bb1ee6622792b83660d96e711b))
+* **semantic-tokens:** Provide sufficient warning color contrast across components ([#11994](https://github.com/Esri/calcite-design-system/issues/11994)) ([a16cabf](https://github.com/Esri/calcite-design-system/commit/a16cabfb9630e68df9f3d3a32a2ac2b5770997fd))
+* **tokens:** Add missing core color tokens and fix incorrect values ([#11924](https://github.com/Esri/calcite-design-system/issues/11924)) ([6f9ab2c](https://github.com/Esri/calcite-design-system/commit/6f9ab2ce2ca70b27e355f6b990b5c6567da2060c))
+* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
+* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
+
+
+### Performance Improvements
+
+* Build theme dictionaries in parallel ([#11861](https://github.com/Esri/calcite-design-system/issues/11861)) ([d1514a1](https://github.com/Esri/calcite-design-system/commit/d1514a1d1a276381ffba4677935621febd7d49af))
+
 ## [3.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0-next.7...@esri/calcite-design-tokens@3.1.0-next.8) (2025-05-13)
 
 ### Features
