@@ -800,10 +800,8 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.selectedItems = this.items.filter((item) => {
-      item.selected = toggledValue;
-      return toggledValue;
-    });
+    this.items.forEach((item) => (item.selected = toggledValue));
+    this.selectedItems = toggledValue ? this.items : [];
     this.emitComboboxChange();
   }
 
@@ -1574,6 +1572,7 @@ export class Combobox
           [CSS.chipInvisible]: !(this.allSelected && !selectedVisibleChipsCount),
           [CSS.allSelected]: true,
         }}
+        data-test-id="all-selected-indicator-chip"
         label={label}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
@@ -1764,7 +1763,6 @@ export class Combobox
         <li
           ariaLabel={this.messages.selectAll}
           ariaSelected={this.allSelected}
-          id={`${this.guid}-select-all-enabled-screen-reader`}
           role="option"
           tabIndex="-1"
         >

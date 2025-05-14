@@ -3075,7 +3075,6 @@ describe("calcite-combobox", () => {
       page: E2EPage,
       toggleAction: ([listItem, combobox]: [E2EElement, E2EElement]) => Promise<void>,
     ): Promise<void> {
-      const messages = await import("./assets/t9n/messages.json");
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
       expect(await combobox.getProperty("open")).toBe(true);
@@ -3085,7 +3084,9 @@ describe("calcite-combobox", () => {
         item.setProperty("selected", true);
       }
       await page.waitForChanges();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeDefined();
+      expect(
+        await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+      ).toBeDefined();
 
       const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
       await toggleAction([listItem, combobox]);
@@ -3159,8 +3160,6 @@ describe("calcite-combobox", () => {
         </calcite-combobox>`,
       );
 
-      const messages = await import("./assets/t9n/messages.json");
-
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
       await page.waitForChanges();
@@ -3170,7 +3169,9 @@ describe("calcite-combobox", () => {
 
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Trees"]`)).toBeDefined();
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeNull();
+      expect(
+        await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+      ).toHaveClass("chip--invisible");
     });
 
     it("should update aria-selected on items when toggling 'Select All'", async () => {
