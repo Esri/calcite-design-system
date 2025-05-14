@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils";
+import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";

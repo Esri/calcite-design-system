@@ -110,8 +110,8 @@
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
 
-  &.selection-display-fit,
-  &.selection-display-single {
+  &.selection-display--fit,
+  &.selection-display--single {
     @apply flex-nowrap overflow-hidden;
   }
 }
@@ -236,6 +236,16 @@ calcite-chip {
   @apply block;
 }
 
+.select-all {
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
+  border-block-end-color: var(--calcite-combobox-item-border-color, var(--calcite-color-border-3));
+  border-block-end-style: solid;
+  border-block-end-width: var(--calcite-border-width-sm);
+  inset-block-start: 0;
+  position: sticky;
+  z-index: var(--calcite-z-index-sticky);
+}
+
 @include disabled();
 @include x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
@@ -249,3 +259,5 @@ calcite-chip {
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
+
+@include input-placeholder-text();

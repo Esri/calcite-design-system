@@ -3,9 +3,7 @@ import StyleDictionary from "style-dictionary";
 import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
 import { TransformNameRemoveTier } from "../name/remove-tier.js";
 import { TransformNameRemoveDefault } from "../name/remove-default.js";
-import { TransformNameRemoveColorMode } from "../name/remove-color-mode.js";
 import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
-import { TransformValueSizeUnitlessToPx } from "../value/unitless-breakpoint-to-px.js";
 import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../../types/interfaces.js";
@@ -17,7 +15,6 @@ export const platformTransforms = {
   [Platform.css]: [
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
-    TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
     TransformAttributePlatformNames,
     TransformAttributeSchema,
@@ -28,7 +25,6 @@ export const platformTransforms = {
     transforms.nameCamel,
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
-    TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
   ],
 };
@@ -44,7 +40,6 @@ export function getTransforms(): string[] {
     "ts/typography/fontWeight",
     "ts/color/modifiers",
     TransformValueSizePxToRem,
-    TransformValueSizeUnitlessToPx,
     TransformValueEnsureType,
   ];
 

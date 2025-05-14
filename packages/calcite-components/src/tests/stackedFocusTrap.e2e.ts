@@ -3,7 +3,8 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
-import { skipAnimations } from "./utils";
+import { CSS } from "../components/input-time-picker/resources";
+import { skipAnimations } from "./utils/puppeteer";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`
@@ -80,6 +81,8 @@ describe("stacked focus-trap components", () => {
           if (activeElementId) {
             if (activeElementId === "input-time-picker") {
               await page.keyboard.press("Tab");
+              await page.keyboard.press("Tab");
+              await page.keyboard.press("Tab");
             } else if (activeElementId === "input-date-picker") {
               await page.keyboard.down("Shift");
               await page.keyboard.press("Tab");
@@ -122,7 +125,12 @@ describe("stacked focus-trap components", () => {
       await openAndCheckVisibility(secondModal);
       await openAndCheckVisibility(popover);
 
-      await inputPicker.click();
+      if (pickerType === "calcite-input-time-picker") {
+        const toggleButton = await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`);
+        await toggleButton.click();
+      } else {
+        await inputPicker.click();
+      }
 
       await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
     }

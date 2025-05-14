@@ -3,7 +3,7 @@ import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
-import { ComponentTag } from "./commonTests/interfaces";
+import { ComponentTag } from "../commonTests/interfaces";
 
 /** Util to help type global props for testing. */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
@@ -281,15 +281,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   });
 }
 
-/**
- * Tells the browser that you wish to perform an animation.
- * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
- *
- * @returns {Promise<void>}
- */
-export async function waitForAnimationFrame(): Promise<void> {
-  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-}
+export { waitForAnimationFrame } from "./timing";
 
 /**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
@@ -558,6 +550,7 @@ export async function findAll(
  * This util helps assert on a component's state at the time of an event firing.
  *
  * This is needed due to how Puppeteer works asynchronously, so the state at event emit-time might not be the same as the state at the time of the assertion.
+ * When specified, the `eventListenerTarget` will be used to listen for the event instead of the component itself.
  *
  * Note: values returned can only be serializable values.
  *
@@ -567,25 +560,28 @@ export async function findAll(
  *   const page = await newE2EPage();
  *   await page.setContent(html`
  *     <calcite-combobox>
- *       <!-- ... -->
+ *      <calcite-combobox-item value="A">A</calcite-combobox-item>
+ *      <!-- ... -->
  *     </calcite-combobox>
  *   `);
  *   const propValueAsserter = await createEventTimePropValuesAsserter<Combobox>(
  *     page,
  *     {
- *       selector: "calcite-combobox",
- *       eventName: "calciteComboboxChange",
- *       props: ["value", "selectedItems"],
+ *       selector: "calcite-combobox-item",
+ *       eventName: "calciteComboboxItemChange",
+ *       props: ["selected"],
+ *       eventListenerSelector: "calcite-combobox",
  *     },
  *     async (propValues) => {
- *       expect(propValues.value).toBe("K");
- *       expect(propValues.selectedItems).toHaveLength(1);
+ *       expect(propValues.selected).toBe(true)
  *     },
  *   );
  *   const combobox = await page.find("calcite-combobox");
- *   await combobox.callMethod("setFocus");
- *   await combobox.press("K");
- *   await combobox.press("Enter");
+ *   await element.click();
+ *   await page.waitForChanges();
+ *   const comboboxItem = await page.find("calcite-combobox-item#A");
+ *   await comboboxItem.click();
+ *   await page.waitForChanges();
  *
  *   await expect(propValueAsserter()).resolves.toBe(undefined);
  * });
@@ -595,6 +591,7 @@ export async function findAll(
  * @param propValuesTarget.selector
  * @param propValuesTarget.eventName
  * @param propValuesTarget.props
+ * @param propValuesTarget.eventListenerSelector
  * @param onEvent
  */
 export async function createEventTimePropValuesAsserter<
@@ -606,18 +603,21 @@ export async function createEventTimePropValuesAsserter<
 >(
   page: E2EPage,
   propValuesTarget: {
-    selector: ComponentTag;
+    selector: ComponentTag | string;
     eventName: Events;
     props: Keys[];
+    eventListenerSelector?: string;
   },
   onEvent: (propValues: PropValues) => Promise<void>,
 ): Promise<() => Promise<void>> {
   // we set this up early to we capture state as soon as the event fires
+  const { selector, eventName, props, eventListenerSelector } = propValuesTarget;
   const callbackAfterEvent = page.$eval(
-    propValuesTarget.selector,
-    (element: El, eventName, props) => {
+    selector,
+    (element: El, eventName, props, eventListenerSelector) => {
+      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector) : element;
       return new Promise<PropValues>((resolve) => {
-        element.addEventListener(
+        targetEl.addEventListener(
           eventName,
           () => {
             const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
@@ -627,8 +627,9 @@ export async function createEventTimePropValuesAsserter<
         );
       });
     },
-    propValuesTarget.eventName,
-    propValuesTarget.props,
+    eventName,
+    props,
+    eventListenerSelector,
   );
 
   return () => callbackAfterEvent.then(onEvent);

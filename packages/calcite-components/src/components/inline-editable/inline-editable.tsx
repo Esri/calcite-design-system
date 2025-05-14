@@ -27,15 +27,15 @@ declare global {
 
 /** @slot - A slot for adding a `calcite-input`. */
 export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private cancelEditingButton = createRef<Button["el"]>();
 
@@ -51,15 +51,18 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   private shouldEmitCancel: boolean;
 
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
-
   private valuePriorToEditing: string;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
@@ -75,7 +78,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   get editingEnabled(): boolean {
     return this._editingEnabled;
   }
-
   set editingEnabled(editingEnabled: boolean) {
     const oldEditingEnabled = this._editingEnabled;
     if (editingEnabled !== oldEditingEnabled) {
@@ -90,19 +92,12 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @property({ reflect: true }) scale: Scale;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -112,9 +107,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     this.inputElement?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the component's "cancel editing" button is pressed. */
   calciteInlineEditableEditCancel = createEvent({ cancelable: false });
@@ -125,9 +120,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** @private */
   calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -156,9 +151,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     disconnectLabel(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   private disabledWatcher(disabled: boolean): void {
     if (this.inputElement) {
@@ -283,9 +282,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -353,5 +352,5 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     );
   }
 
-  // #endregion
+  //#endregion
 }

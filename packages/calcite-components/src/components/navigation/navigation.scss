@@ -11,6 +11,10 @@
 
 @include base-component();
 
+:host {
+  @apply block;
+}
+
 .container {
   @apply flex
   flex-col

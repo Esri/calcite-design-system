@@ -114,17 +114,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
-      <br />
-      <sub><b>Katrina Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
+      <br />
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -230,14 +230,21 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/matgalla">
+      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
+      <br />
+      <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+</tr>
+<tr>
+  <td align="center">
     <a href="https://github.com/jrowlingson">
       <img src="https://avatars.githubusercontent.com/u/3051781?v=4" width="100;" alt="jrowlingson"/>
       <br />
       <sub><b>Jack Rowlingson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/crowjonah">
       <img src="https://avatars.githubusercontent.com/u/1634397?v=4" width="100;" alt="crowjonah"/>
@@ -264,13 +271,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/158607603?v=4" width="100;" alt="brandentheintern"/>
       <br />
       <sub><b>Branden Chong</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/matgalla">
-      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
-      <br />
-      <sub><b>Matt Gallagher</b></sub>
     </a>
   </td>
   <td align="center">

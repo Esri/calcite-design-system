@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   accessible,
@@ -14,9 +14,11 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
-import { CSS, dialogDragStep, dialogResizeStep, SLOTS } from "./resources";
+import { resizeShiftStep } from "../../utils/resources";
+import { focusTrap } from "../../tests/commonTests/focusTrap";
+import { CSS, SLOTS } from "./resources";
 import type { Dialog } from "./dialog";
 
 type TestWindow = GlobalTestProps<{
@@ -218,16 +220,33 @@ describe("calcite-dialog", () => {
 
   describe("accessible", () => {
     accessible(async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
-        `<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`,
-      );
-      const openEvent = page.waitForEvent("calciteDialogOpen");
+      const page = await newProgrammaticE2EPage();
       await skipAnimations(page);
+      const openEvent = page.waitForEvent("calciteDialogOpen");
+      await page.evaluate(() => {
+        const dialog = document.createElement("calcite-dialog");
+        dialog.open = true;
+        dialog.heading = "My Dialog";
+        dialog.description = "My Description";
+        document.body.append(dialog);
+      });
       await openEvent;
 
       return { page, tag: "calcite-dialog" };
+    });
+  });
+
+  describe("focus-trap", () => {
+    describe("default", () => {
+      focusTrap("calcite-dialog", {
+        toggleProp: "open",
+      });
+    });
+
+    describe("modal", () => {
+      focusTrap(html`<calcite-dialog modal></calcite-dialog>`, {
+        toggleProp: "open",
+      });
     });
   });
 
@@ -623,12 +642,14 @@ describe("calcite-dialog", () => {
     it("subsequently opening a dialog dynamically gets focus trapped", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-dialog open id="dialog1" heading="Dialog 1">
+        <calcite-dialog id="dialog1" heading="Dialog 1">
           <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
       `);
       let openEvent = page.waitForEvent("calciteDialogOpen");
       await skipAnimations(page);
+      const dialog = await page.find("calcite-dialog");
+      dialog.setProperty("open", true);
       await page.waitForChanges();
 
       await page.evaluate(() => {
@@ -723,14 +744,18 @@ describe("calcite-dialog", () => {
   });
 
   it("closes when Escape key is pressed and dialog is open on page load", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog open></calcite-dialog>`);
-    const openedEvent = page.waitForEvent("calciteDialogOpen");
+    const page = await newProgrammaticE2EPage();
+    const openEvent = page.waitForEvent("calciteDialogOpen");
+    await page.evaluate(() => {
+      const dialog = document.createElement("calcite-dialog");
+      dialog.open = true;
+      document.body.append(dialog);
+    });
 
     const dialog = await page.find("calcite-dialog");
     await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    await openedEvent;
+    await openEvent;
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -960,13 +985,13 @@ describe("calcite-dialog", () => {
       expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogDragStep})`);
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${resizeShiftStep})`);
 
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe("none");
 
       await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogDragStep}, 0)`);
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${resizeShiftStep}, 0)`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
       expect((await container.getComputedStyle()).transform).toBe("none");
@@ -1058,7 +1083,7 @@ describe("calcite-dialog", () => {
       await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
       computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight - dialogResizeStep}px`);
+      expect(computedStyle.blockSize).toBe(`${initialHeight - resizeShiftStep}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
       await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
@@ -1071,7 +1096,7 @@ describe("calcite-dialog", () => {
 
       computedStyle = await container.getComputedStyle();
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth - dialogResizeStep}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - resizeShiftStep}px`);
 
       await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
 
@@ -1161,125 +1186,65 @@ describe("calcite-dialog", () => {
     });
   });
 
-  describe("focusTrap behavior for modal dialogs", () => {
+  describe.each([{ modal: true }, { modal: false }])("focusTrap behavior", ({ modal }) => {
     let page: E2EPage;
+    let dialog: E2EElement;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog modal width-scale="s" open closable><button id="insideEl">inside</button></calcite-dialog>
-        <button id="outsideEl">outside</button>
-      `);
-
+      page = await newProgrammaticE2EPage();
       await skipAnimations(page);
+      const openEvent = page.waitForEvent("calciteDialogOpen");
+      await page.evaluate((modal) => {
+        const innerButton = document.createElement("button");
+        innerButton.id = "insideEl";
+        innerButton.innerText = "inside";
+
+        const outsideButton = document.createElement("button");
+        outsideButton.id = "outsideEl";
+        outsideButton.innerText = "outside";
+
+        const dialog = document.createElement("calcite-dialog");
+        dialog.modal = modal;
+        dialog.open = true;
+
+        dialog.append(innerButton);
+        document.body.append(dialog);
+        document.body.append(outsideButton);
+      }, modal);
       await page.waitForChanges();
+      await openEvent;
+      await page.waitForChanges();
+
+      dialog = await page.find("calcite-dialog");
     });
 
-    it("cannot tab out of dialog when modal=true and focusTrapDisabled=true", async () => {
-      const dialog = await page.find("calcite-dialog");
-      const insideEl = await page.find("#insideEl");
-
+    it(`can tab out of dialog when modal=${modal} and focusTrapDisabled=true`, async () => {
       dialog.setProperty("focusTrapDisabled", true);
-
       await page.waitForChanges();
 
-      expect(await dialog.isVisible()).toBe(true);
+      expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
 
+      // focus starts on close button
+      await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
 
-      const activeElementId = await page.evaluate(() => document.activeElement.id);
-      expect(activeElementId).toBe(await insideEl.getProperty("id"));
+      expect(await isElementFocused(page, "#outsideEl")).toBe(true);
     });
 
-    it("cannot tab out of dialog when modal=true and focusTrapDisabled=false", async () => {
-      const dialog = await page.find("calcite-dialog");
-      const action = await page.find("calcite-dialog >>> calcite-action");
-      const insideEl = await page.find("#insideEl");
-
+    it(`cannot tab out of dialog when modal=${modal} and focusTrapDisabled=false`, async () => {
       dialog.setProperty("focusTrapDisabled", false);
-
       await page.waitForChanges();
 
-      expect(await dialog.isVisible()).toBe(true);
+      expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
 
-      await action.callMethod("setFocus");
-      await page.waitForChanges();
-
+      // focus starts on close button
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      const activeElementId = await page.evaluate(() => document.activeElement.id);
-      expect(activeElementId).toBe(await insideEl.getProperty("id"));
-    });
-  });
-
-  describe("focusTrap behavior for non-modal dialogs", () => {
-    let page: E2EPage;
-
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog width-scale="s" open closable><button id="insideEl">inside</button></calcite-dialog>
-        <button id="outsideEl">outside</button>
-      `);
-
-      await skipAnimations(page);
-      await page.waitForChanges();
-    });
-
-    it("can tab out of non-modal dialog when focusTrapDisabled=true", async () => {
-      const dialog = await page.find("calcite-dialog");
-      const action = await page.find("calcite-dialog >>> calcite-action");
-      const outsideEl = await page.find("#outsideEl");
-
-      dialog.setProperty("focusTrapDisabled", true);
-
-      await page.waitForChanges();
-
-      expect(await dialog.isVisible()).toBe(true);
-
-      await action.callMethod("setFocus");
-      await page.waitForChanges();
-
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-
-      const activeElementId = await page.evaluate(() => document.activeElement.id);
-      expect(activeElementId).toBe(await outsideEl.getProperty("id"));
-    });
-
-    it("cannot tab out of non-modal dialog when focusTrapDisabled=false", async () => {
-      const dialog = await page.find("calcite-dialog");
-      const action = await page.find("calcite-dialog >>> calcite-action");
-      const insideEl = await page.find("#insideEl");
-
-      dialog.setProperty("focusTrapDisabled", false);
-
-      await page.waitForChanges();
-
-      expect(await dialog.isVisible()).toBe(true);
-
-      await action.callMethod("setFocus");
-      await page.waitForChanges();
-
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-
-      const activeElementId = await page.evaluate(() => document.activeElement.id);
-      expect(activeElementId).toBe(await insideEl.getProperty("id"));
+      expect(await isElementFocused(page, "#insideEl")).toBe(true);
     });
   });
 });

@@ -651,11 +651,25 @@ function nextFrame(): Promise<void> {
 }
 
 /**
- * This util helps determine when a string value is a pixel value.
+ * This helper converts a CSS style value (e.g., "px", "vw", "vh") into its pixel equivalent.
  *
- * @param value The value to check.
- * @returns {boolean} Whether the value is a pixel value.
+ * - If the value ends with "px", it parses and returns the numeric value.
+ * - If the value ends with "vw", it calculates the pixel value based on the viewport width.
+ * - If the value ends with "vh", it calculates the pixel value based on the viewport height.
+ * - For unsupported units or invalid values, it returns 0.
+ *
+ * @param {string} value - The CSS style value to convert (e.g., "10px", "50vw", "30vh").
+ * @returns {number} The pixel equivalent of the provided value.
  */
-export function isPixelValue(value: string): boolean {
-  return value.endsWith("px");
+export function getStylePixelValue(value: string): number {
+  switch (true) {
+    case value.endsWith("px"):
+      return parseFloat(value);
+    case value.endsWith("vw"):
+      return (window.innerWidth / 100) * parseFloat(value);
+    case value.endsWith("vh"):
+      return (window.innerHeight / 100) * parseFloat(value);
+    default:
+      return 0;
+  }
 }

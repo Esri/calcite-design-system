@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.2.0-next.13",
+  "version": "3.2.0",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -56,11 +56,12 @@
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
     "test:stable": "vitest run",
-    "test:experimental": "EXPERIMENTAL_TESTS=true vitest run --browser.headless",
+    "test:experimental": "npm run util:ensure-playwright-workaround && EXPERIMENTAL_TESTS=true vitest run --browser.headless",
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
     "test:watch:stable": "vitest watch",
-    "test:watch:experimental": "EXPERIMENTAL_TESTS=true vitest watch --browser.headless",
+    "test:watch:experimental": "npm run util:ensure-playwright-workaround && EXPERIMENTAL_TESTS=true vitest watch --browser.headless",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
+    "util:ensure-playwright-workaround": "npx playwright install",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
@@ -74,10 +75,9 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/components-controllers": "^4.32.13",
-    "@arcgis/components-utils": "^4.32.13",
-    "@arcgis/lumina": "^4.32.13",
-    "@esri/calcite-ui-icons": "4.2.0-next.1",
+    "@arcgis/components-utils": "^4.33.0-next.121",
+    "@arcgis/lumina": "^4.33.0-next.121",
+    "@esri/calcite-ui-icons": "4.2.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
@@ -92,9 +92,13 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "3.0.2-next.8",
-    "@esri/calcite-tailwind-preset": "0.2.0-next.0",
-    "@esri/eslint-plugin-calcite-components": "2.0.2-next.3"
+    "@arcgis/lumina-compiler": "^4.33.0-next.121",
+    "@esri/calcite-design-tokens": "3.1.0",
+    "@esri/calcite-tailwind-preset": "1.0.0",
+    "@esri/eslint-plugin-calcite-components": "2.0.2",
+    "@vitest/browser": "3.1.3",
+    "playwright": "1.52.0",
+    "vitest": "3.1.3"
   },
   "volta": {
     "extends": "../../package.json"
