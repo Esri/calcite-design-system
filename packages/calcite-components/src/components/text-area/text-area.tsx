@@ -11,7 +11,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import {
   connectForm,
   disconnectForm,
