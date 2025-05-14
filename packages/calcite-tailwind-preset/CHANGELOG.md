@@ -5,63 +5,24 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.0.0 (2025-05-14)
 
-
 ### Features
 
-* Move Tailwind preset to package ([#11817](https://github.com/Esri/calcite-design-system/issues/11817)) ([6a37f65](https://github.com/Esri/calcite-design-system/commit/6a37f65b4105ff8fd769eb387592f644b13668cb))
-
+- Move Tailwind preset to package ([#11817](https://github.com/Esri/calcite-design-system/issues/11817)) ([6a37f65](https://github.com/Esri/calcite-design-system/commit/6a37f65b4105ff8fd769eb387592f644b13668cb))
 
 ### Bug Fixes
 
-* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
-* Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
-* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
-* Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
-
+- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([caf7bb2](https://github.com/Esri/calcite-design-system/commit/caf7bb28c3591ffcb48669aee25bdcfb7fecb54a))
+- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([c054782](https://github.com/Esri/calcite-design-system/commit/c054782cf7dd78d706d156e568cf551f4b50727c))
+- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([e625568](https://github.com/Esri/calcite-design-system/commit/e6255685ad321c465b088c00959248fd26c7bc87))
+- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([1550fb1](https://github.com/Esri/calcite-design-system/commit/1550fb10e1d2f1e5868dd7325a28f1624b61d4cc))
 
 ### Dependencies
 
-* The following workspace dependencies were updated
-  * dependencies
-    * @esri/calcite-design-tokens bumped from 3.1.0-next.8 to 3.1.0
-  * peerDependencies
-    * @esri/calcite-design-tokens bumped from ^3.0.2-next.8 to ^3.1.0
-
-## [0.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.8...@esri/calcite-tailwind-preset@0.2.0-next.9) (2025-05-13)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.7...@esri/calcite-tailwind-preset@0.2.0-next.8) (2025-05-07)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.6...@esri/calcite-tailwind-preset@0.2.0-next.7) (2025-05-01)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.5...@esri/calcite-tailwind-preset@0.2.0-next.6) (2025-04-29)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.4...@esri/calcite-tailwind-preset@0.2.0-next.5) (2025-04-23)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.3...@esri/calcite-tailwind-preset@0.2.0-next.4) (2025-04-22)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.2...@esri/calcite-tailwind-preset@0.2.0-next.3) (2025-04-18)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.1...@esri/calcite-tailwind-preset@0.2.0-next.2) (2025-04-18)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
-
-## [0.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.0...@esri/calcite-tailwind-preset@0.2.0-next.1) (2025-04-18)
-
-**Note:** Version bump only for package @esri/calcite-tailwind-preset
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-design-tokens bumped from 3.1.0-next.8 to 3.1.0
+  - peerDependencies
+    - @esri/calcite-design-tokens bumped from ^3.0.2-next.8 to ^3.1.0
 
 ## 0.2.0-next.0 (2025-04-09)
 
