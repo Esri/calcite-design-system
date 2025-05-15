@@ -208,7 +208,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   //#region Events
 
   /** Fires when the close button is clicked. */
-  calcitePanelClose = createEvent({ cancelable: false });
+  calcitePanelClose = createEvent({ cancelable: true });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -223,6 +223,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
+    this.listen("calcitePanelClose", this.handlePanelClose);
   }
 
   override updated(): void {
@@ -273,16 +274,23 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.containerEl = node;
   }
 
+  private emitCloseEvent(): void {
+    this.calcitePanelClose.emit();
+  }
+
   private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.handleUserClose();
+      this.emitCloseEvent();
       event.preventDefault();
     }
   }
 
-  private handleUserClose(): void {
+  private handlePanelClose(event: CustomEvent<void>): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.closed = true;
-    this.calcitePanelClose.emit();
   }
 
   private collapse(): void {
@@ -461,7 +469,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
-        onClick={this.handleUserClose}
+        onClick={() => this.emitCloseEvent()}
         scale={this.scale}
         text={close}
         title={close}

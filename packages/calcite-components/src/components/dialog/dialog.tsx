@@ -691,6 +691,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       return;
     }
 
+    event.preventDefault();
     event.stopPropagation();
     this.open = false;
   }
@@ -750,10 +751,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           <slot name={SLOTS.customContent}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                beforeClose={this.beforeClose}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
-                closed={!opened}
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}
