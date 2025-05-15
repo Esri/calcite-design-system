@@ -72,6 +72,8 @@ export class Panel extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private _closed = false;
+
   //#endregion
 
   //#region State Properties
@@ -99,8 +101,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @state() hasMenuItems = false;
 
   @state() hasStartActions = false;
-
-  @state() _closed = false;
 
   @state() showHeaderContent = false;
 
