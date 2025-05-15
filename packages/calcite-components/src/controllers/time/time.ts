@@ -377,24 +377,37 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
   }
 
   hostUpdate(changes: PropertyValues): void {
+    let updateHourFormat = false;
+    let updateMeridiemOrder = false;
+    let updateValue = false;
+
     if (changes.has("hourFormat")) {
-      this.setHourFormat();
-      this.setValue(this.component.value);
+      updateHourFormat = true;
+      updateValue = true;
     }
     if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
-      this.setHourFormat();
-      this.setMeridiemOrder();
-      this.setValue(this.component.value);
+      updateHourFormat = true;
+      updateMeridiemOrder = true;
+      updateValue = true;
     }
     if (changes.has("numberingSystem")) {
-      this.setValue(this.component.value);
+      updateValue = true;
     }
     if (changes.has("step")) {
       const oldStep = this.component.step;
       const newStep = changes.get("step");
       if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
-        this.setValue(this.component.value);
+        updateValue = true;
       }
+    }
+    if (updateHourFormat) {
+      this.setHourFormat();
+    }
+    if (updateMeridiemOrder) {
+      this.setMeridiemOrder();
+    }
+    if (updateValue) {
+      this.setValue(this.component.value);
     }
   }
 
