@@ -555,12 +555,12 @@ export function toISOTimeString(value: string | Time, step: number = 60): string
     return null;
   }
 
-  let hour;
-  let minute;
-  let second;
-  let secondDecimal;
-  let fractionalSecond;
-  let isoTimeString = null;
+  let hour: string;
+  let minute: string;
+  let second: string;
+  let secondDecimal: string;
+  let fractionalSecond: string;
+  let isoTimeString: string = null;
 
   if (typeof value === "string") {
     [hour, minute, secondDecimal] = value.split(":");
