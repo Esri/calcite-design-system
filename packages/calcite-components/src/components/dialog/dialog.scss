@@ -174,6 +174,7 @@ calcite-panel {
   @apply invisible
   rounded
   opacity-0;
+
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
@@ -182,10 +183,10 @@ calcite-panel {
 .container--open .panel {
   @apply visible
   opacity-100;
+
   transition:
     visibility 0ms linear,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-  transition-delay: 0ms;
 }
 
 .container--open {

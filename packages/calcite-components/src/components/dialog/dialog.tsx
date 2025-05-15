@@ -193,10 +193,21 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this.handleSetOpen(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      if (this.beforeClose && !value) {
+        this.handleBeforeClose();
+        return;
+      }
+
+      this._open = value;
+
+      if (value) {
+        this.openDialog();
+      } else {
+        this.closeDialog();
+      }
     }
   }
 
@@ -385,18 +396,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.opened = false;
   }
 
-  private async handleSetOpen(value: boolean): Promise<void> {
-    if (value) {
-      this.openDialog();
-      this._open = true;
-    } else {
-      try {
-        await this.beforeClose?.();
-        this.closeDialog();
-        this._open = false;
-      } catch {
-        return;
-      }
+  private async handleBeforeClose(): Promise<void> {
+    try {
+      await this.beforeClose?.();
+      this._open = false;
+      this.closeDialog();
+    } catch {
+      return;
     }
   }
 
