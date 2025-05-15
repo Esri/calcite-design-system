@@ -25,19 +25,26 @@ declare global {
  * @deprecated Use the `calcite-sort-handle` component instead.
  */
 export class Handle extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private handleButton = createRef<HTMLSpanElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * When `true`, disables unselecting the component when blurred.
@@ -61,13 +68,6 @@ export class Handle extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
@@ -83,9 +83,9 @@ export class Handle extends LitElement implements InteractiveComponent {
    */
   @property() setSize: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -95,9 +95,9 @@ export class Handle extends LitElement implements InteractiveComponent {
     this.handleButton.value?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires whenever the component is selected or unselected. */
   calciteHandleChange = createEvent({ cancelable: false });
@@ -112,9 +112,9 @@ export class Handle extends LitElement implements InteractiveComponent {
    */
   calciteInternalAssistiveTextChange = createEvent<HandleChange>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -144,9 +144,9 @@ export class Handle extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleAriaTextChange(): void {
     const message = this.getAriaText("live");
@@ -232,9 +232,9 @@ export class Handle extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -259,5 +259,5 @@ export class Handle extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

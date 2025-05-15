@@ -4,6 +4,8 @@ import calcitePlugin from "@esri/eslint-plugin-calcite-components";
 import vitestPlugin from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import unusedImports from "eslint-plugin-unused-imports";
+import luminaPlugin from "@arcgis/eslint-config/plugins/lumina";
 
 export default tseslint.config(
   {
@@ -14,6 +16,8 @@ export default tseslint.config(
     extends: [calciteCoreConfig, calciteJsxConfig],
     plugins: {
       "@esri/calcite-components": calcitePlugin,
+      "unused-imports": unusedImports,
+      lumina: luminaPlugin,
     },
 
     languageOptions: {
@@ -24,6 +28,8 @@ export default tseslint.config(
     },
 
     rules: {
+      "lumina/member-ordering": "warn",
+
       "no-restricted-imports": [
         "error",
         {
@@ -43,6 +49,8 @@ export default tseslint.config(
           message: "Use custom findAll test util for more predictable (non-empty) result usage.",
         },
       ],
+
+      "unused-imports/no-unused-imports": "error",
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",

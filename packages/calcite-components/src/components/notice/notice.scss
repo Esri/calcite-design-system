@@ -6,10 +6,13 @@
  * @prop --calcite-notice-background-color: Specifies the component's background color.
  * @prop --calcite-notice-close-background-color-focus: Specifies the component's background color when focused.
  * @prop --calcite-notice-close-background-color-press: Specifies the component's background color when active.
- * @prop --calcite-notice-close-text-color-hover: Specifies the background color of the component's close button when hovered.
- * @prop --calcite-notice-close-text-color: Specifies the text color of the component's close button.
+ * @prop --calcite-notice-close-icon-color-hover: Specifies the background color of the component's close button when hovered.
+ * @prop --calcite-notice-close-icon-color: Specifies the text color of the component's close button.
+ * @prop --calcite-notice-title-text-color: Specifies the component's title text color.
  * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
+ * @prop --calcite-notice-close-text-color-hover: [Deprecated] Use `--calcite-notice-close-icon-color-hover`. Specifies the background color of the component's close button when hovered.
+ * @prop --calcite-notice-close-text-color: [Deprecated] Use `--calcite-notice-close-icon-color`. Specifies the text color of the component's close button.
  */
 
 // scale variables
@@ -118,7 +121,7 @@
 @include slotted("title", "*", ".container") {
   @apply m-0 font-medium;
 
-  color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
+  color: var(--calcite-notice-title-text-color, var(--calcite-color-text-1));
 }
 
 @include slotted("message", "*", ".container") {
@@ -161,12 +164,12 @@
   @include notice-element-base;
   -webkit-appearance: none;
 
-  color: var(--calcite-notice-close-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
 
   &:hover,
   &:focus {
     background-color: var(--calcite-notice-close-background-color-focus, var(--calcite-color-foreground-2));
-    color: var(--calcite-notice-close-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
   }
 
   &:active {

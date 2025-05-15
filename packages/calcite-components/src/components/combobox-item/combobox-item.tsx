@@ -14,7 +14,7 @@ import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./combobox-item.scss";
 
 declare global {
@@ -29,25 +29,25 @@ declare global {
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
 export class ComboboxItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
-
-  @state() hasContent = false;
-
-  // #endregion
-
-  // #region Private Properties
+  //#region Private Properties
 
   private _selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region State Properties
+
+  @state() hasContent = false;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
@@ -158,9 +158,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    *  */
   @property({ reflect: true }) itemHidden = false;
 
-  // #endregion
+  /**
+   * When `selectionMode` is `"multiple"` or `"ancestors"` and one or more, but not all `calcite-combobox-item`s are selected, displays an indeterminate "select all" checkbox.
+   *
+   * @private
+   */
+  @property({ reflect: true }) indeterminate = false;
 
-  // #region Events
+  //#endregion
+
+  //#region Events
 
   /** Fires whenever the component is selected or unselected. */
   calciteComboboxItemChange = createEvent({ cancelable: false });
@@ -172,9 +179,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
@@ -200,9 +207,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private emitItemChange(): void {
     this.calciteInternalComboboxItemChange.emit();
@@ -227,9 +234,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.toggleSelected();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderIcon(iconPath: IconNameOrString): JsxNode {
     return this.icon ? (
@@ -279,8 +286,16 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       shortHeading,
     } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const icon = disabled || isSingleSelect ? undefined : "check-square-f";
-    const selectionIcon = isSingleSelect ? "circle-inset-large" : "check-square-f";
+    const icon = disabled || isSingleSelect ? undefined : ICONS.checked;
+    const selectionIcon = isSingleSelect
+      ? this.selected
+        ? ICONS.selectedSingle
+        : ICONS.circle
+      : this.indeterminate
+        ? ICONS.indeterminate
+        : this.selected
+          ? ICONS.checked
+          : ICONS.unchecked;
     const headingText = heading || textLabel;
     const itemLabel = label || value;
 
@@ -341,5 +356,5 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

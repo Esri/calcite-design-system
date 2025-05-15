@@ -10,6 +10,3 @@ export const CSS = {
   resizeHandleBar: "resize-handle-bar",
   height: "height",
 };
-
-export const sheetResizeStep = 10;
-export const sheetResizeShiftStep = 25;

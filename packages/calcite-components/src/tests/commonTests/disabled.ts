@@ -1,9 +1,8 @@
 // @ts-strict-ignore
-
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { IntrinsicElementsWithProp, skipAnimations } from "../utils";
+import { IntrinsicElementsWithProp, skipAnimations } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 

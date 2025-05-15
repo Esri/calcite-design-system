@@ -16,7 +16,7 @@ import {
   themed,
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
@@ -734,6 +734,29 @@ describe("calcite-panel", () => {
         "--calcite-panel-background-color": {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "backgroundColor",
+        },
+        "--calcite-panel-header-action-background-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-panel-header-action-background-color-hover": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-panel-header-action-background-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
+        },
+        "--calcite-panel-header-action-text-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-panel-header-action-text-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
         },
         "--calcite-panel-header-background-color": {
           shadowSelector: `.${CSS.header}`,

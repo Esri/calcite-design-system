@@ -1,4 +1,4 @@
-import { makeGenericController } from "@arcgis/components-controllers";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { createFocusTrapOptions } from "../utils/focusTrapComponent";

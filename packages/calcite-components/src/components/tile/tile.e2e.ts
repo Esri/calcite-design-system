@@ -12,7 +12,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { isElementFocused } from "../../tests/utils";
+import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {

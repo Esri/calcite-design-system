@@ -1,8 +1,9 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";
@@ -145,6 +146,9 @@ describe("calcite-block-group", () => {
       endOldIndex: number;
       startNewIndex: number;
       startOldIndex: number;
+      moveHaltNewIndex: number;
+      moveHaltOldIndex: number;
+      moveHaltCalledTimes: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -346,6 +350,87 @@ describe("calcite-block-group", () => {
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
+    it("calls canPull and canPut for move items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-block-group id="first-letters" drag-enabled group="letters">
+          <calcite-block id="a" heading="a" label="A"></calcite-block>
+          <calcite-block id="b" heading="b" label="B"></calcite-block>
+        </calcite-block-group>
+        <calcite-block-group id="second-letters" drag-enabled group="letters">
+          <calcite-block id="c" heading="c" label="C"></calcite-block>
+          <calcite-block id="d" heading="d" label="D"></calcite-block>
+        </calcite-block-group>
+      `);
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.evaluate(() => {
+        const testWindow = window as TestWindow;
+        testWindow.moveHaltCalledTimes = 0;
+        const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
+
+        firstLetters.addEventListener("calciteBlockGroupMoveHalt", (event: CustomEvent<BlockDragDetail>) => {
+          testWindow.moveHaltCalledTimes++;
+          testWindow.moveHaltNewIndex = event.detail.newIndex;
+          testWindow.moveHaltOldIndex = event.detail.oldIndex;
+        });
+
+        firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+        firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+      });
+      await page.waitForChanges();
+
+      async function clickMoveDropdownItem(id: string) {
+        const component = await page.find(`#${id}`);
+        component.setProperty("sortHandleOpen", true);
+        await page.waitForChanges();
+
+        const dropdownItem = await page.find(`#${id} >>> calcite-dropdown-group:last-child calcite-dropdown-item`);
+        expect(dropdownItem).not.toBeNull();
+        await dropdownItem.click();
+
+        await page.waitForChanges();
+      }
+
+      async function getResults() {
+        return await page.evaluate(() => {
+          const testWindow = window as TestWindow;
+
+          return {
+            moveHaltCalledTimes: testWindow.moveHaltCalledTimes,
+            moveHaltOldIndex: testWindow.moveHaltOldIndex,
+            moveHaltNewIndex: testWindow.moveHaltNewIndex,
+          };
+        });
+      }
+
+      await clickMoveDropdownItem("a");
+      let results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(0);
+
+      await clickMoveDropdownItem("b");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltNewIndex).toBe(0);
+
+      await clickMoveDropdownItem("c");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(1);
+
+      await clickMoveDropdownItem("d");
+      results = await getResults();
+
+      expect(results.moveHaltCalledTimes).toBe(2);
+      expect(results.moveHaltNewIndex).toBe(0);
+      expect(results.moveHaltOldIndex).toBe(1);
+    });
+
     it("reorders using a keyboard", async () => {
       const page = await createSimpleBlockGroup();
 
@@ -371,12 +456,13 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find("calcite-block-group");
         const eventName = `calciteSortHandleReorder`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
-            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true, cancelable: true }));
           },
           reorder,
           eventName,
@@ -480,8 +566,9 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find(`#${componentItemId}`);
         const eventName = `calciteSortHandleMove`;
-        const event = page.waitForEvent(eventName);
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${componentItemId}`,
           (item: Block["el"], moveToId, eventName) => {
@@ -496,6 +583,7 @@ describe("calcite-block-group", () => {
                   },
                 },
                 bubbles: true,
+                cancelable: true,
               }),
             );
           },

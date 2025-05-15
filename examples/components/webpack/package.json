@@ -14,7 +14,7 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.0.3"
+    "@esri/calcite-components": "3.2.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",

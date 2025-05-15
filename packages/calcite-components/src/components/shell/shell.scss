@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-shell-tip-spacing: The left and right spacing of the `calcite-tip-manager` when slotted in the component.
+ * @prop --calcite-shell-border-color: Specifies the component's border color.
+ * @prop --calcite-shell-tip-spacing: [Deprecated] This component has been deprecated. The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
 :host {
@@ -15,7 +16,6 @@
     w-full
     flex-col
     overflow-hidden;
-  --calcite-shell-tip-spacing: 26vw;
 }
 
 .main {
@@ -83,17 +83,19 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply border-color-3
-  border
-  border-l-0
-  border-r-0
-  border-solid;
+  border-width: var(--calcite-border-width-sm);
+  border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  border-inline-start-width: var(--calcite-border-width-none);
+  border-inline-end-width: var(--calcite-border-width-none);
+  border-style: solid;
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
-  @apply border-color-3 border-l border-r;
+  border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  border-inline-start-width: var(--calcite-border-width-sm);
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 .center-content {
@@ -114,6 +116,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   align-self: stretch;
 }
 
+// deprecated
 ::slotted(calcite-tip-manager) {
   @apply shadow-2
   animate-in-up
@@ -122,7 +125,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   rounded
   z-toast;
   inset-block-end: theme("spacing.2");
-  inset-inline: var(--calcite-shell-tip-spacing);
+  inset-inline: var(--calcite-shell-tip-spacing, 26vw); // deprecated
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row),

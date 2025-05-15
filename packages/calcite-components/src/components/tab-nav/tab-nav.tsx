@@ -33,22 +33,15 @@ declare global {
 
 /** @slot - A slot for adding `calcite-tab-title`s. */
 export class TabNav extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private effectiveDir: Direction = "ltr";
-
-  get enabledTabTitles(): TabTitle["el"][] {
-    return filterDirectChildren<TabTitle["el"]>(
-      this.el,
-      "calcite-tab-title:not([disabled])",
-    ).filter((tabTitle) => !tabTitle.closed);
-  }
 
   private intersectionObserver: IntersectionObserver;
 
@@ -60,22 +53,20 @@ export class TabNav extends LitElement {
     this.updateScrollingState();
   });
 
-  private get scrollerButtonWidth(): number {
-    const { scale } = this;
-    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
-  }
-
   private tabTitleContainerEl: HTMLDivElement;
-
-  get tabTitles(): TabTitle["el"][] {
-    return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
-  }
 
   private makeFirstVisibleTabClosable = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() private hasOverflowingEndTabTitle = false;
 
@@ -83,9 +74,9 @@ export class TabNav extends LitElement {
 
   @state() selectedTabId: TabID;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
   @property({ reflect: true }) bordered = false;
@@ -95,13 +86,6 @@ export class TabNav extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
@@ -130,9 +114,9 @@ export class TabNav extends LitElement {
   /** Specifies text to update multiple components to keep in sync if one changes. */
   @property({ reflect: true }) syncId: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTabChange = createEvent<TabChangeEventDetail>({ cancelable: false });
@@ -143,9 +127,9 @@ export class TabNav extends LitElement {
   /** Emits when the selected `calcite-tab` changes. */
   calciteTabChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -154,7 +138,6 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
     this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
-    this.listen("calciteTabsActivate", this.activateTabHandler);
     this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listenOn<CustomEvent<TabChangeEventDetail>>(
@@ -220,9 +203,26 @@ export class TabNav extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get enabledTabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(
+      this.el,
+      "calcite-tab-title:not([disabled])",
+    ).filter((tabTitle) => !tabTitle.closed);
+  }
+
+  private get scrollerButtonWidth(): number {
+    const { scale } = this;
+    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
+  }
+
+  get tabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
+  }
+
   private focusPreviousTabHandler(event: CustomEvent): void {
     this.handleTabFocus(event, event.target as TabTitle["el"], "previous");
   }
@@ -241,6 +241,7 @@ export class TabNav extends LitElement {
 
   private internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const activatedTabTitle = event.target as TabTitle["el"];
+    const currentSelectedTabTitle = this.selectedTitle;
 
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
@@ -248,6 +249,9 @@ export class TabNav extends LitElement {
     event.stopPropagation();
 
     this.selectedTitle = activatedTabTitle;
+    if (currentSelectedTabTitle?.id !== activatedTabTitle.id && event.detail.userTriggered) {
+      this.calciteTabChange.emit();
+    }
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -292,11 +296,6 @@ export class TabNav extends LitElement {
     });
   }
 
-  private activateTabHandler(event: CustomEvent<void>): void {
-    this.calciteTabChange.emit();
-    event.stopPropagation();
-  }
-
   private internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
     const closedTabTitleEl = event.target as TabTitle["el"];
     this.handleTabTitleClose(closedTabTitleEl);
@@ -308,7 +307,6 @@ export class TabNav extends LitElement {
    *
    * @param event
    */
-
   private async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
     if ((event.target as TabTitle["el"]).selected) {
       this.selectedTabId = event.detail;
@@ -566,9 +564,9 @@ export class TabNav extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -632,5 +630,5 @@ export class TabNav extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
