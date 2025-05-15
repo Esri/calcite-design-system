@@ -341,6 +341,28 @@ describe("calcite-panel", () => {
     expect(calcitePanelClose).toHaveReceivedEventTimes(1);
   });
 
+  it("close event can be cancelled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-panel heading="Hello World" closable>Hello World</calcite-panel>`);
+
+    const panel = await page.find("calcite-panel");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
+
+    const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
+
+    await page.$eval("calcite-panel", (panel: Panel["el"]) => {
+      panel.addEventListener("calcitePanelClose", (event) => event.preventDefault());
+    });
+
+    await closeButton.click();
+    await page.waitForChanges();
+
+    expect(calcitePanelClose).toHaveReceivedEventTimes(1);
+    expect(calcitePanelClose.lastEvent.cancelable).toBe(true);
+    expect(calcitePanelClose.lastEvent.defaultPrevented).toBe(true);
+    expect(await panel.getProperty("closed")).toBe(false);
+  });
+
   it("toggle event should fire when collapsed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
