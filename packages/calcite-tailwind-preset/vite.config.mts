@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import dts from 'vite-plugin-dts'
-import { version } from "./package.json";
+import packageJson from "./package.json" with { type: "json" };
 
 export default defineConfig({
   build: {
@@ -14,7 +14,7 @@ export default defineConfig({
       output: {
         banner: `/*!
 All material copyright ESRI, All Rights Reserved, unless otherwise specified.
-See https://github.com/Esri/calcite-design-system/blob/${version}/LICENSE.md for details.
+See https://github.com/Esri/calcite-design-system/blob/${packageJson.version}/LICENSE.md for details.
 */`,
       }
     },
