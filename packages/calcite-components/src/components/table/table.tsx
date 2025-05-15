@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
-import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";

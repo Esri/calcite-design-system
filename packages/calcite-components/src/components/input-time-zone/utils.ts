@@ -263,12 +263,12 @@ function getTimeZoneShortOffset(
   return parts.find(({ type }) => type === "timeZoneName").value;
 }
 
-function isGroup(item: TimeZoneItem | TimeZoneItemGroup): item is TimeZoneItemGroup {
-  return (item as TimeZoneItemGroup).items !== undefined;
+function hasGroups(items: TimeZoneItem[] | TimeZoneItemGroup[]): items is TimeZoneItemGroup[] {
+  return (items[0] as TimeZoneItemGroup).items !== undefined;
 }
 
 function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[]): TimeZoneItem[] {
-  return isGroup(timeZoneItems[0]) ? timeZoneItems.flatMap((item) => item.items) : timeZoneItems;
+  return hasGroups(timeZoneItems) ? timeZoneItems.flatMap((item) => item.items) : timeZoneItems;
 }
 
 export function findTimeZoneItemByProp(
