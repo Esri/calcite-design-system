@@ -376,16 +376,24 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.calciteDialogClose.emit();
   }
 
+  private async openDialog(): Promise<void> {
+    await this.componentOnReady();
+    this.opened = true;
+  }
+
+  private closeDialog(): void {
+    this.opened = false;
+  }
+
   private async handleSetOpen(value: boolean): Promise<void> {
     if (value) {
-      await this.componentOnReady();
-      this.opened = value;
-      this._open = value;
+      this.openDialog();
+      this._open = true;
     } else {
       try {
         await this.beforeClose?.();
-        this.opened = value;
-        this._open = value;
+        this.closeDialog();
+        this._open = false;
       } catch {
         return;
       }
