@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { describe, expect, it, MockInstance } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -15,10 +15,13 @@ import {
 } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
+  mockConsole();
+
   describe("renders when closed", () => {
     renders("calcite-popover", { display: "contents" });
   });
@@ -761,15 +764,6 @@ describe("calcite-popover", () => {
 
   describe("warning messages", () => {
     let consoleSpy: MockInstance;
-
-    beforeEach(
-      () =>
-        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-          // hide warning messages during test
-        })),
-    );
-
-    afterEach(() => consoleSpy.mockClear());
 
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();

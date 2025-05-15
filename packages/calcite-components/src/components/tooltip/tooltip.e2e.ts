@@ -1,10 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { describe, expect, it, MockInstance } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
@@ -18,6 +19,8 @@ interface PointerMoveOptions {
 const eventOptions = { bubbles: true, cancelable: true };
 
 describe("calcite-tooltip", () => {
+  mockConsole();
+
   type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
     escapeKeyCanceled: boolean;
   }>;
@@ -1350,15 +1353,6 @@ describe("calcite-tooltip", () => {
 
   describe("warning messages", () => {
     let consoleSpy: MockInstance;
-
-    beforeEach(
-      () =>
-        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-          // hide warning messages during test
-        })),
-    );
-
-    afterEach(() => consoleSpy.mockClear());
 
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();
