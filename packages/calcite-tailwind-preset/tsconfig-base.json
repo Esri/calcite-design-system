@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "lib": ["dom", "dom.iterable", "ES2023"],
     "module": "node18",
-    "moduleResolution": "node18",
+    "moduleResolution": "node16",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
