@@ -195,19 +195,14 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
   set open(value: boolean) {
     const oldValue = this._open;
+    // todo: do we still need this check?
     if (value !== oldValue) {
       if (this.beforeClose && !value) {
         this.handleBeforeClose();
         return;
       }
 
-      this._open = value;
-
-      if (value) {
-        this.openDialog();
-      } else {
-        this.closeDialog();
-      }
+      this.toggleDialog(value);
     }
   }
 
@@ -387,20 +382,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.calciteDialogClose.emit();
   }
 
-  private async openDialog(): Promise<void> {
-    await this.componentOnReady();
-    this.opened = true;
-  }
+  private async toggleDialog(value: boolean): Promise<void> {
+    this._open = value;
 
-  private closeDialog(): void {
-    this.opened = false;
+    if (value) {
+      await this.componentOnReady();
+    }
+
+    this.opened = value;
   }
 
   private async handleBeforeClose(): Promise<void> {
     try {
       await this.beforeClose?.();
-      this._open = false;
-      this.closeDialog();
+      this.toggleDialog(false);
     } catch {
       return;
     }
