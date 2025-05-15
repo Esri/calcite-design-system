@@ -112,15 +112,13 @@ describe("calcite-shell-panel", () => {
 
     const actionSlotIsFirst = await page.$eval(
       "calcite-shell-panel",
-      (panel: ShellPanel["el"], containerClass: string, slotName: string) => {
-        const container = panel.shadowRoot.querySelector(containerClass);
-        return (
-          container.firstElementChild.tagName == "SLOT" &&
-          (container.firstElementChild as HTMLSlotElement).name == slotName
-        );
+      (panel: ShellPanel["el"], containerSelector: string, actionBarContainerClass: string) => {
+        return panel.shadowRoot
+          .querySelector(containerSelector)
+          .firstElementChild.classList.contains(actionBarContainerClass);
       },
       `.${CSS.container}`,
-      SLOTS.actionBar,
+      CSS.actionBarContainer,
     );
 
     expect(actionSlotIsFirst).toBe(true);
