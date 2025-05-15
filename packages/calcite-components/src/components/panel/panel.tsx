@@ -120,7 +120,10 @@ export class Panel extends LitElement implements InteractiveComponent {
     return this._closed;
   }
   set closed(value: boolean) {
-    this.handleSetClosed(value);
+    const oldValue = this._closed;
+    if (value !== oldValue) {
+      this.toggleClosed(value);
+    }
   }
 
   /**
@@ -223,7 +226,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.handlePanelClose);
+    this.listen("calcitePanelClose", this.panelCloseHandler);
   }
 
   override updated(): void {
@@ -238,15 +241,16 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Methods
 
-  private async handleSetClosed(value: boolean): Promise<void> {
-    try {
-      if (value) {
+  private async toggleClosed(value: boolean): Promise<void> {
+    if (this.beforeClose && value) {
+      try {
         await this.beforeClose?.();
+      } catch {
+        return;
       }
-      this._closed = value;
-    } catch {
-      return;
     }
+
+    this._closed = value;
   }
 
   private resizeHandler(): void {
@@ -285,7 +289,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  private handlePanelClose(event: CustomEvent<void>): void {
+  private panelCloseHandler(event: CustomEvent<void>): void {
     if (event.defaultPrevented) {
       return;
     }
@@ -469,7 +473,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
-        onClick={() => this.emitCloseEvent()}
+        onClick={this.emitCloseEvent}
         scale={this.scale}
         text={close}
         title={close}
