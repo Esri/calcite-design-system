@@ -335,6 +335,7 @@ export class MenuItem extends LitElement {
     return (
       <calcite-action
         class={CSS.dropdownAction}
+        expanded={this.open}
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
@@ -347,6 +348,7 @@ export class MenuItem extends LitElement {
         onKeyDown={this.keyDownHandler}
         ref={this.dropdownActionEl}
         text={this.messages.open}
+        type="expand"
       />
     );
   }

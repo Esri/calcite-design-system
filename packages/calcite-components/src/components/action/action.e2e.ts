@@ -1,5 +1,5 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -8,7 +8,7 @@ describe("calcite-action", () => {
   describe("defaults", () => {
     defaults("calcite-action", [
       {
-        propertyName: "active",
+        propertyName: "active", // (deprecated)
         defaultValue: false,
       },
       {
@@ -37,6 +37,18 @@ describe("calcite-action", () => {
       },
       {
         propertyName: "textEnabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "type",
+        defaultValue: "button",
+      },
+      {
+        propertyName: "pressed",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expanded",
         defaultValue: false,
       },
     ]);
@@ -88,6 +100,18 @@ describe("calcite-action", () => {
         propertyName: "textEnabled",
         value: true,
       },
+      {
+        propertyName: "type",
+        value: "button",
+      },
+      {
+        propertyName: "pressed",
+        value: true,
+      },
+      {
+        propertyName: "expanded",
+        value: true,
+      },
     ]);
   });
 
@@ -105,6 +129,75 @@ describe("calcite-action", () => {
 
   describe("slots", () => {
     slots("calcite-action", SLOTS);
+  });
+
+  describe("button has proper aria attributes", () => {
+    let page: E2EPage;
+    let action: E2EElement;
+    let button: E2EElement;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-action text="hello world" text-enabled></calcite-action>`);
+
+      action = await page.find("calcite-action");
+      button = await page.find(`calcite-action >>> .${CSS.button}`);
+    });
+
+    it("loading", async () => {
+      expect(await button.getProperty("ariaBusy")).toBe("false");
+
+      action.setProperty("loading", true);
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaBusy")).toBe("true");
+    });
+
+    it("expanded", async () => {
+      expect(await button.getProperty("ariaExpanded")).toBe(null);
+
+      action.setProperty("type", "expand");
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaExpanded")).toBe("false");
+
+      action.setProperty("expanded", true);
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaExpanded")).toBe("true");
+    });
+
+    it("pressed", async () => {
+      expect(await button.getProperty("ariaPressed")).toBe(null);
+
+      action.setProperty("type", "toggle");
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaPressed")).toBe("false");
+
+      action.setProperty("pressed", true);
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaPressed")).toBe("true");
+    });
+
+    it("disabled", async () => {
+      expect(await button.getProperty("disabled")).toBe(false);
+
+      action.setProperty("disabled", true);
+      await page.waitForChanges();
+
+      expect(await button.getProperty("disabled")).toBe(true);
+    });
+
+    it("indicator", async () => {
+      expect(button.getAttribute("aria-controls")).toBe(null);
+
+      action.setProperty("indicator", true);
+      await page.waitForChanges();
+
+      expect(button.getAttribute("aria-controls")).not.toBe(null);
+    });
   });
 
   it("should have visible text when text is enabled", async () => {
@@ -219,6 +312,9 @@ describe("calcite-action", () => {
     accessible(`<calcite-action text="hello world"></calcite-action>`);
     accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
     accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="button" text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="toggle" pressed text="hello world"></calcite-action>`);
+    accessible(`<calcite-action type="expand" expanded text="hello world"></calcite-action>`);
   });
 
   it("should have a tooltip", async () => {
@@ -298,11 +394,13 @@ describe("calcite-action", () => {
         },
       );
     });
-    describe("active", () => {
+    describe("pressed/active/expanded", () => {
       themed(
         html`<calcite-action
           scale="s"
+          pressed
           active
+          expanded
           text="click-me"
           label="hello world"
           text-enabled
