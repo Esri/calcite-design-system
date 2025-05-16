@@ -330,8 +330,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     }
   }
 
-  await page.waitForChanges();
-
   if (targetProp.startsWith("--calcite-")) {
     const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);
     expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
