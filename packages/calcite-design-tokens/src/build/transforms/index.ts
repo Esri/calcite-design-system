@@ -3,7 +3,6 @@ import { registerNameIncludePlusMinus } from "./name/include-plus-minus.js";
 import { registerValueSizePxToRem } from "./value/px-to-rem.js";
 import { registerNameRemoveDefault } from "./name/remove-default.js";
 import { registerTransformCalciteGroup } from "./group/calcite.js";
-import { registerValueSizeUnitlessToPx } from "./value/unitless-breakpoint-to-px.js";
 import { registerAttributePlatformNames } from "./attribute/platform-names.js";
 import { registerAttributeSchema } from "./attribute/schema.js";
 import { registerNameCapitalCase } from "./name/capital-case.js";
@@ -21,7 +20,6 @@ export function registerTransformers(): void {
   registerNameIncludePlusMinus();
   registerNameCapitalCase();
   registerValueSizePxToRem();
-  registerValueSizeUnitlessToPx();
   registerValueEnsureType();
   registerValueCorrectValue();
   registerValueCorrectPropName();
@@ -31,7 +29,6 @@ export function registerTransformers(): void {
 }
 
 export { TransformValueSizePxToRem } from "./value/px-to-rem.js";
-export { TransformValueSizeUnitlessToPx } from "./value/unitless-breakpoint-to-px.js";
 export { TransformValueMergeValues } from "./value/merge-value.js";
 export { TransformValueEnsureType } from "./value/ensure-type.js";
 export { TransformValueCorrectValue } from "./value/correct-value.js";

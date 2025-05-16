@@ -1238,15 +1238,15 @@ describe("calcite-time-picker", () => {
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
-              localizedMeridiem: expectedLocalizedMeridiem,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
+              meridiem: expectedLocalizedMeridiem,
             } = localizeTimeStringToParts({
               value: initialDelocalizedValue,
               locale,
@@ -1299,15 +1299,15 @@ describe("calcite-time-picker", () => {
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
-              localizedMeridiem: expectedLocalizedMeridiem,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
+              meridiem: expectedLocalizedMeridiem,
             } = localizeTimeStringToParts({
               hour12: true,
               value: initialDelocalizedValue,
@@ -1383,14 +1383,14 @@ describe("calcite-time-picker", () => {
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
             } = localizeTimeStringToParts({
               hour12: false,
               value: initialDelocalizedValue,
