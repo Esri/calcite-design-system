@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.60...@esri/calcite-components@3.2.1-next.0) (2025-05-16)
+
+### Bug Fixes
+
+- **input:** do not obscure picker button with type=datetime-local ([#12081](https://github.com/Esri/calcite-design-system/issues/12081)) ([ecb37eb](https://github.com/Esri/calcite-design-system/commit/ecb37eb6a45c5f52f2f9a4972b7b31840011ed31)), closes [#9301](https://github.com/Esri/calcite-design-system/issues/9301)
+
 ## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0...@esri/calcite-components@3.2.0) (2025-05-14)
 
 ### Features
