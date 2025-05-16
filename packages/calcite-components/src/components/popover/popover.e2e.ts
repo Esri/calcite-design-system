@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, MockInstance } from "vitest";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -763,8 +763,6 @@ describe("calcite-popover", () => {
   });
 
   describe("warning messages", () => {
-    let consoleSpy: MockInstance;
-
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -773,7 +771,7 @@ describe("calcite-popover", () => {
       );
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("does not warn after removal", async () => {
@@ -787,7 +785,7 @@ describe("calcite-popover", () => {
       await popover.callMethod("remove");
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("warns if reference element is not present", async () => {
@@ -795,7 +793,7 @@ describe("calcite-popover", () => {
       await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
       await page.waitForChanges();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
     });
