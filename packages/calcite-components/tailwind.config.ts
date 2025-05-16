@@ -1,6 +1,7 @@
+import type { Config } from "tailwindcss";
 import calcitePreset from "@esri/calcite-tailwind-preset";
 
-export default {
+const config: Config = {
   presets: [calcitePreset],
   content: ["./src/components/**/*.scss"],
   theme: {
@@ -11,6 +12,11 @@ export default {
         "in-up": "in-up var(--calcite-internal-animation-timing-slow) ease-in-out",
         "in-scale": "in-scale var(--calcite-internal-animation-timing-slow) linear",
       },
+      transitionDuration: {
+        DEFAULT: "var(--calcite-animation-timing)",
+      },
     },
   },
 };
+
+export default config;
