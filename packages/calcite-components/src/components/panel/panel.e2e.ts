@@ -18,6 +18,7 @@ import {
 } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
 
@@ -85,6 +86,8 @@ export const scrollingContentHtml = html`
 export const scrollingHeightStyle = "height: 200px;";
 
 describe("calcite-panel", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-panel", { display: "flex" });
   });

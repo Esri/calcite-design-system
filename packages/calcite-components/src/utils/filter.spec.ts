@@ -1,13 +1,14 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+import { mockConsole } from "../tests/utils/logging";
 import { filter } from "./filter";
 
 describe("filter function", () => {
+  mockConsole();
+
   it("warns and returns empty array for empty data", () => {
-    const spy = vi.spyOn(console, "warn");
     const result = filter([], "test");
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledTimes(1);
     expect(result).toEqual([]);
-    spy.mockRestore();
   });
 
   it("returns empty array when no objects match", () => {

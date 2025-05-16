@@ -15,10 +15,13 @@ import {
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import type { Filter } from "./filter";
 import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-filter", { display: "flex" });
   });

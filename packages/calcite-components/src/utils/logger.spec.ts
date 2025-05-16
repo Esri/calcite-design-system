@@ -1,32 +1,19 @@
-// @ts-strict-ignore
-import { describe, expect, it, afterEach, beforeEach, vi, MockInstance } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { SetOptional } from "type-fest";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
+import { mockConsole } from "../tests/utils/logging";
 import { LogLevel } from "./logger";
 import { CalciteConfig } from "./config";
 
 describe("logger", () => {
+  mockConsole(["debug", "error", "info", "trace", "warn"]);
+
   type LoggerModule = typeof import("./logger");
 
   let loggerModule: LoggerModule;
   let logger: LoggerModule["logger"];
 
-  let debugSpy: MockInstance;
-  let errorSpy: MockInstance;
-  let infoSpy: MockInstance;
-  let traceSpy: MockInstance;
-  let warnSpy: MockInstance;
-
   beforeEach(async () => {
-    const noop = () => {
-      /* intentional noop */
-    };
-
-    debugSpy = vi.spyOn(console, "debug").mockImplementation(noop);
-    errorSpy = vi.spyOn(console, "error").mockImplementation(noop);
-    infoSpy = vi.spyOn(console, "info").mockImplementation(noop);
-    traceSpy = vi.spyOn(console, "trace").mockImplementation(noop);
-    warnSpy = vi.spyOn(console, "warn").mockImplementation(noop);
-
     vi.resetModules();
     loggerModule = await import("./logger");
     logger = loggerModule.logger;
@@ -47,8 +34,8 @@ describe("logger", () => {
       // @ts-expect-error -- using fake component names
       logger.deprecated("component", params);
 
-      expect(warnSpy).toHaveBeenCalled();
-      expect(warnSpy.mock.calls[0][2]).toMatch(
+      expect(console.warn).toHaveBeenCalled();
+      expect((console.warn as Mock).mock.calls[0][2]).toMatch(
         `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}.`,
       );
     });
@@ -62,8 +49,8 @@ describe("logger", () => {
       // @ts-expect-error -- using fake component names
       logger.deprecated("component", options);
 
-      expect(warnSpy).toHaveBeenCalled();
-      expect(warnSpy.mock.calls[0][2]).toMatch(
+      expect(console.warn).toHaveBeenCalled();
+      expect((console.warn as Mock).mock.calls[0][2]).toMatch(
         `[${options.name}] component is deprecated and will be removed in a future version.`,
       );
     });
@@ -78,8 +65,8 @@ describe("logger", () => {
       // @ts-expect-error -- using fake component names
       logger.deprecated("component", params);
 
-      expect(warnSpy).toHaveBeenCalled();
-      expect(warnSpy.mock.calls[0][2]).toMatch(
+      expect(console.warn).toHaveBeenCalled();
+      expect((console.warn as Mock).mock.calls[0][2]).toMatch(
         `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
       );
     });
@@ -94,8 +81,8 @@ describe("logger", () => {
       // @ts-expect-error -- using fake component names
       logger.deprecated("component", params);
 
-      expect(warnSpy).toHaveBeenCalled();
-      expect(warnSpy.mock.calls[0][2]).toMatch(
+      expect(console.warn).toHaveBeenCalled();
+      expect((console.warn as Mock).mock.calls[0][2]).toMatch(
         `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
       );
     });
@@ -111,7 +98,7 @@ describe("logger", () => {
       // @ts-expect-error -- using fake component names
       logger.deprecated("component", params);
 
-      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -136,7 +123,7 @@ describe("logger", () => {
     }
 
     afterEach(() => {
-      delete (globalThis as TestGlobal).calciteConfig;
+      delete (globalThis as SetOptional<TestGlobal, "calciteConfig">).calciteConfig;
     });
 
     it("logs all messages when set to lowest level", async () => {
@@ -144,11 +131,11 @@ describe("logger", () => {
 
       messageAllLevels();
 
-      expect(errorSpy).toHaveBeenCalledTimes(1);
-      expect(infoSpy).toHaveBeenCalledTimes(1);
-      expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(debugSpy).toHaveBeenCalledTimes(1);
-      expect(traceSpy).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.info).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.debug).toHaveBeenCalledTimes(1);
+      expect(console.trace).toHaveBeenCalledTimes(1);
     });
 
     it("logs only error messages when set to highest level", async () => {
@@ -156,11 +143,11 @@ describe("logger", () => {
 
       messageAllLevels();
 
-      expect(errorSpy).toHaveBeenCalledTimes(1);
-      expect(infoSpy).toHaveBeenCalledTimes(0);
-      expect(warnSpy).toHaveBeenCalledTimes(0);
-      expect(debugSpy).toHaveBeenCalledTimes(0);
-      expect(traceSpy).toHaveBeenCalledTimes(0);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.info).toHaveBeenCalledTimes(0);
+      expect(console.warn).toHaveBeenCalledTimes(0);
+      expect(console.debug).toHaveBeenCalledTimes(0);
+      expect(console.trace).toHaveBeenCalledTimes(0);
     });
 
     it("logs info messages and above when set to default level", async () => {
@@ -168,11 +155,11 @@ describe("logger", () => {
 
       messageAllLevels();
 
-      expect(errorSpy).toHaveBeenCalledTimes(1);
-      expect(infoSpy).toHaveBeenCalledTimes(1);
-      expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(debugSpy).toHaveBeenCalledTimes(0);
-      expect(traceSpy).toHaveBeenCalledTimes(0);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.info).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.debug).toHaveBeenCalledTimes(0);
+      expect(console.trace).toHaveBeenCalledTimes(0);
     });
 
     it("logs no messages when set to `off`", async () => {
@@ -180,11 +167,11 @@ describe("logger", () => {
 
       messageAllLevels();
 
-      expect(debugSpy).toHaveBeenCalledTimes(0);
-      expect(errorSpy).toHaveBeenCalledTimes(0);
-      expect(infoSpy).toHaveBeenCalledTimes(0);
-      expect(traceSpy).toHaveBeenCalledTimes(0);
-      expect(warnSpy).toHaveBeenCalledTimes(0);
+      expect(console.debug).toHaveBeenCalledTimes(0);
+      expect(console.error).toHaveBeenCalledTimes(0);
+      expect(console.info).toHaveBeenCalledTimes(0);
+      expect(console.trace).toHaveBeenCalledTimes(0);
+      expect(console.warn).toHaveBeenCalledTimes(0);
     });
   });
 });

@@ -16,9 +16,12 @@ import {
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
+import { mockConsole } from "../../tests/utils/logging";
 import { activeAttr, CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-action-menu", { display: "flex" });
   });

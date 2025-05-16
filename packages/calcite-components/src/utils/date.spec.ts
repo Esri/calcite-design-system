@@ -5,6 +5,7 @@ import arabic from "../components/date-picker/assets/nls/ar.json";
 import english from "../components/date-picker/assets/nls/en.json";
 import french from "../components/date-picker/assets/nls/fr.json";
 import korean from "../components/date-picker/assets/nls/ko.json";
+import { mockConsole } from "../tests/utils/logging";
 import {
   getDateInMonth,
   dateFromISO,
@@ -150,6 +151,8 @@ describe("nextMonth", () => {
 });
 
 describe("format number", () => {
+  mockConsole();
+
   it("preserves standard numerals", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "dummyLocale",
@@ -167,6 +170,8 @@ describe("format number", () => {
 });
 
 describe("parse number", () => {
+  mockConsole();
+
   it("correctly parses number string", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "dummyLocale",
