@@ -752,12 +752,6 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`,
     );
 
-    await page.waitForChanges();
-
-    const combobox = await page.find("calcite-combobox");
-    await combobox.callMethod("componentOnReady");
-    expect(combobox).not.toBeNull();
-
     const item = await page.find("calcite-combobox-item#item-0");
     let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
@@ -800,7 +794,7 @@ describe("calcite-combobox", () => {
     item.setProperty("disabled", true);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
 
     expect(a11yItem).toBeNull();
   });
@@ -3000,7 +2994,6 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
-      await page.waitForChanges();
     });
 
     async function testToggleAllItems(
@@ -3082,7 +3075,6 @@ describe("calcite-combobox", () => {
       page: E2EPage,
       toggleAction: ([listItem, combobox]: [E2EElement, E2EElement]) => Promise<void>,
     ): Promise<void> {
-      const messages = await import("./assets/t9n/messages.json");
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
       expect(await combobox.getProperty("open")).toBe(true);
@@ -3092,7 +3084,9 @@ describe("calcite-combobox", () => {
         item.setProperty("selected", true);
       }
       await page.waitForChanges();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeDefined();
+      expect(
+        await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+      ).toBeDefined();
 
       const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
       await toggleAction([listItem, combobox]);
@@ -3136,7 +3130,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
-      await page.waitForChanges();
+
       const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("indeterminate")).toBe(true);
     });
@@ -3150,7 +3144,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
-      await page.waitForChanges();
+
       const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("selected")).toBe(true);
     });
@@ -3165,8 +3159,6 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
-      await page.waitForChanges();
-      const messages = await import("./assets/t9n/messages.json");
 
       const combobox = await page.find("calcite-combobox");
       await combobox.click();
@@ -3177,7 +3169,9 @@ describe("calcite-combobox", () => {
 
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Trees"]`)).toBeDefined();
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
-      expect(await page.find(`calcite-combobox >>> calcite-chip[value="${messages.allSelected}"]`)).toBeNull();
+      expect(
+        await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+      ).toHaveClass("chip--invisible");
     });
 
     it("should update aria-selected on items when toggling 'Select All'", async () => {
@@ -3197,7 +3191,7 @@ describe("calcite-combobox", () => {
       await selectAll.click();
       await page.waitForChanges();
 
-      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+      a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
       expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
     });
   });
