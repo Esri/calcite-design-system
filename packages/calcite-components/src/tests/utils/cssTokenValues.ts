@@ -24,6 +24,9 @@ export function getTokenValue(token: string): string {
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
     "(z-index)$": "42",
     "(columns|gap|height|offset|radius|size|size-y|size-x|space|space-x|space-y|width|margin-bottom)": "42px",
+
+    // color token fallback
+    "color[-\\w+]+$": "rgb(239, 79, 40)",
   } as const;
 
   const match = Object.entries(tokenValueMap).find(([regexStr]) => {
@@ -31,8 +34,7 @@ export function getTokenValue(token: string): string {
   });
 
   if (!match) {
-    console.warn("token not found in tokenValueMap", token);
-    return tokenValueMap["color$"];
+    throw new Error(`No match found for token: ${token}`);
   }
 
   return match[1];
