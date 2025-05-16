@@ -47,6 +47,8 @@ const dispatchDialogKeydown = async ({
 };
 
 describe("calcite-dialog", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-dialog", { display: "flex", visible: true });
   });

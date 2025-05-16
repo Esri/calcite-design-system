@@ -5,8 +5,11 @@ import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
 import { CSS } from "../components/input-time-picker/resources";
 import { skipAnimations } from "./utils/puppeteer";
+import { mockConsole } from "./utils/logging";
 
 describe("stacked focus-trap components", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-sheet id="sheet">
       <calcite-panel>
