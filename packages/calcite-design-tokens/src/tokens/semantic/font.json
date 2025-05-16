@@ -12,7 +12,7 @@
           "type": "fontFamilies",
           "description": "Primary font with fallbacks",
           "attributes": {
-            "group": "family"
+            "category": "font"
           }
         },
         "code": {
