@@ -181,7 +181,7 @@ type State = "press" | "hover" | "focus";
 
 /** Describes a test target for themed components. */
 type TestTarget = {
-  /** An object with target element and selector info. */
+  /** An object with the target element and selector info. */
   target: TargetInfo;
 
   /** The selector for the interaction's target element. */
