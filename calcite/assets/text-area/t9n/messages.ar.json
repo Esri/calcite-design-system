@@ -1,0 +1,1 @@
+{"invalid":"غير صالح","tooLong":"طول الأحرف الحالي هو {currentLength}، والذي يتجاوز الحد الأقصى لطول أحرف {maxLength}.","tooShort":"طول الأحرف الحالي هو {currentLength}، والذي يقل عن الحد الأدنى للطول الذي يبلغ {minLength}."}
