@@ -40,7 +40,6 @@ export default {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 500,
     },
   },
 };
@@ -109,10 +108,6 @@ export const Focus = (): string => html`
     })();
   </script>
 `;
-
-Focus.parameters = {
-  chromatic: { delay: 2000 },
-};
 
 export const rangeRTL_TestOnly = (): string => html`
   <div style="width: 400px">

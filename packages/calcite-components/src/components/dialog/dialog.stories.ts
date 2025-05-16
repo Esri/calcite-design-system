@@ -67,11 +67,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-  },
 };
 
 const actionsContent = html` <calcite-action
@@ -224,10 +219,6 @@ export const withTooltips = (): string => html`
   </calcite-dialog>
   <calcite-tooltip open label="Back" reference-element="tooltip-button">Back</calcite-tooltip>
 `;
-
-withTooltips.parameters = {
-  chromatic: { delay: 500 },
-};
 
 export const withCustomHeader = (): string => html`
   <style>

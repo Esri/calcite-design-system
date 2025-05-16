@@ -65,9 +65,6 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
 `;
 simpleDarkModeRTL_TestOnly.parameters = {
   themes: modesDarkDefault,
-  chromatic: {
-    delay: 500,
-  },
 };
 
 export const bordered = (): string => html`
@@ -356,9 +353,6 @@ export const Tab100PercentHeightNoVerticalScroll = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-Tab100PercentHeightNoVerticalScroll.parameters = {
-  chromatic: { delay: 1000 },
-};
 
 export const Tab200PercentHeightWithVerticalScroll = (): string => html`
   <calcite-tabs style="height: 250px;">
@@ -370,9 +364,6 @@ export const Tab200PercentHeightWithVerticalScroll = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-Tab200PercentHeightWithVerticalScroll.parameters = {
-  chromatic: { delay: 1000 },
-};
 
 export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
   <calcite-tabs style="height: 400px">

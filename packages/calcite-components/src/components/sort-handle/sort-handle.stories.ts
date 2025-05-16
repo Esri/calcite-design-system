@@ -2,11 +2,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/SortHandle",
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 export const closed = (): string => html`

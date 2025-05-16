@@ -20,11 +20,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 5000,
-    },
-  },
 };
 
 export const simple = (args: ActionPadStoryArgs): string => html`

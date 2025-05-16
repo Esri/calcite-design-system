@@ -50,11 +50,6 @@ function allScaleTreeBuilder(
 
 export default {
   title: "Components/Tree",
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-  },
 };
 
 const treeItems = (expanded = true) => html`

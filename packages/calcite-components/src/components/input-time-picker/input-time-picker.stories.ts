@@ -171,14 +171,7 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
 
 export const Focus = (): string =>
   html`<calcite-input-time-picker></calcite-input-time-picker>
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-input-time-picker");
-        const inputDatePicker = await document.querySelector("calcite-input-time-picker").componentOnReady();
-        await inputDatePicker.setFocus();
-      })();
+    <script type="module">
+      const inputDatePicker = await document.querySelector("calcite-input-time-picker").componentOnReady();
+      await inputDatePicker.setFocus();
     </script>`;
-
-Focus.parameters = {
-  chromatic: { delay: 2000 },
-};

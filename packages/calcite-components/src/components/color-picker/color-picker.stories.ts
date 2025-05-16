@@ -72,17 +72,10 @@ export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang
 
 export const Focus_TestOnly = (): string =>
   html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-color-picker");
-        const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
-        await colorPicker.setFocus();
-      })();
+    <script type="module">
+      const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
+      await colorPicker.setFocus();
     </script>`;
-
-Focus_TestOnly.parameters = {
-  chromatic: { delay: 2000 },
-};
 
 export const responsive = (): string =>
   createBreakpointStories(html`

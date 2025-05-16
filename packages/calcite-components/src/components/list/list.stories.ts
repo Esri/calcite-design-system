@@ -77,11 +77,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -4645,10 +4640,6 @@ export const filteredChildListItems_TestOnly = (): string =>
         </calcite-list-item>
       </calcite-list-item-group>
     </calcite-list>`;
-
-filteredChildListItems_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
-};
 
 export const filterActions_TestOnly = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>

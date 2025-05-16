@@ -96,5 +96,3 @@ export const openMaxHeight_TestOnly = (): string => html`
     <calcite-action text="Table" icon="table" text-enabled></calcite-action>
   </calcite-action-menu>
 `;
-
-keyDownOpen_TestOnly.parameters = { chromatic: { delay: 1000 } };

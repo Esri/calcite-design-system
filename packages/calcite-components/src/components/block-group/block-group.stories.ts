@@ -13,11 +13,6 @@ export default {
     label: "My Group",
     loading: false,
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 const blockHTML = html`<calcite-block

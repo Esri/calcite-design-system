@@ -42,11 +42,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 export const simple = (args: PopoverStoryArgs): string => html`
@@ -117,10 +112,6 @@ export const nested = (): string => html`
     </calcite-popover>
   </div>
 `;
-
-nested.parameters = {
-  chromatic: { delay: 1500 },
-};
 
 export const flipPlacements_TestOnly = (): string => html`
   <div style="height: 100px; overflow:scroll; width: 200px;">

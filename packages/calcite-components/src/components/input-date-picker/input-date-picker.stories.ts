@@ -329,12 +329,9 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
 
 export const Focus = (): string =>
   html`<calcite-input-date-picker></calcite-input-date-picker>
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-input-date-picker");
-        const inputDatePicker = await document.querySelector("calcite-input-date-picker").componentOnReady();
-        await inputDatePicker.setFocus();
-      })();
+    <script type="module">
+      const inputDatePicker = await document.querySelector("calcite-input-date-picker").componentOnReady();
+      await inputDatePicker.setFocus();
     </script>`;
 
 export const localeFormatting = (): string => html`

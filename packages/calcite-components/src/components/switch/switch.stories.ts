@@ -52,10 +52,6 @@ export const Focus_TestOnly = (): string => html`
   </script>
 `;
 
-Focus_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
-};
-
 export const FocusLabel_TestOnly = (): string => html`
   <div style="width:300px;height:300px; padding: 20px">
     <calcite-label>Switch label<calcite-switch></calcite-switch></calcite-label>
@@ -67,7 +63,3 @@ export const FocusLabel_TestOnly = (): string => html`
     })();
   </script>
 `;
-
-FocusLabel_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
-};
