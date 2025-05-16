@@ -121,7 +121,6 @@ calcite-handle {
     transition-color
     font-medium
     leading-tight
-    duration-150
     ease-in-out
     p-0;
 
@@ -171,7 +170,6 @@ calcite-handle {
   @apply transition-color
   self-center
   justify-self-end
-  duration-150
   ease-in-out;
 
   margin-inline-end: var(--calcite-spacing-md);
