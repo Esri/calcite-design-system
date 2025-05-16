@@ -295,13 +295,6 @@ export class ActionBar extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
-    if (this.layout === "horizontal-fill") {
-      const actions = queryActions(this.el);
-      actions.forEach((a) => {
-        a.alignment = "center";
-        a.fullWidth = true;
-      });
-    }
   }
 
   private handleActionsEndSlotChange(event: Event): void {

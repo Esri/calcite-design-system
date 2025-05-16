@@ -16,8 +16,7 @@ export type Layout =
   | "auto"
   | "fixed"
   | "none"
-  | "horizontal-single"
-  | "horizontal-fill";
+  | "horizontal-single";
 export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" | "block-end";
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 export type ModeName = "light" | "dark" | "auto";

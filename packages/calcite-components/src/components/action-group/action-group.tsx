@@ -55,10 +55,8 @@ export class ActionGroup extends LitElement {
    *
    * @internal
    */
-  @property({ reflect: true }) layout: Extract<
-    "horizontal" | "vertical" | "grid" | "horizontal-fill",
-    Layout
-  > = "vertical";
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
 
   /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];

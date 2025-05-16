@@ -200,11 +200,3 @@ export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expande
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
-
-export const fullWidth = (): string => html`
-  <div style="display: flex; flex-flow: column;width: 800px; margin-block: 2rem;">
-    <calcite-action-bar layout="horizontal-fill" expanded>
-      <calcite-action text="Add" icon="plus"> </calcite-action>
-    </calcite-action-bar>
-  </div>
-`;
