@@ -22,7 +22,6 @@
   @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
-  transition-duration: var(--calcite-animation-timing);
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
 }
 
