@@ -27,6 +27,7 @@ import {
 } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { InputMessage } from "../input-message/input-message";
+import { mockConsole } from "../tests/utils/logging";
 import { CSS } from "./resources";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 import type { Input } from "./input";

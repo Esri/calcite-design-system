@@ -18,6 +18,7 @@ import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimatio
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
+import { mockConsole } from "../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { Dialog } from "./dialog";
 
