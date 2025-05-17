@@ -137,7 +137,6 @@
   .actions-end {
     @apply flex
       items-center
-      duration-150
       ease-in-out;
     @include word-break();
   }
@@ -192,8 +191,7 @@
 }
 
 .icon {
-  @apply duration-150
-    ease-in-out
+  @apply ease-in-out
     flex
     items-center;
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-start);

@@ -294,12 +294,12 @@
     border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3));
 
     &:focus {
-      @apply focus-outset duration-0;
+      @apply focus-outset;
     }
   }
 
   .stepper-item-content {
-    @apply cursor-auto duration-150 ease-in-out;
+    @apply cursor-auto ease-in-out;
     padding-block: 0;
     padding-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
     text-align: start;

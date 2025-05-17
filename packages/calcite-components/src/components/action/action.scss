@@ -116,7 +116,6 @@
     leading-6
     opacity-0
     transition-opacity
-    duration-150
     ease-in-out;
 
   transition-property: margin;
@@ -173,7 +172,6 @@
   .button {
     @apply bg-transparent
       transition-shadow
-      duration-150
       ease-in-out;
 
     &:hover {

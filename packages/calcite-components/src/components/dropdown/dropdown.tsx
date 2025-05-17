@@ -495,11 +495,11 @@ export class Dropdown
   }
 
   onBeforeOpen(): void {
+    this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
   }
 
-  async onOpen(): Promise<void> {
-    this.focusOnFirstActiveOrDefaultItem();
+  onOpen(): void {
     this.calciteDropdownOpen.emit();
   }
 
