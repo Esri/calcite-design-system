@@ -22,7 +22,6 @@
   @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
-  transition-duration: var(--calcite-animation-timing);
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
 }
 
@@ -121,7 +120,6 @@ calcite-handle {
     transition-color
     font-medium
     leading-tight
-    duration-150
     ease-in-out
     p-0;
 
@@ -171,7 +169,6 @@ calcite-handle {
   @apply transition-color
   self-center
   justify-self-end
-  duration-150
   ease-in-out;
 
   margin-inline-end: var(--calcite-spacing-md);
