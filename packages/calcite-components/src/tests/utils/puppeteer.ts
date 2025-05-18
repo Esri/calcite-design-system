@@ -346,8 +346,6 @@ export async function isElementFocused(
     (selector: string, shadowed: boolean): boolean => {
       const targetDoc = shadowed ? document.activeElement?.shadowRoot : document;
 
-      console.log(targetDoc?.activeElement?.tagName);
-
       return !!targetDoc?.activeElement?.matches(selector);
     },
     selector,

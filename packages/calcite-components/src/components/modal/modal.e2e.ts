@@ -179,6 +179,7 @@ describe("calcite-modal", () => {
       <calcite-modal></calcite-modal>
     `);
     const modal = await page.find("calcite-modal");
+    const openEvent = page.waitForEvent("calciteModalOpen");
     await page.$eval(
       "calcite-modal",
       (el: Modal["el"]) =>
@@ -189,6 +190,7 @@ describe("calcite-modal", () => {
 
     modal.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
     expect(await modal.getProperty("opened")).toBe(true);
 
     await page.keyboard.press("Escape");
@@ -329,9 +331,11 @@ describe("calcite-modal", () => {
       );
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
+      const openEvent = page.waitForEvent("calciteModalOpen");
 
       await modal.setProperty("open", true);
       await page.waitForChanges();
+      await openEvent;
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
 
       await page.keyboard.press("Tab");
@@ -429,20 +433,24 @@ describe("calcite-modal", () => {
     await page.setContent(`<calcite-modal></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    const openedEvent = page.waitForEvent("calciteModalOpen");
+    let openEvent = page.waitForEvent("calciteModalOpen");
 
     modal.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
     expect(await modal.isVisible()).toBe(true);
 
+    const closeEvent = page.waitForEvent("calciteModalClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await closeEvent;
     expect(await modal.isVisible()).toBe(false);
     expect(await modal.getProperty("open")).toBe(false);
 
+    openEvent = page.waitForEvent("calciteModalOpen");
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openedEvent;
+    await openEvent;
     expect(await modal.isVisible()).toBe(true);
   });
 
@@ -451,13 +459,17 @@ describe("calcite-modal", () => {
     await page.setContent(`<calcite-modal focus-trap-disabled></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
+    const openEvent = page.waitForEvent("calciteModalOpen");
 
     modal.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
     expect(await modal.isVisible()).toBe(true);
 
+    const closeEvent = page.waitForEvent("calciteModalClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await closeEvent;
     expect(await modal.isVisible()).toBe(false);
     expect(await modal.getProperty("open")).toBe(false);
   });
@@ -475,7 +487,7 @@ describe("calcite-modal", () => {
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await waitForAnimationFrame();
+    await waitForAnimationFrame(page);
     expect(modal).not.toHaveAttribute("open");
 
     await modal.setProperty("open", true);
