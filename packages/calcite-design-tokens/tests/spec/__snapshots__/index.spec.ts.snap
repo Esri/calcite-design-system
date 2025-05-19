@@ -2505,11 +2505,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#11171a",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Blue L Bb 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "blue",
@@ -2527,6 +2524,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Blue L Bb 100",
       "path": ["core", "color", "low-saturation", "blue", "l-bb-100"],
       "key": "{core.color.low-saturation.blue.l-bb-100}"
     },
@@ -2785,11 +2785,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#121a1a",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Green Blue L Gb 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "green-blue",
@@ -2807,6 +2804,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Green Blue L Gb 100",
       "path": ["core", "color", "low-saturation", "green-blue", "l-gb-100"],
       "key": "{core.color.low-saturation.green-blue.l-gb-100}"
     },
@@ -3065,11 +3065,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#151a15",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Green L Gg 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "green",
@@ -3087,6 +3084,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Green L Gg 100",
       "path": ["core", "color", "low-saturation", "green", "l-gg-100"],
       "key": "{core.color.low-saturation.green.l-gg-100}"
     },
@@ -3345,11 +3345,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#191a15",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Yellow Green L Yg 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "yellow-green",
@@ -3367,6 +3364,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Yellow Green L Yg 100",
       "path": ["core", "color", "low-saturation", "yellow-green", "l-yg-100"],
       "key": "{core.color.low-saturation.yellow-green.l-yg-100}"
     },
@@ -3625,11 +3625,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1611",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Brown L Br 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "brown",
@@ -3647,6 +3644,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Brown L Br 100",
       "path": ["core", "color", "low-saturation", "brown", "l-br-100"],
       "key": "{core.color.low-saturation.brown.l-br-100}"
     },
@@ -3905,11 +3905,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1911",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Yellow L Yy 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "yellow",
@@ -3927,6 +3924,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Yellow L Yy 100",
       "path": ["core", "color", "low-saturation", "yellow", "l-yy-100"],
       "key": "{core.color.low-saturation.yellow.l-yy-100}"
     },
@@ -4185,11 +4185,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1611",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Orange Yellow L Oy 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "orange-yellow",
@@ -4207,6 +4204,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Orange Yellow L Oy 100",
       "path": ["core", "color", "low-saturation", "orange-yellow", "l-oy-100"],
       "key": "{core.color.low-saturation.orange-yellow.l-oy-100}"
     },
@@ -4465,11 +4465,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1411",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Orange L Oo 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "orange",
@@ -4487,6 +4484,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Orange L Oo 100",
       "path": ["core", "color", "low-saturation", "orange", "l-oo-100"],
       "key": "{core.color.low-saturation.orange.l-oo-100}"
     },
@@ -4745,11 +4745,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1311",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Red Orange L Ro 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "red-orange",
@@ -4767,6 +4764,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Red Orange L Ro 100",
       "path": ["core", "color", "low-saturation", "red-orange", "l-ro-100"],
       "key": "{core.color.low-saturation.red-orange.l-ro-100}"
     },
@@ -5025,11 +5025,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1211",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Red L Rr 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "red",
@@ -5047,6 +5044,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Red L Rr 100",
       "path": ["core", "color", "low-saturation", "red", "l-rr-100"],
       "key": "{core.color.low-saturation.red.l-rr-100}"
     },
@@ -5305,11 +5305,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1a1111",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Pink L Pk 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "pink",
@@ -5327,6 +5324,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Pink L Pk 100",
       "path": ["core", "color", "low-saturation", "pink", "l-pk-100"],
       "key": "{core.color.low-saturation.pink.l-pk-100}"
     },
@@ -5585,11 +5585,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#18111a",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Violet Red L Vr 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "violet-red",
@@ -5607,6 +5604,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Violet Red L Vr 100",
       "path": ["core", "color", "low-saturation", "violet-red", "l-vr-100"],
       "key": "{core.color.low-saturation.violet-red.l-vr-100}"
     },
@@ -5865,11 +5865,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#13111a",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Violet L Vv 1000",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "low-saturation",
         "subitem": "violet",
@@ -5887,6 +5884,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Low Saturation Violet L Vv 1000",
       "path": ["core", "color", "low-saturation", "violet", "l-vv-1000"],
       "key": "{core.color.low-saturation.violet.l-vv-1000}"
     },
@@ -6145,11 +6145,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#071a26",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Blue M Bb 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "blue",
@@ -6167,6 +6164,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Blue M Bb 100",
       "path": ["core", "color", "medium-saturation", "blue", "m-bb-100"],
       "key": "{core.color.medium-saturation.blue.m-bb-100}"
     },
@@ -6425,11 +6425,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#102928",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Green Blue M Gb 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "green-blue",
@@ -6447,6 +6444,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Green Blue M Gb 100",
       "path": ["core", "color", "medium-saturation", "green-blue", "m-gb-100"],
       "key": "{core.color.medium-saturation.green-blue.m-gb-100}"
     },
@@ -6705,11 +6705,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#172616",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Green M Gg 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "green",
@@ -6727,6 +6724,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Green M Gg 100",
       "path": ["core", "color", "medium-saturation", "green", "m-gg-100"],
       "key": "{core.color.medium-saturation.green.m-gg-100}"
     },
@@ -7039,11 +7039,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#171a0f",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Yellow Green M Yg 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "yellow-green",
@@ -7061,6 +7058,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Yellow Green M Yg 100",
       "path": [
         "core",
         "color",
@@ -7325,11 +7325,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#1f1306",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Brown M Br 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "brown",
@@ -7347,6 +7344,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Brown M Br 100",
       "path": ["core", "color", "medium-saturation", "brown", "m-br-100"],
       "key": "{core.color.medium-saturation.brown.m-br-100}"
     },
@@ -7605,11 +7605,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#262107",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Yellow M Yy 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "yellow",
@@ -7627,6 +7624,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Yellow M Yy 100",
       "path": ["core", "color", "medium-saturation", "yellow", "m-yy-100"],
       "key": "{core.color.medium-saturation.yellow.m-yy-100}"
     },
@@ -7939,11 +7939,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#261807",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Orange Yellow M Oy 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "orange-yellow",
@@ -7961,6 +7958,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Orange Yellow M Oy 100",
       "path": [
         "core",
         "color",
@@ -8225,11 +8225,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#261207",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Orange M Oo 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "orange",
@@ -8247,6 +8244,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Orange M Oo 100",
       "path": ["core", "color", "medium-saturation", "orange", "m-oo-100"],
       "key": "{core.color.medium-saturation.orange.m-oo-100}"
     },
@@ -8505,11 +8505,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#27120c",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Red Orange M Ro 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "red-orange",
@@ -8527,6 +8524,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Red Orange M Ro 100",
       "path": ["core", "color", "medium-saturation", "red-orange", "m-ro-100"],
       "key": "{core.color.medium-saturation.red-orange.m-ro-100}"
     },
@@ -8785,11 +8785,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#260a07",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Red M Rr 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "red",
@@ -8807,6 +8804,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Red M Rr 100",
       "path": ["core", "color", "medium-saturation", "red", "m-rr-100"],
       "key": "{core.color.medium-saturation.red.m-rr-100}"
     },
@@ -9065,11 +9065,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#260b0b",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Pink M Pk 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "pink",
@@ -9087,6 +9084,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Pink M Pk 100",
       "path": ["core", "color", "medium-saturation", "pink", "m-pk-100"],
       "key": "{core.color.medium-saturation.pink.m-pk-100}"
     },
@@ -9345,11 +9345,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#210726",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Violet Red M Vr 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "violet-red",
@@ -9367,6 +9364,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Violet Red M Vr 100",
       "path": ["core", "color", "medium-saturation", "violet-red", "m-vr-100"],
       "key": "{core.color.medium-saturation.violet-red.m-vr-100}"
     },
@@ -9625,11 +9625,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
     {
       "value": "#140726",
       "type": "color",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Medium Saturation Violet M Vv 100",
       "attributes": {
-        "category": "core",
+        "category": "color",
         "type": "color",
         "item": "medium-saturation",
         "subitem": "violet",
@@ -9647,6 +9644,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "color"
         }
       },
+      "filePath": "src/tokens/core/color.json",
+      "isSource": false,
+      "name": "Color Medium Saturation Violet M Vv 100",
       "path": ["core", "color", "medium-saturation", "violet", "m-vv-100"],
       "key": "{core.color.medium-saturation.violet.m-vv-100}"
     },
@@ -15336,11 +15336,8 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
       "value": "300",
       "type": "fontWeight",
       "description": "only for Avenir Next World (secondary font family)",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Weight Light",
       "attributes": {
-        "category": "core",
+        "category": "font",
         "type": "fontWeight",
         "item": "weight",
         "subitem": "light",
@@ -15364,6 +15361,9 @@ exports[`generated tokens > DOCS (internal) > core (internal) should match 1`] =
           "type": "fontWeight"
         }
       },
+      "filePath": "src/tokens/core/font.json",
+      "isSource": false,
+      "name": "Font Weight Light",
       "path": ["core", "font", "weight", "light"],
       "comment": "only for Avenir Next World (secondary font family)",
       "key": "{core.font.weight.light}"
@@ -19271,7 +19271,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
         "item": "width",
         "subitem": "xxs",
         "value": {
-          "min": 0,
+          "min": "0",
           "max": "320px"
         },
         "description": "Small handheld devices and mini-windows",
@@ -19829,14 +19829,13 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"]",
       "type": "fontFamily",
-      "description": "Primary font with fallbacks",
       "attributes": {
         "group": "family",
         "category": "semantic",
         "type": "fontFamily",
         "item": "family",
         "subitem": "default",
-        "value": ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+        "value": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
         "description": "Primary font with fallbacks",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
@@ -19856,6 +19855,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "fontFamily"
         }
       },
+      "description": "Primary font with fallbacks",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Family",
@@ -19866,19 +19866,12 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "[\\"Monaco\\",\\"Consolas\\",\\"Andale Mono\\",\\"Lucida Console\\",\\"monospace\\"]",
       "type": "fontFamily",
-      "description": "Font family for code with fallbacks",
       "attributes": {
         "category": "font",
         "type": "fontFamily",
         "item": "family",
         "subitem": "code",
-        "value": [
-          "Monaco",
-          "Consolas",
-          "Andale Mono",
-          "Lucida Console",
-          "monospace"
-        ],
+        "value": "Monaco,Consolas,Andale Mono,Lucida Console,monospace",
         "description": "Font family for code with fallbacks",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
@@ -19898,6 +19891,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "fontFamily"
         }
       },
+      "description": "Font family for code with fallbacks",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Family Code",
@@ -19908,7 +19902,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "300",
       "type": "fontWeight",
-      "description": "For Avenir Next World (secondary font family)",
       "attributes": {
         "category": "font",
         "type": "fontWeight",
@@ -19934,6 +19927,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "fontWeight"
         }
       },
+      "description": "For Avenir Next World (secondary font family)",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
@@ -19944,7 +19938,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "400",
       "type": "fontWeight",
-      "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
       "extensions": {
         "calcite.deprecated": true
       },
@@ -19954,10 +19947,10 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
         "item": "weight",
         "subitem": "normal",
         "value": "400",
-        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
         "extensions": {
           "calcite.deprecated": true
         },
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
         "name": "calcite-semantic-font-weight-normal",
@@ -19976,6 +19969,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "fontWeight"
         }
       },
+      "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -21221,7 +21215,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "2px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21247,6 +21240,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxs",
@@ -21257,7 +21251,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "4px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21283,6 +21276,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxs",
@@ -21293,7 +21287,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "6px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21319,6 +21312,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xs",
@@ -21329,7 +21323,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "8px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21355,6 +21348,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm",
@@ -21365,7 +21359,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "10px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21391,6 +21384,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm Plus",
@@ -21401,7 +21395,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "12px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21427,6 +21420,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md",
@@ -21437,7 +21431,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "14px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21463,6 +21456,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md Plus",
@@ -21473,7 +21467,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "16px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21499,6 +21492,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Lg",
@@ -21509,7 +21503,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "20px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21535,6 +21528,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xl",
@@ -21545,7 +21539,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "24px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21571,6 +21564,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxl",
@@ -21581,7 +21575,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "32px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -21607,6 +21600,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxl",
@@ -21887,7 +21881,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "4px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -21913,6 +21906,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxs",
@@ -21923,7 +21917,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "6px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -21949,6 +21942,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xs",
@@ -21959,7 +21953,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "8px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -21985,6 +21978,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Sm",
@@ -21995,7 +21989,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "12px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -22021,6 +22014,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Md",
@@ -22031,7 +22025,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "14px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -22057,6 +22050,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Lg",
@@ -22067,7 +22061,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "16px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -22093,6 +22086,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xl",
@@ -22103,7 +22097,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "20px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -22129,6 +22122,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxl",
@@ -22139,7 +22133,6 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
     {
       "value": "32px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -22165,6 +22158,7 @@ exports[`generated tokens > DOCS (internal) > global (internal) should match 1`]
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxxl",
@@ -25442,7 +25436,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
         "item": "width",
         "subitem": "xxs",
         "value": {
-          "min": 0,
+          "min": "0",
           "max": "320px"
         },
         "description": "Small handheld devices and mini-windows",
@@ -26000,14 +25994,13 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"]",
       "type": "fontFamily",
-      "description": "Primary font with fallbacks",
       "attributes": {
         "group": "family",
         "category": "semantic",
         "type": "fontFamily",
         "item": "family",
         "subitem": "default",
-        "value": ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+        "value": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
         "description": "Primary font with fallbacks",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
@@ -26027,6 +26020,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "fontFamily"
         }
       },
+      "description": "Primary font with fallbacks",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Family",
@@ -26037,19 +26031,12 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "[\\"Monaco\\",\\"Consolas\\",\\"Andale Mono\\",\\"Lucida Console\\",\\"monospace\\"]",
       "type": "fontFamily",
-      "description": "Font family for code with fallbacks",
       "attributes": {
         "category": "font",
         "type": "fontFamily",
         "item": "family",
         "subitem": "code",
-        "value": [
-          "Monaco",
-          "Consolas",
-          "Andale Mono",
-          "Lucida Console",
-          "monospace"
-        ],
+        "value": "Monaco,Consolas,Andale Mono,Lucida Console,monospace",
         "description": "Font family for code with fallbacks",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
@@ -26069,6 +26056,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "fontFamily"
         }
       },
+      "description": "Font family for code with fallbacks",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Family Code",
@@ -26079,7 +26067,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "300",
       "type": "fontWeight",
-      "description": "For Avenir Next World (secondary font family)",
       "attributes": {
         "category": "font",
         "type": "fontWeight",
@@ -26105,6 +26092,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "fontWeight"
         }
       },
+      "description": "For Avenir Next World (secondary font family)",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
@@ -26115,7 +26103,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "400",
       "type": "fontWeight",
-      "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
       "extensions": {
         "calcite.deprecated": true
       },
@@ -26125,10 +26112,10 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
         "item": "weight",
         "subitem": "normal",
         "value": "400",
-        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
         "extensions": {
           "calcite.deprecated": true
         },
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
         "name": "calcite-semantic-font-weight-normal",
@@ -26147,6 +26134,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "fontWeight"
         }
       },
+      "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \\"regular\\"",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -27392,7 +27380,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "2px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27418,6 +27405,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxs",
@@ -27428,7 +27416,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "4px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27454,6 +27441,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxs",
@@ -27464,7 +27452,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "6px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27490,6 +27477,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xs",
@@ -27500,7 +27488,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "8px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27526,6 +27513,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm",
@@ -27536,7 +27524,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "10px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27562,6 +27549,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm Plus",
@@ -27572,7 +27560,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "12px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27598,6 +27585,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md",
@@ -27608,7 +27596,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "14px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27634,6 +27621,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md Plus",
@@ -27644,7 +27632,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "16px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27670,6 +27657,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Lg",
@@ -27680,7 +27668,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "20px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27706,6 +27693,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xl",
@@ -27716,7 +27704,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "24px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27742,6 +27729,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxl",
@@ -27752,7 +27740,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "32px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "size",
         "type": "dimension",
@@ -27778,6 +27765,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxl",
@@ -28058,7 +28046,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "4px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28084,6 +28071,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxs",
@@ -28094,7 +28082,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "6px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28120,6 +28107,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xs",
@@ -28130,7 +28118,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "8px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28156,6 +28143,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Sm",
@@ -28166,7 +28154,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "12px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28192,6 +28179,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Md",
@@ -28202,7 +28190,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "14px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28228,6 +28215,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Lg",
@@ -28238,7 +28226,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "16px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28264,6 +28251,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xl",
@@ -28274,7 +28262,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "20px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28300,6 +28287,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxl",
@@ -28310,7 +28298,6 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
     {
       "value": "32px",
       "type": "dimension",
-      "description": "deprecated",
       "attributes": {
         "category": "space",
         "type": "dimension",
@@ -28336,6 +28323,7 @@ exports[`generated tokens > DOCS (internal) > semantic (internal) should match 1
           "type": "dimension"
         }
       },
+      "description": "deprecated",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Xxxl",
@@ -32904,15 +32892,8 @@ export default {
           "l-bb-100": {
             value: "#11171a",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#11171a",
-              type: "color",
-            },
-            name: "Color Low Saturation Blue L Bb 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "blue",
@@ -32930,6 +32911,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#11171a",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Blue L Bb 100",
             path: ["core", "color", "low-saturation", "blue", "l-bb-100"],
             key: "{core.color.low-saturation.blue.l-bb-100}",
           },
@@ -33253,15 +33244,8 @@ export default {
           "l-gb-100": {
             value: "#121a1a",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#121a1a",
-              type: "color",
-            },
-            name: "Color Low Saturation Green Blue L Gb 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "green-blue",
@@ -33279,6 +33263,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#121a1a",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Green Blue L Gb 100",
             path: ["core", "color", "low-saturation", "green-blue", "l-gb-100"],
             key: "{core.color.low-saturation.green-blue.l-gb-100}",
           },
@@ -33602,15 +33596,8 @@ export default {
           "l-gg-100": {
             value: "#151a15",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#151a15",
-              type: "color",
-            },
-            name: "Color Low Saturation Green L Gg 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "green",
@@ -33628,6 +33615,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#151a15",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Green L Gg 100",
             path: ["core", "color", "low-saturation", "green", "l-gg-100"],
             key: "{core.color.low-saturation.green.l-gg-100}",
           },
@@ -34005,15 +34002,8 @@ export default {
           "l-yg-100": {
             value: "#191a15",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#191a15",
-              type: "color",
-            },
-            name: "Color Low Saturation Yellow Green L Yg 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "yellow-green",
@@ -34031,6 +34021,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#191a15",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Yellow Green L Yg 100",
             path: [
               "core",
               "color",
@@ -34360,15 +34360,8 @@ export default {
           "l-br-100": {
             value: "#1a1611",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1611",
-              type: "color",
-            },
-            name: "Color Low Saturation Brown L Br 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "brown",
@@ -34386,6 +34379,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1611",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Brown L Br 100",
             path: ["core", "color", "low-saturation", "brown", "l-br-100"],
             key: "{core.color.low-saturation.brown.l-br-100}",
           },
@@ -34709,15 +34712,8 @@ export default {
           "l-yy-100": {
             value: "#1a1911",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1911",
-              type: "color",
-            },
-            name: "Color Low Saturation Yellow L Yy 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "yellow",
@@ -34735,6 +34731,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1911",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Yellow L Yy 100",
             path: ["core", "color", "low-saturation", "yellow", "l-yy-100"],
             key: "{core.color.low-saturation.yellow.l-yy-100}",
           },
@@ -35112,15 +35118,8 @@ export default {
           "l-oy-100": {
             value: "#1a1611",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1611",
-              type: "color",
-            },
-            name: "Color Low Saturation Orange Yellow L Oy 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "orange-yellow",
@@ -35138,6 +35137,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1611",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Orange Yellow L Oy 100",
             path: [
               "core",
               "color",
@@ -35467,15 +35476,8 @@ export default {
           "l-oo-100": {
             value: "#1a1411",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1411",
-              type: "color",
-            },
-            name: "Color Low Saturation Orange L Oo 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "orange",
@@ -35493,6 +35495,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1411",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Orange L Oo 100",
             path: ["core", "color", "low-saturation", "orange", "l-oo-100"],
             key: "{core.color.low-saturation.orange.l-oo-100}",
           },
@@ -35816,15 +35828,8 @@ export default {
           "l-ro-100": {
             value: "#1a1311",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1311",
-              type: "color",
-            },
-            name: "Color Low Saturation Red Orange L Ro 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "red-orange",
@@ -35842,6 +35847,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1311",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Red Orange L Ro 100",
             path: ["core", "color", "low-saturation", "red-orange", "l-ro-100"],
             key: "{core.color.low-saturation.red-orange.l-ro-100}",
           },
@@ -36165,15 +36180,8 @@ export default {
           "l-rr-100": {
             value: "#1a1211",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1211",
-              type: "color",
-            },
-            name: "Color Low Saturation Red L Rr 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "red",
@@ -36191,6 +36199,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1211",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Red L Rr 100",
             path: ["core", "color", "low-saturation", "red", "l-rr-100"],
             key: "{core.color.low-saturation.red.l-rr-100}",
           },
@@ -36514,15 +36532,8 @@ export default {
           "l-pk-100": {
             value: "#1a1111",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1a1111",
-              type: "color",
-            },
-            name: "Color Low Saturation Pink L Pk 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "pink",
@@ -36540,6 +36551,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1a1111",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Pink L Pk 100",
             path: ["core", "color", "low-saturation", "pink", "l-pk-100"],
             key: "{core.color.low-saturation.pink.l-pk-100}",
           },
@@ -36863,15 +36884,8 @@ export default {
           "l-vr-100": {
             value: "#18111a",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#18111a",
-              type: "color",
-            },
-            name: "Color Low Saturation Violet Red L Vr 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "violet-red",
@@ -36889,6 +36903,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#18111a",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Violet Red L Vr 100",
             path: ["core", "color", "low-saturation", "violet-red", "l-vr-100"],
             key: "{core.color.low-saturation.violet-red.l-vr-100}",
           },
@@ -37212,15 +37236,8 @@ export default {
           "l-vv-1000": {
             value: "#13111a",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#13111a",
-              type: "color",
-            },
-            name: "Color Low Saturation Violet L Vv 1000",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "low-saturation",
               subitem: "violet",
@@ -37238,6 +37255,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#13111a",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Low Saturation Violet L Vv 1000",
             path: ["core", "color", "low-saturation", "violet", "l-vv-1000"],
             key: "{core.color.low-saturation.violet.l-vv-1000}",
           },
@@ -37563,15 +37590,8 @@ export default {
           "m-bb-100": {
             value: "#071a26",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#071a26",
-              type: "color",
-            },
-            name: "Color Medium Saturation Blue M Bb 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "blue",
@@ -37589,6 +37609,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#071a26",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Blue M Bb 100",
             path: ["core", "color", "medium-saturation", "blue", "m-bb-100"],
             key: "{core.color.medium-saturation.blue.m-bb-100}",
           },
@@ -37966,15 +37996,8 @@ export default {
           "m-gb-100": {
             value: "#102928",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#102928",
-              type: "color",
-            },
-            name: "Color Medium Saturation Green Blue M Gb 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "green-blue",
@@ -37992,6 +38015,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#102928",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Green Blue M Gb 100",
             path: [
               "core",
               "color",
@@ -38321,15 +38354,8 @@ export default {
           "m-gg-100": {
             value: "#172616",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#172616",
-              type: "color",
-            },
-            name: "Color Medium Saturation Green M Gg 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "green",
@@ -38347,6 +38373,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#172616",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Green M Gg 100",
             path: ["core", "color", "medium-saturation", "green", "m-gg-100"],
             key: "{core.color.medium-saturation.green.m-gg-100}",
           },
@@ -38724,15 +38760,8 @@ export default {
           "m-yg-100": {
             value: "#171a0f",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#171a0f",
-              type: "color",
-            },
-            name: "Color Medium Saturation Yellow Green M Yg 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "yellow-green",
@@ -38750,6 +38779,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#171a0f",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Yellow Green M Yg 100",
             path: [
               "core",
               "color",
@@ -39079,15 +39118,8 @@ export default {
           "m-br-100": {
             value: "#1f1306",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#1f1306",
-              type: "color",
-            },
-            name: "Color Medium Saturation Brown M Br 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "brown",
@@ -39105,6 +39137,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#1f1306",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Brown M Br 100",
             path: ["core", "color", "medium-saturation", "brown", "m-br-100"],
             key: "{core.color.medium-saturation.brown.m-br-100}",
           },
@@ -39428,15 +39470,8 @@ export default {
           "m-yy-100": {
             value: "#262107",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#262107",
-              type: "color",
-            },
-            name: "Color Medium Saturation Yellow M Yy 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "yellow",
@@ -39454,6 +39489,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#262107",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Yellow M Yy 100",
             path: ["core", "color", "medium-saturation", "yellow", "m-yy-100"],
             key: "{core.color.medium-saturation.yellow.m-yy-100}",
           },
@@ -39831,15 +39876,8 @@ export default {
           "m-oy-100": {
             value: "#261807",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#261807",
-              type: "color",
-            },
-            name: "Color Medium Saturation Orange Yellow M Oy 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "orange-yellow",
@@ -39857,6 +39895,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#261807",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Orange Yellow M Oy 100",
             path: [
               "core",
               "color",
@@ -40186,15 +40234,8 @@ export default {
           "m-oo-100": {
             value: "#261207",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#261207",
-              type: "color",
-            },
-            name: "Color Medium Saturation Orange M Oo 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "orange",
@@ -40212,6 +40253,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#261207",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Orange M Oo 100",
             path: ["core", "color", "medium-saturation", "orange", "m-oo-100"],
             key: "{core.color.medium-saturation.orange.m-oo-100}",
           },
@@ -40589,15 +40640,8 @@ export default {
           "m-ro-100": {
             value: "#27120c",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#27120C",
-              type: "color",
-            },
-            name: "Color Medium Saturation Red Orange M Ro 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "red-orange",
@@ -40615,6 +40659,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#27120C",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Red Orange M Ro 100",
             path: [
               "core",
               "color",
@@ -40944,15 +40998,8 @@ export default {
           "m-rr-100": {
             value: "#260a07",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#260a07",
-              type: "color",
-            },
-            name: "Color Medium Saturation Red M Rr 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "red",
@@ -40970,6 +41017,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#260a07",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Red M Rr 100",
             path: ["core", "color", "medium-saturation", "red", "m-rr-100"],
             key: "{core.color.medium-saturation.red.m-rr-100}",
           },
@@ -41293,15 +41350,8 @@ export default {
           "m-pk-100": {
             value: "#260b0b",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#260b0b",
-              type: "color",
-            },
-            name: "Color Medium Saturation Pink M Pk 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "pink",
@@ -41319,6 +41369,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#260b0b",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Pink M Pk 100",
             path: ["core", "color", "medium-saturation", "pink", "m-pk-100"],
             key: "{core.color.medium-saturation.pink.m-pk-100}",
           },
@@ -41696,15 +41756,8 @@ export default {
           "m-vr-100": {
             value: "#210726",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#210726",
-              type: "color",
-            },
-            name: "Color Medium Saturation Violet Red M Vr 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "violet-red",
@@ -41722,6 +41775,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#210726",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Violet Red M Vr 100",
             path: [
               "core",
               "color",
@@ -42051,15 +42114,8 @@ export default {
           "m-vv-100": {
             value: "#140726",
             type: "color",
-            filePath: "src/tokens/core/color.json",
-            isSource: false,
-            original: {
-              value: "#140726",
-              type: "color",
-            },
-            name: "Color Medium Saturation Violet M Vv 100",
             attributes: {
-              category: "core",
+              category: "color",
               type: "color",
               item: "medium-saturation",
               subitem: "violet",
@@ -42077,6 +42133,16 @@ export default {
                 type: "color",
               },
             },
+            filePath: "src/tokens/core/color.json",
+            isSource: false,
+            original: {
+              value: "#140726",
+              type: "color",
+              attributes: {
+                category: "color",
+              },
+            },
+            name: "Color Medium Saturation Violet M Vv 100",
             path: ["core", "color", "medium-saturation", "violet", "m-vv-100"],
             key: "{core.color.medium-saturation.violet.m-vv-100}",
           },
@@ -48627,7 +48693,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 0,
+          value: "0",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48660,7 +48726,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 154,
+          value: "154",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48693,7 +48759,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 320,
+          value: "320",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48726,7 +48792,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 328,
+          value: "328",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48759,7 +48825,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 476,
+          value: "476",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48792,7 +48858,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 504,
+          value: "504",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48825,7 +48891,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 678,
+          value: "678",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48858,7 +48924,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 768,
+          value: "768",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48891,7 +48957,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 854,
+          value: "854",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48924,7 +48990,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 1152,
+          value: "1152",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -48957,7 +49023,7 @@ export default {
         filePath: "src/tokens/core/container-size.json",
         isSource: false,
         original: {
-          value: 1440,
+          value: "1440",
           type: "dimension",
           attributes: {
             category: "breakpoint",
@@ -49554,16 +49620,8 @@ export default {
           value: "300",
           type: "fontWeight",
           description: "only for Avenir Next World (secondary font family)",
-          filePath: "src/tokens/core/font.json",
-          isSource: false,
-          original: {
-            value: "Light",
-            type: "fontWeight",
-            description: "only for Avenir Next World (secondary font family)",
-          },
-          name: "Font Weight Light",
           attributes: {
-            category: "core",
+            category: "font",
             type: "fontWeight",
             item: "weight",
             subitem: "light",
@@ -49587,6 +49645,17 @@ export default {
               type: "fontWeight",
             },
           },
+          filePath: "src/tokens/core/font.json",
+          isSource: false,
+          original: {
+            value: "Light",
+            type: "fontWeight",
+            description: "only for Avenir Next World (secondary font family)",
+            attributes: {
+              category: "font",
+            },
+          },
+          name: "Font Weight Light",
           path: ["core", "font", "weight", "light"],
           comment: "only for Avenir Next World (secondary font family)",
           key: "{core.font.weight.light}",
@@ -55516,7 +55585,7 @@ export default {
             item: "width",
             subitem: "xxs",
             value: {
-              min: 0,
+              min: "0",
               max: "320px",
             },
             description: "Small handheld devices and mini-windows",
@@ -55542,7 +55611,7 @@ export default {
           isSource: true,
           original: {
             value: {
-              min: 0,
+              min: "0",
               max: "{core.container-size.320}",
             },
             type: "dimension",
@@ -56245,14 +56314,13 @@ export default {
         default: {
           value: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
           type: "fontFamily",
-          description: "Primary font with fallbacks",
           attributes: {
             group: "family",
             category: "semantic",
             type: "fontFamily",
             item: "family",
             subitem: "default",
-            value: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+            value: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
             description: "Primary font with fallbacks",
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
@@ -56272,20 +56340,17 @@ export default {
               type: "fontFamily",
             },
           },
+          description: "Primary font with fallbacks",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
-            value: [
-              "{core.font.family.avenirNext}",
-              "{core.font.family.avenir}",
-              "{core.font.family.helveticaNeue}",
-              "{core.font.family.sansSerif}",
-            ],
+            value:
+              "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
             type: "fontFamily",
-            description: "Primary font with fallbacks",
             attributes: {
               group: "family",
             },
+            description: "Primary font with fallbacks",
           },
           name: "Font Family",
           path: ["semantic", "font", "family", "default"],
@@ -56301,19 +56366,12 @@ export default {
             "monospace",
           ],
           type: "fontFamily",
-          description: "Font family for code with fallbacks",
           attributes: {
             category: "font",
             type: "fontFamily",
             item: "family",
             subitem: "code",
-            value: [
-              "Monaco",
-              "Consolas",
-              "Andale Mono",
-              "Lucida Console",
-              "monospace",
-            ],
+            value: "Monaco,Consolas,Andale Mono,Lucida Console,monospace",
             description: "Font family for code with fallbacks",
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
@@ -56333,21 +56391,17 @@ export default {
               type: "fontFamily",
             },
           },
+          description: "Font family for code with fallbacks",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
-            value: [
-              "{core.font.family.monaco}",
-              "{core.font.family.consolas}",
-              "{core.font.family.andaleMono}",
-              "{core.font.family.lucidaConsole}",
-              "{core.font.family.monospace}",
-            ],
+            value:
+              "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
             type: "fontFamily",
-            description: "Font family for code with fallbacks",
             attributes: {
               category: "font",
             },
+            description: "Font family for code with fallbacks",
           },
           name: "Font Family Code",
           path: ["semantic", "font", "family", "code"],
@@ -56359,7 +56413,6 @@ export default {
         light: {
           value: "300",
           type: "fontWeight",
-          description: "For Avenir Next World (secondary font family)",
           attributes: {
             category: "font",
             type: "fontWeight",
@@ -56385,15 +56438,16 @@ export default {
               type: "fontWeight",
             },
           },
+          description: "For Avenir Next World (secondary font family)",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
             value: "{core.font.weight.light}",
             type: "fontWeight",
-            description: "For Avenir Next World (secondary font family)",
             attributes: {
               category: "font",
             },
+            description: "For Avenir Next World (secondary font family)",
           },
           name: "Font Weight Light",
           path: ["semantic", "font", "weight", "light"],
@@ -56403,8 +56457,6 @@ export default {
         normal: {
           value: "400",
           type: "fontWeight",
-          description:
-            'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           extensions: {
             "calcite.deprecated": true,
           },
@@ -56414,11 +56466,11 @@ export default {
             item: "weight",
             subitem: "normal",
             value: "400",
-            description:
-              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             extensions: {
               "calcite.deprecated": true,
             },
+            description:
+              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
             name: "calcite-semantic-font-weight-normal",
@@ -56438,19 +56490,21 @@ export default {
               type: "fontWeight",
             },
           },
+          description:
+            'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
             value: "{core.font.weight.regular}",
             type: "fontWeight",
-            description:
-              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             extensions: {
               "calcite.deprecated": true,
             },
             attributes: {
               category: "font",
             },
+            description:
+              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           },
           name: "Font Weight Normal",
           path: ["semantic", "font", "weight", "normal"],
@@ -58061,7 +58115,6 @@ export default {
         xxxs: {
           value: "2px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58087,15 +58140,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.2}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxxs",
           path: ["semantic", "size", "fixed", "xxxs"],
@@ -58105,7 +58159,6 @@ export default {
         xxs: {
           value: "4px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58131,15 +58184,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.4}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxs",
           path: ["semantic", "size", "fixed", "xxs"],
@@ -58149,7 +58203,6 @@ export default {
         xs: {
           value: "6px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58175,15 +58228,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.6}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xs",
           path: ["semantic", "size", "fixed", "xs"],
@@ -58193,7 +58247,6 @@ export default {
         sm: {
           value: "8px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58219,15 +58272,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.8}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Sm",
           path: ["semantic", "size", "fixed", "sm"],
@@ -58237,7 +58291,6 @@ export default {
         "sm+": {
           value: "10px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58263,15 +58316,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.10}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Sm Plus",
           path: ["semantic", "size", "fixed", "sm+"],
@@ -58281,7 +58335,6 @@ export default {
         md: {
           value: "12px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58307,15 +58360,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.12}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Md",
           path: ["semantic", "size", "fixed", "md"],
@@ -58325,7 +58379,6 @@ export default {
         "md+": {
           value: "14px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58351,15 +58404,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.14}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Md Plus",
           path: ["semantic", "size", "fixed", "md+"],
@@ -58369,7 +58423,6 @@ export default {
         lg: {
           value: "16px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58395,15 +58448,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.16}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Lg",
           path: ["semantic", "size", "fixed", "lg"],
@@ -58413,7 +58467,6 @@ export default {
         xl: {
           value: "20px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58439,15 +58492,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.20}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xl",
           path: ["semantic", "size", "fixed", "xl"],
@@ -58457,7 +58511,6 @@ export default {
         xxl: {
           value: "24px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58483,15 +58536,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.24}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxl",
           path: ["semantic", "size", "fixed", "xxl"],
@@ -58501,7 +58555,6 @@ export default {
         xxxl: {
           value: "32px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -58527,15 +58580,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.32}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxxl",
           path: ["semantic", "size", "fixed", "xxxl"],
@@ -58891,7 +58945,6 @@ export default {
         xxs: {
           value: "4px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -58917,15 +58970,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.4}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxs",
           path: ["semantic", "spacing", "fixed", "xxs"],
@@ -58935,7 +58989,6 @@ export default {
         xs: {
           value: "6px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -58961,15 +59014,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.6}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xs",
           path: ["semantic", "spacing", "fixed", "xs"],
@@ -58979,7 +59033,6 @@ export default {
         sm: {
           value: "8px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59005,15 +59058,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.8}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Sm",
           path: ["semantic", "spacing", "fixed", "sm"],
@@ -59023,7 +59077,6 @@ export default {
         md: {
           value: "12px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59049,15 +59102,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.12}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Md",
           path: ["semantic", "spacing", "fixed", "md"],
@@ -59067,7 +59121,6 @@ export default {
         lg: {
           value: "14px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59093,15 +59146,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.14}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Lg",
           path: ["semantic", "spacing", "fixed", "lg"],
@@ -59111,7 +59165,6 @@ export default {
         xl: {
           value: "16px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59137,15 +59190,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.16}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xl",
           path: ["semantic", "spacing", "fixed", "xl"],
@@ -59155,7 +59209,6 @@ export default {
         xxl: {
           value: "20px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59181,15 +59234,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.20}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxl",
           path: ["semantic", "spacing", "fixed", "xxl"],
@@ -59199,7 +59253,6 @@ export default {
         xxxl: {
           value: "32px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -59225,15 +59278,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.32}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxxl",
           path: ["semantic", "spacing", "fixed", "xxxl"],
@@ -64162,7 +64216,7 @@ export default {
             item: "width",
             subitem: "xxs",
             value: {
-              min: 0,
+              min: "0",
               max: "320px",
             },
             description: "Small handheld devices and mini-windows",
@@ -64188,7 +64242,7 @@ export default {
           isSource: true,
           original: {
             value: {
-              min: 0,
+              min: "0",
               max: "{core.container-size.320}",
             },
             type: "dimension",
@@ -64891,14 +64945,13 @@ export default {
         default: {
           value: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
           type: "fontFamily",
-          description: "Primary font with fallbacks",
           attributes: {
             group: "family",
             category: "semantic",
             type: "fontFamily",
             item: "family",
             subitem: "default",
-            value: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+            value: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
             description: "Primary font with fallbacks",
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
@@ -64918,20 +64971,17 @@ export default {
               type: "fontFamily",
             },
           },
+          description: "Primary font with fallbacks",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
-            value: [
-              "{core.font.family.avenirNext}",
-              "{core.font.family.avenir}",
-              "{core.font.family.helveticaNeue}",
-              "{core.font.family.sansSerif}",
-            ],
+            value:
+              "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
             type: "fontFamily",
-            description: "Primary font with fallbacks",
             attributes: {
               group: "family",
             },
+            description: "Primary font with fallbacks",
           },
           name: "Font Family",
           path: ["semantic", "font", "family", "default"],
@@ -64947,19 +64997,12 @@ export default {
             "monospace",
           ],
           type: "fontFamily",
-          description: "Font family for code with fallbacks",
           attributes: {
             category: "font",
             type: "fontFamily",
             item: "family",
             subitem: "code",
-            value: [
-              "Monaco",
-              "Consolas",
-              "Andale Mono",
-              "Lucida Console",
-              "monospace",
-            ],
+            value: "Monaco,Consolas,Andale Mono,Lucida Console,monospace",
             description: "Font family for code with fallbacks",
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
@@ -64979,21 +65022,17 @@ export default {
               type: "fontFamily",
             },
           },
+          description: "Font family for code with fallbacks",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
-            value: [
-              "{core.font.family.monaco}",
-              "{core.font.family.consolas}",
-              "{core.font.family.andaleMono}",
-              "{core.font.family.lucidaConsole}",
-              "{core.font.family.monospace}",
-            ],
+            value:
+              "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
             type: "fontFamily",
-            description: "Font family for code with fallbacks",
             attributes: {
               category: "font",
             },
+            description: "Font family for code with fallbacks",
           },
           name: "Font Family Code",
           path: ["semantic", "font", "family", "code"],
@@ -65005,7 +65044,6 @@ export default {
         light: {
           value: "300",
           type: "fontWeight",
-          description: "For Avenir Next World (secondary font family)",
           attributes: {
             category: "font",
             type: "fontWeight",
@@ -65031,15 +65069,16 @@ export default {
               type: "fontWeight",
             },
           },
+          description: "For Avenir Next World (secondary font family)",
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
             value: "{core.font.weight.light}",
             type: "fontWeight",
-            description: "For Avenir Next World (secondary font family)",
             attributes: {
               category: "font",
             },
+            description: "For Avenir Next World (secondary font family)",
           },
           name: "Font Weight Light",
           path: ["semantic", "font", "weight", "light"],
@@ -65049,8 +65088,6 @@ export default {
         normal: {
           value: "400",
           type: "fontWeight",
-          description:
-            'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           extensions: {
             "calcite.deprecated": true,
           },
@@ -65060,11 +65097,11 @@ export default {
             item: "weight",
             subitem: "normal",
             value: "400",
-            description:
-              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             extensions: {
               "calcite.deprecated": true,
             },
+            description:
+              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
             name: "calcite-semantic-font-weight-normal",
@@ -65084,19 +65121,21 @@ export default {
               type: "fontWeight",
             },
           },
+          description:
+            'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           filePath: "src/tokens/semantic/font.json",
           isSource: true,
           original: {
             value: "{core.font.weight.regular}",
             type: "fontWeight",
-            description:
-              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
             extensions: {
               "calcite.deprecated": true,
             },
             attributes: {
               category: "font",
             },
+            description:
+              'For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"',
           },
           name: "Font Weight Normal",
           path: ["semantic", "font", "weight", "normal"],
@@ -66707,7 +66746,6 @@ export default {
         xxxs: {
           value: "2px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66733,15 +66771,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.2}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxxs",
           path: ["semantic", "size", "fixed", "xxxs"],
@@ -66751,7 +66790,6 @@ export default {
         xxs: {
           value: "4px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66777,15 +66815,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.4}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxs",
           path: ["semantic", "size", "fixed", "xxs"],
@@ -66795,7 +66834,6 @@ export default {
         xs: {
           value: "6px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66821,15 +66859,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.6}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xs",
           path: ["semantic", "size", "fixed", "xs"],
@@ -66839,7 +66878,6 @@ export default {
         sm: {
           value: "8px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66865,15 +66903,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.8}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Sm",
           path: ["semantic", "size", "fixed", "sm"],
@@ -66883,7 +66922,6 @@ export default {
         "sm+": {
           value: "10px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66909,15 +66947,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.10}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Sm Plus",
           path: ["semantic", "size", "fixed", "sm+"],
@@ -66927,7 +66966,6 @@ export default {
         md: {
           value: "12px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66953,15 +66991,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.12}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Md",
           path: ["semantic", "size", "fixed", "md"],
@@ -66971,7 +67010,6 @@ export default {
         "md+": {
           value: "14px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -66997,15 +67035,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.14}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Md Plus",
           path: ["semantic", "size", "fixed", "md+"],
@@ -67015,7 +67054,6 @@ export default {
         lg: {
           value: "16px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -67041,15 +67079,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.16}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Lg",
           path: ["semantic", "size", "fixed", "lg"],
@@ -67059,7 +67098,6 @@ export default {
         xl: {
           value: "20px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -67085,15 +67123,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.20}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xl",
           path: ["semantic", "size", "fixed", "xl"],
@@ -67103,7 +67142,6 @@ export default {
         xxl: {
           value: "24px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -67129,15 +67167,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.24}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxl",
           path: ["semantic", "size", "fixed", "xxl"],
@@ -67147,7 +67186,6 @@ export default {
         xxxl: {
           value: "32px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "size",
             type: "dimension",
@@ -67173,15 +67211,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/size.json",
           isSource: true,
           original: {
             value: "{core.size.default.32}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "size",
             },
+            description: "deprecated",
           },
           name: "Size Fixed Xxxl",
           path: ["semantic", "size", "fixed", "xxxl"],
@@ -67537,7 +67576,6 @@ export default {
         xxs: {
           value: "4px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67563,15 +67601,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.4}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxs",
           path: ["semantic", "spacing", "fixed", "xxs"],
@@ -67581,7 +67620,6 @@ export default {
         xs: {
           value: "6px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67607,15 +67645,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.6}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xs",
           path: ["semantic", "spacing", "fixed", "xs"],
@@ -67625,7 +67664,6 @@ export default {
         sm: {
           value: "8px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67651,15 +67689,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.8}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Sm",
           path: ["semantic", "spacing", "fixed", "sm"],
@@ -67669,7 +67708,6 @@ export default {
         md: {
           value: "12px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67695,15 +67733,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.12}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Md",
           path: ["semantic", "spacing", "fixed", "md"],
@@ -67713,7 +67752,6 @@ export default {
         lg: {
           value: "14px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67739,15 +67777,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.14}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Lg",
           path: ["semantic", "spacing", "fixed", "lg"],
@@ -67757,7 +67796,6 @@ export default {
         xl: {
           value: "16px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67783,15 +67821,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.16}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xl",
           path: ["semantic", "spacing", "fixed", "xl"],
@@ -67801,7 +67840,6 @@ export default {
         xxl: {
           value: "20px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67827,15 +67865,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.20}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxl",
           path: ["semantic", "spacing", "fixed", "xxl"],
@@ -67845,7 +67884,6 @@ export default {
         xxxl: {
           value: "32px",
           type: "dimension",
-          description: "deprecated",
           attributes: {
             category: "space",
             type: "dimension",
@@ -67871,15 +67909,16 @@ export default {
               type: "dimension",
             },
           },
+          description: "deprecated",
           filePath: "src/tokens/semantic/space.json",
           isSource: true,
           original: {
             value: "{core.size.default.32}",
             type: "dimension",
-            description: "deprecated",
             attributes: {
               category: "space",
             },
+            description: "deprecated",
           },
           name: "Spacing Fixed Xxxl",
           path: ["semantic", "spacing", "fixed", "xxxl"],
