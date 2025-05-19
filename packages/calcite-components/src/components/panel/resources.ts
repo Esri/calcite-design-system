@@ -7,6 +7,7 @@ export const CSS = {
   header: "header",
   headerContainer: "header-container",
   headerContainerBorderEnd: "header-container--border-end",
+  headingContainer: "heading-container",
   heading: "heading",
   summary: "summary",
   description: "description",

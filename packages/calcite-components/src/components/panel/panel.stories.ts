@@ -141,7 +141,9 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
 `;
 
 export const withIcon = (): string => html`
-  <calcite-panel icon="banana" heading="Banana"> ${contentHTML} </calcite-panel>
+  <calcite-panel scale="s" icon="banana" heading="Banana"> ${contentHTML} </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana"> ${contentHTML} </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana"> ${contentHTML} </calcite-panel>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`

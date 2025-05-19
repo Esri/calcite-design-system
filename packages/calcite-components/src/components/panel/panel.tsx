@@ -408,8 +408,10 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
-        {iconNode}
-        {heading}
+        <div class={CSS.headingContainer}>
+          {iconNode}
+          {heading}
+        </div>
       </Heading>
     ) : null;
 
