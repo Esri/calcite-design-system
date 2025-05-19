@@ -1104,6 +1104,52 @@ describe("calcite-dialog", () => {
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
     });
+
+    it.only("should honor minBlockSize and minInlineSize when resizing", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog
+          style="
+          --calcite-dialog-size-y: 400px;
+          --calcite-dialog-size-x: 400px;
+          --calcite-dialog-min-size-y: 400px;
+          --calcite-dialog-min-size-x: 400px;"
+          width-scale="s"
+          heading="Hello world"
+          resizable
+          open
+          ><p>
+            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+            fermentum tellus quis ad facilisis ultrices eros imperdiet.
+          </p></calcite-dialog
+        >`,
+      );
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialHeight = parseInt(initialBlockSize);
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialWidth = parseInt(initialInlineSize);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    });
   });
 
   describe("theme", () => {
