@@ -5,6 +5,7 @@
 
  * @prop --calcite-panel-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-panel-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-panel-icon-color: Specifies the color of the component's icon.
  * @prop --calcite-panel-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-panel-border-color: Specifies the component's border color.
  * @prop --calcite-panel-background-color: Specifies the component's background color.
@@ -267,6 +268,10 @@ calcite-action-menu {
   z-sticky;
   inset-inline: 0;
   inline-size: fit-content;
+}
+
+calcite-icon {
+  --calcite-icon-color: var(--calcite-panel-icon-color);
 }
 
 @include base-component();

@@ -95,6 +95,14 @@ describe("calcite-dialog", () => {
         value: "brand",
       },
       {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+      },
+      {
         propertyName: "loading",
         value: true,
       },
@@ -170,6 +178,14 @@ describe("calcite-dialog", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
       },
       {
         propertyName: "kind",
@@ -269,6 +285,8 @@ describe("calcite-dialog", () => {
     dialog.setProperty("heading", "My Heading");
     dialog.setProperty("description", "My Description");
     dialog.setProperty("scale", "l");
+    dialog.setProperty("icon", "x");
+    dialog.setProperty("iconFlipRtl", true);
     dialog.setProperty("messageOverrides", messageOverrides);
     await page.waitForChanges();
 
@@ -280,6 +298,8 @@ describe("calcite-dialog", () => {
     expect(await panel.getProperty("heading")).toBe("My Heading");
     expect(await panel.getProperty("description")).toBe("My Description");
     expect(await panel.getProperty("scale")).toBe("l");
+    expect(await panel.getProperty("icon")).toBe("x");
+    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
     expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
     expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
@@ -1110,7 +1130,9 @@ describe("calcite-dialog", () => {
     themed(
       async () => {
         const page = await newE2EPage();
-        await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
+        await page.setContent(
+          html`<calcite-dialog icon="banana" width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
+        );
         // set large page to ensure test dialog isn't becoming fullscreen
         await page.setViewport({ width: 1440, height: 1440 });
         await skipAnimations(page);
@@ -1164,6 +1186,10 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-background-color": {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-background-color",
+        },
+        "--calcite-dialog-icon-color": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-icon-color",
         },
       },
     );

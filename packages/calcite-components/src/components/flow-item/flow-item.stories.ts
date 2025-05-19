@@ -16,6 +16,8 @@ interface FlowItemStoryArgs
     | "collapsed"
     | "collapseDirection"
     | "loading"
+    | "icon"
+    | "iconFlipRtl"
     | "scale"
     | "selected"
   > {
@@ -32,6 +34,8 @@ export default {
     collapsed: false,
     collapseDirection: collapseDirection.defaultValue,
     heightScale: scale.defaultValue,
+    icon: "",
+    iconFlipRtl: false,
     scale: scale.defaultValue,
     loading: false,
     selected: true,
@@ -105,6 +109,8 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     ${boolean("loading", args.loading)}
     ${boolean("selected", args.selected)}
     heading="Heading"
+    icon="${args.icon}"
+    icon-flip-rtl="${args.iconFlipRtl}"
     description="A wonderful flow item description"
   >
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
@@ -126,6 +132,10 @@ export const onlyProps = (): string => html`
       heading="flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     />
   </div>
+`;
+
+export const withIcon = (): string => html`
+  <calcite-flow-item icon="banana" heading="Banana"> Hello World! </calcite-flow-item>
 `;
 
 export const collapsed_TestOnly = (): string => html`

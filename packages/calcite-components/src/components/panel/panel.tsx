@@ -11,7 +11,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -25,6 +25,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -142,6 +143,12 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -393,9 +400,15 @@ export class Panel extends LitElement implements InteractiveComponent {
   //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent } = this;
+    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+
+    const iconNode = icon ? (
+      <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />
+    ) : null;
+
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
+        {iconNode}
         {heading}
       </Heading>
     ) : null;
