@@ -135,7 +135,7 @@ export const onlyProps = (): string => html`
 `;
 
 export const withIcon = (): string => html`
-  <calcite-flow-item icon="banana" heading="Banana"> Hello World! </calcite-flow-item>
+  <calcite-flow-item icon="banana" selected heading="Banana"> Hello World! </calcite-flow-item>
 `;
 
 export const collapsed_TestOnly = (): string => html`

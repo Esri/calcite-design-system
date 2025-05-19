@@ -198,7 +198,7 @@ export const customContentSlot = (): string => html`
 `;
 
 export const withIcon = (): string => html`
-  <calcite-dialog icon="banana" heading="Banana" open> Hello world! </calcite-dialog>
+  <calcite-dialog icon="banana" heading="Banana" open scale="m" width-scale="s" modal> Hello world! </calcite-dialog>
 `;
 
 export const darkModeRTLCustomSizeCSSVars = (): string => html`
