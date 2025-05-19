@@ -21,39 +21,21 @@ For these properties, you should use the internal `getElementDir` helper to appl
 
 ## Translation (t9n)
 
-Previously, components provided Intl properties (`intl<Prop>`) to allow users to pass string translations. While this is still supported for backwards compatibility, our components also have translations built-in.
-
 The following section covers how to add built-in translation support to components.
 
-### `T9nComponent` pattern
+### `useT9nController` pattern
 
 This pattern enables components to support built-in translations. In order to support this, a component must:
 
-1. Add the following translation bundles as component assets under a `t9n` folder (please refer to <https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/conventions/README.md#assets> for additional info on assets)
-   1. `messages.json` – main bundle
-   2. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
-2. Implement the `T9nComponent` interface
-   1. The `onMessagesChange` method must be empty as it is wired up by the support utils.
-   2. The `onMessagesChange` method must also be configured to watch the `messageOverrides` property.
-3. Use the `setUpMessages` util in the component's `componentWillLoad` lifecycle methods. This must be awaited on to have an initial set of strings available before rendering.
-4. Use the `connectMessages`/`disconnectMessages` utils in the component's `connectedCallback`/`disconnectedCallback` lifecycle methods. This will set up and tear down supporting methods on the component.
-5. Add an appropriate E2E test by using the `t9n` common test helper.
-6. Composite components need to forward message overrides props to supporting t9n components.
-   1. If the parent supports translations:
-      1. Add the `messageOverrides` property (its type should be the union of the parent and supporting component messages types).
-      2. Pass the `messageOverrides` into supporting components in the render method.
-   1. If the parent does not support translations:
-      1. Add the `messageOverrides` property (its type should be the union of supporting component messages types).
-      2. Pass the `messageOverrides` into supporting components in the render method.
-7. Internal components that support public t9n components
-   1. Do not have to implement the `T9nComponent` interface
-   2. Should use an internal, immutable, `messages` property (its type should correspond to the parent component's messages type)
+1. Implement the `useT9nController`. Please refer to [useT9n](https://qawebgis.esri.com/components/lumina/controllers/useT9n) doc for implementation specifications.
+2. Add the translation bundles as mentioned in [docs](https://qawebgis.esri.com/components/lumina/controllers/useT9n#_2-create-an-english-t9n-strings-file).
+3. Add an appropriate E2E test by using the `t9n` common test helper.
+4. Internal components that support public t9n components
+   1. Do not have to implement the `useT9n` controller
+   2. Should use an internal `messages` property and its type should correspond to the parent component's messages type as mentioned [here](https://qawebgis.esri.com/components/lumina/controllers/useT9n#sharing-strings-between-parent-and-sub-component).
 
 #### Notes
 
-- This pattern depends on `LocalizedComponent` being implemented.
-- `connectLocalized` (from `LocalizedComponent`) must be called before `connectMessages`.
-- You can also look at the interface and util documentation for additional info.
 - The internal `messages` property should be used as the source of truth for translations in rendering.
 - List of supported locales can be found on our [Localization support page](https://developers.arcgis.com/calcite-design-system/localization/#locale-support).
 - Placeholders in message bundle strings should:
