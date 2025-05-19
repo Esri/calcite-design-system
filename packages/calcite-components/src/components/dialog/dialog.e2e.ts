@@ -1105,7 +1105,7 @@ describe("calcite-dialog", () => {
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
     });
 
-    it.only("should honor minBlockSize and minInlineSize when resizing", async () => {
+    it("should honor minBlockSize and minInlineSize when resizing", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-dialog
