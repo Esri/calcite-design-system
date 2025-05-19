@@ -9764,5 +9764,10 @@
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
     "category": "Generic",
     "release": "4.2.0"
+  },
+  "transfer": {
+    "alias": ["4.2.1", "windows", "move", "shift", "transmit", "commit", "relocation"],
+    "category": "Windows",
+    "release": "4.2.1"
   }
 }
