@@ -13,7 +13,7 @@ import {
   renders,
   themed,
 } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 
@@ -200,16 +200,19 @@ describe("calcite-segmented-control", () => {
     await first.click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(await getSelectedItemValue(page)).toBe("1");
+    expect(await getFocusedElementProp<SegmentedControl["el"]>(page, "value")).toBe("1");
 
-    // does not emit from programmatic changes
+    // does not emit nor changes focus from programmatic changes
     third.setProperty("checked", true);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(await getSelectedItemValue(page)).toBe("3");
+    expect(await getFocusedElementProp<SegmentedControl["el"]>(page, "value")).toBe("1");
 
     await second.click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(await getSelectedItemValue(page)).toBe("2");
+    expect(await getFocusedElementProp<SegmentedControl["el"]>(page, "value")).toBe("2");
 
     expect(await page.evaluate(() => (window as TestWindow).eventTimeValues)).toEqual(["1", "2"]);
   });
