@@ -123,6 +123,26 @@ calcite-panel {
   --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
 }
 
+:host([kind="brand"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-brand) ;);
+}
+
+:host([kind="danger"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-danger));
+}
+
+:host([kind="info"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-info));
+}
+
+:host([kind="success"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-success));
+}
+
+:host([kind="warning"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-warning));
+}
+
 ::slotted(*) {
   --calcite-panel-background-color: initial;
 }

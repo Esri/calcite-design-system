@@ -155,9 +155,8 @@
   margin-inline-end: auto;
   justify-content: center;
 
-  .heading-container {
-    display: flex;
-    align-items: center;
+  .heading-text-content {
+    flex: 1 1 auto;
   }
 
   .heading,
@@ -237,13 +236,19 @@ calcite-action-menu {
   padding-block: var(--calcite-internal-panel-header-vertical-padding);
   padding-inline: var(--calcite-internal-panel-default-space);
 
-  &.header-slotted-content {
+  &.header--slotted-content {
     padding: var(
       --calcite-panel-header-content-space,
       var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
     );
   }
+
+  &.header--non-slotted-content {
+    align-items: center;
+    flex-direction: row;
+  }
 }
+
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));

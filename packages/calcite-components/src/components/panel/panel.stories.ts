@@ -146,6 +146,12 @@ export const withIcon = (): string => html`
   <calcite-panel scale="l" icon="banana" heading="Banana"> Hello world! </calcite-panel>
 `;
 
+export const withDescriptionAndIcon = (): string => html`
+  <calcite-panel scale="s" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-panel collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
     ${panelContent}

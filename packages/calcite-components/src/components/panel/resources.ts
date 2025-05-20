@@ -7,7 +7,7 @@ export const CSS = {
   header: "header",
   headerContainer: "header-container",
   headerContainerBorderEnd: "header-container--border-end",
-  headingContainer: "heading-container",
+  headingTextContent: "heading-text-content",
   heading: "heading",
   summary: "summary",
   description: "description",
@@ -23,7 +23,8 @@ export const CSS = {
   footerActions: "footer-actions",
   footerStart: "footer-start",
   footerEnd: "footer-end",
-  headerSlottedContent: "header-slotted-content",
+  headerSlottedContent: "header--slotted-content",
+  headerNonSlottedContent: "header--non-slotted-content",
   menuAction: "menu-action",
 };
 

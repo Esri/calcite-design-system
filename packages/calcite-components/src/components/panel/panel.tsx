@@ -408,19 +408,22 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
-        <div class={CSS.headingContainer}>
-          {iconNode}
-          {heading}
-        </div>
+        {heading}
       </Heading>
     ) : null;
 
     const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
 
     return !hasHeaderContent && (headingNode || descriptionNode) ? (
-      <div class={CSS.headerContent} key="header-content">
-        {headingNode}
-        {descriptionNode}
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        key="header-content"
+      >
+        {iconNode}
+        <div class={CSS.headingTextContent}>
+          {headingNode}
+          {descriptionNode}
+        </div>
       </div>
     ) : null;
   }

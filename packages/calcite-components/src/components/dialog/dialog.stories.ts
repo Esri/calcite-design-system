@@ -198,7 +198,84 @@ export const customContentSlot = (): string => html`
 `;
 
 export const withIcon = (): string => html`
-  <calcite-dialog icon="banana" heading="Banana" open scale="m" width-scale="s" modal> Hello world! </calcite-dialog>
+  <calcite-dialog icon="banana" heading="Banana" description="This is bananas" open scale="m" width-scale="s" modal>
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindBrandIcon = (): string => html`
+  <calcite-dialog
+    kind="brand"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindDangerIcon = (): string => html`
+  <calcite-dialog
+    kind="danger"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindInfoIcon = (): string => html`
+  <calcite-dialog
+    kind="info"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindSuccessIcon = (): string => html`
+  <calcite-dialog
+    kind="info"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindWarningIcon = (): string => html`
+  <calcite-dialog
+    kind="warning"
+    icon="banana"
+    description="This is bananas"
+    heading="Banana"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
 `;
 
 export const darkModeRTLCustomSizeCSSVars = (): string => html`
