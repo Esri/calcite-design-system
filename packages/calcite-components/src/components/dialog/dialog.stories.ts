@@ -250,7 +250,7 @@ export const withKindInfoIcon = (): string => html`
 
 export const withKindSuccessIcon = (): string => html`
   <calcite-dialog
-    kind="info"
+    kind="success"
     icon="banana"
     heading="Banana"
     description="This is bananas"
