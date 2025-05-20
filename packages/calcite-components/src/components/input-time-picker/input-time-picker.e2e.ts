@@ -40,7 +40,7 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
 }
 
 async function assertDisplayedTime(page: E2EPage, expectedValue, locale?: SupportedLocale): Promise<void> {
-  expect(await getInputValue(page, locale)).toBe(expectedValue.replaceAll(/\s+/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
+  expect(await getInputValue(page, locale)).toBe(expectedValue.replaceAll(/^[\u00A0\s]+/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
 }
 
 describe("calcite-input-time-picker", () => {
