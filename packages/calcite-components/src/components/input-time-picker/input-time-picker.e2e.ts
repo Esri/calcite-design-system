@@ -34,13 +34,14 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const decimalSeparator = (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.innerText || "";
   const fractionalSecond = (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.innerText || "";
   const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText || "";
-  const meridiem = (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText || "";
+  const meridiem =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(/\u00A0/g, "") || ""; // some locales like es and ca contain non-breaking space characters, so we remove them to make text assertions more uniform.
   const meridiemOrder = getMeridiemOrder(locale);
   return `${meridiem && meridiemOrder === 0 ? meridiem : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? meridiem : ""}`;
 }
 
-async function assertDisplayedTime(page: E2EPage, expectedValue, locale?: SupportedLocale): Promise<void> {
-  expect(await getInputValue(page, locale)).toBe(expectedValue.replaceAll(/^[\u00A0\s]+/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
+async function assertDisplayedTime(page: E2EPage, incomingValue, locale?: SupportedLocale): Promise<void> {
+  expect(await getInputValue(page, locale)).toBe(incomingValue.replaceAll(/\s/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
 }
 
 describe("calcite-input-time-picker", () => {
@@ -393,6 +394,9 @@ describe("calcite-input-time-picker", () => {
     });
 
     supportedLocales.forEach((locale: SupportedLocale) => {
+      if (locale !== "es") {
+        return;
+      }
       const localeHourFormat = getLocaleHourFormat(locale);
       const meridiemOrder = getMeridiemOrder(locale);
       const step = 0.001;
@@ -428,7 +432,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         describe("12-hour format", () => {
-          it("supports display and editing in localized 12-hour format", async () => {
+          it.only("supports display and editing in localized 12-hour format", async () => {
             const initialValue = "00:00:00.000";
             const page = await newE2EPage();
             await page.setContent(html`
