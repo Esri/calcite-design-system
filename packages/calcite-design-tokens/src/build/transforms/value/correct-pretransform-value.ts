@@ -5,7 +5,7 @@ import { RegisterFn } from "../../../types/interfaces.js";
 const correctedValueTypes = ["fontWeight"] as const;
 const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.type);
 
-const transformValueCorrectValue: ValueTransform["transform"] = async (token) => {
+const transformValueCorrectPreprocessValue: ValueTransform["transform"] = async (token) => {
   if (token.type === "fontWeight") {
     if (token.value.toLowerCase() === "demi") {
       return "DemiBold";
@@ -15,14 +15,14 @@ const transformValueCorrectValue: ValueTransform["transform"] = async (token) =>
   return token.value;
 };
 
-export const registerValueCorrectValue: RegisterFn = () => {
+export const registerValueCorrectPreprocessValue: RegisterFn = () => {
   StyleDictionary.registerTransform({
-    name: TransformValueCorrectValue,
+    name: TransformValueCorrectPreprocessValue,
     type: "value",
     transitive: true,
     filter: filterTypes,
-    transform: transformValueCorrectValue,
+    transform: transformValueCorrectPreprocessValue,
   });
 };
 
-export const TransformValueCorrectValue = "calcite/transform/value/correct-value";
+export const TransformValueCorrectPreprocessValue = "calcite/transform/value/correct-preprocess-value";

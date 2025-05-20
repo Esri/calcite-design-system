@@ -9,8 +9,9 @@ import { registerNameCapitalCase } from "./name/capital-case.js";
 import { registerNameRemovePrefix } from "./name/remove-prefix.js";
 import { registerValueMergeValues } from "./value/merge-value.js";
 import { registerValueEnsureType } from "./value/ensure-type.js";
-import { registerValueCorrectValue } from "./value/correct-value.js";
+import { registerValueCorrectPreprocessValue } from "./value/correct-pretransform-value.js";
 import { registerValueCorrectPropName } from "./value/correct-prop-name.js";
+import { registerValueCorrectPostprocessValue } from "./value/correct-posttransform-value.js";
 
 export function registerTransformers(): void {
   registerValueMergeValues();
@@ -21,7 +22,8 @@ export function registerTransformers(): void {
   registerNameCapitalCase();
   registerValueSizePxToRem();
   registerValueEnsureType();
-  registerValueCorrectValue();
+  registerValueCorrectPreprocessValue();
+  registerValueCorrectPostprocessValue();
   registerValueCorrectPropName();
   registerAttributePlatformNames();
   registerAttributeSchema();
@@ -31,7 +33,8 @@ export function registerTransformers(): void {
 export { TransformValueSizePxToRem } from "./value/px-to-rem.js";
 export { TransformValueMergeValues } from "./value/merge-value.js";
 export { TransformValueEnsureType } from "./value/ensure-type.js";
-export { TransformValueCorrectValue } from "./value/correct-value.js";
+export { TransformValueCorrectPreprocessValue } from "./value/correct-pretransform-value.js";
+export { TransformValueCorrectPostprocessValue } from "./value/correct-posttransform-value.js";
 export { TransformValueCorrectPropName } from "./value/correct-prop-name.js";
 export { TransformNameRemoveTier } from "./name/remove-tier.js";
 export { TransformNameRemoveDefault } from "./name/remove-default.js";

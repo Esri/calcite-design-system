@@ -8,8 +8,9 @@ import { TransformAttributePlatformNames } from "../attribute/platform-names.js"
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../../types/interfaces.js";
 import { TransformValueEnsureType } from "../value/ensure-type.js";
-import { TransformValueCorrectValue } from "../value/correct-value.js";
+import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.js";
 import { Platform } from "../../utils/enums.js";
+import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.js";
 
 export const platformTransforms = {
   [Platform.css]: [
@@ -31,7 +32,7 @@ export const platformTransforms = {
 
 export function getTransforms(): string[] {
   const agnosticTransforms = [
-    TransformValueCorrectValue,
+    TransformValueCorrectPreprocessValue,
     "ts/descriptionToComment",
     "ts/resolveMath",
     "ts/size/px",
@@ -41,6 +42,7 @@ export function getTransforms(): string[] {
     "ts/color/modifiers",
     TransformValueSizePxToRem,
     TransformValueEnsureType,
+    TransformValueCorrectPostprocessValue,
   ];
 
   return [...agnosticTransforms, ...platformTransforms[Platform.css]];
