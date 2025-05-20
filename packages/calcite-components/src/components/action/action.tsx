@@ -97,7 +97,7 @@ export class Action extends LitElement implements InteractiveComponent {
    * When `true`, the component appears as if it is focused.
    * @private
    */
-  @property({ reflect: true }) focused = false;
+  @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;

@@ -117,7 +117,7 @@ export class ActionMenu extends LitElement {
     }
 
     // Used to style the "activeMenuItemIndex" action using token focus styling.
-    action.focused = index === activeMenuItemIndex;
+    action.activeDescendant = index === activeMenuItemIndex;
   };
 
   // #endregion
