@@ -22,7 +22,7 @@ declare global {
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
- * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or link, depending on this.
+ * Passing a 'href' will render an anchor link, instead of a button.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
  *
@@ -154,10 +154,9 @@ export class Link extends LitElement implements InteractiveComponent {
       childElType === "button"
         ? (literal`button` as unknown as "button")
         : (literal`a` as unknown as "a");
-    const role = childElType === "button" ? "link" : null;
     const tabIndex = childElType === "button" ? 0 : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.role = "presentation";
+    this.el.role = "presentation"; // todo: doesn't this make this component not accessible?
 
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -178,7 +177,6 @@ export class Link extends LitElement implements InteractiveComponent {
           onClick={this.childElClickHandler}
           ref={this.storeTagRef}
           rel={childElType === "a" && this.rel}
-          role={role}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}
         >
