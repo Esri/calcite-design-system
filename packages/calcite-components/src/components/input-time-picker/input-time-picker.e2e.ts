@@ -365,7 +365,7 @@ describe("calcite-input-time-picker", () => {
         expect(changeEvent).toHaveReceivedEventTimes(1);
       });
 
-      it.only("value displays correctly in the input when it is directly changed for arabic lang and arab numberingSystem", async () => {
+      it("value displays correctly in the input when it is directly changed for arabic lang and arab numberingSystem", async () => {
         const locale = "ar";
         const numberingSystem = "arab";
 
