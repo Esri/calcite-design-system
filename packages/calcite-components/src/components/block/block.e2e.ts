@@ -250,7 +250,9 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
 
+    const openEvent = element.waitForEvent("calciteBlockOpen");
     await toggle.click();
+    await openEvent;
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
@@ -258,7 +260,9 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
+    const closeEvent = element.waitForEvent("calciteBlockClose");
     await toggle.click();
+    await closeEvent;
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(closeSpy).toHaveReceivedEventTimes(1);
@@ -333,12 +337,18 @@ describe("calcite-block", () => {
       await control.press("Space");
       await control.press("Enter");
       await control.click();
+
       expect(blockOpenSpy).toHaveReceivedEventTimes(0);
       expect(blockToggleSpy).toHaveReceivedEventTimes(0);
       expect(blockCloseSpy).toHaveReceivedEventTimes(0);
 
+      const openEvent = page.waitForEvent("calciteBlockOpen");
+      const closeEvent = page.waitForEvent("calciteBlockClose");
       await block.click();
+      await openEvent;
       await block.click();
+      await closeEvent;
+
       expect(blockToggleSpy).toHaveReceivedEventTimes(2);
       expect(blockOpenSpy).toHaveReceivedEventTimes(1);
       expect(blockCloseSpy).toHaveReceivedEventTimes(1);

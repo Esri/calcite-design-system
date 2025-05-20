@@ -142,6 +142,11 @@ describe("calcite-action-menu", () => {
     );
   });
 
+  async function waitForActionMenuClose(page: E2EPage): Promise<void> {
+    // replace with close event handling once https://github.com/Esri/calcite-design-system/issues/4544 lands
+    await page.waitForFunction(() => document.querySelector("calcite-action-menu").open === false);
+  }
+
   it("should close menu if clicked outside", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu open>
@@ -154,26 +159,19 @@ describe("calcite-action-menu", () => {
         </div>`,
     });
 
-    await page.waitForChanges();
-
     const actionMenu = await page.find("calcite-action-menu");
-
     const popover = await page.find("calcite-action-menu >>> calcite-popover");
-
-    expect(await popover.getProperty("autoClose")).toBe(true);
-
-    expect(await popover.getProperty("open")).toBe(true);
-
-    expect(await actionMenu.getProperty("open")).toBe(true);
-
     const outside = await page.find("#outside");
 
-    await outside.click();
+    expect(await popover.getProperty("autoClose")).toBe(true);
+    expect(await popover.getProperty("open")).toBe(true);
+    expect(await actionMenu.getProperty("open")).toBe(true);
 
+    await outside.click();
     await page.waitForChanges();
+    await waitForActionMenuClose(page);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
-
     expect(await popover.getProperty("open")).toBe(false);
   });
 
@@ -314,6 +312,7 @@ describe("calcite-action-menu", () => {
 
     await outside.click();
     await page.waitForChanges();
+    await waitForActionMenuClose(page);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
 
