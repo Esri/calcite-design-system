@@ -5,90 +5,90 @@
         "xxxs": {
           "value": "{core.size.default.2}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "xs": {
           "value": "{core.size.default.6}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "sm": {
           "value": "{core.size.default.8}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "sm+": {
           "value": "{core.size.default.10}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "md": {
           "value": "{core.size.default.12}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "md+": {
           "value": "{core.size.default.14}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "lg": {
           "value": "{core.size.default.16}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "xl": {
           "value": "{core.size.default.20}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "xxl": {
           "value": "{core.size.default.24}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         },
         "xxxl": {
           "value": "{core.size.default.32}",
           "type": "spacing",
-          "description": "deprecated",
           "attributes": {
             "category": "size"
-          }
+          },
+          "description": "deprecated"
         }
       },
       "default": {
