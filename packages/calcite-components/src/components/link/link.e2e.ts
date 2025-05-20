@@ -231,6 +231,18 @@ describe("calcite-link", () => {
       expect(page.url()).toBe(targetUrl);
     });
 
+    it("keyboard without href", async () => {
+      const element = await page.find("calcite-link");
+      element.setProperty("href", undefined);
+      const clickEvent = await element.spyOnEvent("click");
+
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(clickEvent).toHaveReceivedEventTimes(1);
+    });
+
     it("mouse", async () => {
       // workaround for https://github.com/puppeteer/puppeteer/issues/2977
       await page.$eval("calcite-link", (link: HTMLElement): void => {
