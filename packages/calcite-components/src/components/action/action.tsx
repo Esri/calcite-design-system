@@ -96,11 +96,11 @@ export class Action extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the component is full width
+   * When `full`, the component's width spans all its parent's available space
    *
    * @private
    */
-  @property({ reflect: true }) fullWidth = false;
+  @property({ reflect: true }) width: "auto" | "full" = "auto";
 
   /**
    * Made into a prop for testing purposes only

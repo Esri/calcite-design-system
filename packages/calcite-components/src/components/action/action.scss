@@ -36,8 +36,16 @@
   border-radius: inherit;
 }
 
-:host([full-width]) {
+:host([width="full"]) {
   flex: 1 0 auto;
+
+  .button {
+    justify-content: center;
+
+    .text-container--visible {
+      flex: none;
+    }
+  }
 }
 
 :host([drag-handle]) {
