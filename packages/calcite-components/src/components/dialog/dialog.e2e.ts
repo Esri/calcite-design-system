@@ -464,12 +464,17 @@ describe("calcite-dialog", () => {
       await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDialogOpen");
       dialog.setProperty("open", true);
       await page.waitForChanges();
+      await openEvent;
+
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
 
+      const closeEvent = page.waitForEvent("calciteDialogClose");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+      await closeEvent;
 
       expect(mockCallBack).toHaveBeenCalledTimes(2);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
@@ -621,8 +626,11 @@ describe("calcite-dialog", () => {
       await skipAnimations(page);
       const dialog = await page.find("calcite-dialog");
 
+      const openEvent = page.waitForEvent("calciteDialogOpen");
       dialog.setProperty("open", true);
       await page.waitForChanges();
+      await openEvent;
+
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
 
       await page.keyboard.press("Tab");

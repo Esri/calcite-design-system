@@ -1577,8 +1577,10 @@ describe("calcite-combobox", () => {
       expect(await getDataTestId()).toBe(inputId);
       await assertCaretPosition({ page, componentTag, position: 0 });
 
+      const filterChangeEvent = page.waitForEvent("calciteComboboxFilterChange");
       await page.keyboard.type("zz");
       await page.waitForChanges();
+      await filterChangeEvent;
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
