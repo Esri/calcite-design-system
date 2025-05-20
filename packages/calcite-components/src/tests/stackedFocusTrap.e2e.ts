@@ -128,12 +128,11 @@ describe("stacked focus-trap components", () => {
       await openAndCheckVisibility(secondModal);
       await openAndCheckVisibility(popover);
 
-      if (pickerType === "calcite-input-time-picker") {
-        const toggleButton = await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`);
-        await toggleButton.click();
-      } else {
-        await inputPicker.click();
-      }
+      const clickTarget =
+        pickerType === "calcite-input-time-picker"
+          ? await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`)
+          : inputPicker;
+      await clickTarget.click();
 
       await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
     }
