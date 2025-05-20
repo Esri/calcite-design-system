@@ -1,6 +1,7 @@
 {
   "all": "Kõik",
   "allSelected": "Kõik valitud",
+  "selectAll": "Select All",
   "clear": "Eemalda väärtus",
   "removeTag": "Eemaldage märksõna",
   "selected": "valitud"
