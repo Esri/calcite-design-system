@@ -125,7 +125,6 @@ $spacing: $baseline * 0.5;
 .tile {
   @apply bg-foreground-1
     box-border
-    duration-150
     ease-in-out
     flex
     flex-col
@@ -155,7 +154,6 @@ $spacing: $baseline * 0.5;
 
 .tile-heading {
   @apply break-words
-    duration-150
     ease-in-out
     font-medium
     pointer-events-none
@@ -165,7 +163,6 @@ $spacing: $baseline * 0.5;
 
 .tile-description {
   @apply break-words
-    duration-150
     ease-in-out
     pointer-events-none
     text-color-3
