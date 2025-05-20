@@ -540,7 +540,7 @@ describe("calcite-list", () => {
     it("navigating items after filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list filter-enabled>
+        <calcite-list drag-enabled filter-enabled>
           <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
           <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
         </calcite-list>
