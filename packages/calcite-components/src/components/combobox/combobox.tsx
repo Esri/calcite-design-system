@@ -287,7 +287,7 @@ export class Combobox
     return items.filter((item) => !item.disabled);
   }
 
-  // #endregion
+  //#endregion
 
   //#region Public Properties
 
@@ -1510,6 +1510,24 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
+  private createScreenReaderItem({
+    ariaLabel,
+    ariaSelected,
+    id,
+    textContent,
+  }: {
+    ariaLabel?: string;
+    ariaSelected: boolean;
+    id: string | null;
+    textContent: string;
+  }): JsxNode {
+    return (
+      <li aria-label={ariaLabel} aria-selected={ariaSelected} id={id} role="option" tabIndex={-1}>
+        {textContent}
+      </li>
+    );
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1738,20 +1756,13 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const mappedListBoxOptions = this.filteredItems.map(
-      (item: HTMLCalciteComboboxItemElement["el"]) => {
-        return (
-          <li
-            ariaLabel={item.label}
-            ariaSelected={item.selected}
-            id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
-            role="option"
-            tabIndex="-1"
-          >
-            {item.heading || item.textLabel}
-          </li>
-        );
-      },
+    const mappedListBoxOptions = this.filteredItems.map((item) =>
+      this.createScreenReaderItem({
+        ariaLabel: item.label,
+        ariaSelected: item.selected,
+        id: item.guid ? `${itemUidPrefix}${item.guid}` : null,
+        textContent: item.heading || item.textLabel,
+      }),
     );
 
     if (
@@ -1759,16 +1770,12 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist"
     ) {
-      const selectAllComboboxItem = (
-        <li
-          ariaLabel={this.messages.selectAll}
-          ariaSelected={this.allSelected}
-          role="option"
-          tabIndex="-1"
-        >
-          {this.messages.selectAll}
-        </li>
-      );
+      const selectAllComboboxItem = this.createScreenReaderItem({
+        ariaLabel: this.messages.selectAll,
+        ariaSelected: this.allSelected,
+        id: null,
+        textContent: this.messages.selectAll,
+      });
 
       if (selectAllComboboxItem) {
         mappedListBoxOptions.unshift(selectAllComboboxItem);
