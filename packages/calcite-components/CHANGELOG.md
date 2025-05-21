@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.2...@esri/calcite-components@3.3.0-next.3) (2025-05-21)
+
+### Bug Fixes
+
+- **sheet, shell:** fix resize handle in RTL direction ([#12205](https://github.com/Esri/calcite-design-system/issues/12205)) ([c4dbfe6](https://github.com/Esri/calcite-design-system/commit/c4dbfe69695f3c96044ead80d4cf6e01fe0fba67)), closes [#12196](https://github.com/Esri/calcite-design-system/issues/12196)
+
 ## [3.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.1...@esri/calcite-components@3.3.0-next.2) (2025-05-21)
 
 ### Features
