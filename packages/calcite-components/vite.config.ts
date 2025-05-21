@@ -5,11 +5,17 @@ import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
+import { defaultExclude } from "vitest/config";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
+
+const allDirsAndFiles = "**/*";
+const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
+const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
+const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
 
 export default defineConfig({
   build: { minify: false },
@@ -96,8 +102,9 @@ export default defineConfig({
   },
 
   test: {
-    browser: { name: "chromium", enabled: runBrowserTests, screenshotFailures: false },
-    include: [`**/*.${runBrowserTests ? "browser." : ""}{e2e,spec}.?(c|m)[jt]s?(x)`],
+    browser: { enabled: runBrowserTests, name: "chromium", provider: "playwright", screenshotFailures: false },
+    include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
+    exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,
     setupFiles: ["src/tests/setupTests.ts"],
   },

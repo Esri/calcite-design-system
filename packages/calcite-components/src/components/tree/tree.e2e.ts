@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it, MockInstance, vi } from "vit
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
-import { findAll, getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
 
 type SpyInstance = MockInstance;

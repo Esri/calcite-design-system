@@ -49,8 +49,8 @@ There are four issue lifecycle labels:
 - `0 - new`: Issues that are up for grabs.
 - `1 - assigned`: Issues that someone will work on soon.
 - `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to `main`.
-- `4 - verified`: Issues that have been tested and are ready to close.
+- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
 

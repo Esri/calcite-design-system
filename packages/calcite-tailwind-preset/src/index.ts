@@ -1,3 +1,4 @@
+import type { Config } from "tailwindcss";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 
@@ -23,9 +24,10 @@ function invert(value: string, flagPropName: string): string {
           )`;
 }
 
-export default {
+// we omit content to work around https://github.com/tailwindlabs/tailwindcss/issues/11725 (fixed in v4, but not v3)
+const config: Omit<Config, "content"> = {
   theme: {
-    borderColor: ({ theme }): object => ({
+    borderColor: ({ theme }) => ({
       color: {
         1: "var(--calcite-color-border-1)",
         2: "var(--calcite-color-border-2)",
@@ -133,7 +135,7 @@ export default {
       l: "1024px",
       xl: "1440px",
     },
-    backgroundColor: ({ theme }): object => ({
+    backgroundColor: ({ theme }) => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
@@ -147,12 +149,6 @@ export default {
       "danger-press": theme("colors.danger-press"),
     }),
     extend: {
-      animation: {
-        in: "in var(--calcite-internal-animation-timing-slow) ease-in-out",
-        "in-down": "in-down var(--calcite-internal-animation-timing-slow) ease-in-out",
-        "in-up": "in-up var(--calcite-internal-animation-timing-slow) ease-in-out",
-        "in-scale": "in-scale var(--calcite-internal-animation-timing-slow) linear",
-      },
       borderRadius: {
         half: "50%",
       },
@@ -174,39 +170,39 @@ export default {
       keyframes: {
         in: {
           "0%": {
-            opacity: 0,
+            opacity: "0",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
           },
         },
         "in-down": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translate3D(0, -5px, 0)",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translate3D(0, 0, 0)",
           },
         },
         "in-up": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translate3D(0, 5px, 0)",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translate3D(0, 0, 0)",
           },
         },
         "in-scale": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "scale3D(0.95, 0.95, 1)",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "scale3D(1, 1, 1)",
           },
         },
@@ -302,3 +298,5 @@ export default {
     }),
   ],
 };
+
+export default config;

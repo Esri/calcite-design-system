@@ -470,7 +470,7 @@ export class RadioButton
           role="radio"
           tabIndex={tabIndex}
         >
-          <div class="radio" />
+          <div class={CSS.radio} />
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

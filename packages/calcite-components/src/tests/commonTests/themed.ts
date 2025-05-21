@@ -3,7 +3,7 @@ import type { RequireExactlyOne } from "type-fest";
 import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
-import { skipAnimations, toElementHandle } from "../utils";
+import { skipAnimations, toElementHandle } from "../utils/puppeteer";
 import type { ComponentTestSetup } from "./interfaces";
 import { getTagAndPage } from "./utils";
 
@@ -181,7 +181,7 @@ type State = "press" | "hover" | "focus";
 
 /** Describes a test target for themed components. */
 type TestTarget = {
-  /** An object with target element and selector info. */
+  /** An object with the target element and selector info. */
   target: TargetInfo;
 
   /** The selector for the interaction's target element. */
@@ -329,8 +329,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       throw new Error(message);
     }
   }
-
-  await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
     const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);

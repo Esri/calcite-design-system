@@ -12,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
@@ -55,13 +55,13 @@ export class InputText
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
@@ -80,10 +80,6 @@ export class InputText
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   labelEl: Label["el"];
 
@@ -111,15 +107,22 @@ export class InputText
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -178,13 +181,6 @@ export class InputText
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -277,7 +273,6 @@ export class InputText
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -286,9 +281,9 @@ export class InputText
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -304,9 +299,9 @@ export class InputText
     this.childEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new value is typed and committed. */
   calciteInputTextChange = createEvent();
@@ -323,9 +318,9 @@ export class InputText
     value: string;
   }>();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -372,9 +367,13 @@ export class InputText
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -537,9 +536,9 @@ export class InputText
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -638,5 +637,5 @@ export class InputText
     );
   }
 
-  // #endregion
+  //#endregion
 }
