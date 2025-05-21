@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.1...@esri/calcite-components@3.3.0-next.2) (2025-05-21)
+
+### Features
+
+- **action:** make actions fill full width of parent ([#12047](https://github.com/Esri/calcite-design-system/issues/12047)) ([680256f](https://github.com/Esri/calcite-design-system/commit/680256f7e99ee16b864c873ce189d8625ffbd92e)), closes [#7438](https://github.com/Esri/calcite-design-system/issues/7438)
+
 ## [3.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.0...@esri/calcite-components@3.3.0-next.1) (2025-05-21)
 
 ### Features
