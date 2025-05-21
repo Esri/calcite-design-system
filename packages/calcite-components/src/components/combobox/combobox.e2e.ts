@@ -3126,7 +3126,6 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
-
       const selectAll = await page.find(`calcite-combobox >>> calcite-combobox-item.${CSS.selectAll}`);
       expect(await selectAll.getProperty("indeterminate")).toBe(true);
     });
@@ -3167,7 +3166,7 @@ describe("calcite-combobox", () => {
       expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
       expect(
         await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
-      ).toHaveClass("chip--invisible");
+      ).toHaveClass(CSS.chipInvisible);
     });
 
     it("should update aria-selected on items when toggling 'Select All'", async () => {
