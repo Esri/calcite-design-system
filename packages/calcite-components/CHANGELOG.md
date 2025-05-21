@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1-next.1...@esri/calcite-components@3.3.0-next.0) (2025-05-21)
+
+### Features
+
+- **radio-button:** enhance component's interactivity states ([#12169](https://github.com/Esri/calcite-design-system/issues/12169)) ([2cb90b8](https://github.com/Esri/calcite-design-system/commit/2cb90b8441371f90ce8a1d72766fb02bb8e77dec)), closes [#10021](https://github.com/Esri/calcite-design-system/issues/10021)
+
 ## [3.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1-next.0...@esri/calcite-components@3.2.1-next.1) (2025-05-20)
 
 ### Bug Fixes
