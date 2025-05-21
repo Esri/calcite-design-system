@@ -102,6 +102,8 @@ export class Combobox
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
+  private selectAllComboboxItemReferenceEl = createRef<HTMLCalciteComboboxItemElement>();
+
   private allSelectedIndicatorChipEl: Chip["el"];
 
   private chipContainerEl: HTMLDivElement;
@@ -262,8 +264,6 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  @state() selectAllComboboxItemReferenceEl: HTMLCalciteComboboxItemElement;
-
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state()
@@ -282,8 +282,8 @@ export class Combobox
 
     const filteredItems = this.filteredItems.filter((item) => !item.disabled);
 
-    if (selectAllComboboxItemReferenceEl) {
-      return [selectAllComboboxItemReferenceEl, ...filteredItems];
+    if (selectAllComboboxItemReferenceEl.value) {
+      return [selectAllComboboxItemReferenceEl.value, ...filteredItems];
     }
 
     return filteredItems;
@@ -737,7 +737,9 @@ export class Combobox
       return;
     }
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
-    const isSelectAllTarget = event.composedPath().includes(this.selectAllComboboxItemReferenceEl);
+    const isSelectAllTarget = event
+      .composedPath()
+      .includes(this.selectAllComboboxItemReferenceEl.value);
 
     if (this.selectAllEnabled) {
       this.handleSelectAll(isSelectAllTarget);
@@ -918,7 +920,7 @@ export class Combobox
           event.preventDefault();
 
           if (this.selectAllEnabled) {
-            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl);
+            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl.value);
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1175,10 +1177,6 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
-  }
-
-  private setSelectAllComboboxItemReferenceEl(el: HTMLCalciteComboboxItemElement): void {
-    this.selectAllComboboxItemReferenceEl = el;
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1463,7 +1461,7 @@ export class Combobox
 
     item.scrollIntoView({ block: "nearest" });
 
-    const stickyElement = this.selectAllComboboxItemReferenceEl;
+    const stickyElement = this.selectAllComboboxItemReferenceEl.value;
     const stickyHeight = stickyElement?.offsetHeight || 0;
 
     const listContainer = this.listContainerEl;
@@ -1807,7 +1805,7 @@ export class Combobox
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={this.messages.selectAll}
-                  ref={this.setSelectAllComboboxItemReferenceEl}
+                  ref={this.selectAllComboboxItemReferenceEl}
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
