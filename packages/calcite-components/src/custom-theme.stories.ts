@@ -279,6 +279,11 @@ export default {
     ...globalTokens,
     ...componentTokens,
   },
+  parameters: {
+    chromatic: {
+      delay: 2000,
+    },
+  },
 };
 
 export const themingInteractive = (args: Record<string, string>): string => {

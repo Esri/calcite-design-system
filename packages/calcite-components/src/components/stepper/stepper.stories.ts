@@ -64,11 +64,6 @@ export default {
       control: { type: "select" },
     },
   },
-  parameters: {
-    chromatic: {
-      delay: 500,
-    },
-  },
 };
 
 export const simple = (args: StepperStoryArgs): string => html`

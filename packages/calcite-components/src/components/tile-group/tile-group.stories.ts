@@ -42,7 +42,7 @@ export default {
     },
   },
   parameters: {
-    chromatic: { delay: 10000, viewports: [1728] },
+    chromatic: { viewports: [1728] },
   },
 };
 
