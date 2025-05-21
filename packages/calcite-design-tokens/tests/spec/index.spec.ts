@@ -39,7 +39,7 @@ function generateTests(platform: Platform, files: string[], internal = false) {
     files.forEach((file) => {
       const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
 
-      it(`${file}${internalTestAnnotation} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
+      it(`${file} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
 
       if (platform === "es6" || platform === "js") {
         it(`${file} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));
