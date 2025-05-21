@@ -293,7 +293,7 @@ calcite-action-menu {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(--calcite-panel-icon-color);
+  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
 }
 
 @include base-component();
