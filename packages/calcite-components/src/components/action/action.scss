@@ -36,6 +36,18 @@
   border-radius: inherit;
 }
 
+:host([width="full"]) {
+  flex: 1 0 auto;
+
+  .button {
+    justify-content: center;
+
+    .text-container--visible {
+      flex: none;
+    }
+  }
+}
+
 :host([drag-handle]) {
   @apply cursor-move;
   --calcite-internal-action-text-color: var(--calcite-color-border-input);
@@ -116,7 +128,6 @@
     leading-6
     opacity-0
     transition-opacity
-    duration-150
     ease-in-out;
 
   transition-property: margin;
@@ -173,7 +184,6 @@
   .button {
     @apply bg-transparent
       transition-shadow
-      duration-150
       ease-in-out;
 
     &:hover {

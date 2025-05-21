@@ -19,15 +19,15 @@ export type HourFormat = "user" | EffectiveHourFormat;
 export const hourFormats: EffectiveHourFormat[] = ["12", "24"];
 
 export interface LocalizedTime {
-  localizedHour: string;
-  localizedHourSuffix: string;
-  localizedMinute: string;
-  localizedMinuteSuffix: string;
-  localizedSecond: string;
-  localizedDecimalSeparator: string;
-  localizedFractionalSecond: string;
-  localizedSecondSuffix: string;
-  localizedMeridiem: string;
+  hour: string;
+  hourSuffix: string;
+  minute: string;
+  minuteSuffix: string;
+  second: string;
+  decimalSeparator: string;
+  fractionalSecond: string;
+  secondSuffix: string;
+  meridiem: string;
 }
 
 export type Meridiem = "AM" | "PM";
@@ -245,7 +245,7 @@ function getLocalizedTimePart(
       const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
       secondSuffixPart = parts[secondIndex + 1];
     }
-    return secondSuffixPart && secondSuffixPart.type === "literal" ? secondSuffixPart.value?.trim() || null : null;
+    return (secondSuffixPart?.type === "literal" && secondSuffixPart.value?.trim()) || null;
   }
   if (part === "meridiem") {
     const meridiemFromBrowser = parts.find(({ type }) => type === "dayPeriod")?.value || null;
@@ -276,17 +276,18 @@ export function getMeridiemOrder(locale: SupportedLocale): number {
 }
 
 export function isValidTime(value: string | Time): boolean {
+  const isString = typeof value === "string";
   if (
     !value ||
-    (typeof value === "string" && (value.startsWith(":") || value.endsWith(":"))) ||
-    (typeof value !== "string" && (!value.hour || !value.minute))
+    (isString && (value.startsWith(":") || value.endsWith(":"))) ||
+    (!isString && (!value.hour || !value.minute))
   ) {
     return false;
   }
   let hour;
   let minute;
   let second;
-  if (typeof value === "string") {
+  if (isString) {
     [hour, minute, second] = value.split(":");
   } else {
     ({ hour, minute, second } = value);
@@ -314,13 +315,18 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     return false;
   }
   const valueAsNumber = Number(value);
+  const isZeroOrGreater = valueAsNumber >= 0;
+  const isLessThanMaxHour = valueAsNumber < 24;
+  const isLessThanMaxSecond = valueAsNumber < 60;
+  const isLessThanMaxFractionalSecond = valueAsNumber <= 999;
+
   if (part === "hour") {
-    return valueAsNumber >= 0 && valueAsNumber < 24;
+    return isZeroOrGreater && isLessThanMaxHour;
   }
   if (part === "fractionalSecond") {
-    return valueAsNumber >= 0 && valueAsNumber <= 999;
+    return isZeroOrGreater && isLessThanMaxFractionalSecond;
   }
-  return valueAsNumber >= 0 && valueAsNumber < 60;
+  return isZeroOrGreater && isLessThanMaxSecond;
 }
 
 interface LocalizeTimePartParameters {
@@ -427,15 +433,15 @@ export function localizeTimeString({
   if (toParts) {
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
-      localizedHour: getLocalizedTimePart("hour", parts),
-      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedMinute: getLocalizedTimePart("minute", parts),
-      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
-      localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts, locale),
+      hour: getLocalizedTimePart("hour", parts),
+      hourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      minute: getLocalizedTimePart("minute", parts),
+      minuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      second: getLocalizedTimePart("second", parts),
+      decimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      fractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
+      secondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
+      meridiem: getLocalizedTimePart("meridiem", parts, locale),
     };
   } else {
     let result = formatter.format(dateFromTimeString) || null;
@@ -504,15 +510,15 @@ export function localizeTimeStringToParts({
     });
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
-      localizedHour: getLocalizedTimePart("hour", parts),
-      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedMinute: getLocalizedTimePart("minute", parts),
-      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
-      localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      localizedFractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      localizedSecondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts, locale),
+      hour: getLocalizedTimePart("hour", parts),
+      hourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      minute: getLocalizedTimePart("minute", parts),
+      minuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      second: getLocalizedTimePart("second", parts),
+      decimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      fractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
+      secondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
+      meridiem: getLocalizedTimePart("meridiem", parts, locale),
     };
   }
   return null;
@@ -548,34 +554,33 @@ export function toISOTimeString(value: string | Time, step: number = 60): string
   if (!isValidTime(value)) {
     return null;
   }
-  let isoTimeString;
+
+  let hour: string;
+  let minute: string;
+  let second: string;
+  let secondDecimal: string;
+  let fractionalSecond: string;
+  let isoTimeString: string = null;
+
   if (typeof value === "string") {
-    const [hour, minute, secondDecimal] = value.split(":");
-    let second = secondDecimal;
-    let fractionalSecond = null;
-    if (secondDecimal?.includes(".")) {
-      [second, fractionalSecond] = secondDecimal.split(".");
-    }
+    [hour, minute, secondDecimal] = value.split(":");
+    [second, fractionalSecond] = secondDecimal?.split(".") || ["0"];
+  } else {
+    hour = value.hour;
+    minute = value.minute;
+    second = value.second;
+    fractionalSecond = value.fractionalSecond;
+  }
+
+  if (hour && minute) {
     isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
     if (step < 60) {
       isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
       if (step < 1) {
-        isoTimeString += `.${formatFractionalSecond(fractionalSecond, step)}`;
+        isoTimeString += `.${formatFractionalSecond(fractionalSecond || "0", step)}`;
       }
-    }
-  } else {
-    const { hour, minute } = value;
-    if (hour && minute) {
-      isoTimeString = `${formatTimePart(parseInt(value.hour))}:${formatTimePart(parseInt(value.minute))}`;
-      if (step < 60) {
-        isoTimeString += `:${formatTimePart(parseInt(value.second || "0"))}`;
-        if (step < 1) {
-          isoTimeString += `.${formatFractionalSecond(value.fractionalSecond || "0", step)}`;
-        }
-      }
-    } else {
-      isoTimeString = null;
     }
   }
+
   return isoTimeString;
 }

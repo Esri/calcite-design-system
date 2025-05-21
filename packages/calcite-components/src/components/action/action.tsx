@@ -10,7 +10,7 @@ import {
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale } from "../interfaces";
+import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -104,6 +104,13 @@ export class Action extends LitElement implements InteractiveComponent {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `full`, the component's width spans all its parent's available space
+   *
+   * @private
+   */
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**
    * Specifies text that accompanies the icon.

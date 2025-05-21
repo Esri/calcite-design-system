@@ -696,15 +696,15 @@ export class TimePicker extends LitElement {
         step,
       } = this;
       const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedDecimalSeparator,
-        localizedFractionalSecond,
-        localizedSecondSuffix,
-        localizedMeridiem,
+        hour: localizedHour,
+        hourSuffix: localizedHourSuffix,
+        minute: localizedMinute,
+        minuteSuffix: localizedMinuteSuffix,
+        second: localizedSecond,
+        secondSuffix: localizedSecondSuffix,
+        decimalSeparator: localizedDecimalSeparator,
+        fractionalSecond: localizedFractionalSecond,
+        meridiem: localizedMeridiem,
       } = localizeTimeStringToParts({
         value,
         locale,
@@ -846,7 +846,7 @@ export class TimePicker extends LitElement {
           numberingSystem,
           step,
           value: this.value,
-        })?.localizedMeridiem || null
+        })?.meridiem || null
       : localizeTimePart({
           hour12,
           value: this.meridiem,

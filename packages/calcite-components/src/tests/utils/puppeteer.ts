@@ -355,17 +355,17 @@ type GetFocusedElementProp = {
  * @param {string} prop - the property to get from the focused element (note: must be serializable)
  * @param {GetFocusedElementProp} options – additional configuration options
  */
-export async function getFocusedElementProp(
+export async function getFocusedElementProp<T extends HTMLElement = HTMLElement, K extends keyof T = keyof T>(
   page: E2EPage,
-  prop: keyof HTMLElement,
+  prop: K,
   options?: GetFocusedElementProp,
 ): Promise<ReturnType<E2EPage["evaluate"]>> {
   return await page.evaluate(
-    (by: string, shadow: boolean) => {
+    (by, shadow) => {
       const { activeElement } = document;
-      const target = shadow ? activeElement?.shadowRoot?.activeElement : activeElement;
+      const target = (shadow ? activeElement?.shadowRoot?.activeElement : activeElement) as T;
 
-      return target?.[by];
+      return target?.[by as K];
     },
     prop,
     options?.shadow,

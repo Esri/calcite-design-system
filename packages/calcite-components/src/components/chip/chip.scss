@@ -415,7 +415,7 @@
 }
 
 .chip-icon {
-  @apply relative my-0 inline-flex duration-150 ease-in-out;
+  @apply relative my-0 inline-flex ease-in-out;
   color: var(--calcite-chip-icon-color, var(--calcite-chip-text-color, var(--calcite-icon-color, currentColor)));
   padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
 }
