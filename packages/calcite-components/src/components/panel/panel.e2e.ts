@@ -143,6 +143,14 @@ describe("calcite-panel", () => {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -167,6 +175,14 @@ describe("calcite-panel", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: "true",
       },
     ]);
   });
@@ -684,7 +700,13 @@ describe("calcite-panel", () => {
 
   describe("theme", () => {
     themed(
-      html`<calcite-panel heading="Terms and conditions" description="Something great about this" closable collapsible>
+      html`<calcite-panel
+        icon="banana"
+        heading="Terms and conditions"
+        description="Something great about this"
+        closable
+        collapsible
+      >
         <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
         <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
         <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
@@ -730,6 +752,10 @@ describe("calcite-panel", () => {
         "--calcite-panel-description-text-color": {
           shadowSelector: `.${CSS.description}`,
           targetProp: "color",
+        },
+        "--calcite-panel-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-panel-background-color": {
           shadowSelector: `.${CSS.contentWrapper}`,
