@@ -5,6 +5,7 @@
 
  * @prop --calcite-panel-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-panel-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-panel-icon-color: Specifies the color of the component's icon.
  * @prop --calcite-panel-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-panel-border-color: Specifies the component's border color.
  * @prop --calcite-panel-background-color: Specifies the component's background color.
@@ -47,6 +48,10 @@
     .description {
       font-size: var(--calcite-font-size--2);
     }
+
+    .icon {
+      margin-inline-end: var(--calcite-spacing-sm);
+    }
   }
 }
 
@@ -62,6 +67,10 @@
     .description {
       font-size: var(--calcite-font-size--1);
     }
+
+    .icon {
+      margin-inline-end: var(--calcite-spacing-md);
+    }
   }
 }
 
@@ -76,6 +85,10 @@
 
     .description {
       font-size: var(--calcite-font-size-0);
+    }
+
+    .icon {
+      margin-inline-end: var(--calcite-spacing-lg);
     }
   }
 }
@@ -141,6 +154,10 @@
 
   margin-inline-end: auto;
   justify-content: center;
+
+  .heading-text-content {
+    flex: 1 1 auto;
+  }
 
   .heading,
   .description {
@@ -219,13 +236,19 @@ calcite-action-menu {
   padding-block: var(--calcite-internal-panel-header-vertical-padding);
   padding-inline: var(--calcite-internal-panel-default-space);
 
-  &.header-slotted-content {
+  &.header--slotted-content {
     padding: var(
       --calcite-panel-header-content-space,
       var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
     );
   }
+
+  &.header--non-slotted-content {
+    align-items: center;
+    flex-direction: row;
+  }
 }
+
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
@@ -267,6 +290,10 @@ calcite-action-menu {
   z-sticky;
   inset-inline: 0;
   inline-size: fit-content;
+}
+
+calcite-icon {
+  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
 }
 
 @include base-component();

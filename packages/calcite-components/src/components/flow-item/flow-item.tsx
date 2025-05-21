@@ -15,6 +15,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -101,6 +102,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -298,6 +305,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
       messages,
       overlayPositioning,
       beforeClose,
+      icon,
+      iconFlipRtl,
     } = this;
     return (
       <InteractiveContainer disabled={disabled}>
@@ -312,6 +321,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
+          icon={icon}
+          iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}

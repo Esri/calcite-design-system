@@ -14,6 +14,8 @@ interface PanelStoryArgs
     | "disabled"
     | "closable"
     | "collapsed"
+    | "icon"
+    | "iconFlipRtl"
     | "collapsible"
     | "collapseDirection"
     | "loading"
@@ -34,6 +36,8 @@ export default {
     collapsible: false,
     collapseDirection: collapseDirection.defaultValue,
     heightScale: scale.defaultValue,
+    icon: "",
+    iconFlipRtl: false,
     scale: scale.defaultValue,
     loading: false,
   },
@@ -105,6 +109,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
     scale="${args.scale}"
+    icon="${args.icon}"
     ${boolean("loading", args.loading)}
     menu-placement="${args.menuPlacement}"
     heading="Heading"
@@ -133,6 +138,18 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
+`;
+
+export const withIcon = (): string => html`
+  <calcite-panel scale="s" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+`;
+
+export const withDescriptionAndIcon = (): string => html`
+  <calcite-panel scale="s" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`

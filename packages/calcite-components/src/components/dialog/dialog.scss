@@ -16,6 +16,7 @@
  * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
  * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
  * @prop --calcite-dialog-background-color: Specifies the background color of the component.
+ * @prop --calcite-dialog-icon-color: Specifies the color of the component's icon.
  */
 
 :host {
@@ -119,6 +120,27 @@ calcite-panel {
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
   --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
+}
+
+:host([kind="brand"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-brand));
+}
+
+:host([kind="danger"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-danger));
+}
+
+:host([kind="info"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-info));
+}
+
+:host([kind="success"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-success));
+}
+
+:host([kind="warning"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-warning));
 }
 
 ::slotted(*) {
