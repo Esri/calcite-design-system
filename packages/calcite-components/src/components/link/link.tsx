@@ -156,7 +156,7 @@ export class Link extends LitElement implements InteractiveComponent {
         : (literal`a` as unknown as "a");
     const tabIndex = childElType === "button" ? 0 : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.role = "presentation"; // todo: doesn't this make this component not accessible?
+    this.el.role = "presentation";
 
     return (
       <InteractiveContainer disabled={this.disabled}>
