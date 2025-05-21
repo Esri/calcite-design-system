@@ -146,12 +146,12 @@ export class Combobox
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
-      this.filteredItems.forEach((item) => {
+      this.keyboardNavItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
 
       if (setOpenToEmptyState) {
-        this.open = this.filterText.trim().length > 0 && this.filteredItems.length > 0;
+        this.open = this.filterText.trim().length > 0 && this.keyboardNavItems.length > 0;
       }
 
       if (emit) {
@@ -278,13 +278,15 @@ export class Combobox
 
   @state()
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    const { selectAllComboboxItemReferenceEl, items } = this;
+    const { selectAllComboboxItemReferenceEl } = this;
+
+    const filteredItems = this.filteredItems.filter((item) => !item.disabled);
 
     if (selectAllComboboxItemReferenceEl) {
-      return [selectAllComboboxItemReferenceEl, ...items.filter((item) => !item.disabled)];
+      return [selectAllComboboxItemReferenceEl, ...filteredItems];
     }
 
-    return items.filter((item) => !item.disabled);
+    return filteredItems;
   }
 
   //#endregion
@@ -322,7 +324,7 @@ export class Combobox
    * @readonly
    */
   @property() get filteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.keyboardNavItems.filter((item) => !isHidden(item));
+    return this.items.filter((item) => !isHidden(item));
   }
 
   /** Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available. */
@@ -741,7 +743,7 @@ export class Combobox
       this.handleSelectAll(isSelectAllTarget);
     }
 
-    const newIndex = this.filteredItems.indexOf(target);
+    const newIndex = this.keyboardNavItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
@@ -841,7 +843,7 @@ export class Combobox
         }
         break;
       case "ArrowUp":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(-1);
@@ -855,7 +857,7 @@ export class Combobox
         this.scrollToActiveOrSelectedItem();
         break;
       case "ArrowDown":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(1);
@@ -911,7 +913,7 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          const item = this.filteredItems[this.activeItemIndex];
+          const item = this.keyboardNavItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
 
@@ -1453,7 +1455,7 @@ export class Combobox
     const item =
       scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
-        : this.filteredItems[this.activeItemIndex];
+        : this.keyboardNavItems[this.activeItemIndex];
 
     if (!item) {
       return;
@@ -1474,7 +1476,7 @@ export class Combobox
   }
 
   private shiftActiveItemIndex(delta: number): void {
-    const { length } = this.filteredItems;
+    const { length } = this.keyboardNavItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
     this.scrollToActiveOrSelectedItem();
@@ -1483,7 +1485,7 @@ export class Combobox
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
     let activeDescendant: string = null;
-    this.filteredItems.forEach((el, i) => {
+    this.keyboardNavItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
         activeDescendant = `${itemUidPrefix}${el.guid}`;
@@ -1756,7 +1758,7 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const mappedListBoxOptions = this.filteredItems.map((item) =>
+    const mappedListBoxOptions = this.keyboardNavItems.map((item) =>
       this.createScreenReaderItem({
         ariaLabel: item.label,
         ariaSelected: item.selected,
