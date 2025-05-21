@@ -107,17 +107,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/caripizza">
-      <img src="https://avatars.githubusercontent.com/u/42423180?v=4" width="100;" alt="caripizza"/>
-      <br />
-      <sub><b>Cari Palazzolo</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/caripizza">
+      <img src="https://avatars.githubusercontent.com/u/42423180?v=4" width="100;" alt="caripizza"/>
+      <br />
+      <sub><b>Cari Palazzolo</b></sub>
     </a>
   </td>
   <td align="center">
