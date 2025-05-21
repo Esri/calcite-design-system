@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1-next.0...@esri/calcite-tailwind-preset@1.0.1-next.1) (2025-05-20)
+
+### Bug Fixes
+
+- ensure transition-duration is used in Tailwind utils ([#12167](https://github.com/Esri/calcite-design-system/issues/12167)) ([c8e7c7b](https://github.com/Esri/calcite-design-system/commit/c8e7c7ba04baaf9dd9eb123dd7c4d54ecba0547b)), closes [#12170](https://github.com/Esri/calcite-design-system/issues/12170)
+
 ## [1.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@0.2.0-next.9...@esri/calcite-tailwind-preset@1.0.1-next.0) (2025-05-16)
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset

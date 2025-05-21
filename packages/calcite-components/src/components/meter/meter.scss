@@ -132,7 +132,7 @@
 }
 
 .fill {
-  @apply block absolute duration-150 ease-in-out z-default;
+  @apply block absolute ease-in-out z-default;
   inset-inline-start: var(--calcite-internal-meter-space);
   inset-block: var(--calcite-internal-meter-space);
   border-radius: var(--calcite-internal-meter-corner-radius);
