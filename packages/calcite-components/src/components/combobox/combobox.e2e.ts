@@ -3025,15 +3025,13 @@ describe("calcite-combobox", () => {
     }
 
     it("should toggle all items on and off with a click", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([selectAll, _combobox]) => {
+      await testToggleAllItems(page, async ([selectAll]) => {
         await selectAll.click();
       });
     });
 
     it("should toggle all items on and off with KeyDown press `enter`", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([_selectAll, combobox]) => {
+      await testToggleAllItems(page, async ([, combobox]) => {
         await combobox.press("Enter");
       });
     });
@@ -3108,15 +3106,13 @@ describe("calcite-combobox", () => {
     }
 
     it("should toggle indeterminate state to `All Selected` when list items are toggled with a click", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleListItems(page, async ([listItem, _combobox]) => {
+      await testToggleListItems(page, async ([listItem]) => {
         await listItem.click();
       });
     });
 
     it("should toggle indeterminate state to `All Selected` when list items are toggled with a keydown `Enter`", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      await testToggleAllItems(page, async ([_listItem, combobox]) => {
+      await testToggleAllItems(page, async ([, combobox]) => {
         await combobox.press("Enter");
       });
     });
