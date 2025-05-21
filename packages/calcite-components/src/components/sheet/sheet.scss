@@ -310,7 +310,7 @@
 :host([position="inline-end"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    inset-inline-end: var(--calcite-internal-sheet-resize-handle-offset);
+    inset-inline-start: var(--calcite-internal-sheet-resize-handle-offset);
     block-size: 100%;
   }
 
