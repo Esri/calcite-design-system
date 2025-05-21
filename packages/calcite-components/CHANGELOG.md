@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.0...@esri/calcite-components@3.3.0-next.1) (2025-05-21)
+
+### Features
+
+- make version console message easier to disable ([#12194](https://github.com/Esri/calcite-design-system/issues/12194)) ([f18eac3](https://github.com/Esri/calcite-design-system/commit/f18eac353dbbf65b5c8201c8ccd8e30f5a19cfee)), closes [#10038](https://github.com/Esri/calcite-design-system/issues/10038) [#10038](https://github.com/Esri/calcite-design-system/issues/10038)
+
 ## [3.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1-next.1...@esri/calcite-components@3.3.0-next.0) (2025-05-21)
 
 ### Features
