@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.3...@esri/calcite-components@3.3.0-next.4) (2025-05-21)
+
+### Bug Fixes
+
+- **list:** reorder options not shown in nested list drag menus ([#12186](https://github.com/Esri/calcite-design-system/issues/12186)) ([9bf2198](https://github.com/Esri/calcite-design-system/commit/9bf21989ff77d392505004d75927049d0e45ea16)), closes [#12185](https://github.com/Esri/calcite-design-system/issues/12185)
+
 ## [3.3.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.2...@esri/calcite-components@3.3.0-next.3) (2025-05-21)
 
 ### Bug Fixes
