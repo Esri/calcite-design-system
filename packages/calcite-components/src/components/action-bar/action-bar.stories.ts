@@ -302,6 +302,8 @@ export const fullWidthActions = (): string => html`
   <div class="container">
     <calcite-action-bar layout="horizontal">
       <calcite-action text="Add" icon="plus" width="full"> </calcite-action>
+      <calcite-action text="Remove" icon="minus" width="full"> </calcite-action>
+      <calcite-action text="Copy" icon="plus" width="full"> </calcite-action>
     </calcite-action-bar>
   </div>
 `;
