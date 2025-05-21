@@ -67,12 +67,14 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
     const outputRefs = format === "scss" ? !!extendedToken : !selfReferencingTokens.has(token.key);
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
 
-    const declarations = (
-      typeof originalValue === "string" ? [[token.path.at(-1)!, originalValue]] : Object.entries(originalValue)
-    ).map(
-      ([key, value]) =>
-        `${kebabCase(key)}: ${getValue(value, dictionary, outputRefs)}; ${outputComment(token.comment, format)}`,
-    );
+    const declarations = Object.entries(
+      (typeof originalValue === "object"
+        ? originalValue
+        : // we use original token to get unresolved values (resolved below)
+          getReferences(originalValue, dictionary.tokens)[0].original.value) as Record<string, string>,
+    ).map(([key, value]) => {
+      return `${kebabCase(key)}: ${getValue(value, dictionary, outputRefs)} ${outputComment(token.comment, format)}`;
+    });
 
     groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
   });
