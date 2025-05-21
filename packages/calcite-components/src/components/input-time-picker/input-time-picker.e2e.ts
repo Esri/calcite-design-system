@@ -432,7 +432,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         describe("12-hour format", () => {
-          it.only("supports display and editing in localized 12-hour format", async () => {
+          it("supports display and editing in localized 12-hour format", async () => {
             const initialValue = "00:00:00.000";
             const page = await newE2EPage();
             await page.setContent(html`
