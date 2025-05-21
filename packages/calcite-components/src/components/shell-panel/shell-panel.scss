@@ -5,7 +5,7 @@
  *
  * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
- * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius
+ * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
  * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
@@ -153,8 +153,7 @@
     var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
-:host([layout="horizontal"]) .container,
-:host([layout="horizontal"]) .content-container {
+:host([layout="horizontal"]) .container {
   @apply w-full h-auto;
   flex-direction: column;
 }
@@ -278,16 +277,27 @@
   @apply flex flex-auto overflow-hidden;
 }
 
-.content-container {
-  @apply pointer-events-none
+.action-bar-container {
+  @apply pointer-events-auto
   flex
+  flex-auto
+  box-border;
+}
+
+.content-container {
+  @apply flex
   flex-auto
   items-stretch
   self-stretch
   relative
   box-border
-  bg-transparent
+  w-full
   h-full;
+}
+
+:host([layout="horizontal"]) .action-bar-container,
+:host([layout="horizontal"]) .content-container {
+  flex-direction: column;
 }
 
 .content {

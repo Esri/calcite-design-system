@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-tailwind-preset",
-  "version": "0.2.0-next.5",
+  "version": "1.0.1-next.1",
   "description": "Tailwind CSS preset for the Calcite Design System",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@esri/calcite-design-tokens": "3.1.0-next.4"
+    "@esri/calcite-design-tokens": "3.1.1-next.0"
   },
   "peerDependencies": {
     "@esri/calcite-design-tokens": "^3.0.2-next.8",

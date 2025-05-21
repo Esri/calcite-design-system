@@ -32,13 +32,13 @@ declare global {
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
 export class ShellPanel extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -48,9 +48,16 @@ export class ShellPanel extends LitElement {
 
   private contentEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
@@ -63,9 +70,9 @@ export class ShellPanel extends LitElement {
 
   @state() hasHeader = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
@@ -98,13 +105,6 @@ export class ShellPanel extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
@@ -124,9 +124,9 @@ export class ShellPanel extends LitElement {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
@@ -134,9 +134,9 @@ export class ShellPanel extends LitElement {
   /** @private */
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -152,9 +152,9 @@ export class ShellPanel extends LitElement {
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private getContentElDOMRect(): DOMRect {
     return this.contentEl.getBoundingClientRect();
@@ -366,15 +366,15 @@ export class ShellPanel extends LitElement {
     this.hasHeader = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
-
-  // #region Rendering
-
   private getResizeIcon(): string {
     const { layout } = this;
 
     return layout === "horizontal" ? "drag-resize-vertical" : "drag-resize-horizontal";
   }
+
+  //#endregion
+
+  //#region Rendering
 
   private renderHeader(): JsxNode {
     return (
@@ -458,7 +458,9 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <slot key="action-bar" name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      <div class={CSS.actionBarContainer} key="action-bar-container">
+        <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      </div>
     );
 
     const mainNodes = [actionBarNode, contentNode];
@@ -474,5 +476,5 @@ export class ShellPanel extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

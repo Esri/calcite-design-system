@@ -3,8 +3,27 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-prefix-size: Specifies the component's prefix width.
- * @prop --calcite-input-suffix-size: Specifies the component's suffix width.
+ * @prop --calcite-input-actions-background-color: Specifies the background color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the component's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-input-actions-background-color-press: Specifies the background color of the component's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+ * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
+ * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
+ * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
+ * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
+ * @prop --calcite-input-number-background-color: Specifies the background color of the component.
+ * @prop --calcite-input-number-border-color: Specifies the border color of the component.
+ * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-input-number-height: Specifies the height of the component.
+ * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
+ * @prop --calcite-input-number-text-color: Specifies the text color of the component.
+ * @prop --calcite-input-number-text-color-focus: Specifies the text color of the component when focused.
+ * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
+ * @prop --calcite-input-prefix-size: Specifies the width of the prefix element.
+ * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
+ * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix element.
+ * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
+ * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  */
 
 :host {
@@ -16,12 +35,13 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6 px-2;
+    @apply text-n2h px-2;
+    block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-6;
+    block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .clear-button {
     min-block-size: theme("spacing.6");
@@ -33,12 +53,13 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8 px-3;
+    @apply text-n1h px-3;
+    block-size: var(--calcite-input-number-height, 2rem);
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-8;
+    block-size: var(--calcite-input-number-height, 2rem);
   }
   & .clear-button {
     min-block-size: theme("spacing.8");
@@ -50,12 +71,13 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11 px-4;
+    @apply text-0h  px-4;
+    block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-11;
+    block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & .clear-button {
     min-block-size: theme("spacing.11");
@@ -71,8 +93,7 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply bg-foreground-1
-    box-border
+  @apply box-border
     flex
     flex-1
     font-inherit
@@ -81,11 +102,11 @@ input {
     max-h-full
     max-w-full
     relative
-    rounded-none
-    text-color-1
     text-ellipsis
     w-full;
-
+  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
+  border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -93,27 +114,31 @@ input {
 
 // states
 input {
-  @apply text-color-1
-    border-color-input
-    border
+  @apply border
     border-solid;
+  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder {
-    @apply text-color-3 font-normal;
+    @apply font-normal;
+    color: var(--calcite-input-number-placeholder-text-color, var(--calcite-color-text-3));
   }
 }
 input:focus {
-  @apply border-color-brand text-color-1;
+  @apply border-color-brand;
+  color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
 }
+
 input[readonly] {
-  @apply bg-background font-medium;
+  @apply font-medium;
+  background-color: var(--calcite-input-number-background-color, var(--calcite-color-background));
 }
 input[readonly]:focus {
-  @apply text-color-1;
+  color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
 }
+
 calcite-icon {
-  @apply text-color-3;
+  color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
 }
 
 //focus
@@ -179,15 +204,12 @@ input:focus {
     pointer-events-none
     absolute
     block
-
     z-default; // needed for firefox to display the icon properly
 }
 
 .clear-button {
   pointer-events: initial;
   @apply focus-base
-    border-color-input
-    bg-foreground-1
     order-4
     m-0
     box-border
@@ -200,18 +222,22 @@ input:focus {
     border
     border-solid;
 
+  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
-    @apply bg-foreground-2 transition-default;
+    @apply transition-default;
+    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
-      @apply text-color-1 transition-default;
+      @apply transition-default;
+      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      @apply text-color-1;
+      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
     }
   }
   &:focus {
@@ -229,6 +255,10 @@ input:focus {
   @apply pointer-events-none
     absolute
     block;
+  calcite-progress {
+    --calcite-progress-background-color: var(--calcite-input-loading-background-color);
+    --calcite-progress-fill-color: var(--calcite-input-loading-fill-color);
+  }
 }
 
 // slotted action
@@ -239,10 +269,7 @@ input:focus {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply border-color-input
-    bg-background
-    text-color-2
-    box-border
+  @apply box-border
     flex
     h-auto
     min-h-full
@@ -254,17 +281,22 @@ input:focus {
     border-solid
     font-medium
     leading-none;
+  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
 }
 
 .prefix {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
+  background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
+  background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }
 
 // alignment type
@@ -323,40 +355,12 @@ input:focus {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  @apply border-color-input
-    border
-    border-solid;
+  border-inline-start-width: 1px;
   border-inline-end-width: theme("borderWidth.0");
-  &:hover {
-    @apply bg-foreground-2;
-    calcite-icon {
-      @apply text-color-1;
-    }
-  }
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
-  &:hover {
-    @apply bg-foreground-2;
-    calcite-icon {
-      @apply text-color-1;
-    }
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"]:hover {
-  @apply bg-foreground-2;
-  calcite-icon {
-    @apply text-color-1;
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"]:hover {
-  @apply bg-foreground-2;
-  calcite-icon {
-    @apply text-color-1;
-  }
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
@@ -367,9 +371,7 @@ input:focus {
   max-block-size: 50%;
   min-block-size: 50%;
   pointer-events: initial;
-  @apply border-color-input
-    bg-foreground-1
-    transition-default
+  @apply transition-default
     m-0
     box-border
     flex
@@ -381,24 +383,72 @@ input:focus {
     py-0
     px-2;
   border-inline-start-width: theme("borderWidth.0");
+  border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
+
   & calcite-icon {
     @apply transition-default pointer-events-none;
   }
-  &:focus {
-    @apply bg-foreground-2;
-    calcite-icon {
-      @apply text-color-1;
-    }
-  }
-  &:active {
-    @apply bg-foreground-3;
-  }
+
   &:disabled {
     @apply pointer-events-none;
   }
+
+  &:hover {
+    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
+    calcite-icon {
+      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
+    }
+  }
+
+  &:active {
+    background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
+    calcite-icon {
+      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
+    }
+  }
 }
 
-.wrapper {
+// border radius
+.prefix,
+:host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"] {
+  border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([read-only]) .suffix,
+:host([read-only]) .wrapper:not(.has-suffix) .clear-button,
+:host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
+  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
+  @apply border-t-0;
+  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
+  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host(:not([read-only])[number-button-type="horizontal"]) .prefix,
+:host(:not([read-only])[number-button-type="horizontal"]) input,
+.has-prefix input {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.has-suffix input,
+:host .clearable input,
+:host(:not([read-only])) input,
+:host .suffix,
+:host .clear-button {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+:host .wrapper {
   @apply relative
     flex
     flex-row

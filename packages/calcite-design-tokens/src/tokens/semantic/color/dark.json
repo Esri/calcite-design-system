@@ -40,7 +40,7 @@
           }
         },
         "current": {
-          "value": "#214155",
+          "value": "{core.color.medium-saturation.blue.m-bb-090}",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -264,6 +264,13 @@
         },
         "3": {
           "value": "{core.color.neutral.blk-090}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
           "type": "color",
           "attributes": {
             "category": "color"
