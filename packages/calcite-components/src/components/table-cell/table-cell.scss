@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -5,7 +6,6 @@
  *
  * @prop --calcite-table-cell-background: Specifies the background color of the component.
  */
-
 :host {
   --calcite-internal-table-cell-background: var(--calcite-table-cell-background, transparent);
   @apply contents;
@@ -98,4 +98,4 @@ td.last-cell {
   }
 }
 
-@include disabled();
+@include includes.disabled();

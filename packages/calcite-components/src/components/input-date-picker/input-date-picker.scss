@@ -1,6 +1,9 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 :host {
   @extend %component-spacing;
-  @include floating-ui-elem-anim(".menu-container");
+  @include floating-ui.floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block
     w-full
@@ -28,7 +31,7 @@
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
 }
 
-@include disabled();
+@include includes.disabled();
 
 .calendar-wrapper {
   @apply shadow-none;
@@ -114,10 +117,10 @@
 
 .menu-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".menu-container");
+@include floating-ui.floating-ui-elem-anim(".menu-container");
 
 .input .calcite-input__wrapper {
   @apply mt-0;
@@ -163,11 +166,11 @@
   }
 }
 
-@include form-validation-message();
-@include hidden-form-input();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
 
 .assistive-text {
   @apply sr-only;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-tab-background-color: When `bordered`, specifies the component's background color.
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  */
-
 :host {
   @apply flex flex-col;
 }
@@ -76,4 +76,4 @@ section {
   }
 }
 
-@include base-component();
+@include includes.base-component();

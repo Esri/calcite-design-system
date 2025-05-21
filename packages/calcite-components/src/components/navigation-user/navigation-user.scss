@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,7 +12,6 @@
  * @prop --calcite-navigation-user-name-text-color: Specifies the component's `username` text color.
  *
  */
-
 :host {
   @apply inline-flex outline-none;
   & .button {
@@ -78,4 +78,4 @@ calcite-avatar ~ .text-container {
   border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -12,13 +13,12 @@
  * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
-
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([scale="s"]) {
   @apply h-6;
@@ -112,6 +112,6 @@ calcite-chip {
   @apply sr-only;
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();

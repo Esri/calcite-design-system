@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   display: block;
 }
@@ -6,6 +7,6 @@
   white-space: nowrap;
 }
 
-@include base-component();
-@include disabled();
-@include hidden-form-input();
+@include includes.base-component();
+@include includes.disabled();
+@include includes.hidden-form-input();

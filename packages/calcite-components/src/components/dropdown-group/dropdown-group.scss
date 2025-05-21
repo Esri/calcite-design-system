@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
 * CSS Custom Properties
 *
@@ -6,7 +7,6 @@
 * @prop --calcite-dropdown-group-border-color: Specifies the `calcite-dropdown`'s border color.
 * @prop --calcite-dropdown-group-title-text-color: Specifies the component's `groupTitle` color.
 */
-
 :host {
   @apply block;
 }
@@ -55,4 +55,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -5,7 +6,6 @@
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
  */
-
 :host {
   display: inline;
 }
@@ -29,7 +29,7 @@
     text-decoration: none;
   }
 
-  @include transition-default($extra-props: "background-size");
+  @include includes.transition-default($extra-props: "background-size");
 }
 
 // focus styles
@@ -73,7 +73,8 @@ calcite-icon {
     color: var(--calcite-link-text-color, var(--calcite-color-text-link));
     line-height: inherit;
     white-space: initial;
-    background-image: linear-gradient(currentColor, currentColor),
+    background-image:
+      linear-gradient(currentColor, currentColor),
       linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
     background-position-x: 0%, 100%;
     background-position-y: min(1.5em, 100%);
@@ -101,5 +102,5 @@ calcite-icon {
   }
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

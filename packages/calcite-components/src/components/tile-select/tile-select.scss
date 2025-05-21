@@ -1,4 +1,7 @@
-$spacing: $baseline * 0.5;
+@use "../../assets/styles/includes";
+@use "../../assets/styles/spacing";
+
+$spacing: spacing.$baseline * 0.5;
 
 :host {
   @apply block;
@@ -203,5 +206,5 @@ $spacing: $baseline * 0.5;
   }
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

@@ -1,3 +1,5 @@
+@use "sass:list";
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -19,10 +21,10 @@
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
-  @include slotted("title", "*", ".container") {
+  @include includes.slotted("title", "*", ".container") {
     @apply text-n1-wrap my-0.5;
   }
-  @include slotted("message", "*", ".container") {
+  @include includes.slotted("message", "*", ".container") {
     @apply text-n2-wrap my-0.5;
   }
   ::slotted(calcite-link) {
@@ -37,10 +39,10 @@
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: theme("spacing.3");
   --calcite-notice-spacing-token-large: theme("spacing.4");
-  @include slotted("title", "*", ".container") {
+  @include includes.slotted("title", "*", ".container") {
     @apply text-0-wrap my-0.5;
   }
-  @include slotted("message", "*", ".container") {
+  @include includes.slotted("message", "*", ".container") {
     @apply text-n1-wrap my-0.5;
   }
   ::slotted(calcite-link) {
@@ -51,10 +53,10 @@
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: theme("spacing.4");
   --calcite-notice-spacing-token-large: theme("spacing.5");
-  @include slotted("title", "*", ".container") {
+  @include includes.slotted("title", "*", ".container") {
     @apply text-1-wrap my-0.5;
   }
-  @include slotted("message", "*", ".container") {
+  @include includes.slotted("message", "*", ".container") {
     @apply text-0-wrap my-0.5;
   }
   ::slotted(calcite-link) {
@@ -118,13 +120,13 @@
   overflow: visible;
 }
 
-@include slotted("title", "*", ".container") {
+@include includes.slotted("title", "*", ".container") {
   @apply m-0 font-medium;
 
   color: var(--calcite-notice-title-text-color, var(--calcite-color-text-1));
 }
 
-@include slotted("message", "*", ".container") {
+@include includes.slotted("message", "*", ".container") {
   @apply m-0 inline font-normal;
 
   margin-inline-end: var(--calcite-notice-spacing-token-small);
@@ -189,8 +191,8 @@ $notice-kinds:
   "warning" var(--calcite-color-status-warning);
 
 @each $notice-kind in $notice-kinds {
-  $name: nth($notice-kind, 1);
-  $kind: nth($notice-kind, 2);
+  $name: list.nth($notice-kind, 1);
+  $kind: list.nth($notice-kind, 2);
 
   :host([kind="#{$name}"]) .container {
     border-color: $kind;
@@ -200,4 +202,4 @@ $notice-kinds:
   }
 }
 
-@include base-component();
+@include includes.base-component();

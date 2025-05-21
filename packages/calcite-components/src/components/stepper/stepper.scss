@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-stepper-bar-complete-fill-color: Specifies the fill color of complete items in the component.
  * @prop --calcite-stepper-bar-error-fill-color: Specifies the fill color of error items in the component.
  */
-
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
@@ -131,4 +131,4 @@
 }
 
 @include step-bar();
-@include base-component();
+@include includes.base-component();

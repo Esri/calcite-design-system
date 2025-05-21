@@ -1,5 +1,6 @@
+@use "../../assets/styles/includes";
 /**
-* CSS Custom Properties  
+* CSS Custom Properties
 *
 * These properties can be overridden using the component's tag as selector.
 *
@@ -10,7 +11,6 @@
 * @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
 * @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
 */
-
 :host {
   @apply flex;
 }
@@ -51,6 +51,6 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();

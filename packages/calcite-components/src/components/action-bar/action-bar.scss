@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-action-bar-items-space: Specifies the space between slotted components in the component.
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
-
 :host {
   @extend %component-host;
   @apply inline-flex
@@ -83,4 +83,4 @@
   @apply justify-end;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -23,7 +24,6 @@
  * @prop --calcite-accordion-item-text-color-hover: [Deprecated] Use `--calcite-accordion-text-color-hover`. Specifies the component's text color on hover.
  * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use `--calcite-accordion-text-color-press`. Specifies the component's text color on press.
  */
-
 %icon-position {
   /* icon rotation variables */
   --calcite-internal-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
@@ -138,7 +138,7 @@
     @apply flex
       items-center
       ease-in-out;
-    @include word-break();
+    @include includes.word-break();
   }
 }
 
@@ -318,4 +318,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

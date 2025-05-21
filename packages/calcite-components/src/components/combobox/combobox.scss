@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 /**
  * CSS Custom Properties
  *
@@ -11,7 +14,6 @@
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
  * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
  */
-
 :host {
   @apply relative block;
 }
@@ -189,10 +191,10 @@
 
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".floating-ui-container");
+@include floating-ui.floating-ui-elem-anim(".floating-ui-container");
 
 @media (forced-colors: active) {
   .wrapper,
@@ -246,18 +248,18 @@ calcite-chip {
   z-index: var(--calcite-z-index-sticky);
 }
 
-@include disabled();
-@include x-button(
+@include includes.disabled();
+@include includes.x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
   $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
   $color: "var(--calcite-close-icon-color, var(--calcite-color-text-3))"
 );
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();
 
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
-@include input-placeholder-text();
+@include includes.input-placeholder-text();

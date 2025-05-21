@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   display: flex;
 }
@@ -21,5 +22,5 @@
   gap: theme("spacing.3");
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-radio-button-group-gap: Specifies the space between slotted components in the component.
  * @prop --calcite-radio-button-input-message-spacing: Specifies the margin spacing at the top of the input-message component.
  */
-
 :host {
   @apply flex flex-col;
 }
@@ -58,5 +58,5 @@
   );
 }
 
-@include form-validation-message();
-@include base-component();
+@include includes.form-validation-message();
+@include includes.base-component();

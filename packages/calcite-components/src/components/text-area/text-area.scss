@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -19,7 +20,6 @@
  * @prop --calcite-text-area-footer-background-color: Specifies the footer's background color.
 
  */
-
 :host {
   @apply inline-block relative w-full h-full box-border;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
@@ -232,8 +232,8 @@
   }
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include disabled();
-@include base-component();
-@include input-placeholder-text();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.disabled();
+@include includes.base-component();
+@include includes.input-placeholder-text();

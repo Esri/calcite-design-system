@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
  * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
  */
-
 :host {
   @apply flex
     cursor-pointer
@@ -147,4 +147,4 @@
   --calcite-internal-segmented-control-icon-margin-end: 0;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/focus";
+
 :host {
   @apply text-n2h inline-block font-normal;
 
@@ -5,7 +8,7 @@
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
@@ -168,12 +171,12 @@
 }
 
 .saved-color {
-  @include focus-style-base();
+  @include focus.focus-style-base();
 
   cursor: pointer;
 
   &:focus {
-    @include focus-style-outset();
+    @include focus.focus-style-outset();
   }
 
   &:hover {
@@ -183,4 +186,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

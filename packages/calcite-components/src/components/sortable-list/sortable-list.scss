@@ -1,8 +1,9 @@
+@use "../../assets/styles/includes";
 :host {
   @apply flex;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   @apply flex flex-auto;
@@ -16,4 +17,4 @@
   @apply flex-row;
 }
 
-@include base-component();
+@include includes.base-component();

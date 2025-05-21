@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -14,7 +15,6 @@
  * @prop --calcite-chip-text-color: Specifies the component's text color.
  *
  */
-
 :host {
   @apply inline-flex
     cursor-default;
@@ -462,10 +462,10 @@ slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
-@include close-button(
+@include includes.close-button(
   var(--calcite-internal-close-size, var(--calcite-spacing-xxl, 1.5rem)),
   0,
   var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, currentColor))
 );
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 $size-s: 20px;
 $size-m: 24px;
 $size-l: 28px;
@@ -42,4 +43,4 @@ $size-l: 28px;
   fill: #cacaca;
 }
 
-@include base-component();
+@include includes.base-component();

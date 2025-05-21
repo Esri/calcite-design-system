@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+@use "sass:meta";
 :host {
   @apply border-color-2
     bg-foreground-1
@@ -29,7 +31,7 @@
   @apply m-0 border-none p-0;
 }
 
-@import "../../assets/styles/header";
+@include meta.load-css("../../assets/styles/header");
 
 .header {
   @apply mb-2;
@@ -79,4 +81,4 @@
   @apply max-w-full;
 }
 
-@include base-component();
+@include includes.base-component();

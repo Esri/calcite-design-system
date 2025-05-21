@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -20,7 +23,6 @@
  * @prop --calcite-card-shadow: Specifies the component's shadow.
  *
  */
-
 :host {
   @apply block max-w-full;
 }
@@ -60,7 +62,7 @@
 
 :host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply pointer-events-none;
-  opacity: $calcite-opacity-0;
+  opacity: core.$calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
@@ -109,44 +111,44 @@
   padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
-@include slotted("title", "*") {
+@include includes.slotted("title", "*") {
   @apply text-color-1
     text-n1-wrap
     m-0
     font-medium;
 }
 
-@include slotted("subtitle", "*") {
+@include includes.slotted("subtitle", "*") {
   @apply text-color-2
     text-n2-wrap
     m-0 mt-0.5
     font-normal;
 }
 
-@include slotted("heading", "*") {
+@include includes.slotted("heading", "*") {
   @apply text-color-1
     text-n1-wrap
     m-0
     font-medium;
 }
 
-@include slotted("description", "*") {
+@include includes.slotted("description", "*") {
   @apply text-color-2
     text-n2-wrap
     m-0 mt-0.5
     font-normal;
 }
 
-@include slotted("thumbnail", "img") {
+@include includes.slotted("thumbnail", "img") {
   @apply min-w-full max-w-full;
 }
 
-@include slotted("footer-start", "*") {
+@include includes.slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
 }
 
-@include slotted("footer-end", "*") {
+@include includes.slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
 }
 
@@ -240,7 +242,7 @@
     @apply items-start w-2/5;
   }
 
-  @include slotted("thumbnail", "img") {
+  @include includes.slotted("thumbnail", "img") {
     @apply w-full;
   }
 }
@@ -250,5 +252,5 @@ slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }
 
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

@@ -1,3 +1,7 @@
+@use "sass:list";
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
+
 /**
  * CSS Custom Properties
  *
@@ -46,7 +50,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-block-end: $border-style;
   max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
   transition:
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
     all var(--calcite-animation-timing) ease-in-out;
 
   &--bottom,
@@ -157,13 +161,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 // scale variables
 :host([scale="s"]) {
-  @include slotted("title", "*") {
+  @include includes.slotted("title", "*") {
     @apply text-n1-wrap;
   }
-  @include slotted("message", "*") {
+  @include includes.slotted("message", "*") {
     @apply text-n2-wrap;
   }
-  @include slotted("link", "*") {
+  @include includes.slotted("link", "*") {
     @apply text-n2-wrap;
   }
   .queue-count {
@@ -186,13 +190,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="m"]) {
-  @include slotted("title", "*") {
+  @include includes.slotted("title", "*") {
     @apply text-0-wrap;
   }
-  @include slotted("message", "*") {
+  @include includes.slotted("message", "*") {
     @apply text-n1-wrap;
   }
-  @include slotted("link", "*") {
+  @include includes.slotted("link", "*") {
     @apply text-n1-wrap;
   }
   .queue-count {
@@ -215,13 +219,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="l"]) {
-  @include slotted("title", "*") {
+  @include includes.slotted("title", "*") {
     @apply text-1-wrap mb-1;
   }
-  @include slotted("message", "*") {
+  @include includes.slotted("message", "*") {
     @apply text-0-wrap;
   }
-  @include slotted("link", "*") {
+  @include includes.slotted("link", "*") {
     @apply text-0-wrap;
   }
   .queue-count {
@@ -260,14 +264,14 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-inline-end: 0 solid transparent;
 }
 
-@include slotted("title", "*") {
+@include includes.slotted("title", "*") {
   @apply text-0-wrap
     font-medium;
 
   color: var(--calcite-color-text-1);
 }
 
-@include slotted("message", "*") {
+@include includes.slotted("message", "*") {
   @apply text-n1-wrap
     m-0
     inline
@@ -276,7 +280,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   color: var(--calcite-color-text-2);
 }
 
-@include slotted("link", "*") {
+@include includes.slotted("link", "*") {
   @apply text-color-link inline-flex;
 }
 
@@ -288,8 +292,8 @@ $alert-kinds:
   "warning" var(--calcite-color-status-warning);
 
 @each $alert-kind in $alert-kinds {
-  $name: nth($alert-kind, 1);
-  $kind: nth($alert-kind, 2);
+  $name: list.nth($alert-kind, 1);
+  $kind: list.nth($alert-kind, 2);
 
   :host([kind="#{$name}"]) {
     .container {
@@ -308,8 +312,8 @@ $alert-durations:
   "slow" 14000ms;
 
 @each $alert-duration in $alert-durations {
-  $name: nth($alert-duration, 1);
-  $duration: nth($alert-duration, 2);
+  $name: list.nth($alert-duration, 1);
+  $duration: list.nth($alert-duration, 2);
 
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
@@ -340,5 +344,5 @@ $alert-durations:
   @apply absolute;
 }
 
-@include base-component();
-@include calcite-hydrated-hidden();
+@include includes.base-component();
+@include includes.calcite-hydrated-hidden();

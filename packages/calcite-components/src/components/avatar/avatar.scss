@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -8,7 +9,6 @@
  * @prop --calcite-avatar-background-color: Specifies the component's background color.
  *
  */
-
 :host {
   @apply inline-block overflow-hidden;
   border-radius: var(--calcite-avatar-corner-radius, 50%);
@@ -45,4 +45,4 @@
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
-@include base-component();
+@include includes.base-component();

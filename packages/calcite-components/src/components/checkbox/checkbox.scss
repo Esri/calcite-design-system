@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -8,7 +9,6 @@
  * @prop --calcite-checkbox-border-color-hover: Specifies the component's color when hovered.
  * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
  */
-
 :host([scale="s"]) {
   .check-svg,
   .toggle {
@@ -116,6 +116,6 @@
   }
 }
 
-@include disabled();
-@include hidden-form-input();
-@include base-component();
+@include includes.disabled();
+@include includes.hidden-form-input();
+@include includes.base-component();

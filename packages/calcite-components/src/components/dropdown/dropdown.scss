@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 /**
 * CSS Custom Properties
 *
@@ -6,17 +9,16 @@
 * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
 * @prop --calcite-dropdown-background-color: Specifies the component's background color.
 */
-
 :host {
   @apply inline-block;
 }
 
 .calcite-dropdown-wrapper {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".calcite-dropdown-wrapper");
+@include floating-ui.floating-ui-elem-anim(".calcite-dropdown-wrapper");
 
 .calcite-dropdown-content {
   @apply w-auto
@@ -29,7 +31,7 @@
 
 .calcite-trigger-container {
   @apply relative flex flex-auto h-full;
-  @include word-break;
+  @include includes.word-break;
 }
 
 .width-s {
@@ -51,5 +53,5 @@
   }
 }
 
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

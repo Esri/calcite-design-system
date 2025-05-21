@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
  * @prop --calcite-menu-text-color: Specifies the text color of the component.
  */
-
 :host {
   @apply flex
   items-center
@@ -247,4 +247,4 @@ calcite-action {
   @apply opacity-100 -end-1;
 }
 
-@include base-component();
+@include includes.base-component();

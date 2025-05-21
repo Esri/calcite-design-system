@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-combobox-item-group-text-color: Specifies the text color of the component.
  * @prop --calcite-combobox-item-group-border-color: Specifies the border color of the component.
  */
-
 .scale--s {
   @apply text-n2h;
   --calcite-combobox-item-spacing-unit: theme("spacing.2");
@@ -56,5 +56,5 @@
   padding-block-start: var(--calcite-combobox-item-spacing-unit);
 }
 
-@include base-component();
-@include item-hidden();
+@include includes.base-component();
+@include includes.item-hidden();

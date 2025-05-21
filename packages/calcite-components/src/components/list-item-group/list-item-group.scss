@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-color: Specifies the component's color.
  */
-
 :host {
   @apply flex flex-col;
 }
@@ -15,7 +15,7 @@
   @apply hidden;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   @apply m-0 flex flex-1;
@@ -76,4 +76,4 @@
   @apply p-0;
 }
 
-@include base-component();
+@include includes.base-component();

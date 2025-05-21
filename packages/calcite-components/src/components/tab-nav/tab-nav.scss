@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -7,7 +10,6 @@
  * @prop --calcite-tab-border-color: When `calcite-tabs` is `bordered`, specifies the component's border color.
  * @prop --calcite-tab-text-color: Specifies the component's `iconStart, `iconEnd`, and text color.
  */
-
 :host {
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;
@@ -28,17 +30,17 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-24};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-32};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-44};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
@@ -181,7 +183,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   .scroll-button-container--forward {
     &::before {
       background-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
-      opacity: $calcite-opacity-50;
+      opacity: core.$calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
       inset-block-start: var(--calcite-border-width-md);
@@ -199,4 +201,4 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,7 +12,6 @@
  * @prop --calcite-inline-editable-button-shadow-color: Specifies the button element's box-shadow color.
  * @prop --calcite-inline-editable-button-text-color: Specifies the button element's text color.
  */
-
 :host {
   @apply block;
 }
@@ -81,6 +81,6 @@ calcite-button {
   --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();

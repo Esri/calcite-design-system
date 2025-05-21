@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+@use "sass:meta";
 /**
  * CSS Custom Properties
  *
@@ -25,9 +27,9 @@
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
 }
 
-@include disabled();
+@include includes.disabled();
 
-@import "../../assets/styles/header";
+@include meta.load-css("../../assets/styles/header");
 
 .header {
   @apply justify-start;
@@ -225,4 +227,4 @@ calcite-action-menu {
   }
 }
 
-@include base-component();
+@include includes.base-component();

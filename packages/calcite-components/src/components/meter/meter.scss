@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -12,7 +13,6 @@
  * @prop --calcite-meter-value-text-color: Specifies the color of the component's value label.
  *
  */
-
 /**
   * Local props
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
@@ -29,9 +29,8 @@
   * --calcite-internal-meter-range-text-color
   *
 */
-
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();
 
 :host {
   @apply flex;
