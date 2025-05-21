@@ -20,7 +20,7 @@ import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -116,8 +116,8 @@ export class ActionMenu extends LitElement {
       action.id = id;
     }
 
-    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
-    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
+    // Used to style the "activeMenuItemIndex" action using token focus styling.
+    action.activeDescendant = index === activeMenuItemIndex;
   };
 
   // #endregion
@@ -235,7 +235,7 @@ export class ActionMenu extends LitElement {
 
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
-      this.menuButtonEl.active = open;
+      this.menuButtonEl.expanded = open;
     }
 
     if (this.popoverEl) {
@@ -265,7 +265,7 @@ export class ActionMenu extends LitElement {
       return;
     }
 
-    menuButtonEl.active = open;
+    menuButtonEl.expanded = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
     menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
     menuButtonEl.setAttribute("aria-haspopup", "true");
@@ -463,6 +463,7 @@ export class ActionMenu extends LitElement {
           scale={scale}
           text={label}
           textEnabled={expanded}
+          type="expand"
         />
       </slot>
     );

@@ -58,7 +58,11 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @deprecated Use `type` with `pressed` or `expanded` instead.
+   */
   @property({ reflect: true }) active = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
@@ -84,6 +88,17 @@ export class Action extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /**
+   * When `true` and the `type` is `"expand"`, the component is expanded.
+   */
+  @property({ reflect: true }) expanded = false;
+
+  /**
+   * When `true`, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
+
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
@@ -102,6 +117,11 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  /**
+   * When `true` and the `type` is `"toggle"`, the component is pressed.
+   */
+  @property({ reflect: true }) pressed: boolean = false;
+
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -114,6 +134,14 @@ export class Action extends LitElement implements InteractiveComponent {
 
   /** Indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
+
+  /**
+   * Specifies the type of the action.
+   * - `"button"`: A standard button action.
+   * - `"toggle"`: An action that can switch between pressed and unpressed states.
+   * - `"expand"`: An action specifically for indicating if a control is expanded or collapsed.
+   */
+  @property({ reflect: true }) type: "button" | "toggle" | "expand" = "button";
 
   //#endregion
 
@@ -232,7 +260,6 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private renderButton(): JsxNode {
     const {
-      active,
       compact,
       disabled,
       icon,
@@ -244,6 +271,9 @@ export class Action extends LitElement implements InteractiveComponent {
       indicatorId,
       buttonId,
       messages,
+      type,
+      expanded,
+      pressed,
     } = this;
     const labelFallback = label || text || "";
 
@@ -272,8 +302,9 @@ export class Action extends LitElement implements InteractiveComponent {
           aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
           ariaDisabled={this.disabled ? this.disabled : null}
+          ariaExpanded={type === "expand" ? expanded : null}
           ariaLabel={ariaLabel}
-          ariaPressed={active}
+          ariaPressed={type === "toggle" ? pressed : null}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -289,8 +320,9 @@ export class Action extends LitElement implements InteractiveComponent {
       <button
         aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
+        ariaExpanded={type === "expand" ? expanded : null}
         ariaLabel={ariaLabel}
-        ariaPressed={active}
+        ariaPressed={type === "toggle" ? pressed : null}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
