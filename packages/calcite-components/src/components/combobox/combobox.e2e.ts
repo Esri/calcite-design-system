@@ -1701,13 +1701,17 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEvent = page.waitForEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEvent;
       const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
       expect(await floatingUI.isVisible()).toBe(true);
 
+      const closeEvent = page.waitForEvent("calciteComboboxClose");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+      await closeEvent;
       expect(await floatingUI.isVisible()).toBe(false);
     });
 
