@@ -239,7 +239,7 @@ calcite-chip {
 
 .select-all {
   background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
-  border-block-end-color: var(--calcite-combobox-border-color, var(--calcite-color-border-3));
+  border-block-end-color: var(--calcite-combobox-divider-color, var(--calcite-color-border-3));
   border-block-end-style: solid;
   border-block-end-width: var(--calcite-border-width-sm);
   inset-block-start: 0;
