@@ -41,7 +41,6 @@
     "@cspell/dict-scientific-terms-us": "3.0.6",
     "@cspell/eslint-plugin": "8.19.1",
     "@eslint/js": "9.25.0",
-    "@esri/calcite-base": "1.2.0",
     "@octokit/webhooks-types": "7.6.1",
     "@prettier/sync": "0.5.5",
     "@storybook/addon-a11y": "8.6.12",

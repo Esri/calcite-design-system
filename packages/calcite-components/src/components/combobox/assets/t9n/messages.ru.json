@@ -1,6 +1,7 @@
 {
   "all": "Все",
   "allSelected": "Все выбрано",
+  "selectAll": "Select All",
   "clear": "Очистить значение",
   "removeTag": "Удалить тег",
   "selected": "выбрано"

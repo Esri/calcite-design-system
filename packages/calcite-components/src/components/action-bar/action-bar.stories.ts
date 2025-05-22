@@ -289,3 +289,21 @@ export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expande
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
+
+export const fullWidthActions = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-flow: column;
+      width: 800px;
+      margin-block: 2rem;
+    }
+  </style>
+  <div class="container">
+    <calcite-action-bar layout="horizontal">
+      <calcite-action text="Add" icon="plus" width="full"> </calcite-action>
+      <calcite-action text="Remove" icon="minus" width="full"> </calcite-action>
+      <calcite-action text="Copy" icon="plus" width="full"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
