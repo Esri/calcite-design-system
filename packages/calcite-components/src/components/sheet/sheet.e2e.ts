@@ -98,17 +98,41 @@ describe("calcite-sheet properties", () => {
   });
 
   describe("accessible", () => {
-    accessible(`<calcite-sheet open label="hello world">Hello everyone!</calcite-sheet>`);
-    accessible(`<calcite-sheet open label="hello world"><calcite-panel closable heading="Ultrices neque"
-    ><p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-    <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-  </calcite-panel></calcite-sheet>`);
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-sheet label="hello world">Hello everyone!</calcite-sheet>`);
+      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+      await openEvent;
+      return { page, tag: "calcite-sheet" };
+    });
+
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-sheet label="hello world">
+          <calcite-panel closable heading="Ultrices neque"
+            ><p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
+            <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+          </calcite-panel>
+        </calcite-sheet>
+      `);
+      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+      await openEvent;
+      return { page, tag: "calcite-sheet" };
+    });
   });
 
   describe("setFocus", () => {
@@ -326,18 +350,30 @@ describe("calcite-sheet properties", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet></calcite-sheet>`);
     await skipAnimations(page);
     const sheet = await page.find("calcite-sheet");
+
+    let openEvent = page.waitForEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
+
     expect(await sheet.isVisible()).toBe(true);
+
+    const closeEvent = page.waitForEvent("calciteSheetClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await closeEvent;
+
     expect(await sheet.isVisible()).toBe(false);
     expect(await sheet.getProperty("open")).toBe(false);
+
+    openEvent = page.waitForEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
+
     expect(await sheet.isVisible()).toBe(true);
   });
 
