@@ -65,19 +65,19 @@ describe("calcite-link", () => {
     expect(elementAsLink).not.toHaveAttribute("download");
   });
 
-  it("renders as a span with default props", async () => {
+  it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
 
     const element = await page.find("calcite-link");
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -86,19 +86,19 @@ describe("calcite-link", () => {
     const page = await newE2EPage({ html: `<calcite-link>Continue</calcite-link>` });
     const link = await page.find("calcite-link");
     let elementAsLink: E2EElement;
-    let elementAsSpan: E2EElement;
+    let elementAsButton: E2EElement;
 
-    elementAsSpan = await page.find("calcite-link >>> span");
+    elementAsButton = await page.find("calcite-link >>> button");
     elementAsLink = await page.find("calcite-link >>> a");
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(elementAsLink).toBeNull();
 
     link.setProperty("href", "/");
     await page.waitForChanges();
 
-    elementAsSpan = await page.find("calcite-link >>> span");
+    elementAsButton = await page.find("calcite-link >>> button");
     elementAsLink = await page.find("calcite-link >>> a");
-    expect(elementAsSpan).toBeNull();
+    expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toBeNull();
   });
 
@@ -106,28 +106,28 @@ describe("calcite-link", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
     const element = await page.find("calcite-link");
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsSpan).toBeNull();
+    expect(elementAsButton).toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
 
-  it("renders as a span with requested props", async () => {
+  it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -135,13 +135,13 @@ describe("calcite-link", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsSpan).toBeNull();
+    expect(elementAsButton).toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -151,13 +151,13 @@ describe("calcite-link", () => {
     await page.setContent(
       `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="google.com">Continue</calcite-link>`,
     );
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsSpan).toBeNull();
+    expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toHaveClass("my-custom-class");
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
@@ -169,12 +169,12 @@ describe("calcite-link", () => {
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
     expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -182,12 +182,12 @@ describe("calcite-link", () => {
   it("renders with an icon-end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
     expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).not.toBeNull();
   });
@@ -195,12 +195,12 @@ describe("calcite-link", () => {
   it("renders with an icon-start and icon-end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus' icon-end='plus'>Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
+    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
     expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
     expect(iconEnd).not.toBeNull();
   });
@@ -229,6 +229,18 @@ describe("calcite-link", () => {
       await page.waitForChanges();
 
       expect(page.url()).toBe(targetUrl);
+    });
+
+    it("keyboard without href", async () => {
+      const element = await page.find("calcite-link");
+      element.setProperty("href", undefined);
+      const clickEvent = await element.spyOnEvent("click");
+
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(clickEvent).toHaveReceivedEventTimes(1);
     });
 
     it("mouse", async () => {
