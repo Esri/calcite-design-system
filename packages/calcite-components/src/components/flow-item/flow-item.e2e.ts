@@ -66,6 +66,14 @@ describe("calcite-flow-item", () => {
         defaultValue: false,
       },
       {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
+      {
         propertyName: "loading",
         defaultValue: false,
       },
@@ -116,6 +124,14 @@ describe("calcite-flow-item", () => {
       },
       {
         propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
         value: true,
       },
       {
@@ -276,6 +292,17 @@ describe("calcite-flow-item", () => {
     expect(await flowItem.getProperty("collapsed")).toBe(false);
   });
 
+  it("sets icon on internal panel", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-flow-item icon="x" icon-flip-rtl></calcite-flow-item>`);
+    await page.waitForChanges();
+
+    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+    expect(await panel.getProperty("icon")).toBe("x");
+    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  });
+
   it("allows scrolling content", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -394,7 +421,7 @@ describe("calcite-flow-item", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-flow-item show-back-button></calcite-flow-item>`, {
+    themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
       "--calcite-flow-corner-radius": {
         shadowSelector: "calcite-panel",
         targetProp: "--calcite-panel-corner-radius",
@@ -402,6 +429,10 @@ describe("calcite-flow-item", () => {
       "--calcite-flow-heading-text-color": {
         shadowSelector: "calcite-panel",
         targetProp: "--calcite-panel-heading-text-color",
+      },
+      "--calcite-flow-icon-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-icon-color",
       },
       "--calcite-flow-description-text-color": {
         shadowSelector: "calcite-panel",

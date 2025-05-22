@@ -95,6 +95,14 @@ describe("calcite-dialog", () => {
         value: "brand",
       },
       {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+      },
+      {
         propertyName: "loading",
         value: true,
       },
@@ -170,6 +178,14 @@ describe("calcite-dialog", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
       },
       {
         propertyName: "kind",
@@ -269,6 +285,8 @@ describe("calcite-dialog", () => {
     dialog.setProperty("heading", "My Heading");
     dialog.setProperty("description", "My Description");
     dialog.setProperty("scale", "l");
+    dialog.setProperty("icon", "x");
+    dialog.setProperty("iconFlipRtl", true);
     dialog.setProperty("messageOverrides", messageOverrides);
     await page.waitForChanges();
 
@@ -280,6 +298,8 @@ describe("calcite-dialog", () => {
     expect(await panel.getProperty("heading")).toBe("My Heading");
     expect(await panel.getProperty("description")).toBe("My Description");
     expect(await panel.getProperty("scale")).toBe("l");
+    expect(await panel.getProperty("icon")).toBe("x");
+    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
     expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
     expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
@@ -1104,13 +1124,61 @@ describe("calcite-dialog", () => {
       expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
       expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
     });
+
+    it("should honor minBlockSize and minInlineSize when resizing", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog
+          style="
+          --calcite-dialog-size-y: 400px;
+          --calcite-dialog-size-x: 400px;
+          --calcite-dialog-min-size-y: 400px;
+          --calcite-dialog-min-size-x: 400px;"
+          width-scale="s"
+          heading="Hello world"
+          resizable
+          open
+          ><p>
+            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+            fermentum tellus quis ad facilisis ultrices eros imperdiet.
+          </p></calcite-dialog
+        >`,
+      );
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialHeight = parseInt(initialBlockSize);
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialWidth = parseInt(initialInlineSize);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    });
   });
 
   describe("theme", () => {
     themed(
       async () => {
         const page = await newE2EPage();
-        await page.setContent(html`<calcite-dialog width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`);
+        await page.setContent(
+          html`<calcite-dialog icon="banana" width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
+        );
         // set large page to ensure test dialog isn't becoming fullscreen
         await page.setViewport({ width: 1440, height: 1440 });
         await skipAnimations(page);
@@ -1164,6 +1232,10 @@ describe("calcite-dialog", () => {
         "--calcite-dialog-background-color": {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-background-color",
+        },
+        "--calcite-dialog-icon-color": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-icon-color",
         },
       },
     );
