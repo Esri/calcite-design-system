@@ -1,6 +1,7 @@
 {
   "all": "Todo",
   "allSelected": "Todas las seleccionadas",
+  "selectAll": "Select All",
   "clear": "Borrar valor",
   "removeTag": "Eliminar etiqueta",
   "selected": "seleccionado"
