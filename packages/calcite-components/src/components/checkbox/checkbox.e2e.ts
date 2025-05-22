@@ -226,21 +226,51 @@ describe("calcite-checkbox", () => {
   });
 
   describe("theme", () => {
-    themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
-      "--calcite-checkbox-size": [
-        {
+    describe("default", () => {
+      themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
+        "--calcite-checkbox-size": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "blockSize",
+          },
+        ],
+        "--calcite-checkbox-icon-color": {
           shadowSelector: `.${CSS.check}`,
-          targetProp: "inlineSize",
+          targetProp: "color",
         },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-checkbox-icon-color": {
-        shadowSelector: `.${CSS.check}`,
-        targetProp: "color",
-      },
+      });
+    });
+    describe("checked", () => {
+      themed(html` <calcite-checkbox name="s-checked" scale="s" checked></calcite-checkbox> `, {
+        "--calcite-checkbox-border-color-hover": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "boxShadow",
+            state: "hover",
+          },
+        ],
+        "--calcite-checkbox-border-color-press": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-checkbox >>> .${CSS.check}` },
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "boxShadow",
+            state: { press: `calcite-checkbox >>> .${CSS.check}` },
+          },
+        ],
+      });
     });
   });
 });
