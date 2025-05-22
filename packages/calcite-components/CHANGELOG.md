@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.4...@esri/calcite-components@3.3.0-next.5) (2025-05-22)
+
+### Features
+
+- **dialog, panel, flow-item:** add `icon` and `iconFlipRtl` properties ([#12176](https://github.com/Esri/calcite-design-system/issues/12176)) ([e48b9e7](https://github.com/Esri/calcite-design-system/commit/e48b9e7aaf3f53f1b75215815636cca4cc4bbfc5)), closes [#10265](https://github.com/Esri/calcite-design-system/issues/10265)
+
+### Bug Fixes
+
+- **dialog:** restrict resizing once minimum size has been reached ([#12175](https://github.com/Esri/calcite-design-system/issues/12175)) ([32b31d5](https://github.com/Esri/calcite-design-system/commit/32b31d5b17d133c102b8a5788e71c7c8a43028b5)), closes [#10252](https://github.com/Esri/calcite-design-system/issues/10252)
+
 ## [3.3.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.3...@esri/calcite-components@3.3.0-next.4) (2025-05-21)
 
 ### Bug Fixes
