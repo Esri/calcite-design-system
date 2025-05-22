@@ -25,7 +25,6 @@ import { globby } from "globby";
       // ensure paths are sorted per component-name as `globby` does not guarantee order (see https://github.com/sindresorhus/globby/issues/131)
       const componentAName = pathA.split(manifestFilePathSeparator).at(-3);
       const componentBName = pathB.split(manifestFilePathSeparator).at(-3);
-      console.log("pathA, pathB", componentAName, componentBName);
       return componentAName && componentBName ? componentAName?.localeCompare(componentBName) : 0;
     })
     .join("\n");
