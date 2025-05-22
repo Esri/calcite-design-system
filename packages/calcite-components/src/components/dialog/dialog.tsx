@@ -442,8 +442,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
+          const { minBlockSize } = window.getComputedStyle(transitionEl);
+          const minHeight = getStylePixelValue(minBlockSize);
+          const height = this.getTransitionElDOMRect().height;
+
+          if (height <= minHeight) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - resizeShiftStep,
+            size: height - resizeShiftStep,
             type: "blockSize",
           });
           resizePosition.bottom -= resizeShiftStep;
@@ -476,8 +484,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         break;
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
+          const { minInlineSize } = window.getComputedStyle(transitionEl);
+          const minWidth = getStylePixelValue(minInlineSize);
+          const width = this.getTransitionElDOMRect().width;
+
+          if (width <= minWidth) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - resizeShiftStep,
+            size: width - resizeShiftStep,
             type: "inlineSize",
           });
           resizePosition.right -= resizeShiftStep;
