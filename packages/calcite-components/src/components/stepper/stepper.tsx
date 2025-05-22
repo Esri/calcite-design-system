@@ -443,6 +443,9 @@ export class Stepper extends LitElement {
     const path = isPositionStart ? "chevron-left" : "chevron-right";
     const { currentActivePosition, multipleViewMode, layout } = this;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
+    const offset = isPositionStart ? -1 : 1;
+    const direction = isPositionStart ? "previous" : "next";
+    const disabled = this.getEnabledStepIndex(currentActivePosition + offset, direction) === null;
 
     return layout === "horizontal-single" && !multipleViewMode ? (
       <calcite-action
@@ -453,11 +456,7 @@ export class Stepper extends LitElement {
         }}
         compact={true}
         data-position={position}
-        disabled={
-          (isPositionStart &&
-            this.getEnabledStepIndex(currentActivePosition - 1, "previous") === null) ||
-          (!isPositionStart && this.getEnabledStepIndex(currentActivePosition + 1, "next") === null)
-        }
+        disabled={disabled}
         icon={path}
         iconFlipRtl={true}
         id={id}
