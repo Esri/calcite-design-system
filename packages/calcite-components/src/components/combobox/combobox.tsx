@@ -1518,7 +1518,7 @@ export class Combobox
   }: {
     ariaLabel?: string;
     ariaSelected: boolean;
-    id: string | null;
+    id?: string;
     textContent: string;
   }): JsxNode {
     return (
@@ -1760,7 +1760,7 @@ export class Combobox
       this.createScreenReaderItem({
         ariaLabel: item.label,
         ariaSelected: item.selected,
-        id: item.guid ? `${itemUidPrefix}${item.guid}` : null,
+        id: `${itemUidPrefix}${item.guid}`,
         textContent: item.heading || item.textLabel,
       }),
     );
@@ -1773,7 +1773,6 @@ export class Combobox
       const selectAllComboboxItem = this.createScreenReaderItem({
         ariaLabel: this.messages.selectAll,
         ariaSelected: this.allSelected,
-        id: null,
         textContent: this.messages.selectAll,
       });
 
