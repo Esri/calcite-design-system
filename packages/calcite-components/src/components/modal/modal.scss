@@ -11,6 +11,9 @@
  *
  */
 
+$viewport-small: 480px;
+$viewport-medium: 860px;
+
 :host {
   --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
