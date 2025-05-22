@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size--2);
@@ -96,4 +97,4 @@ calcite-pagination {
   justify-content: center;
 }
 
-@include base-component();
+@include includes.base-component();

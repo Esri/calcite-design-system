@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
+
 /**
  * CSS Custom Properties
  *
@@ -14,7 +17,6 @@
  * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
-
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;
@@ -96,7 +98,7 @@
 
 :host([type="indeterminate"]) {
   .ring--progress {
-    animation: loader-clockwise scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
+    animation: loader-clockwise animation.scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
   }
 }
 
@@ -182,4 +184,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

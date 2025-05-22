@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
+
 /**
 * CSS Custom Properties
 *
@@ -7,7 +10,6 @@
 * @prop --calcite-progress-fill-color: Specifies the component's fill color.
 * @prop --calcite-progress-text-color: Specifies the component's text color.
 */
-
 :host {
   @apply relative block w-full;
 }
@@ -40,7 +42,8 @@
 
 .indeterminate {
   @apply w-1/5;
-  animation: looping-progress-bar-ani scale-duration(--calcite-internal-animation-timing-medium, 11) linear infinite;
+  animation: looping-progress-bar-ani animation.scale-duration(--calcite-internal-animation-timing-medium, 11) linear
+    infinite;
   &.calcite--rtl {
     animation-name: looping-progress-bar-ani-rtl;
   }
@@ -79,4 +82,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+@use "sass:meta";
 /**
  * CSS Custom Properties
  *
@@ -25,7 +27,7 @@
   @apply hidden;
 }
 
-@import "../../assets/styles/header";
+@include meta.load-css("../../assets/styles/header");
 
 .header {
   @apply border-color-3
@@ -120,4 +122,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

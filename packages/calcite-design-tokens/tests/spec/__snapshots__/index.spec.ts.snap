@@ -70771,9 +70771,9 @@ exports[`generated tokens > SCSS > index should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-@import "./semantic.scss";
-@import "./breakpoints.scss";
-@import "./mixins.scss";
+@use "./semantic.scss";
+@use "./breakpoints.scss";
+@use "./mixins.scss";
 @mixin calcite-mode-light {
   --calcite-color-border-white: #ffffff;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);

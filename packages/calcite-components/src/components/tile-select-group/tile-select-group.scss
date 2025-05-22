@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   @apply flex flex-wrap;
   ::slotted(calcite-tile-select) {
@@ -10,5 +11,5 @@
   @apply flex-col;
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();
