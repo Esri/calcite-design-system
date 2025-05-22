@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.6...@esri/calcite-components@3.3.0-next.7) (2025-05-22)
+
+### Bug Fixes
+
+- **link:** Emit click event on enter key when the component doesn't have href defined ([#12191](https://github.com/Esri/calcite-design-system/issues/12191)) ([37aee22](https://github.com/Esri/calcite-design-system/commit/37aee22330bd4b8bbad2742adbbb4b7f1dff347b)), closes [#10728](https://github.com/Esri/calcite-design-system/issues/10728)
+
 ## [3.3.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.5...@esri/calcite-components@3.3.0-next.6) (2025-05-22)
 
 ### Features
