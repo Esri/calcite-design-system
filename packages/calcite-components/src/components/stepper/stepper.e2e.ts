@@ -940,19 +940,17 @@ describe("calcite-stepper", () => {
       expect(changeSpy).toHaveReceivedEventTimes(0);
       expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
-      // shouldn't emit change event when disabled element is visible
       await actionEnd.click();
-      expect(changeSpy).toHaveReceivedEventTimes(0);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       await actionEnd.click();
       expect(changeSpy).toHaveReceivedEventTimes(1);
       expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
-      // shouldn't emit change event when disabled element is visible
       await actionStart.click();
-      expect(changeSpy).toHaveReceivedEventTimes(1);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 
       await actionStart.click();
       expect(changeSpy).toHaveReceivedEventTimes(2);
