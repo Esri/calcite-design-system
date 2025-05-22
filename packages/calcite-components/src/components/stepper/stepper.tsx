@@ -332,8 +332,7 @@ export class Stepper extends LitElement {
     const { items, currentActivePosition } = this;
 
     let newIndex = startIndex;
-
-    while (items[newIndex]?.disabled && this.layout !== "horizontal-single") {
+    while (newIndex >= 0 && newIndex < items.length && items[newIndex]?.disabled) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
@@ -443,7 +442,6 @@ export class Stepper extends LitElement {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
     const { currentActivePosition, multipleViewMode, layout } = this;
-    const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
 
     return layout === "horizontal-single" && !multipleViewMode ? (
@@ -456,8 +454,9 @@ export class Stepper extends LitElement {
         compact={true}
         data-position={position}
         disabled={
-          (currentActivePosition === 0 && isPositionStart) ||
-          (currentActivePosition === totalItems - 1 && !isPositionStart)
+          (isPositionStart &&
+            this.getEnabledStepIndex(currentActivePosition - 1, "previous") === null) ||
+          (!isPositionStart && this.getEnabledStepIndex(currentActivePosition + 1, "next") === null)
         }
         icon={path}
         iconFlipRtl={true}
