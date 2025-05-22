@@ -1,6 +1,7 @@
 {
   "all": "Tot",
   "allSelected": "Tots els elements seleccionats",
+  "selectAll": "Select All",
   "clear": "Esborra el valor",
   "removeTag": "Elimina l'etiqueta",
   "selected": "seleccionat"

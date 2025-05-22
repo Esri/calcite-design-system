@@ -1,6 +1,7 @@
 {
   "all": "Kaikki",
   "allSelected": "Kaikki valitut",
+  "selectAll": "Select All",
   "clear": "Tyhjennä arvo",
   "removeTag": "Poista tunniste",
   "selected": "valitut"
