@@ -3311,25 +3311,21 @@ describe("calcite-combobox", () => {
     `;
 
     describe("select-all-enabled", () => {
-      const comboboxTokens: ComponentTestTokens = {
+      themed(comboboxSelectAllEnabledHTML, {
         "--calcite-combobox-divider-color": {
           shadowSelector: `.${CSS.selectAll}`,
-          selector: "calcite-combobox",
           targetProp: "borderBlockEndColor",
         },
-      };
-      themed(comboboxSelectAllEnabledHTML, comboboxTokens);
+      });
     });
 
     describe("deprecated", () => {
-      const comboboxTokens: ComponentTestTokens = {
+      themed(comboboxSelectAllEnabledHTML, {
         "--calcite-combobox-item-border-color": {
           shadowSelector: `.${CSS.selectAll}`,
-          selector: "calcite-combobox",
           targetProp: "borderBlockEndColor",
         },
-      };
-      themed(comboboxSelectAllEnabledHTML, comboboxTokens);
+      });
     });
   });
 });
