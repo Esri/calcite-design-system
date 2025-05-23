@@ -163,7 +163,7 @@ describe("calcite-shell", () => {
     const block = await page.find("calcite-block");
 
     const openEvent = block.waitForEvent("calciteBlockOpen");
-    block.click();
+    await block.click();
     await openEvent;
 
     expect(await block.getProperty("expanded")).toBe(true);
@@ -189,7 +189,7 @@ describe("calcite-shell", () => {
     const block = await page.find("calcite-block");
 
     const openEvent = block.waitForEvent("calciteBlockOpen");
-    block.click();
+    await block.click();
     await openEvent;
 
     expect(await block.getProperty("expanded")).toBe(true);
@@ -217,7 +217,7 @@ describe("calcite-shell", () => {
     const block = await page.find("calcite-block");
 
     const openEvent = block.waitForEvent("calciteBlockOpen");
-    block.click();
+    await block.click();
     await openEvent;
 
     expect(await block.getProperty("expanded")).toBe(true);
