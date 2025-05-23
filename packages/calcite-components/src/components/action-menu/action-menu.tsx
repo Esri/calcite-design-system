@@ -34,7 +34,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 /**
  * @slot - A slot for adding `calcite-action`s.
  * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
- * @slot tooltip - A slot for adding an tooltip for the menu.
+ * @slot tooltip - A slot for adding a tooltip for the menu.
  */
 export class ActionMenu extends LitElement {
   // #region Static Members
@@ -435,12 +435,14 @@ export class ActionMenu extends LitElement {
     this.open = value;
   }
 
-  private handlePopoverOpen(): void {
+  private handlePopoverOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = true;
     this.setFocus();
   }
 
-  private handlePopoverClose(): void {
+  private handlePopoverClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = false;
   }
 

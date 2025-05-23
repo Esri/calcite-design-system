@@ -3,12 +3,17 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
+import {
+  createSelectedItemsAsserter,
+  getFocusedElementProp,
+  createEventTimePropValuesAsserter,
+} from "../../tests/utils/puppeteer";
 import { CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
+import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
@@ -2738,5 +2743,59 @@ describe("keyboard navigation", () => {
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
+  });
+
+  it("updates table-row's selected property correctly when calciteTabRowSelect event is emitted", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table caption="Simple table" selection-mode="multiple">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell>row1</calcite-table-cell>
+          <calcite-table-cell>row1</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell>row2</calcite-table-cell>
+          <calcite-table-cell>row2</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    async function selectRow(rowSelector: string): Promise<void> {
+      await page.$eval(rowSelector + " >>> calcite-table-cell:first-child", (el: TableCell["el"]) => {
+        el.click();
+      });
+      await page.waitForChanges();
+    }
+
+    const rowSelector = "calcite-table-row[id='row-1']";
+    const rowElement = await page.find(rowSelector);
+    expect(await rowElement.getProperty("selected")).toBe(false);
+
+    async function propValueAsserter(expectedPropValue: boolean): Promise<() => Promise<void>> {
+      return await createEventTimePropValuesAsserter<TableRow>(
+        page,
+        {
+          eventListenerSelector: "calcite-table",
+          selector: rowSelector,
+          eventName: "calciteTableRowSelect",
+          props: ["selected"],
+        },
+        async (propValues) => {
+          expect(propValues["selected"]).toBe(expectedPropValue);
+        },
+      );
+    }
+
+    const rowSelected = await propValueAsserter(true);
+    await selectRow(rowSelector);
+    await expect(rowSelected()).resolves.toBe(undefined);
+
+    const rowDeselected = await propValueAsserter(false);
+    await selectRow(rowSelector);
+    await expect(rowDeselected()).resolves.toBe(undefined);
   });
 });

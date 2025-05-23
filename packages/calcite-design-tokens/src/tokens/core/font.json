@@ -1,0 +1,235 @@
+{
+  "core": {
+    "font": {
+      "family": {
+        "andaleMono": {
+          "value": "Andale Mono",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "avenirNextPro": {
+          "value": "Avenir Next LT Pro",
+          "type": "fontFamilies",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "avenirNextWorld": {
+          "value": "Avenir Next World",
+          "type": "fontFamilies",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "avenirNext": {
+          "value": "Avenir Next",
+          "type": "fontFamilies",
+          "description": "Primary font family",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "avenir": {
+          "value": "Avenir",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "consolas": {
+          "value": "Consolas",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "helveticaNeue": {
+          "value": "Helvetica Neue",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "lucidaConsole": {
+          "value": "Lucida Console",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "monaco": {
+          "value": "Monaco",
+          "type": "fontFamilies",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "monospace": {
+          "value": "monospace",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "sansSerif": {
+          "value": "sans-serif",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "category": "font"
+          }
+        }
+      },
+      "style": {
+        "italic": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings",
+          "attributes": {
+            "category": "font"
+          }
+        }
+      },
+      "weight": {
+        "ultralight": {
+          "value": "UltraLight",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "thin": {
+          "value": "Thin",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "light": {
+          "value": "Light",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "regular": {
+          "value": "Regular",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "medium": {
+          "value": "Medium",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "medium-italic": {
+          "value": "Medium Italic",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "demi": {
+          "value": "Demi",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "bold": {
+          "value": "Bold",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "extrabold": {
+          "value": "ExtraBold",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "black": {
+          "value": "Black",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "heavy": {
+          "value": "Heavy",
+          "type": "fontWeights",
+          "attributes": {
+            "category": "font"
+          }
+        }
+      },
+      "text-decoration": {
+        "none": {
+          "value": "none",
+          "type": "textDecoration",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "underline": {
+          "value": "underline",
+          "type": "textDecoration",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        }
+      },
+      "text-case": {
+        "none": {
+          "value": "none",
+          "type": "textCase",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "uppercase": {
+          "value": "uppercase",
+          "type": "textCase",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "lowercase": {
+          "value": "lowercase",
+          "type": "textCase",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        },
+        "capitalize": {
+          "value": "capitalize",
+          "type": "textCase",
+          "description": "Deprecated",
+          "attributes": {
+            "category": "font"
+          }
+        }
+      }
+    }
+  }
+}

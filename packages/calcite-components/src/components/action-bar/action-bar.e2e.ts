@@ -14,7 +14,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { findAll, getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { CSS, SLOTS } from "./resources";
@@ -33,6 +33,10 @@ describe("calcite-action-bar", () => {
     defaults("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "floating",
         defaultValue: false,
       },
       {
@@ -62,6 +66,10 @@ describe("calcite-action-bar", () => {
       },
       {
         propertyName: "expanded",
+        value: true,
+      },
+      {
+        propertyName: "floating",
         value: true,
       },
       {
@@ -564,11 +572,41 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`,
         {
+          "--calcite-action-bar-background-color": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
           "--calcite-action-bar-expanded-max-width": {
+            shadowSelector: `.${CSS.container}`,
             targetProp: "maxInlineSize",
           },
           "--calcite-action-bar-items-space": {
+            shadowSelector: `.${CSS.container}`,
             targetProp: "gap",
+          },
+        },
+      );
+    });
+    describe("floating", () => {
+      themed(
+        html`<calcite-action-bar expanded layout="vertical" floating>
+          <calcite-action-group>
+            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action-menu label="Save and open">
+              <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
+            </calcite-action-menu>
+          </calcite-action-group>
+        </calcite-action-bar>`,
+        {
+          "--calcite-action-bar-corner-radius": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          "--calcite-action-bar-shadow": {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "boxShadow",
           },
         },
       );

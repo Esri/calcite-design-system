@@ -25,19 +25,26 @@ declare global {
 
 /** @slot - A slot for adding content, usually text content. */
 export class TableCell extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() contentsText = "";
 
@@ -45,9 +52,9 @@ export class TableCell extends LitElement implements InteractiveComponent {
 
   @state() selectionText = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the alignment of the component. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -66,13 +73,6 @@ export class TableCell extends LitElement implements InteractiveComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** @private */
   @property() numberCell: boolean;
@@ -104,9 +104,9 @@ export class TableCell extends LitElement implements InteractiveComponent {
   /** @private */
   @property() selectionCell: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -115,9 +115,9 @@ export class TableCell extends LitElement implements InteractiveComponent {
     this.containerEl.value.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
     this.updateScreenReaderContentsText();
@@ -134,9 +134,10 @@ export class TableCell extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
     const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
@@ -155,9 +156,9 @@ export class TableCell extends LitElement implements InteractiveComponent {
     this.focused = true;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -201,5 +202,5 @@ export class TableCell extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }
