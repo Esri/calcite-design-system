@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { GenericController, T9nMeta } from "@arcgis/lumina/controllers";
+import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import { createEvent, LitElement } from "@arcgis/lumina";
 import {
@@ -668,3 +668,5 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
 
   //#endregion
 }
+
+export const useTime = toFunction(TimeController);
