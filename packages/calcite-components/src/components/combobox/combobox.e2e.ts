@@ -3303,14 +3303,27 @@ describe("calcite-combobox", () => {
       themed(singleSelectComboboxHTML, comboboxTokens);
     });
 
-    describe("select-all-enabled", () => {
-      const comboboxSelectAllEnabledHTML = html`<calcite-combobox select-all-enabled>
-        </calcite-combobox-item value="Pine" text-label="Pine">
-        </calcite-combobox-item value="Pine Nested" text-label="Pine Nested"
-      </calcite-combobox>`;
+    const comboboxSelectAllEnabledHTML = html`
+      <calcite-combobox select-all-enabled>
+          </calcite-combobox-item value="Pine" text-label="Pine">
+          </calcite-combobox-item value="Not Pine" text-label="Not Pine">
+        </calcite-combobox>
+    `;
 
+    describe("select-all-enabled", () => {
       const comboboxTokens: ComponentTestTokens = {
         "--calcite-combobox-divider-color": {
+          shadowSelector: `.${CSS.selectAll}`,
+          selector: "calcite-combobox",
+          targetProp: "borderBlockEndColor",
+        },
+      };
+      themed(comboboxSelectAllEnabledHTML, comboboxTokens);
+    });
+
+    describe("deprecated", () => {
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-item-border-color": {
           shadowSelector: `.${CSS.selectAll}`,
           selector: "calcite-combobox",
           targetProp: "borderBlockEndColor",
