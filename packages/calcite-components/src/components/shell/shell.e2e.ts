@@ -2,6 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -143,7 +144,6 @@ describe("calcite-shell", () => {
 
   it("sheet embedded in shell slot does not prevent interaction with page content outside slot", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
@@ -161,10 +161,13 @@ describe("calcite-shell", () => {
       </calcite-shell>`,
     );
     const block = await page.find("calcite-block");
+
+    const openEvent = block.waitForEvent("calciteBlockOpen");
     block.click();
-    await page.waitForChanges();
+    await openEvent;
+
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
   });
 
   it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -185,10 +188,12 @@ describe("calcite-shell", () => {
     );
     const block = await page.find("calcite-block");
 
+    const openEvent = block.waitForEvent("calciteBlockOpen");
     block.click();
-    await page.waitForChanges();
+    await openEvent;
+
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
   });
 
   it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -210,10 +215,13 @@ describe("calcite-shell", () => {
       </calcite-shell>`,
     );
     const block = await page.find("calcite-block");
+
+    const openEvent = block.waitForEvent("calciteBlockOpen");
     block.click();
-    await page.waitForChanges();
+    await openEvent;
+
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
   });
 
   describe("theme", () => {

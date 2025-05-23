@@ -782,32 +782,35 @@ describe("calcite-dropdown", () => {
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
-      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
+
+      let openEvent = page.waitForEvent("calciteDropdownOpen");
       await trigger.click();
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
       await page.waitForChanges();
+      const closeEvent = page.waitForEvent("calciteDropdownClose");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await closeEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(false);
-      await waitForCalciteDropdownClose;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
 
-      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-
+      openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
     });
@@ -829,32 +832,35 @@ describe("calcite-dropdown", () => {
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
-      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
+
+      let openEvent = page.waitForEvent("calciteDropdownOpen");
       await trigger.click();
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
       await page.waitForChanges();
+      const closeEvent = page.waitForEvent("calciteDropdownClose");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await closeEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(false);
-      await waitForCalciteDropdownClose;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
 
-      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-
+      openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
     });
@@ -875,7 +881,7 @@ describe("calcite-dropdown", () => {
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
-      const waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
 
@@ -885,8 +891,9 @@ describe("calcite-dropdown", () => {
       });
 
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
     });
@@ -912,15 +919,22 @@ describe("calcite-dropdown", () => {
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
+
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await trigger.click();
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
       expect(await getFocusedElementProp(page, "id")).toBe("item-2");
 
+      const closeEvent = page.waitForEvent("calciteDropdownClose");
       await element.press("Tab");
       await page.waitForChanges();
+      await closeEvent;
+
       expect(await getFocusedElementProp(page, "id")).toBe("button-1");
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -945,17 +959,24 @@ describe("calcite-dropdown", () => {
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
+
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await trigger.click();
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdownWrapper.isVisible()).toBe(true);
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
       expect(await getFocusedElementProp(page, "id")).toBe("item-2");
 
+      const closeEvent = page.waitForEvent("calciteDropdownClose");
       await page.keyboard.down("Shift");
       await element.press("Tab");
       await page.keyboard.up("Shift");
       await page.waitForChanges();
+      await closeEvent;
+
       expect(await getFocusedElementProp(page, "id")).toBe("trigger");
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -1263,8 +1284,10 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+      await openEvent;
 
       expect(await isElementFocused(page, "#item-1")).toBe(true);
 
@@ -1325,8 +1348,10 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+      await openEvent;
 
       expect(await isElementFocused(page, "#item-2")).toBe(true);
 
@@ -1374,8 +1399,11 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdown.getProperty("open")).toBe(true);
       expect(await isElementFocused(page, "#item-1")).toBe(true);
 
@@ -1406,8 +1434,11 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdown.getProperty("open")).toBe(true);
       expect(await isElementFocused(page, "#item-3")).toBe(true);
 
@@ -1438,8 +1469,11 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdown.getProperty("open")).toBe(true);
       expect(await isElementFocused(page, "#item-2")).toBe(true);
 
@@ -1470,8 +1504,11 @@ describe("calcite-dropdown", () => {
       await dropdown.callMethod("setFocus");
       await page.waitForChanges();
 
+      const openEvent = page.waitForEvent("calciteDropdownOpen");
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
+      await openEvent;
+
       expect(await dropdown.getProperty("open")).toBe(true);
       expect(await isElementFocused(page, "#item-2")).toBe(true);
 
