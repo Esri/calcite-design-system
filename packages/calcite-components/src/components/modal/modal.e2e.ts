@@ -201,6 +201,7 @@ describe("calcite-modal", () => {
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
     const page = await newE2EPage();
+    await skipAnimations(page);
     const mockCallBack = vi.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
@@ -224,6 +225,7 @@ describe("calcite-modal", () => {
 
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
+    await skipAnimations(page);
 
     const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
@@ -244,6 +246,7 @@ describe("calcite-modal", () => {
 
   it("should remain open with rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
+    await skipAnimations(page);
 
     await page.exposeFunction("beforeClose", () => Promise.reject());
     await page.setContent(`<calcite-modal open></calcite-modal>`);

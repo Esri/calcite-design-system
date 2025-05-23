@@ -1673,6 +1673,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
+      await skipAnimations(page);
     });
 
     it("should not show the listbox when it receives focus", async () => {
@@ -1695,7 +1696,6 @@ describe("calcite-combobox", () => {
     });
 
     it("tab will close the item group if it’s open", async () => {
-      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -1737,30 +1737,39 @@ describe("calcite-combobox", () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEvent = page.waitForEvent("calciteComboboxOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      await openEvent;
       const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+
       expect(firstFocusedGroupItem).toBeTruthy();
     });
 
     it(`Escape closes the dropdown, but remains focused`, async () => {
-      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEvent = page.waitForEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEvent;
       const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
+
       expect(await floatingUI.isVisible()).toBe(true);
 
+      const closeEvent = page.waitForEvent("calciteComboboxClose");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      expect(await floatingUI.isVisible()).toBe(false);
+      await closeEvent;
 
+      expect(await floatingUI.isVisible()).toBe(false);
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
@@ -1768,15 +1777,18 @@ describe("calcite-combobox", () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEvent = page.waitForEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEvent;
       const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+
       expect(firstFocusedGroupItem).toBeTruthy();
 
-      const visible = await firstFocusedGroupItem.isVisible();
-      expect(visible).toBe(true);
+      expect(await firstFocusedGroupItem.isVisible()).toBe(true);
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
