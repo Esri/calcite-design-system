@@ -12,6 +12,8 @@ import { globby } from "globby";
   const rootBundles = await globby([rootBundlePattern]);
   const manifestFilePathSeparator = "\\";
 
+  console.log("starting generation of file paths for t9n files");
+
   const paths = await Promise.all(
     rootBundles.map(async (bundle) => {
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
@@ -28,6 +30,7 @@ import { globby } from "globby";
       return componentAName && componentBName ? componentAName?.localeCompare(componentBName) : 0;
     })
     .join("\n");
+
   await writeFile("../../t9nmanifest.txt", manifestFileContents);
   console.log("finished writing manifest");
 })();

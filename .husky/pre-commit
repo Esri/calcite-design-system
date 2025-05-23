@@ -37,6 +37,7 @@ check_ui_icon_name_consistency() {
   unset staged_files
 }
 
+npx tsx ./packages/calcite-components/support/updateT9nManifest.ts
 lint-staged
 check_ui_icon_name_consistency
 
