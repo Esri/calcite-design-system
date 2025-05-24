@@ -1993,6 +1993,8 @@ describe("calcite-input", () => {
   });
 
   describe("is form-associated", () => {
+    mockConsole();
+
     const supportedSubmissionTypes = [
       {
         type: "color",

@@ -52,6 +52,8 @@ describe("calcite-radio-button", () => {
   });
 
   describe("disabled", () => {
+    mockConsole();
+
     disabled("calcite-radio-button", {
       focusTarget: {
         tab: "calcite-radio-button",
