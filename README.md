@@ -392,6 +392,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/jona7150">
+      <img src="https://avatars.githubusercontent.com/u/6035795?v=4" width="100;" alt="jona7150"/>
+      <br />
+      <sub><b>Jonathan Turpin</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/ptmdmusique">
       <img src="https://avatars.githubusercontent.com/u/37349324?v=4" width="100;" alt="ptmdmusique"/>
       <br />
@@ -405,6 +412,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Dasa Paddock</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/bsvensson">
       <img src="https://avatars.githubusercontent.com/u/808357?v=4" width="100;" alt="bsvensson"/>
@@ -412,8 +421,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Bjorn Svensson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/drewdaemon">
       <img src="https://avatars.githubusercontent.com/u/315764?v=4" width="100;" alt="drewdaemon"/>
