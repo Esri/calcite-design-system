@@ -6,10 +6,13 @@ import { accessible, defaults, focusable, hidden, openClose, reflects, renders, 
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Sheet } from "./sheet";
 
-describe("calcite-sheet properties", () => {
+describe("calcite-sheet", () => {
+  mockConsole();
+
   describe("defaults", () => {
     defaults("calcite-sheet", [
       {

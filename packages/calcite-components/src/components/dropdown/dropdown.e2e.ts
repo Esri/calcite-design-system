@@ -23,6 +23,7 @@ import {
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
@@ -1186,43 +1187,47 @@ describe("calcite-dropdown", () => {
 
     expect(
       await page.$eval("calcite-dropdown", (dropdown) => {
-        // check whether the element is overflown, ref :https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
+        // check whether the element is overflown, ref: https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
         const { clientWidth, clientHeight, scrollWidth, scrollHeight } = dropdown;
         return scrollHeight > clientHeight || scrollWidth > clientWidth;
       }),
     ).toBe(false);
   });
 
-  it("dropdown wrapper should have height when filter results empty and combined with a List in Panel  #3048", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-panel heading="Issue #3048">
-        <calcite-list filter-enabled>
-          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
-            <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
-            <calcite-dropdown-group selection-mode="single">
-              <calcite-dropdown-item>Display name</calcite-dropdown-item>
-              <calcite-dropdown-item>Type</calcite-dropdown-item>
-            </calcite-dropdown-group>
-          </calcite-dropdown>
-          <calcite-list-item label="calcite" description="calcite!"> </calcite-list-item>
-          <calcite-list-item label="calcite" description="calcite"> </calcite-list-item>
-        </calcite-list>
-      </calcite-panel>`,
+  describe("panel + empty filterable list", () => {
+    mockConsole();
+
+    it("dropdown wrapper should have height when filter results empty and combined with a List in Panel #3048", async () => {
+      const page = await newE2EPage({
+        html: html` <calcite-panel heading="Issue #3048">
+          <calcite-list filter-enabled>
+            <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
+              <calcite-action slot="trigger" title="Sort" icon="sort-descending"></calcite-action>
+              <calcite-dropdown-group selection-mode="single">
+                <calcite-dropdown-item>Display name</calcite-dropdown-item>
+                <calcite-dropdown-item>Type</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
+            <calcite-list-item label="calcite" description="calcite!"></calcite-list-item>
+            <calcite-list-item label="calcite" description="calcite"></calcite-list-item>
+          </calcite-list>
+        </calcite-panel>`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const dropdownContentHeight = await (
+        await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
+      ).getComputedStyle();
+
+      await page.evaluate(() => {
+        const filter = document.querySelector(`calcite-list`).shadowRoot.querySelector("calcite-filter");
+        const filterInput = filter.shadowRoot.querySelector("calcite-input");
+        filterInput.value = "numbers";
+      });
+
+      expect(dropdownContentHeight.height).toBe("auto");
     });
-    await skipAnimations(page);
-    await page.waitForChanges();
-
-    const dropdownContentHeight = await (
-      await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
-    ).getComputedStyle();
-
-    await page.evaluate(() => {
-      const filter = document.querySelector(`calcite-list`).shadowRoot.querySelector("calcite-filter");
-      const filterInput = filter.shadowRoot.querySelector("calcite-input");
-      filterInput.value = "numbers";
-    });
-
-    expect(dropdownContentHeight.height).toBe("auto");
   });
 
   describe("owns a floating-ui", () => {

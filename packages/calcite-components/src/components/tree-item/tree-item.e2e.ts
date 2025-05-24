@@ -5,6 +5,7 @@ import { accessible, defaults, disabled, hidden, renders, slots, themed } from "
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -264,6 +265,8 @@ describe("calcite-tree-item", () => {
   });
 
   describe("when a parent tree-item is expanded and a new item is appended into it", () => {
+    mockConsole();
+
     it("should render the visible, keyboard navigable item", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-panel>

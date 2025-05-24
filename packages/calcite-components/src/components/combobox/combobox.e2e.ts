@@ -28,12 +28,15 @@ import {
 } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 describe("calcite-combobox", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-combobox", { display: "block" });
   });

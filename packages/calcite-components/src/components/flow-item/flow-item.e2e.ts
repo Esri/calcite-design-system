@@ -19,6 +19,7 @@ import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
@@ -27,6 +28,8 @@ type TestWindow = GlobalTestProps<{
 }>;
 
 describe("calcite-flow-item", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
   });

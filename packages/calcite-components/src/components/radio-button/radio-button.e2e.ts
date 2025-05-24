@@ -15,6 +15,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
 import { CSS } from "./resources";
 
@@ -42,6 +43,8 @@ describe("calcite-radio-button", () => {
   });
 
   describe("labelable", () => {
+    mockConsole();
+
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked",
@@ -49,6 +52,8 @@ describe("calcite-radio-button", () => {
   });
 
   describe("disabled", () => {
+    mockConsole();
+
     disabled("calcite-radio-button", {
       focusTarget: {
         tab: "calcite-radio-button",

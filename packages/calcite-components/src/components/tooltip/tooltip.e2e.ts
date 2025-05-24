@@ -1,10 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
@@ -18,6 +19,8 @@ interface PointerMoveOptions {
 const eventOptions = { bubbles: true, cancelable: true };
 
 describe("calcite-tooltip", () => {
+  mockConsole();
+
   type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
     escapeKeyCanceled: boolean;
   }>;
@@ -1349,17 +1352,6 @@ describe("calcite-tooltip", () => {
   });
 
   describe("warning messages", () => {
-    let consoleSpy: MockInstance;
-
-    beforeEach(
-      () =>
-        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-          // hide warning messages during test
-        })),
-    );
-
-    afterEach(() => consoleSpy.mockClear());
-
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -1368,7 +1360,7 @@ describe("calcite-tooltip", () => {
       );
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("does not warn after removal", async () => {
@@ -1382,7 +1374,7 @@ describe("calcite-tooltip", () => {
       await tooltip.callMethod("remove");
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("warns if reference element is not present", async () => {
@@ -1390,7 +1382,7 @@ describe("calcite-tooltip", () => {
       await page.setContent(`<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>`);
       await page.waitForChanges();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
     });

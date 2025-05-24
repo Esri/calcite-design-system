@@ -17,6 +17,7 @@ import {
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { getCity, toUserFriendlyName } from "./utils";
 
 /*
@@ -127,6 +128,8 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("translation support", () => {
+    mockConsole();
+
     t9n(simpleTestProvider);
   });
 
