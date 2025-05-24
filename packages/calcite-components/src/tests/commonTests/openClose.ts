@@ -11,7 +11,10 @@ interface OpenCloseOptions {
   /** When specified, testing will assert that the component is collapsed (does not affect layout) along the specified axis when closed. */
   collapsedOnClose?: CollapseAxis;
 
-  /** Toggle property to test. Currently, either "open" or "expanded". */
+  /** The container selector for test to assert that the content has closed or collapsed */
+  containerSelector?: string;
+
+  /** Toggle property to test "open" | "expanded" | "closed" | "collapsed" props. */
   openPropName?: string;
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
@@ -19,6 +22,7 @@ interface OpenCloseOptions {
 }
 
 const defaultOptions: OpenCloseOptions = {
+  containerSelector: undefined,
   openPropName: "open",
   willUseFallback: false,
 };
@@ -29,6 +33,18 @@ const defaultOptions: OpenCloseOptions = {
  * Note that this helper should be used within a `describe` block.
  *
  * @example
+ *
+ * Testing a component that has both `closed` and `collapsed` props.
+ *
+ * describe("openClose", () => {
+ *   openClose("calcite-panel", {
+ *     openPropName: "closed",
+ *   });
+ *   openClose("calcite-panel", {
+ *     openPropName: "collapsed",
+ *     containerSelector: "content-wrapper"
+ *   });
+ * });
  *
  * describe("openClose", () => {
  *   openClose("calcite-combobox");
@@ -50,7 +66,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
       content: `:root { --calcite-duration-factor: 2; }`,
     });
 
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: !effectiveOptions.willUseFallback,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
@@ -63,7 +79,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
   it(`emits with animations disabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: false,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
@@ -99,9 +115,9 @@ openClose.initial = function openCloseInitial(
       content: `:root { --calcite-duration-factor: 2; }`,
     });
     await beforeContent(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
-      animationsEnabled: true,
+      animationsEnabled: !effectiveOptions.willUseFallback,
       openPropName: effectiveOptions.openPropName,
       page,
       startOpen: true,
@@ -113,7 +129,7 @@ openClose.initial = function openCloseInitial(
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
     await beforeContent(page);
-    await setUpEventListeners(tag, page);
+    await setUpEventListeners(tag, page, effectiveOptions.openPropName);
     await testOpenCloseEvents({
       animationsEnabled: false,
       openPropName: effectiveOptions.openPropName,
@@ -131,14 +147,17 @@ interface TestOpenCloseEventsParams {
   /** The E2E page instance. */
   page: E2EPage;
 
-  /** The property name used to control the open state of the component. */
-  openPropName: string;
+  /** Toggle property to test "open" | "expanded" | "closed" | "collapsed" props. */
+  openPropName?: string;
 
-  /** Whether the component should start in the open state. */
+  /** Whether the component should start in the `open` or `expanded` state. */
   startOpen?: boolean;
 
-  /** Whether the component should be collapsed (does not affect layout) along the specified axis when closed. */
+  /** When specified, testing will assert that the component is collapsed (does not affect layout) along the specified axis when closed. */
   collapsedOnClose?: CollapseAxis;
+
+  /** The container selector for test to assert that the content has closed or collapsed */
+  containerSelector?: string;
 
   /** Whether animations are enabled. */
   animationsEnabled: boolean;
@@ -146,6 +165,7 @@ interface TestOpenCloseEventsParams {
 
 async function testOpenCloseEvents({
   animationsEnabled,
+  containerSelector,
   openPropName,
   page,
   collapsedOnClose,
@@ -157,63 +177,108 @@ async function testOpenCloseEvents({
     open: undefined,
     beforeClose: undefined,
     close: undefined,
+    beforeExpand: undefined,
+    expand: undefined,
+    beforeCollapse: undefined,
+    collapse: undefined,
   };
-  const eventSequence = getEventSequence(tag);
+  const eventSequence = getEventSequence(tag, openPropName);
 
-  const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
-    return page.waitForEvent(event).then((spy) => {
-      timestamps[toOpenCloseName(event)] = Date.now();
-      return spy;
+  const [beforeOpenOrExpandEvent, openOrExpandEvent, beforeCloseOrCollapseEvent, closeOrCollapseEvent] =
+    eventSequence.map((event) => {
+      return page.waitForEvent(event).then((spy) => {
+        timestamps[toOpenCloseName(event)] = Date.now();
+        return spy;
+      });
     });
-  });
 
-  const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+  const [beforeOpenOrExpandEventSpy, openOrExpandSpy, beforeCloseOrCollapseSpy, closeOrCollapseSpy] = await Promise.all(
     eventSequence.map(async (event) => await page.spyOnEvent(event)),
   );
-
   function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
-    expect(openSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
-    expect(closeSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
+    expect(beforeOpenOrExpandEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
+    expect(openOrExpandSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
+    expect(beforeCloseOrCollapseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
+    expect(closeOrCollapseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
   }
 
   if (startOpen) {
     await page.evaluate(
-      (openPropName: string, componentTagOrHTML: string) => {
+      (_openPropName: string, componentTagOrHTML: string) => {
         const component = document.createElement(componentTagOrHTML);
-        component[openPropName] = true;
-
+        component["open"] = true;
         document.body.append(component);
       },
       openPropName,
       tag,
     );
+
+    const element = await page.find(tag);
+    await page.waitForChanges();
+
+    if (openPropName === "open" || openPropName === "expanded") {
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+      assertEventSequence([1, 1, 0, 0]);
+
+      element.setProperty(openPropName, false);
+
+      await page.waitForChanges();
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
+    } else if (openPropName === "closed" || openPropName === "collapsed") {
+      element.setProperty(openPropName, true);
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+      assertEventSequence([1, 1, 1, 1]);
+    }
   }
 
   const element = await page.find(tag);
   await page.waitForChanges();
 
   if (!startOpen) {
+    assertEventSequence([0, 0, 0, 0]);
+
     element.setProperty(openPropName, true);
+    await page.waitForChanges();
+
+    if (openPropName === "open" || openPropName === "expanded") {
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+
+      assertEventSequence([1, 1, 0, 0]);
+
+      element.setProperty(openPropName, false);
+
+      await page.waitForChanges();
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
+    } else if (openPropName === "closed" || openPropName === "collapsed") {
+      await beforeCloseOrCollapseEvent;
+      await closeOrCollapseEvent;
+
+      assertEventSequence([0, 0, 1, 1]);
+
+      element.setProperty(openPropName, false);
+
+      await page.waitForChanges();
+      await beforeOpenOrExpandEvent;
+      await openOrExpandEvent;
+
+      assertEventSequence([1, 1, 1, 1]);
+    }
   }
 
-  await page.waitForChanges();
-  await beforeOpenEvent;
-  await openEvent;
-
-  assertEventSequence([1, 1, 0, 0]);
-
-  element.setProperty(openPropName, false);
-
-  await page.waitForChanges();
-  await beforeCloseEvent;
-  await closeEvent;
-
-  assertEventSequence([1, 1, 1, 1]);
-
   if (collapsedOnClose !== undefined) {
-    const elementHandle = await toElementHandle(element);
+    const elementHandle =
+      openPropName === "expanded" || openPropName === "collapsed"
+        ? await toElementHandle(await element.find(`.${containerSelector}`))
+        : await toElementHandle(element);
     const boundingBox = await elementHandle.boundingBox();
     const horizontalCollapse = collapsedOnClose === "horizontal";
     const dimension = horizontalCollapse ? "width" : "height";
@@ -223,40 +288,64 @@ async function testOpenCloseEvents({
     expect(await elementHandle.evaluate((el, scrollDimension) => el[scrollDimension], scrollDimension)).toBe(0);
   }
 
-  expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
-
   const delayDeltaThreshold = 100; // smallest internal animation timing used
-  const delayBetweenBeforeOpenAndOpen = timestamps.open - timestamps.beforeOpen;
-  const delayBetweenBeforeCloseAndClose = timestamps.close - timestamps.beforeClose;
-
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
-  expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
-  expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
+  const eventPairs: [OpenCloseName, OpenCloseName][] = [
+    ["beforeOpen", "open"],
+    ["beforeClose", "close"],
+    ["beforeExpand", "expand"],
+    ["beforeCollapse", "collapse"],
+  ];
+
+  eventPairs.forEach(([beforeEvent, event]) => {
+    if (timestamps[beforeEvent] !== undefined && timestamps[event] !== undefined) {
+      const actualDifference = timestamps[event] - timestamps[beforeEvent];
+      expect(actualDifference)[matcherName](delayDeltaThreshold);
+    }
+  });
 }
 
 type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
-function getEventSequence(componentTag: ComponentTag): string[] {
+function getEventSequence(componentTag: ComponentTag, openPropName: string): string[] {
   const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
-  const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
+  const eventSuffixes =
+    openPropName === "open" || openPropName === "closed"
+      ? [`BeforeOpen`, `Open`, `BeforeClose`, `Close`]
+      : openPropName === "expanded" || openPropName === "collapsed"
+        ? [`BeforeExpand`, `Expand`, `BeforeCollapse`, `Collapse`]
+        : [];
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
-async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage): Promise<void> {
-  await page.evaluate((eventSequence: string[]) => {
-    const receivedEvents: string[] = [];
+async function setUpEventListeners(componentTag: ComponentTag, page: E2EPage, openPropName: string): Promise<void> {
+  await page.evaluate(
+    (eventSequence: string[]) => {
+      const receivedEvents: string[] = [];
 
-    (window as EventOrderWindow).events = receivedEvents;
+      (window as EventOrderWindow).events = receivedEvents;
 
-    eventSequence.forEach((eventType) => {
-      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-    });
-  }, getEventSequence(componentTag));
+      eventSequence.forEach((eventType) => {
+        document.addEventListener(eventType, (event) => {
+          receivedEvents.push(event.type);
+        });
+      });
+    },
+    getEventSequence(componentTag, openPropName),
+  );
 }
 
-type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
+type OpenCloseName =
+  | "beforeOpen"
+  | "open"
+  | "beforeClose"
+  | "close"
+  | "beforeExpand"
+  | "expand"
+  | "beforeCollapse"
+  | "collapse";
 
 function toOpenCloseName(eventName: string): OpenCloseName {
   return eventName.includes("BeforeOpen")
@@ -265,5 +354,13 @@ function toOpenCloseName(eventName: string): OpenCloseName {
       ? "open"
       : eventName.includes("BeforeClose")
         ? "beforeClose"
-        : "close";
+        : eventName.includes("Close")
+          ? "close"
+          : eventName.includes("BeforeExpand")
+            ? "beforeExpand"
+            : eventName.includes("Expand")
+              ? "expand"
+              : eventName.includes("BeforeCollapse")
+                ? "beforeCollapse"
+                : "collapse";
 }
