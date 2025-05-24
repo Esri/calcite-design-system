@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-combobox-divider-color: Specifies the component's divider color.
  * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
  * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
@@ -238,7 +239,10 @@ calcite-chip {
 
 .select-all {
   background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
-  border-block-end-color: var(--calcite-combobox-item-border-color, var(--calcite-color-border-3));
+  border-block-end-color: var(
+    --calcite-combobox-divider-color,
+    var(--calcite-combobox-item-border-color, var(--calcite-color-border-3))
+  );
   border-block-end-style: solid;
   border-block-end-width: var(--calcite-border-width-sm);
   inset-block-start: 0;
