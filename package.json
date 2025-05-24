@@ -82,7 +82,7 @@
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
-    "dedent": "1.5.3",
+    "dedent": "1.6.0",
     "eslint": "9.27.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-import": "2.31.0",
