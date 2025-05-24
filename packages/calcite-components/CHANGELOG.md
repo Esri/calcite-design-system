@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.8...@esri/calcite-components@3.3.0-next.9) (2025-05-24)
+
+### Features
+
+- **combobox:** add `--calcite-combobox-divider-color` ([#12223](https://github.com/Esri/calcite-design-system/issues/12223)) ([117517c](https://github.com/Esri/calcite-design-system/commit/117517c48ef8276025f214bf23ac580ad03282dd)), closes [#12226](https://github.com/Esri/calcite-design-system/issues/12226)
+
 ## [3.3.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.7...@esri/calcite-components@3.3.0-next.8) (2025-05-22)
 
 ### Bug Fixes
