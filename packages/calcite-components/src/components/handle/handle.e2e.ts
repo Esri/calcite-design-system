@@ -109,7 +109,6 @@ describe("calcite-handle", () => {
   it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
-    await skipAnimations(page);
     const handle = await page.find(`calcite-handle`);
     let nudgeEvent = handle.waitForEvent("calciteHandleNudge");
     const calciteHandleNudgeSpy = await page.spyOnEvent<HandleNudge>("calciteHandleNudge");
