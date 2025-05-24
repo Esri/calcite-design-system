@@ -57,7 +57,7 @@
             <calcite-tree-item>
               Child 2
 
-              <calcite-tree slot="children">
+              <calcite-tree slot="children" id="tree-item">
                 <calcite-tree-item> Grandchild 1 </calcite-tree-item>
 
                 <calcite-tree-item> Grandchild 2 </calcite-tree-item>
@@ -73,6 +73,29 @@
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
+          <script>
+            const treeItem = document.getElementById("tree-item");
+
+            window.onload = () => {
+              if (treeItem) {
+                treeItem.addEventListener("calciteTreeItemBeforeCollapsed", () => {
+                  console.log("calciteTreeItemBeforeCollapsed event fired");
+                });
+
+                treeItem.addEventListener("calciteTreeItemBeforeExpanded", () => {
+                  console.log("calciteTreeItemBeforeExpanded event fired");
+                });
+
+                treeItem.addEventListener("calciteTreeItemCollapsed", () => {
+                  console.log("calciteTreeItemCollapsed event fired");
+                });
+
+                treeItem.addEventListener("calciteTreeItemExpanded", () => {
+                  console.log("calciteTreeItemExpanded event fired");
+                });
+              }
+            };
+          </script>
         </div>
 
         <div class="child">
