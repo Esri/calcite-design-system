@@ -1,0 +1,1 @@
+{"invalid":"Non valide","tooLong":"Le nombre actuel de caractères est de {currentLength}, ce qui dépasse la longueur maximale de {maxLength} caractères.","tooShort":"Le nombre actuel de caractères est de {currentLength}, ce qui est inférieur au nombre minimal de {minLength} caractères."}
