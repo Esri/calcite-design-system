@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
 import { CSS } from "../components/input-time-picker/resources";
-import { skipAnimations } from "./utils/puppeteer";
+import { skipAnimations, waitForAnimationFrame } from "./utils/puppeteer";
 
 describe("stacked focus-trap components", () => {
   const componentStack = html`
@@ -60,7 +60,10 @@ describe("stacked focus-trap components", () => {
     await page.setContent(componentStack);
     await skipAnimations(page);
 
-    async function testStackEscapeSequence(page: E2EPage, pickerType: string): Promise<void> {
+    async function testStackEscapeSequence(
+      page: E2EPage,
+      pickerType: "calcite-input-date-picker" | "calcite-input-time-picker",
+    ): Promise<void> {
       async function openAndCheckVisibility(element: E2EElement): Promise<void> {
         const elTagNameCamelCased = camelCase(element.tagName);
         const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
@@ -117,7 +120,7 @@ describe("stacked focus-trap components", () => {
       const firstModal = await page.find("#example-modal");
       const secondModal = await page.find("#another-modal");
       const popover = await page.find("#popover");
-      const inputPicker = await page.find(pickerType);
+      const inputTimeOrDatePicker = await page.find(pickerType);
 
       await openAndCheckVisibility(sheet);
       await openAndCheckVisibility(dialog);
@@ -128,10 +131,14 @@ describe("stacked focus-trap components", () => {
       const clickTarget =
         pickerType === "calcite-input-time-picker"
           ? await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`)
-          : inputPicker;
+          : inputTimeOrDatePicker;
       await clickTarget.click();
+      await page.waitForChanges();
+      // intentional double wait waitForAnimationFrame to ensure focus shift
+      await waitForAnimationFrame(page);
+      await waitForAnimationFrame(page);
 
-      await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
+      await testEscapeAndAssertOpenState([inputTimeOrDatePicker, popover, secondModal, firstModal, dialog, sheet]);
     }
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");

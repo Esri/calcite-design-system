@@ -1,6 +1,7 @@
 /**
- * Tells the browser that you wish to perform an animation.
- * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+ * Helper function to wait for the next animation frame.
+ *
+ * If you need to run this within a Puppeteer browser context, please see the `waitForAnimationFrame` function in the `puppeteer` module.
  *
  * @returns {Promise<void>}
  */

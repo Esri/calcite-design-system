@@ -4,6 +4,7 @@ import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "../commonTests/interfaces";
+import { waitForAnimationFrame as waitForRaf } from "./timing";
 
 /** Util to help type global props for testing. */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
@@ -281,7 +282,16 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   });
 }
 
-export { waitForAnimationFrame } from "./timing";
+/**
+ * Helper function to wait for the next animation frame within the Puppeteer browser context.
+ *
+ * If you need to run this without Puppeteer dependencies, you can use the `waitForAnimationFrame` function from the `timing` module.
+ *
+ * @param page
+ */
+export async function waitForAnimationFrame(page: E2EPage): Promise<void> {
+  await page.evaluate(waitForRaf);
+}
 
 /**
  * Creates an E2E page for tests that need to create and set up elements programmatically.

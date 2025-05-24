@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders, themed } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
+import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { CSS } from "./resources";
@@ -98,17 +98,41 @@ describe("calcite-sheet properties", () => {
   });
 
   describe("accessible", () => {
-    accessible(`<calcite-sheet open label="hello world">Hello everyone!</calcite-sheet>`);
-    accessible(`<calcite-sheet open label="hello world"><calcite-panel closable heading="Ultrices neque"
-    ><p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-    <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-  </calcite-panel></calcite-sheet>`);
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-sheet label="hello world">Hello everyone!</calcite-sheet>`);
+      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+      await openEvent;
+      return { page, tag: "calcite-sheet" };
+    });
+
+    accessible(async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-sheet label="hello world">
+          <calcite-panel closable heading="Ultrices neque"
+            ><p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
+            <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+          </calcite-panel>
+        </calcite-sheet>
+      `);
+      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const sheet = await page.find("calcite-sheet");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+      await openEvent;
+      return { page, tag: "calcite-sheet" };
+    });
   });
 
   describe("setFocus", () => {
@@ -326,18 +350,30 @@ describe("calcite-sheet properties", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet></calcite-sheet>`);
     await skipAnimations(page);
     const sheet = await page.find("calcite-sheet");
+
+    let openEvent = page.waitForEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
+
     expect(await sheet.isVisible()).toBe(true);
+
+    const closeEvent = page.waitForEvent("calciteSheetClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
+    await closeEvent;
+
     expect(await sheet.isVisible()).toBe(false);
     expect(await sheet.getProperty("open")).toBe(false);
+
+    openEvent = page.waitForEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
+    await openEvent;
+
     expect(await sheet.isVisible()).toBe(true);
   });
 
@@ -428,208 +464,6 @@ describe("calcite-sheet properties", () => {
       return document.documentElement.classList.contains("overflow-hidden");
     });
     expect(documentClass).toEqual(false);
-  });
-
-  describe("opening and closing behavior", () => {
-    it("opens and closes", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
-      const sheet = await page.find("calcite-sheet");
-
-      type SheetEventOrderWindow = GlobalTestProps<{ events: string[] }>;
-
-      await page.$eval("calcite-sheet", (sheet: Sheet["el"]) => {
-        const receivedEvents: string[] = [];
-        (window as SheetEventOrderWindow).events = receivedEvents;
-
-        ["calciteSheetBeforeOpen", "calciteSheetOpen", "calciteSheetBeforeClose", "calciteSheetClose"].forEach(
-          (eventType) => {
-            sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-          },
-        );
-      });
-
-      const beforeOpenSpy = await sheet.spyOnEvent("calciteSheetBeforeOpen");
-      const openSpy = await sheet.spyOnEvent("calciteSheetOpen");
-      const beforeCloseSpy = await sheet.spyOnEvent("calciteSheetBeforeClose");
-      const closeSpy = await sheet.spyOnEvent("calciteSheetClose");
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
-      expect(openSpy).toHaveReceivedEventTimes(0);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-      expect(closeSpy).toHaveReceivedEventTimes(0);
-
-      expect(await sheet.isVisible()).toBe(false);
-
-      const sheetBeforeOpen = page.waitForEvent("calciteSheetBeforeOpen");
-      const sheetOpen = page.waitForEvent("calciteSheetOpen");
-      sheet.setProperty("open", true);
-      await page.waitForChanges();
-
-      await sheetBeforeOpen;
-      await sheetOpen;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-      expect(closeSpy).toHaveReceivedEventTimes(0);
-
-      expect(await sheet.isVisible()).toBe(true);
-
-      const sheetBeforeClose = page.waitForEvent("calciteSheetBeforeClose");
-      const sheetClose = page.waitForEvent("calciteSheetClose");
-      sheet.setProperty("open", false);
-      await page.waitForChanges();
-
-      await sheetBeforeClose;
-      await sheetClose;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-      expect(closeSpy).toHaveReceivedEventTimes(1);
-
-      expect(await sheet.isVisible()).toBe(false);
-
-      expect(await page.evaluate(() => (window as SheetEventOrderWindow).events)).toEqual([
-        "calciteSheetBeforeOpen",
-        "calciteSheetOpen",
-        "calciteSheetBeforeClose",
-        "calciteSheetClose",
-      ]);
-    });
-
-    it("emits when closing on click", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
-      const sheet = await page.find("calcite-sheet");
-
-      const beforeOpenSpy = await sheet.spyOnEvent("calciteSheetBeforeOpen");
-      const openSpy = await sheet.spyOnEvent("calciteSheetOpen");
-      const beforeCloseSpy = await sheet.spyOnEvent("calciteSheetBeforeClose");
-      const closeSpy = await sheet.spyOnEvent("calciteSheetClose");
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
-      expect(openSpy).toHaveReceivedEventTimes(0);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-      expect(closeSpy).toHaveReceivedEventTimes(0);
-
-      expect(await sheet.isVisible()).toBe(false);
-
-      const sheetBeforeOpen = page.waitForEvent("calciteSheetBeforeOpen");
-      const sheetOpen = page.waitForEvent("calciteSheetOpen");
-      sheet.setProperty("open", true);
-      await page.waitForChanges();
-
-      await sheetBeforeOpen;
-      await sheetOpen;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-      expect(closeSpy).toHaveReceivedEventTimes(0);
-
-      expect(await sheet.isVisible()).toBe(true);
-
-      const sheetBeforeClose = page.waitForEvent("calciteSheetBeforeClose");
-      const sheetClose = page.waitForEvent("calciteSheetClose");
-      const scrim = await page.find(`calcite-sheet >>> .${CSS.scrim}`);
-      await scrim.click();
-      await page.waitForChanges();
-
-      await sheetBeforeClose;
-      await sheetClose;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-      expect(closeSpy).toHaveReceivedEventTimes(1);
-
-      expect(await sheet.isVisible()).toBe(false);
-    });
-
-    it("emits when set to open on initial render", async () => {
-      const page = await newProgrammaticE2EPage();
-
-      const beforeOpenSpy = await page.spyOnEvent("calciteSheetBeforeOpen");
-      const openSpy = await page.spyOnEvent("calciteSheetOpen");
-
-      const waitForBeforeOpenEvent = page.waitForEvent("calciteSheetBeforeOpen");
-      const waitForOpenEvent = page.waitForEvent("calciteSheetOpen");
-
-      await page.evaluate((): void => {
-        const sheet = document.createElement("calcite-sheet");
-        sheet.open = true;
-        document.body.append(sheet);
-      });
-
-      await page.waitForChanges();
-      await waitForBeforeOpenEvent;
-      await waitForOpenEvent;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-    });
-
-    it("emits when set to open on initial render and duration is 0", async () => {
-      const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
-
-      const beforeOpenSpy = await page.spyOnEvent("calciteSheetBeforeOpen");
-      const openSpy = await page.spyOnEvent("calciteSheetOpen");
-
-      const waitForOpenEvent = page.waitForEvent("calciteSheetOpen");
-      const waitForBeforeOpenEvent = page.waitForEvent("calciteSheetBeforeOpen");
-
-      await page.evaluate((): void => {
-        const sheet = document.createElement("calcite-sheet");
-        sheet.open = true;
-        document.body.append(sheet);
-      });
-
-      await page.waitForChanges();
-      await waitForBeforeOpenEvent;
-      await waitForOpenEvent;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-    });
-
-    it("emits when duration is set to 0", async () => {
-      const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
-
-      const beforeOpenSpy = await page.spyOnEvent("calciteSheetBeforeOpen");
-      const openSpy = await page.spyOnEvent("calciteSheetOpen");
-
-      const beforeCloseSpy = await page.spyOnEvent("calciteSheetBeforeClose");
-      const closeSpy = await page.spyOnEvent("calciteSheetClose");
-
-      await page.evaluate((): void => {
-        const sheet = document.createElement("calcite-sheet");
-        sheet.open = true;
-        document.body.append(sheet);
-      });
-
-      await page.waitForChanges();
-      await beforeOpenSpy;
-      await openSpy;
-
-      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-      expect(openSpy).toHaveReceivedEventTimes(1);
-
-      await page.evaluate(() => {
-        const sheet = document.querySelector("calcite-sheet");
-        sheet.open = false;
-      });
-
-      await page.waitForChanges();
-      await beforeCloseSpy;
-      await closeSpy;
-
-      expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-      expect(closeSpy).toHaveReceivedEventTimes(1);
-    });
   });
 
   describe("keyboard resize", () => {
