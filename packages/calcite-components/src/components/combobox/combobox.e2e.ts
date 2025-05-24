@@ -3302,5 +3302,30 @@ describe("calcite-combobox", () => {
       };
       themed(singleSelectComboboxHTML, comboboxTokens);
     });
+
+    const comboboxSelectAllEnabledHTML = html`
+      <calcite-combobox select-all-enabled>
+          </calcite-combobox-item value="Pine" text-label="Pine">
+          </calcite-combobox-item value="Not Pine" text-label="Not Pine">
+        </calcite-combobox>
+    `;
+
+    describe("select-all-enabled", () => {
+      themed(comboboxSelectAllEnabledHTML, {
+        "--calcite-combobox-divider-color": {
+          shadowSelector: `.${CSS.selectAll}`,
+          targetProp: "borderBlockEndColor",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed(comboboxSelectAllEnabledHTML, {
+        "--calcite-combobox-item-border-color": {
+          shadowSelector: `.${CSS.selectAll}`,
+          targetProp: "borderBlockEndColor",
+        },
+      });
+    });
   });
 });
