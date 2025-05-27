@@ -206,9 +206,6 @@ export class InputDatePicker
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Accessible name for the component. */
-  @property() label: string;
-
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
@@ -1103,11 +1100,11 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  label={this.label}
+                  label={this.range ? this.messages.startInput : this.messages.inputDate}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
-                  placeholder={this.localeData?.placeholder}
+                  placeholder={this.range ? this.messages.startDate : this.messages.date}
                   readOnly={readOnly}
                   ref={this.setStartInput}
                   role="combobox"
@@ -1188,11 +1185,11 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
-                    label={this.label}
+                    label={this.messages.endInput}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}
-                    placeholder={this.localeData?.placeholder}
+                    placeholder={this.range ? this.messages.endDate : this.messages.date}
                     readOnly={readOnly}
                     ref={this.setEndInput}
                     role="combobox"
