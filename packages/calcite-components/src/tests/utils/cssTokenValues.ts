@@ -22,7 +22,8 @@ export function getTokenValue(token: string): string {
     selected$: "rgb(156, 89, 209)",
     shadow$:
       "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px",
-    "(z-index)$": "42",
+    "text-weight$": "800",
+    "z-index$": "42",
     "(columns|gap|height|offset|radius|size|size-y|size-x|space|space-x|space-y|width|margin-bottom)": "42px",
 
     // color token fallback
