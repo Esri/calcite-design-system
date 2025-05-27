@@ -322,16 +322,15 @@ describe("calcite-sheet properties", () => {
 
   it("should remain open with rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
-
-    await page.exposeFunction("beforeClose", () => Promise.reject());
     await page.setContent(`<calcite-sheet open></calcite-sheet>`);
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    const sheet = await page.find("calcite-sheet");
 
     await page.$eval(
       "calcite-sheet",
       (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
-    const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", false);
     await page.waitForChanges();
 
