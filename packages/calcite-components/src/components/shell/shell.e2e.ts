@@ -231,6 +231,8 @@ describe("calcite-shell", () => {
 
   describe("theme", () => {
     describe("default", () => {
+      mockConsole();
+
       themed(
         html`<calcite-shell>
           <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
