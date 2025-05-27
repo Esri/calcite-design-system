@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { CSS, SLOTS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
   describe("renders", () => {
