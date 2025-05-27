@@ -496,7 +496,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
     if (this.disabled) {
       return;
     }
