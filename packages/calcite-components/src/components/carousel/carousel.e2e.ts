@@ -69,7 +69,7 @@ describe("calcite-carousel", () => {
   });
 
   describe("translation support", () => {
-    t9n("calcite-combobox");
+    t9n("calcite-carousel");
   });
 
   describe("first render", () => {

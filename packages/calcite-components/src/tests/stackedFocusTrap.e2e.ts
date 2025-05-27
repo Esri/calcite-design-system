@@ -5,8 +5,11 @@ import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
 import { CSS } from "../components/input-time-picker/resources";
 import { skipAnimations } from "./utils/puppeteer";
+import { mockConsole } from "./utils/logging";
 
 describe("stacked focus-trap components", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-sheet id="sheet">
       <calcite-panel>
@@ -140,6 +143,8 @@ describe("stacked focus-trap components", () => {
 });
 
 describe("returning focus after deactivation", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
       <p>The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>

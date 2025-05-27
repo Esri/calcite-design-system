@@ -7,6 +7,7 @@ import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
 import type { Flow } from "./flow";
@@ -18,6 +19,8 @@ async function slowPageAnimations(page: E2EPage): Promise<void> {
 }
 
 describe("calcite-flow", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-flow", { display: "flex" });
   });

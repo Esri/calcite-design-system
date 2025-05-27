@@ -6,10 +6,13 @@ import { getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-shell-panel", { display: "flex" });
   });

@@ -17,10 +17,13 @@ import {
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-action-bar", { display: "inline-flex" });
   });

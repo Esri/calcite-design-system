@@ -13,6 +13,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -21,6 +22,8 @@ const actionGroupHTML = `<calcite-action-group scale="l">
       </calcite-action-group>`;
 
 describe("calcite-action-group", () => {
+  mockConsole();
+
   describe("defaults", () => {
     defaults("calcite-action-group", [
       {

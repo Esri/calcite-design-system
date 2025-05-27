@@ -26,6 +26,7 @@ import {
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
+import { mockConsole } from "../../tests/utils/logging";
 import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
@@ -171,15 +172,6 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" },
     );
-  });
-
-  it("honors filterLabel property", async () => {
-    const page = await newE2EPage();
-    const label = "hello world";
-    await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
-
-    const filter = await page.find(`calcite-list >>> calcite-filter`);
-    expect(await filter.getProperty("label")).toBe(label);
   });
 
   it("should set the displayMode property on items", async () => {
@@ -537,6 +529,17 @@ describe("calcite-list", () => {
   });
 
   describe("filtering", () => {
+    mockConsole();
+
+    it("honors filterLabel property", async () => {
+      const page = await newE2EPage();
+      const label = "hello world";
+      await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
+
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      expect(await filter.getProperty("label")).toBe(label);
+    });
+
     it("navigating items after filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
