@@ -112,6 +112,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
    * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
    *
    * However, a string ID of the reference element can be used.
+   *
+   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
   @property() referenceElement: ReferenceElement | string;
 

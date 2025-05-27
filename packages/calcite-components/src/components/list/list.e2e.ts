@@ -26,6 +26,7 @@ import {
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
+import { mockConsole } from "../../tests/utils/logging";
 import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
@@ -173,15 +174,6 @@ describe("calcite-list", () => {
     );
   });
 
-  it("honors filterLabel property", async () => {
-    const page = await newE2EPage();
-    const label = "hello world";
-    await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
-
-    const filter = await page.find(`calcite-list >>> calcite-filter`);
-    expect(await filter.getProperty("label")).toBe(label);
-  });
-
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -226,6 +218,55 @@ describe("calcite-list", () => {
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("displayMode")).toBe("flat");
     }
+  });
+
+  it("should set the setSize and setPosition properties on nested items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list display-mode="nested" label="Park features" drag-enabled group="nested-lists">
+        <calcite-list-item open label="Trails" value="trails">
+          <calcite-list id="nested" label="Trails" display-mode="nested" drag-enabled group="nested-lists">
+            <calcite-list-item label="Hiking trails" value="hiking-trails">
+              <calcite-action slot="actions-end" icon="layer" text="Hiking trails layer"></calcite-action>
+            </calcite-list-item>
+            <calcite-list-item label="Multi-use trails" value="multi-use-trails">
+              <calcite-action slot="actions-end" icon="layer" text="Multi-use trails layer"></calcite-action>
+            </calcite-list-item>
+            <calcite-list-item label="Boardwalks" value="boardwalks">
+              <calcite-action slot="actions-end" icon="layer" text="Boardwalks layer"></calcite-action>
+            </calcite-list-item>
+            <calcite-list-item label="Interpretive trails" value="interpretive-trails">
+              <calcite-action slot="actions-end" icon="layer" text="Interpretive trails layer"></calcite-action>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Waterfalls" value="waterfalls">
+          <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="Rivers" value="rivers">
+          <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="Estuaries" value="estuaries">
+          <calcite-action slot="actions-end" icon="layer" text="Estuaries layer"></calcite-action>
+        </calcite-list-item>
+      </calcite-list>`,
+    );
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+
+    const items = await findAll(page, "#nested calcite-list-item");
+
+    expect(await items[0].getProperty("setPosition")).toBe(1);
+    expect(await items[0].getProperty("setSize")).toBe(4);
+
+    expect(await items[1].getProperty("setPosition")).toBe(2);
+    expect(await items[1].getProperty("setSize")).toBe(4);
+
+    expect(await items[2].getProperty("setPosition")).toBe(3);
+    expect(await items[2].getProperty("setSize")).toBe(4);
+
+    expect(await items[3].getProperty("setPosition")).toBe(4);
+    expect(await items[3].getProperty("setSize")).toBe(4);
   });
 
   it("should set the dragHandle property on items", async () => {
@@ -488,10 +529,21 @@ describe("calcite-list", () => {
   });
 
   describe("filtering", () => {
+    mockConsole();
+
+    it("honors filterLabel property", async () => {
+      const page = await newE2EPage();
+      const label = "hello world";
+      await page.setContent(`<calcite-list filter-enabled filter-label="${label}"></calcite-list>`);
+
+      const filter = await page.find(`calcite-list >>> calcite-filter`);
+      expect(await filter.getProperty("label")).toBe(label);
+    });
+
     it("navigating items after filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list filter-enabled>
+        <calcite-list drag-enabled filter-enabled>
           <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
           <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
         </calcite-list>
