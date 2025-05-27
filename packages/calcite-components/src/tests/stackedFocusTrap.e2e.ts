@@ -143,6 +143,8 @@ describe("stacked focus-trap components", () => {
 });
 
 describe("returning focus after deactivation", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
       <p>The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>

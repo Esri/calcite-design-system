@@ -58,6 +58,8 @@ describe("calcite-input", () => {
   });
 
   describe("reflects", () => {
+    mockConsole();
+
     reflects("calcite-input", [
       {
         propertyName: "status",
