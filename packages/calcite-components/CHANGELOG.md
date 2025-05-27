@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.8...@esri/calcite-components@3.3.0-next.9) (2025-05-24)
+
+### Features
+
+- **combobox:** add `--calcite-combobox-divider-color` ([#12223](https://github.com/Esri/calcite-design-system/issues/12223)) ([117517c](https://github.com/Esri/calcite-design-system/commit/117517c48ef8276025f214bf23ac580ad03282dd)), closes [#12226](https://github.com/Esri/calcite-design-system/issues/12226)
+
+## [3.3.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.7...@esri/calcite-components@3.3.0-next.8) (2025-05-22)
+
+### Bug Fixes
+
+- **stepper:** disallow navigation to disabled items ([#12217](https://github.com/Esri/calcite-design-system/issues/12217)) ([da3aa3e](https://github.com/Esri/calcite-design-system/commit/da3aa3e839457fdd2d0bb8d5baae4e2b990f9875)), closes [#11444](https://github.com/Esri/calcite-design-system/issues/11444)
+
+## [3.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.6...@esri/calcite-components@3.3.0-next.7) (2025-05-22)
+
+### Bug Fixes
+
+- **link:** Emit click event on enter key when the component doesn't have href defined ([#12191](https://github.com/Esri/calcite-design-system/issues/12191)) ([37aee22](https://github.com/Esri/calcite-design-system/commit/37aee22330bd4b8bbad2742adbbb4b7f1dff347b)), closes [#10728](https://github.com/Esri/calcite-design-system/issues/10728)
+
+## [3.3.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.5...@esri/calcite-components@3.3.0-next.6) (2025-05-22)
+
+### Features
+
+- **checkbox:** enhance component's interactivity states ([#12207](https://github.com/Esri/calcite-design-system/issues/12207)) ([a0a15eb](https://github.com/Esri/calcite-design-system/commit/a0a15eb40242465a4cb9d111393fd224cce80d85)), closes [#10020](https://github.com/Esri/calcite-design-system/issues/10020)
+
+## [3.3.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.4...@esri/calcite-components@3.3.0-next.5) (2025-05-22)
+
+### Features
+
+- **dialog, panel, flow-item:** add `icon` and `iconFlipRtl` properties ([#12176](https://github.com/Esri/calcite-design-system/issues/12176)) ([e48b9e7](https://github.com/Esri/calcite-design-system/commit/e48b9e7aaf3f53f1b75215815636cca4cc4bbfc5)), closes [#10265](https://github.com/Esri/calcite-design-system/issues/10265)
+
+### Bug Fixes
+
+- **dialog:** restrict resizing once minimum size has been reached ([#12175](https://github.com/Esri/calcite-design-system/issues/12175)) ([32b31d5](https://github.com/Esri/calcite-design-system/commit/32b31d5b17d133c102b8a5788e71c7c8a43028b5)), closes [#10252](https://github.com/Esri/calcite-design-system/issues/10252)
+
+## [3.3.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.3...@esri/calcite-components@3.3.0-next.4) (2025-05-21)
+
+### Bug Fixes
+
+- **list:** reorder options not shown in nested list drag menus ([#12186](https://github.com/Esri/calcite-design-system/issues/12186)) ([9bf2198](https://github.com/Esri/calcite-design-system/commit/9bf21989ff77d392505004d75927049d0e45ea16)), closes [#12185](https://github.com/Esri/calcite-design-system/issues/12185)
+
 ## [3.3.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.2...@esri/calcite-components@3.3.0-next.3) (2025-05-21)
 
 ### Bug Fixes
