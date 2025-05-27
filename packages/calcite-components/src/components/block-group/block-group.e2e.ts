@@ -8,6 +8,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";
 import { Block } from "../block/block";
+import { mockConsole } from "../../tests/utils/logging";
 import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 
@@ -18,6 +19,8 @@ const blockHTML = html`<calcite-block heading="heading" description="description
 </calcite-block>`;
 
 describe("calcite-block-group", () => {
+  mockConsole();
+
   describe("defaults", () => {
     defaults("calcite-block-group", [
       {
