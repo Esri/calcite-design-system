@@ -150,10 +150,10 @@ describe("calcite-modal", () => {
   it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
     const mockCallBack = vi.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
       <calcite-modal open></calcite-modal>
     `);
+    await page.exposeFunction("beforeClose", mockCallBack);
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
