@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.9...@esri/calcite-components@3.3.0-next.10) (2025-05-28)
+
+### Bug Fixes
+
+- **input-time-picker:** ensure programmatic value setting updates input display ([#12233](https://github.com/Esri/calcite-design-system/issues/12233)) ([62d1abe](https://github.com/Esri/calcite-design-system/commit/62d1abe04984528a4676357f1a24ce20a98127bc)), closes [#12230](https://github.com/Esri/calcite-design-system/issues/12230)
+
 ## [3.3.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.8...@esri/calcite-components@3.3.0-next.9) (2025-05-24)
 
 ### Features
