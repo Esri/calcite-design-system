@@ -329,7 +329,6 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
 
 export const rangeWithStartAndEndPlaceholder = (): string => html`
     <calcite-input-date-picker range open max="2016-08-09" start-placeholder="startPlaceholder" end-placeholder="endPlaceholder"</calcite-input-date-picker>
-
 `;
 
 export const Focus = (): string =>
