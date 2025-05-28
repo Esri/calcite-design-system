@@ -63,7 +63,7 @@ type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
    */
-  calciteTimeChange: CustomEvent;
+  calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
    */
