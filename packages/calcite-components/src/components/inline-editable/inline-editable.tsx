@@ -195,7 +195,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     inputElement.editingEnabled = this.editingEnabled;
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-    this.scale = this.scale || this.inputElement?.scale || "m";
   }
 
   onLabelClick(): void {
