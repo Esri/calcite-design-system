@@ -298,9 +298,9 @@ export class InputTimePicker
     if (changes.has("value")) {
       if (this.hasUpdated) {
         if (!this.time.userChangedValue) {
-          this.time.setValue(this.value);
           this.previousEmittedValue = this.value;
         }
+        this.time.setValue(this.value);
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -496,7 +496,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
     if (this.disabled) {
       return;
     }
