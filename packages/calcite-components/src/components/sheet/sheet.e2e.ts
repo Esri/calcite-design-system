@@ -1,6 +1,6 @@
 // @ts-strict-ignore
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, vi } from "vitest";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, openClose, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
@@ -234,112 +234,109 @@ describe("calcite-sheet", () => {
     expect(style).toEqual("600px");
   });
 
-  it("calls the beforeClose method prior to closing via click", async () => {
-    const page = await newE2EPage();
-    const mockCallBack = vi.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-sheet open></calcite-sheet>
-    `);
-    const sheet = await page.find("calcite-sheet");
-    await page.$eval(
-      "calcite-sheet",
-      (elm: Sheet["el"]) =>
-        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
-    );
-    await page.waitForChanges();
-    expect(await sheet.getProperty("opened")).toBe(true);
-    const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
-    await scrim.click();
-    await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("opened")).toBe(false);
-  });
+  describe("beforeClose", () => {
+    let page: E2EPage;
+    let sheet: E2EElement;
 
-  it("calls the beforeClose method prior to closing via escape", async () => {
-    const page = await newE2EPage();
-    const mockCallBack = vi.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-sheet open></calcite-sheet>
-    `);
-    const sheet = await page.find("calcite-sheet");
-    await page.$eval(
-      "calcite-sheet",
-      (elm: Sheet["el"]) =>
-        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
-    );
-    await skipAnimations(page);
-    await page.waitForEvent("calciteSheetOpen");
-    expect(await sheet.getProperty("opened")).toBe(true);
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
+      await skipAnimations(page);
+      sheet = await page.find("calcite-sheet");
+      const openEvent = page.waitForEvent("calciteSheetOpen");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+      await openEvent;
+    });
 
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
+    it("calls the beforeClose method prior to closing via click", async () => {
+      const mockCallBack = vi.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
+      await page.$eval(
+        "calcite-sheet",
+        (el: Sheet["el"]) =>
+          (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
+      );
+      await page.waitForChanges();
 
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("opened")).toBe(false);
-  });
+      expect(await sheet.getProperty("opened")).toBe(true);
 
-  it("calls the beforeClose method prior to closing via attribute", async () => {
-    const page = await newE2EPage();
-    const mockCallBack = vi.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-sheet open></calcite-sheet>
-    `);
-    const sheet = await page.find("calcite-sheet");
-    await page.$eval(
-      "calcite-sheet",
-      (elm: Sheet["el"]) =>
-        (elm.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
-    );
-    await page.waitForChanges();
-    sheet.setProperty("open", true);
-    await page.waitForChanges();
-    expect(await sheet.getProperty("opened")).toBe(true);
-    sheet.removeAttribute("open");
-    await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("opened")).toBe(false);
-  });
+      const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
+      await scrim.click();
+      await page.waitForChanges();
 
-  it("should handle rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+      expect(await sheet.getProperty("opened")).toBe(false);
+    });
 
-    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
-    await page.exposeFunction("beforeClose", mockCallBack);
+    it("calls the beforeClose method prior to closing via escape", async () => {
+      const mockCallBack = vi.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
+      await page.$eval(
+        "calcite-sheet",
+        (el: Sheet["el"]) =>
+          (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
+      );
+      await page.waitForChanges();
 
-    await page.setContent(`<calcite-sheet open></calcite-sheet>`);
+      expect(await sheet.getProperty("opened")).toBe(true);
 
-    await page.$eval(
-      "calcite-sheet",
-      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
-    );
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+      expect(await sheet.getProperty("opened")).toBe(false);
+    });
 
-    const sheet = await page.find("calcite-sheet");
-    sheet.setProperty("open", false);
-    await page.waitForChanges();
+    it("calls the beforeClose method prior to closing via attribute", async () => {
+      const mockCallBack = vi.fn();
+      await page.exposeFunction("beforeClose", mockCallBack);
+      await page.$eval(
+        "calcite-sheet",
+        (el: Sheet["el"]) =>
+          (el.beforeClose = (window as GlobalTestProps<{ beforeClose: Sheet["el"]["beforeClose"] }>).beforeClose),
+      );
+      await page.waitForChanges();
 
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-  });
+      expect(await sheet.getProperty("opened")).toBe(true);
 
-  it("should remain open with rejected 'beforeClose' promise'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet open></calcite-sheet>`);
-    await page.exposeFunction("beforeClose", () => Promise.reject());
-    const sheet = await page.find("calcite-sheet");
+      sheet.removeAttribute("open");
+      await page.waitForChanges();
 
-    await page.$eval(
-      "calcite-sheet",
-      (elm: Sheet["el"]) => (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
-    );
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+      expect(await sheet.getProperty("opened")).toBe(false);
+    });
 
-    sheet.setProperty("open", false);
-    await page.waitForChanges();
+    it("should handle rejected 'beforeClose' promise'", async () => {
+      const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
+      await page.exposeFunction("beforeClose", mockCallBack);
+      await page.$eval(
+        "calcite-sheet",
+        (elm: Sheet["el"]) =>
+          (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      );
+      await page.waitForChanges();
 
-    expect(await sheet.getProperty("open")).toBe(true);
-    expect(await sheet.getProperty("opened")).toBe(true);
-    expect(sheet.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+      sheet.setProperty("open", false);
+      await page.waitForChanges();
+
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+    });
+
+    it("should remain open with rejected 'beforeClose' promise'", async () => {
+      await page.exposeFunction("beforeClose", () => Promise.reject());
+      await page.$eval(
+        "calcite-sheet",
+        (elm: Sheet["el"]) =>
+          (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      );
+
+      sheet.setProperty("open", false);
+      await page.waitForChanges();
+
+      expect(await sheet.getProperty("open")).toBe(true);
+      expect(await sheet.getProperty("opened")).toBe(true);
+      expect(sheet.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+    });
   });
 
   it("has correct aria role/attribute", async () => {
