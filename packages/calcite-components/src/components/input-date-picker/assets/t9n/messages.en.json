@@ -1,7 +1,7 @@
 {
   "chooseDate": "Choose date",
   "date": "Date",
-  "dateFormat": "Date Format:",
+  "dateFormat": "Date Format: {format}",
   "endDate": "End Date",
   "endInput": "End Input",
   "inputDate": "Input Date",
