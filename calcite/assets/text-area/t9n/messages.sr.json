@@ -1,0 +1,1 @@
+{"invalid":"Nevažeće","tooLong":"Trenutno ograničenje za broj karaktera je {currentLength}, što prekoračuje maksimalni broj dužine karaktera od {maxLength}.","tooShort":"Trenutna dužina znakova je {currentLength}, što je manje od minimalne dužine znakova od {minLength}."}
