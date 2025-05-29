@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-card-group-gap: [Deprecated] Use `--calcite-card-group-space`. Specifies the gap between slotted elements.
  * @prop --calcite-card-group-space: Specifies the space between slotted elements.
  */
-
 :host {
   @apply block;
 }
@@ -17,5 +17,5 @@
   gap: var(--calcite-card-group-space, var(--calcite-card-group-gap, var(--calcite-spacing-md)));
 }
 
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

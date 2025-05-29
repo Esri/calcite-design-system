@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -7,7 +8,6 @@
  * @prop --calcite-autocomplete-border-color: Specifies the border color of the component.
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
  */
-
 .scale--s {
   @apply text-n2h;
   --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.2");
@@ -55,4 +55,4 @@
   padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit);
 }
 
-@include base-component();
+@include includes.base-component();

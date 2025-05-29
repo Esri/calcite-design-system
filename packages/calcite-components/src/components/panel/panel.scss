@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+@use "sass:meta";
 /**
  * CSS Custom Properties
  *
@@ -32,9 +34,9 @@
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-@include disabled();
+@include includes.disabled();
 
-@import "../../assets/styles/header";
+@include meta.load-css("../../assets/styles/header");
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
@@ -296,4 +298,4 @@ calcite-icon {
   --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
 }
 
-@include base-component();
+@include includes.base-component();

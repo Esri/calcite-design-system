@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -10,7 +11,6 @@
  * @prop --calcite-action-group-padding: [Deprecated] Use `--calcite-action-group-gap`. Specifies the component's padding.
  *
  */
-
 :host {
   @extend %component-host;
 
@@ -76,4 +76,4 @@
   border-inline-end: var(--calcite-size-px);
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -22,7 +25,6 @@
  * @prop --calcite-stepper-bar-error-fill-color-hover: When the component contains an `error`, specifies the component's fill color when hovered or focused.
  * @prop --calcite-stepper-bar-selected-fill-color: Specifies the component's fill color when selected.
 */
-
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
@@ -161,11 +163,11 @@
   color: var(--calcite-stepper-item-description-text-color, var(--calcite-color-text-3));
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([complete]) .container {
   // todo dark mode
-  border-color: rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5);
+  border-color: rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5);
   & .stepper-item-icon {
     color: var(--calcite-stepper-item-complete-icon-color, theme("backgroundColor.brand"));
   }
@@ -252,7 +254,10 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: var(--calcite-stepper-bar-complete-fill-color, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
+  border-color: var(
+    --calcite-stepper-bar-complete-fill-color,
+    rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5)
+  );
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
@@ -270,7 +275,10 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-stepper-bar-fill-color-hover, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
+  border-color: var(
+    --calcite-stepper-bar-fill-color-hover,
+    rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5)
+  );
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
@@ -331,7 +339,7 @@
   .stepper-item-header {
     border-color: var(
       --calcite-stepper-bar-complete-fill-color,
-      rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5)
+      rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5)
     );
   }
 }
@@ -360,7 +368,10 @@
 :host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-stepper-bar-fill-color-hover, rgba($calcite-color-high-saturation-blue-h-bb-060, 0.5));
+    border-color: var(
+      --calcite-stepper-bar-fill-color-hover,
+      rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5)
+    );
   }
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
@@ -436,5 +447,5 @@
   @apply sr-only;
 }
 
-@include base-component();
-@include item-hidden();
+@include includes.base-component();
+@include includes.item-hidden();

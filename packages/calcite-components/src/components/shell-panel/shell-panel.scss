@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -19,7 +20,6 @@
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
-
 :host {
   @apply relative
     pointer-events-none
@@ -506,4 +506,4 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
-@include base-component();
+@include includes.base-component();

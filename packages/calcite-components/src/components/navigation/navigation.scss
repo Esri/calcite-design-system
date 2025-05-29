@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -8,8 +9,7 @@
  * @prop --calcite-navigation-background-color: Specifies the component's background color.
  * @prop --calcite-navigation-border-color: Specifies the component's border color.
  */
-
-@include base-component();
+@include includes.base-component();
 
 :host {
   @apply block;

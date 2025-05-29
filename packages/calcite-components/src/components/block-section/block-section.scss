@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-block-section-text-color: Specifies the component's text color.
  * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
  */
-
 :host {
   @apply text-n1 box-border block;
 
@@ -132,4 +132,4 @@ calcite-switch {
   color: theme("colors.danger");
 }
 
-@include base-component();
+@include includes.base-component();

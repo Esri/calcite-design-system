@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -12,7 +13,6 @@
  * @prop --calcite-time-picker-input-border-color-press: Specifies the input's border color when active.
  * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
  */
-
 :host {
   @apply inline-block;
 }
@@ -140,4 +140,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,7 +12,6 @@
  * @prop --calcite-switch-handle-border-color: [Deprecated] No longer necessary. Specifies the handle's border color.
  * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
  */
-
 // sizes
 :host([scale="s"]) {
   .container {
@@ -59,7 +59,7 @@
   tap-highlight-color: transparent;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   @apply outline-0;
@@ -123,5 +123,5 @@
   }
 }
 
-@include hidden-form-input();
-@include base-component();
+@include includes.hidden-form-input();
+@include includes.base-component();

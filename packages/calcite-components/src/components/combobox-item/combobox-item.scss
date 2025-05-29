@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -15,8 +16,7 @@
  * @prop --calcite-combobox-description-text-color-press: Specifies the component's `description` and `shortHeading` text color when hovered.
  * @prop --calcite-combobox-heading-text-color: Specifies the component's `heading` text color.
  */
-
-@include base-component();
+@include includes.base-component();
 
 .scale--s {
   @apply text-n2h;
@@ -52,7 +52,7 @@
   @apply shadow-none;
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host,
 ul {
@@ -75,7 +75,7 @@ ul:focus {
   items-center
   no-underline
   ease-in-out;
-  @include word-break();
+  @include includes.word-break();
   justify-content: space-around;
   gap: var(--calcite-internal-combobox-item-spacing-unit-l);
   padding-block: var(--calcite-internal-combobox-item-spacing-unit-s);
@@ -165,5 +165,5 @@ ul:focus {
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
-@include item-hidden();
-@include text-highlight-item();
+@include includes.item-hidden();
+@include includes.text-highlight-item();

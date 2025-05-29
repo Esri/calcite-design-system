@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   @apply flex;
 }
@@ -6,6 +7,6 @@
   block-size: 100%;
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();
