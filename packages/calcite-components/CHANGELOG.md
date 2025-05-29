@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0...@esri/calcite-components@3.2.1) (2025-05-29)
+
+
+### Bug Fixes
+
+* **input-time-picker:** Ensure programmatic value setting updates input display ([#12233](https://github.com/Esri/calcite-design-system/issues/12233)) ([fd69e89](https://github.com/Esri/calcite-design-system/commit/fd69e894dd5be3e0c240cae6ba2d8e3fe0dbb5a2))
+* **list:** Reorder options not shown in nested list drag menus ([#12186](https://github.com/Esri/calcite-design-system/issues/12186)) ([08bfe98](https://github.com/Esri/calcite-design-system/commit/08bfe988fafbfb732486c89e76d6f9cb60d28113))
+* **sheet, shell:** Fix resize handle in RTL direction ([#12205](https://github.com/Esri/calcite-design-system/issues/12205)) ([cc58fc4](https://github.com/Esri/calcite-design-system/commit/cc58fc4e39dcab9885e73c6a3f277ef1f9ae0501))
+
 ## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0...@esri/calcite-components@3.2.0) (2025-05-14)
 
 ### Features
