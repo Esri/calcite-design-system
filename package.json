@@ -108,7 +108,7 @@
     "semver": "7.7.2",
     "shell-quote": "1.8.2",
     "storybook": "8.6.14",
-    "storybook-addon-rtl": "1.0.1",
+    "storybook-addon-rtl": "1.1.0",
     "style-dictionary": "5.0.0",
     "stylelint": "16.18.0",
     "stylelint-config-recommended-scss": "14.1.0",
