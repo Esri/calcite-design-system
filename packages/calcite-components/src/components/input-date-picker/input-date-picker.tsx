@@ -1117,16 +1117,16 @@ export class InputDatePicker
                   icon="calendar"
                   label={
                     this.range
-                      ? this.startLabel || this.messages.startInput
-                      : this.label || this.messages.inputDate
+                      ? (this.startLabel ?? this.messages.startInput)
+                      : (this.label ?? this.messages.inputDate)
                   }
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={
                     this.range
-                      ? this.startPlaceholder || this.messages.startDate
-                      : this.localeData?.placeholder || this.messages.date
+                      ? (this.startPlaceholder ?? this.messages.startDate)
+                      : (this.localeData?.placeholder ?? this.messages.date)
                   }
                   readOnly={readOnly}
                   ref={this.setStartInput}
@@ -1208,11 +1208,11 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
-                    label={this.endLabel || this.messages.endInput}
+                    label={this.endLabel ?? this.messages.endInput}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}
-                    placeholder={this.endPlaceholder || this.messages.endDate}
+                    placeholder={this.endPlaceholder ?? this.messages.endDate}
                     readOnly={readOnly}
                     ref={this.setEndInput}
                     role="combobox"
