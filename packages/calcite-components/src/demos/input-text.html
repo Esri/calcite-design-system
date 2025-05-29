@@ -42,6 +42,30 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-input-actions-background-color: #f0f8ff;
+        --calcite-input-actions-background-color-hover: #add8e6;
+        --calcite-input-actions-background-color-press: #87ceeb;
+        --calcite-input-actions-icon-color: #4682b4;
+        --calcite-input-actions-icon-color-hover: #5f9ea0;
+        --calcite-input-actions-icon-color-press: #2e8b57;
+        --calcite-input-loading-background-color: #f5f5dc;
+        --calcite-input-loading-fill-color: #ff4500;
+        --calcite-input-prefix-background-color: #ffe4b5;
+        --calcite-input-prefix-size: 50px;
+        --calcite-input-prefix-text-color: #8b0000;
+        --calcite-input-suffix-background-color: #fafad2;
+        --calcite-input-suffix-size: 50px;
+        --calcite-input-suffix-text-color: #006400;
+        --calcite-input-text-background-color: #ffffff;
+        --calcite-input-text-border-color: #006400;
+        --calcite-input-text-corner-radius: 8px;
+        --calcite-input-text-height: 40px;
+        --calcite-input-text-placeholder-text-color: #808080;
+        --calcite-input-text-text-color: #000080;
+        --calcite-input-text-text-color-focus: #ff6347;
+      }
     </style>
 
     <script src="./_assets/head.ts"></script>
@@ -454,6 +478,25 @@
               validation-icon
             >
             </calcite-input-text>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Themed -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">themed</div>
+        <div class="child-flex themed">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+              clearable
+              value="Themed Input"
+            >
+              <calcite-button icon-start="search" slot="action"></calcite-button
+            ></calcite-input-text>
           </calcite-label>
         </div>
       </div>
