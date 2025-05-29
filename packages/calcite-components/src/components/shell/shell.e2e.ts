@@ -40,6 +40,45 @@ describe("calcite-shell", () => {
     `);
   });
 
+  it("should set 'layout' and 'position' on slotted panels", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-shell>
+        <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
+          <p>Start Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelEnd}" position="end">
+          <p>End Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelBottom}" position="start">
+          <p>Bottom Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelTop}" position="end">
+          <p>Top Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>`,
+    );
+
+    await page.waitForChanges();
+
+    const startPanel = await page.find(`[slot="${SLOTS.panelStart}"]`);
+    expect(await startPanel.getProperty("position")).toBe("start");
+    expect(await startPanel.getProperty("layout")).toBe("vertical");
+
+    const endPanel = await page.find(`[slot="${SLOTS.panelEnd}"]`);
+    expect(await endPanel.getProperty("position")).toBe("end");
+    expect(await endPanel.getProperty("layout")).toBe("vertical");
+
+    const bottomPanel = await page.find(`[slot="${SLOTS.panelBottom}"]`);
+    expect(await bottomPanel.getProperty("position")).toBe("end");
+    expect(await bottomPanel.getProperty("layout")).toBe("horizontal");
+
+    const topPanel = await page.find(`[slot="${SLOTS.panelTop}"]`);
+    expect(await topPanel.getProperty("position")).toBe("start");
+    expect(await topPanel.getProperty("layout")).toBe("horizontal");
+  });
+
   it("should place content behind", async () => {
     const page = await newE2EPage();
 

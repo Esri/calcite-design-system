@@ -99,13 +99,21 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) heightScale: Scale;
 
-  /** The direction of the component. */
+  /**
+   * The direction of the component.
+   *
+   * @deprecated No longer necessary.
+   */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @deprecated No longer necessary.
+   */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /** When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable. */
