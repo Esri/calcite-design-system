@@ -3,26 +3,27 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-prefix-size: Specifies the component's prefix width.
- * @prop --calcite-input-suffix-size: Specifies the component's suffix width.
- * @porp --calcite-input-text-height: Specifies the component's height.
- * @prop --calcite-input-text-background-color: Specifies the component's background color.
- * @prop --calcite-input-text-text-color: Specifies the component's text color.
- * @prop --calcite-input-text-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-input-text-border-color: Specifies the component's border color.
- * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
- * @prop --calcite-input-actions-icon-color : Specifies the color of the icons in the actions.
- * @prop --calcite-input-actions-background-color: Specifies the background color of the actions.
- * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the actions when hovered.
- * @prop --calcite-input-actions-icon-color-hover: Specifies the color of the icons in the actions when hovered.
- * @prop --calcite-input-actions-background-color-press: Specifies the background color of the actions when pressed.
- * @prop --calcite-input-actions-icon-color-press: Specifies the color of the icons in the actions when pressed.
- * @prop --calcite-input-loading-background-color: Specifies the background color of the loading indicator.
- * @prop --calcite-input-loading-fill-color: Specifies the fill color of the loading indicator.
- * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix.
- * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix.
- * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix.
- * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix.
+ * @prop --calcite-input-actions-background-color: Specifies the background color of the component's `clearable` element.
+ * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-actions-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
+ * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` & icon elements.
+ * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` & icon elements when hovered.
+ * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` & icon elements when pressed.
+ * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
+ * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
+ * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
+ * @prop --calcite-input-prefix-size: Specifies the width of the prefix element.
+ * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
+ * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix element.
+ * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
+ * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
+ * @prop --calcite-input-text-background-color: Specifies background color of the component.
+ * @prop --calcite-input-text-border-color: Specifies the border color of the component.
+ * @prop --calcite-input-text-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-input-text-height: Specifies the height of the component.
+ * @prop --calcite-input-text-placeholder-text-color: Specifies the text color of the placeholder in the component.
+ * @prop --calcite-input-text-text-color: Specifies the text color of the component.
+ * @prop --calcite-input-text-text-color-focus: Specifies the text color of the component when focused.
  */
 
 :host {
@@ -153,7 +154,8 @@ input {
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder {
-    @apply text-color-3 font-normal;
+    @apply font-normal;
+    color: var(--calcite-input-number-placeholder-text-color, var(--calcite-color-text-3));
   }
 }
 input:focus {
