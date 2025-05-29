@@ -556,7 +556,7 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-          const selectedLabel =
+          const textLabel =
             !this.open && metadata.country && selected
               ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
               : label;
@@ -567,7 +567,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={selectedLabel}
+              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
