@@ -317,10 +317,13 @@
         }
       },
       "focus": {
-        "value": "{semantic.color.brand.default.default}",
-        "type": "color",
-        "attributes": {
-          "category": "color"
+        "default": {
+          "value": "{semantic.color.brand.default.default}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "scope": "component"
+          }
         }
       }
     }
