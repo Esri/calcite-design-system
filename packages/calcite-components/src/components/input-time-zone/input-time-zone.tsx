@@ -556,7 +556,10 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-
+          const selectedLabel =
+            !this.open && metadata.country && selected
+              ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
+              : label;
           return (
             <calcite-combobox-item
               data-label={label}
@@ -564,7 +567,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={label}
+              textLabel={selectedLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
