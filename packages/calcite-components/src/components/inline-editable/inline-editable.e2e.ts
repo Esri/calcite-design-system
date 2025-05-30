@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -18,6 +18,15 @@ describe("calcite-inline-editable", () => {
       `,
       { display: "block" },
     );
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-inline-editable", [
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ]);
   });
 
   describe("honors hidden attribute", () => {
@@ -82,7 +91,7 @@ describe("calcite-inline-editable", () => {
       }
     });
 
-    it("uses a child input's scale when none are provided", async () => {
+    it("does not use child input's scale when none are provided", async () => {
       const page = await newE2EPage();
       await page.setContent(`
       <calcite-label>
@@ -93,7 +102,7 @@ describe("calcite-inline-editable", () => {
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
-      expect(element).toEqualAttribute("scale", "l");
+      expect(element).toEqualAttribute("scale", "m");
     });
 
     it("renders requested props when valid props are provided", async () => {
