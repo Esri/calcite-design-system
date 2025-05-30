@@ -37,6 +37,8 @@
         <div class="child" style="width: 600px">
           <calcite-table-advanced scale="s" height="200px"></calcite-table-advanced>
           <button onclick="triggerScrollToRow()">Scroll To Row</button>
+          <button onclick="triggerStyleRow()">Style Row</button>
+          <button onclick="triggerStyleCell()">Style Cell</button>
         </div>
       </div>
 
@@ -332,7 +334,15 @@
       tableAdvanced.frozenColumns = ["name", "task progress"];
 
       function triggerScrollToRow() {
-        tableAdvanced.scrollToRow("name", "Brendon Philips");
+        tableAdvanced.scrollToRow(3);
+      }
+
+      function triggerStyleRow() {
+        tableAdvanced.styleRow(0, "backgroundColor", "blue");
+      }
+
+      function triggerStyleCell() {
+        tableAdvanced.styleCell(2, "name", "backgroundColor", "blue");
       }
 
       var dataColumnGroups = [
@@ -409,7 +419,7 @@
           title: "Personal Info",
           columns: [
             { title: "Gender", field: "gender", width: 90 },
-            { title: "Favourite Color", field: "col", width: 140 },
+            { title: "Favorite Color", field: "col", width: 140 },
             { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date", width: 130 },
           ],
         },

@@ -16,25 +16,21 @@ declare global {
 
 /** @slot - A slot for adding HTML tables */
 export class TableAdvanced extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private tableEl: HTMLElement;
 
   private customSlotTableEl: HTMLElement = this.el.querySelector("table");
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
-
-  // #endregion
-
-  // #region Public Properties
+  //#region Public Properties
 
   @property() tabulator: Tabulator;
 
@@ -59,9 +55,39 @@ export class TableAdvanced extends LitElement {
   /** Specifies the property to be used to find frozen columns. Default is `name` */
   @property() frozenColumnProp: string = "name";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
+
+  /**
+   * Triggers clear filter.
+   *
+   * @example
+   *
+   * myTable.clearFilter()
+   */
+  @method()
+  async clearFilter(): Promise<void> {
+    this.tabulator.clearFilter(false);
+  }
+
+  /**
+   * Triggers scroll to row animation.
+   *
+   * @example
+   *
+   * myTable.scrollToRow(3)
+   *
+   * @param rowIndex Value used to find row object
+   */
+  @method()
+  async scrollToRow(rowIndex: number): Promise<void> {
+    const row = this.tabulator.getRows()[rowIndex];
+
+    if (row) {
+      this.tabulator.scrollToRow(row, "top", true);
+    }
+  }
 
   /**
    * Triggers set filter.
@@ -91,41 +117,58 @@ export class TableAdvanced extends LitElement {
   }
 
   /**
-   * Triggers clear filter.
+   * Triggers cell styling.
    *
    * @example
    *
-   * myTable.clearFilter()
+   * myTable.styleCell(1, "name", "backgroundColor", "blue")
+   *
+   * @param rowIndex Value used to find row object
+   * @param cellName Value used to find cell object
+   * @param cellClass Css class to add to cell
+   * @param cellClassValue Style to apply to cellClass
    */
   @method()
-  async clearFilter(): Promise<void> {
-    this.tabulator.clearFilter(false);
-  }
+  async styleCell(
+    rowIndex: number,
+    cellName: string,
+    cellClass: string,
+    cellClassValue: string,
+  ): Promise<void> {
+    const row = this.tabulator.getRows()[rowIndex];
 
-  /**
-   * Triggers scroll to row animation.
-   *
-   * @example
-   *
-   * myTable.scrollToRow("name", "Brendon Philips")
-   *
-   * @param rowLookUpProp Property used to find row object
-   * @param rowLookUpValue User input value
-   */
-  @method()
-  async scrollToRow(rowLookUpProp: any, rowLookUpValue: any): Promise<void> {
-    if (rowLookUpProp && rowLookUpValue) {
-      this.handleScrollToRow(rowLookUpProp, rowLookUpValue);
+    if (row) {
+      row.getCells().forEach((cell) => {
+        if (cell.getField() === cellName) {
+          cell.getElement().style[cellClass] = cellClassValue;
+        }
+      });
     }
   }
 
-  // #endregion
+  /**
+   * Triggers row styling.
+   *
+   * @example
+   *
+   * myTable.styleRow(1, "backgroundColor", "blue")
+   *
+   * @param rowIndex Value used to find row object
+   * @param rowClass Css class to add to row
+   * @param rowClassValue Style to apply to rowClass
+   */
+  @method()
+  async styleRow(rowIndex: number, rowClass: string, rowClassValue: string): Promise<void> {
+    const row = this.tabulator.getRows()[rowIndex];
 
-  // #region Events
+    if (row) {
+      row.getElement().style[rowClass] = rowClassValue;
+    }
+  }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -157,9 +200,9 @@ export class TableAdvanced extends LitElement {
         });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private setTableElRef(el: HTMLElement) {
     this.tableEl = el;
@@ -174,16 +217,6 @@ export class TableAdvanced extends LitElement {
   private columnsWatcher(columns: ColumnDefinition[]): void {
     if (this.tabulator) {
       this.tabulator.setColumns(columns);
-    }
-  }
-
-  private handleScrollToRow(rowLookUpProp: any, rowLookUpValue: any): void {
-    const row = this.tabulator.getRows().filter((row) => {
-      return row.getData()[rowLookUpProp] === rowLookUpValue;
-    });
-
-    if (row[0]) {
-      this.tabulator.scrollToRow(row[0], "top", true);
     }
   }
 
@@ -203,9 +236,9 @@ export class TableAdvanced extends LitElement {
     return columns;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -219,5 +252,5 @@ export class TableAdvanced extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
