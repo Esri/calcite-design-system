@@ -51,7 +51,7 @@
 
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    block-size: var(--calcite-input-text-height, 1.5rem);
+    @apply h-6;
   }
 
   & .clear-button {
@@ -80,7 +80,7 @@
 
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    block-size: var(--calcite-input-text-height, 2rem);
+    @apply h-8;
   }
 
   & .clear-button {
@@ -109,7 +109,7 @@
 
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    block-size: var(--calcite-input-text-height, 2.75rem);
+    @apply h-11;
   }
 
   & .clear-button {

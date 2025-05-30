@@ -597,7 +597,7 @@ describe("calcite-input-text", () => {
         targetProp: "backgroundColor",
         state: { press: `calcite-input-text >>> .${CSS.clearButton}` },
       },
-      "--calcite-input-text-icon-color": {
+      "--calcite-input-actions-icon-color": {
         shadowSelector: `.${CSS.clearButton} calcite-icon`,
         targetProp: "color",
       },
@@ -647,20 +647,5 @@ describe("calcite-input-text", () => {
       },
     };
     themed(html`<calcite-input-text loading></calcite-input-text>`, componentTokens);
-  });
-
-  describe("slotted", () => {
-    const componentTokens: ComponentTestTokens = {
-      "--calcite-input-text-height": {
-        selector: `calcite-button`,
-        targetProp: "blockSize",
-      },
-    };
-    themed(
-      html`<calcite-input-text>
-        <calcite-button slot="action" icon="trash" scale="s"></calcite-button>
-      </calcite-input-text>`,
-      componentTokens,
-    );
   });
 });
