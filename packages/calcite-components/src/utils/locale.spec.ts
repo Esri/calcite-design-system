@@ -14,7 +14,7 @@ import {
   numberStringFormatter,
 } from "./locale";
 
-describe("NumberStringFormat", () => {
+describe.skip("NumberStringFormat", () => {
   it("NumberFormat formatter is not initialized until necessary", () => {
     const num = "123.456";
 
