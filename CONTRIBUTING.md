@@ -168,11 +168,11 @@ Calcite Components include Vitest's testing tools which are powered by [Vitest](
 
 If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/calcite-components run test:watch:stable` or `npm --workspace=packages/calcite-components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](./packages/calcite-components/conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./packages/calcite-components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -184,7 +184,7 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](./packages/calcite-components/conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
