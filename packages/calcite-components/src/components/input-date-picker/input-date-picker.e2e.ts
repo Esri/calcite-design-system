@@ -1956,6 +1956,23 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(false);
     expect(await isElementFocused(page, "#input")).toBe(true);
   });
+
+  it("should set accessible labels and placeholders for inputs in a range format", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+        <calcite-input-date-picker range start-label="startLabel" end-label="endLabel" start-placeholder="startPlaceholder" end-placeholder="endPlaceholder"></calcite-input-date-picker>
+      `);
+
+    const startInput = await page.find(
+      "calcite-input-date-picker >>> div[data-position='start'] >>> calcite-input-text",
+    );
+    const endInput = await page.find("calcite-input-date-picker >>> div[data-position='end'] >>> calcite-input-text");
+
+    expect(await startInput.getProperty("label")).toBe("startLabel");
+    expect(await endInput.getProperty("label")).toBe("endLabel");
+    expect(await startInput.getProperty("placeholder")).toBe("startPlaceholder");
+    expect(await endInput.getProperty("placeholder")).toBe("endPlaceholder");
+  });
 });
 
 async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
