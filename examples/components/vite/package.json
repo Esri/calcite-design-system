@@ -15,7 +15,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.1.0"
+    "@esri/calcite-components": "3.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.1.0",
