@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import {
   findAll,
@@ -13,15 +13,15 @@ import {
   toBeNumber,
 } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getColorFieldDimensions, getSliderWidth } from "./utils";
 import type { ColorPicker } from "./color-picker";
 
-type SpyInstance = MockInstance;
-
 describe("calcite-color-picker", () => {
-  let consoleSpy: SpyInstance;
+  mockConsole();
+
   const defaultMediumWidthInPx = 240;
   const centerColorFieldColor = "#408047";
 
@@ -41,15 +41,6 @@ describe("calcite-color-picker", () => {
   function getScopeCenter(X: number, Y: number): [number, number] {
     return [X + SCOPE_SIZE / 2, Y + SCOPE_SIZE / 2];
   }
-
-  beforeEach(
-    () =>
-      (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-        // hide warning messages during test
-      })),
-  );
-
-  afterEach(() => consoleSpy.mockClear());
 
   describe("should focus scope by default", () => {
     focusable("<calcite-color-picker></calcite-color-picker>", {
@@ -402,8 +393,8 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
-    expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(
       expect.stringMatching(
         new RegExp(
           `\\s*ignoring color value \\(${value}\\) as it is not compatible with the current format \\(${format}\\)\\s*`,

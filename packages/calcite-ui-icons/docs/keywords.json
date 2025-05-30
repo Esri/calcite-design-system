@@ -9764,5 +9764,30 @@
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
     "category": "Generic",
     "release": "4.2.0"
+  },
+  "transfer": {
+    "alias": ["4.2.1", "people", "move", "shift", "remove", "conduct", "transmit"],
+    "category": "People",
+    "release": "4.2.1"
+  },
+  "tapestry": {
+    "alias": ["4.2.1", "brand", "segmentation", "data", "classification", "group"],
+    "category": "Brand",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
   }
 }

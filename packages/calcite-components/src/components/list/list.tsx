@@ -104,7 +104,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
-      defaultSlotEl,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -145,9 +144,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
-    if (defaultSlotEl) {
-      updateListItemChildren(defaultSlotEl);
-    }
   }, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
@@ -617,10 +613,14 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private setUpSorting(): void {
-    const { dragEnabled } = this;
+    const { dragEnabled, defaultSlotEl } = this;
 
     if (!dragEnabled) {
       return;
+    }
+
+    if (defaultSlotEl) {
+      updateListItemChildren(defaultSlotEl);
     }
 
     connectSortableComponent(this);

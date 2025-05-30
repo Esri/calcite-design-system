@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { GenericController, T9nMeta } from "@arcgis/lumina/controllers";
+import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import { createEvent, LitElement } from "@arcgis/lumina";
 import {
@@ -21,12 +22,12 @@ import {
   MinuteOrSecond,
   parseTimeString,
   toISOTimeString,
-} from "../../utils/time";
-import { decimalPlaces, getDecimals } from "../../utils/math";
-import { isValidNumber } from "../../utils/number";
-import { capitalizeWord } from "../../utils/text";
-import { NumberingSystem, SupportedLocale } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
+} from "../utils/time";
+import { decimalPlaces, getDecimals } from "../utils/math";
+import { isValidNumber } from "../utils/number";
+import { capitalizeWord } from "../utils/text";
+import { NumberingSystem, SupportedLocale } from "../utils/locale";
+import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
   /**
@@ -63,7 +64,7 @@ type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
    */
-  calciteTimeChange: CustomEvent;
+  calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
    */
@@ -141,7 +142,7 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, TimeComponent> {
+class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Private Properties
 
   fractionalSecond: string;
@@ -668,3 +669,5 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
 
   //#endregion
 }
+
+export const useTime = toFunction(TimeController);
