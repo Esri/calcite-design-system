@@ -47,7 +47,6 @@ import {
   inputTextLoading,
   inputTextReadOnly,
   inputTextTokens,
-  inputTextWithActionSlotted,
   inputTextWithSuffixAndPrefix,
 } from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";

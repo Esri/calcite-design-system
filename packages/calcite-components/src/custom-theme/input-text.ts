@@ -36,8 +36,4 @@ export const inputTextClearable = html`<calcite-input-text clearable value="Clea
 
 export const inputTextLoading = html`<calcite-input-text loading value="Loading text"></calcite-input-text>`;
 
-export const inputTextWithActionSlotted = html`<calcite-input-text>
-  <calcite-button slot="action" icon-start="search"></calcite-button>
-</calcite-input-text>`;
-
 export const inputTextReadOnly = html`<calcite-input-text read-only value="Read only text"></calcite-input-text>`;
