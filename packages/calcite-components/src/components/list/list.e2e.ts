@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -2271,6 +2271,8 @@ describe("calcite-list", () => {
 
   async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
     const items = await findAll(page, `calcite-list-item-group${groupSelector} > calcite-list-item`);
-    items.forEach(async (item: E2EElement) => expect(await item.isVisible()).toBe(visibility));
+    for (const item of items) {
+      expect(await item.isVisible()).toBe(visibility);
+    }
   }
 });
