@@ -165,8 +165,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         </div>
         ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
         ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
-        ${inputTextClearable} ${inputTextLoading} ${inputTextWithActionSlotted} ${inputTextWithSuffixAndPrefix}
-        ${inputTextReadOnly} ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
+        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
