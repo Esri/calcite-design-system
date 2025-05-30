@@ -1438,13 +1438,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
-
-    const channels = color[channelMode]()
-      .array()
-      .map((value, index) => {
-        const isAlpha = index === 3;
-        return isAlpha ? value : Math.floor(value);
-      });
+    const channels = color[channelMode]().round().array();
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1
