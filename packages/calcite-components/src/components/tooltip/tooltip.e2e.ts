@@ -867,26 +867,24 @@ describe("calcite-tooltip", () => {
     it("emits via prop", async () => {
       await assertEventEmitting({
         openTooltip: async (page) => {
-          const tooltipBeforeOpenEvent = page.waitForEvent("calciteTooltipBeforeOpen");
-          const tooltipOpenEvent = page.waitForEvent("calciteTooltipOpen");
+          const beforeOpenSpy = await page.spyOnEvent("calciteTooltipBeforeOpen");
+          const openSpy = await page.spyOnEvent("calciteTooltipOpen");
           const tooltip = await page.find("calcite-tooltip");
 
           tooltip.setProperty("open", true);
           await page.waitForChanges();
-
-          await tooltipBeforeOpenEvent;
-          await tooltipOpenEvent;
+          await beforeOpenSpy.next();
+          await openSpy.next();
         },
         closeTooltip: async (page) => {
-          const tooltipBeforeCloseEvent = page.waitForEvent("calciteTooltipBeforeClose");
-          const tooltipCloseEvent = page.waitForEvent("calciteTooltipClose");
+          const beforeCloseSpy = await page.spyOnEvent("calciteTooltipBeforeClose");
+          const closeSpy = await page.spyOnEvent("calciteTooltipClose");
           const tooltip = await page.find("calcite-tooltip");
 
           tooltip.setProperty("open", false);
           await page.waitForChanges();
-
-          await tooltipBeforeCloseEvent;
-          await tooltipCloseEvent;
+          await beforeCloseSpy.next();
+          await closeSpy.next();
         },
       });
     });
@@ -952,20 +950,18 @@ describe("calcite-tooltip", () => {
       expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
       expect(closeEventSpy).toHaveReceivedEventTimes(0);
 
-      const openEvent = page.waitForEvent("calciteTooltipOpen");
       await params.openTooltip(page);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
       expect(openEventSpy).toHaveReceivedEventTimes(1);
       expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
       expect(closeEventSpy).toHaveReceivedEventTimes(0);
 
-      const closeEvent = page.waitForEvent("calciteTooltipClose");
       await params.closeTooltip(page);
       await page.waitForChanges();
-      await closeEvent;
+      await closeEventSpy.next();
 
       expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
       expect(openEventSpy).toHaveReceivedEventTimes(1);

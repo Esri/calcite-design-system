@@ -166,9 +166,9 @@ describe("calcite-shell", () => {
       );
       const block = await page.find("calcite-block");
 
-      const openEvent = block.waitForEvent("calciteBlockOpen");
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
       await block.click();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
@@ -192,9 +192,9 @@ describe("calcite-shell", () => {
       );
       const block = await page.find("calcite-block");
 
-      const openEvent = block.waitForEvent("calciteBlockOpen");
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
       await block.click();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
@@ -220,9 +220,9 @@ describe("calcite-shell", () => {
       );
       const block = await page.find("calcite-block");
 
-      const openEvent = block.waitForEvent("calciteBlockOpen");
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
       await block.click();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toEqual(block.id);

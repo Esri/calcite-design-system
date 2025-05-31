@@ -121,10 +121,10 @@ describe("calcite-action-menu", () => {
     const clickSpy = await page.spyOnEvent("calciteActionMenuOpen");
     const actionMenu = await page.find("calcite-action-menu");
 
-    const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
     actionMenu.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
@@ -166,10 +166,10 @@ describe("calcite-action-menu", () => {
     const popover = await page.find("calcite-action-menu >>> calcite-popover");
     const outside = await page.find("#outside");
 
-    const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
     actionMenu.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await popover.getProperty("autoClose")).toBe(true);
     expect(await popover.getProperty("open")).toBe(true);
@@ -196,10 +196,10 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
     const actionMenu = await page.find("calcite-action-menu");
 
-    const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
     actionMenu.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await actionMenu.getProperty("open")).toBe(true);
 
@@ -289,10 +289,10 @@ describe("calcite-action-menu", () => {
 
     expect(await tooltipPositionContainer.isVisible()).toBe(true);
 
-    const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
     actionMenu.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await tooltipPositionContainer.isVisible()).toBe(false);
   });
@@ -315,10 +315,9 @@ describe("calcite-action-menu", () => {
     const popoverOpen = await actionMenu.spyOnEvent("calcitePopoverOpen");
     const popoverClose = await actionMenu.spyOnEvent("calcitePopoverClose");
 
-    const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
     await trigger.click();
-    await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await actionMenu.getProperty("open")).toBe(true);
 
@@ -351,10 +350,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -390,10 +389,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -431,10 +430,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -470,10 +469,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
       expect(await trigger.getProperty("active")).toBe(true);
@@ -528,10 +527,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
       expect(actions[0].getAttribute(activeAttr)).toBe("");
@@ -562,10 +561,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       const clickSpy = await actions[0].spyOnEvent("click");
 
@@ -599,10 +598,10 @@ describe("calcite-action-menu", () => {
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
-      const openEvent = actionMenu.waitForEvent("calciteActionMenuOpen");
+      const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       const clickSpy = await actions[0].spyOnEvent("click");
 

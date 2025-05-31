@@ -223,9 +223,9 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("-typo");
       expect(await input.getProperty("value")).toBe("John Doe-typo");
-      const cancelEvent = page.waitForEvent("calciteInlineEditableEditCancel");
+      const cancelEventSpy = await page.spyOnEvent("calciteInlineEditableEditCancel");
       await cancelEditingButton.click();
-      await cancelEvent;
+      await cancelEventSpy.next();
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditCancel).toHaveReceivedEventTimes(1);
       expect(await element.getProperty("editingEnabled")).toBe(false);
@@ -322,11 +322,11 @@ describe("calcite-inline-editable", () => {
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("Moe");
-      const confirmEvent = page.waitForEvent("calciteInlineEditableEditConfirm");
+      const confirmEventSpy = await page.spyOnEvent("calciteInlineEditableEditConfirm");
       await confirmChangesButton.click();
       resolve();
       await page.waitForChanges();
-      await confirmEvent;
+      await confirmEventSpy.next();
       await afterConfirm;
       expect(calciteInlineEditableEditConfirm).toHaveReceivedEventTimes(1);
       expect(await input.getProperty("value")).toBe("John DoeMoe");

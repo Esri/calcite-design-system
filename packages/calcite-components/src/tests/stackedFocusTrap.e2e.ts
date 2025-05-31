@@ -69,17 +69,17 @@ describe("stacked focus-trap components", () => {
     ): Promise<void> {
       async function openAndCheckVisibility(element: E2EElement): Promise<void> {
         const elTagNameCamelCased = camelCase(element.tagName);
-        const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+        const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
         element.setProperty("open", true);
         await page.waitForChanges();
-        await openEvent;
+        await openEventSpy.next();
       }
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
         for (let i = 0; i < focusTrapOrderElements.length; i++) {
           const elTagNameCamelCased = camelCase(focusTrapOrderElements[i].tagName);
-          const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+          const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
 
           const activeElementId = await page.evaluate(() => document.activeElement?.id);
 
@@ -107,7 +107,7 @@ describe("stacked focus-trap components", () => {
 
           await page.keyboard.press("Escape");
           await page.waitForChanges();
-          await closeEvent;
+          await closeEventSpy.next();
 
           expect(await focusTrapOrderElements[i].getProperty("open")).toBe(false);
 
@@ -171,16 +171,15 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
-    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
     dialog.press("Escape");
-    await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     const activeElementId = await page.evaluate(() => document.activeElement?.id);
     expect(activeElementId).toBe(openButton.id);
@@ -197,17 +196,16 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
-    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${IDS.close}`);
     await closeButton.click();
-    await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     const activeElementId = await page.evaluate(() => document.activeElement?.id);
     expect(activeElementId).toBe(openButton.id);
@@ -224,11 +222,11 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     const outsideButton = await page.find("#other-button");
     await outsideButton.click();

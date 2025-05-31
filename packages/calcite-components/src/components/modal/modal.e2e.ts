@@ -156,10 +156,10 @@ describe("calcite-modal", () => {
       await page.setContent(html`<calcite-modal></calcite-modal>`);
       await skipAnimations(page);
       modal = await page.find("calcite-modal");
-      const openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       modal.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
     });
 
     it("calls the beforeClose method prior to closing via click", async () => {
@@ -267,10 +267,10 @@ describe("calcite-modal", () => {
       );
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
-      const opened = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       modal.setProperty("open", true);
       await page.waitForChanges();
-      await opened;
+      await openEventSpy.next();
 
       expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
       await page.keyboard.press("Tab");
@@ -322,11 +322,11 @@ describe("calcite-modal", () => {
       );
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
-      const openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
 
       await modal.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
 
       await page.keyboard.press("Tab");
@@ -344,7 +344,7 @@ describe("calcite-modal", () => {
     it("subsequently opening a modal dynamically gets focus trapped", async () => {
       const page = await newProgrammaticE2EPage();
       await skipAnimations(page);
-      let openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await page.evaluate(() => {
         const modal = document.createElement("calcite-modal");
         modal.open = true;
@@ -377,12 +377,11 @@ describe("calcite-modal", () => {
         });
       });
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
-      openEvent = page.waitForEvent("calciteModalOpen");
       await page.click("#openButton");
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await isElementFocused(page, "#modal2")).toBe(true);
     });
@@ -424,24 +423,23 @@ describe("calcite-modal", () => {
     await page.setContent(`<calcite-modal></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    let openEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
 
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
     expect(await modal.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calciteModalClose");
+    const closeEventSpy = await page.spyOnEvent("calciteModalClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
     expect(await modal.isVisible()).toBe(false);
     expect(await modal.getProperty("open")).toBe(false);
 
-    openEvent = page.waitForEvent("calciteModalOpen");
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
     expect(await modal.isVisible()).toBe(true);
   });
 
@@ -450,17 +448,17 @@ describe("calcite-modal", () => {
     await page.setContent(`<calcite-modal focus-trap-disabled></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    const openEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
 
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
     expect(await modal.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calciteModalClose");
+    const closeEventSpy = await page.spyOnEvent("calciteModalClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
     expect(await modal.isVisible()).toBe(false);
     expect(await modal.getProperty("open")).toBe(false);
   });
@@ -469,11 +467,11 @@ describe("calcite-modal", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal open></calcite-modal>`);
     await skipAnimations(page);
-    const openedEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
 
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
-    await openedEvent;
+    await openEventSpy.next();
     expect(modal).toHaveAttribute("open");
 
     await page.keyboard.press("Escape");
@@ -510,17 +508,17 @@ describe("calcite-modal", () => {
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
 
-    const openEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(modal).toHaveAttribute("open");
 
-    const closeEvent = page.waitForEvent("calciteModalClose");
+    const closeEventSpy = await page.spyOnEvent("calciteModalClose");
     await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await modal.getProperty("open")).toBe(false);
   });
@@ -531,10 +529,10 @@ describe("calcite-modal", () => {
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
 
-    const openEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(modal).toHaveAttribute("open");
 
@@ -550,10 +548,10 @@ describe("calcite-modal", () => {
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
 
-    const openEvent = page.waitForEvent("calciteModalOpen");
+    const openEventSpy = await page.spyOnEvent("calciteModalOpen");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(modal).toHaveAttribute("open");
 
@@ -574,17 +572,17 @@ describe("calcite-modal", () => {
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
 
-      const openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await modal.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      const closeEvent = page.waitForEvent("calciteModalClose");
+      const closeEventSpy = await page.spyOnEvent("calciteModalClose");
       await modal.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
+      await closeEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
     });
@@ -596,17 +594,17 @@ describe("calcite-modal", () => {
       await page.evaluate(() => (document.documentElement.style.overflow = "scroll"));
       const modal = await page.find("calcite-modal");
 
-      const openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await modal.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      const closeEvent = page.waitForEvent("calciteModalClose");
+      const closeEventSpy = await page.spyOnEvent("calciteModalClose");
       await modal.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
+      await closeEventSpy.next();
 
       expect(await page.evaluate(() => document.documentElement.style.overflow)).toEqual("scroll");
     });
@@ -617,10 +615,10 @@ describe("calcite-modal", () => {
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
 
-      const openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await modal.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
     });
@@ -635,25 +633,23 @@ describe("calcite-modal", () => {
       const modal1 = await page.find("#modal-1");
       const modal2 = await page.find("#modal-2");
 
-      let openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await modal1.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
-      openEvent = page.waitForEvent("calciteModalOpen");
+      await openEventSpy.next();
       await modal2.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      let closeEvent = page.waitForEvent("calciteModalClose");
+      const closeEventSpy = await page.spyOnEvent("calciteModalClose");
       await modal2.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
-      closeEvent = page.waitForEvent("calciteModalClose");
+      await closeEventSpy.next();
       await modal1.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
+      await closeEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
     });
@@ -668,25 +664,23 @@ describe("calcite-modal", () => {
       const modal1 = await page.find("#modal-1");
       const modal2 = await page.find("#modal-2");
 
-      let openEvent = page.waitForEvent("calciteModalOpen");
+      const openEventSpy = await page.spyOnEvent("calciteModalOpen");
       await modal1.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
-      openEvent = page.waitForEvent("calciteModalOpen");
+      await openEventSpy.next();
       await modal2.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      let closeEvent = page.waitForEvent("calciteModalClose");
+      const closeEventSpy = await page.spyOnEvent("calciteModalClose");
       await modal1.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
-      closeEvent = page.waitForEvent("calciteModalClose");
+      await closeEventSpy.next();
       await modal2.setProperty("open", false);
       await page.waitForChanges();
-      await closeEvent;
+      await closeEventSpy.next();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
     });

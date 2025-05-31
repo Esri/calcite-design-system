@@ -278,19 +278,19 @@ describe("calcite-popover", () => {
 
     expect(await positionContainer.isVisible()).toBe(false);
 
-    let openEvent = page.waitForEvent("calcitePopoverOpen");
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
 
-    openEvent = page.waitForEvent("calcitePopoverClose");
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    await openEvent;
+    await closeEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(false);
   });
@@ -308,19 +308,19 @@ describe("calcite-popover", () => {
 
     expect(await positionContainer.isVisible()).toBe(false);
 
-    const openEvent = page.waitForEvent("calcitePopoverOpen");
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calcitePopoverClose");
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(false);
   });
@@ -671,10 +671,9 @@ describe("calcite-popover", () => {
     const ref = await page.find("#ref");
     expect(await positionContainer.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calcitePopoverClose");
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.click();
-    await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(false);
 
@@ -683,9 +682,9 @@ describe("calcite-popover", () => {
       transferEl.appendChild(popoverEl);
     });
     await page.waitForChanges();
-    const openEvent = page.waitForEvent("calcitePopoverOpen");
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.click();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
   });

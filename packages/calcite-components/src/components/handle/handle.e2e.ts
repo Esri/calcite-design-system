@@ -110,7 +110,7 @@ describe("calcite-handle", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
     const handle = await page.find(`calcite-handle`);
-    let nudgeEvent = handle.waitForEvent("calciteHandleNudge");
+    const nudgeEventSpy = await handle.spyOnEvent("calciteHandleNudge");
     const calciteHandleNudgeSpy = await page.spyOnEvent<HandleNudge>("calciteHandleNudge");
 
     await handle.callMethod("setFocus");
@@ -118,14 +118,13 @@ describe("calcite-handle", () => {
     await page.waitForChanges();
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    await nudgeEvent;
+    await nudgeEventSpy.next();
 
     expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
 
-    nudgeEvent = handle.waitForEvent("calciteHandleNudge");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await nudgeEvent;
+    await nudgeEventSpy.next();
 
     expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
     expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);

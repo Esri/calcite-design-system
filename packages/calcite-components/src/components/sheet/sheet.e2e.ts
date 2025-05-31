@@ -104,11 +104,11 @@ describe("calcite-sheet", () => {
     accessible(async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-sheet label="hello world">Hello everyone!</calcite-sheet>`);
-      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
       const sheet = await page.find("calcite-sheet");
       sheet.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
       return { page, tag: "calcite-sheet" };
     });
 
@@ -129,11 +129,11 @@ describe("calcite-sheet", () => {
           </calcite-panel>
         </calcite-sheet>
       `);
-      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
       const sheet = await page.find("calcite-sheet");
       sheet.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
       return { page, tag: "calcite-sheet" };
     });
   });
@@ -243,10 +243,10 @@ describe("calcite-sheet", () => {
       await page.setContent(html`<calcite-sheet></calcite-sheet>`);
       await skipAnimations(page);
       sheet = await page.find("calcite-sheet");
-      const openEvent = page.waitForEvent("calciteSheetOpen");
+      const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
       sheet.setProperty("open", true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
     });
 
     it("calls the beforeClose method prior to closing via click", async () => {
@@ -353,25 +353,24 @@ describe("calcite-sheet", () => {
     await skipAnimations(page);
     const sheet = await page.find("calcite-sheet");
 
-    let openEvent = page.waitForEvent("calciteSheetOpen");
+    const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await sheet.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calciteSheetClose");
+    const closeEventSpy = await page.spyOnEvent("calciteSheetClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await sheet.isVisible()).toBe(false);
     expect(await sheet.getProperty("open")).toBe(false);
 
-    openEvent = page.waitForEvent("calciteSheetOpen");
     sheet.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     expect(await sheet.isVisible()).toBe(true);
   });

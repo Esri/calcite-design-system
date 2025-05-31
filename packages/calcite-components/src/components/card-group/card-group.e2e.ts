@@ -90,10 +90,9 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      let selectEvent = page.waitForEvent("calciteCardSelect");
-      card1CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      const selectEventSpy = await page.spyOnEvent("calciteCardSelect");
+      await card1CheckAction.click();
+      await selectEventSpy.next();
 
       expect(await cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -103,10 +102,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -116,10 +113,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -157,10 +152,9 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      let selectEvent = page.waitForEvent("calciteCardSelect");
-      card1CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      const selectEventSpy = await page.spyOnEvent("calciteCardSelect");
+      await card1CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -168,10 +162,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -179,10 +171,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -221,10 +211,9 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await selectedItemAsserter([]);
 
-      let selectEvent = page.waitForEvent("calciteCardSelect");
-      card1CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      const selectEventSpy = await page.spyOnEvent("calciteCardSelect");
+      await card1CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -233,10 +222,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -245,10 +232,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await selectedItemAsserter([card1.id, card2.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card3CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card3CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -257,10 +242,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(3);
       await selectedItemAsserter([card1.id, card2.id, card3.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card1CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card1CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(4);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -269,10 +252,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await selectedItemAsserter([card2.id, card3.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card2CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card2CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(5);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -281,10 +262,8 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card3.id]);
 
-      selectEvent = page.waitForEvent("calciteCardSelect");
-      card3CheckAction.click();
-      await page.waitForChanges();
-      await selectEvent;
+      await card3CheckAction.click();
+      await selectEventSpy.next();
 
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(6);
       expect(await card1.getProperty("selected")).toBe(false);
