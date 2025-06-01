@@ -1034,7 +1034,7 @@ describe("calcite-carousel", () => {
     });
   });
 
-  it.only("item slide animation finishes between paging/selection", async () => {
+  it("item slide animation finishes between paging/selection", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <style>
@@ -1099,7 +1099,7 @@ describe("calcite-carousel", () => {
     expect(animationEndEventSpy).toHaveReceivedEventTimes(8);
   });
 
-  it.only("item slide animation finishes between paging/selection with autoplay", async () => {
+  it("item slide animation finishes between paging/selection with autoplay", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-carousel label="carousel" autoplay autoplay-duration="${customDuration}">
