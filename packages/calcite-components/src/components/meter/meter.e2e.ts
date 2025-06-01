@@ -105,7 +105,6 @@ describe("calcite-meter", () => {
         html: html`<calcite-meter />`,
       });
       const meter = await page.find(`calcite-meter`);
-      await page.waitForChanges();
       expect(await meter.getProperty("min")).toBe(0);
       expect(await meter.getProperty("max")).toBe(100);
       expect(await meter.getProperty("low")).toBe(0);
@@ -118,7 +117,6 @@ describe("calcite-meter", () => {
         html: html`<calcite-meter min="2000" max="10000" />`,
       });
       const meter = await page.find(`calcite-meter`);
-      await page.waitForChanges();
       expect(await meter.getProperty("min")).toBe(2000);
       expect(await meter.getProperty("max")).toBe(10000);
       expect(await meter.getProperty("low")).toBe(2000);
@@ -131,7 +129,6 @@ describe("calcite-meter", () => {
         html: html`<calcite-meter min="10" low="200" high="30" max="25" />`,
       });
       const meter = await page.find(`calcite-meter`);
-      await page.waitForChanges();
       expect(await meter.getProperty("min")).toBe(10);
       expect(await meter.getProperty("max")).toBe(25);
       expect(await meter.getProperty("low")).toBe(10);
@@ -157,7 +154,6 @@ describe("calcite-meter", () => {
         html: html`<calcite-meter value="210" min="10" low="200" high="30" max="25" />`,
       });
       const meter = await page.find(`calcite-meter`);
-      await page.waitForChanges();
       expect(await meter.getProperty("min")).toBe(10);
       expect(await meter.getProperty("max")).toBe(25);
       expect(await meter.getProperty("low")).toBe(10);
@@ -165,10 +161,10 @@ describe("calcite-meter", () => {
       expect(await meter.getProperty("value")).toBe(210);
     });
   });
+
   describe("theme", () => {
     themed(
       html`<calcite-meter
-        class="token-theming"
         group-separator
         unit-label="GB"
         value-label
