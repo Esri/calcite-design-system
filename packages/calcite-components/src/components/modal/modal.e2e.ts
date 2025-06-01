@@ -176,7 +176,6 @@ describe("calcite-modal", () => {
 
       const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
       await closeButton.click();
-      await page.waitForChanges();
 
       expect(mockCallBack).toHaveBeenCalledTimes(1);
       expect(await modal.getProperty("opened")).toBe(false);
@@ -196,6 +195,7 @@ describe("calcite-modal", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+
       expect(mockCallBack).toHaveBeenCalledTimes(1);
       expect(await modal.getProperty("opened")).toBe(false);
     });
@@ -242,6 +242,7 @@ describe("calcite-modal", () => {
         (elm: Modal["el"]) =>
           (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
       );
+      await page.waitForChanges();
 
       modal.setProperty("open", false);
       await page.waitForChanges();
