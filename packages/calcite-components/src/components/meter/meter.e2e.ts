@@ -102,7 +102,7 @@ describe("calcite-meter", () => {
   describe("correctly sets range and value properties", () => {
     it("correctly sets range and value properties if not present", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-meter />`,
+        html: html`<calcite-meter></calcite-meter>`,
       });
       const meter = await page.find(`calcite-meter`);
       expect(await meter.getProperty("min")).toBe(0);
@@ -114,7 +114,7 @@ describe("calcite-meter", () => {
 
     it("correctly sets range and value properties if not present and non-default min / max set", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-meter min="2000" max="10000" />`,
+        html: html`<calcite-meter min="2000" max="10000"></calcite-meter>`,
       });
       const meter = await page.find(`calcite-meter`);
       expect(await meter.getProperty("min")).toBe(2000);
@@ -126,7 +126,7 @@ describe("calcite-meter", () => {
 
     it("correctly adjusts out of range low and high", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-meter min="10" low="200" high="30" max="25" />`,
+        html: html`<calcite-meter min="10" low="200" high="30" max="25"></calcite-meter>`,
       });
       const meter = await page.find(`calcite-meter`);
       expect(await meter.getProperty("min")).toBe(10);
@@ -138,7 +138,7 @@ describe("calcite-meter", () => {
 
     it("correctly adjusts out of range low and high - b", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-meter min="10" low="15" high="5" max="25" />`,
+        html: html`<calcite-meter min="10" low="15" high="5" max="25"></calcite-meter>`,
       });
       const meter = await page.find(`calcite-meter`);
       page.waitForChanges();
@@ -151,7 +151,7 @@ describe("calcite-meter", () => {
 
     it("correctly leaves out of range value", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-meter value="210" min="10" low="200" high="30" max="25" />`,
+        html: html`<calcite-meter value="210" min="10" low="200" high="30" max="25"></calcite-meter>`,
       });
       const meter = await page.find(`calcite-meter`);
       expect(await meter.getProperty("min")).toBe(10);
