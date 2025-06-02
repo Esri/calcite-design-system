@@ -966,7 +966,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-corner-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
@@ -1390,7 +1390,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-corner-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
@@ -19628,13 +19628,13 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "item": "radius",
         "subitem": "sharp",
         "value": "0",
-        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "description": "deprecated, use --calcite-corner-radius-none instead",
         "filePath": "src/tokens/semantic/corner.json",
         "isSource": true,
         "key": "{semantic.corner.radius.sharp}",
         "name": "calcite-semantic-corner-radius-sharp",
         "path": ["semantic", "corner", "radius", "sharp"],
-        "comment": "deprecated, use --calcite-conder-radius-none instead",
+        "comment": "deprecated, use --calcite-corner-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -19648,12 +19648,12 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "deprecated, use --calcite-conder-radius-none instead",
+      "description": "deprecated, use --calcite-corner-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
-      "comment": "deprecated, use --calcite-conder-radius-none instead"
+      "comment": "deprecated, use --calcite-corner-radius-none instead"
     },
     {
       "key": "{semantic.corner.radius.none}",
@@ -25849,13 +25849,13 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
         "item": "radius",
         "subitem": "sharp",
         "value": "0",
-        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "description": "deprecated, use --calcite-corner-radius-none instead",
         "filePath": "src/tokens/semantic/corner.json",
         "isSource": true,
         "key": "{semantic.corner.radius.sharp}",
         "name": "calcite-semantic-corner-radius-sharp",
         "path": ["semantic", "corner", "radius", "sharp"],
-        "comment": "deprecated, use --calcite-conder-radius-none instead",
+        "comment": "deprecated, use --calcite-corner-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -25869,12 +25869,12 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "deprecated, use --calcite-conder-radius-none instead",
+      "description": "deprecated, use --calcite-corner-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
-      "comment": "deprecated, use --calcite-conder-radius-none instead"
+      "comment": "deprecated, use --calcite-corner-radius-none instead"
     },
     {
       "key": "{semantic.corner.radius.none}",
@@ -30446,7 +30446,7 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-corner-radius-none instead
 export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
@@ -30927,7 +30927,7 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** deprecated, use --calcite-conder-radius-none instead */
+/** deprecated, use --calcite-corner-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
@@ -31374,7 +31374,7 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-corner-radius-none instead
 export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
@@ -31549,7 +31549,7 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** deprecated, use --calcite-conder-radius-none instead */
+/** deprecated, use --calcite-corner-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
@@ -56834,13 +56834,13 @@ export default {
             item: "radius",
             subitem: "sharp",
             value: "0",
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             filePath: "src/tokens/semantic/corner.json",
             isSource: true,
             key: "{semantic.corner.radius.sharp}",
             name: "calcite-semantic-corner-radius-sharp",
             path: ["semantic", "corner", "radius", "sharp"],
-            comment: "deprecated, use --calcite-conder-radius-none instead",
+            comment: "deprecated, use --calcite-corner-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
@@ -56854,7 +56854,7 @@ export default {
               type: "dimension",
             },
           },
-          description: "deprecated, use --calcite-conder-radius-none instead",
+          description: "deprecated, use --calcite-corner-radius-none instead",
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
@@ -56863,12 +56863,12 @@ export default {
             attributes: {
               category: "corner",
             },
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             key: "{semantic.corner.radius.sharp}",
           },
           name: "Corner Radius Sharp",
           path: ["semantic", "corner", "radius", "sharp"],
-          comment: "deprecated, use --calcite-conder-radius-none instead",
+          comment: "deprecated, use --calcite-corner-radius-none instead",
         },
         none: {
           key: "{semantic.corner.radius.none}",
@@ -65644,13 +65644,13 @@ export default {
             item: "radius",
             subitem: "sharp",
             value: "0",
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             filePath: "src/tokens/semantic/corner.json",
             isSource: true,
             key: "{semantic.corner.radius.sharp}",
             name: "calcite-semantic-corner-radius-sharp",
             path: ["semantic", "corner", "radius", "sharp"],
-            comment: "deprecated, use --calcite-conder-radius-none instead",
+            comment: "deprecated, use --calcite-corner-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
@@ -65664,7 +65664,7 @@ export default {
               type: "dimension",
             },
           },
-          description: "deprecated, use --calcite-conder-radius-none instead",
+          description: "deprecated, use --calcite-corner-radius-none instead",
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
@@ -65673,12 +65673,12 @@ export default {
             attributes: {
               category: "corner",
             },
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             key: "{semantic.corner.radius.sharp}",
           },
           name: "Corner Radius Sharp",
           path: ["semantic", "corner", "radius", "sharp"],
-          comment: "deprecated, use --calcite-conder-radius-none instead",
+          comment: "deprecated, use --calcite-corner-radius-none instead",
         },
         none: {
           key: "{semantic.corner.radius.none}",
@@ -70659,7 +70659,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-corner-radius-none instead
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;
@@ -71266,7 +71266,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-corner-radius-none instead
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;
