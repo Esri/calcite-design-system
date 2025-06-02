@@ -45,20 +45,13 @@
  * @prop --calcite-table-selection-out-of-view-chip-shadow: The shadow of the component's `selectionMode` selection out of view chip.
  * @prop --calcite-table-selection-out-of-view-chip-text-color: The text color of the component's `selectionMode` selection out of view chip.
 
- * @prop --calcite-table-pagination-arrow-background-color-active: Specifies the background color of the component's `pageSize` pagination arrow items while active.
- * @prop --calcite-table-pagination-arrow-background-color-hover: Specifies the background color of the component's `pageSize` pagination arrow items while hovered.
- * @prop --calcite-table-pagination-arrow-background-color: Specifies the background color of the component's `pageSize` pagination arrow items.
- * @prop --calcite-table-pagination-arrow-icon-color-active: Specifies the icon color of the component's `pageSize` pagination arrow items while active.
- * @prop --calcite-table-pagination-arrow-icon-color-hover: Specifies the icon color of the component's `pageSize` pagination arrow items while hovered.
- * @prop --calcite-table-pagination-arrow-icon-color: Specifies the icon color of the component's `pageSize` pagination arrow items.
- * @prop --calcite-table-pagination-background-color-active: Specifies the background color of the component's `pageSize` pagination items while active.
- * @prop --calcite-table-pagination-background-color-hover: Specifies the background color of the component's `pageSize` pagination items while hovered.
- * @prop --calcite-table-pagination-background-color: Specifies the background color of the component's `pageSize` pagination items.
- * @prop --calcite-table-pagination-border-color-hover: Specifies the border color the pagination items while hovered.
- * @prop --calcite-table-pagination-border-color-selected: Specifies the border color of the component's `pageSize` pagination items when selected.
- * @prop --calcite-table-pagination-text-color-hover: Specifies the text color of the component's `pageSize` pagination items items while hovered.
- * @prop --calcite-table-pagination-text-color-selected: Specifies the text color of the component's `pageSize` pagination items when selected.
- * @prop --calcite-table-pagination-text-color: Specifies the text color of the component's `pageSize` pagination items.
+ * @prop --calcite-table-pagination-color: Specifies the component's `pageSize` pagination item color.
+ * @prop --calcite-table-pagination-color-hover: Specifies the component's `pageSize` pagination item color when hovered or selected.
+ * @prop --calcite-table-pagination-color-border-hover: Specifies the component's `pageSize` pagination item bottom border color when hovered.
+ * @prop --calcite-table-pagination-color-border-active: Specifies the component's `pageSize` pagination item bottom border color when selected.
+ * @prop --calcite-table-pagination-background-color: Specifies the component's `pageSize` pagination item background color when active.
+ * @prop --calcite-table-pagination-icon-color-background-hover: Specifies the component's `pageSize` pagination chevron item background color when hovered.
+
  */
 
 :host([scale="s"]) {
@@ -186,20 +179,13 @@ table {
 calcite-pagination {
   flex: 1;
   justify-content: center;
-  --calcite-pagination-text-color: var(--calcite-table-pagination-text-color);
-  --calcite-pagination-text-color-hover: var(--calcite-table-pagination-text-color-hover);
-  --calcite-pagination-text-color-selected: var(--calcite-table-pagination-text-color-selected);
+
+  --calcite-pagination-color: var(--calcite-table-pagination-color);
+  --calcite-pagination-color-hover: var(--calcite-table-pagination-color-hover);
+  --calcite-pagination-color-border-hover: var(--calcite-table-pagination-color-border-hover);
+  --calcite-pagination-color-border-active: var(--calcite-table-pagination-color-border-active);
   --calcite-pagination-background-color: var(--calcite-table-pagination-background-color);
-  --calcite-pagination-background-color-hover: var(--calcite-table-pagination-background-color-hover);
-  --calcite-pagination-background-color-active: var(--calcite-table-pagination-background-color-active);
-  --calcite-pagination-border-color-selected: var(--calcite-table-pagination-border-color-selected);
-  --calcite-pagination-border-color-hover: var(--calcite-table-pagination-border-color-hover);
-  --calcite-pagination-arrow-icon-color: var(--calcite-table-pagination-arrow-icon-color);
-  --calcite-pagination-arrow-icon-color-hover: var(--calcite-table-pagination-arrow-icon-color-hover);
-  --calcite-pagination-arrow-icon-color-active: var(--calcite-table-pagination-arrow-icon-color-active);
-  --calcite-pagination-arrow-background-color: var(--calcite-table-pagination-arrow-background-color);
-  --calcite-pagination-arrow-background-color-hover: var(--calcite-table-pagination-arrow-background-color-hover);
-  --calcite-pagination-arrow-background-color-active: var(--calcite-table-pagination-arrow-background-color-active);
+  --calcite-pagination-icon-color-background-hover: var(--calcite-table-pagination-icon-color-background-hover);
 }
 
 .dismiss-button {
