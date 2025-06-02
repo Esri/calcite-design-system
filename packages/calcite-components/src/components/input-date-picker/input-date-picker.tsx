@@ -190,12 +190,6 @@ export class InputDatePicker
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Accessible placeholder for the end input component in range format. */
-  @property() endPlaceholder: string;
-
-  /** Accessible placeholder for the start input component in range format. */
-  @property() startPlaceholder: string;
-
   /** Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
@@ -214,12 +208,6 @@ export class InputDatePicker
 
   /** Accessible name for the component. */
   @property() label: string;
-
-  /** Accessible name for the end input component in range format. */
-  @property() endLabel: string;
-
-  /** Accessible name for the start input component in range format. */
-  @property() startLabel: string;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -1115,19 +1103,11 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  label={
-                    this.range
-                      ? (this.startLabel ?? this.messages.startInput)
-                      : (this.label ?? this.messages.inputDate)
-                  }
+                  label={this.range ? this.messages.startDate : this.messages.date}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
-                  placeholder={
-                    this.range
-                      ? (this.startPlaceholder ?? this.messages.startDate)
-                      : (this.localeData?.placeholder ?? this.messages.date)
-                  }
+                  placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.setStartInput}
                   role="combobox"
@@ -1208,11 +1188,11 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
-                    label={this.endLabel ?? this.messages.endInput}
+                    label={this.range ? this.messages.endDate : this.messages.date}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}
-                    placeholder={this.endPlaceholder ?? this.messages.endDate}
+                    placeholder={this.localeData?.placeholder}
                     readOnly={readOnly}
                     ref={this.setEndInput}
                     role="combobox"
