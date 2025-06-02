@@ -120,7 +120,7 @@ export const withActions = (): string => html`
 `;
 
 export const headingLevel = (): string => html`
-  <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" dir="rtl">
+  <calcite-accordion appearance="solid" selection-mode="multiple">
     <calcite-accordion-item heading-level="1" heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
     </calcite-accordion-item>
