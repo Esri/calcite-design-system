@@ -378,17 +378,12 @@ export class InputTimeZone
    * @param open
    * @private
    */
-  private overrideSelectedLabelForRegion(open: boolean): void {
+  private overrideSelectedLabelForRegion(): void {
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
       return;
     }
 
-    const { label, metadata } = this.selectedTimeZoneItem;
-
-    this.comboboxEl.selectedItems[0].textLabel =
-      !metadata.country || open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem);
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -486,6 +481,14 @@ export class InputTimeZone
     return value ? this.normalizer(value) : value;
   }
 
+  private getItemLabel(item: TimeZoneItem): string {
+    const selected = this.selectedTimeZoneItem === item;
+    const { label, metadata } = item;
+    return !this.open && item.metadata.country && selected
+      ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
+      : label;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -556,10 +559,7 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-          const textLabel =
-            !this.open && metadata.country && selected
-              ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
-              : label;
+          const textLabel = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
