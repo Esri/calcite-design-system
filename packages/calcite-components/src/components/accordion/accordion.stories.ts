@@ -119,6 +119,23 @@ export const withActions = (): string => html`
   </calcite-accordion>
 `;
 
+export const headingLevel = (): string => html`
+  <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" dir="rtl">
+    <calcite-accordion-item heading-level="1" heading="Heading" description="Description for item" icon-start="banana">
+      ${accordionItemContent}
+    </calcite-accordion-item>
+    <calcite-accordion-item heading-level="2" heading="Heading" description="Description for item" icon-start="banana">
+      ${accordionItemContent}
+    </calcite-accordion-item>
+    <calcite-accordion-item heading-level="3" heading="Heading" description="Description for item" icon-start="banana">
+      ${accordionItemContent}
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+      ${accordionItemContent}
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
