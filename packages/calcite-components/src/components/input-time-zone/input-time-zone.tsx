@@ -304,7 +304,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -360,7 +359,6 @@ export class InputTimeZone
 
     if (normalized !== value) {
       await this.updateComplete;
-      this.overrideSelectedLabelForRegion(this.open);
     }
   }
 
