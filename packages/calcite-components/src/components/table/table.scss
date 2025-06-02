@@ -7,24 +7,29 @@
  * @prop --calcite-table-corner-radius: The border color of the component.
  * @prop --calcite-table-shadow: The shadow of the component.
 
- * @prop --calcite-table-selection-chip-background-color: The background color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-border-color: The border color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-corner-radius: The corner radius of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-shadow: The shadow of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-text-color: The text color of the component's `selectionMode` selection chip.
- 
  * @prop --calcite-table-number-cell-background-color: The background color of the component's `numbered` cell.
  * @prop --calcite-table-number-cell-text-color: The text color of the component's `numbered` cell.
 
  * @prop --calcite-table-selection-cell-background-color: The background color of the component's `selectionMode` cell.
  * @prop --calcite-table-selection-cell-background-color-selected: The background color of the component's `selectionMode` cell.
-
  * @prop --calcite-table-selection-cell-icon-color: The icon color of the component's `selectionMode` selection icon.
  * @prop --calcite-table-selection-cell-icon-color-selected: The icon color of the component's `selectionMode` selection icon when selected.
 
+ * @prop --calcite-table-selection-chip-background-color: The background color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-border-color: The border color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-corner-radius: The corner radius of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-shadow: The shadow of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-text-color: The text color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-selected-background-color: The background color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-selected-border-color: The border color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-selected-text-color: The text color of the component's `selectionMode` selection chip.
+
+ * @prop --calcite-table-selection-out-of-view-chip-background-color: The background color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-border-color: The border color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-corner-radius: The corner radius of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-icon-color: The icon color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-shadow: The shadow of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-text-color: The text color of the component's `selectionMode` selection out of view chip.
 
  * @prop --calcite-table-selection-dismiss-button-background-color-active: The background color of the component's `selectionMode` selection dismiss chip when active.
  * @prop --calcite-table-selection-dismiss-button-background-color-hover: The background color of the component's `selectionMode` selection dismiss chip when hovered.
@@ -37,13 +42,6 @@
  * @prop --calcite-table-selection-dismiss-button-text-color-active: The shadow of the component's `selectionMode` selection dismiss chip when active.
  * @prop --calcite-table-selection-dismiss-button-text-color-hover: The shadow of the component's `selectionMode` selection dismiss chip when hovered.
  * @prop --calcite-table-selection-dismiss-button-text-color: The shadow of the component's `selectionMode` selection dismiss chip.
-
- * @prop --calcite-table-selection-out-of-view-chip-background-color: The background color of the component's `selectionMode` selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-border-color: The border color of the component's `selectionMode` selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-corner-radius: The corner radius of the component's `selectionMode` selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-icon-color: The icon color of the component's `selectionMode` selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-shadow: The shadow of the component's `selectionMode` selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-text-color: The text color of the component's `selectionMode` selection out of view chip.
 
  * @prop --calcite-table-pagination-color: Specifies the component's `pageSize` pagination item color.
  * @prop --calcite-table-pagination-color-hover: Specifies the component's `pageSize` pagination item color when hovered or selected.

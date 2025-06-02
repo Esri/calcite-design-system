@@ -2800,7 +2800,7 @@ describe("keyboard navigation", () => {
     await expect(rowDeselected()).resolves.toBe(undefined);
   });
 
-  describe("theme", () => {
+  describe("themed table", () => {
     themed(
       html` <calcite-table bordered striped selection-mode="multiple" numbered caption="Theming testing" page-size="3">
         <calcite-action slot="selection-actions" icon="trash"></calcite-action>
@@ -2819,7 +2819,7 @@ describe("keyboard navigation", () => {
           <calcite-table-header heading="Status"></calcite-table-header>
           <calcite-table-header alignment="center" heading="More"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
+        <calcite-table-row selected>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
@@ -2831,7 +2831,7 @@ describe("keyboard navigation", () => {
             <calcite-chip scale="s">Another thing</calcite-chip>
           </calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row>
+        <calcite-table-row selected>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
@@ -2842,7 +2842,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell alignment="center">
             <calcite-chip scale="s">Another thing</calcite-chip>
           </calcite-table-cell> </calcite-table-row
-        ><calcite-table-row>
+        ><calcite-table-row selected>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
@@ -2864,13 +2864,34 @@ describe("keyboard navigation", () => {
       {
         "--calcite-table-border-color": {
           shadowSelector: `.${TABLE_CSS.tableContainer}`,
-          targetProp: "backgroundColor",
+          targetProp: "borderColor",
         },
         "--calcite-table-corner-radius": {
           shadowSelector: `.${TABLE_CSS.tableContainer}`,
           targetProp: "borderRadius",
         },
+        "--calcite-table-shadow": {
+          shadowSelector: `.${TABLE_CSS.tableContainer}`,
+          targetProp: "boxShadow",
+        },
       },
     );
+  });
+
+  describe("themed table cell", () => {
+    themed(html` <calcite-table-cell>cell</calcite-table-cell> `, {
+      "--calcite-table-cell-background-color": {
+        shadowSelector: "td",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-table-cell-text-color": {
+        shadowSelector: "td",
+        targetProp: "color",
+      },
+      "--calcite-table-cell-border-color": {
+        shadowSelector: "td",
+        targetProp: "borderInlineEndColor",
+      },
+    });
   });
 });

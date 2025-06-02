@@ -3,10 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-cell-background: Specifies the background color of the component.
  * @prop --calcite-table-cell-background: [Deprecated] Use `--calcite-table-cell-background-color` instead. Specifies the background color of the component.
  * @prop --calcite-table-cell-background-color: Specifies the background color of the component.
  * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
+ * @prop --calcite-table-cell-text-color: Specifies the text color of the component.
+
  */
 
 /**
@@ -33,7 +34,9 @@
 }
 
 td {
-  @apply text-start align-middle text-color-1 whitespace-normal;
+  @apply text-start align-middle  whitespace-normal;
+  color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
+
   background-color: var(
     --calcite-internal-table-cell-background-color,
     var(--calcite-table-cell-background-color, transparent)
@@ -65,7 +68,7 @@ td.last-cell {
 
 .footer-cell {
   @apply font-medium;
-  color: var(--calcite-color-text-1);
+  color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-table-cell-background-color,
     var(--calcite-table-cell-background, var(--calcite-color-background))
