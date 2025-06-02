@@ -3,8 +3,6 @@
   "date": "Date",
   "dateFormat": "Date Format: {format}",
   "endDate": "End Date",
-  "endInput": "End Input",
   "inputDate": "Input Date",
-  "startDate": "Start Date",
-  "startInput": "Start Input"
+  "startDate": "Start Date"
 }
