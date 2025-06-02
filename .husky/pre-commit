@@ -40,12 +40,11 @@ check_ui_icon_name_consistency() {
 update_t9nmanifest() {
 
   staged_files="$(
-    git diff --cached --name-only --diff-filter=AD | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
+    git diff --cached --name-only --diff-filter=ACD | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
   )"                                               
 
   if [ -n "$staged_files" ]; then
-    echo "Updating t9nmanifest file due to changes in messages.json files."
-    # Run the  script to update the t9nmanifest
+    # Run the script to update the t9nmanifest
     npx tsx ./packages/calcite-components/support/updateT9nManifest.ts || {
     echo "Error: Failed to update T9n manifest."
     exit 1
