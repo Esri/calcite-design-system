@@ -181,7 +181,6 @@
 
 .heading {
   @apply font-medium m-0 p-0;
-  font-size: var(--calcite-font-size);
 }
 
 :host([scale="s"]) .heading {
