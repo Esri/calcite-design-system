@@ -39,7 +39,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { TimeComponent, useTime } from "../../controllers/time/time";
+import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -298,9 +298,9 @@ export class InputTimePicker
     if (changes.has("value")) {
       if (this.hasUpdated) {
         if (!this.time.userChangedValue) {
-          this.time.setValue(this.value);
           this.previousEmittedValue = this.value;
         }
+        this.time.setValue(this.value);
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -496,7 +496,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
     if (this.disabled) {
       return;
     }

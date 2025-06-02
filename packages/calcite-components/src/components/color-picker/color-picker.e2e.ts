@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import {
   findAll,
@@ -13,15 +13,15 @@ import {
   toBeNumber,
 } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getColorFieldDimensions, getSliderWidth } from "./utils";
 import type { ColorPicker } from "./color-picker";
 
-type SpyInstance = MockInstance;
-
 describe("calcite-color-picker", () => {
-  let consoleSpy: SpyInstance;
+  mockConsole();
+
   const defaultMediumWidthInPx = 240;
   const centerColorFieldColor = "#408047";
 
@@ -41,15 +41,6 @@ describe("calcite-color-picker", () => {
   function getScopeCenter(X: number, Y: number): [number, number] {
     return [X + SCOPE_SIZE / 2, Y + SCOPE_SIZE / 2];
   }
-
-  beforeEach(
-    () =>
-      (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-        // hide warning messages during test
-      })),
-  );
-
-  afterEach(() => consoleSpy.mockClear());
 
   describe("should focus scope by default", () => {
     focusable("<calcite-color-picker></calcite-color-picker>", {
@@ -402,8 +393,8 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
-    expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(
       expect.stringMatching(
         new RegExp(
           `\\s*ignoring color value \\(${value}\\) as it is not compatible with the current format \\(${format}\\)\\s*`,
@@ -1086,13 +1077,13 @@ describe("calcite-color-picker", () => {
 
       describe("color gets propagated to support inputs", () => {
         describe("valid color", () => {
-          it("color gets propagated to hex, RGB & HSV inputs", async () => {
+          it("color gets propagated to hex, RGB (rounded) & HSV (rounded) inputs", async () => {
             const page = await newE2EPage();
-            await page.setContent(html`<calcite-color-picker value="#fff000"></calcite-color-picker>`);
+            await page.setContent(html`<calcite-color-picker value="#ff1500"></calcite-color-picker>`);
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe("#fff000");
+            expect(await hexInput.getProperty("value")).toBe("#ff1500");
 
             const [rgbModeButton, hsvModeButton] = await findAll(page, `calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, hInput, sInput, vInput] = await findAll(
@@ -1103,12 +1094,12 @@ describe("calcite-color-picker", () => {
             await rgbModeButton.click();
 
             expect(await rInput.getProperty("value")).toBe("255");
-            expect(await gInput.getProperty("value")).toBe("240");
+            expect(await gInput.getProperty("value")).toBe("21");
             expect(await bInput.getProperty("value")).toBe("0");
 
             await hsvModeButton.click();
 
-            expect(await hInput.getProperty("value")).toBe("56");
+            expect(await hInput.getProperty("value")).toBe("5");
             expect(await sInput.getProperty("value")).toBe("100");
             expect(await vInput.getProperty("value")).toBe("100");
           });
@@ -1615,13 +1606,13 @@ describe("calcite-color-picker", () => {
 
       describe("color gets propagated to support inputs", () => {
         describe("valid color", () => {
-          it("color gets propagated to hex, RGB, HSV", async () => {
+          it("color gets propagated to hex, RGB (rounded), HSV (rounded)", async () => {
             const page = await newE2EPage();
-            await page.setContent(html`<calcite-color-picker alpha-channel value="#fff00000"></calcite-color-picker>`);
+            await page.setContent(html`<calcite-color-picker alpha-channel value="#ff150000"></calcite-color-picker>`);
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
-            expect(await hexInput.getProperty("value")).toBe("#fff00000");
+            expect(await hexInput.getProperty("value")).toBe("#ff150000");
 
             const [rgbModeButton, hsvModeButton] = await findAll(page, `calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await findAll(
@@ -1632,13 +1623,13 @@ describe("calcite-color-picker", () => {
             await rgbModeButton.click();
 
             expect(await rInput.getProperty("value")).toBe("255");
-            expect(await gInput.getProperty("value")).toBe("240");
+            expect(await gInput.getProperty("value")).toBe("21");
             expect(await bInput.getProperty("value")).toBe("0");
             expect(await rgbAInput.getProperty("value")).toBe("0");
 
             await hsvModeButton.click();
 
-            expect(await hInput.getProperty("value")).toBe("56");
+            expect(await hInput.getProperty("value")).toBe("5");
             expect(await sInput.getProperty("value")).toBe("100");
             expect(await vInput.getProperty("value")).toBe("100");
             expect(await hsvAInput.getProperty("value")).toBe("0");

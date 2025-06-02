@@ -2,6 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -180,83 +181,88 @@ describe("calcite-shell", () => {
     expect(contentBottom).not.toBeNull();
   });
 
-  it("sheet embedded in shell slot does not prevent interaction with page content outside slot", async () => {
-    const page = await newE2EPage();
+  describe("embedded", () => {
+    mockConsole();
 
-    await page.setContent(
-      html` <calcite-shell>
-        <calcite-shell-panel slot="panel-start">
-          <calcite-panel heading="Example">
-            <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
+    it("sheet embedded in shell slot does not prevent interaction with page content outside slot", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-shell>
+          <calcite-shell-panel slot="panel-start">
+            <calcite-panel heading="Example">
+              <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel heading="Content">
+            <calcite-shell style="position:relative">
+              <calcite-sheet slot="sheets" open>
+                <calcite-panel heading="Sheet"></calcite-panel>
+              </calcite-sheet>
+            </calcite-shell>
           </calcite-panel>
-        </calcite-shell-panel>
-        <calcite-panel heading="Content">
-          <calcite-shell style="position:relative">
-            <calcite-sheet slot="sheets" open>
-              <calcite-panel heading="Sheet"></calcite-panel>
-            </calcite-sheet>
-          </calcite-shell>
-        </calcite-panel>
-      </calcite-shell>`,
-    );
-    const block = await page.find("calcite-block");
-    block.click();
-    await page.waitForChanges();
-    expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
-  });
+        </calcite-shell>`,
+      );
+      const block = await page.find("calcite-block");
+      block.click();
+      await page.waitForChanges();
+      expect(await block.getProperty("expanded")).toBe(true);
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    });
 
-  it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-shell>
-        <calcite-shell-panel slot="panel-start">
-          <calcite-panel heading="Example">
-            <calcite-block heading="Example" collapsible></calcite-block>
+    it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-shell>
+          <calcite-shell-panel slot="panel-start">
+            <calcite-panel heading="Example">
+              <calcite-block heading="Example" collapsible></calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel heading="Content">
+            <calcite-shell style="position:relative">
+              <calcite-dialog heading="Dialog" slot="dialogs" open modal></calcite-dialog>
+            </calcite-shell>
           </calcite-panel>
-        </calcite-shell-panel>
-        <calcite-panel heading="Content">
-          <calcite-shell style="position:relative">
-            <calcite-dialog heading="Dialog" slot="dialogs" open modal> </calcite-dialog>
-          </calcite-shell>
-        </calcite-panel>
-      </calcite-shell>`,
-    );
-    const block = await page.find("calcite-block");
+        </calcite-shell>`,
+      );
+      const block = await page.find("calcite-block");
 
-    block.click();
-    await page.waitForChanges();
-    expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
-  });
+      block.click();
+      await page.waitForChanges();
+      expect(await block.getProperty("expanded")).toBe(true);
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    });
 
-  it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-shell>
-        <calcite-shell-panel slot="panel-start">
-          <calcite-panel heading="Example">
-            <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
+    it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-shell>
+          <calcite-shell-panel slot="panel-start">
+            <calcite-panel heading="Example">
+              <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel heading="Content">
+            <calcite-shell style="position:relative">
+              <calcite-modal slot="modals" open>
+                <calcite-panel heading="Modal"></calcite-panel>
+              </calcite-modal>
+            </calcite-shell>
           </calcite-panel>
-        </calcite-shell-panel>
-        <calcite-panel heading="Content">
-          <calcite-shell style="position:relative">
-            <calcite-modal slot="modals" open>
-              <calcite-panel heading="Modal"></calcite-panel>
-            </calcite-modal>
-          </calcite-shell>
-        </calcite-panel>
-      </calcite-shell>`,
-    );
-    const block = await page.find("calcite-block");
-    block.click();
-    await page.waitForChanges();
-    expect(await block.getProperty("expanded")).toBe(true);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+        </calcite-shell>`,
+      );
+      const block = await page.find("calcite-block");
+      block.click();
+      await page.waitForChanges();
+      expect(await block.getProperty("expanded")).toBe(true);
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+    });
   });
 
   describe("theme", () => {
     describe("default", () => {
+      mockConsole();
+
       themed(
         html`<calcite-shell>
           <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
