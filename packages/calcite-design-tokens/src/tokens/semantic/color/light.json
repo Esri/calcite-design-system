@@ -45,6 +45,13 @@
           "attributes": {
             "category": "color"
           }
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
         }
       },
       "transparent": {
