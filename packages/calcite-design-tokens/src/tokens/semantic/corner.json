@@ -15,7 +15,7 @@
           "attributes": {
             "category": "corner"
           },
-          "description": "deprecated, use --calcite-conder-radius-none instead"
+          "description": "deprecated, use --calcite-corner-radius-none instead"
         },
         "none": {
           "value": "{core.size.default.none}",
