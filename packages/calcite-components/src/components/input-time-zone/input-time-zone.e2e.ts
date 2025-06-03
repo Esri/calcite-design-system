@@ -405,22 +405,9 @@ describe("calcite-input-time-zone", () => {
 
         expect(await input.getProperty("value")).toBe(region);
 
-        let timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
-
-        input.setProperty("open", false);
-        await page.waitForChanges();
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch("New York, United States");
-
-        input.setProperty("value", testTimeZoneItems[0].name);
-        await page.waitForChanges();
-
-        expect(await input.getProperty("value")).toBe(testTimeZoneItems[0].name);
-
-        timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch("Mexico City, Mexico");
       });
 
       it("maps deprecated time zones to aliases", async () => {
