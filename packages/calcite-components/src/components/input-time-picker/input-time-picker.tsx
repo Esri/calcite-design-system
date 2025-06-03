@@ -125,6 +125,9 @@ export class InputTimePicker
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /**
    * When the component resides in a form,
    * specifies the maximum value.
