@@ -191,6 +191,7 @@ export class TableAdvanced extends LitElement {
   loaded(): void {
     this.tabulator = this.customSlotTableEl
       ? new Tabulator(this.customSlotTableEl, {
+          columns: this.columns || [],
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
         })

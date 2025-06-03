@@ -63,7 +63,7 @@
       <!-- Custom slot -->
       <div class="parent">
         <div class="child title-text">Custom slot</div>
-        <div class="child">
+        <div class="child" style="width: 400px">
           <calcite-table-advanced scale="s" height="100px">
             <table>
               <thead>
@@ -500,6 +500,12 @@
       function triggerClearFilterCustomSlot() {
         tableAdvancedCustomSlot.clearFilter();
       }
+
+      // set frozen columns
+      tableAdvancedCustomSlot.columns = [
+        { title: "name", field: "name", frozen: true },
+        { title: "age", field: "age", frozen: true },
+      ];
     </script>
   </body>
 </html>
