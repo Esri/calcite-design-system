@@ -31,6 +31,10 @@ describe("calcite-accordion-item", () => {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
+      {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -39,6 +43,10 @@ describe("calcite-accordion-item", () => {
       {
         propertyName: "headingLevel",
         value: 2,
+      },
+      {
+        propertyName: "scale",
+        value: "m ",
       },
     ]);
   });

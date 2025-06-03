@@ -119,6 +119,116 @@ export const withActions = (): string => html`
   </calcite-accordion>
 `;
 
+export const headingLevelAllScales = (): string => html`
+  <style>
+    .accordion-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr;
+      grid-column-gap: 20px;
+      grid-row-gap: 0px;
+    }
+  </style>
+  <div class="accordion-grid">
+    <div>
+      <h2>Small</h2>
+      <calcite-accordion appearance="solid" scale="s" selection-mode="multiple">
+        <calcite-accordion-item
+          heading-level="1"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="2"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="3"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+          ${accordionItemContent}
+        </calcite-accordion-item>
+      </calcite-accordion>
+    </div>
+    <div>
+      <h2>Medium</h2>
+      <calcite-accordion appearance="solid" selection-mode="multiple">
+        <calcite-accordion-item
+          heading-level="1"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="2"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="3"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+          ${accordionItemContent}
+        </calcite-accordion-item>
+      </calcite-accordion>
+    </div>
+    <div>
+      <h2>Large</h2>
+      <calcite-accordion appearance="solid" scale="l" selection-mode="multiple">
+        <calcite-accordion-item
+          heading-level="1"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="2"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          heading-level="3"
+          heading="Heading"
+          description="Description for item"
+          icon-start="banana"
+        >
+          ${accordionItemContent}
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
+          ${accordionItemContent}
+        </calcite-accordion-item>
+      </calcite-accordion>
+    </div>
+  </div>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
