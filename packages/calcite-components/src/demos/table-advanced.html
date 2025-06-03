@@ -115,6 +115,8 @@
             </table>
           </calcite-table-advanced>
           <button onclick="triggerScrollToRowCustomSlot()">Scroll To Row</button>
+          <button onclick="triggerSetFilterCustomSlot()">Set filter</button>
+          <button onclick="triggerClearFilterCustomSlot()">Clear filter</button>
         </div>
       </div>
 
@@ -483,6 +485,20 @@
 
       function triggerScrollToRowCustomSlot() {
         tableAdvancedCustomSlot.scrollToRow(2);
+      }
+
+      const customFilterFunctionCustomSlot = (data, filterParams) => {
+        return data.name === filterParams.name;
+      };
+
+      const filterParamsCustomSlot = { name: "Mary Jane" };
+
+      function triggerSetFilterCustomSlot() {
+        tableAdvancedCustomSlot.setFilter(customFilterFunctionCustomSlot, filterParamsCustomSlot);
+      }
+
+      function triggerClearFilterCustomSlot() {
+        tableAdvancedCustomSlot.clearFilter();
       }
     </script>
   </body>
