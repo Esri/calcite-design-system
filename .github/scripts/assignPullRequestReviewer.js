@@ -1,7 +1,7 @@
 // @ts-check
 
 const {
-  teams: { admins },
+  teams: { translationReviewers },
 } = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
@@ -13,10 +13,10 @@ module.exports = async ({ github, context }) => {
     pull_request: { number: pull_number },
   } = payload;
 
-  const adminTeamMembers = (
+  const reviewers = (
     await github.rest.teams.listMembersInOrg({
       org: owner,
-      team_slug: admins,
+      team_slug: translationReviewers,
     })
   ).data.map((member) => member.login);
 
@@ -24,7 +24,7 @@ module.exports = async ({ github, context }) => {
 
   // passes if there was a previous approval from an admin
   reviews.forEach((review) => {
-    if (review.state == "APPROVED" && review?.user?.login && adminTeamMembers.includes(review.user.login)) {
+    if (review.state == "APPROVED" && review?.user?.login && reviewers.includes(review.user.login)) {
       process.exit(0);
     }
   });
@@ -33,6 +33,6 @@ module.exports = async ({ github, context }) => {
     owner,
     repo,
     pull_number,
-    team_reviewers: [admins],
+    team_reviewers: [translationReviewers],
   });
 };
