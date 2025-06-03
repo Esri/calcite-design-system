@@ -17,7 +17,7 @@ import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
-import { activeAttr, CSS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   mockConsole();
@@ -351,17 +351,17 @@ describe("calcite-action-menu", () => {
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe("");
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
     });
 
     it("should handle ArrowDown navigation with disabled/hidden items", async () => {
@@ -390,18 +390,19 @@ describe("calcite-action-menu", () => {
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe("");
-      expect(actions[3].getAttribute(activeAttr)).toBe(null);
+
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[3].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
-      expect(actions[3].getAttribute(activeAttr)).toBe("");
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[3].getProperty("activeDescendant")).toBe(true);
     });
 
     it("should handle ArrowUp navigation", async () => {
@@ -431,17 +432,17 @@ describe("calcite-action-menu", () => {
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe("");
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe("");
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
     });
 
     it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -470,33 +471,32 @@ describe("calcite-action-menu", () => {
 
       expect(await actionMenu.getProperty("open")).toBe(true);
       expect(await trigger.getProperty("active")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
 
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe("");
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("Home");
 
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
-
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
       await page.keyboard.press("End");
 
       await page.waitForChanges();
 
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe("");
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
       await page.keyboard.press("Escape");
 
@@ -528,9 +528,9 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
@@ -562,9 +562,9 @@ describe("calcite-action-menu", () => {
       const clickSpy = await actions[0].spyOnEvent("click");
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
@@ -597,9 +597,9 @@ describe("calcite-action-menu", () => {
       const clickSpy = await actions[0].spyOnEvent("click");
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.$eval("calcite-action", (el: Action["el"]) =>
         // native click is used to close the open menu

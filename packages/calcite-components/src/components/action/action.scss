@@ -196,7 +196,7 @@
   }
 }
 
-:host([data-active]) .button {
+:host([active-descendant]) .button {
   @apply focus-inset;
 }
 
