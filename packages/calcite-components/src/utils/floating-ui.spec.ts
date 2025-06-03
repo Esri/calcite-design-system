@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
-import { waitForAnimationFrame } from "../tests/utils/puppeteer";
+import { waitForAnimationFrame } from "../tests/utils/timing";
 import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
