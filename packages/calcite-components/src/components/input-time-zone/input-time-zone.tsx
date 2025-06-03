@@ -386,13 +386,13 @@ export class InputTimeZone
 
   private onComboboxBeforeClose(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion(false);
+    this.overrideSelectedLabelForRegion();
     this.calciteInputTimeZoneBeforeClose.emit();
   }
 
   private onComboboxBeforeOpen(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion(true);
+    this.overrideSelectedLabelForRegion();
     this.calciteInputTimeZoneBeforeOpen.emit();
   }
 
