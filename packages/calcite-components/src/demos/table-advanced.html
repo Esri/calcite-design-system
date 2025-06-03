@@ -117,6 +117,8 @@
           <button onclick="triggerScrollToRowCustomSlot()">Scroll To Row</button>
           <button onclick="triggerSetFilterCustomSlot()">Set filter</button>
           <button onclick="triggerClearFilterCustomSlot()">Clear filter</button>
+          <button onclick="triggerStyleRowCustomSlot()">Style row</button>
+          <button onclick="triggerStyleCellCustomSlot()">Style cell</button>
         </div>
       </div>
 
@@ -506,6 +508,14 @@
         { title: "name", field: "name", frozen: true },
         { title: "age", field: "age", frozen: true },
       ];
+
+      function triggerStyleRowCustomSlot() {
+        tableAdvancedCustomSlot.styleRow(0, "backgroundColor", "blue");
+      }
+
+      function triggerStyleCellCustomSlot() {
+        tableAdvancedCustomSlot.styleCell(2, "name", "backgroundColor", "blue");
+      }
     </script>
   </body>
 </html>
