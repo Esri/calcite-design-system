@@ -54,7 +54,7 @@ export default defineConfig({
       },
       puppeteerTesting: {
         enabled: !runBrowserTests,
-        waitForChangesDelay: 250,
+        waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
           headless: process.env.HEADLESS === "false" ? false : undefined,
