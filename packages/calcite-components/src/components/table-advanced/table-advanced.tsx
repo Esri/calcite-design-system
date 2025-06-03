@@ -190,7 +190,10 @@ export class TableAdvanced extends LitElement {
 
   loaded(): void {
     this.tabulator = this.customSlotTableEl
-      ? new Tabulator(this.customSlotTableEl, {})
+      ? new Tabulator(this.customSlotTableEl, {
+          height: this.height,
+          placeholder: "No Data Available", // display message to user on empty table
+        })
       : new Tabulator(this.tableEl, {
           data: this.data || [],
           columns: this.setFrozenColumns(this.columns) || [],

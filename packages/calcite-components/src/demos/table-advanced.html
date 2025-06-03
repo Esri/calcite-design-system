@@ -64,7 +64,7 @@
       <div class="parent">
         <div class="child title-text">Custom slot</div>
         <div class="child">
-          <calcite-table-advanced scale="s" height="50px">
+          <calcite-table-advanced scale="s" height="100px">
             <table>
               <thead>
                 <tr>
@@ -114,6 +114,7 @@
               </tbody>
             </table>
           </calcite-table-advanced>
+          <button onclick="triggerScrollToRowCustomSlot()">Scroll To Row</button>
         </div>
       </div>
 
@@ -215,6 +216,7 @@
       var tableAdvanced = document.querySelectorAll("calcite-table-advanced")[0];
       var tableAdvancedColumnGroups = document.querySelectorAll("calcite-table-advanced")[1];
       var tableAdvancedFitToWidth = document.querySelectorAll("calcite-table-advanced")[2];
+      var tableAdvancedCustomSlot = document.querySelectorAll("calcite-table-advanced")[3];
 
       var data = [
         { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
@@ -478,6 +480,10 @@
 
       tableAdvancedFitToWidth.data = dataFitToWidth;
       tableAdvancedFitToWidth.columns = columnsFitToWidth;
+
+      function triggerScrollToRowCustomSlot() {
+        tableAdvancedCustomSlot.scrollToRow(2);
+      }
     </script>
   </body>
 </html>
