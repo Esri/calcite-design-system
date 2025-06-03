@@ -407,7 +407,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("New York, United States");
       });
 
       it("maps deprecated time zones to aliases", async () => {
