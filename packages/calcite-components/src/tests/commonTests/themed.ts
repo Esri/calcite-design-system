@@ -312,6 +312,8 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.down();
       await page.mouse.up();
     }
+
+    await page.waitForChanges();
   } else if (state) {
     try {
       await targetEl[state as Exclude<State, "press">]();

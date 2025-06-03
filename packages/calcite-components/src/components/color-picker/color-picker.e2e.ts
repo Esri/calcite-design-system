@@ -2408,58 +2408,6 @@ describe("calcite-color-picker", () => {
         });
       });
 
-      describe("mouse", () => {
-        const moveByInPx = 2;
-
-        it("should update value when color field scope is moved", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`<calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
-          const colorPicker = await page.find("calcite-color-picker");
-
-          const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
-            page,
-            "calcite-color-picker",
-            `.${CSS.colorFieldScope}`,
-          );
-          const value = await colorPicker.getProperty("value");
-
-          await page.mouse.click(colorFieldScopeX - moveByInPx, colorFieldScopeY);
-          await page.waitForChanges();
-          expect(await colorPicker.getProperty("value")).not.toBe(value);
-        });
-
-        it("should update value when hue scope is moved", async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`<calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
-          const colorPicker = await page.find("calcite-color-picker");
-
-          const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-          const value = await colorPicker.getProperty("value");
-
-          await page.mouse.click(hueScopeX - moveByInPx, hueScopeY);
-          await page.waitForChanges();
-          expect(await colorPicker.getProperty("value")).not.toBe(value);
-        });
-
-        it("should update value when opacity scope is moved", async () => {
-          const page = await newE2EPage();
-          await page.setContent(
-            html`<calcite-color-picker alpha-channel value="${centerColorFieldColor}"></calcite-color-picker>`,
-          );
-          const [opacityScopeX, opacityScopeY] = await getElementXY(
-            page,
-            "calcite-color-picker",
-            `.${CSS.opacityScope}`,
-          );
-          const colorPicker = await page.find("calcite-color-picker");
-          const value = await colorPicker.getProperty("value");
-
-          await page.mouse.click(opacityScopeX - moveByInPx, opacityScopeY);
-          await page.waitForChanges();
-          expect(await colorPicker.getProperty("value")).not.toBe(value);
-        });
-      });
-
       describe("alpha channel", () => {
         it("allows editing alpha value via keyboard", async () => {
           const page = await newE2EPage();
@@ -2484,6 +2432,54 @@ describe("calcite-color-picker", () => {
           await scope.press("ArrowLeft");
           expect(await picker.getProperty("value")).toBe("#fffffffa");
         });
+      });
+    });
+
+    describe("mouse", () => {
+      const moveByInPx = 2;
+
+      it("should update value when color field scope is moved", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html` <calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
+        const colorPicker = await page.find("calcite-color-picker");
+
+        const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
+          page,
+          "calcite-color-picker",
+          `.${CSS.colorFieldScope}`,
+        );
+        const value = await colorPicker.getProperty("value");
+
+        await page.mouse.click(colorFieldScopeX - moveByInPx, colorFieldScopeY);
+        await page.waitForChanges();
+        expect(await colorPicker.getProperty("value")).not.toBe(value);
+      });
+
+      it("should update value when hue scope is moved", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html` <calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
+        const colorPicker = await page.find("calcite-color-picker");
+
+        const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+        const value = await colorPicker.getProperty("value");
+
+        await page.mouse.click(hueScopeX - moveByInPx, hueScopeY);
+        await page.waitForChanges();
+        expect(await colorPicker.getProperty("value")).not.toBe(value);
+      });
+
+      it("should update value when opacity scope is moved", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-color-picker alpha-channel value="${centerColorFieldColor}"></calcite-color-picker>`,
+        );
+        const [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
+        const colorPicker = await page.find("calcite-color-picker");
+        const value = await colorPicker.getProperty("value");
+
+        await page.mouse.click(opacityScopeX - moveByInPx, opacityScopeY);
+        await page.waitForChanges();
+        expect(await colorPicker.getProperty("value")).not.toBe(value);
       });
     });
   });

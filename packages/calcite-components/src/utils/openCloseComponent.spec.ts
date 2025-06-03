@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { waitForAnimationFrame } from "../tests/utils/puppeteer";
+import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import * as openCloseComponent from "./openCloseComponent";
 

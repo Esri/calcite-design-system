@@ -1,15 +1,17 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
+
 describe("global styles", () => {
   describe("animation", () => {
-    const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
+    const snippet = html` <calcite-notice width="half" id="in" class="calcite-animate">
       <div slot="title">Hello world</div>
       <div slot="message">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
-        <pre></pre>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna.
       </div>
     </calcite-notice>`;
+
     const globalClasses = [
       "calcite-animate__in",
       "calcite-animate__in-down",
@@ -17,30 +19,30 @@ describe("global styles", () => {
       "calcite-animate__in-left",
       "calcite-animate__in-right",
       "calcite-animate__in-scale",
-    ];
+    ] as const;
 
     globalClasses.forEach((className) => {
       it(`should support rendering component with ${className} animation`, async () => {
-        const page = await newE2EPage({ html: snippet });
+        const page = await newE2EPage();
+        await page.setContent(snippet);
         const element = await page.find("calcite-notice");
-        await element.setProperty("active", true);
-        await element.classList.add(className);
+        element.classList.add(className);
         await page.waitForChanges();
-        const noticeAnimation = await page.evaluate(() => {
-          const noticeEl = document.querySelector("calcite-notice");
-          if (!noticeEl) {
-            return null;
-          }
-          const { animationName, animationDuration, opacity } = window.getComputedStyle(noticeEl);
+        element.setProperty("active", true);
+        await page.waitForChanges();
+
+        const noticeAnimation = await page.$eval("calcite-notice", (noticeEl) => {
+          const { animationName: name, animationDuration: duration, opacity } = window.getComputedStyle(noticeEl);
           return {
-            name: animationName,
-            duration: animationDuration,
-            opacity: opacity,
+            name,
+            duration,
+            opacity,
           };
         });
-        expect(noticeAnimation?.duration).toEqual("0.15s");
-        expect(noticeAnimation?.name).toEqual(className.slice(className.indexOf("_") + 2));
-        expect(noticeAnimation?.opacity).not.toBe("0");
+
+        expect(noticeAnimation.duration).toEqual("0.15s");
+        expect(noticeAnimation.name).toEqual(className.slice(className.indexOf("_") + 2));
+        expect(noticeAnimation.opacity).not.toBe("0");
       });
     });
 
@@ -60,11 +62,8 @@ describe("global styles", () => {
         `,
       });
       await page.waitForChanges();
-      const eleTransitionDuration = await page.evaluate(() => {
-        const ele = document.querySelector("div");
-        return ele ? window.getComputedStyle(ele).transitionDuration : null;
-      });
-      expect(eleTransitionDuration).toEqual("0s");
+      const elTransitionDuration = await page.$eval("div", (el) => window.getComputedStyle(el).transitionDuration);
+      expect(elTransitionDuration).toEqual("0s");
     });
   });
 
@@ -73,24 +72,18 @@ describe("global styles", () => {
       html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `,
     });
     await page.waitForChanges();
-    await page.$eval("div", (element: any) => {
-      element.style.setProperty("--calcite-duration-factor", 0);
+    await page.$eval("div", (element) => {
+      element.style.setProperty("--calcite-duration-factor", "0");
     });
-    const eleTransitionDuration = await page.evaluate(() => {
-      const ele = document.querySelector("div");
-      return ele ? window.getComputedStyle(ele).transitionDuration : null;
-    });
-    expect(eleTransitionDuration).toEqual("0.15s");
+    const elTransitionDuration = await page.$eval("div", (el) => window.getComputedStyle(el).transitionDuration);
+    expect(elTransitionDuration).toEqual("0.15s");
   });
 
   it("should set animation duration to default value 150ms", async () => {
     const page = await newE2EPage({
       html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `,
     });
-    const eleTransitionDuration = await page.evaluate(() => {
-      const ele = document.querySelector("div");
-      return ele ? window.getComputedStyle(ele).transitionDuration : null;
-    });
-    expect(eleTransitionDuration).toEqual("0.15s");
+    const elTransitionDuration = await page.$eval("div", (el) => window.getComputedStyle(el).transitionDuration);
+    expect(elTransitionDuration).toEqual("0.15s");
   });
 });

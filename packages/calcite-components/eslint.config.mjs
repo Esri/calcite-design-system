@@ -48,6 +48,10 @@ export default tseslint.config(
           property: "findAll",
           message: "Use custom findAll test util for more predictable (non-empty) result usage.",
         },
+        {
+          property: "waitForEvent",
+          message: "Use spyOnEvent and await on its next property instead for more reliable async event handling.",
+        },
       ],
 
       "unused-imports/no-unused-imports": "error",

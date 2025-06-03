@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   accessible,
@@ -297,10 +297,9 @@ describe("calcite-combobox", () => {
         await combobox.press("Escape"); // closes list
         await combobox.press("Escape"); // clears input
 
-        const filterEvent = combobox.waitForEvent("calciteComboboxFilterChange");
+        const filterEventSpy = await combobox.spyOnEvent("calciteComboboxFilterChange");
         await combobox.type(text);
-        await filterEvent;
-        await page.waitForChanges();
+        await filterEventSpy.next();
       }
     });
 
@@ -1003,9 +1002,9 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
     `);
     const element = await page.find("calcite-combobox");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
     await element.click();
-    await openEvent;
+    await openEventSpy.next();
 
     await element.press("p");
     await element.press("i");
@@ -1044,18 +1043,17 @@ describe("calcite-combobox", () => {
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
-          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
           await combobox.click();
-          await firstOpenEvent;
+          await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
 
-          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
           await combobox.click();
-          await secondOpenEvent;
+          await openEventSpy.next();
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("");
@@ -1070,18 +1068,17 @@ describe("calcite-combobox", () => {
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
-          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
           await combobox.click();
-          await firstOpenEvent;
+          await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
 
-          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
           await combobox.click();
-          await secondOpenEvent;
+          await openEventSpy.next();
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
@@ -1099,9 +1096,9 @@ describe("calcite-combobox", () => {
 
           const combobox = await page.find("calcite-combobox");
 
-          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
           await combobox.click();
-          await firstOpenEvent;
+          await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[heading=one]");
           const item2 = await combobox.find("calcite-combobox-item[heading=two]");
@@ -1113,9 +1110,8 @@ describe("calcite-combobox", () => {
           expect(await item2.getProperty("selected")).toBe(false);
           expect(await combobox.getProperty("open")).toBe(false);
 
-          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
           await combobox.click();
-          await secondOpenEvent;
+          await openEventSpy.next();
 
           await item2.click();
           await page.waitForChanges();
@@ -1134,9 +1130,9 @@ describe("calcite-combobox", () => {
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
-          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
           await combobox.click();
-          await openEvent;
+          await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
@@ -1161,9 +1157,9 @@ describe("calcite-combobox", () => {
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
-          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
           await combobox.click();
-          await openEvent;
+          await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
@@ -1189,9 +1185,9 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await combobox.click();
-      await openEvent;
+      await openEventSpy.next();
 
       const item1 = await combobox.find("calcite-combobox-item[value=child1]");
       await item1.click();
@@ -1215,9 +1211,9 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await combobox.click();
-      await openEvent;
+      await openEventSpy.next();
 
       const parent = await combobox.find("calcite-combobox-item[value=parent]");
       const parentItem = await combobox.find("calcite-combobox-item[value=parent] >>> li");
@@ -1246,9 +1242,9 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await combobox.click();
-      await openEvent;
+      await openEventSpy.next();
 
       const item1 = await combobox.find("calcite-combobox-item[value=one]");
       await item1.click();
@@ -1272,20 +1268,17 @@ describe("calcite-combobox", () => {
 
     it("should honor calciteComboboxChipClose", async () => {
       const page = await newE2EPage();
-
       await page.setContent(
         html`<calcite-combobox>
           <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
         </calcite-combobox>`,
       );
-
       const eventSpy = await page.spyOnEvent("calciteComboboxChipClose");
-
       const chip = await page.find("calcite-combobox >>> calcite-chip");
 
       chip.triggerEvent("calciteChipClose");
-
       await page.waitForChanges();
+      await eventSpy.next();
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
@@ -1574,8 +1567,10 @@ describe("calcite-combobox", () => {
       expect(await getDataTestId()).toBe(inputId);
       await assertCaretPosition({ page, componentTag, position: 0 });
 
+      const filterChangeEventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
       await page.keyboard.type("zz");
       await page.waitForChanges();
+      await filterChangeEventSpy.next();
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
@@ -1668,6 +1663,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
+      await skipAnimations(page);
     });
 
     it("should not show the listbox when it receives focus", async () => {
@@ -1690,19 +1686,22 @@ describe("calcite-combobox", () => {
     });
 
     it("tab will close the item group if it’s open", async () => {
-      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEventSpy.next();
       const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
       expect(await floatingUI.isVisible()).toBe(true);
 
+      const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+      await closeEventSpy.next();
       expect(await floatingUI.isVisible()).toBe(false);
     });
 
@@ -1728,30 +1727,39 @@ describe("calcite-combobox", () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      await openEventSpy.next();
       const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+
       expect(firstFocusedGroupItem).toBeTruthy();
     });
 
     it(`Escape closes the dropdown, but remains focused`, async () => {
-      await skipAnimations(page);
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEventSpy.next();
       const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
+
       expect(await floatingUI.isVisible()).toBe(true);
 
+      const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      expect(await floatingUI.isVisible()).toBe(false);
+      await closeEventSpy.next();
 
+      expect(await floatingUI.isVisible()).toBe(false);
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
@@ -1759,15 +1767,18 @@ describe("calcite-combobox", () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
+
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await page.keyboard.press("Space");
       await page.waitForChanges();
+      await openEventSpy.next();
       const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+
       expect(firstFocusedGroupItem).toBeTruthy();
 
-      const visible = await firstFocusedGroupItem.isVisible();
-      expect(visible).toBe(true);
+      expect(await firstFocusedGroupItem.isVisible()).toBe(true);
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
@@ -1995,9 +2006,8 @@ describe("calcite-combobox", () => {
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const two = await page.find("#two");
-      const event = page.waitForEvent("calciteComboboxChange");
       await two.click();
-      await event;
+      await eventSpy.next();
 
       const combobox = await page.find("calcite-combobox");
 
@@ -2022,9 +2032,8 @@ describe("calcite-combobox", () => {
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const two = await page.find("#two");
-      const event = page.waitForEvent("calciteComboboxChange");
       await two.click();
-      await event;
+      await eventSpy.next();
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
       expect((await element.getProperty("selectedItems")).length).toBe(2);
@@ -2057,7 +2066,7 @@ describe("calcite-combobox", () => {
     let element: E2EElement;
     let comboboxItem: E2EElement;
     let itemNestedLi: E2EElement;
-    let closeEvent: Promise<unknown>;
+    let closeEventSpy: EventSpy;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -2085,14 +2094,14 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       itemNestedLi = await page.find("calcite-combobox-item#PineNested >>> li");
-      closeEvent = page.waitForEvent("calciteComboboxClose");
+      closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
     });
 
     it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
-      await closeEvent;
+      await closeEventSpy.next();
       await element.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
     });
@@ -2112,7 +2121,7 @@ describe("calcite-combobox", () => {
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
-      await closeEvent;
+      await closeEventSpy.next();
       await element.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
     });
@@ -2298,9 +2307,9 @@ describe("calcite-combobox", () => {
       expect(items.length).toBe(3);
 
       const item1 = await page.find("calcite-combobox-item[value=one]");
-      const closeEvent = page.waitForEvent("calciteComboboxClose");
+      const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
       await item1.click();
-      await closeEvent;
+      await closeEventSpy.next();
       const label = await page.find("calcite-combobox >>> .label");
       await page.waitForChanges();
       const labelVisible = await label.isVisible();
@@ -2326,9 +2335,9 @@ describe("calcite-combobox", () => {
       expect(chip).toBeNull();
 
       const combobox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await combobox.click();
-      await openEvent;
+      await openEventSpy.next();
 
       const items = await findAll(page, "calcite-combobox-item");
       await items[0].click();
@@ -2548,9 +2557,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html);
       await skipAnimations(page);
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
       await page.click("calcite-combobox");
-      await openEvent;
+      await openEventSpy.next();
 
       const activeItem = await page.find("calcite-combobox-item[active]");
       expect(await activeItem.getProperty("value")).toBe(expectedActiveItemValue);
@@ -2843,9 +2852,9 @@ describe("calcite-combobox", () => {
     `);
 
     const combobox = await page.find("calcite-combobox");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
     await combobox.click();
-    await openEvent;
+    await openEventSpy.next();
 
     await (await combobox.find("calcite-combobox-item[value=Pikachu]")).click();
     await (await combobox.find("calcite-combobox-item[value=Charizard]")).click();
@@ -2854,9 +2863,9 @@ describe("calcite-combobox", () => {
     const chips = await findAll(page, "calcite-combobox >>> calcite-chip");
     expect(chips.length).toBe(3);
 
-    const closeEvent = page.waitForEvent("calciteComboboxClose");
+    const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
     await combobox.press("Tab");
-    await closeEvent;
+    await closeEventSpy.next();
 
     const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
     await close.press(" ");

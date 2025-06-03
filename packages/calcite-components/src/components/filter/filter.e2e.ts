@@ -232,11 +232,11 @@ describe("calcite-filter", () => {
         "regex",
       ]);
 
-      const filterChangeEvent = page.waitForEvent("calciteFilterChange");
+      const filterChangeEventSpy = await page.spyOnEvent("calciteFilterChange");
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("developer");
-      await filterChangeEvent;
+      await filterChangeEventSpy.next();
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
@@ -260,25 +260,25 @@ describe("calcite-filter", () => {
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("volt");
-      await waitForEvent;
+      await waitForEventSpy.next();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["franco"]);
     });
 
     it("should escape regex", async () => {
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("regex()");
-      await waitForEvent;
+      await waitForEventSpy.next();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
     });

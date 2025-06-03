@@ -2,7 +2,7 @@
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { IntrinsicElementsWithProp, skipAnimations } from "../utils/puppeteer";
+import { IntrinsicElementsWithProp, skipAnimations, waitForAnimationFrame } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
@@ -184,6 +184,10 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
+
+    // wait 2 frames to ensure focus has been applied and browser has flushed layout
+    await waitForAnimationFrame(page);
+    await waitForAnimationFrame(page);
 
     await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
 

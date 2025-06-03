@@ -1,7 +1,7 @@
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
-import { GlobalTestProps } from "../utils/puppeteer";
+import { GlobalTestProps, skipAnimations } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup, ComponentTag } from "./interfaces";
 
@@ -24,6 +24,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
   it("is accessible", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
+    await skipAnimations(page);
     await page.addScriptTag({ path: require.resolve("axe-core") });
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 

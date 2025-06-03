@@ -375,17 +375,14 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    const calciteActionMenuOpenEvent = page.waitForEvent("calciteActionMenuOpen");
-
+    const calciteActionMenuOpenEventSpy = await page.spyOnEvent("calciteActionMenuOpen");
     await page.$eval("calcite-action-group", (firstActionGroup: ActionGroup["el"]) => {
       firstActionGroup.menuOpen = true;
       const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
     });
-
-    await calciteActionMenuOpenEvent;
-
     await page.waitForChanges();
+    await calciteActionMenuOpenEventSpy.next();
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
