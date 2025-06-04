@@ -50,6 +50,10 @@ export class ActionBar extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
+  private cancelableResourceController = useCancelableResourceController({
+    autoCancelOnDisconnect: true,
+  });
+
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
@@ -196,6 +200,7 @@ export class ActionBar extends LitElement {
   }
 
   override connectedCallback(): void {
+    this.cancelableResourceController.addResource(this.resize);
     this.updateGroups();
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
