@@ -134,6 +134,43 @@ describe("calcite-input-time-picker", () => {
     });
   });
 
+  it("allows resetting after value is set programmatically, modified via the time-picker then reset", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    await skipAnimations(page);
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    inputTimePicker.setProperty("value", "04:35");
+    await page.waitForChanges();
+
+    await assertDisplayedTime(page, "04:35 AM");
+
+    const openEvent = page.waitForEvent("calciteInputTimePickerOpen");
+    inputTimePicker.setProperty("open", true);
+    await page.waitForChanges();
+    await openEvent;
+
+    const hourUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonHourUp}`);
+    const minuteUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonMinuteUp}`);
+
+    await hourUpEl.click();
+    await minuteUpEl.click();
+
+    const closeEvent = page.waitForEvent("calciteInputTimePickerClose");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await closeEvent;
+
+    expect(await inputTimePicker.getProperty("value")).toBe("05:36");
+    await assertDisplayedTime(page, "05:36 AM");
+
+    inputTimePicker.setProperty("value", "04:35");
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("04:35");
+    await assertDisplayedTime(page, "04:35 AM");
+  });
+
   it("resets to previous value when default event behavior is prevented", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
@@ -1543,8 +1580,9 @@ describe("calcite-input-time-picker", () => {
 
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
+      const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
       await toggleButton.click();
-      await page.waitForChanges();
+      await openEventSpy.next();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
 
@@ -1566,8 +1604,10 @@ describe("calcite-input-time-picker", () => {
 
       expect(await isElementFocused(page, "calcite-time-picker", { shadowed: true })).toBe(true);
 
+      const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+      await closeEventSpy.next();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
@@ -1607,13 +1647,15 @@ describe("calcite-input-time-picker", () => {
 
         expect(await popoverPositionContainer.isVisible()).toBe(false);
 
+        const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
         await toggleButton.click();
-        await page.waitForChanges();
+        await openEventSpy.next();
 
         expect(await popoverPositionContainer.isVisible()).toBe(true);
 
+        const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
         await toggleButton.click();
-        await page.waitForChanges();
+        await closeEventSpy.next();
 
         expect(await popoverPositionContainer.isVisible()).toBe(false);
       });

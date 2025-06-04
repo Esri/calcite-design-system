@@ -1189,7 +1189,7 @@
             }
           },
           "m-bb-090": {
-            "value": "#214155",
+            "value": "#2b465f",
             "type": "color",
             "attributes": {
               "category": "color"
@@ -2071,7 +2071,7 @@
       "high-saturation": {
         "blue": {
           "h-bb-010": {
-            "value": "#c7eaff",
+            "value": "#d6efff",
             "type": "color",
             "attributes": {
               "category": "color"

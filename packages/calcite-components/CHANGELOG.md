@@ -3,36 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.1...@esri/calcite-components@3.3.0-next.2) (2025-05-21)
-
-### Features
-
-- **action:** make actions fill full width of parent ([#12047](https://github.com/Esri/calcite-design-system/issues/12047)) ([680256f](https://github.com/Esri/calcite-design-system/commit/680256f7e99ee16b864c873ce189d8625ffbd92e)), closes [#7438](https://github.com/Esri/calcite-design-system/issues/7438)
-
-## [3.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.0...@esri/calcite-components@3.3.0-next.1) (2025-05-21)
-
-### Features
-
-- make version console message easier to disable ([#12194](https://github.com/Esri/calcite-design-system/issues/12194)) ([f18eac3](https://github.com/Esri/calcite-design-system/commit/f18eac353dbbf65b5c8201c8ccd8e30f5a19cfee)), closes [#10038](https://github.com/Esri/calcite-design-system/issues/10038) [#10038](https://github.com/Esri/calcite-design-system/issues/10038)
-
-## [3.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1-next.1...@esri/calcite-components@3.3.0-next.0) (2025-05-21)
-
-### Features
-
-- **radio-button:** enhance component's interactivity states ([#12169](https://github.com/Esri/calcite-design-system/issues/12169)) ([2cb90b8](https://github.com/Esri/calcite-design-system/commit/2cb90b8441371f90ce8a1d72766fb02bb8e77dec)), closes [#10021](https://github.com/Esri/calcite-design-system/issues/10021)
-
-## [3.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1-next.0...@esri/calcite-components@3.2.1-next.1) (2025-05-20)
+## [3.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0...@esri/calcite-components@3.2.1) (2025-05-29)
 
 ### Bug Fixes
 
-- ensure transition-duration is used in Tailwind utils ([#12167](https://github.com/Esri/calcite-design-system/issues/12167)) ([c8e7c7b](https://github.com/Esri/calcite-design-system/commit/c8e7c7ba04baaf9dd9eb123dd7c4d54ecba0547b)), closes [#12170](https://github.com/Esri/calcite-design-system/issues/12170)
-- **segmented-control:** avoid changing focus from programmatic item selection ([#12181](https://github.com/Esri/calcite-design-system/issues/12181)) ([073f8c0](https://github.com/Esri/calcite-design-system/commit/073f8c0df1295a1795ee3bbb292b8cb641e97c13)), closes [#10595](https://github.com/Esri/calcite-design-system/issues/10595)
-
-## [3.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0-next.60...@esri/calcite-components@3.2.1-next.0) (2025-05-16)
-
-### Bug Fixes
-
-- **input:** do not obscure picker button with type=datetime-local ([#12081](https://github.com/Esri/calcite-design-system/issues/12081)) ([ecb37eb](https://github.com/Esri/calcite-design-system/commit/ecb37eb6a45c5f52f2f9a4972b7b31840011ed31)), closes [#9301](https://github.com/Esri/calcite-design-system/issues/9301)
+- **input-time-picker:** Ensure programmatic value setting updates input display ([#12233](https://github.com/Esri/calcite-design-system/issues/12233)) ([fd69e89](https://github.com/Esri/calcite-design-system/commit/fd69e894dd5be3e0c240cae6ba2d8e3fe0dbb5a2))
+- **list:** Reorder options not shown in nested list drag menus ([#12186](https://github.com/Esri/calcite-design-system/issues/12186)) ([08bfe98](https://github.com/Esri/calcite-design-system/commit/08bfe988fafbfb732486c89e76d6f9cb60d28113))
+- **sheet, shell:** Fix resize handle in RTL direction ([#12205](https://github.com/Esri/calcite-design-system/issues/12205)) ([cc58fc4](https://github.com/Esri/calcite-design-system/commit/cc58fc4e39dcab9885e73c6a3f277ef1f9ae0501))
 
 ## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.1.0...@esri/calcite-components@3.2.0) (2025-05-14)
 
