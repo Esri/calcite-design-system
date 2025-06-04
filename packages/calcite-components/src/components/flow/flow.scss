@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -5,7 +6,6 @@
  *
  * @prop --calcite-flow-background-color: Specifies the component's background color.
  */
-
 :host {
   @extend %component-host;
   @apply relative
@@ -75,4 +75,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

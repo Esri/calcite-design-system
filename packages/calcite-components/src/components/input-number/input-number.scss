@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -25,7 +26,6 @@
  * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
  * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  */
-
 :host {
   @apply block;
 }
@@ -85,7 +85,7 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
 input {
   transition:
@@ -480,7 +480,7 @@ input {
   }
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
-@include input-placeholder-text();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();
+@include includes.input-placeholder-text();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,16 +7,15 @@
  * @prop --calcite-table-row-background: Specifies the background color of the component.
  * @prop --calcite-table-row-border-color: Specifies the border color of the component.
  */
-
 :host {
   --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-color-foreground-1));
   --calcite-internal-table-row-border-color: var(--calcite-table-row-border-color, transparent);
   @apply contents;
 }
 
-@include base-component();
+@include includes.base-component();
 
-@include disabled() {
+@include includes.disabled() {
   tr {
     @apply opacity-disabled pointer-events-none;
   }
@@ -41,4 +41,4 @@ tr.last-visible-row {
   }
 }
 
-@include item-hidden();
+@include includes.item-hidden();

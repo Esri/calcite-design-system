@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   @extend %component-host;
   @apply flex
@@ -62,4 +63,4 @@
   @apply border-color-3;
 }
 
-@include base-component();
+@include includes.base-component();

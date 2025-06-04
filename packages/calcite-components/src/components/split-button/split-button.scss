@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 :host {
   @apply inline-block;
 }
@@ -131,7 +132,7 @@
   }
 }
 
-@include disabled() {
+@include includes.disabled() {
   calcite-dropdown > calcite-button {
     @apply pointer-events-none;
   }
@@ -143,4 +144,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

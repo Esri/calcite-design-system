@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-shell-border-color: Specifies the component's border color.
  * @prop --calcite-shell-tip-spacing: [Deprecated] This component has been deprecated. The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
-
 :host {
   @extend %component-host;
   @apply absolute
@@ -148,4 +148,4 @@ slot[name="modals"]::slotted(calcite-modal) {
   position: absolute;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -9,7 +10,6 @@
  * @prop --calcite-accordion-text-color-hover: Specifies the component's main text color on hover.
  * @prop --calcite-accordion-text-color-press: Specifies the component's main text color when pressed.
 */
-
 :host {
   @apply relative
     block
@@ -51,4 +51,4 @@
   @apply text-0h;
 }
 
-@include base-component();
+@include includes.base-component();

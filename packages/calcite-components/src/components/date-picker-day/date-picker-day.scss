@@ -1,9 +1,12 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 :host {
   @apply cursor-pointer flex relative;
   outline: none;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .day-wrapper {
   @apply flex
@@ -36,21 +39,21 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-day-size: #{$calcite-size-32};
+  --calcite-internal-day-size: #{core.$calcite-size-32};
   .day {
     @apply text-n2;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-day-size: #{$calcite-size-40};
+  --calcite-internal-day-size: #{core.$calcite-size-40};
   .day {
     @apply text-n1;
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-day-size: #{$calcite-size-44};
+  --calcite-internal-day-size: #{core.$calcite-size-44};
 
   .day {
     @apply text-0;
@@ -144,4 +147,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

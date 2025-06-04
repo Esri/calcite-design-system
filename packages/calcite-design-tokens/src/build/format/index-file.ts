@@ -69,7 +69,7 @@ export const formatIndexFile: FormatFn = async (args) => {
 function importUrl(fileName: string, fileExtension: string) {
   const fileBaseName = `${fileName}${fileExtension}`;
 
-  return `@import ${fileExtension === ".css" ? `url("./${fileBaseName}")` : `"./${fileBaseName}"`};`;
+  return fileExtension === ".css" ? `@import url("./${fileBaseName}");` : `@use "./${fileBaseName}";`;
 }
 
 function createVarList(format: Stylesheet, dictionary: Dictionary, args: FormatFnArguments) {
