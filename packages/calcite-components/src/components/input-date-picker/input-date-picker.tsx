@@ -1080,7 +1080,7 @@ export class InputDatePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.localeData && (
           <div class={CSS.container}>
-            <div aria-label={this.label} class={CSS.inputContainer}>
+            <div aria-label={this.label} class={CSS.inputContainer} role="group">
               <div
                 class={CSS.inputWrapper}
                 data-position="start"
