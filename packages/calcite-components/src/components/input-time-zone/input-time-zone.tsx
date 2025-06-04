@@ -356,10 +356,6 @@ export class InputTimeZone
 
     this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
-
-    if (normalized !== value) {
-      await this.updateComplete;
-    }
   }
 
   onLabelClick(): void {
