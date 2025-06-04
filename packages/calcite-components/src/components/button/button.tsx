@@ -179,7 +179,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @property({ reflect: true }) type: "submit" | "reset" | "button" = "button";
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
