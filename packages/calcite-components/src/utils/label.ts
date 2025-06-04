@@ -166,13 +166,7 @@ function sortByDOMOrder(a: LabelableComponent, b: LabelableComponent): number {
  * @param component
  */
 export function getLabelText(component: LabelableComponent): string {
-  return (
-    component.label ||
-    component.labelEl?.textContent?.trim() ||
-    component.el?.getAttribute("label") ||
-    component.el?.getAttribute("aria-label") ||
-    ""
-  );
+  return component.label || component.labelEl?.textContent?.trim() || "";
 }
 
 function onLabelClick(this: Label["el"], event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
