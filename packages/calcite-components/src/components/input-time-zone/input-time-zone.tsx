@@ -356,10 +356,6 @@ export class InputTimeZone
 
     this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
-
-    if (normalized !== value) {
-      await this.updateComplete;
-    }
   }
 
   onLabelClick(): void {
@@ -386,7 +382,6 @@ export class InputTimeZone
 
   private onComboboxBeforeClose(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion();
     this.calciteInputTimeZoneBeforeClose.emit();
   }
 
