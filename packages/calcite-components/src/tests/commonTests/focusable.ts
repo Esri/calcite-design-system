@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import {} from "../utils/puppeteer";
 import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
