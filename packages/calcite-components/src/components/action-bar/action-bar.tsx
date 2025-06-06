@@ -51,9 +51,9 @@ export class ActionBar extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
-  private cancelableResourceController = useCancelableResourceController({
+  private cancelableResourceController = useCancelableResourceController<this>({
     autoCancelOnDisconnect: true,
-  });
+  })(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
