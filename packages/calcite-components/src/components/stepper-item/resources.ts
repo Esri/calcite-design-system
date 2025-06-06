@@ -1,5 +1,6 @@
 export const CSS = {
   container: "container",
+  hasSlottedContent: "has-slotted-content",
   stepperItemContent: "stepper-item-content",
   stepperItemDescription: "stepper-item-description",
   stepperItemHeader: "stepper-item-header",
