@@ -28,7 +28,7 @@ jobs:
       - name: Publish to Chromatic
         if: |
           (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
-        uses: chromaui/action@v11
+        uses: chromaui/action@v12
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
