@@ -578,6 +578,7 @@ export class InputTimePicker
             class={CSS.inputContainer}
             dir="ltr"
             id={CSS.inputContainer}
+            role="group"
           >
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
