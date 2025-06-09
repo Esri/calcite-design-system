@@ -1,4 +1,7 @@
 {
   "chooseDate": "Valitse päivämäärä",
-  "dateFormat": "Päivämäärän muoto: {format}"
+  "date": "Date",
+  "dateFormat": "Päivämäärän muoto: {format}",
+  "endDate": "End Date",
+  "startDate": "Start Date"
 }

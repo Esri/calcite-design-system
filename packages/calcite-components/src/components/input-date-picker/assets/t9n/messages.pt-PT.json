@@ -1,4 +1,7 @@
 {
   "chooseDate": "Selecionar data",
-  "dateFormat": "Formato de data: {format}"
+  "date": "Date",
+  "dateFormat": "Formato de data: {format}",
+  "endDate": "End Date",
+  "startDate": "Start Date"
 }
