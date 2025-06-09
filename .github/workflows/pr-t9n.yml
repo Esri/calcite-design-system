@@ -2,7 +2,7 @@ name: PR T9n
 on:
   pull_request:
     branches:
-      - translations_dev
+      - translations-dev
 permissions:
   pull-requests: write
 jobs:
