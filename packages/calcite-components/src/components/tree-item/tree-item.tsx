@@ -14,6 +14,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -34,7 +35,7 @@ declare global {
  * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
-export class TreeItem extends LitElement implements InteractiveComponent {
+export class TreeItem extends LitElement implements InteractiveComponent, OpenCloseComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -52,6 +53,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   private parentTreeItem?: TreeItem["el"];
 
   private userChangedValue = false;
+
+  transitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   // #endregion
 
@@ -123,6 +128,18 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
 
+  /** Fires when the component is requested to be collapsed and before the closing transition begins. */
+  calciteTreeItemBeforeCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteTreeItemBeforeExpanded = createEvent({ cancelable: false });
+
+  /** Fires when the component is collapsed and animation is complete. */
+  calciteTreeItemCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component is expanded and animation is complete. */
+  calciteTreeItemExpanded = createEvent({ cancelable: false });
+
   // #endregion
 
   // #region Lifecycle
@@ -139,6 +156,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   load(): void {
     requestAnimationFrame(() => (this.updateAfterInitialRender = true));
+    onToggleOpenCloseComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -149,6 +167,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       this.updateChildTree();
+      onToggleOpenCloseComponent(this);
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
@@ -210,6 +229,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   private iconClickHandler(event: MouseEvent): void {
     event.stopPropagation();
     this.expanded = !this.expanded;
+    onToggleOpenCloseComponent(this);
   }
 
   private childrenClickHandler(event: MouseEvent): void {
@@ -232,6 +252,8 @@ export class TreeItem extends LitElement implements InteractiveComponent {
         break;
       case "Enter": {
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
+        onToggleOpenCloseComponent(this);
+
         const link = Array.from(this.el.children).find((el) =>
           el.matches("a"),
         ) as HTMLAnchorElement;
@@ -247,6 +269,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             updateItem: true,
           });
         }
+
         event.preventDefault();
       }
     }
@@ -340,6 +363,26 @@ export class TreeItem extends LitElement implements InteractiveComponent {
         this.depth = this.depth + 1;
       }
     }
+  }
+
+  private setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
+  }
+
+  onBeforeExpanded(): void {
+    this.calciteTreeItemBeforeExpanded.emit();
+  }
+
+  onExpanded(): void {
+    this.calciteTreeItemExpanded.emit();
+  }
+
+  onBeforeCollapsed(): void {
+    this.calciteTreeItemBeforeCollapsed.emit();
+  }
+
+  onCollapsed(): void {
+    this.calciteTreeItemCollapsed.emit();
   }
 
   // #endregion
@@ -485,6 +528,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
+            ref={this.setTransitionEl}
             role={this.hasChildren ? "group" : undefined}
           >
             <slot name={SLOTS.children} onSlotChange={this.handleChildrenSlotChange} />
