@@ -49,5 +49,3 @@ packages\calcite-components\src\components\text-area\assets\t9n
 packages\calcite-components\src\components\time-picker\assets\t9n
 packages\calcite-components\src\components\tip\assets\t9n
 packages\calcite-components\src\components\tip-manager\assets\t9n
-
-

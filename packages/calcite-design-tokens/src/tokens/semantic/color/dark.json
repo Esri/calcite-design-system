@@ -44,6 +44,14 @@
           "type": "color",
           "attributes": {
             "category": "color"
+          },
+          "description": "deprecated, use --calcite-color-foreground-highlight instead"
+        },
+        "highlight": {
+          "value": "{core.color.medium-saturation.blue.m-bb-090}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
           }
         }
       },

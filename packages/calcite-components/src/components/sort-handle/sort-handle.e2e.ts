@@ -69,8 +69,10 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press("Enter");
@@ -99,8 +101,10 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press(" ");
