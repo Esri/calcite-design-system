@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.12...@esri/calcite-components@3.3.0-next.13) (2025-06-10)
+
+### Bug Fixes
+
+- **input-time-picker:** apply aria-label and aria-controls attributes correctly to support NVDA and JAWS ([#12312](https://github.com/Esri/calcite-design-system/issues/12312)) ([45bbfc9](https://github.com/Esri/calcite-design-system/commit/45bbfc9ba51a4c3b77981da6e0f6cd272ba11756)), closes [#12153](https://github.com/Esri/calcite-design-system/issues/12153)
+
 ## [3.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.11...@esri/calcite-components@3.3.0-next.12) (2025-06-10)
 
 ### Bug Fixes
