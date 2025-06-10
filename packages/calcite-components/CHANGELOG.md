@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.11...@esri/calcite-components@3.3.0-next.12) (2025-06-10)
+
+### Bug Fixes
+
+- **input-date-picker:** announces the purpose of each input in the range mode ([#12238](https://github.com/Esri/calcite-design-system/issues/12238)) ([8dc741b](https://github.com/Esri/calcite-design-system/commit/8dc741be1aee2a4a81d5015893de501a076420bd)), closes [#7993](https://github.com/Esri/calcite-design-system/issues/7993)
+
 ## [3.3.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.10...@esri/calcite-components@3.3.0-next.11) (2025-06-10)
 
 ### Features
