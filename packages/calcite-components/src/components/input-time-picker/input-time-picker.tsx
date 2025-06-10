@@ -565,7 +565,7 @@ export class InputTimePicker
       <InteractiveContainer disabled={this.disabled}>
         <div
           aria-controls={CSS.inputContainer}
-          aria-labelledby={CSS.inputContainer}
+          aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
@@ -578,7 +578,7 @@ export class InputTimePicker
             aria-label={getLabelText(this)}
             class={CSS.inputContainer}
             dir="ltr"
-            id={CSS.inputContainer}
+            id={IDS.inputContainer}
             role="group"
           >
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
