@@ -1080,7 +1080,7 @@ export class InputDatePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.localeData && (
           <div class={CSS.container}>
-            <div class={CSS.inputContainer}>
+            <div aria-label={this.label} class={CSS.inputContainer} role="group">
               <div
                 class={CSS.inputWrapper}
                 data-position="start"
@@ -1103,7 +1103,7 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  label={this.label}
+                  label={this.range ? this.messages.startDate : this.messages.date}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
@@ -1188,7 +1188,7 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
-                    label={this.label}
+                    label={this.messages.endDate}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}
