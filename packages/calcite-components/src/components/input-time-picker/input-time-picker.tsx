@@ -565,6 +565,7 @@ export class InputTimePicker
       <InteractiveContainer disabled={this.disabled}>
         <div
           aria-controls={CSS.inputContainer}
+          aria-labelledby={CSS.inputContainer}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
