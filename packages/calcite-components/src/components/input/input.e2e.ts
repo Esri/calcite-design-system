@@ -537,19 +537,19 @@ describe("calcite-input", () => {
 
     it("on input type number, should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
-      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const inputEventSpy = await page.spyOnEvent("calciteInputInput");
       const input = await page.find("calcite-input");
-      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+      expect(inputEventSpy).toHaveReceivedEventTimes(0);
       await input.callMethod("setFocus");
       await page.waitForChanges();
 
       await page.keyboard.down("ArrowUp");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.waitForEvent("calciteInputInput");
+      await inputEventSpy.next();
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
 
-      const totalNudgesUp = calciteInputInput.length;
+      const totalNudgesUp = inputEventSpy.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
@@ -557,7 +557,7 @@ describe("calcite-input", () => {
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
 
-      const totalNudgesDown = calciteInputInput.length - totalNudgesUp;
+      const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });

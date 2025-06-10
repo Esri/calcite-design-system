@@ -1,15 +1,13 @@
 // @ts-strict-ignore
 import { KebabCase } from "type-fest";
+import { LitElement } from "@arcgis/lumina";
 import { whenTransitionDone } from "./dom";
 
 /**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
-export interface OpenCloseComponent {
-  /** The host element. */
-  readonly el: HTMLElement;
-
+export interface OpenCloseComponent extends LitElement {
   /**
    * Specifies property on which active transition is watched for.
    *
@@ -56,29 +54,21 @@ function isOpen(component: OpenCloseComponent): boolean {
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  requestAnimationFrame((): void => {
-    if (!component.transitionEl) {
-      return;
-    }
+export async function onToggleOpenCloseComponent(component: OpenCloseComponent): Promise<void> {
+  if (isOpen(component)) {
+    component.onBeforeOpen();
+  } else {
+    component.onBeforeClose();
+  }
 
-    whenTransitionDone(
-      component.transitionEl,
-      component.transitionProp,
-      () => {
-        if (isOpen(component)) {
-          component.onBeforeOpen();
-        } else {
-          component.onBeforeClose();
-        }
-      },
-      () => {
-        if (isOpen(component)) {
-          component.onOpen();
-        } else {
-          component.onClose();
-        }
-      },
-    );
-  });
+  await component.updateComplete;
+  if (component.transitionEl) {
+    await whenTransitionDone(component.transitionEl, component.transitionProp);
+  }
+
+  if (isOpen(component)) {
+    component.onOpen();
+  } else {
+    component.onClose();
+  }
 }
