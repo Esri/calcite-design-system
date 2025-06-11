@@ -99,7 +99,7 @@
     "lerna": "8.2.2",
     "lint-staged": "15.5.2",
     "markdownlint-cli2": "0.18.1",
-    "postcss": "8.5.3",
+    "postcss": "8.5.4",
     "prettier": "3.5.3",
     "puppeteer": "23.4.1",
     "react": "18.3.1",
