@@ -22,8 +22,8 @@ module.exports = async ({ github, context }) => {
 
   const { data: reviews } = await github.rest.pulls.listReviews({ owner, repo, pull_number });
 
-  // passes if there was a previous approval from an admin
-  reviews.forEach((review) => {
+  // passes if there was a previous approval from translation reviewers
+  reviews.some((review) => {
     if (review.state == "APPROVED" && review?.user?.login && reviewers.includes(review.user.login)) {
       process.exit(0);
     }
