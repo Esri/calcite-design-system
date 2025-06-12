@@ -75,7 +75,7 @@
     "autoprefixer": "10.4.21",
     "axe-core": "4.10.3",
     "change-case": "5.4.4",
-    "cheerio": "1.0.0",
+    "cheerio": "1.1.0",
     "chokidar": "4.0.3",
     "chromatic": "11.29.0",
     "concurrently": "9.1.2",
