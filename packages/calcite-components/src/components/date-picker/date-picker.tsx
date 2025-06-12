@@ -43,8 +43,6 @@ export class DatePicker extends LitElement {
 
   static override styles = styles;
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
   //#endregion
 
   //#region Private Properties
