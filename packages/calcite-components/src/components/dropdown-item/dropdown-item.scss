@@ -5,7 +5,7 @@
  *
  * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
  * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered. 
+ * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered.
  * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
  * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
@@ -48,7 +48,6 @@
 .dropdown-item-icon {
   @apply relative
     opacity-0
-    duration-150
     ease-in-out;
   transform: scale(0.9);
 }

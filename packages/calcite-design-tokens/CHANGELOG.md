@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.1-next.1...@esri/calcite-design-tokens@3.2.0-next.0) (2025-06-10)
+
+### Features
+
+- **tokens:** add foreground-highlight and update referenced core tokens ([#12266](https://github.com/Esri/calcite-design-system/issues/12266)) ([6fdc9d2](https://github.com/Esri/calcite-design-system/commit/6fdc9d2d9ea43c87ae1fded32895145647dfc389)), closes [#10756](https://github.com/Esri/calcite-design-system/issues/10756) [#d6](https://github.com/Esri/calcite-design-system/issues/d6) [#2b465](https://github.com/Esri/calcite-design-system/issues/2b465)
+
+## [3.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.1-next.0...@esri/calcite-design-tokens@3.1.1-next.1) (2025-05-21)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [3.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0-next.8...@esri/calcite-design-tokens@3.1.1-next.0) (2025-05-16)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

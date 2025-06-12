@@ -39,7 +39,7 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { TimeComponent, TimeController } from "../../controllers/time/time";
+import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -95,7 +95,7 @@ export class InputTimePicker
 
   private secondEl: HTMLSpanElement;
 
-  private time = new TimeController(this);
+  private time = useTime(this);
 
   //#endregion
 
@@ -124,6 +124,9 @@ export class InputTimePicker
    * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
+
+  /** Accessible name for the component. */
+  @property() label: string;
 
   /**
    * When the component resides in a form,
@@ -298,9 +301,9 @@ export class InputTimePicker
     if (changes.has("value")) {
       if (this.hasUpdated) {
         if (!this.time.userChangedValue) {
-          this.time.setValue(this.value);
           this.previousEmittedValue = this.value;
         }
+        this.time.setValue(this.value);
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -496,7 +499,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
     if (this.disabled) {
       return;
     }
@@ -559,7 +564,8 @@ export class InputTimePicker
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          aria-label={getLabelText(this)}
+          aria-controls={CSS.inputContainer}
+          aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
@@ -568,7 +574,13 @@ export class InputTimePicker
           role="combobox"
         >
           <calcite-icon class={CSS.clockIcon} icon="clock" scale={scale === "l" ? "m" : "s"} />
-          <div class={CSS.inputContainer} dir="ltr">
+          <div
+            aria-label={getLabelText(this)}
+            class={CSS.inputContainer}
+            dir="ltr"
+            id={IDS.inputContainer}
+            role="group"
+          >
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
               aria-label={this.messages.hour}

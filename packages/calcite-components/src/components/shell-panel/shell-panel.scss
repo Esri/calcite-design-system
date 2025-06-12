@@ -187,8 +187,7 @@
 :host([position="start"][layout="vertical"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    right: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inset-inline-end: var(--calcite-internal-shell-panel-resize-handle-offset);
     block-size: 100%;
   }
 
@@ -208,8 +207,7 @@
 :host([position="end"][layout="vertical"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    left: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inset-inline-start: var(--calcite-internal-shell-panel-resize-handle-offset);
     block-size: 100%;
   }
 
@@ -241,8 +239,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-bottom-right-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-bottom-left-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 
@@ -261,8 +259,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-top-left-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-top-right-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 
