@@ -145,10 +145,10 @@ describe("calcite-input-time-picker", () => {
 
     await assertDisplayedTime(page, "04:35 AM");
 
-    const openEvent = page.waitForEvent("calciteInputTimePickerOpen");
+    const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
     inputTimePicker.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     const hourUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonHourUp}`);
     const minuteUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonMinuteUp}`);
@@ -156,10 +156,10 @@ describe("calcite-input-time-picker", () => {
     await hourUpEl.click();
     await minuteUpEl.click();
 
-    const closeEvent = page.waitForEvent("calciteInputTimePickerClose");
+    const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await inputTimePicker.getProperty("value")).toBe("05:36");
     await assertDisplayedTime(page, "05:36 AM");
