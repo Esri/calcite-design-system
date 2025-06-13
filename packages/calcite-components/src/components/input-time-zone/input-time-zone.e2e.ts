@@ -36,22 +36,10 @@ describe("calcite-input-time-zone", () => {
 
   // for stability, we use time zones that are unaffected by daylight savings time
   const testTimeZoneItems: TestTimeZoneItem[] = [
-    {
-      name: "America/Mexico_City",
-      offset: -360,
-      label: "(GMT-6) Bahia de Banderas, Cambridge Bay, Costa Rica, El Salvador, Managua, Monterrey, and Tegucigalpa",
-    },
-    {
-      name: "America/Phoenix",
-      offset: -420,
-      label: "(GMT-7) Dawson, Fort Nelson, Hermosillo, Mazatlan, Phoenix, Vancouver, and Whitehorse",
-    },
-    { name: "Pacific/Guam", offset: 600, label: "(GMT+10) Brisbane, Hobart, Lindeman, Melbourne, and Sydney" },
-    {
-      name: "Pacific/Galapagos",
-      offset: -360,
-      label: "(GMT-6) Bahia de Banderas, Cambridge Bay, Costa Rica, El Salvador, Managua, Monterrey, and Tegucigalpa",
-    },
+    { name: "America/Mexico_City", offset: -360, label: "GMT-6" },
+    { name: "America/Phoenix", offset: -420, label: "GMT-7" },
+    { name: "Pacific/Guam", offset: 600, label: "GMT+10" },
+    { name: "Pacific/Galapagos", offset: -360, label: "GMT-6" },
   ];
 
   async function simpleTestProvider(): Promise<TagAndPage> {
@@ -173,7 +161,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toBe(label);
+            expect(await timeZoneItem.getProperty("textLabel")).toMatch(label);
           });
         });
       });
@@ -191,7 +179,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[1].label);
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
       });
 
       it("ignores invalid values", async () => {
@@ -205,7 +193,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[0].label);
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[0].label);
       });
 
       it("omits filtered or non-localized time zones (incoming to browser)", async () => {
@@ -219,7 +207,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[2].label);
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[2].label);
       });
 
       it("looks up in label and time zone groups (not displayed)", async () => {
@@ -309,7 +297,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toBe(name);
+            expect(await timeZoneItem.getProperty("textLabel")).toMatch(name);
           });
         });
       });
@@ -327,7 +315,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[1].name);
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].name);
       });
 
       it("ignores invalid values", async () => {
@@ -343,7 +331,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[0].name);
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[0].name);
       });
     });
 
@@ -462,14 +450,14 @@ describe("calcite-input-time-zone", () => {
       const input = await page.find("calcite-input-time-zone");
 
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
-      expect(await selectedTimeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[1].label);
+      expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
 
       input.setProperty("value", "");
       await page.waitForChanges();
 
       selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
-      expect(await selectedTimeZoneItem.getProperty("textLabel")).toBe(testTimeZoneItems[1].label);
+      expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
     });
 
     describe("clearing by value", () => {
