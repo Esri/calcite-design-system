@@ -53,6 +53,10 @@ This rule ensures that calls to `document.createElement()` use string literals t
 
 This rule catches boolean props that are initialized in a way that does not conform to the HTML5 spec.
 
+- [`@esri/calcite-components/button-tab-index-required`](./docs/button-tab-index-required.md)
+
+This rule catches button elements without `tabIndex` attribute.
+
 ## Contributing
 
 We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for an overview of contribution guidelines.
