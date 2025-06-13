@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { centerItemsByBreakpoint, CSS } from "./resources";
 
 const customDuration = 1000;
@@ -69,7 +69,7 @@ describe("calcite-carousel", () => {
   });
 
   describe("translation support", () => {
-    t9n("calcite-combobox");
+    t9n("calcite-carousel");
   });
 
   describe("first render", () => {
@@ -1037,52 +1037,66 @@ describe("calcite-carousel", () => {
   it("item slide animation finishes between paging/selection", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-carousel label="carousel">
-        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
-        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
-      </calcite-carousel>`,
+      html` <style>
+          :root {
+            /* speeds up animations without preventing them from being triggered in test */
+            --calcite-duration-factor: 0.1;
+          }
+        </style>
+        <calcite-carousel label="carousel">
+          <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+          <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+          <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+        </calcite-carousel>`,
     );
 
     const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
-    const animationStartSpy = await container.spyOnEvent("animationstart");
-    const animationEndSpy = await container.spyOnEvent("animationend");
+    const animationStartEventSpy = await container.spyOnEvent("animationstart");
+    const animationEndEventSpy = await container.spyOnEvent("animationend");
     const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
 
     await nextButton.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
     await nextButton.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(2);
-    expect(animationEndSpy).toHaveReceivedEventTimes(2);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(2);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(2);
 
     const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
     await previousButton.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
     await previousButton.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(4);
-    expect(animationEndSpy).toHaveReceivedEventTimes(4);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(4);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(4);
 
     const [item1, item2, item3] = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemIndividual}`);
 
     await item2.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
     await item3.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(6);
-    expect(animationEndSpy).toHaveReceivedEventTimes(6);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(6);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(6);
 
     await item2.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
     await item1.click();
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(8);
-    expect(animationEndSpy).toHaveReceivedEventTimes(8);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(8);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(8);
   });
 
   it("item slide animation finishes between paging/selection with autoplay", async () => {
@@ -1096,53 +1110,47 @@ describe("calcite-carousel", () => {
     );
 
     const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
-    const animationStartSpy = await container.spyOnEvent("animationstart");
-    const animationEndSpy = await container.spyOnEvent("animationend");
+    const animationStartEventSpy = await container.spyOnEvent("animationstart");
+    const animationEndEventSpy = await container.spyOnEvent("animationend");
     const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
 
     await nextButton.click();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(1);
-    expect(animationEndSpy).toHaveReceivedEventTimes(1);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(1);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(1);
 
     const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
     await previousButton.click();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(2);
-    expect(animationEndSpy).toHaveReceivedEventTimes(2);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(2);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(2);
 
     const [item1, item2, item3] = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemIndividual}`);
 
     await item2.click();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(3);
-    expect(animationEndSpy).toHaveReceivedEventTimes(3);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(3);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(3);
 
     await item3.click();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(4);
-    expect(animationEndSpy).toHaveReceivedEventTimes(4);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(4);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(4);
 
     await item1.click();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
-    await page.waitForTimeout(customDuration);
-    await page.waitForChanges();
+    await animationStartEventSpy.next();
+    await animationEndEventSpy.next();
 
-    expect(animationStartSpy).toHaveReceivedEventTimes(5);
-    expect(animationEndSpy).toHaveReceivedEventTimes(5);
+    expect(animationStartEventSpy).toHaveReceivedEventTimes(5);
+    expect(animationEndEventSpy).toHaveReceivedEventTimes(5);
   });
 });
 

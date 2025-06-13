@@ -14,13 +14,7 @@ import { Platform } from "../build/utils/enums.js";
 import { primitiveValueOutputReferences } from "../build/utils/output-references.js";
 
 const commonExpand = {
-  include: ["color"],
   typesMap: {
-    light: "color",
-    dark: "color",
-    fontSizes: "fontSize",
-    lineHeights: "lineHeight",
-    space: "spacing",
     ...sdTypes,
   },
 };

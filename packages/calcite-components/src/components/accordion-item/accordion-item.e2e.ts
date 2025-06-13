@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, themed, focusable, reflects, defaults } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -25,6 +25,32 @@ describe("calcite-accordion-item", () => {
     focusable("calcite-accordion-item");
   });
 
+  describe("defaults", () => {
+    defaults("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "scale",
+        value: "m ",
+      },
+    ]);
+  });
+
   describe("theme", () => {
     describe("default", () => {
       themed(
@@ -34,6 +60,7 @@ describe("calcite-accordion-item", () => {
           description="Description"
           icon-start="home"
           icon-end="home"
+          appearance="solid"
           >content</calcite-accordion-item
         >`,
         {
@@ -44,6 +71,16 @@ describe("calcite-accordion-item", () => {
           "--calcite-accordion-item-header-background-color": {
             targetProp: "backgroundColor",
             shadowSelector: `.${CSS.header}`,
+          },
+          "--calcite-accordion-item-header-background-color-hover": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: "hover",
+          },
+          "--calcite-accordion-item-header-background-color-press": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: { press: `calcite-accordion-item >>> .${CSS.header}` },
           },
           "--calcite-accordion-item-heading-text-color": {
             shadowSelector: `.${CSS.headerContent}`,

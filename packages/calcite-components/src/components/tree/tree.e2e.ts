@@ -1,13 +1,12 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterAll, beforeAll, describe, expect, it, MockInstance, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
-import { findAll, getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
-
-type SpyInstance = MockInstance;
+import { mockConsole } from "../../tests/utils/logging";
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children
@@ -24,6 +23,8 @@ async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
 }
 
 describe("calcite-tree", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-tree", { display: "block" });
   });
@@ -1081,12 +1082,6 @@ describe("calcite-tree", () => {
   });
 
   describe("not throwing if tree doesn't have a parent element on initial render (#5333)", () => {
-    let consoleSpy: SpyInstance;
-
-    beforeAll(() => (consoleSpy = vi.spyOn(console, "error")));
-
-    afterAll(() => consoleSpy.mockRestore());
-
     it("does not throw when tree is the topmost element in a shadow root", async () => {
       const page = await newE2EPage();
       await page.setContent("<test-tree-element></test-tree-element>");
@@ -1107,9 +1102,6 @@ describe("calcite-tree", () => {
         );
       });
       await page.waitForChanges();
-
-      // Stencil swallows the expected error, so we assert on the error message instead
-      expect(consoleSpy).toHaveBeenCalledTimes(0);
     });
   });
 

@@ -2,6 +2,13 @@
  * CSS Custom Properties
  *
  * These properties can be overridden using the component's tag as selector.
+ * @prop --calcite-sheet-background-color: Specifies the background color of the sheet.
+ * @prop --calcite-sheet-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-sheet-shadow: Specifies the shadow of the component.
+ * @prop --calcite-sheet-text-color: Specifies the text color of the component.
+ *
+ * @prop --calcite-sheet-resize-background-color: Specifies the background color of the resize handle.
+ * @prop --calcite-sheet-resize-icon-color: Specifies the text color of the resize handle.
  *
  * @prop --calcite-sheet-scrim-background: Specifies the background color of the sheet scrim.
  * @prop --calcite-sheet-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
@@ -25,7 +32,8 @@
 }
 
 .calcite--rtl {
-  --calcite-scrim-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-inline-start-internal:
+    -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
@@ -34,13 +42,13 @@
 }
 
 .container {
-  @apply text-color-2
-    box-border
+  @apply box-border
     fixed
     flex
     opacity-0
     z-overlay
     invisible;
+  color: var(--calcite-sheet-text-color, var(--calcite-color-text-2));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
@@ -75,7 +83,14 @@
 }
 
 :host([display-mode="float"]) .content {
-  @apply shadow-2-sm;
+  --tw-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16);
+  --tw-shadow-colored: 0 2px 12px -4px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-sheet-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
 }
 
 :host([display-mode="overlay"][position="inline-start"]) .container {
@@ -153,7 +168,7 @@
 
 .content {
   @apply flex relative box-border p-0 z-modal max-h-full max-w-full;
-  background-color: theme("colors.background.foreground.1");
+  background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
   max-block-size: 100%;
   visibility: hidden;
   transition:
@@ -174,11 +189,11 @@
 :host([display-mode="float"]) .content,
 :host([display-mode="float"]) .container,
 :host([display-mode="float"]) .content-container {
-  @apply rounded;
+  border-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
 }
 
 :host([display-mode="float"]) .container {
-  @apply p-3;
+  padding: var(--calcite-spacing-md);
 }
 
 .container--open {
@@ -251,19 +266,21 @@
   --calcite-internal-sheet-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
-  z-index: var(--calcite-z-index-overlay);
+  z-index: var(--calcite-z-index-header);
 }
 
 .resize-handle:active,
 .resize-handle:hover {
   .resize-handle-bar {
-    @apply text-color-1 bg-foreground-3;
+    color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-text-1));
+    background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-foreground-3));
   }
 }
 
 .resize-handle-bar {
-  @apply flex bg-background justify-center items-center pointer-events-none;
-  color: var(--calcite-color-border-input);
+  @apply flex justify-center items-center pointer-events-none;
+  color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-background));
 }
 
 .resize-handle:focus .resize-handle-bar {
@@ -273,34 +290,35 @@
 :host([position="inline-start"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    right: var(--calcite-internal-sheet-resize-handle-offset);
+    inset-inline-end: var(--calcite-internal-sheet-resize-handle-offset);
     block-size: 100%;
   }
 
   .resize-handle-bar {
     block-size: 100%;
     inline-size: var(--calcite-size-fixed-sm-plus);
-    border-inline-start: 1px solid var(--calcite-color-border-3);
+    border-inline-start: var(--calcite-border-width-sm) solid
+      var(--calcite-sheet-border-color, var(--calcite-color-border-3));
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
-    @apply rounded-e;
+    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 
 :host([position="inline-end"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    left: var(--calcite-internal-sheet-resize-handle-offset);
+    inset-inline-start: var(--calcite-internal-sheet-resize-handle-offset);
     block-size: 100%;
   }
 
   .resize-handle-bar {
     block-size: 100%;
     inline-size: var(--calcite-size-fixed-sm-plus);
-    border-inline-end: 1px solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid
+      var(--calcite-sheet-border-color, var(--calcite-color-border-3));
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
@@ -318,7 +336,8 @@
   .resize-handle-bar {
     inline-size: 100%;
     block-size: var(--calcite-size-fixed-sm-plus);
-    border-block-start: 1px solid var(--calcite-color-border-3);
+    border-block-start: var(--calcite-border-width-sm) solid
+      var(--calcite-sheet-border-color, var(--calcite-color-border-3));
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
@@ -336,11 +355,13 @@
   .resize-handle-bar {
     inline-size: 100%;
     block-size: var(--calcite-size-fixed-sm-plus);
-    border-block-end: 1px solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid
+      var(--calcite-sheet-border-color, var(--calcite-color-border-3));
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
-    @apply rounded-t;
+    border-start-start-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 

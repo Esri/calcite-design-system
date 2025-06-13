@@ -40,7 +40,15 @@
           }
         },
         "current": {
-          "value": "#214155",
+          "value": "{core.color.medium-saturation.blue.m-bb-090}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          },
+          "description": "deprecated, use --calcite-color-foreground-highlight instead"
+        },
+        "highlight": {
+          "value": "{core.color.medium-saturation.blue.m-bb-090}",
           "type": "color",
           "attributes": {
             "category": "color"
@@ -57,14 +65,30 @@
             }
           },
           "hover": {
-            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.4})",
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "press": {
-            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.8})",
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          }
+        },
+        "inverse": {
+          "hover": {
+            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          },
+          "press": {
+            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
             "type": "color",
             "attributes": {
               "category": "color"
@@ -165,21 +189,21 @@
         },
         "warning": {
           "default": {
-            "value": "{core.color.dark.yellow.d-yy-420}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "hover": {
-            "value": "{core.color.vibrant.yellow.v-yy-140}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-120}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "press": {
-            "value": "{core.color.vibrant.yellow.v-yy-160}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-140}",
             "type": "color",
             "category": "color"
           }
@@ -248,6 +272,13 @@
         },
         "3": {
           "value": "{core.color.neutral.blk-090}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
           "type": "color",
           "attributes": {
             "category": "color"

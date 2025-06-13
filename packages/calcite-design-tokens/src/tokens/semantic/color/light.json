@@ -44,6 +44,14 @@
           "type": "color",
           "attributes": {
             "category": "color"
+          },
+          "description": "deprecated, use --calcite-color-foreground-highlight instead"
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
           }
         }
       },
@@ -65,6 +73,22 @@
           },
           "press": {
             "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          }
+        },
+        "inverse": {
+          "hover": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
+            "type": "color",
+            "attributes": {
+              "category": "color"
+            }
+          },
+          "press": {
+            "value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
             "type": "color",
             "attributes": {
               "category": "color"
@@ -167,21 +191,21 @@
         },
         "warning": {
           "default": {
-            "value": "{core.color.high-saturation.yellow.h-yy-060}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "hover": {
-            "value": "{core.color.high-saturation.yellow.h-yy-070}",
+            "value": "{core.color.vibrant.orange-yellow.v-oy-180}",
             "type": "color",
             "attributes": {
               "category": "color"
             }
           },
           "press": {
-            "value": "{core.color.high-saturation.yellow.h-yy-080}",
+            "value": "{core.color.high-saturation.orange-yellow.h-oy-080}",
             "type": "color",
             "attributes": {
               "category": "color"
@@ -252,6 +276,13 @@
         },
         "3": {
           "value": "{core.color.neutral.blk-140}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-080}",
           "type": "color",
           "attributes": {
             "category": "color"

@@ -1,9 +1,9 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
-import { getElementXY, getFocusedElementProp } from "../../tests/utils";
+import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedLocales } from "../../utils/locale";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -1223,6 +1223,8 @@ describe("calcite-time-picker", () => {
       }
       const localeHourFormat = getLocaleHourFormat(locale);
       describe(`${locale} (${localeHourFormat}-hour)`, () => {
+        const step = 0.001;
+
         describe(`hour-format="user"`, () => {
           it(`displays initial localized value in the locale's preferred hour format`, async () => {
             const initialDelocalizedValue = "14:02:30.001";
@@ -1230,24 +1232,25 @@ describe("calcite-time-picker", () => {
             await page.setContent(html`
               <calcite-time-picker
                 lang="${locale}"
-                step=".001"
+                step="${step}"
                 value="${initialDelocalizedValue}"
               ></calcite-time-picker>
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
-              localizedMeridiem: expectedLocalizedMeridiem,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
+              meridiem: expectedLocalizedMeridiem,
             } = localizeTimeStringToParts({
               value: initialDelocalizedValue,
               locale,
+              step,
             });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -1290,25 +1293,26 @@ describe("calcite-time-picker", () => {
               <calcite-time-picker
                 hour-format="12"
                 lang="${locale}"
-                step=".001"
+                step="${step}"
                 value="${initialDelocalizedValue}"
               ></calcite-time-picker>
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
-              localizedMeridiem: expectedLocalizedMeridiem,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
+              meridiem: expectedLocalizedMeridiem,
             } = localizeTimeStringToParts({
               hour12: true,
               value: initialDelocalizedValue,
               locale,
+              step,
             });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -1373,24 +1377,25 @@ describe("calcite-time-picker", () => {
               <calcite-time-picker
                 hour-format="24"
                 lang="${locale}"
-                step=".001"
+                step="${step}"
                 value="${initialDelocalizedValue}"
               ></calcite-time-picker>
             `);
 
             const {
-              localizedHour: expectedLocalizedHour,
-              localizedHourSuffix: expectedLocalizedHourSuffix,
-              localizedMinute: expectedLocalizedMinute,
-              localizedMinuteSuffix: expectedLocalizedMinuteSuffix,
-              localizedSecond: expectedLocalizedSecond,
-              localizedSecondSuffix: expectedLocalizedSecondSuffix,
-              localizedDecimalSeparator: expectedLocalizedDecimalSeparator,
-              localizedFractionalSecond: expectedLocalizedFractionalSecond,
+              hour: expectedLocalizedHour,
+              hourSuffix: expectedLocalizedHourSuffix,
+              minute: expectedLocalizedMinute,
+              minuteSuffix: expectedLocalizedMinuteSuffix,
+              second: expectedLocalizedSecond,
+              secondSuffix: expectedLocalizedSecondSuffix,
+              decimalSeparator: expectedLocalizedDecimalSeparator,
+              fractionalSecond: expectedLocalizedFractionalSecond,
             } = localizeTimeStringToParts({
               hour12: false,
               value: initialDelocalizedValue,
               locale,
+              step,
             });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -1447,6 +1452,62 @@ describe("calcite-time-picker", () => {
           });
         });
       });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-time-picker></calcite-time-picker>`, {
+        "--calcite-time-picker-background-color": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-corner-radius": {
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-button-background-color-hover": {
+          targetProp: "backgroundColor",
+          state: "hover",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-time-picker-button-background-color-press": {
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.button } },
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-time-picker-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        "--calcite-time-picker-icon-color": {
+          targetProp: "color",
+          shadowSelector: "calcite-icon",
+        },
+        "--calcite-time-picker-input-border-color-hover": {
+          targetProp: "boxShadow",
+          state: "hover",
+          shadowSelector: `.${CSS.input}`,
+        },
+      });
+    });
+
+    describe("hour input focused", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-time-picker></calcite-time-picker>`);
+          const timePickerHour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+          await timePickerHour.focus();
+          return { page, tag: "calcite-time-picker" };
+        },
+        {
+          "--calcite-time-picker-input-border-color-press": {
+            targetProp: "boxShadow",
+            shadowSelector: `.${CSS.hour}`,
+          },
+        },
+      );
     });
   });
 });

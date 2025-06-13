@@ -11,7 +11,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -25,6 +25,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -52,13 +53,13 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl: HTMLElement;
 
@@ -66,9 +67,16 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionBar = false;
 
@@ -98,9 +106,9 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   @state() showHeaderContent = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -136,6 +144,12 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -152,13 +166,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -170,9 +177,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -198,9 +205,9 @@ export class Panel extends LitElement implements InteractiveComponent {
     focusFirstTabbable(this.containerEl);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: false });
@@ -211,9 +218,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Fires when the collapse button is clicked. */
   calcitePanelToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -246,9 +253,10 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private resizeHandler(): void {
     const { panelScrollEl } = this;
 
@@ -387,12 +395,17 @@ export class Panel extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent } = this;
+    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+
+    const iconNode = icon ? (
+      <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />
+    ) : null;
+
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
         {heading}
@@ -402,9 +415,15 @@ export class Panel extends LitElement implements InteractiveComponent {
     const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
 
     return !hasHeaderContent && (headingNode || descriptionNode) ? (
-      <div class={CSS.headerContent} key="header-content">
-        {headingNode}
-        {descriptionNode}
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        key="header-content"
+      >
+        {iconNode}
+        <div class={CSS.headingTextContent}>
+          {headingNode}
+          {descriptionNode}
+        </div>
       </div>
     ) : null;
   }
@@ -523,6 +542,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         placement={menuPlacement}
       >
         <calcite-action
+          class={CSS.menuAction}
           icon={ICONS.menu}
           scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
@@ -669,5 +689,5 @@ export class Panel extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

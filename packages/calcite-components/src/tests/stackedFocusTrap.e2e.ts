@@ -3,9 +3,13 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";
 import { IDS } from "../components/panel/resources";
-import { skipAnimations } from "./utils";
+import { CSS } from "../components/input-time-picker/resources";
+import { skipAnimations, waitForAnimationFrame } from "./utils/puppeteer";
+import { mockConsole } from "./utils/logging";
 
 describe("stacked focus-trap components", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-sheet id="sheet">
       <calcite-panel>
@@ -59,26 +63,31 @@ describe("stacked focus-trap components", () => {
     await page.setContent(componentStack);
     await skipAnimations(page);
 
-    async function testStackEscapeSequence(page: E2EPage, pickerType: string): Promise<void> {
+    async function testStackEscapeSequence(
+      page: E2EPage,
+      pickerType: "calcite-input-date-picker" | "calcite-input-time-picker",
+    ): Promise<void> {
       async function openAndCheckVisibility(element: E2EElement): Promise<void> {
         const elTagNameCamelCased = camelCase(element.tagName);
-        const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+        const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
         element.setProperty("open", true);
         await page.waitForChanges();
-        await openEvent;
+        await openEventSpy.next();
       }
 
       async function testEscapeAndAssertOpenState(focusTrapOrderElements: E2EElement[]): Promise<void> {
         for (let i = 0; i < focusTrapOrderElements.length; i++) {
           const elTagNameCamelCased = camelCase(focusTrapOrderElements[i].tagName);
-          const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+          const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
 
           const activeElementId = await page.evaluate(() => document.activeElement?.id);
 
           // 'input-time-picker', 'input-date-picker' retain focus after pressing esc
           if (activeElementId) {
             if (activeElementId === "input-time-picker") {
+              await page.keyboard.press("Tab");
+              await page.keyboard.press("Tab");
               await page.keyboard.press("Tab");
             } else if (activeElementId === "input-date-picker") {
               await page.keyboard.down("Shift");
@@ -98,7 +107,7 @@ describe("stacked focus-trap components", () => {
 
           await page.keyboard.press("Escape");
           await page.waitForChanges();
-          await closeEvent;
+          await closeEventSpy.next();
 
           expect(await focusTrapOrderElements[i].getProperty("open")).toBe(false);
 
@@ -114,7 +123,7 @@ describe("stacked focus-trap components", () => {
       const firstModal = await page.find("#example-modal");
       const secondModal = await page.find("#another-modal");
       const popover = await page.find("#popover");
-      const inputPicker = await page.find(pickerType);
+      const inputTimeOrDatePicker = await page.find(pickerType);
 
       await openAndCheckVisibility(sheet);
       await openAndCheckVisibility(dialog);
@@ -122,9 +131,17 @@ describe("stacked focus-trap components", () => {
       await openAndCheckVisibility(secondModal);
       await openAndCheckVisibility(popover);
 
-      await inputPicker.click();
+      const clickTarget =
+        pickerType === "calcite-input-time-picker"
+          ? await page.find(`calcite-input-time-picker >>> .${CSS.toggleIcon}`)
+          : inputTimeOrDatePicker;
+      await clickTarget.click();
+      await page.waitForChanges();
+      // intentional double wait waitForAnimationFrame to ensure focus shift
+      await waitForAnimationFrame(page);
+      await waitForAnimationFrame(page);
 
-      await testEscapeAndAssertOpenState([inputPicker, popover, secondModal, firstModal, dialog, sheet]);
+      await testEscapeAndAssertOpenState([inputTimeOrDatePicker, popover, secondModal, firstModal, dialog, sheet]);
     }
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");
@@ -133,6 +150,8 @@ describe("stacked focus-trap components", () => {
 });
 
 describe("returning focus after deactivation", () => {
+  mockConsole();
+
   const componentStack = html`
     <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
       <p>The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
@@ -152,16 +171,15 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
-    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
     dialog.press("Escape");
-    await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     const activeElementId = await page.evaluate(() => document.activeElement?.id);
     expect(activeElementId).toBe(openButton.id);
@@ -178,17 +196,16 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
-    const closeEvent = page.waitForEvent(`${elTagNameCamelCased}Close`);
+    const closeEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Close`);
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${IDS.close}`);
     await closeButton.click();
-    await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     const activeElementId = await page.evaluate(() => document.activeElement?.id);
     expect(activeElementId).toBe(openButton.id);
@@ -205,11 +222,11 @@ describe("returning focus after deactivation", () => {
 
     const dialog = await page.find("#dialog");
     const elTagNameCamelCased = camelCase(dialog.tagName);
-    const openEvent = page.waitForEvent(`${elTagNameCamelCased}Open`);
+    const openEventSpy = await page.spyOnEvent(`${elTagNameCamelCased}Open`);
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     const outsideButton = await page.find("#other-button");
     await outsideButton.click();

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-accordion", () => {
@@ -98,6 +98,7 @@ describe("calcite-accordion", () => {
     const accordionItems = await findAll(page, "calcite-accordion-item");
 
     for (const item of accordionItems) {
+      expect(await item.getProperty("appearance")).toBe("solid");
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
       expect(await item.getProperty("scale")).toBe("l");

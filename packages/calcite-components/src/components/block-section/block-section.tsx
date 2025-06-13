@@ -20,13 +20,24 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class BlockSection extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is expanded to show child components. */
   @property({ reflect: true }) expanded = false;
@@ -44,13 +55,6 @@ export class BlockSection extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, expands the component and its contents.
    *
    * @deprecated Use `expanded` prop instead.
@@ -59,7 +63,6 @@ export class BlockSection extends LitElement {
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -88,9 +91,9 @@ export class BlockSection extends LitElement {
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first tabbable element. */
   @method()
@@ -99,16 +102,16 @@ export class BlockSection extends LitElement {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleHeaderKeyDown(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
@@ -123,9 +126,9 @@ export class BlockSection extends LitElement {
     this.calciteBlockSectionToggle.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
@@ -141,8 +144,10 @@ export class BlockSection extends LitElement {
     ) : null;
   }
 
-  private renderIcon(icon: string): JsxNode {
-    const { iconFlipRtl } = this;
+  private renderIcon(position: "start" | "end"): JsxNode {
+    const { iconFlipRtl, iconStart, iconEnd } = this;
+
+    const icon = position === "start" ? iconStart : iconEnd;
 
     if (icon === undefined) {
       return null;
@@ -150,16 +155,15 @@ export class BlockSection extends LitElement {
 
     const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
     const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
-
-    const isIconStart = icon === this.iconStart;
+    const isIconStart = position === "start";
 
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
         class={isIconStart ? CSS.iconStart : CSS.iconEnd}
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
-        icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? this.iconStart : this.iconEnd}
+        icon={isIconStart ? iconStart : iconEnd}
+        key={isIconStart ? iconStart : iconEnd}
         scale="s"
       />
     );
@@ -192,12 +196,12 @@ export class BlockSection extends LitElement {
             tabIndex={0}
             title={toggleLabel}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
 
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
             <calcite-switch
               checked={expanded}
@@ -224,9 +228,9 @@ export class BlockSection extends LitElement {
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <span class={CSS.sectionHeaderText}>{text}</span>
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
           </button>
@@ -248,5 +252,5 @@ export class BlockSection extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

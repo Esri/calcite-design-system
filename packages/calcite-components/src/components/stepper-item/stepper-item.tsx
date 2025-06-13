@@ -9,6 +9,7 @@ import {
   method,
   JsxNode,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import {
@@ -28,6 +29,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
+import { slotChangeHasContent } from "../../utils/dom";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -40,13 +42,13 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class StepperItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private headerEl = createRef<HTMLDivElement>();
 
@@ -59,9 +61,22 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   /** the latest requested item position */
   private selectedPosition: number;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region State Properties
+
+  @state() stepperItemHasContent: boolean;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the step has been completed. */
   @property({ reflect: true }) complete = false;
@@ -106,13 +121,6 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
@@ -132,9 +140,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -144,9 +152,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
     (this.layout === "vertical" ? this.el : this.headerEl.value)?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalStepperItemKeyEvent = createEvent<StepperItemKeyEventDetail>({
@@ -162,9 +170,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   /** Fires when the active `calcite-stepper-item` changes. */
   calciteStepperItemSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -210,9 +218,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabindex", this.disabled || this.layout === "horizontal" ? null : 0);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private selectedHandler(): void {
     if (this.selected) {
@@ -310,9 +318,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
     ).indexOf(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -346,8 +354,15 @@ export class StepperItem extends LitElement implements InteractiveComponent {
               <span class={CSS.stepperItemDescription}>{this.description}</span>
             </div>
           </div>
-          <div class={CSS.stepperItemContent}>
-            <slot />
+          <div
+            class={{
+              [CSS.stepperItemContent]: true,
+              [CSS.hasSlottedContent]: this.stepperItemHasContent,
+            }}
+          >
+            <slot
+              onSlotChange={(event) => (this.stepperItemHasContent = slotChangeHasContent(event))}
+            />
           </div>
         </div>
       </InteractiveContainer>
@@ -379,5 +394,5 @@ export class StepperItem extends LitElement implements InteractiveComponent {
     return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
   }
 
-  // #endregion
+  //#endregion
 }

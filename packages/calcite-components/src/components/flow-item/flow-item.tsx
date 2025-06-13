@@ -15,6 +15,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -42,21 +43,28 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class FlowItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private backButtonEl: Action["el"];
 
   private containerEl: Panel["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
   @property() beforeBack: () => Promise<void>;
@@ -95,6 +103,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -103,13 +117,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -133,9 +140,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @property() showBackButton = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -172,9 +179,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the back button is clicked. */
   calciteFlowItemBack = createEvent();
@@ -191,9 +198,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -209,9 +216,10 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
       return;
@@ -253,9 +261,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     this.containerEl = node;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBackButton(): JsxNode {
     const { el } = this;
@@ -297,6 +305,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
       messages,
       overlayPositioning,
       beforeClose,
+      icon,
+      iconFlipRtl,
     } = this;
     return (
       <InteractiveContainer disabled={disabled}>
@@ -311,6 +321,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
+          icon={icon}
+          iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}
@@ -341,5 +353,5 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

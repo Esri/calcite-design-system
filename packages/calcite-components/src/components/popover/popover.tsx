@@ -53,13 +53,13 @@ const manager = new PopoverManager();
 
 /** @slot - A slot for adding custom content. */
 export class Popover extends LitElement implements FloatingUIComponent, OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private arrowEl: SVGSVGElement;
 
@@ -96,17 +96,24 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
   @state() referenceEl: ReferenceElement;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
@@ -150,13 +157,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Offsets the position of the popover away from the `referenceElement`.
    *
    * @default 6
@@ -185,7 +185,13 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   * The `referenceElement` used to position the component according to its `placement` value.
+   *
+   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   *
+   * However, a string `id` of the reference element can also be used.
+   *
+   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    *
    * @required
    */
@@ -201,9 +207,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    */
   @property({ reflect: true }) triggerDisabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -255,9 +261,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calcitePopoverBeforeClose = createEvent({ cancelable: false });
@@ -271,9 +277,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   /** Fires when the component is open and animation is complete. */
   calcitePopoverOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -327,9 +333,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
@@ -472,9 +478,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.reposition(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderCloseButton(): JsxNode {
     const { messages, closable } = this;
@@ -556,5 +562,5 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     );
   }
 
-  // #endregion
+  //#endregion
 }

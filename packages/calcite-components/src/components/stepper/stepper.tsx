@@ -28,13 +28,13 @@ declare global {
 
 /** @slot - A slot for adding `calcite-stepper-item` elements. */
 export class Stepper extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl: HTMLDivElement;
 
@@ -51,15 +51,22 @@ export class Stepper extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() currentActivePosition: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) icon = false;
@@ -69,13 +76,6 @@ export class Stepper extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) numbered = false;
@@ -93,9 +93,9 @@ export class Stepper extends LitElement {
    */
   @property() selectedItem: StepperItem["el"] = null;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Set the last `calcite-stepper-item` as active. */
   @method()
@@ -159,9 +159,9 @@ export class Stepper extends LitElement {
     this.updateStep(enabledStepIndex);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
@@ -182,9 +182,9 @@ export class Stepper extends LitElement {
    */
   calciteStepperItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -244,9 +244,10 @@ export class Stepper extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = event.detail.item;
     const itemToFocus = event.target as StepperItem["el"];
@@ -331,8 +332,7 @@ export class Stepper extends LitElement {
     const { items, currentActivePosition } = this;
 
     let newIndex = startIndex;
-
-    while (items[newIndex]?.disabled && this.layout !== "horizontal-single") {
+    while (newIndex >= 0 && newIndex < items.length && items[newIndex]?.disabled) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
@@ -401,9 +401,9 @@ export class Stepper extends LitElement {
     this.setStepperItemNumberingSystem();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -442,8 +442,10 @@ export class Stepper extends LitElement {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
     const { currentActivePosition, multipleViewMode, layout } = this;
-    const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
+    const offset = isPositionStart ? -1 : 1;
+    const direction = isPositionStart ? "previous" : "next";
+    const disabled = this.getEnabledStepIndex(currentActivePosition + offset, direction) === null;
 
     return layout === "horizontal-single" && !multipleViewMode ? (
       <calcite-action
@@ -454,10 +456,7 @@ export class Stepper extends LitElement {
         }}
         compact={true}
         data-position={position}
-        disabled={
-          (currentActivePosition === 0 && isPositionStart) ||
-          (currentActivePosition === totalItems - 1 && !isPositionStart)
-        }
+        disabled={disabled}
         icon={path}
         iconFlipRtl={true}
         id={id}
@@ -468,5 +467,5 @@ export class Stepper extends LitElement {
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }

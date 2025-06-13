@@ -38,7 +38,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListDisplayMode } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -58,17 +58,19 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 export class List extends LitElement implements InteractiveComponent, SortableComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   dragSelector = listItemSelector;
 
   filterEl: Filter["el"];
+
+  defaultSlotEl: HTMLSlotElement;
 
   private focusableItems: ListItem["el"][] = [];
 
@@ -152,9 +154,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willPerformFilter: boolean = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string;
 
@@ -186,9 +195,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
@@ -276,13 +285,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
    * Specifies the nesting behavior of `calcite-list-item`s, where
    *
    * `"flat"` displays `calcite-list-item`s in a uniform list, and
@@ -326,9 +328,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Emits a `calciteListMoveHalt` event.
@@ -357,9 +359,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
@@ -380,15 +382,15 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /** Fires when the component's item order changes. */
-  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
-
   /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
-  // #endregion
+  /** Fires when the component's item order changes. */
+  calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
-  // #region Lifecycle
+  //#endregion
+
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -465,9 +467,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     disconnectSortableComponent(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleListItemChange(): void {
     this.willPerformFilter = true;
@@ -611,10 +613,14 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private setUpSorting(): void {
-    const { dragEnabled } = this;
+    const { dragEnabled, defaultSlotEl } = this;
 
     if (!dragEnabled) {
       return;
+    }
+
+    if (defaultSlotEl) {
+      updateListItemChildren(defaultSlotEl);
     }
 
     connectSortableComponent(this);
@@ -630,10 +636,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
-  }
-
-  onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.expanded = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
@@ -652,8 +654,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
-    updateListItemChildren(event.target as HTMLSlotElement);
+  private handleDefaultSlotChange(): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
@@ -810,6 +811,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     filterEl.value = filterText;
     filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
+  }
+
+  private setDefaultSlotEl(el: HTMLSlotElement): void {
+    this.defaultSlotEl = el;
   }
 
   private setFilterEl(el: Filter["el"]): void {
@@ -1057,9 +1062,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1125,7 +1130,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
-              <slot onSlotChange={this.handleDefaultSlotChange} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>
           <div
@@ -1179,5 +1184,5 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }

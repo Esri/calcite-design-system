@@ -7,10 +7,11 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
+import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
@@ -72,6 +73,16 @@ export class AccordionItem extends LitElement {
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /**
+   * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
+   *
+   * @private
+   */
+  @property() appearance: Extract<"solid" | "transparent", Appearance>;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
@@ -93,7 +104,7 @@ export class AccordionItem extends LitElement {
    *
    * @private
    */
-  @property() scale: Scale;
+  @property({ reflect: true }) scale: Scale;
 
   // #endregion
 
@@ -184,6 +195,7 @@ export class AccordionItem extends LitElement {
       return;
     }
 
+    this.appearance = closestAccordionParent.appearance;
     this.iconPosition = closestAccordionParent.iconPosition;
     this.iconType = closestAccordionParent.iconType;
     this.scale = closestAccordionParent.scale;
@@ -255,7 +267,7 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl } = this;
+    const { iconFlipRtl, heading, headingLevel } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -283,7 +295,13 @@ export class AccordionItem extends LitElement {
           [`icon-type--${this.iconType}`]: true,
         }}
       >
-        <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{
+            [CSS.header]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [`header--${this.appearance}`]: true,
+          }}
+        >
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}
@@ -298,7 +316,9 @@ export class AccordionItem extends LitElement {
             <div class={CSS.headerContainer}>
               {iconStartEl}
               <div class={CSS.headerText}>
-                <span class={CSS.heading}>{this.heading}</span>
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}

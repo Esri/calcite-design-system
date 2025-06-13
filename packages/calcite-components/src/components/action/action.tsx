@@ -10,7 +10,7 @@ import {
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale } from "../interfaces";
+import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -29,13 +29,13 @@ declare global {
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 export class Action extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = `calcite-action-${guid()}`;
 
@@ -47,12 +47,25 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
+
+  /**
+   * When `true`, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
@@ -95,15 +108,15 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /**
-   * Made into a prop for testing purposes only
+   * When `full`, the component's width spans all its parent's available space
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale = "m";
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**
    * Specifies text that accompanies the icon.
@@ -115,9 +128,9 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -126,9 +139,9 @@ export class Action extends LitElement implements InteractiveComponent {
     this.buttonEl.value?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -142,9 +155,9 @@ export class Action extends LitElement implements InteractiveComponent {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = (event.target as HTMLSlotElement)
@@ -160,9 +173,9 @@ export class Action extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderTextContainer(): JsxNode {
     const { text, textEnabled } = this;
@@ -313,5 +326,5 @@ export class Action extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }
