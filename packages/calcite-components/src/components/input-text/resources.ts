@@ -1,5 +1,6 @@
 export const CSS = {
   loader: "loader",
+  clearable: "clearable",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
