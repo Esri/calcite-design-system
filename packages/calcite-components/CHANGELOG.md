@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.12...@esri/calcite-components@3.3.0-next.13) (2025-06-10)
+
+### Bug Fixes
+
+- **input-time-picker:** apply aria-label and aria-controls attributes correctly to support NVDA and JAWS ([#12312](https://github.com/Esri/calcite-design-system/issues/12312)) ([45bbfc9](https://github.com/Esri/calcite-design-system/commit/45bbfc9ba51a4c3b77981da6e0f6cd272ba11756)), closes [#12153](https://github.com/Esri/calcite-design-system/issues/12153)
+
+## [3.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.11...@esri/calcite-components@3.3.0-next.12) (2025-06-10)
+
+### Bug Fixes
+
+- **input-date-picker:** announces the purpose of each input in the range mode ([#12238](https://github.com/Esri/calcite-design-system/issues/12238)) ([8dc741b](https://github.com/Esri/calcite-design-system/commit/8dc741be1aee2a4a81d5015893de501a076420bd)), closes [#7993](https://github.com/Esri/calcite-design-system/issues/7993)
+
+## [3.3.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.10...@esri/calcite-components@3.3.0-next.11) (2025-06-10)
+
+### Features
+
+- **accordion-item:** add headingLevel property ([#12240](https://github.com/Esri/calcite-design-system/issues/12240)) ([21b9907](https://github.com/Esri/calcite-design-system/commit/21b9907f0e0904dc706124bd84ba14f3bc81a781)), closes [#10705](https://github.com/Esri/calcite-design-system/issues/10705)
+
+### Bug Fixes
+
+- **accordion-item:** fix font size for headingLevel property ([#12269](https://github.com/Esri/calcite-design-system/issues/12269)) ([85fc683](https://github.com/Esri/calcite-design-system/commit/85fc68348c7e2169ab0a37380cb71d964494eeaf)), closes [#10705](https://github.com/Esri/calcite-design-system/issues/10705)
+- **color-picker:** ensure channel values are rounded ([#12239](https://github.com/Esri/calcite-design-system/issues/12239)) ([baea22b](https://github.com/Esri/calcite-design-system/commit/baea22b1e0e479f92ccdd061161da937238b7ec0)), closes [#12227](https://github.com/Esri/calcite-design-system/issues/12227) [/github.com/Esri/calcite-design-system/pull/592/files#diff-406257c24372573bea6f61d161e358c1f9f33be0c23530546c53618a2342a0f2R927](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/592/files/issues/diff-406257c24372573bea6f61d161e358c1f9f33be0c23530546c53618a2342a0f2R927)
+- emit `beforeOpen` and `beforeClose` immediately on toggle ([#11965](https://github.com/Esri/calcite-design-system/issues/11965)) ([25643b4](https://github.com/Esri/calcite-design-system/commit/25643b464626ea47a6effcb1f55c5f246b1a719f)), closes [#10703](https://github.com/Esri/calcite-design-system/issues/10703)
+- **input-time-picker:** add label property ([#12276](https://github.com/Esri/calcite-design-system/issues/12276)) ([2674737](https://github.com/Esri/calcite-design-system/commit/2674737d154b258ffc0f4cc90afbb29019d29c00)), closes [#12153](https://github.com/Esri/calcite-design-system/issues/12153)
+- **input-time-zone:** display 'city, country' when control closed and value set programatically ([#12252](https://github.com/Esri/calcite-design-system/issues/12252)) ([ebc527f](https://github.com/Esri/calcite-design-system/commit/ebc527fc15e2ee8c09838effc9ad27f9478d999f)), closes [#10980](https://github.com/Esri/calcite-design-system/issues/10980)
+- **stepper-item:** remove margin when slotted content is empty ([#12298](https://github.com/Esri/calcite-design-system/issues/12298)) ([5e39773](https://github.com/Esri/calcite-design-system/commit/5e39773f6fad631b9315b7b09d9fe9305426c3d8)), closes [#10717](https://github.com/Esri/calcite-design-system/issues/10717)
+
 ## [3.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.0...@esri/calcite-components@3.2.1) (2025-05-29)
 
 ### Bug Fixes
