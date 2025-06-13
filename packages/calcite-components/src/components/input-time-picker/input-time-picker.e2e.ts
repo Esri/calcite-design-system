@@ -1613,8 +1613,6 @@ describe("calcite-input-time-picker", () => {
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
 
       expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
     });
