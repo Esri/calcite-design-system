@@ -38,6 +38,11 @@
 
   &:host([kind="brand"]) {
     --calcite-internal-chip-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-hover-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-active-border-color: var(
+      --calcite-chip-border-color,
+      var(--calcite-color-brand)
+    );
   }
 
   &:host([kind="inverse"]) {
@@ -56,6 +61,8 @@
 }
 :host([appearance="solid"]) {
   --calcite-internal-chip-border-color: transparent;
+  --calcite-internal-chip-selectable-hover-border-color: transparent;
+  --calcite-internal-chip-selectable-active-border-color: transparent;
 
   &:host([kind="brand"]),
   &:host([kind="inverse"]) {
