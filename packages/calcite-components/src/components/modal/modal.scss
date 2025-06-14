@@ -1,3 +1,8 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../assets/styles/animation";
+@use "../../assets/styles/spacing";
+
 /**
  * CSS Custom Properties
  *
@@ -10,12 +15,11 @@
  * @prop --calcite-modal-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
  *
  */
-
 $viewport-small: 480px;
 $viewport-medium: 860px;
 
 :host {
-  --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
+  --calcite-modal-scrim-background: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
 }
 
 :host {
@@ -23,9 +27,9 @@ $viewport-medium: 860px;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
   // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
+  --calcite-modal-scrim-background-internal: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
 }
 
 .content-top[hidden],
@@ -45,7 +49,7 @@ $viewport-medium: 860px;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 :host([scale="s"]) {
@@ -91,9 +95,9 @@ $viewport-medium: 860px;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:
-    transform var(--calcite-internal-animation-timing-slow) $easing-function,
+    transform var(--calcite-internal-animation-timing-slow) animation.$easing-function,
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   --calcite-modal-hidden-position: translate3d(0, 20px, 0);
   --calcite-modal-shown-position: translate3d(0, 0, 0);
@@ -130,11 +134,11 @@ $viewport-medium: 860px;
   .modal {
     @apply pointer-events-auto visible opacity-100;
     transition:
-      transform var(--calcite-internal-animation-timing-slow) $easing-function,
+      transform var(--calcite-internal-animation-timing-slow) animation.$easing-function,
       visibility 0ms linear,
-      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;
+      opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      max-inline-size var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      max-block-size var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
 }
@@ -189,7 +193,7 @@ $viewport-medium: 860px;
   padding-inline: var(--calcite-modal-padding-large-internal);
 }
 
-@include slotted("header", "*") {
+@include includes.slotted("header", "*") {
   @apply text-color-1 m-0 font-normal;
   font-size: var(--calcite-modal-title-text-internal);
 }
@@ -228,7 +232,7 @@ $viewport-medium: 860px;
   @apply rounded-b;
 }
 
-@include slotted("content", "*") {
+@include includes.slotted("content", "*") {
   font-size: var(--calcite-modal-context-text-internal);
 }
 
@@ -281,7 +285,7 @@ slot[name="primary"] {
     block-size: var(--calcite-modal-height, auto);
   }
 
-  @media screen and (max-width: $width + 2 * $baseline) {
+  @media screen and (max-width: $width + 2 * spacing.$baseline) {
     :host([width-scale="#{$size}"]) {
       .modal {
         @apply m-0 h-full max-h-full w-full max-w-full;
@@ -383,7 +387,7 @@ slot[name="primary"] {
  * Tablet
  */
 @media screen and (max-width: $viewport-medium) {
-  @include slotted("header", "content-top", "*") {
+  @include includes.slotted("header", "content-top", "*") {
     @apply text-1;
   }
   .footer,
@@ -406,4 +410,4 @@ slot[name="primary"] {
   }
 }
 
-@include base-component();
+@include includes.base-component();

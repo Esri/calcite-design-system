@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-table-header-background: Specifies the background color of the component.
  * @prop --calcite-table-header-border-color: Specifies the border color of the component.
  */
-
 :host {
   --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-color-foreground-2));
   --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));

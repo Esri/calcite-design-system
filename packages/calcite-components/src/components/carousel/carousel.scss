@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
   * Local props
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
@@ -16,7 +17,6 @@
   * --calcite-internal-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay`.
   *
 */
-
 :host {
   @apply flex w-full;
   --calcite-internal-internal-carousel-item-space: 1.5rem;
@@ -270,6 +270,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();

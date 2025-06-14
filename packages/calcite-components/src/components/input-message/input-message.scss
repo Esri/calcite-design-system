@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -7,7 +8,6 @@
  * @prop --calcite-input-message-spacing: Specifies the margin spacing at the top of the component.
  * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
-
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
 
@@ -50,4 +50,4 @@
   @apply text-n1h;
 }
 
-@include base-component();
+@include includes.base-component();

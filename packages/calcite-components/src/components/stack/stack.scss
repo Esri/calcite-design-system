@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-stack-padding-inline: Specifies the inline padding of the component's content.
  * @prop --calcite-stack-padding-block: Specifies the block padding of the component's content.
  */
-
 :host {
   @apply flex flex-col flex-1;
 }
@@ -69,4 +69,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

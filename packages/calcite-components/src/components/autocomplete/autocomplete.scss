@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 /**
  * CSS Custom Properties
  *
@@ -35,7 +38,6 @@
  * @prop --calcite-autocomplete-input-suffix-background-color:  Specifies the background color of the Input's suffix, when present.
  * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
  */
-
 :host {
   @apply relative
     block;
@@ -80,7 +82,7 @@
   --calcite-input-suffix-text-color: var(--calcite-autocomplete-input-suffix-text-color);
 }
 
-@include disabled();
+@include includes.disabled();
 
 .content-container {
   @apply w-full
@@ -89,10 +91,10 @@
 
 .floating-ui-container {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".floating-ui-container");
+@include floating-ui.floating-ui-elem-anim(".floating-ui-container");
 
 .content-container .calcite-floating-ui-anim {
   @apply max-h-menu
@@ -117,6 +119,6 @@
   @apply sr-only;
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();

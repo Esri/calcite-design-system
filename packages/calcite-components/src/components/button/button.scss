@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,7 +12,6 @@
  * @prop --calcite-button-shadow-color: Specifies the component's box-shadow color.
  * @prop --calcite-button-text-color: Specifies the component's text color.
  */
-
 :host {
   @apply inline-block w-auto align-middle;
 
@@ -212,7 +212,7 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
 @keyframes loader-in {
   0% {
@@ -818,4 +818,4 @@
   --calcite-internal-button-padding-x: theme("padding.11");
 }
 
-@include base-component();
+@include includes.base-component();
