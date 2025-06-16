@@ -40,6 +40,7 @@ import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
 import { TimeComponent, useTime } from "../../controllers/useTime";
+import { useValue } from "../../controllers/useValue";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -96,6 +97,8 @@ export class InputTimePicker
   private secondEl: HTMLSpanElement;
 
   private time = useTime(this);
+
+  private _value = useValue(this);
 
   //#endregion
 
