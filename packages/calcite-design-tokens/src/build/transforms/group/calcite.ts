@@ -20,6 +20,7 @@ export const platformTransforms = {
     TransformAttributePlatformNames,
     TransformAttributeSchema,
     "ts/color/css/hexrgba",
+    "ts/shadow/innerShadow",
     "shadow/css/shorthand",
   ],
   [Platform.es6]: [
