@@ -45,10 +45,12 @@ export const useCancelableResourceController = <T extends LitElement>(options?: 
 }): ReturnType<typeof makeGenericController<UseCancelableResourceController, T>> => {
   const { autoCancelOnDisconnect = true } = options || {};
 
-  return makeGenericController<UseCancelableResourceController, T>((_, controller) => {
+  return makeGenericController<UseCancelableResourceController, T>((component, controller) => {
+    const args = { component, controller };
+    const { controller: adaptedController } = args;
     const resources = new Set<CancelableResource>();
 
-    controller.onDisconnected(() => {
+    adaptedController.onDisconnected(() => {
       if (autoCancelOnDisconnect) {
         utils.cancelAllResources();
       }

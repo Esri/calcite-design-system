@@ -55,7 +55,7 @@ export class ActionBar extends LitElement {
     autoCancelOnDisconnect: true,
   })(this);
 
-  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
+  resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
