@@ -129,6 +129,11 @@ const config: Config = {
             imports: ["semantic", "classes"],
           },
         },
+        {
+          destination: "component.css",
+          format: formats.FormatComponent,
+          filter: filters.FilterLightOrDarkColorTokens,
+        },
       ],
       expand: {
         ...commonExpand,
