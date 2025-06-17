@@ -27,15 +27,15 @@ const config: Config = {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-internal-color-focus)",
+          outline: "var(--calcite-border-width-md) solid var(--calcite-internal-color-focus)",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-internal-color-focus)",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-internal-color-focus)",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-internal-color-focus)",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-internal-color-focus)",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
         },
       });
     }),
