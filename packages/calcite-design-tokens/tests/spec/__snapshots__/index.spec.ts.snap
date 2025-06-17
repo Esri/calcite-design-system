@@ -309,6 +309,21 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 "
 `;
 
+exports[`generated tokens > CSS > component should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:host {
+  --calcite-internal-color-focus: var(
+    --calcite-color-focus,
+    var(--calcite-ui-focus-color, var(--calcite-color-brand))
+  );
+}
+"
+`;
+
 exports[`generated tokens > CSS > core should match 1`] = `
 "/**
  * Calcite Design System
@@ -946,6 +961,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-border-input: #757575;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-white: #f7f7f7;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -1376,6 +1392,7 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-border-input: #949494;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-white: #ffffff;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -18924,6 +18941,34 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "path": ["semantic", "color", "border", "white"]
     },
     {
+      "key": "{semantic.color.focus.default}",
+      "value": "{\\"light\\":\\"#007ac2\\",\\"dark\\":\\"#009af2\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "scope": "component",
+        "type": "color",
+        "item": "focus",
+        "subitem": "default",
+        "names": {
+          "scss": "$calcite-color-focus",
+          "css": "var(--calcite-color-focus)",
+          "js": "semantic.color.focus.default",
+          "docs": "semantic.color.focus.default",
+          "es6": "calciteColorFocus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Focus",
+      "path": ["semantic", "color", "focus", "default"]
+    },
+    {
       "key": "{semantic.border.width.none}",
       "value": "0",
       "type": "dimension",
@@ -30473,6 +30518,7 @@ export const calciteColorBorderGhost = {
   dark: "rgba(117, 117, 117, 0.3)",
 };
 export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" };
+export const calciteColorFocus = { light: "#007ac2", dark: "#009af2" };
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -30942,6 +30988,7 @@ export const calciteColorBorder3: { light: string; dark: string };
 export const calciteColorBorderInput: { light: string; dark: string };
 export const calciteColorBorderGhost: { light: string; dark: string };
 export const calciteColorBorderWhite: { light: string; dark: string };
+export const calciteColorFocus: { light: string; dark: string };
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -55924,6 +55971,48 @@ export default {
           path: ["semantic", "color", "border", "white"],
         },
       },
+      focus: {
+        default: {
+          key: "{semantic.color.focus.default}",
+          value: {
+            light: "#007ac2",
+            dark: "#009af2",
+          },
+          type: "color",
+          attributes: {
+            category: "color",
+            scope: "component",
+            type: "color",
+            item: "focus",
+            subitem: "default",
+            names: {
+              scss: "$calcite-color-focus",
+              css: "var(--calcite-color-focus)",
+              js: "semantic.color.focus.default",
+              docs: "semantic.color.focus.default",
+              es6: "calciteColorFocus",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "color",
+              type: "color",
+            },
+          },
+          filePath: "src/tokens/semantic/color/light.json",
+          isSource: false,
+          original: {
+            value: "{semantic.color.brand.default.default}",
+            type: "color",
+            attributes: {
+              category: "color",
+              scope: "component",
+            },
+            key: "{semantic.color.focus.default}",
+          },
+          name: "Color Focus",
+          path: ["semantic", "color", "focus", "default"],
+        },
+      },
     },
     border: {
       width: {
@@ -64455,6 +64544,9 @@ declare const tokens: {
         ghost: DesignToken;
         white: DesignToken;
       };
+      focus: {
+        default: DesignToken;
+      };
     };
     border: {
       width: {
@@ -70747,6 +70839,7 @@ $calcite-color-border-3: #404040;
 $calcite-color-border-input: #757575;
 $calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
 $calcite-color-border-white: #f7f7f7;
+$calcite-color-focus: $calcite-color-brand;
 "
 `;
 
@@ -71027,6 +71120,7 @@ $calcite-color-border-3: #dedede;
 $calcite-color-border-input: #949494;
 $calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
 $calcite-color-border-white: #ffffff;
+$calcite-color-focus: $calcite-color-brand;
 "
 `;
 

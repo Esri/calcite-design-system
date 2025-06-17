@@ -1,5 +1,5 @@
 import StyleDictionary from "style-dictionary";
-import type { Transform } from "style-dictionary/types";
+import type { Config, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
 import { PlatformConfig } from "../../types/extensions.js";
 import { isBreakpoint, isBreakpointRelated, isFontRelated } from "../utils/token-types.js";
@@ -73,7 +73,50 @@ function overrideTokenStudioPreprocessors(): void {
 }
 
 function overrideTokenStudioTransforms(): void {
+  function transformThemeColor(
+    theme: "light" | "dark",
+    target: any,
+    context: {
+      token: TransformedToken;
+      transform: ValueTransform;
+      config: PlatformConfig;
+      options: Config;
+    },
+  ): void {
+    context.token.value.color = context.token.value[theme];
+    target[theme] = (
+      context.transform.transform(context.token, context.config, context.options) as {
+        color: string;
+      }
+    ).color;
+    delete context.token.value.color;
+  }
+
   const sd = StyleDictionary;
+
+  overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
+    transform: (token, config, options) => {
+      const isLegacyThemeToken = typeof token.value === "object" && "light" in token.value;
+      if (isLegacyThemeToken) {
+        const ogType = token.type;
+        token.type = "shadow"; // force the transform to process object structure
+        const transformed = {};
+        const context = {
+          token,
+          transform: ogTransform as ValueTransform,
+          config: config as PlatformConfig,
+          options,
+        } as const;
+        transformThemeColor("light", transformed, context);
+        transformThemeColor("dark", transformed, context);
+        token.type = ogType;
+
+        return transformed;
+      }
+
+      return ogTransform.transform(token, config, options);
+    },
+  }));
 
   overrideTransform("ts/size/px", sd, (ogTransform) => ({
     filter: (token, options) => {

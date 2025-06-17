@@ -1,6 +1,6 @@
 import prettierSync from "@prettier/sync";
-import type { Dictionary, FormatFn, FormatFnArguments } from "style-dictionary/types";
-import { fileHeader, formattedVariables } from "style-dictionary/utils";
+import type { FormatFn } from "style-dictionary/types";
+import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import { PlatformConfig } from "../../types/extensions.js";
 import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
@@ -8,6 +8,7 @@ import { fromTokens } from "../utils/dictionary.js";
 import { isThemed } from "../utils/token-types.js";
 import { dark, light } from "../dictionaries/index.js";
 import { Platform } from "../utils/enums.js";
+import { createVarList } from "./utils/index.js";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -37,12 +38,16 @@ export const formatIndexFile: FormatFn = async (args) => {
   const varLists = {
     light: createVarList(
       commonVarFormat,
-      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token, { theme: "light" }))),
+      fromTokens(
+        lightDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
+      ),
       args,
     ),
     dark: createVarList(
       commonVarFormat,
-      fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token, { theme: "dark" }))),
+      fromTokens(
+        darkDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
+      ),
       args,
     ),
   } as const;
@@ -70,14 +75,6 @@ function importUrl(fileName: string, fileExtension: string) {
   const fileBaseName = `${fileName}${fileExtension}`;
 
   return `@import ${fileExtension === ".css" ? `url("./${fileBaseName}")` : `"./${fileBaseName}"`};`;
-}
-
-function createVarList(format: Stylesheet, dictionary: Dictionary, args: FormatFnArguments) {
-  return formattedVariables({
-    format,
-    dictionary,
-    ...args.options,
-  });
 }
 
 export const FormatIndex = "calcite/format/index";

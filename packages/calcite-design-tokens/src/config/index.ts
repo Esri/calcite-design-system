@@ -11,6 +11,7 @@ import type { Config } from "../types/extensions.js";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
 import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
 import { Platform } from "../build/utils/enums.js";
+import { primitiveValueOutputReferences } from "../build/utils/output-references.js";
 
 const commonExpand = {
   typesMap: {
@@ -18,9 +19,9 @@ const commonExpand = {
   },
 };
 
-const stylesheetOutputReferences: OutputReferences = (token) => {
+const stylesheetOutputReferences: OutputReferences = (token, options) => {
   // output specific token references to match test output
-  return !!(isCornerRadius(token) && token.path.includes("default"));
+  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
 };
 
 const config: Config = {
@@ -127,6 +128,11 @@ const config: Config = {
           options: {
             imports: ["semantic", "classes"],
           },
+        },
+        {
+          destination: "component.css",
+          format: formats.FormatComponent,
+          filter: filters.FilterLightOrDarkColorTokens,
         },
       ],
       expand: {
