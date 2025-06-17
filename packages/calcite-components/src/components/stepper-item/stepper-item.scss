@@ -263,8 +263,7 @@
 }
 :host([layout="vertical"][selected]) .container {
   border-color: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
-
-  & .stepper-item-content:not(:empty) {
+  & .stepper-item-content.has-slotted-content {
     margin-block-end: var(--calcite-internal-stepper-item-spacing-unit-l);
   }
 }
