@@ -1,11 +1,4 @@
 {
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "typescript-strict-plugin"
-      }
-    ]
-  },
   "extends": "./tsconfig-base",
   "include": ["src"]
 }

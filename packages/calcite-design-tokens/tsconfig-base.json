@@ -11,6 +11,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
+    "strict": true,
     "target": "ESNext"
   },
   "exclude": ["node_modules", "dist"]
