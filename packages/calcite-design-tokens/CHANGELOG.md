@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.0...@esri/calcite-design-tokens@3.2.0-next.1) (2025-06-17)
+
+### Bug Fixes
+
+- **tokens:** restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([8bc246f](https://github.com/Esri/calcite-design-system/commit/8bc246fa5085fec8d0a009631c8ed653f53a7136)), closes [#11713](https://github.com/Esri/calcite-design-system/issues/11713) [#11711](https://github.com/Esri/calcite-design-system/issues/11711)
+
 ## [3.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.1-next.1...@esri/calcite-design-tokens@3.2.0-next.0) (2025-06-10)
 
 ### Features
