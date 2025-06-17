@@ -24,18 +24,18 @@ const config: Config = {
       addUtilities({
         // we override preset focus utils to allow using the internal focus color
         ".focus-base": {
-          outline: "2px solid",
           "outline-color": "transparent",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
         },
         ".focus-normal": {
-          "outline-color": " var(--calcite-internal-color-focus)",
+          outline: "2px solid var(--calcite-internal-color-focus)",
         },
         ".focus-outset": {
-          "outline-color": " var(--calcite-internal-color-focus)",
+          outline: "2px solid var(--calcite-internal-color-focus)",
+          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          "outline-color": " var(--calcite-internal-color-focus)",
+          outline: "2px solid var(--calcite-internal-color-focus)",
+          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
       });
     }),
