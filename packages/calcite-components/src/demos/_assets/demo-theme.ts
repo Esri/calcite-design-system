@@ -48,7 +48,6 @@ export class DemoTheme extends HTMLElement {
       .filter(Boolean);
 
     if (Array.isArray(tokensList)) {
-      console.log(tokensList);
       const stringifiedTheme = setCSSVariables(tokensList);
 
       if (this._el) {
