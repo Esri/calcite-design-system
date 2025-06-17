@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
+
 /**
  * CSS Custom Properties
  *
@@ -7,7 +10,6 @@
  * @prop --calcite-tree-text-color-selected: Specifies the component's text color when selected.
  * @prop --calcite-tree-selected-icon-color: Specifies the component's selection icon color.
  */
-
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
   --calcite-internal-tree-item-padding-block: 0.25rem;
@@ -57,8 +59,8 @@
   color: var(--calcite-tree-text-color, var(--calcite-color-text-3));
 }
 
-@include calcite-hydrated-hidden();
-@include disabled();
+@include includes.calcite-hydrated-hidden();
+@include includes.disabled();
 
 :host([lines]) {
   .children-container::after {
@@ -141,8 +143,8 @@
   @apply relative h-0 overflow-hidden opacity-0 origin-top;
   transform: scaleY(0);
   transition:
-    var(--calcite-animation-timing) $easing-function,
-    opacity var(--calcite-animation-timing) $easing-function,
+    var(--calcite-animation-timing) animation.$easing-function,
+    opacity var(--calcite-animation-timing) animation.$easing-function,
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
 
   .item--expanded > & {
@@ -225,4 +227,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

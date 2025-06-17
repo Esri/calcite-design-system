@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 /**
  * CSS Custom Properties
  *
@@ -9,19 +12,18 @@
  * @prop --calcite-popover-text-color: Specifies the component's text color.
  * @prop --calcite-popover-z-index: Specifies the component's z-index value.
  */
-
 :host {
   @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
 .position-container {
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".position-container");
+@include floating-ui.floating-ui-elem-anim(".position-container");
 
-@include floating-ui-arrow();
+@include floating-ui.floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {
@@ -126,4 +128,4 @@
   @apply h-full;
 }
 
-@include base-component();
+@include includes.base-component();

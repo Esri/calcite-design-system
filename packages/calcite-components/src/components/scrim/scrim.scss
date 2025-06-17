@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -5,7 +6,6 @@
  *
  * @prop --calcite-scrim-background: Specifies the background color of the scrim.
  */
-
 :host {
   @apply absolute
   inset-0
@@ -43,4 +43,4 @@
   @apply p-4;
 }
 
-@include base-component();
+@include includes.base-component();

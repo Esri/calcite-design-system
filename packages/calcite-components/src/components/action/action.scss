@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -17,7 +18,6 @@
  * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
  */
-
 :host {
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
@@ -280,8 +280,8 @@
   @apply sr-only;
 }
 
-@include base-component();
-@include disabled {
+@include includes.base-component();
+@include includes.disabled {
   .button,
   .button:hover,
   .button:focus {

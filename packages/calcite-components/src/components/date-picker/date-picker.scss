@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -28,9 +29,8 @@
  * @prop --calcite-date-picker-day-range-background-color: Specifies the background color of select day range of the component.
  * @prop --calcite-date-picker-day-outside-range-background-color-hover: Specifies the background color of day's outside current range when hovered.
  * @prop --calcite-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside current range when hovered.
- * 
+ *
 */
-
 :host {
   @extend %component-host;
   @apply align-top inline-block overflow-visible w-full border-solid border;
@@ -74,4 +74,4 @@
   max-inline-size: 1212px;
 }
 
-@include base-component();
+@include includes.base-component();

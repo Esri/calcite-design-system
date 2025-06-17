@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -5,12 +6,11 @@
  *
  * @prop --calcite-list-background-color: Specifies the component's background color.
  */
-
 :host {
   @apply block;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   position: relative;
@@ -48,4 +48,4 @@
   @apply sr-only;
 }
 
-@include base-component();
+@include includes.base-component();

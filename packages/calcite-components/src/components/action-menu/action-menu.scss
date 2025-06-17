@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-action-menu-items-space: Specifies the space between actions in the menu.
  *
  */
-
 :host {
   @apply text-1
   box-border
@@ -25,7 +25,7 @@
   self-stretch;
 }
 
-@include slotted("trigger", "calcite-action") {
+@include includes.slotted("trigger", "calcite-action") {
   @apply relative
   h-full
   flex-initial
@@ -43,4 +43,4 @@
   gap: var(--calcite-action-menu-items-space, 0);
 }
 
-@include base-component();
+@include includes.base-component();

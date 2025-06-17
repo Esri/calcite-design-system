@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -15,7 +16,6 @@
  * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
  * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when hovered, focused, and active.
  */
-
 :host {
   @apply block outline-none;
   margin-inline-start: theme("margin.0");
@@ -437,8 +437,8 @@
   }
 }
 
-@include base-component();
-@include disabled() {
+@include includes.base-component();
+@include includes.disabled() {
   .container {
     @apply pointer-events-none opacity-50;
   }

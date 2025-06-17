@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -8,7 +9,6 @@
  * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's heading.
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
  */
-
 .scale--s {
   @apply text-n2h;
   --calcite-internal-autocomplete-item-spacing-unit-l: theme("spacing.2");
@@ -48,7 +48,7 @@
   gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-block: var(--calcite-internal-autocomplete-item-spacing-unit-s);
-  @include word-break();
+  @include includes.word-break();
   justify-content: space-around;
 }
 
@@ -85,6 +85,6 @@
   padding-block: 0;
 }
 
-@include text-highlight-item();
-@include base-component();
-@include disabled();
+@include includes.text-highlight-item();
+@include includes.base-component();
+@include includes.disabled();

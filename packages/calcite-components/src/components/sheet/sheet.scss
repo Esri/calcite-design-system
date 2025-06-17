@@ -1,3 +1,7 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../assets/styles/animation";
+
 /**
  * CSS Custom Properties
  *
@@ -19,12 +23,11 @@
  * @prop --calcite-sheet-min-height:  When `position` is `"block-start"` or `"block-end"`, specifies the minimum height of the component.
  *
  */
-
 :host {
   @apply flex absolute z-overlay inset-0;
   visibility: hidden !important;
   // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-sheet-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, 0.85)};
+  --calcite-sheet-scrim-background-internal: #{rgba(core.$calcite-color-neutral-blk-240, 0.85)};
   --calcite-scrim-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
@@ -51,7 +54,7 @@
   color: var(--calcite-sheet-text-color, var(--calcite-color-text-2));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
-    opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+    opacity var(--calcite-internal-animation-timing-medium) animation.$easing-function;
 }
 
 :host([position="inline-start"]) .container {
@@ -172,9 +175,9 @@
   max-block-size: 100%;
   visibility: hidden;
   transition:
-    transform var(--calcite-internal-animation-timing-medium) $easing-function,
+    transform var(--calcite-internal-animation-timing-medium) animation.$easing-function,
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
-    opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+    opacity var(--calcite-internal-animation-timing-medium) animation.$easing-function;
   transform: var(--calcite-sheet-hidden-position-internal);
 }
 
@@ -202,11 +205,11 @@
   .content {
     @apply pointer-events-auto visible opacity-100;
     transition:
-      transform var(--calcite-internal-animation-timing-medium) $easing-function,
+      transform var(--calcite-internal-animation-timing-medium) animation.$easing-function,
       visibility 0ms linear,
-      opacity var(--calcite-internal-animation-timing-medium) $easing-function,
-      max-inline-size var(--calcite-internal-animation-timing-medium) $easing-function,
-      max-block-size var(--calcite-internal-animation-timing-medium) $easing-function;
+      opacity var(--calcite-internal-animation-timing-medium) animation.$easing-function,
+      max-inline-size var(--calcite-internal-animation-timing-medium) animation.$easing-function,
+      max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
     transition-delay: 0ms;
   }
 }
@@ -381,4 +384,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 /**
  * CSS Custom Properties
  *
@@ -9,19 +12,18 @@
  * @prop --calcite-tooltip-text-color: Specifies the component's text color.
  * @prop --calcite-tooltip-z-index: Specifies the z-index value for the component.
  */
-
 :host {
   @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 
 .position-container {
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".position-container");
+@include floating-ui.floating-ui-elem-anim(".position-container");
 
-@include floating-ui-arrow();
+@include floating-ui.floating-ui-arrow();
 
 .container {
   @apply text-n2-wrap
@@ -53,4 +55,4 @@
   stroke: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
 }
 
-@include base-component();
+@include includes.base-component();
