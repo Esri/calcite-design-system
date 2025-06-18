@@ -233,23 +233,26 @@ const config: Omit<Config, "content"> = {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
         },
         ".focus-outset-danger": {
-          outline: "2px solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
         },
         ".focus-inset-danger": {
-          outline: "2px solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
         },
         ".transition-default": {
           // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
