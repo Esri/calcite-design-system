@@ -74,6 +74,7 @@
   max-inline-size: 1212px;
 }
 
+// prevents focus ring from showing when Shift key press succeed click on non-interactive area
 .container {
   @apply outline-none;
 }
