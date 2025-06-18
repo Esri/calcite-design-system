@@ -41,24 +41,19 @@ export class DemoTheme extends HTMLElement {
     }
   }
 
-  updateTheme(newValue: string): void {
-    if (typeof newValue === "string") {
-      let tokensList;
+  updateTheme(tokens: string): void {
+    const tokensList = tokens
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-      try {
-        tokensList = JSON.parse(newValue);
-      } catch {
-        tokensList = newValue.split(",").map((t) => t.trim());
-      }
+    if (Array.isArray(tokensList)) {
+      const stringifiedTheme = setCSSVariables(tokensList);
 
-      if (Array.isArray(tokensList)) {
-        const stringifiedTheme = setCSSVariables(tokensList);
-
-        if (this._el) {
-          this._el.style.cssText = stringifiedTheme;
-        } else {
-          this.setAttribute("style", stringifiedTheme);
-        }
+      if (this._el) {
+        this._el.style.cssText = stringifiedTheme;
+      } else {
+        this.setAttribute("style", stringifiedTheme);
       }
     }
   }
