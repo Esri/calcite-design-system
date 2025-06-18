@@ -74,4 +74,8 @@
   max-inline-size: 1212px;
 }
 
+.container {
+  @apply outline-none;
+}
+
 @include base-component();
