@@ -4,12 +4,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
-import {
-  getLocalizedDecimalSeparator,
-  getMeridiemOrder,
-  HourFormat,
-  TimePart,
-} from "../../utils/time";
+import { HourFormat, TimePart } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
@@ -43,8 +38,6 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   private meridiemEl: HTMLSpanElement;
 
-  private meridiemOrder: number;
-
   private minuteEl: HTMLSpanElement;
 
   private pointerActivated = false;
@@ -65,8 +58,6 @@ export class TimePicker extends LitElement implements TimeComponent {
   //#region State Properties
 
   @state() activeEl: HTMLSpanElement;
-
-  @state() localizedDecimalSeparator = ".";
 
   @state() showFractionalSecond: boolean;
 
@@ -133,13 +124,12 @@ export class TimePicker extends LitElement implements TimeComponent {
   constructor() {
     super();
     this.listen("blur", this.blurHandler);
+    this.listen("calciteTimeChange", this.timeChangeHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("pointerdown", this.pointerDownHandler);
-    this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
   override connectedCallback(): void {
-    this.updateLocale();
     this.toggleSecond();
   }
 
@@ -154,10 +144,6 @@ export class TimePicker extends LitElement implements TimeComponent {
 
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
       this.time.setValue(this.value);
-    }
-
-    if (changes.has("hourFormat") || changes.has("messages")) {
-      this.updateLocale();
     }
   }
 
@@ -370,16 +356,6 @@ export class TimePicker extends LitElement implements TimeComponent {
     this.showFractionalSecond = this.stepPrecision > 0;
   }
 
-  private updateLocale() {
-    // TODO: handle locale changes here in the useTime controller
-    this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-      this.messages._lang,
-      this.numberingSystem,
-    );
-    this.meridiemOrder = getMeridiemOrder(this.messages._lang);
-    this.time.setValue(this.value);
-  }
-
   //#endregion
 
   //#region Rendering
@@ -406,6 +382,7 @@ export class TimePicker extends LitElement implements TimeComponent {
       localizedSecond,
       localizedSecondSuffix,
       meridiem,
+      meridiemOrder,
       minute,
       second,
     } = this.time;
@@ -628,7 +605,7 @@ export class TimePicker extends LitElement implements TimeComponent {
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0 || getElementDir(this.el) === "rtl",
+              [CSS.meridiemStart]: meridiemOrder === 0 || getElementDir(this.el) === "rtl",
             }}
             role="group"
           >
