@@ -6,6 +6,6 @@ describe("filter", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-filter>", "filterDebounced", "debounced", "filter");
+    cancelableBehavior("<calcite-filter>", "filterDebounced");
   });
 });

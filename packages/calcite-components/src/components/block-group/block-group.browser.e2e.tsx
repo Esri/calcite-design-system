@@ -6,6 +6,6 @@ describe("block-group", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-block-group>", "updateBlockItems", "debounced", "nextTick");
+    cancelableBehavior("<calcite-block-group>", "updateBlockItems");
   });
 });

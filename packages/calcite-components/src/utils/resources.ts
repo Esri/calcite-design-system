@@ -49,9 +49,5 @@ export const DEBOUNCE = {
   reposition: 100,
 };
 
-export const THROTTLE = {
-  canvas: 16,
-};
-
 export const resizeStep = 10;
 export const resizeShiftStep = 25;

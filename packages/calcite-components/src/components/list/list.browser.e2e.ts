@@ -6,6 +6,6 @@ describe("list", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-list>", "updateListItems", "debounced", "nextTick");
+    cancelableBehavior("<calcite-list>", "updateListItems");
   });
 });

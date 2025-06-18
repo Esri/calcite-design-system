@@ -6,6 +6,6 @@ describe("combobox", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-combobox>", "filterItems", "debounced", "filter");
+    cancelableBehavior("<calcite-combobox>", "filterItems");
   });
 });

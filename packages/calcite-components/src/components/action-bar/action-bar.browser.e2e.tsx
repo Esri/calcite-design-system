@@ -6,6 +6,6 @@ describe("action-bar", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-action-bar>", "resize", "debounced", "resize");
+    cancelableBehavior("<calcite-action-bar>", "resize");
   });
 });

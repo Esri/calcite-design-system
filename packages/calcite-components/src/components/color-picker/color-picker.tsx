@@ -19,7 +19,6 @@ import { isActivationKey } from "../../utils/key";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
-import { THROTTLE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelableResource } from "../../controllers/useCancelableResource";
 import type { InputNumber } from "../input-number/input-number";
@@ -64,6 +63,8 @@ declare global {
     "calcite-color-picker": ColorPicker;
   }
 }
+
+const throttleFor60FpsInMs = 16;
 
 export class ColorPicker extends LitElement implements InteractiveComponent {
   //#region Static Members
@@ -162,7 +163,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         this.drawOpacitySlider();
       }
     },
-    THROTTLE.canvas,
+    throttleFor60FpsInMs,
   );
 
   private globalPointerMoveHandler = (event: PointerEvent): void => {
@@ -240,7 +241,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.updateDynamicDimensions(availableWidth);
     this.updateCanvasSize();
     this.drawColorControls();
-  }, THROTTLE.canvas);
+  }, throttleFor60FpsInMs);
 
   private updateDynamicDimensions = (width: number): void => {
     const sliderDims = {
