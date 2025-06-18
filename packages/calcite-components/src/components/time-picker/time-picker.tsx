@@ -8,8 +8,6 @@ import {
   getLocalizedDecimalSeparator,
   getMeridiemOrder,
   HourFormat,
-  isValidTime,
-  parseTimeString,
   TimePart,
 } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
@@ -322,22 +320,6 @@ export class TimePicker extends LitElement implements TimeComponent {
     this.time.incrementMinute();
   }
 
-  private sanitizeValue(value: string): string {
-    const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-    if (fractionalSecond) {
-      const sanitizedFractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
-      return `${hour}:${minute}:${second}.${sanitizedFractionalSecond}`;
-    }
-    return isValidTime(value) && value;
-  }
-
-  private sanitizeFractionalSecond(fractionalSecond: string): string {
-    const { stepPrecision } = this;
-    return fractionalSecond && stepPrecision !== fractionalSecond.length
-      ? parseFloat(`0.${fractionalSecond}`).toFixed(stepPrecision).replace("0.", "")
-      : fractionalSecond;
-  }
-
   private secondDownClickHandler(): void {
     this.activeEl = this.secondEl;
     this.secondEl.focus();
@@ -395,8 +377,7 @@ export class TimePicker extends LitElement implements TimeComponent {
       this.numberingSystem,
     );
     this.meridiemOrder = getMeridiemOrder(this.messages._lang);
-    // TODO: Figure out if we need to keep sanitizeValue.  Consider rolling the logic for this into useTime.
-    this.time.setValue(this.sanitizeValue(this.value));
+    this.time.setValue(this.value);
   }
 
   //#endregion
