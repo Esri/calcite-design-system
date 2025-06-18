@@ -1,4 +1,7 @@
 {
   "chooseDate": "Chọn ngày",
-  "dateFormat": "Định dạng Ngày:"
+  "date": "Date",
+  "dateFormat": "Định dạng Ngày: {format}",
+  "endDate": "End Date",
+  "startDate": "Start Date"
 }

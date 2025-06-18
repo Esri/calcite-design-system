@@ -1,49 +1,8 @@
+// @ts-strict-ignore
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
+import { logger } from "./logger";
 
 export const defaultLocale = "en";
-
-export const t9nLocales = [
-  "ar",
-  "bg",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de",
-  "el",
-  defaultLocale,
-  "es",
-  "et",
-  "fi",
-  "fr",
-  "he",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "no",
-  "nl",
-  "pl",
-  "pt-BR",
-  "pt-PT",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW",
-];
 
 export const locales = [
   "ar",
@@ -98,9 +57,42 @@ export const locales = [
   "zh-TW",
 ];
 
-export const numberingSystems = ["arab", "arabext", "latn"] as const;
+/**
+ * To reference the CLDR meridiems for each supported locale navigate to:
+ * https://github.com/unicode-org/cldr-json/tree/main/cldr-json/cldr-dates-full/main,
+ * click {locale}/ca-generic.json and drill down to main.{locale}.dates.calendars.generic.dayPeriods.format.abbreviated.
+ */
+export const localizedTwentyFourHourMeridiems = new Map(
+  Object.entries({
+    bg: { am: "пр.об.", pm: "сл.об." },
+    bs: { am: "prijepodne", pm: "popodne" },
+    ca: { am: "a. m.", pm: "p. m." },
+    cs: { am: "dop.", pm: "odp." },
+    es: { am: "a. m.", pm: "p. m." },
+    "es-mx": { am: "a.m.", pm: "p.m." },
+    "es-MX": { am: "a.m.", pm: "p.m." },
+    fi: { am: "ap.", pm: "ip." },
+    he: { am: "לפנה״צ", pm: "אחה״צ" },
+    hu: { am: "de. ", pm: "du." },
+    lt: { am: "priešpiet", pm: "popiet" },
+    lv: { am: "priekšpusdienā", pm: "pēcpusdienā" },
+    mk: { am: "претпл.", pm: "попл." },
+    no: { am: "a.m.", pm: "p.m." },
+    nl: { am: "a.m.", pm: "p.m." },
+    "pt-pt": { am: "da manhã", pm: "da tarde" },
+    "pt-PT": { am: "da manhã", pm: "da tarde" },
+    ro: { am: "a.m.", pm: "p.m." },
+    sl: { am: "dop.", pm: "pop." },
+    sv: { am: "fm", pm: "em" },
+    th: { am: "ก่อนเที่ยง", pm: "หลังเที่ยง" },
+    tr: { am: "ÖÖ", pm: "ÖS" },
+    uk: { am: "дп", pm: "пп" },
+    vi: { am: "SA", pm: "CH" },
+  }),
+);
 
-export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
+export const numberingSystems = ["arab", "arabext", "latn"] as const;
+export const supportedLocales = [...locales] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
@@ -112,7 +104,7 @@ const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
 // for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
-// see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+// @see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
@@ -125,37 +117,28 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  * Gets the locale that best matches the context.
  *
  * @param locale – the BCP 47 locale code
- * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
  */
-export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocale {
-  const contextualLocales = context === "cldr" ? locales : t9nLocales;
-
+export function getSupportedLocale(locale: string): SupportedLocale {
   if (!locale) {
     return defaultLocale;
   }
 
-  if (contextualLocales.includes(locale)) {
+  if (supportedLocales.includes(locale)) {
     return locale;
   }
 
   locale = locale.toLowerCase();
-
-  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
-  if (locale === "nb") {
-    return "no";
-  }
-
-  // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
-  if (context === "t9n" && locale === "pt") {
-    return "pt-BR";
-  }
-
   if (locale.includes("-")) {
     locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
 
-    if (!contextualLocales.includes(locale)) {
+    if (!supportedLocales.includes(locale)) {
       locale = locale.split("-")[0];
     }
+  }
+
+  // we support 'nn', 'nb' and 'no' (BCP 47) for Norwegian but only `no` includes corresponding bundle
+  if (locale === "nb" || locale === "nn") {
+    return "no";
   }
 
   // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
@@ -163,8 +146,8 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
     return "zh-CN";
   }
 
-  if (!contextualLocales.includes(locale)) {
-    console.warn(
+  if (!supportedLocales.includes(locale)) {
+    logger.warn(
       `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
     );
     return defaultLocale;
@@ -178,7 +161,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * See https://github.com/Esri/calcite-design-system/issues/9387
+ * @see https://github.com/Esri/calcite-design-system/issues/9387
  *
  * @param locale – the BCP 47 locale code
  * @returns {string} a BCP 47 locale code
@@ -290,7 +273,9 @@ export class NumberStringFormat {
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
-    this._decimal = parts.find((d) => d.type === "decimal").value;
+    // @see https://issues.chromium.org/issues/40656070
+    this._decimal =
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);
   }

@@ -1,14 +1,12 @@
-import { toHaveNoViolations } from "jest-axe";
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { isElementFocused } from "../utils";
+import { isElementFocused } from "../utils/puppeteer";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 export { TagOrHTMLWithBeforeContent } from "./interfaces";
 import { FocusableOptions } from "./focusable";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 export async function assertLabelable({
   page,

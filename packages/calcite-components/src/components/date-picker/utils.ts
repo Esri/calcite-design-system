@@ -1,6 +1,8 @@
+// @ts-strict-ignore
 import { dateFromISO } from "../../utils/date";
 import { getSupportedLocale } from "../../utils/locale";
 import { getAssetPath } from "../../runtime";
+import { logger } from "../../utils/logger";
 
 /**
  * Translation resource data structure
@@ -61,7 +63,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
     requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`Translations for "${locale}" not found or invalid, falling back to english`);
+        logger.error(`Translations for "${locale}" not found or invalid, falling back to english`);
         return getLocaleData("en");
       });
   }

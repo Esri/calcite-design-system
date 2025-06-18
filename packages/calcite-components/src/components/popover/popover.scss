@@ -11,7 +11,7 @@
  */
 
 :host {
-  @apply relative block;
+  @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
@@ -88,7 +88,7 @@
   color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
 }
 
-.headerContainer {
+.header-container {
   @apply relative
     flex
     h-full

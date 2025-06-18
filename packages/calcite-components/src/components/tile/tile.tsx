@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   InteractiveComponent,
@@ -6,13 +7,9 @@ import {
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconNameOrString } from "../icon/interfaces";
+import { componentFocusable } from "../../utils/component";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -179,16 +176,8 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
     this.listen("keydown", this.keyDownHandler);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -321,33 +310,17 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
             [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
         >
-          <slot
-            data-name="ContentTop"
-            name={SLOTS.contentTop}
-            onSlotChange={this.handleSlotChange}
-          />
+          <slot name={SLOTS.contentTop} onSlotChange={this.handleSlotChange} />
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
-            <slot
-              data-name="ContentStart"
-              name={SLOTS.contentStart}
-              onSlotChange={this.handleSlotChange}
-            />
+            <slot name={SLOTS.contentStart} onSlotChange={this.handleSlotChange} />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot
-              data-name="ContentEnd"
-              name={SLOTS.contentEnd}
-              onSlotChange={this.handleSlotChange}
-            />
+            <slot name={SLOTS.contentEnd} onSlotChange={this.handleSlotChange} />
           </div>
-          <slot
-            data-name="ContentBottom"
-            name={SLOTS.contentBottom}
-            onSlotChange={this.handleSlotChange}
-          />
+          <slot name={SLOTS.contentBottom} onSlotChange={this.handleSlotChange} />
         </div>
       </div>
     );

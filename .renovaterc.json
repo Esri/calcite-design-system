@@ -1,12 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "npm:unpublishSafe",
-    "workarounds:typesNodeVersioning",
-    ":pinAllExceptPeerDependencies",
-    ":widenPeerDependencies"
-  ],
+  "extends": ["config:recommended", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
   "enabledManagers": ["npm", "github-actions"],
@@ -14,25 +8,30 @@
   "schedule": ["before 5am every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
-    "@types/jest",
     "@types/node",
     "@types/react",
     "@types/react-dom",
-    "jest",
-    "jest-cli",
     "node",
     "npm",
     "puppeteer",
     "react",
     "react-dom",
-    "ts-jest",
     "typescript"
   ],
   "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
   "packageRules": [
     {
       "groupName": "ArcGIS",
-      "matchPackageNames": ["@arcgis/**"]
+      "matchPackageNames": ["@arcgis/**"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "groupName": "CSpell",
+      "matchPackageNames": ["@cspell/**"]
+    },
+    {
+      "groupName": "Floating UI",
+      "matchPackageNames": ["@floating-ui/**"]
     },
     {
       "groupName": "ESLint",

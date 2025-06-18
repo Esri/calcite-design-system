@@ -1,4 +1,5 @@
 {
   "invalid": "Ugyldig",
-  "tooLong": "Den nåværende tegnlengden er {currentLength}, som overskrider den maksimalt tillatte tegnlengden på {maxLength}."
+  "tooLong": "Den nåværende tegnlengden er {currentLength}, som overskrider den maksimalt tillatte tegnlengden på {maxLength}.",
+  "tooShort": "Den nåværende tegnlengden er {currentLength}, som er kortere den nedre grensen for tillatte tegnlengden på {minLength}."
 }

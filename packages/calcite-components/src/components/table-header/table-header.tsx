@@ -1,12 +1,8 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
@@ -21,28 +17,35 @@ declare global {
   }
 }
 
-export class TableHeader extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class TableHeader extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() focused = false;
 
   @state() screenReaderText = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the alignment of the component. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -67,13 +70,6 @@ export class TableHeader extends LitElement implements LoadableComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /** @private */
   @property() numberCell = false;
@@ -108,9 +104,9 @@ export class TableHeader extends LitElement implements LoadableComponent {
   /** @private */
   @property() selectionMode: SelectionMode;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -119,12 +115,11 @@ export class TableHeader extends LitElement implements LoadableComponent {
     this.containerEl.value.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateScreenReaderText();
   }
 
@@ -134,13 +129,10 @@ export class TableHeader extends LitElement implements LoadableComponent {
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   private updateScreenReaderText(): void {
     let text = "";
     const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;
@@ -164,9 +156,9 @@ export class TableHeader extends LitElement implements LoadableComponent {
     this.focused = true;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const scope = this.rowSpan
@@ -229,5 +221,5 @@ export class TableHeader extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

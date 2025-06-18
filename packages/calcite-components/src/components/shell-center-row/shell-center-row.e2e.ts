@@ -1,9 +1,13 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-center-row", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-shell-center-row", { display: "flex" });
   });

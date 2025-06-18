@@ -1,5 +1,6 @@
-import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+// @ts-strict-ignore
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -7,11 +8,11 @@ import {
   formAssociated,
   hidden,
   labelable,
-  renders,
   reflects,
+  renders,
   themed,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
+import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
 
@@ -282,7 +283,7 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const ticks = await page.findAll("calcite-slider >>> .tick");
+    const ticks = await findAll(page, "calcite-slider >>> .tick");
     expect(ticks.length).toBe(11);
   });
 
@@ -1073,7 +1074,7 @@ describe("calcite-slider", () => {
         await page.waitForChanges();
 
         const valueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
-        const tickLabels = await page.findAll(`calcite-slider >>> .${CSS.tickLabel}`);
+        const tickLabels = await findAll(page, `calcite-slider >>> .${CSS.tickLabel}`);
 
         expect(valueLabel.innerText).toBe("50%");
 
@@ -1153,7 +1154,7 @@ describe("calcite-slider", () => {
 
         const minValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
         const maxValueLabel = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
-        const tickLabels = await page.findAll(`calcite-slider >>> .${CSS.tickLabel}`);
+        const tickLabels = await findAll(page, `calcite-slider >>> .${CSS.tickLabel}`);
 
         expect(minValueLabel.innerText).toBe("-25%");
         expect(maxValueLabel.innerText).toBe("+75%");

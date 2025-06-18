@@ -1,11 +1,7 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -31,7 +27,7 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -41,6 +37,22 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Private Properties
 
   private dropdownEl: Dropdown["el"];
+
+  // #endregion
+
+  // #region State Properties
+
+  @state() get hasSetInfo(): boolean {
+    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+  }
+
+  @state() get isSetDisabled(): boolean {
+    const { setPosition, setSize, moveToItems } = this;
+
+    return this.hasSetInfo
+      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
+      : false;
+  }
 
   // #endregion
 
@@ -62,7 +74,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
    * Made into a prop for testing purposes only.
    *
    * @private
-   * @readonly
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -125,21 +136,17 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   calciteSortHandleClose = createEvent({ cancelable: false });
 
   /** Fires when a move item has been selected. */
-  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: false });
+  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
   /** Fires when a reorder has been selected. */
-  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: false });
+  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
   // #endregion
 
   // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -153,10 +160,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -185,6 +188,10 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   private getLabel(): string {
     const { label, messages, setPosition, setSize } = this;
+
+    if (!this.hasSetInfo) {
+      return label ?? "";
+    }
 
     let formattedLabel = label
       ? messages.repositionLabel.replace(SUBSTITUTIONS.label, label)
@@ -237,23 +244,11 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   // #region Rendering
 
   override render(): JsxNode {
-    const {
-      disabled,
-      flipPlacements,
-      messages,
-      open,
-      overlayPositioning,
-      placement,
-      scale,
-      setPosition,
-      setSize,
-      widthScale,
-      moveToItems,
-    } = this;
-    const text = this.getLabel();
+    const { disabled, flipPlacements, open, overlayPositioning, placement, scale, widthScale } =
+      this;
 
-    const isDisabled =
-      disabled || !setPosition || !setSize || (setSize < 2 && moveToItems.length < 1);
+    const text = this.getLabel();
+    const isDisabled = disabled || this.isSetDisabled;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -275,6 +270,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             active={open}
             appearance="transparent"
             class={CSS.handle}
+            dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale={scale}
@@ -282,17 +278,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             text={text}
             title={text}
           />
-          <calcite-dropdown-group
-            groupTitle={messages.reorder}
-            key="reorder"
-            scale={scale}
-            selectionMode="none"
-          >
-            {this.renderTop()}
-            {this.renderUp()}
-            {this.renderDown()}
-            {this.renderBottom()}
-          </calcite-dropdown-group>
+          {this.renderGroup()}
           {this.renderMoveToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
@@ -310,6 +296,22 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
         {moveToItem.label}
       </calcite-dropdown-item>
     );
+  }
+
+  private renderGroup(): JsxNode {
+    return this.hasSetInfo ? (
+      <calcite-dropdown-group
+        groupTitle={this.messages.reorder}
+        key="reorder"
+        scale={this.scale}
+        selectionMode="none"
+      >
+        {this.renderTop()}
+        {this.renderUp()}
+        {this.renderDown()}
+        {this.renderBottom()}
+      </calcite-dropdown-group>
+    ) : null;
   }
 
   private renderMoveToGroup(): JsxNode {

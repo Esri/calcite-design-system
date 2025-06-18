@@ -1,0 +1,36 @@
+{
+  "semantic": {
+    "border": {
+      "width": {
+        "none": {
+          "value": "{core.size.default.none}",
+          "type": "borderWidth",
+          "attributes": {
+            "category": "border"
+          }
+        },
+        "sm": {
+          "value": "{core.size.default.1}",
+          "type": "borderWidth",
+          "attributes": {
+            "category": "border"
+          }
+        },
+        "md": {
+          "value": "{core.size.default.2}",
+          "type": "borderWidth",
+          "attributes": {
+            "category": "border"
+          }
+        },
+        "lg": {
+          "value": "{core.size.default.4}",
+          "type": "borderWidth",
+          "attributes": {
+            "category": "border"
+          }
+        }
+      }
+    }
+  }
+}

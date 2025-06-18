@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";

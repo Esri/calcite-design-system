@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -10,33 +11,21 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   ensureId,
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
@@ -46,9 +35,6 @@ declare global {
     "calcite-modal": Modal;
   }
 }
-
-let totalOpenModals: number = 0;
-let initialDocumentOverflowStyle: string = "";
 
 /**
  * @deprecated Use the `calcite-dialog` component instead.
@@ -60,17 +46,14 @@ let initialDocumentOverflowStyle: string = "";
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-export class Modal
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
-  // #region Static Members
+export class Modal extends LitElement implements OpenCloseComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
@@ -80,35 +63,67 @@ export class Modal
     this.updateSizeCssVars();
   });
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: () => this.embedded,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
+
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
   private ignoreOpenChange = false;
 
   private modalContent = createRef<HTMLDivElement>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.focusTrap.updateContainerElements(),
   );
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
+  openProp = "opened";
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private titleId: string;
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (
+      !defaultPrevented &&
+      this.focusTrapDisabled &&
+      this.open &&
+      !this.escapeDisabled &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() contentEl: HTMLElement;
 
@@ -130,9 +145,13 @@ export class Modal
 
   @state() titleEl: HTMLElement;
 
-  // #endregion
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: (el: Modal["el"]) => Promise<void>;
@@ -143,11 +162,29 @@ export class Modal
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @private
+   */
+  @property() embedded = false;
+
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
@@ -161,19 +198,11 @@ export class Modal
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -198,9 +227,9 @@ export class Modal
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets the scroll top of the component's content.
@@ -227,15 +256,22 @@ export class Modal
     focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteModalBeforeClose = createEvent({ cancelable: false });
@@ -249,9 +285,9 @@ export class Modal
   /** Fires when the component is open and animation is complete. */
   calciteModalOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -262,20 +298,6 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateSizeCssVars();
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // scrim closes on click, so we let it take over
-        clickOutsideDeactivates: false,
-        escapeDeactivates: (event) => {
-          if (!event.defaultPrevented && !this.escapeDisabled) {
-            this.open = false;
-            event.preventDefault();
-          }
-
-          return false;
-        },
-      },
-    });
   }
 
   async load(): Promise<void> {
@@ -284,7 +306,6 @@ export class Modal
       removalVersion: 4,
       suggested: "dialog",
     });
-    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       this.openModal();
@@ -296,10 +317,6 @@ export class Modal
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (
       (changes.has("hasBack") && (this.hasUpdated || this.hasBack !== false)) ||
       (changes.has("hasPrimary") && (this.hasUpdated || this.hasPrimary !== false)) ||
@@ -313,47 +330,15 @@ export class Modal
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.cssVarObserver?.disconnect();
-    deactivateFocusTrap(this);
+    this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      this.focusTrapDisabled &&
-      this.open &&
-      !this.escapeDisabled &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
-    }
-  };
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
+  //#region Private Methods
 
   private handleHeaderSlotChange(event: Event): void {
     this.titleEl = slotChangeGetAssignedElements<HTMLElement>(event)[0];
@@ -376,6 +361,10 @@ export class Modal
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -386,8 +375,11 @@ export class Modal
 
   onOpen(): void {
     this.transitionEl?.classList.remove(CSS.openingIdle, CSS.openingActive);
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
+    this.focusTrap.activate();
     this.calciteModalOpen.emit();
-    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -398,7 +390,7 @@ export class Modal
   onClose(): void {
     this.transitionEl?.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
   }
 
   private toggleModal(value: boolean): void {
@@ -414,8 +406,14 @@ export class Modal
   }
 
   private handleOpenedChange(value: boolean): void {
+    const { transitionEl } = this;
+
+    if (!transitionEl) {
+      return;
+    }
+
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
-    this.transitionEl.classList.add(idleClass);
+    transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
   }
 
@@ -425,24 +423,10 @@ export class Modal
 
   private async openModal(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteModalOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
 
     this.titleId = ensureId(this.titleEl);
     this.contentId = ensureId(this.contentEl);
-
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      if (totalOpenModals === 0) {
-        initialDocumentOverflowStyle = document.documentElement.style.overflow;
-      }
-
-      totalOpenModals++;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
   }
 
   private handleOutsideClose(): void {
@@ -468,18 +452,7 @@ export class Modal
       }
     }
 
-    if (getNearestOverflowAncestor(this.el) === document.body) {
-      totalOpenModals--;
-      if (totalOpenModals === 0) {
-        this.removeOverflowHiddenClass();
-      }
-    }
-
     this.opened = false;
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private updateSizeCssVars(): void {
@@ -495,9 +468,9 @@ export class Modal
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
@@ -631,5 +604,5 @@ export class Modal
     }
   }
 
-  // #endregion
+  //#endregion
 }

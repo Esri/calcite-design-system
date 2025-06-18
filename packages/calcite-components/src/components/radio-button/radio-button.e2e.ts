@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -10,10 +11,13 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
+import { CSS } from "./resources";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -39,6 +43,8 @@ describe("calcite-radio-button", () => {
   });
 
   describe("labelable", () => {
+    mockConsole();
+
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked",
@@ -46,6 +52,8 @@ describe("calcite-radio-button", () => {
   });
 
   describe("disabled", () => {
+    mockConsole();
+
     disabled("calcite-radio-button", {
       focusTarget: {
         tab: "calcite-radio-button",
@@ -204,7 +212,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="none-checked" value="2"></calcite-radio-button>
       <calcite-radio-button name="none-checked" value="3"></calcite-radio-button>
     `);
-    const radioButtons = await page.findAll("calcite-radio-button");
+    const radioButtons = await findAll(page, "calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
       expect(radioButtons[i].getAttribute("checked")).toBe(null);
@@ -218,7 +226,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="multiple-checked" value="2" checked></calcite-radio-button>
       <calcite-radio-button name="multiple-checked" value="3" checked></calcite-radio-button>
     `);
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -379,7 +387,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems.length).toEqual(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -399,7 +407,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]", { allowEmpty: true });
     expect(checkedItems).toHaveLength(0);
   });
 
@@ -575,7 +583,7 @@ describe("calcite-radio-button", () => {
     `);
 
     await page.waitForChanges();
-    const radios = await page.findAll("fake-component >>> calcite-radio-button");
+    const radios = await findAll(page, "fake-component >>> calcite-radio-button");
 
     await radios[0].click();
 
@@ -626,6 +634,49 @@ describe("calcite-radio-button", () => {
           changeValueKeys: ["Space"],
         },
       );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-radio-button></calcite-radio-button>`, {
+        "--calcite-radio-button-background-color": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.radio}`,
+        },
+        "--calcite-radio-button-border-color": {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.radio}`,
+        },
+        "--calcite-radio-button-corner-radius": {
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.radio}`,
+        },
+        "--calcite-radio-button-size": [
+          {
+            targetProp: "blockSize",
+            shadowSelector: `.${CSS.radio}`,
+          },
+          {
+            targetProp: "inlineSize",
+            shadowSelector: `.${CSS.radio}`,
+          },
+        ],
+      });
+    });
+    describe("deprecated", () => {
+      themed(html`<calcite-radio-button></calcite-radio-button>`, {
+        "--calcite-radio-size": [
+          {
+            targetProp: "blockSize",
+            shadowSelector: `.${CSS.radio}`,
+          },
+          {
+            targetProp: "inlineSize",
+            shadowSelector: `.${CSS.radio}`,
+          },
+        ],
+      });
     });
   });
 });

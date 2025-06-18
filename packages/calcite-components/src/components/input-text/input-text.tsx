@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -11,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
@@ -28,12 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -57,25 +53,20 @@ declare global {
 /** @slot action - A slot for positioning a button next to the component. */
 export class InputText
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    LoadableComponent,
-    TextualInputComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -89,10 +80,6 @@ export class InputText
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   labelEl: Label["el"];
 
@@ -120,15 +107,22 @@ export class InputText
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -137,9 +131,9 @@ export class InputText
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
@@ -178,7 +172,8 @@ export class InputText
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -188,14 +183,8 @@ export class InputText
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
@@ -211,7 +200,8 @@ export class InputText
   @property({ reflect: true }) name: string;
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -235,7 +225,10 @@ export class InputText
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -280,7 +273,6 @@ export class InputText
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -289,9 +281,9 @@ export class InputText
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -307,9 +299,9 @@ export class InputText
     this.childEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new value is typed and committed. */
   calciteInputTextChange = createEvent();
@@ -326,9 +318,9 @@ export class InputText
     value: string;
   }>();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -351,7 +343,6 @@ export class InputText
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
@@ -367,10 +358,6 @@ export class InputText
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -380,9 +367,13 @@ export class InputText
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -545,9 +536,9 @@ export class InputText
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -585,24 +576,16 @@ export class InputText
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
-        autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-        autofocus={this.el.autofocus ? true : null}
+        autocomplete={this.autocomplete}
+        autofocus={this.el.autofocus}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={
-          (this.el.enterKeyHint ||
-            this.el.getAttribute(
-              "enterkeyhint",
-            )) as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
-        }
-        inputMode={
-          (this.el.inputMode ||
-            this.el.getAttribute("inputmode")) as LuminaJsx.HTMLElementTags["input"]["inputMode"]
-        }
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
@@ -654,5 +637,5 @@ export class InputText
     );
   }
 
-  // #endregion
+  //#endregion
 }

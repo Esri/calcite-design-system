@@ -37,22 +37,27 @@
         --calcite-panel-corner-radius: 12px;
         --calcite-panel-heading-text-color: darkgreen;
         --calcite-panel-description-text-color: lightgreen;
+        --calcite-panel-border-color: blue;
         --calcite-panel-background-color: yellow;
         --calcite-panel-header-background-color: orange;
         --calcite-panel-footer-background-color: red;
-
         --calcite-panel-border-color: lime;
-
         --calcite-panel-space: 2rem;
         --calcite-panel-header-content-space: 0;
         --calcite-panel-footer-space: 0;
+        --calcite-panel-content-space: 12px;
+        --calcite-panel-footer-padding: 3rem;
+        --calcite-panel-header-border-block-end: rgb(13, 242, 204);
 
-        --calcite-action-background-color: lime;
-        --calcite-action-background-color-hover: lime;
-        --calcite-action-background-color-pressed: lime;
-        --calcite-action-text-color: blue;
-        --calcite-action-text-color-pressed: blue;
-        --calcite-popover-border-color: blue;
+        --calcite-panel-header-action-background-color: blue;
+        --calcite-panel-header-action-background-color-hover: blue;
+        --calcite-panel-header-action-background-color-press: blue;
+      }
+
+      .themed-panel calcite-action[slot="header-actions-end"] {
+        --calcite-action-background-color: red;
+        --calcite-action-background-color-hover: red;
+        --calcite-action-background-color-press: red;
       }
     </style>
 
@@ -90,6 +95,16 @@
           <calcite-panel height-scale="s" heading="Header!">
             <p slot="footer">Footer!</p>
           </calcite-panel>
+        </div>
+      </div>
+
+      <!-- with icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">with icon</div>
+        <div class="child">
+          <calcite-panel scale="s" icon="banana" heading="Small Bananas!"> Hello world! </calcite-panel>
+          <calcite-panel scale="m" icon="banana" heading="Medium Bananas!"> Hello world! </calcite-panel>
+          <calcite-panel scale="l" icon="banana" heading="Large Bananas!"> Hello world! </calcite-panel>
         </div>
       </div>
 
@@ -330,6 +345,7 @@
             <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
             <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
             <div slot="content-top">To continue, you must agree to the terms</div>
+
             <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
               <calcite-checkbox></calcite-checkbox>I agree to the terms
             </calcite-label>
@@ -341,6 +357,7 @@
               tortor, a iaculis elit mi sed lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor,
               porttitor est sed, vestibulum risus. Integer non erat libero.
             </p>
+
             <p>
               Cras sagittis vel neque sed efficitur. Vestibulum mattis diam eget urna condimentum tempus. Donec
               malesuada velit sit amet metus faucibus pharetra. Sed sit amet massa facilisis, porttitor nunc vitae,
@@ -423,6 +440,7 @@
             <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
               <calcite-checkbox></calcite-checkbox>I agree to the terms
             </calcite-label>
+            <p><calcite-action text="banana" text-enabled icon="banana"></calcite-action></p>
             <p>
               Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
               fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros.

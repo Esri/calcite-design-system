@@ -137,7 +137,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         heading="Set member properties"
         selected
       >
-        <calcite-notice open width="full"><div slot="message">Step 3 Constent Goes Here</div></calcite-notice>
+        <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
       <calcite-stepper-item
         heading="Confirm and complete"
@@ -208,21 +208,37 @@ export const arabicNumberingSystem_TestOnly = (): string =>
 
 export const verticalLayout_TestOnly = (): string =>
   html`<calcite-stepper layout="vertical" scale="s">
-      <calcite-stepper-item heading="Scale s" description="Add members without sending invitations"
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         >Step 1 Content Goes Here</calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go"
+        >Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go"></calcite-stepper-item>
     </calcite-stepper>
 
     <calcite-stepper layout="vertical">
-      <calcite-stepper-item heading="Scale m" description="Add members without sending invitations"
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         >Step 1 Content Goes Here</calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go" selected
+        >Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go"></calcite-stepper-item>
     </calcite-stepper>
 
     <calcite-stepper layout="vertical" scale="l">
-      <calcite-stepper-item heading="Scale l" description="Add members without sending invitations"
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         >Step 1 Content Goes Here</calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go"
+        >Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item
+        heading="Rivers"
+        description="The Rivers are calling and I must go"
+        selected
+      ></calcite-stepper-item>
     </calcite-stepper>`;
 
 export const horizontalSingleLayout_TestOnly = (): string => html`
@@ -299,20 +315,44 @@ export const horizontalSingleLayout_TestOnly = (): string => html`
 `;
 
 export const verticalLayoutFullWidth = (): string =>
-  html`<calcite-stepper layout="vertical" scale="s" style="width: 1000px;">
-      <calcite-stepper-item heading="Scale s" description="Add members without sending invitations"
-        >Step 1 Content Goes Here</calcite-stepper-item
+  html`<calcite-stepper layout="vertical" scale="s">
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
+        ><calcite-notice open icon="tree" width="full">
+          <div slot="title">Popular Mountains</div>
+          <div slot="message">Mount Everest, Mount Rainier, Mount Mckinley</div>
+      </calcite-notice></calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go"
+        > Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go"></calcite-stepper-item>
+      </calcite-stepper-item>
     </calcite-stepper>
 
-    <calcite-stepper layout="vertical">
-      <calcite-stepper-item heading="Scale m" description="Add members without sending invitations"
-        >Step 1 Content Goes Here</calcite-stepper-item
+   <calcite-stepper layout="vertical" >
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
+        ><calcite-notice open icon="tree" width="full">
+          <div slot="title">Popular Mountains</div>
+          <div slot="message">Mount Everest, Mount Rainier, Mount Mckinley</div>
+      </calcite-notice></calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go"
+        selected> Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go"></calcite-stepper-item>
+      </calcite-stepper-item>
     </calcite-stepper>
 
     <calcite-stepper layout="vertical" scale="l">
-      <calcite-stepper-item heading="Scale l" description="Add members without sending invitations"
-        >Step 1 Content Goes Here</calcite-stepper-item
+      <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
+        ><calcite-notice open icon="tree" width="full">
+          <div slot="title">Popular Mountains</div>
+          <div slot="message">Mount Everest, Mount Rainier, Mount Mckinley</div>
+      </calcite-notice></calcite-stepper-item
       >
+      <calcite-stepper-item heading="Beaches" description="The Beaches are calling and I must go"
+        > Step 2 Content Goes Here</calcite-stepper-item
+      >
+      <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go" selected></calcite-stepper-item>
+      </calcite-stepper-item>
     </calcite-stepper>`;

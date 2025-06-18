@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -22,12 +23,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 import { Validation } from "../functional/Validation";
@@ -48,15 +44,15 @@ declare global {
 
 export class Rating
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: Rating["value"];
 
@@ -78,15 +74,22 @@ export class Rating
 
   private _value = 0;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hoverValue: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies a cumulative average from previous ratings to display. */
   @property({ reflect: true }) average: number;
@@ -108,13 +111,6 @@ export class Rating
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -125,7 +121,8 @@ export class Rating
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -173,7 +170,6 @@ export class Rating
   get value(): number {
     return this._value;
   }
-
   set value(value: number) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -184,9 +180,9 @@ export class Rating
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -195,16 +191,16 @@ export class Rating
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's value changes. */
   calciteRatingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -219,7 +215,6 @@ export class Rating
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestUpdate("value");
   }
 
@@ -254,7 +249,6 @@ export class Rating
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -262,9 +256,9 @@ export class Rating
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
@@ -349,8 +343,8 @@ export class Rating
     target.focus();
   }
 
-  private handleLabelClick(event: Event) {
-    //preventing pointerdown event will supress any compatability mouse events except for click event.
+  private handleLabelClick(event: MouseEvent) {
+    //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
 
@@ -384,9 +378,9 @@ export class Rating
     return currentValue === 1 ? 5 : currentValue - 1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const countString = this.count?.toString();
@@ -429,7 +423,7 @@ export class Rating
                       type="radio"
                       value={value}
                     />
-                    <StarIcon full={selected || average} scale={this.scale} />
+                    <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
                       <div class="fraction" style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />
@@ -465,5 +459,5 @@ export class Rating
     );
   }
 
-  // #endregion
+  //#endregion
 }

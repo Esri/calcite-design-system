@@ -4,20 +4,26 @@ export const CSS = {
   active: "label--active",
   centerContent: "center-content",
   container: "container",
-  custom: "icon--custom",
+  iconCustom: "icon--custom",
   description: "description",
-  filterMatch: "filter-match",
   icon: "icon",
-  iconSelected: "icon--selected",
   label: "label",
   scale: (scale: Scale) => `scale--${scale}` as const,
-  selected: "label--selected",
   shortText: "short-text",
   single: "label--single",
   textContainer: "text-container",
-  title: "title",
+  heading: "heading",
+};
+
+export const ICONS = {
+  checked: "check-square-f",
+  circle: "circle",
+  indeterminate: "minus-square-f",
+  selectedSingle: "circle-inset-large",
+  unchecked: "square",
 };
 
 export const SLOTS = {
   contentEnd: "content-end",
+  contentStart: "content-start",
 };

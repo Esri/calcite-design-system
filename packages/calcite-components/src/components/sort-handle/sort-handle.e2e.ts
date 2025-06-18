@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { MoveEventDetail } from "./interfaces";
@@ -45,6 +46,17 @@ describe("calcite-sort-handle", () => {
     );
   });
 
+  it("sets dragHandle on action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-sort-handle lang="en" label="Hello World" set-position="4" set-size="10"></calcite-sort-handle>`,
+    );
+    await page.waitForChanges();
+
+    const handle = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+    expect(await handle.getProperty("dragHandle")).toBe(true);
+  });
+
   it("fires calciteSortHandleReorder event", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
@@ -57,14 +69,17 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+    expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("fires calciteSortHandleMove event", async () => {
@@ -86,23 +101,26 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    expect(await calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+    expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
   });
 
-  it("is disabled when no moveToItems, no setPosition or setSize < 2", async () => {
+  it("is disabled when no moveToItems, setPosition < 1 or setSize < 2", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sort-handle label="test"></calcite-sort-handle>`);
     await skipAnimations(page);
 
     const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
-    expect(await dropdown.getProperty("disabled")).toBe(true);
+    expect(await dropdown.getProperty("disabled")).toBe(false);
 
     const sortHandle = await page.find("calcite-sort-handle");
 
@@ -118,12 +136,12 @@ describe("calcite-sort-handle", () => {
 
     expect(await dropdown.getProperty("disabled")).toBe(false);
 
-    sortHandle.setProperty("setPosition", undefined);
+    sortHandle.setProperty("setPosition", 0);
     await page.waitForChanges();
 
     expect(await dropdown.getProperty("disabled")).toBe(true);
 
-    sortHandle.setProperty("setSize", undefined);
+    sortHandle.setProperty("setSize", 0);
     sortHandle.setProperty("setPosition", 1);
     await page.waitForChanges();
 
@@ -137,6 +155,13 @@ describe("calcite-sort-handle", () => {
 
     sortHandle.setProperty("moveToItems", moveToItems);
     sortHandle.setProperty("setSize", 2);
+    await page.waitForChanges();
+
+    expect(await dropdown.getProperty("disabled")).toBe(false);
+
+    sortHandle.setProperty("moveToItems", []);
+    sortHandle.setProperty("setSize", undefined);
+    sortHandle.setProperty("setPosition", undefined);
     await page.waitForChanges();
 
     expect(await dropdown.getProperty("disabled")).toBe(false);

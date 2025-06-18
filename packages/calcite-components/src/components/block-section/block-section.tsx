@@ -1,15 +1,12 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -22,14 +19,28 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class BlockSection extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class BlockSection extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
@@ -44,14 +55,22 @@ export class BlockSection extends LitElement implements LoadableComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
+   * When `true`, expands the component and its contents.
    *
-   * @private
+   * @deprecated Use `expanded` prop instead.
    */
-  messages = useT9n<typeof T9nStrings>();
-
-  /** When `true`, expands the component and its contents. */
-  @property({ reflect: true }) open = false;
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
 
   /**
    * Displays a status-related indicator icon.
@@ -72,9 +91,9 @@ export class BlockSection extends LitElement implements LoadableComponent {
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first tabbable element. */
   @method()
@@ -83,28 +102,16 @@ export class BlockSection extends LitElement implements LoadableComponent {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private handleHeaderKeyDown(event: KeyboardEvent): void {
     if (isActivationKey(event.key)) {
@@ -115,13 +122,13 @@ export class BlockSection extends LitElement implements LoadableComponent {
   }
 
   private toggleSection(): void {
-    this.open = !this.open;
+    this.expanded = !this.expanded;
     this.calciteBlockSectionToggle.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
@@ -137,8 +144,10 @@ export class BlockSection extends LitElement implements LoadableComponent {
     ) : null;
   }
 
-  private renderIcon(icon: string): JsxNode {
-    const { iconFlipRtl } = this;
+  private renderIcon(position: "start" | "end"): JsxNode {
+    const { iconFlipRtl, iconStart, iconEnd } = this;
+
+    const icon = position === "start" ? iconStart : iconEnd;
 
     if (icon === undefined) {
       return null;
@@ -146,26 +155,25 @@ export class BlockSection extends LitElement implements LoadableComponent {
 
     const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
     const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
-
-    const isIconStart = icon === this.iconStart;
+    const isIconStart = position === "start";
 
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
         class={isIconStart ? CSS.iconStart : CSS.iconEnd}
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
-        icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? this.iconStart : this.iconEnd}
+        icon={isIconStart ? iconStart : iconEnd}
+        key={isIconStart ? iconStart : iconEnd}
         scale="s"
       />
     );
   }
 
   override render(): JsxNode {
-    const { messages, open, text, toggleDisplay } = this;
-    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
+    const { messages, expanded, text, toggleDisplay } = this;
+    const arrowIcon = expanded ? ICONS.menuExpanded : ICONS.menuCollapsed;
 
-    const toggleLabel = open ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? messages.collapse : messages.expand;
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -176,7 +184,7 @@ export class BlockSection extends LitElement implements LoadableComponent {
         >
           <div
             aria-controls={IDS.content}
-            ariaExpanded={open}
+            ariaExpanded={expanded}
             class={{
               [CSS.toggle]: true,
               [CSS.toggleSwitch]: true,
@@ -188,14 +196,20 @@ export class BlockSection extends LitElement implements LoadableComponent {
             tabIndex={0}
             title={toggleLabel}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
 
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
-            <calcite-switch checked={open} class={CSS.switch} inert label={toggleLabel} scale="s" />
+            <calcite-switch
+              checked={expanded}
+              class={CSS.switch}
+              inert
+              label={toggleLabel}
+              scale="s"
+            />
           </div>
         </div>
       ) : (
@@ -206,7 +220,7 @@ export class BlockSection extends LitElement implements LoadableComponent {
         >
           <button
             aria-controls={IDS.content}
-            ariaExpanded={open}
+            ariaExpanded={expanded}
             class={{
               [CSS.sectionHeader]: true,
               [CSS.toggle]: true,
@@ -214,9 +228,9 @@ export class BlockSection extends LitElement implements LoadableComponent {
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <span class={CSS.sectionHeaderText}>{text}</span>
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
           </button>
@@ -226,12 +240,17 @@ export class BlockSection extends LitElement implements LoadableComponent {
     return (
       <>
         {headerNode}
-        <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+        <section
+          aria-labelledby={IDS.toggle}
+          class={CSS.content}
+          hidden={!expanded}
+          id={IDS.content}
+        >
           <slot />
         </section>
       </>
     );
   }
 
-  // #endregion
+  //#endregion
 }

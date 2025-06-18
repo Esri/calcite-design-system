@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { debounce, escapeRegExp } from "lodash-es";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
@@ -43,19 +44,13 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, isHidden } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -95,20 +90,19 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent,
-    LoadableComponent
+    FloatingUIComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  private internalComboboxChangeEvent = (): void => {
-    this.calciteComboboxChange.emit();
-  };
+  private closeButtonEl = createRef<HTMLButtonElement>();
+
+  private selectAllComboboxItemReferenceEl = createRef<HTMLCalciteComboboxItemElement>();
 
   private allSelectedIndicatorChipEl: Chip["el"];
 
@@ -118,52 +112,48 @@ export class Combobox
 
   defaultValue: Combobox["value"];
 
-  private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
-
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item && filteredData.some(({ el }) => item === el);
 
     return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
-      const filteredData = filter([...this.data, ...this.groupData], text, [
-        "description",
-        "label",
-        "metadata",
-        "shortHeading",
-      ]);
+      const filteredData = filter(
+        [...this.data, ...this.groupData],
+        text,
+        this.effectiveFilterProps,
+      );
       const itemsAndGroups = this.getItemsAndGroups();
 
       const matchAll = text === "";
 
       itemsAndGroups.forEach((item) => {
         if (matchAll) {
-          item.hidden = false;
+          item.itemHidden = false;
           return;
         }
 
         const hidden = !find(item, filteredData);
-        item.hidden = hidden;
+        item.itemHidden = hidden;
         const [parent, grandparent] = item.ancestors;
 
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
-          item.hidden = false;
+          item.itemHidden = false;
         }
 
         if (!hidden) {
-          item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
+          item.ancestors.forEach((ancestor) => (ancestor.itemHidden = false));
         }
       });
 
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
-      this.filteredItems = this.getFilteredItems();
-      this.filteredItems.forEach((item) => {
+      this.keyboardNavItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
 
       if (setOpenToEmptyState) {
-        this.open = this.filterText.trim().length > 0 && this.filteredItems.length > 0;
+        this.open = this.filterText.trim().length > 0 && this.keyboardNavItems.length > 0;
       }
 
       if (emit) {
@@ -208,6 +198,8 @@ export class Combobox
 
   private groupData: GroupData[];
 
+  private groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
+
   private guid = guid();
 
   private ignoreSelectedEventsFlag = false;
@@ -228,7 +220,7 @@ export class Combobox
     this.setFocus();
   };
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -241,16 +233,7 @@ export class Combobox
 
   private selectedIndicatorChipEl: Chip["el"];
 
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
-  }
+  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   private textInput = createRef<HTMLInputElement>();
 
@@ -258,9 +241,16 @@ export class Combobox
 
   private _value: string | string[] = null;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() activeChipIndex = -1;
 
@@ -270,19 +260,38 @@ export class Combobox
 
   @state() compactSelectionDisplay = false;
 
-  @state() groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
-
-  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
-
-  @state() needsIcon: boolean;
-
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
 
-  // #endregion
+  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
-  // #region Public Properties
+  @state()
+  get allSelected(): boolean {
+    return this.selectedItems.length === this.items.length;
+  }
+
+  @state()
+  get indeterminate(): boolean {
+    return this.selectedItems.length > 0 && !this.allSelected;
+  }
+
+  @state()
+  get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
+    const { selectAllComboboxItemReferenceEl } = this;
+
+    const filteredItems = this.filteredItems.filter((item) => !item.disabled);
+
+    if (selectAllComboboxItemReferenceEl.value) {
+      return [selectAllComboboxItemReferenceEl.value, ...filteredItems];
+    }
+
+    return filteredItems;
+  }
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
@@ -298,7 +307,6 @@ export class Combobox
   get filterText(): string {
     return this._filterText;
   }
-
   set filterText(filterText: string) {
     const oldFilterText = this._filterText;
     if (filterText !== oldFilterText) {
@@ -307,12 +315,17 @@ export class Combobox
     }
   }
 
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  @property() filterProps: string[];
+
   /**
    * Specifies the component's filtered items.
    *
    * @readonly
    */
-  @property() filteredItems: HTMLCalciteComboboxItemElement["el"][] = [];
+  @property() get filteredItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this.items.filter((item) => !isHidden(item));
+  }
 
   /** Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
@@ -336,13 +349,6 @@ export class Combobox
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Specifies the name of the component.
@@ -375,18 +381,33 @@ export class Combobox
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  @property({ reflect: true }) selectAllEnabled = false;
 
   /**
    * Specifies the component's selected items.
    *
    * @readonly
    */
-  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
+  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
+    return this._selectedItems;
+  }
+  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
+    const oldSelectedItems = this._selectedItems;
+    if (selectedItems !== oldSelectedItems) {
+      this._selectedItems = selectedItems;
+      this.selectedItemsHandler();
+    }
+  }
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -451,7 +472,6 @@ export class Combobox
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -460,9 +480,9 @@ export class Combobox
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -498,9 +518,9 @@ export class Combobox
     this.activeItemIndex = -1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed, and before the closing transition begins. */
   calciteComboboxBeforeClose = createEvent({ cancelable: false });
@@ -523,9 +543,9 @@ export class Combobox
   /** Fires when the component is open and animation is complete. */
   calciteComboboxOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -544,21 +564,8 @@ export class Combobox
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
-    this.updateItems();
     this.setFilteredPlacements();
-
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    this.updateItems();
-    this.filterItems(this.filterText, false, false);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -585,19 +592,12 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "multiple")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
-    ) {
+    if (changes.has("selectionMode") || changes.has("scale")) {
       this.updateItems();
     }
 
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
-    }
-
-    if (changes.has("selectedItems") && (this.hasUpdated || this.selectedItems?.length > 0)) {
-      this.selectedItemsHandler();
     }
   }
 
@@ -608,16 +608,14 @@ export class Combobox
     }
 
     updateHostInteraction(this);
-
-    if (!this.hasUpdated) {
-      this.refreshSelectionDisplay();
-    }
+    this.refreshSelectionDisplay();
   }
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
-    setComponentLoaded(this);
+    this.updateItems();
+    this.filterItems(this.filterText, false, false);
   }
 
   override disconnectedCallback(): void {
@@ -628,9 +626,32 @@ export class Combobox
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private emitComboboxChange(): void {
+    this.calciteComboboxChange.emit();
+  }
+
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
 
   private filterTextChange(value: string): void {
     this.updateActiveItemIndex(-1);
@@ -655,14 +676,10 @@ export class Combobox
 
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
-      const items = this.getItems();
-      if (Array.isArray(value)) {
-        items.forEach((item) => (item.selected = value.includes(item.value)));
-      } else if (value) {
-        items.forEach((item) => (item.selected = value === item.value));
-      } else {
-        items.forEach((item) => (item.selected = false));
-      }
+      this.getItems().forEach((item) => {
+        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+      });
+
       this.updateItems();
     }
   }
@@ -698,24 +715,50 @@ export class Combobox
     this.open = false;
   }
 
+  private handleSelectAll(isSelectAllTarget: boolean): void {
+    if (isSelectAllTarget) {
+      this.toggleSelectAll();
+    }
+
+    if (this.allSelected) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+  }
+
   private calciteComboboxItemChangeHandler(
     event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
   ): void {
     if (this.ignoreSelectedEventsFlag) {
       return;
     }
-
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
-    const newIndex = this.filteredItems.indexOf(target);
+    const isSelectAllTarget = event
+      .composedPath()
+      .includes(this.selectAllComboboxItemReferenceEl.value);
+
+    if (this.selectAllEnabled) {
+      this.handleSelectAll(isSelectAllTarget);
+    }
+
+    const newIndex = this.keyboardNavItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
+
+    this.selectedItems = this.getSelectedItems();
   }
 
   private calciteInternalComboboxItemChangeHandler(
     event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
   ): void {
     event.stopPropagation();
-    this.updateItems();
+    if (this.hasUpdated) {
+      this.updateItems();
+    }
   }
 
   private clearValue(): void {
@@ -745,8 +788,8 @@ export class Combobox
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item?.value?.toString());
-    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+    const items = this.selectedItems.map((item) => item.value?.toString());
+    return items.length ? (items.length > 1 ? items : items[0]) : "";
   }
 
   private comboboxInViewport(): boolean {
@@ -757,6 +800,13 @@ export class Combobox
       bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
       bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
     );
+  }
+
+  private toggleSelectAll() {
+    const toggledValue = !this.allSelected;
+    this.items.forEach((item) => (item.selected = toggledValue));
+    this.selectedItems = toggledValue ? this.items : [];
+    this.emitComboboxChange();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -795,19 +845,21 @@ export class Combobox
         }
         break;
       case "ArrowUp":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(-1);
           }
+          this.scrollToActiveOrSelectedItem();
 
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
           }
         }
+        this.scrollToActiveOrSelectedItem();
         break;
       case "ArrowDown":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(1);
@@ -815,6 +867,7 @@ export class Combobox
             this.open = true;
             this.ensureRecentSelectedItemIsActive();
           }
+          this.scrollToActiveOrSelectedItem();
 
           if (!this.comboboxInViewport()) {
             this.el.scrollIntoView();
@@ -836,7 +889,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(0);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -847,7 +900,7 @@ export class Combobox
         }
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
-        this.scrollToActiveItem();
+        this.scrollToActiveOrSelectedItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -862,9 +915,13 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          const item = this.filteredItems[this.activeItemIndex];
+          const item = this.keyboardNavItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
+
+          if (this.selectAllEnabled) {
+            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl.value);
+          }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
@@ -898,11 +955,12 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -928,6 +986,7 @@ export class Combobox
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
     await this.reposition(true);
   }
+
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
     this.open = false;
 
@@ -983,6 +1042,10 @@ export class Combobox
     chipEls,
     availableHorizontalChipElSpace,
     chipContainerElGap,
+  }: {
+    chipEls: Chip["el"][];
+    availableHorizontalChipElSpace: number;
+    chipContainerElGap: number;
   }): void {
     chipEls.forEach((chipEl: Chip["el"]) => {
       if (!chipEl.selected) {
@@ -1000,7 +1063,7 @@ export class Combobox
   }
 
   private async refreshSelectionDisplay() {
-    await componentLoaded(this);
+    this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
       return;
@@ -1037,6 +1100,24 @@ export class Combobox
       inputWidth,
       largestSelectedIndicatorChipWidth,
     });
+
+    if (this.allSelected && this.selectAllEnabled) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+
+    if (this.indeterminate) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        if (chipEl) {
+          this.showChip(chipEl);
+        }
+      });
+    }
 
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
@@ -1077,9 +1158,11 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (el) {
-      this.resizeObserver?.observe(el);
+    if (!el) {
+      return;
     }
+
+    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
   }
@@ -1123,7 +1206,7 @@ export class Combobox
 
   private getMaxScrollerHeight(): number {
     const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
-    const items = allItemsAndGroups.filter((item) => !item.hidden);
+    const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
 
@@ -1179,27 +1262,35 @@ export class Combobox
     }
 
     if (this.isMulti()) {
-      item.selected = value;
-      this.updateAncestors(item);
-      this.selectedItems = this.getSelectedItems();
-      this.emitComboboxChange();
-      this.resetText();
-      this.filterItems("");
+      this.handleMultiSelection(item, value);
     } else {
-      this.ignoreSelectedEventsFlag = true;
-      this.items.forEach((el) => (el.selected = el === item ? value : false));
-      this.ignoreSelectedEventsFlag = false;
-      this.selectedItems = this.getSelectedItems();
-      this.emitComboboxChange();
-
-      if (this.textInput.value) {
-        this.textInput.value.value = getLabel(item);
-      }
-      this.open = false;
-      this.updateActiveItemIndex(-1);
-      this.resetText();
-      this.filterItems("");
+      this.handleSingleSelection(item, value);
     }
+  }
+
+  private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
+    item.selected = value;
+    this.updateAncestors(item);
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
+    this.resetText();
+    this.filterItems("");
+  }
+
+  private handleSingleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
+    this.ignoreSelectedEventsFlag = true;
+    this.items.forEach((el) => (el.selected = el === item ? value : false));
+    this.ignoreSelectedEventsFlag = false;
+    this.selectedItems = this.getSelectedItems();
+    this.emitComboboxChange();
+
+    if (this.textInput.value) {
+      this.textInput.value.value = getLabel(item);
+    }
+    this.open = false;
+    this.updateActiveItemIndex(-1);
+    this.resetText();
+    this.filterItems("");
   }
 
   private updateAncestors(item: HTMLCalciteComboboxItemElement["el"]): void {
@@ -1222,20 +1313,20 @@ export class Combobox
     }
   }
 
-  private getFilteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
-  }
-
   private updateItems(): void {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
+
     this.data = this.getData();
     this.groupData = this.getGroupData();
-    this.selectedItems = this.getSelectedItems();
-    this.filteredItems = this.getFilteredItems();
-    this.needsIcon = this.getNeedsIcon();
 
-    this.items.forEach((item) => {
+    this.updateItemProps();
+
+    this.selectedItems = this.getSelectedItems();
+  }
+
+  private updateItemProps(): void {
+    this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
@@ -1263,9 +1354,10 @@ export class Combobox
     return this.items.map((item) => ({
       description: item.description,
       filterDisabled: item.filterDisabled,
-      label: item.heading || item.textLabel,
+      label: item.heading,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
+      textLabel: item.textLabel,
       el: item, // used for matching items to data
     }));
   }
@@ -1275,10 +1367,6 @@ export class Combobox
       label: groupItem.label,
       el: groupItem,
     }));
-  }
-
-  private getNeedsIcon(): boolean {
-    return isSingleLike(this.selectionMode) && this.items.some((item) => item.icon);
   }
 
   private resetText(): void {
@@ -1292,6 +1380,7 @@ export class Combobox
     const items: HTMLCalciteComboboxItemElement["el"][] = Array.from(
       this.el.querySelectorAll(ComboboxItemSelector),
     );
+
     return items.filter((item) => withDisabled || !item.disabled);
   }
 
@@ -1304,25 +1393,19 @@ export class Combobox
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
-      if (!this.isMulti()) {
-        this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
-      }
       const item = document.createElement(
         // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
         "calcite-combobox-item",
       );
       item.value = value;
       item.heading = value;
-      item.selected = true;
       this.el.prepend(item);
-      this.resetText();
+      this.updateItems();
+      this.toggleSelection(item, true);
+      this.open = true;
       if (focus) {
         this.setFocus();
       }
-      this.updateItems();
-      this.filterItems("");
-      this.open = true;
-      this.emitComboboxChange();
     }
   }
 
@@ -1366,33 +1449,41 @@ export class Combobox
     chip?.setFocus();
   }
 
-  private scrollToActiveItem(): void {
-    const activeItem = this.filteredItems[this.activeItemIndex];
+  private scrollToActiveOrSelectedItem(scrollToSelected = false): void {
+    const item =
+      scrollToSelected && this.selectedItems?.length
+        ? this.selectedItems[0]
+        : this.keyboardNavItems[this.activeItemIndex];
 
-    if (!activeItem) {
+    if (!item) {
       return;
     }
 
-    const height = this.calculateScrollerHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
+    item.scrollIntoView({ block: "nearest" });
+
+    const stickyElement = this.selectAllComboboxItemReferenceEl.value;
+    const stickyHeight = stickyElement?.offsetHeight || 0;
+
+    const listContainer = this.listContainerEl;
+    const itemRect = item.getBoundingClientRect();
+    const containerRect = listContainer.getBoundingClientRect();
+
+    if (itemRect.top < containerRect.top + stickyHeight) {
+      listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
     }
   }
 
   private shiftActiveItemIndex(delta: number): void {
-    const { length } = this.filteredItems;
+    const { length } = this.keyboardNavItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    this.scrollToActiveItem();
+    this.scrollToActiveOrSelectedItem();
   }
 
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
     let activeDescendant: string = null;
-    this.filteredItems.forEach((el, i) => {
+    this.keyboardNavItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
         activeDescendant = `${itemUidPrefix}${el.guid}`;
@@ -1401,13 +1492,10 @@ export class Combobox
       }
     });
     this.activeDescendant = activeDescendant;
+
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
     }
-  }
-
-  private isAllSelected(): boolean {
-    return this.getItems().length === this.getSelectedItems().length;
   }
 
   private isMulti(): boolean {
@@ -1422,16 +1510,38 @@ export class Combobox
     this.textInput.value?.focus();
   }
 
-  // #endregion
+  private createScreenReaderItem({
+    ariaLabel,
+    ariaSelected,
+    id,
+    textContent,
+  }: {
+    ariaLabel?: string;
+    ariaSelected: boolean;
+    id?: string;
+    textContent: string;
+  }): JsxNode {
+    return (
+      <li aria-label={ariaLabel} aria-selected={ariaSelected} id={id} role="option" tabIndex={-1}>
+        {textContent}
+      </li>
+    );
+  }
 
-  // #region Rendering
+  //#endregion
+
+  //#region Rendering
 
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
+
+    if (this.selectAllEnabled && this.allSelected) {
+      return null;
+    }
+
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
-        chip: true,
-        "chip--active": activeChipIndex === i,
+        [CSS.chip]: true,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const itemLabel = getLabel(item);
@@ -1471,42 +1581,18 @@ export class Combobox
       selectedVisibleChipsCount,
       setAllSelectedIndicatorChipEl,
     } = this;
-    const label = this.messages.allSelected;
+    const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
+
     return (
       <calcite-chip
         class={{
           chip: true,
-          [CSS.chipInvisible]: !(
-            this.isAllSelected() &&
-            !selectedVisibleChipsCount &&
-            !compactSelectionDisplay
-          ),
+          [CSS.chipInvisible]: !(this.allSelected && !selectedVisibleChipsCount),
+          [CSS.allSelected]: true,
         }}
+        data-test-id="all-selected-indicator-chip"
         label={label}
         ref={setAllSelectedIndicatorChipEl}
-        scale={scale}
-        title={label}
-        value=""
-      >
-        {label}
-      </calcite-chip>
-    );
-  }
-
-  private renderAllSelectedIndicatorChipCompact(): JsxNode {
-    const { compactSelectionDisplay, scale, selectedVisibleChipsCount } = this;
-    const label = this.messages.all || "All";
-    return (
-      <calcite-chip
-        class={{
-          chip: true,
-          [CSS.chipInvisible]: !(
-            this.isAllSelected() &&
-            !selectedVisibleChipsCount &&
-            compactSelectionDisplay
-          ),
-        }}
-        label={label}
         scale={scale}
         title={label}
         value=""
@@ -1534,7 +1620,7 @@ export class Combobox
     } else {
       if (selectionDisplay === "single") {
         const selectedItemsCount = getSelectedItems().length;
-        if (this.isAllSelected()) {
+        if (this.allSelected) {
           chipInvisible = true;
         } else if (selectedItemsCount > 0) {
           chipInvisible = false;
@@ -1544,7 +1630,7 @@ export class Combobox
         label = `${selectedItemsCount} ${this.messages.selected}`;
       } else if (selectionDisplay === "fit") {
         chipInvisible = !!(
-          (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
+          (this.allSelected && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
         );
         label =
@@ -1583,7 +1669,7 @@ export class Combobox
 
     if (compactSelectionDisplay) {
       const selectedItemsCount = getSelectedItems().length;
-      if (this.isAllSelected()) {
+      if (this.allSelected) {
         chipInvisible = true;
       } else if (selectionDisplay === "fit") {
         chipInvisible = !(selectedHiddenChipsCount > 0);
@@ -1627,8 +1713,8 @@ export class Combobox
         {showLabel && (
           <span
             class={{
-              label: true,
-              "label--icon": !!selectedItem?.icon,
+              [CSS.label]: true,
+              [CSS.labelIcon]: !!selectedItem?.icon,
             }}
             key="label"
           >
@@ -1670,20 +1756,36 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    return this.filteredItems.map((item) => (
-      <li
-        ariaSelected={item.selected}
-        id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
-        role="option"
-        tabIndex="-1"
-      >
-        {item.heading || item.textLabel}
-      </li>
-    ));
+    const mappedListBoxOptions = this.keyboardNavItems.map((item) =>
+      this.createScreenReaderItem({
+        ariaLabel: item.label,
+        ariaSelected: item.selected,
+        id: `${itemUidPrefix}${item.guid}`,
+        textContent: item.heading || item.textLabel,
+      }),
+    );
+
+    if (
+      this.selectAllEnabled &&
+      this.selectionMode !== "single" &&
+      this.selectionMode !== "single-persist"
+    ) {
+      const selectAllComboboxItem = this.createScreenReaderItem({
+        ariaLabel: this.messages.selectAll,
+        ariaSelected: this.allSelected,
+        textContent: this.messages.selectAll,
+      });
+
+      if (selectAllComboboxItem) {
+        mappedListBoxOptions.unshift(selectAllComboboxItem);
+      }
+    }
+
+    return mappedListBoxOptions;
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { setFloatingEl, setContainerEl, open } = this;
+    const { setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
@@ -1694,6 +1796,22 @@ export class Combobox
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
+            {this.selectAllEnabled &&
+              this.selectionMode !== "single" &&
+              this.selectionMode !== "single-persist" && (
+                <calcite-combobox-item
+                  class={CSS.selectAll}
+                  id={`${this.guid}-select-all-enabled-interactive`}
+                  indeterminate={this.indeterminate}
+                  label={this.messages.selectAll}
+                  ref={this.selectAllComboboxItemReferenceEl}
+                  scale={scale}
+                  selected={this.allSelected}
+                  tabIndex="-1"
+                  text-label={this.messages.selectAll}
+                  value="select-all"
+                />
+              )}
             <slot />
           </ul>
         </div>
@@ -1750,9 +1868,9 @@ export class Combobox
         <div
           ariaLive="polite"
           class={{
-            wrapper: true,
-            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-            "wrapper--active": open,
+            [CSS.wrapper]: true,
+            [CSS.wrapperSingle]: singleSelectionMode || !this.selectedItems.length,
+            [CSS.wrapperActive]: open,
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
@@ -1770,14 +1888,17 @@ export class Combobox
           >
             {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
             {!singleSelectionMode &&
+              !singleSelectionDisplay &&
+              this.selectAllEnabled &&
+              this.renderAllSelectedIndicatorChip()}
+            {!singleSelectionMode &&
               !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
                 this.renderSelectedIndicatorChipCompact(),
                 this.renderAllSelectedIndicatorChip(),
-                this.renderAllSelectedIndicatorChipCompact(),
               ]}
             <label
-              class="screen-readers-only"
+              class={CSS.screenReadersOnly}
               htmlFor={`${inputUidPrefix}${guid}`}
               id={`${labelUidPrefix}${guid}`}
             >
@@ -1790,6 +1911,7 @@ export class Combobox
               disabled={this.disabled}
               key="close-button"
               label={this.messages.clear}
+              ref={this.closeButtonEl}
               scale={this.scale}
             />
           ) : null}
@@ -1798,7 +1920,7 @@ export class Combobox
         <ul
           aria-labelledby={`${labelUidPrefix}${guid}`}
           ariaMultiSelectable="true"
-          class="screen-readers-only"
+          class={CSS.screenReadersOnly}
           id={`${listboxUidPrefix}${guid}`}
           role="listbox"
           tabIndex={-1}
@@ -1820,5 +1942,5 @@ export class Combobox
     );
   }
 
-  // #endregion
+  //#endregion
 }

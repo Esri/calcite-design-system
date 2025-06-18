@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -5,14 +6,15 @@ import {
   disabled,
   focusable,
   formAssociated,
+  hidden,
   HYDRATED_ATTR,
   labelable,
-  hidden,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
@@ -131,7 +133,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const checkboxes = await page.findAll("calcite-checkbox");
+    const checkboxes = await findAll(page, "calcite-checkbox");
     expect(checkboxes.length).toEqual(1);
   });
 
@@ -141,7 +143,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const checkboxes = await page.findAll("calcite-checkbox");
+    const checkboxes = await findAll(page, "calcite-checkbox");
     expect(checkboxes.length).toEqual(1);
   });
 
@@ -224,21 +226,51 @@ describe("calcite-checkbox", () => {
   });
 
   describe("theme", () => {
-    themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
-      "--calcite-checkbox-size": [
-        {
+    describe("default", () => {
+      themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
+        "--calcite-checkbox-size": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "blockSize",
+          },
+        ],
+        "--calcite-checkbox-icon-color": {
           shadowSelector: `.${CSS.check}`,
-          targetProp: "inlineSize",
+          targetProp: "color",
         },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-checkbox-icon-color": {
-        shadowSelector: `.${CSS.check}`,
-        targetProp: "color",
-      },
+      });
+    });
+    describe("checked", () => {
+      themed(html` <calcite-checkbox name="s-checked" scale="s" checked></calcite-checkbox> `, {
+        "--calcite-checkbox-border-color-hover": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "boxShadow",
+            state: "hover",
+          },
+        ],
+        "--calcite-checkbox-border-color-press": [
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-checkbox >>> .${CSS.check}` },
+          },
+          {
+            shadowSelector: `.${CSS.check}`,
+            targetProp: "boxShadow",
+            state: { press: `calcite-checkbox >>> .${CSS.check}` },
+          },
+        ],
+      });
     });
   });
 });

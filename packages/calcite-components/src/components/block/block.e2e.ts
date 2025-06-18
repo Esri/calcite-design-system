@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -12,14 +13,18 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-block", { display: "flex" });
   });
@@ -35,11 +40,19 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
       {
+        propertyName: "dragDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
       {
         propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expanded",
         defaultValue: false,
       },
       {
@@ -53,6 +66,10 @@ describe("calcite-block", () => {
       {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        defaultValue: false,
       },
     ]);
   });
@@ -72,12 +89,24 @@ describe("calcite-block", () => {
         value: true,
       },
       {
+        propertyName: "expanded",
+        value: true,
+      },
+      {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "dragDisabled",
+        value: true,
+      },
+      {
+        propertyName: "sortHandleOpen",
+        value: true,
       },
     ]);
   });
@@ -92,7 +121,7 @@ describe("calcite-block", () => {
 
   describe("accessible", () => {
     accessible(html`
-      <calcite-block heading="heading" description="description" open collapsible>
+      <calcite-block heading="heading" description="description" expanded collapsible>
         <div slot=${SLOTS.icon}>✅</div>
         <div>content</div>
         <label slot=${SLOTS.control}>test <input placeholder="control" /></label>
@@ -103,8 +132,8 @@ describe("calcite-block", () => {
   describe("setFocus", () => {
     describe("focuses block heading toggle", () => {
       focusable(
-        html`<calcite-block heading="Heading" description="summary" collapsible open>
-          <calcite-block-section text="input block-section" open>
+        html`<calcite-block heading="Heading" description="summary" collapsible expanded>
+          <calcite-block-section text="input block-section" expanded>
             <calcite-input
               icon="form-field"
               placeholder="This is an input field... enter something here"
@@ -120,8 +149,8 @@ describe("calcite-block", () => {
     const blockSectionClass = "my-block-section";
     describe("focuses block section", () => {
       focusable(
-        html`<calcite-block heading="Heading" description="summary" open>
-          <calcite-block-section class="${blockSectionClass}" text="input block-section" open>
+        html`<calcite-block heading="Heading" description="summary" expanded>
+          <calcite-block-section class="${blockSectionClass}" text="input block-section" expanded>
             <calcite-input
               icon="form-field"
               placeholder="This is an input field... enter something here"
@@ -160,7 +189,7 @@ describe("calcite-block", () => {
   it("has a loading state", async () => {
     const page = await newE2EPage({
       html: `
-        <calcite-block heading="heading" description="description" open collapsible>
+        <calcite-block heading="heading" description="description" expanded collapsible>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -194,14 +223,14 @@ describe("calcite-block", () => {
 
     const element = await page.find("calcite-block");
     const content = await page.find(`calcite-block >>> #${IDS.content}`);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(await content.isVisible()).toBe(false);
 
-    element.setProperty("open", true);
+    element.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await content.isVisible()).toBe(true);
 
-    element.setProperty("open", false);
+    element.setProperty("expanded", false);
     await page.waitForChanges();
 
     expect(await content.isVisible()).toBe(false);
@@ -224,21 +253,43 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
 
+    const openEventSpy = await element.spyOnEvent("calciteBlockOpen");
     await toggle.click();
+    await openEventSpy.next();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
-    expect(await element.getProperty("open")).toBe(true);
+    expect(await element.getProperty("expanded")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
+    const closeEventSpy = await element.spyOnEvent("calciteBlockClose");
     await toggle.click();
+    await closeEventSpy.next();
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(closeSpy).toHaveReceivedEventTimes(1);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
+  });
+
+  // Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
+  it("should map deprecated 'open' prop to 'expanded' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-block></calcite-block>`,
+    });
+    const block = await page.find("calcite-block");
+
+    expect(await block.getProperty("expanded")).toBe(false);
+
+    block.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(true);
+
+    block.setProperty("open", false);
+    await page.waitForChanges();
+    expect(await block.getProperty("expanded")).toBe(false);
   });
 
   describe("header", () => {
@@ -289,12 +340,18 @@ describe("calcite-block", () => {
       await control.press("Space");
       await control.press("Enter");
       await control.click();
+
       expect(blockOpenSpy).toHaveReceivedEventTimes(0);
       expect(blockToggleSpy).toHaveReceivedEventTimes(0);
       expect(blockCloseSpy).toHaveReceivedEventTimes(0);
 
+      const openEventSpy = await page.spyOnEvent("calciteBlockOpen");
+      const closeEventSpy = await page.spyOnEvent("calciteBlockClose");
       await block.click();
+      await openEventSpy.next();
       await block.click();
+      await closeEventSpy.next();
+
       expect(blockToggleSpy).toHaveReceivedEventTimes(2);
       expect(blockOpenSpy).toHaveReceivedEventTimes(1);
       expect(blockCloseSpy).toHaveReceivedEventTimes(1);
@@ -315,7 +372,7 @@ describe("calcite-block", () => {
       expect(statusIcon).not.toBeNull();
     });
 
-    it("displays a loading icon  when `loading` is set to true and `open` is set to false", async () => {
+    it("displays a loading icon  when `loading` is set to true and `expanded` is set to false", async () => {
       const headerIcon = "header-icon";
       const page = await newE2EPage();
       await page.setContent(
@@ -381,7 +438,7 @@ describe("calcite-block", () => {
           --calcite-block-padding: ${overrideStyle}
         }
       </style>
-      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
        </calcite-block>`,
     );
@@ -395,7 +452,7 @@ describe("calcite-block", () => {
     const overrideStyle = "0px";
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+      `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
         </calcite-block>`,
     );
@@ -409,8 +466,8 @@ describe("calcite-block", () => {
     const label = "Spatial";
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-block label=${label} open>
-        <calcite-notice open>
+      html`<calcite-block label=${label} expanded>
+        <calcite-notice expanded>
           <div slot="message">Use layer effects sparingly, for emphasis</div>
         </calcite-notice>
       </calcite-block>`,
@@ -421,5 +478,79 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n("calcite-block");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-block
+          heading="heading"
+          description="description"
+          expanded
+          collapsible
+          icon-end="pen"
+          icon-start="pen"
+        >
+          <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <div>content</div>
+        </calcite-block>`,
+        {
+          "--calcite-block-border-color": {
+            targetProp: "borderColor",
+          },
+          "--calcite-block-header-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-block-header-background-color-hover": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          "--calcite-block-header-background-color-press": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-block >>> .${CSS.toggle}` },
+          },
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
+          "--calcite-block-heading-text-color-press": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.heading } },
+          },
+          "--calcite-block-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-block-icon-color": [
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.toggleIcon}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-block-icon-color-hover": {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        },
+      );
+    });
+    describe("collapsed", () => {
+      themed(html`<calcite-block heading="heading"></calcite-block>`, {
+        "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
+      });
+    });
   });
 });

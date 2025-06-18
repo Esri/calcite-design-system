@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 
 describe("config", () => {
@@ -29,21 +30,21 @@ describe("config", () => {
   });
 
   describe("stampVersion", () => {
-    const calciteVersionPreBuildPlaceholder = "__CALCITE_VERSION__";
+    const buildVersion = __CALCITE_VERSION__;
 
     beforeEach(() => delete globalThis.calciteConfig);
 
     it("creates global config and stamps the version onto it", async () => {
       config = await loadConfig();
       config.stampVersion();
-      expect(globalThis.calciteConfig.version).toBe(calciteVersionPreBuildPlaceholder);
+      expect(globalThis.calciteConfig.version).toBe(buildVersion);
     });
 
     it("stamps the version onto existing config if there's no version present", async () => {
       globalThis.calciteConfig = {};
       config = await loadConfig();
       config.stampVersion();
-      expect(globalThis.calciteConfig.version).toBe(calciteVersionPreBuildPlaceholder);
+      expect(globalThis.calciteConfig.version).toBe(buildVersion);
     });
 
     it("bails if version is already stamped onto existing config", async () => {
@@ -54,6 +55,7 @@ describe("config", () => {
       expect(globalThis.calciteConfig.version).toBe(testVersion);
     });
 
+    /* eslint-disable no-console -- needed for assertions */
     const originalConsoleInfo = console.warn;
 
     beforeEach(() => {
@@ -70,5 +72,7 @@ describe("config", () => {
       config.stampVersion();
       expect(console.info).toHaveBeenCalled();
     });
+
+    /* eslint-enable no-console */
   });
 });

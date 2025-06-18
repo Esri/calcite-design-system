@@ -1,9 +1,8 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 import { LuminaJsx } from "@arcgis/lumina";
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { hiddenFormInputSlotName } from "../../../utils/form";
-import { isElementFocused } from "../../../tests/utils";
+import { isElementFocused } from "../../../tests/utils/puppeteer";
 import { html } from "../../../../support/formatting";
 
 export function testPostValidationFocusing(
@@ -128,11 +127,26 @@ export function testWorkaroundForGlobalPropRemoval(
         <${inputTag} autofocus inputmode="${testInputMode}" enterkeyhint="${testEnterKeyHint}"></${inputTag}>
     `);
 
-    const input = await page.find(`${inputTag} >>> input`);
+    const internalInput = await page.find(`${inputTag} >>> input`);
 
-    expect(input.getAttribute("autofocus")).toBe("");
-    expect(input.getAttribute("inputmode")).toBe(testInputMode);
-    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+    expect(internalInput.getAttribute("autofocus")).toBe("");
+    expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
+    expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+
+    const input = await page.find(inputTag);
+
+    // we intentionally test each one to avoid renders caused by unrelated props affecting result
+    await input.removeAttribute("autofocus");
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("autofocus")).toBe(null);
+
+    await input.removeAttribute("inputmode");
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("inputmode")).toBe(getExpectedDefaultInputMode(input));
+
+    await input.removeAttribute("enterkeyhint");
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("enterkeyhint")).toBe("");
   });
 
   it("supports global props", async () => {
@@ -150,5 +164,22 @@ export function testWorkaroundForGlobalPropRemoval(
     expect(internalInput.getAttribute("autofocus")).toBe("");
     expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
     expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+
+    // we intentionally test each one to avoid renders caused by unrelated props affecting result
+    input.setProperty("autofocus", false);
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("autofocus")).toBe(null);
+
+    input.setProperty("inputMode", null);
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("inputmode")).toBe(getExpectedDefaultInputMode(input));
+
+    input.setProperty("enterKeyHint", null);
+    await page.waitForChanges();
+    expect(internalInput.getAttribute("enterkeyhint")).toBe("");
   });
+
+  function getExpectedDefaultInputMode(input: E2EElement): string {
+    return input.tagName === "CALCITE-INPUT-NUMBER" ? "decimal" : "";
+  }
 }

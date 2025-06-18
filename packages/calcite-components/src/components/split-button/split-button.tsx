@@ -1,16 +1,20 @@
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+// @ts-strict-ignore
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
 import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -25,7 +29,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-dropdown` content. */
-export class SplitButton extends LitElement implements InteractiveComponent, LoadableComponent {
+export class SplitButton extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -66,6 +70,14 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /**
+   * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
+   * Without a value, the browser will suggest a filename/extension.
+   *
+   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   */
+  @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
+
   /** Specifies the icon used for the dropdown menu. */
   @property({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
@@ -74,6 +86,9 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
 
   /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
+
+  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
+  @property({ reflect: true }) href: string;
 
   /** Specifies the kind of the component, which will apply to border and background, if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -90,6 +105,13 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Defines the relationship between the `href` value and the current document.
+   *
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   */
+  @property({ reflect: true }) rel: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
@@ -115,6 +137,13 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @property({ reflect: true }) target: string;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
@@ -144,16 +173,8 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -180,6 +201,8 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
           <calcite-button
             appearance={this.appearance}
             disabled={this.disabled}
+            download={this.download}
+            href={this.href}
             iconEnd={this.primaryIconEnd ? this.primaryIconEnd : null}
             iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             iconStart={this.primaryIconStart ? this.primaryIconStart : null}
@@ -187,8 +210,10 @@ export class SplitButton extends LitElement implements InteractiveComponent, Loa
             label={this.primaryLabel}
             loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
+            rel={this.rel}
             scale={this.scale}
             splitChild={"primary"}
+            target={this.target}
             type="button"
             width={buttonWidth}
           >

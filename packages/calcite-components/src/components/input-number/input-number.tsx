@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -11,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -30,12 +31,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -57,6 +53,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
+import { logger } from "../../utils/logger";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -75,21 +72,20 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     NumericInputComponent,
-    TextualInputComponent,
-    LoadableComponent
+    TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["enterkeyhint", "inputmode"],
+    ["autofocus", "enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -103,10 +99,6 @@ export class InputNumber
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   labelEl: Label["el"];
 
@@ -140,17 +132,24 @@ export class InputNumber
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() displayedValue: string;
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -159,9 +158,9 @@ export class InputNumber
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
@@ -213,14 +212,16 @@ export class InputNumber
   @property() localeFormat = false;
 
   /**
-   * Specifies the maximum value.
+   * When the component resides in a form,
+   * specifies the maximum value.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max: number;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    * @deprecated This property has no effect on the component.
@@ -231,21 +232,16 @@ export class InputNumber
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
-   * Specifies the minimum value.
+   * When the component resides in a form,
+   * specifies the minimum value.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min: number;
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    * @deprecated This property has no effect on the component.
@@ -284,7 +280,10 @@ export class InputNumber
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -336,7 +335,6 @@ export class InputNumber
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -351,9 +349,9 @@ export class InputNumber
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -369,9 +367,9 @@ export class InputNumber
     this.childNumberEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new value is typed and committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
@@ -385,9 +383,9 @@ export class InputNumber
   /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -409,7 +407,6 @@ export class InputNumber
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -455,10 +452,6 @@ export class InputNumber
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -468,9 +461,13 @@ export class InputNumber
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -663,6 +660,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -826,6 +824,9 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
+    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
+    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
+
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? valueHandleInteger
@@ -849,21 +850,52 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.displayedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-        : newLocalizedValue;
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
 
+    // adds localized leading zeros
+    if (hasLeadingZeros) {
+      newLocalizedValue = `${
+        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
+        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
-    this.value = ["-", "."].includes(newValue) ? "" : newValue;
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.value = validNewValue;
+
+    const localizedCharAllowlist = new Set([
+      "e",
+      "E",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    const childInputValue = this.childNumberEl?.value;
+    // remove invalid characters from child input
+    if (childInputValue) {
+      const sanitizedChildInputValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
+      }
+    }
 
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
-      this.setPreviousEmittedNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(validNewValue);
     }
 
     if (nativeEvent) {
@@ -883,13 +915,13 @@ export class InputNumber
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (value && !isValidNumber(value)) {
-      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -976,20 +1008,13 @@ export class InputNumber
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
-        autocomplete={this.autocomplete as LuminaJsx.HTMLElementTags["input"]["autocomplete"]}
-        autofocus={this.el.autofocus ? true : null}
+        autocomplete={this.autocomplete}
+        autofocus={this.el.autofocus}
         defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
-        enterKeyHint={
-          (this.el.enterKeyHint ||
-            this.el.getAttribute(
-              "enterkeyhint",
-            )) as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
-        }
+        disabled={this.disabled}
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
         inputMode={
-          (this.el.inputMode ||
-            this.el.getAttribute("inputmode") ||
-            "decimal") as LuminaJsx.HTMLElementTags["input"]["inputMode"]
+          (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
         }
         key="localized-input"
         maxLength={this.maxLength}
@@ -999,6 +1024,7 @@ export class InputNumber
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
+        // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
@@ -1011,7 +1037,13 @@ export class InputNumber
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly
@@ -1047,5 +1079,5 @@ export class InputNumber
     );
   }
 
-  // #endregion
+  //#endregion
 }

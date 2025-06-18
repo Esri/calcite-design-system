@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -16,12 +17,7 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -55,17 +51,17 @@ declare global {
 
 export class InputTimeZone
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private comboboxEl: Combobox["el"];
 
@@ -83,9 +79,16 @@ export class InputTimeZone
 
   private _value: string;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * When `true`, an empty value (`null`) will be allowed as a `value`.
@@ -109,13 +112,6 @@ export class InputTimeZone
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * This specifies the type of `value` and the associated options presented to the user:
@@ -168,12 +164,13 @@ export class InputTimeZone
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
-   * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+   * @see [Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
   @property() referenceDate: Date | string;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @private
    */
@@ -218,30 +215,30 @@ export class InputTimeZone
    *
    * If no value is provided, the user's time zone offset will be selected by default.
    *
-   * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
+   * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     this._value = value;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
+  /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     await this.comboboxEl.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputTimeZoneBeforeClose = createEvent({ cancelable: false });
@@ -258,9 +255,9 @@ export class InputTimeZone
   /** Fires after the component is opened and animation is complete. */
   calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     connectForm(this);
@@ -268,15 +265,12 @@ export class InputTimeZone
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
     const initialValue = this.value;
     const normalized = this.normalizeValue(initialValue);
     this.value = normalized || (initialValue === "" ? normalized : undefined);
-
-    await this.updateTimeZoneSelection();
+    this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
     afterConnectDefaultValueSet(this, selectedValue);
@@ -288,6 +282,10 @@ export class InputTimeZone
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && this.hasUpdated) {
+      this.handleValueChange(this.value, changes.get("value"));
+    }
+
     if (
       changes.has("messages") ||
       (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
@@ -299,10 +297,6 @@ export class InputTimeZone
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
     }
-
-    if (changes.has("value") && this.hasUpdated) {
-      this.handleValueChange(this.value, changes.get("value"));
-    }
   }
 
   override updated(): void {
@@ -310,8 +304,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    setComponentLoaded(this);
-    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -320,16 +312,16 @@ export class InputTimeZone
     disconnectLabel(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
-  private handleTimeZoneItemPropsChange(): void {
+  private async handleTimeZoneItemPropsChange(): Promise<void> {
     if (!this.timeZoneItems || !this.hasUpdated) {
       return;
     }
 
-    this.updateTimeZoneItems();
+    await this.updateTimeZoneItems();
     this.updateTimeZoneSelection();
   }
 
@@ -364,11 +356,6 @@ export class InputTimeZone
 
     this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
-
-    if (normalized !== value) {
-      await this.updateComplete;
-      this.overrideSelectedLabelForRegion(this.open);
-    }
   }
 
   onLabelClick(): void {
@@ -385,33 +372,23 @@ export class InputTimeZone
    * @param open
    * @private
    */
-  private overrideSelectedLabelForRegion(open: boolean): void {
-    console.log("ovd");
+  private overrideSelectedLabelForRegion(): void {
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
-      console.log("bail");
       return;
     }
 
-    const { label, metadata } = this.selectedTimeZoneItem;
-
-    const lbl =
-      !metadata.country || open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
-
-    console.log("label", lbl);
-    this.comboboxEl.selectedItems[0].textLabel = lbl;
+    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem);
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion(false);
+    this.overrideSelectedLabelForRegion();
     this.calciteInputTimeZoneBeforeClose.emit();
   }
 
   private onComboboxBeforeOpen(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion(true);
+    this.overrideSelectedLabelForRegion();
     this.calciteInputTimeZoneBeforeOpen.emit();
   }
 
@@ -463,7 +440,7 @@ export class InputTimeZone
     this.timeZoneItems = await this.createTimeZoneItems();
   }
 
-  private async updateTimeZoneSelection(): Promise<void> {
+  private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
@@ -498,9 +475,17 @@ export class InputTimeZone
     return value ? this.normalizer(value) : value;
   }
 
-  // #endregion
+  private getItemLabel(item: TimeZoneItem): string {
+    const selected = this.selectedTimeZoneItem === item;
+    const { label, metadata } = item;
+    return !this.open && item.metadata.country && selected
+      ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
+      : label;
+  }
 
-  // #region Rendering
+  //#endregion
+
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -568,7 +553,7 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-
+          const textLabel = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
@@ -576,7 +561,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={label}
+              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
@@ -589,5 +574,5 @@ export class InputTimeZone
     ));
   }
 
-  // #endregion
+  //#endregion
 }

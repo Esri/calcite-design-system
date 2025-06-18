@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -28,12 +29,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -58,7 +54,7 @@ function isRange(value: number | number[]): value is number[] {
 
 export class Slider
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -209,7 +205,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/graph/interfaces.ts#L5).
    */
   @property() histogram: DataSeries;
 
@@ -270,7 +266,10 @@ export class Slider
   /** When `true`, sets a finer point for handles. */
   @property({ reflect: true }) precise = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -372,7 +371,6 @@ export class Slider
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     if (!isRange(this.value)) {
       this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
     }
@@ -413,10 +411,6 @@ export class Slider
     }
     this.hideObscuredBoundingTickLabels();
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {

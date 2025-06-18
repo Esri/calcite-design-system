@@ -1,10 +1,6 @@
+// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  LoadableComponent,
-  componentFocusable,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
 
@@ -14,7 +10,7 @@ declare global {
   }
 }
 
-export class NavigationUser extends LitElement implements LoadableComponent {
+export class NavigationUser extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -55,18 +51,6 @@ export class NavigationUser extends LitElement implements LoadableComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     this.el.focus();
-  }
-
-  // #endregion
-
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

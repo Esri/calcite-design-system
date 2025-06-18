@@ -3,6 +3,7 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { hourFormats } from "../../utils/time";
 import { InputTimePicker } from "./input-time-picker";
 
 const { scale, status } = ATTRIBUTES;
@@ -10,7 +11,16 @@ const { scale, status } = ATTRIBUTES;
 interface InputTimePickerStoryArgs
   extends Pick<
     InputTimePicker,
-    "disabled" | "name" | "placement" | "scale" | "status" | "step" | "validationMessage" | "validationIcon" | "value"
+    | "disabled"
+    | "hourFormat"
+    | "name"
+    | "placement"
+    | "scale"
+    | "status"
+    | "step"
+    | "validationMessage"
+    | "validationIcon"
+    | "value"
   > {
   hidden: boolean;
 }
@@ -20,6 +30,7 @@ export default {
   args: {
     disabled: false,
     hidden: false,
+    hourFormat: undefined,
     name: "simple",
     placement: defaultMenuPlacement,
     scale: scale.defaultValue,
@@ -30,6 +41,10 @@ export default {
     value: "10:37",
   },
   argTypes: {
+    hourFormat: {
+      options: hourFormats,
+      control: { type: "select" },
+    },
     placement: {
       options: menuPlacements,
       control: { type: "select" },
@@ -53,6 +68,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
+    hour-format="${args.hourFormat}"
     name="${args.name}"
     placement="${args.placement}"
     scale="${args.scale}"

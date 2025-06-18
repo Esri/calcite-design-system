@@ -1,6 +1,6 @@
 name: Accessibility
 description: Report an accessibility issue in a component
-labels: ["a11y", "bug", "0 - new", "p - high", "needs triage"]
+labels: ["a11y", "bug", "0 - new", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues
@@ -152,5 +152,6 @@ body:
         - Esri Marketing
         - Professional Services - Midwest Delivery Center
         - Professional Services - Services Delivery
+        - Workflow Manager
         - Calcite (design)
         - Calcite (dev)

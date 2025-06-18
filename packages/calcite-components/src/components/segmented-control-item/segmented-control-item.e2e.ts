@@ -1,6 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden } from "../../tests/commonTests";
+import { renders, hidden, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control-item", () => {
@@ -40,7 +41,7 @@ describe("calcite-segmented-control-item", () => {
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-segmented-control-item icon-start="car">Content</calcite-accordion-item>`);
+    <calcite-segmented-control-item icon-start="car">Content</calcite-segmented-control-item>`);
     const icon = await page.find(`calcite-segmented-control-item >>> .${CSS.icon}`);
     expect(icon).not.toBe(null);
   });
@@ -48,7 +49,7 @@ describe("calcite-segmented-control-item", () => {
   it("does not render icon if not requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-segmented-control-item>Content</calcite-accordion-item>`);
+    <calcite-segmented-control-item>Content</calcite-segmented-control-item>`);
     const icon = await page.find(`calcite-segmented-control-item >>> .${CSS.icon}`);
     expect(icon).toBe(null);
   });
@@ -106,6 +107,33 @@ describe("calcite-segmented-control-item", () => {
       expect(element).not.toHaveAttribute("value");
       expect(element).not.toHaveAttribute("icon-start");
       expect(element).not.toHaveAttribute("icon-end");
+    });
+  });
+
+  describe("theme", () => {
+    themed("calcite-segmented-control-item", {
+      "--calcite-segmented-control-color": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "color",
+      },
+      "--calcite-segmented-control-background-color": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-segmented-control-border-color": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-segmented-control-shadow": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "boxShadow",
+      },
+    });
+    themed(html`<calcite-segmented-control-item icon-start="car">Content</calcite-segmented-control-item>`, {
+      "--calcite-segmented-control-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "--calcite-icon-color",
+      },
     });
   });
 });

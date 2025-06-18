@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
@@ -83,6 +84,9 @@ describe("calcite-icon", () => {
         expect(path.getAttribute("d")).toBeFalsy();
 
         icon.setProperty("style", null);
+
+        // intentional double waitForChanges to ensure the icon is loaded (sequenced prop updates)
+        await page.waitForChanges();
         await page.waitForChanges();
 
         expect(path.getAttribute("d")).toBeTruthy();

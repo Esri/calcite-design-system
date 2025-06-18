@@ -1,23 +1,11 @@
+// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, isPixelValue } from "../../utils/dom";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements,
-} from "../../utils/focusTrapComponent";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -27,15 +15,12 @@ import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
+import { resizeShiftStep } from "../../utils/resources";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import {
-  CSS,
-  dialogDragStep,
-  dialogResizeStep,
-  initialDragPosition,
-  initialResizePosition,
-  SLOTS,
-} from "./resources";
+import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 import { styles } from "./dialog.scss";
 
@@ -45,12 +30,10 @@ declare global {
   }
 }
 
-let totalOpenDialogs: number = 0;
-let initialDocumentOverflowStyle: string = "";
-
 /**
  * @slot - A slot for adding content.
- * @slot content - A slot for adding custom content.
+ * @slot content - [Deprecated] Use `custom-content` slot instead.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -64,21 +47,34 @@ let initialDocumentOverflowStyle: string = "";
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Dialog
-  extends LitElement
-  implements OpenCloseComponent, FocusTrapComponent, LoadableComponent
-{
-  // #region Static Members
+export class Dialog extends LitElement implements OpenCloseComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
-  focusTrap: FocusTrap;
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      // scrim closes on click, so we let it take over
+      clickOutsideDeactivates: () => !this.modal || this.embedded,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && !this.escapeDisabled) {
+          this.open = false;
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
+
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
   private ignoreOpenChange = false;
 
@@ -90,15 +86,9 @@ export class Dialog
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
+  openProp = "opened";
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private panelEl = createRef<Panel["el"]>();
 
@@ -106,9 +96,16 @@ export class Dialog
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string | null = null;
 
@@ -120,9 +117,13 @@ export class Dialog
 
   @state() opened = false;
 
-  // #endregion
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded && this.modal;
+  }
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -149,9 +150,19 @@ export class Dialog
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility)
+   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   */
+  @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /** The component header text. */
   @property() heading: string;
@@ -165,6 +176,12 @@ export class Dialog
     Kind
   >;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -174,22 +191,17 @@ export class Dialog
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
+
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -229,9 +241,9 @@ export class Dialog
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -261,15 +273,22 @@ export class Dialog
     return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteDialogBeforeClose = createEvent({ cancelable: false });
@@ -286,35 +305,13 @@ export class Dialog
   /** Fires when the content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectFocusTrap(this, {
-      focusTrapOptions: {
-        // scrim closes on click, so we let it take over
-        clickOutsideDeactivates: () => !this.modal,
-        escapeDeactivates: (event) => {
-          if (!event.defaultPrevented && !this.escapeDisabled) {
-            this.open = false;
-            event.preventDefault();
-          }
-
-          return false;
-        },
-      },
-    });
     this.setupInteractions();
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    // when dialog initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      this.openDialog();
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -322,9 +319,6 @@ export class Dialog
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("modal") && (this.hasUpdated || this.modal !== false)) {
-      this.updateOverflowHiddenClass();
-    }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -348,21 +342,21 @@ export class Dialog
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    deactivateFocusTrap(this);
     this.embedded = false;
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
+  }
+
   private updateAssistiveText(): void {
     const { messages } = this;
     this.assistiveText =
@@ -376,8 +370,11 @@ export class Dialog
   }
 
   onOpen(): void {
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
+    this.focusTrap.activate();
     this.calciteDialogOpen.emit();
-    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -385,8 +382,8 @@ export class Dialog
   }
 
   onClose(): void {
+    this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
-    deactivateFocusTrap(this);
   }
 
   private toggleDialog(value: boolean): void {
@@ -445,16 +442,24 @@ export class Dialog
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
+          const { minBlockSize } = window.getComputedStyle(transitionEl);
+          const minHeight = getStylePixelValue(minBlockSize);
+          const height = this.getTransitionElDOMRect().height;
+
+          if (height <= minHeight) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - dialogResizeStep,
+            size: height - resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom -= dialogResizeStep;
+          resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y -= dialogDragStep;
+          dragPosition.y -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -463,15 +468,15 @@ export class Dialog
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().height + dialogResizeStep,
+            size: this.getTransitionElDOMRect().height + resizeShiftStep,
             type: "blockSize",
           });
-          resizePosition.bottom += dialogResizeStep;
+          resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.y += dialogDragStep;
+          dragPosition.y += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -479,16 +484,24 @@ export class Dialog
         break;
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
+          const { minInlineSize } = window.getComputedStyle(transitionEl);
+          const minWidth = getStylePixelValue(minInlineSize);
+          const width = this.getTransitionElDOMRect().width;
+
+          if (width <= minWidth) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - dialogResizeStep,
+            size: width - resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right -= dialogResizeStep;
+          resizePosition.right -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x -= dialogDragStep;
+          dragPosition.x -= resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -497,15 +510,15 @@ export class Dialog
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
           this.updateSize({
-            size: this.getTransitionElDOMRect().width + dialogResizeStep,
+            size: this.getTransitionElDOMRect().width + resizeShiftStep,
             type: "inlineSize",
           });
-          resizePosition.right += dialogResizeStep;
+          resizePosition.right += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
         } else if (dragEnabled) {
-          dragPosition.x += dialogDragStep;
+          dragPosition.x += resizeShiftStep;
           this.updateTransform();
           this.triggerInteractModifiers();
           event.preventDefault();
@@ -566,7 +579,7 @@ export class Dialog
     this.updateTransform();
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
@@ -580,6 +593,8 @@ export class Dialog
     }
 
     if (resizable) {
+      await this.el.componentOnReady();
+
       const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
         window.getComputedStyle(transitionEl);
 
@@ -593,12 +608,12 @@ export class Dialog
         modifiers: [
           interact.modifiers.restrictSize({
             min: {
-              width: isPixelValue(minInlineSize) ? parseInt(minInlineSize, 10) : 0,
-              height: isPixelValue(minBlockSize) ? parseInt(minBlockSize, 10) : 0,
+              width: getStylePixelValue(minInlineSize),
+              height: getStylePixelValue(minBlockSize),
             },
             max: {
-              width: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize, 10) : window.innerWidth,
-              height: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize, 10) : window.innerHeight,
+              width: getStylePixelValue(maxInlineSize) || window.innerWidth,
+              height: getStylePixelValue(maxBlockSize) || window.innerHeight,
             },
           }),
           interact.modifiers.restrict({
@@ -676,6 +691,10 @@ export class Dialog
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
     this.setupInteractions();
   }
@@ -706,12 +725,7 @@ export class Dialog
 
   private async openDialog(): Promise<void> {
     await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteDialogOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     this.opened = true;
-    this.updateOverflowHiddenClass();
   }
 
   private handleOutsideClose(): void {
@@ -737,43 +751,19 @@ export class Dialog
       }
     }
 
-    totalOpenDialogs--;
     this.opened = false;
-    this.updateOverflowHiddenClass();
-  }
-
-  private updateOverflowHiddenClass(): void {
-    if (this.opened && !this.embedded && this.modal) {
-      this.addOverflowHiddenClass();
-    } else {
-      this.removeOverflowHiddenClass();
-    }
-  }
-
-  private addOverflowHiddenClass(): void {
-    if (totalOpenDialogs === 0) {
-      initialDocumentOverflowStyle = document.documentElement.style.overflow;
-    }
-
-    totalOpenDialogs++;
-    // use an inline style instead of a utility class to avoid global class declarations.
-    document.documentElement.style.setProperty("overflow", "hidden");
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver(): void {
-    this.updateFocusTrapElements();
+    this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
-    const { assistiveText, description, heading, opened } = this;
+    const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
         class={{
@@ -802,44 +792,48 @@ export class Dialog
               {assistiveText}
             </div>
           ) : null}
-          <slot name={SLOTS.content}>
-            <calcite-panel
-              beforeClose={this.beforeClose}
-              class={CSS.panel}
-              closable={!this.closeDisabled}
-              closed={!opened}
-              description={description}
-              heading={heading}
-              headingLevel={this.headingLevel}
-              loading={this.loading}
-              menuOpen={this.menuOpen}
-              messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
-              oncalcitePanelClose={this.handleInternalPanelCloseClick}
-              oncalcitePanelScroll={this.handleInternalPanelScroll}
-              overlayPositioning={this.overlayPositioning}
-              ref={this.panelEl}
-              scale={this.scale}
-            >
-              <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-              <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
-              <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-              <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-              <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-              <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-              <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-              <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
-              <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-              <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-              <slot />
-            </calcite-panel>
+          <slot name={SLOTS.customContent}>
+            <slot name={SLOTS.content}>
+              <calcite-panel
+                beforeClose={this.beforeClose}
+                class={CSS.panel}
+                closable={!this.closeDisabled}
+                closed={!opened}
+                description={description}
+                heading={heading}
+                headingLevel={this.headingLevel}
+                icon={icon}
+                iconFlipRtl={iconFlipRtl}
+                loading={this.loading}
+                menuOpen={this.menuOpen}
+                messageOverrides={this.messageOverrides}
+                onKeyDown={this.handlePanelKeyDown}
+                oncalcitePanelClose={this.handleInternalPanelCloseClick}
+                oncalcitePanelScroll={this.handleInternalPanelScroll}
+                overlayPositioning={this.overlayPositioning}
+                ref={this.panelEl}
+                scale={this.scale}
+              >
+                <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+                <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
+                <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+                <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+                <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+                <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+                <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+                <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+                <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+                <slot />
+              </calcite-panel>
+            </slot>
           </slot>
         </div>
       </div>
     );
   }
 
-  // #endregion
+  //#endregion
 }

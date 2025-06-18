@@ -215,6 +215,44 @@
         <div class="child" id="localeDatePickerContainerS"></div>
         <div class="child" id="localeDatePickerContainerL"></div>
       </div>
+
+      <hr />
+      <!-- Theme-ing -->
+
+      <div class="parent">
+        <div class="child right-aligned-text">Theme</div>
+        <demo-theme
+          tokens="
+    --calcite-date-picker-border-color,
+    --calcite-date-picker-corner-radius,
+    --calcite-date-picker-range-calendar-divider-color,
+    --calcite-date-picker-week-header-text-color,
+    --calcite-date-picker-header-action-background-color,
+    --calcite-date-picker-header-action-background-color-hover,
+    --calcite-date-picker-header-action-background-color-press,
+    --calcite-date-picker-header-action-text-color,
+    --calcite-date-picker-header-action-text-color-press,
+    --calcite-date-picker-year-text-color,
+    --calcite-date-picker-month-select-text-color,
+    --calcite-date-picker-month-select-icon-color,
+    --calcite-date-picker-month-select-icon-color-hover,
+    --calcite-date-picker-day-background-color,
+    --calcite-date-picker-day-background-color-hover,
+    --calcite-date-picker-day-text-color,
+    --calcite-date-picker-day-text-color-hover,
+    --calcite-date-picker-current-day-text-color,
+    --calcite-date-picker-day-background-color-selected,
+    --calcite-date-picker-day-text-color-selected,
+    --calcite-date-picker-day-range-text-color,
+    --calcite-date-picker-day-range-background-color,
+    --calcite-date-picker-day-outside-range-background-color-hover,
+    --calcite-date-picker-day-outside-range-text-color-hover,
+        "
+        >
+          <calcite-date-picker></calcite-date-picker>
+          <calcite-date-picker range id="theme"></calcite-date-picker>
+        </demo-theme>
+      </div>
       <script type="module">
         import { locales } from "./_assets/locales.ts";
 
@@ -284,6 +322,9 @@
         );
 
         createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });
+
+        const themedDatePicker = document.getElementById("theme");
+        themedDatePicker.value = ["2025-01-15", "2025-02-15"];
       </script>
     </demo-dom-swapper>
   </body>

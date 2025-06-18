@@ -1,5 +1,6 @@
+// @ts-strict-ignore
+import { isServer } from "lit";
 import { nodeListToArray } from "../../utils/dom";
-import { isBrowser } from "../../utils/browser";
 import { ComboboxItem } from "../combobox-item/combobox-item";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
@@ -25,7 +26,7 @@ export function hasActiveChildren(node: ComboboxItem["el"]): boolean {
 }
 
 export function getDepth(element: ComboboxChildElement): number {
-  if (!isBrowser()) {
+  if (isServer) {
     return 0;
   }
 

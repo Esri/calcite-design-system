@@ -1,14 +1,10 @@
-import { PropertyValues } from "lit";
+// @ts-strict-ignore
+import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -17,7 +13,6 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -34,30 +29,37 @@ declare global {
  * @slot - A slot for adding text.
  * @slot image - A slot for adding an image.
  */
-export class Chip extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class Chip extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
   private containerEl = createRef<HTMLDivElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() private hasImage = false;
 
   @state() private hasText = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<
@@ -104,13 +106,6 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** @private */
   @property() parentChipGroup: ChipGroup["el"];
 
@@ -134,9 +129,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** The component's value. */
   @property() value: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -149,9 +144,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's close button is selected. */
   calciteChipClose = createEvent({ cancelable: false });
@@ -168,9 +163,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   /** @private */
   calciteInternalSyncSelectedChips = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -179,8 +174,7 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasText();
     }
   }
@@ -200,15 +194,14 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     if (this.selectionMode !== "none" && this.interactive && this.selected) {
       this.handleSelectionPropertyChange(this.selected);
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private watchSelected(selected: boolean): void {
     if (this.selectionMode === "none") {
@@ -294,9 +287,9 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChipImage(): JsxNode {
     return (
@@ -407,5 +400,5 @@ export class Chip extends LitElement implements InteractiveComponent, LoadableCo
     );
   }
 
-  // #endregion
+  //#endregion
 }

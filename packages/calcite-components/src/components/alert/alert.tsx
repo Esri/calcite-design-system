@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -16,12 +17,7 @@ import {
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
@@ -51,14 +47,14 @@ const manager = new AlertManager();
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
-export class Alert extends LitElement implements OpenCloseComponent, LoadableComponent {
-  // #region Static Members
+export class Alert extends LitElement implements OpenCloseComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private autoCloseTimeoutId: number = null;
 
@@ -68,7 +64,7 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   private lastMouseOverBegin: number;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private totalHoverTime = 0;
 
@@ -76,9 +72,16 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasEndActions = false;
 
@@ -86,9 +89,9 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
 
   @state() numberStringFormatter = new NumberStringFormat();
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * This internal property, managed by the AlertManager, is used
@@ -137,13 +140,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
@@ -167,9 +163,9 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's "close" button, the first focusable item.
@@ -182,9 +178,9 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAlertBeforeClose = createEvent({ cancelable: false });
@@ -198,9 +194,9 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   /** Fires when the component is open and animation is complete. */
   calciteAlertOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     const open = this.open;
@@ -216,24 +212,17 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     };
   }
 
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
-      this.handleActiveChange();
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
+    }
+
+    if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
+      this.handleActiveChange();
     }
 
     if (
@@ -256,21 +245,18 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     manager.unregisterElement(this.el);
     this.clearAutoCloseTimeout();
     this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleActiveChange(): void {
+    onToggleOpenCloseComponent(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
@@ -282,7 +268,6 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
     if (this.open) {
       manager.registerElement(this.el);
     } else {
@@ -341,6 +326,10 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -396,9 +385,9 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
@@ -497,5 +486,5 @@ export class Alert extends LitElement implements OpenCloseComponent, LoadableCom
     );
   }
 
-  // #endregion
+  //#endregion
 }

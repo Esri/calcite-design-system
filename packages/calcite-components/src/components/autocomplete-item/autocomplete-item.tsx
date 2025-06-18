@@ -1,10 +1,6 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../interfaces";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -13,6 +9,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
+import { highlightText } from "../../utils/text";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
@@ -26,10 +23,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
-export class AutocompleteItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent
-{
+export class AutocompleteItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -74,6 +68,13 @@ export class AutocompleteItem
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true }) iconStart: IconNameOrString;
 
+  /**
+   * Pattern for highlighting text matches.
+   *
+   * @private
+   */
+  @property({ reflect: true }) inputValueMatchPattern: RegExp;
+
   /** Accessible name for the component. */
   @property() label: string;
 
@@ -102,23 +103,16 @@ export class AutocompleteItem
 
   // #region Lifecycle
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
 
   // #region Private Methods
 
-  private handleClick(): void {
+  private handleClick(event: MouseEvent): void {
+    event.preventDefault();
     this.calciteInternalAutocompleteItemSelect.emit();
   }
 
@@ -127,7 +121,7 @@ export class AutocompleteItem
   // #region Rendering
 
   override render(): JsxNode {
-    const { active, description, heading, disabled } = this;
+    const { active, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -142,8 +136,18 @@ export class AutocompleteItem
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            <div class={CSS.heading}>{heading}</div>
-            <div class={CSS.description}>{description}</div>
+            <div class={CSS.heading}>
+              {highlightText({
+                text: heading,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
+            <div class={CSS.description}>
+              {highlightText({
+                text: description,
+                pattern: inputValueMatchPattern,
+              })}
+            </div>
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}

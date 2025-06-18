@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -36,7 +37,7 @@ export class Loader extends LitElement {
    */
   @property({ reflect: true }) complete = false;
 
-  /** When `true`, displays smaller and appears to the left of the text. */
+  /** When `true`, the component displays smaller. */
   @property({ reflect: true }) inline = false;
 
   /**
@@ -49,7 +50,7 @@ export class Loader extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Text that displays under the component's indicator. */
+  /** When not `inline`, displays text under the component's indicator. */
   @property() text = "";
 
   /**

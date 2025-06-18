@@ -85,5 +85,6 @@
   padding-block: 0;
 }
 
+@include text-highlight-item();
 @include base-component();
 @include disabled();

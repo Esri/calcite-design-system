@@ -1,18 +1,14 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import {
   focusElement,
   focusElementInGroup,
   focusFirstTabbable,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -26,24 +22,31 @@ declare global {
 
 type Layout = "horizontal" | "vertical";
 
-export class Menu extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class Menu extends LitElement {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
   private menuItems: MenuItem["el"][] = [];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * Accessible name for the component.
@@ -58,16 +61,9 @@ export class Menu extends LitElement implements LoadableComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
+  //#endregion
 
-  // #endregion
-
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -76,17 +72,13 @@ export class Menu extends LitElement implements LoadableComponent {
     focusFirstTabbable(this.menuItems[0]);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("calciteInternalMenuItemKeyEvent", this.calciteInternalNavMenuItemKeyEvent);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -99,13 +91,9 @@ export class Menu extends LitElement implements LoadableComponent {
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -183,9 +171,9 @@ export class Menu extends LitElement implements LoadableComponent {
     return (this.el.role || "menubar") as LuminaJsx.AriaAttributes["role"];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -195,5 +183,5 @@ export class Menu extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,9 +1,5 @@
 import { themeDecorator } from "./utils";
 
-declare global {
-  interface Window {}
-}
-
 export const decorators = [themeDecorator];
 
 export const parameters = {

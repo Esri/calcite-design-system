@@ -1,9 +1,11 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
+import { Modal } from "../modal/modal";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
@@ -134,6 +136,11 @@ export class Shell extends LitElement {
 
   private handleModalsSlotChange(event: Event): void {
     this.hasModals = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.tagName === "CALCITE-MODAL") {
+        (el as Modal["el"]).embedded = true;
+      }
+    });
   }
 
   private handlePanelTopChange(event: Event): void {

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
@@ -11,17 +12,13 @@ declare global {
 
 /** @slot - A slot for adding `calcite-autocomplete-item`s. */
 export class AutocompleteItemGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
-
-  // #endregion
-
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, signifies that the group should not have extra spacing. Used for styling.
@@ -47,13 +44,9 @@ export class AutocompleteItemGroup extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  // #endregion
-
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { scale } = this;
@@ -75,5 +68,5 @@ export class AutocompleteItemGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

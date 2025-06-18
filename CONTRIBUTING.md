@@ -13,7 +13,7 @@ You can help most by:
 - Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
 - Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started.
   - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you.
-- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/introduction).
+- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -49,8 +49,8 @@ There are four issue lifecycle labels:
 - `0 - new`: Issues that are up for grabs.
 - `1 - assigned`: Issues that someone will work on soon.
 - `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to `main`.
-- `4 - verified`: Issues that have been tested and are ready to close.
+- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
 
@@ -61,7 +61,7 @@ There are four labels that mean an issue is not ready for development:
 - `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
 
 ### Milestones
 
@@ -112,7 +112,7 @@ We also recommend installing the following extensions in your editor of choice: 
 
 - <https://tailwindcss.com/docs/intellisense>
 - <https://eslint.org/docs/latest/user-guide/integrations>
-- <https://stylelint.io/user-guide/integrations/editor>
+- <https://stylelint.io/awesome-stylelint/#editor-integrations>
 - <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
@@ -129,7 +129,7 @@ cd calcite-design-system
 npm install
 ```
 
-Next, start the local Stencil development server on localhost:
+Next, start the local Vite development server on localhost:
 
 ```sh
 npm run start:components
@@ -164,19 +164,19 @@ npm test
 
 `npm test` will run the test suites.
 
-Calcite Components include Stencil's default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/calcite-components run test:watch:stable` or `npm --workspace=packages/calcite-components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) and Calcite's [testing conventions](./conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](./packages/calcite-components/conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./packages/calcite-components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
-Stencil creates API reference documentation using JSDoc, here is their [documentation page](https://stenciljs.com/docs/docs-json). Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
+Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to create API reference documentation and [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
@@ -184,7 +184,7 @@ Stencil creates API reference documentation using JSDoc, here is their [document
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](./packages/calcite-components/conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
@@ -328,6 +328,12 @@ By default, the PR body will be used for the commit message when squash merging,
 
 ### Visual snapshots
 
-If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
+If the PR's linked issue contains the `visual changes` label **or** the PR contains [visual changes](#visual-changes), once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
 
 If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
+
+#### Visual changes
+
+Visual changes include issues and/or PR's that introduce a visual alteration that is not backwards compatible. If the change could prevent a visual test from passing, the change should be considered a visual change. Visual changes should be coordinated with designers and have consistency across the design system in mind.
+
+Visual changes can be a standalone change, or be introduced with breaking changes. For instance, [Split button consistent divider across appearances](https://github.com/Esri/calcite-design-system/issues/8142) and [List scales, padding, spacing, and font sizes](https://github.com/Esri/calcite-design-system/issues/7100).

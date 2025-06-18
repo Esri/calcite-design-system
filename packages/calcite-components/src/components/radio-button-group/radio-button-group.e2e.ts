@@ -1,9 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getFocusedElementProp } from "../../tests/utils";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
+import { CSS } from "./resources";
 
 describe("calcite-radio-button-group", () => {
   describe("renders", () => {
@@ -137,7 +138,7 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>
     `);
 
-    const radioInputs = await page.findAll("calcite-radio-button");
+    const radioInputs = await findAll(page, "calcite-radio-button");
     expect(radioInputs).toHaveLength(3);
 
     for (let i = 0; i < radioInputs.length; i++) {
@@ -166,7 +167,7 @@ describe("calcite-radio-button-group", () => {
         </calcite-label>
       </calcite-radio-button-group>
     `);
-    const radioButtons = await page.findAll("calcite-radio-button");
+    const radioButtons = await findAll(page, "calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
       expect(radioButtons[i].getAttribute("checked")).toBe(null);
@@ -192,7 +193,7 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>`,
     );
     await page.waitForChanges();
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -393,7 +394,7 @@ describe("calcite-radio-button-group", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
@@ -424,7 +425,7 @@ describe("calcite-radio-button-group", () => {
     });
     await page.waitForChanges();
 
-    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    const checkedItems = await findAll(page, "calcite-radio-button[checked]", { allowEmpty: true });
     expect(checkedItems).toHaveLength(0);
   });
 
@@ -554,5 +555,27 @@ describe("calcite-radio-button-group", () => {
     await group.callMethod("setFocus");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-radio-button-group></calcite-radio-button-group>`, {
+        "--calcite-radio-button-group-gap": {
+          targetProp: "columnGap",
+          shadowSelector: `.${CSS.itemWrapper}`,
+        },
+      });
+    });
+    describe("validation", () => {
+      themed(
+        html`<calcite-radio-button-group validation-message="help" status="invalid"></calcite-radio-button-group>`,
+        {
+          "--calcite-radio-button-input-message-spacing": {
+            targetProp: "--calcite-input-message-spacing",
+            shadowSelector: "calcite-input-message",
+          },
+        },
+      );
+    });
   });
 });

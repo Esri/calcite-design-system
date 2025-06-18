@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -10,12 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -46,20 +42,27 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class Card extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLDivElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() private hasContent = false;
 
@@ -77,9 +80,9 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
 
   @state() hasTitle = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -92,13 +95,6 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When `true`, the component is selectable.
@@ -124,9 +120,9 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
   /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @property({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -137,9 +133,9 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
@@ -147,25 +143,17 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
   /** @private */
   calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
+  //#region Lifecycle
 
   override updated(): void {
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private handleThumbnailSlotChange(event: Event): void {
     this.hasThumbnail = slotChangeHasAssignedElement(event);
@@ -238,9 +226,9 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderCheckboxDeprecated(): JsxNode {
     return (
@@ -353,5 +341,5 @@ export class Card extends LitElement implements InteractiveComponent, LoadableCo
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,5 +1,6 @@
 import { DragDetail, MoveDetail } from "../../utils/sortableComponent";
 import type { ListItem } from "../list-item/list-item";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { List } from "./list";
 
 export type ListDisplayMode = "flat" | "nested";
@@ -16,3 +17,5 @@ export interface ListMoveDetail extends MoveDetail {
   dragEl: ListItem["el"];
   relatedEl: ListItem["el"];
 }
+
+export type ListElement = ListItem["el"] | ListItemGroup["el"];

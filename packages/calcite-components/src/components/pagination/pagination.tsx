@@ -1,11 +1,7 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -39,16 +35,16 @@ const maxItemBreakpoints = {
   xxsmall: 1,
 };
 
-export class Pagination extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class Pagination extends LitElement {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
     this.setMaxItemsToBreakpoint(width);
@@ -57,9 +53,16 @@ export class Pagination extends LitElement implements LoadableComponent {
     entries.forEach(this.resizeHandler),
   );
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() isXXSmall: boolean;
 
@@ -69,22 +72,15 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   @state() totalPages: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
@@ -101,9 +97,9 @@ export class Pagination extends LitElement implements LoadableComponent {
   /** Specifies the total number of items. */
   @property({ reflect: true }) totalItems = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Set a specified page as active.
@@ -150,23 +146,22 @@ export class Pagination extends LitElement implements LoadableComponent {
     this.el.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the selected page changes. */
   calcitePaginationChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleTotalPages();
     this.handleLastStartItemChange();
     this.handleIsXXSmall();
@@ -205,7 +200,6 @@ export class Pagination extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 
@@ -213,9 +207,9 @@ export class Pagination extends LitElement implements LoadableComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleTotalPages(): void {
     if (this.pageSize < 1) {
@@ -313,13 +307,13 @@ export class Pagination extends LitElement implements LoadableComponent {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value, 10);
+    this.startItem = parseInt(target.value);
     this.emitUpdate();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
@@ -543,5 +537,5 @@ export class Pagination extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

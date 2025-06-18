@@ -1,11 +1,13 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+// @ts-strict-ignore
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
 import type { Flow } from "./flow";
@@ -17,6 +19,8 @@ async function slowPageAnimations(page: E2EPage): Promise<void> {
 }
 
 describe("calcite-flow", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-flow", { display: "flex" });
   });
@@ -30,6 +34,19 @@ describe("calcite-flow", () => {
       html`<calcite-flow>
         <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
         <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
+      </calcite-flow>`,
+      {
+        focusTargetSelector: "#two",
+      },
+    );
+  });
+
+  describe("is focusable on selected flow item", () => {
+    focusable(
+      html`<calcite-flow>
+        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
+        <calcite-flow-item id="two" selected heading="two">Hello World</calcite-flow-item>
+        <calcite-flow-item id="three" heading="three">Hello World</calcite-flow-item>
       </calcite-flow>`,
       {
         focusTargetSelector: "#two",
@@ -63,7 +80,7 @@ describe("calcite-flow", () => {
       await page.waitForChanges();
 
       const flow = await page.find("calcite-flow");
-      const flowItems = await page.findAll("calcite-flow-item");
+      const flowItems = await findAll(page, "calcite-flow-item");
 
       expect(flowItems).toHaveLength(2);
       expect(await flowItems[0].getProperty("selected")).toBe(false);
@@ -112,7 +129,7 @@ describe("calcite-flow", () => {
       );
       await page.waitForChanges();
 
-      let items = await page.findAll("calcite-flow-item");
+      let items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(2);
       expect(items[0].id).toBe("first");
@@ -129,7 +146,7 @@ describe("calcite-flow", () => {
       }, `.${ITEM_CSS.backButton}`);
       await page.waitForChanges();
 
-      items = await page.findAll("calcite-flow-item");
+      items = await findAll(page, "calcite-flow-item");
       expect(items).toHaveLength(2);
       expect(items[0].id).toBe("first");
       expect(items[1].id).toBe("second");
@@ -201,7 +218,7 @@ describe("calcite-flow", () => {
 
       await slowPageAnimations(page);
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(1);
 
@@ -211,7 +228,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items2 = await page.findAll("calcite-flow-item");
+      const items2 = await findAll(page, "calcite-flow-item");
 
       expect(items2).toHaveLength(2);
 
@@ -262,7 +279,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(3);
 
@@ -275,7 +292,7 @@ describe("calcite-flow", () => {
 
       await page.waitForChanges();
 
-      const items2 = await page.findAll("calcite-flow-item");
+      const items2 = await findAll(page, "calcite-flow-item");
 
       expect(items2).toHaveLength(3);
 
@@ -323,7 +340,7 @@ describe("calcite-flow", () => {
       });
       await page.waitForChanges();
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(3);
 
@@ -366,7 +383,7 @@ describe("calcite-flow", () => {
         </calcite-flow>`,
       );
 
-      const items = await page.findAll("calcite-flow-item");
+      const items = await findAll(page, "calcite-flow-item");
 
       expect(items).toHaveLength(5);
 
@@ -543,5 +560,14 @@ describe("calcite-flow", () => {
     displayedItem = await page.find(displayedItemSelector);
     expect(await flow.getProperty("childElementCount")).toBe(3);
     expect(displayedItem.id).toBe("first");
+  });
+
+  describe("theme", () => {
+    themed("calcite-flow", {
+      "--calcite-flow-background-color": {
+        shadowSelector: `.${CSS.frame}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });

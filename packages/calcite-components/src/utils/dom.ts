@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { tabbable } from "tabbable";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
@@ -122,6 +123,7 @@ export function getTextWidth(text: string, font: string): number {
   context.font = font;
   return context.measureText(text).width;
 }
+
 /**
  * This helper returns the host of a ShadowRoot.
  *
@@ -584,16 +586,9 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
  *
  * @param targetEl The element to watch for the animation to complete.
  * @param animationName The name of the animation to watch for completion.
- * @param onStart A callback to run when the animation starts.
- * @param onEnd A callback to run when the animation ends or is canceled.
  */
-export async function whenAnimationDone(
-  targetEl: HTMLElement,
-  animationName: string,
-  onStart?: () => void,
-  onEnd?: () => void,
-): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, animationName, "animation", onStart, onEnd);
+export async function whenAnimationDone(targetEl: HTMLElement, animationName: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, animationName, "animation");
 }
 
 /**
@@ -601,20 +596,24 @@ export async function whenAnimationDone(
  *
  * @param targetEl The element to watch for the transition to complete.
  * @param transitionProp The name of the transition to watch for completion.
- * @param onStart A callback to run when the transition starts.
- * @param onEnd A callback to run when the transition ends or is canceled.
  */
-export async function whenTransitionDone(
-  targetEl: HTMLElement,
-  transitionProp: string,
-  onStart?: () => void,
-  onEnd?: () => void,
-): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition", onStart, onEnd);
+export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition");
 }
 
 type TransitionOrAnimation = "transition" | "animation";
-type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
+type TransitionOrAnimationInstance = CSSTransition | Animation;
+
+function findAnimation(
+  targetEl: HTMLElement,
+  type: TransitionOrAnimation,
+  transitionPropOrAnimationName: string,
+): TransitionOrAnimationInstance {
+  const targetProp = type === "transition" ? "transitionProperty" : "animationName";
+  return targetEl
+    .getAnimations()
+    .find((anim: Animation | CSSTransition) => anim[targetProp] === transitionPropOrAnimationName);
+}
 
 /**
  * This util helps determine when a transition has completed.
@@ -622,96 +621,55 @@ type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
  * @param targetEl The element to watch for the transition or animation to complete.
  * @param transitionPropOrAnimationName The transition or animation property to watch for completion.
  * @param type The type of property to watch for completion. Defaults to "transition".
- * @param onStart A callback to run when the transition or animation starts.
- * @param onEnd A callback to run when the transition or animation ends or is canceled.
  */
 export async function whenTransitionOrAnimationDone(
   targetEl: HTMLElement,
   transitionPropOrAnimationName: string,
   type: TransitionOrAnimation,
-  onStart?: () => void,
-  onEnd?: () => void,
 ): Promise<void> {
-  const style = window.getComputedStyle(targetEl);
-  const allDurations = type === "transition" ? style.transitionDuration : style.animationDuration;
-  const allProps = type === "transition" ? style.transitionProperty : style.animationName;
+  let anim = findAnimation(targetEl, type, transitionPropOrAnimationName);
 
-  const allDurationsArray = allDurations.split(",");
-  const allPropsArray = allProps.split(",").map((prop) => prop.trim());
-  const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
-  const duration =
-    allDurationsArray[propIndex] ??
-    /* Safari will have a single duration value for the shorthand prop when multiple, separate names/props are defined,
-            so we fall back to it if there's no matching prop duration */
-    allDurationsArray[0];
-
-  function triggerFallbackStartEnd(): void {
-    // offset callbacks by a frame to simulate event counterparts
-    requestAnimationFrame(() => {
-      onStart?.();
-
-      requestAnimationFrame(() => onEnd?.());
-    });
+  if (!anim) {
+    // we try again in the next frame in case the browser hasn't yet initiated the transition/animation
+    await nextFrame();
+    anim = findAnimation(targetEl, type, transitionPropOrAnimationName);
   }
 
-  if (duration === "0s") {
-    triggerFallbackStartEnd();
+  if (!anim) {
     return;
   }
 
-  const startEvent = type === "transition" ? "transitionstart" : "animationstart";
-  const endEvent = type === "transition" ? "transitionend" : "animationend";
-  const cancelEvent = type === "transition" ? "transitioncancel" : "animationcancel";
-
-  return new Promise<void>((resolve) => {
-    const fallbackTimeoutId = window.setTimeout(
-      (): void => {
-        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
-        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        triggerFallbackStartEnd();
-        resolve();
-      },
-      parseFloat(duration) * 1000,
-    );
-
-    targetEl.addEventListener(startEvent, onTransitionOrAnimationStart);
-    targetEl.addEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-    targetEl.addEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-
-    function onTransitionOrAnimationStart(event: TransitionOrAnimationEvent): void {
-      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
-        window.clearTimeout(fallbackTimeoutId);
-        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
-        onStart?.();
-      }
-    }
-
-    function onTransitionOrAnimationEndOrCancel(event: TransitionOrAnimationEvent): void {
-      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
-        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
-        onEnd?.();
-        resolve();
-      }
-    }
-  });
+  try {
+    await anim.finished;
+  } catch {
+    // swallow error if canceled
+  }
 }
 
-function isTransitionEvent(event: TransitionOrAnimationEvent): event is TransitionEvent {
-  return "propertyName" in event;
-}
-
-function getTransitionOrAnimationName(event: TransitionOrAnimationEvent): string {
-  return isTransitionEvent(event) ? event.propertyName : event.animationName;
+function nextFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 /**
- * This util helps determine when a string value is a pixel value.
+ * This helper converts a CSS style value (e.g., "px", "vw", "vh") into its pixel equivalent.
  *
- * @param value The value to check.
- * @returns {boolean} Whether the value is a pixel value.
+ * - If the value ends with "px", it parses and returns the numeric value.
+ * - If the value ends with "vw", it calculates the pixel value based on the viewport width.
+ * - If the value ends with "vh", it calculates the pixel value based on the viewport height.
+ * - For unsupported units or invalid values, it returns 0.
+ *
+ * @param {string} value - The CSS style value to convert (e.g., "10px", "50vw", "30vh").
+ * @returns {number} The pixel equivalent of the provided value.
  */
-export function isPixelValue(value: string): boolean {
-  return value.endsWith("px");
+export function getStylePixelValue(value: string): number {
+  switch (true) {
+    case value.endsWith("px"):
+      return parseFloat(value);
+    case value.endsWith("vw"):
+      return (window.innerWidth / 100) * parseFloat(value);
+    case value.endsWith("vh"):
+      return (window.innerHeight / 100) * parseFloat(value);
+    default:
+      return 0;
+  }
 }

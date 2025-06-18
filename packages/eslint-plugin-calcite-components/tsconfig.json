@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "strict": true
+  },
   "extends": "../calcite-components/tsconfig-base.json",
-  "include": ["src/index.ts", "rollup.config.ts"]
+  "include": ["src/index.ts", "vite.config.mts"]
 }

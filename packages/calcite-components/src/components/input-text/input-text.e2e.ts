@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -13,13 +14,12 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { isElementFocused, selectText } from "../../tests/utils";
+import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
   testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
-import { assertCaretPosition } from "../../tests/utils";
 import type { InputMessage } from "../input-message/input-message";
 import { CSS } from "./resources";
 import type { InputText } from "./input-text";
@@ -365,7 +365,7 @@ describe("calcite-input-text", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-text read-only></calcite-input-text>`);
 
-    const inputs = await page.findAll("calcite-input-text >>> input");
+    const inputs = await findAll(page, "calcite-input-text >>> input");
 
     for (const input of inputs) {
       expect(await input.getProperty("readOnly")).toBe(true);

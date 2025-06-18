@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -25,6 +26,7 @@ import {
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { logger } from "../../utils/logger";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
@@ -54,7 +56,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private guid = `calcite-tooltip-${guid()}`;
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   transitionEl: HTMLDivElement;
 
@@ -111,6 +113,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
    * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
    *
    * However, a string ID of the reference element can be used.
+   *
+   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
   @property() referenceElement: ReferenceElement | string;
 
@@ -173,15 +177,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   override connectedCallback(): void {
     this.setUpReferenceElement(true);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-  }
-
-  load(): void {
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -247,10 +242,17 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    requestAnimationFrame(() => this.setUpReferenceElement());
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -261,7 +263,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
     const { el, referenceElement, referenceEl } = this;
     if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+      logger.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
     }

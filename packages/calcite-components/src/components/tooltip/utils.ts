@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { queryElementRoots } from "../../utils/dom";
 import type { Tooltip } from "./tooltip";

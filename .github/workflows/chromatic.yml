@@ -22,12 +22,13 @@ jobs:
         run: |
           npm install
           npm --workspace="packages/calcite-design-tokens" run build
+          npm --workspace="packages/calcite-tailwind-preset" run build
           npm --workspace="packages/calcite-ui-icons" run build
           npm --workspace="packages/calcite-components" run build-storybook
       - name: Publish to Chromatic
         if: |
           (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
-        uses: chromaui/action@v11
+        uses: chromaui/action@v12
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true

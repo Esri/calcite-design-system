@@ -1,6 +1,7 @@
+// @ts-strict-ignore
 import { KeyInput } from "puppeteer";
-import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   defaults,
@@ -14,16 +15,23 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, isElementFocused, selectText } from "../../tests/utils";
+import {
+  assertCaretPosition,
+  findAll,
+  getElementRect,
+  getElementXY,
+  isElementFocused,
+  selectText,
+} from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
-  testWorkaroundForGlobalPropRemoval,
   testHiddenInputSyncing,
   testPostValidationFocusing,
+  testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
-import { assertCaretPosition } from "../../tests/utils";
 import type { InputMessage } from "../input-message/input-message";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { InputNumber } from "./input-number";
 
@@ -541,27 +549,43 @@ describe("calcite-input-number", () => {
 
     it("should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
       await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
-      const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+      const inputEventSpy = await page.spyOnEvent("calciteInputNumberInput");
       const input = await page.find("calcite-input-number");
-      expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+      expect(inputEventSpy).toHaveReceivedEventTimes(0);
       await input.callMethod("setFocus");
       await page.waitForChanges();
 
+      const eventSpy = await page.spyOnEvent("keydown");
       await page.keyboard.down("ArrowUp");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.waitForEvent("calciteInputNumberInput");
+      await inputEventSpy.next();
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
 
-      const totalNudgesUp = calciteInputNumberInput.length;
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
+      const totalNudgesUp = inputEventSpy.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
+      await page.waitForChanges();
       await page.waitForTimeout(delayFor2UpdatesInMs);
+
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
 
-      const totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
+      expect(eventSpy).toHaveReceivedEventTimes(4);
+      expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+
+      const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
@@ -1058,6 +1082,25 @@ describe("calcite-input-number", () => {
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
   });
 
+  it("prevent typing invalid characters", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const input = await page.find("calcite-input-number");
+    const internalInput = await page.find("calcite-input-number >>> input");
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await typeNumberValue(page, "是");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("");
+    expect(await internalInput.getProperty("value")).toBe("");
+
+    await typeNumberValue(page, "-1士2大3.4夫5李6");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123.456");
+    expect(await internalInput.getProperty("value")).toBe("-123.456");
+  });
+
   it("allows any valid number", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
@@ -1339,148 +1382,232 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("");
   });
 
-  it(`disallows setting text value`, async () => {
-    const nonNumberValue = "i am a text value";
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
-    const calciteInput = await page.find("calcite-input-number");
-    const input = await page.find("calcite-input-number >>> input");
+  describe("disallowed values", () => {
+    mockConsole();
 
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
+    it(`disallows setting text value`, async () => {
+      const nonNumberValue = "i am a text value";
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
 
-    const numberValue = "1234";
-    calciteInput.setProperty("value", numberValue);
-    await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
 
-    expect(await calciteInput.getProperty("value")).toBe(numberValue);
-    expect(await input.getProperty("value")).toBe(numberValue);
+      const numberValue = "1234";
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
 
-    calciteInput.setProperty("value", nonNumberValue);
-    await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
 
-    expect(await calciteInput.getProperty("value")).toBe(numberValue);
-    expect(await input.getProperty("value")).toBe(numberValue);
+      calciteInput.setProperty("value", nonNumberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+    });
+
+    it(`disallows pasting just text characters with no initial value`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-number></calcite-input-number><input id="copy" value="invalid number" />`,
+      );
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+
+    it(`disallows pasting just text characters with existing number value`, async () => {
+      const initialValue = "1234.56";
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-number value="1234.56"></calcite-input-number><input id="copy" value="invalid number" />`,
+      );
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+    });
+
+    it(`disallows pasting just text characters with no initial value with group separator`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-number group-separator></calcite-input-number><input id="copy" value="invalid number" />`,
+      );
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+
+    it(`disallows pasting just text characters with existing number value with group separator`, async () => {
+      const initialValue = "1234.56";
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-number value="1234.56" group-separator></calcite-input-number
+          ><input id="copy" value="invalid number" />`,
+      );
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      const copyInput = await page.find("#copy");
+
+      numberStringFormatter.numberFormatOptions = {
+        locale: "en-US",
+        numberingSystem: "latn",
+        useGrouping: true,
+      };
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
+    });
   });
 
-  it(`disallows pasting just text characters with no initial value`, async () => {
+  it("allows editing numbers that start with zeros and have a group separator and minus sign", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input-number></calcite-input-number><input id="copy" value="invalid number" />`,
-    );
+    await page.setContent(html`<calcite-input-number group-separator></calcite-input-number>`);
+
     const calciteInput = await page.find("calcite-input-number");
     const input = await page.find("calcite-input-number >>> input");
-    const copyInput = await page.find("#copy");
-
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
-
-    await copyInput.focus();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("a");
-    await page.keyboard.press("c");
-    await page.keyboard.up("Meta");
-
     await calciteInput.callMethod("setFocus");
     await page.waitForChanges();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("v");
-    await page.keyboard.up("Meta");
-
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
-  });
-
-  it(`disallows pasting just text characters with existing number value`, async () => {
-    const initialValue = "1234.56";
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input-number value="1234.56"></calcite-input-number><input id="copy" value="invalid number" />`,
-    );
-    const calciteInput = await page.find("calcite-input-number");
-    const input = await page.find("calcite-input-number >>> input");
-    const copyInput = await page.find("#copy");
-
-    expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(initialValue);
-
-    await copyInput.focus();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("a");
-    await page.keyboard.press("c");
-    await page.keyboard.up("Meta");
-
-    await calciteInput.callMethod("setFocus");
+    await typeNumberValue(page, "-7000");
     await page.waitForChanges();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("v");
-    await page.keyboard.up("Meta");
+    expect(await calciteInput.getProperty("value")).toBe("-7000");
+    expect(await input.getProperty("value")).toBe("-7,000");
 
-    expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(initialValue);
-  });
-
-  it(`disallows pasting just text characters with no initial value with group separator`, async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input-number group-separator></calcite-input-number><input id="copy" value="invalid number" />`,
-    );
-    const calciteInput = await page.find("calcite-input-number");
-    const input = await page.find("calcite-input-number >>> input");
-    const copyInput = await page.find("#copy");
-
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
-
-    await copyInput.focus();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("a");
-    await page.keyboard.press("c");
-    await page.keyboard.up("Meta");
-
-    await calciteInput.callMethod("setFocus");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("v");
-    await page.keyboard.up("Meta");
+    expect(await calciteInput.getProperty("value")).toBe("-0");
+    expect(await input.getProperty("value")).toBe("-000");
 
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("-5000");
+    expect(await input.getProperty("value")).toBe("-5,000");
+
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.type("7");
+    await page.waitForChanges();
+    expect(await calciteInput.getProperty("value")).toBe("-7000");
+    expect(await input.getProperty("value")).toBe("-7,000");
   });
 
-  it(`disallows pasting just text characters with existing number value with group separator`, async () => {
-    const initialValue = "1234.56";
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input-number value="1234.56" group-separator></calcite-input-number
-        ><input id="copy" value="invalid number" />`,
-    );
-    const calciteInput = await page.find("calcite-input-number");
-    const input = await page.find("calcite-input-number >>> input");
-    const copyInput = await page.find("#copy");
-
+  it("allows editing numbers that start with zeros and have decimals in the ar locale and arab numbering system", async () => {
+    const initialValue = "10000.0001";
     numberStringFormatter.numberFormatOptions = {
-      locale: "en-US",
-      numberingSystem: "latn",
-      useGrouping: true,
+      locale: "ar",
+      numberingSystem: "arab",
+      useGrouping: false,
     };
-    expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
 
-    await copyInput.focus();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("a");
-    await page.keyboard.press("c");
-    await page.keyboard.up("Meta");
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-input-number lang="ar" numbering-system="arab" value="${initialValue}"></calcite-input-number>`,
+    );
 
+    const calciteInput = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
     await calciteInput.callMethod("setFocus");
     await page.waitForChanges();
-    await page.keyboard.down("Meta");
-    await page.keyboard.press("v");
-    await page.keyboard.up("Meta");
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
     expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
+
+    await page.keyboard.press("Home");
+    await page.keyboard.press("Delete");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("0.0001");
+    expect(await input.getProperty("value")).toBe(
+      // the localize method converts the string to a number, which removes the leading zeros
+      // so we need to manually add them back in the test when confirming the expected value
+      `${numberStringFormatter.localize("0").repeat(3)}${numberStringFormatter.localize("0.0001")}`,
+    );
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("20000.0001");
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize("20000.0001"));
   });
 
   it("cannot be modified when readOnly is true", async () => {
@@ -1527,7 +1654,7 @@ describe("calcite-input-number", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number read-only></calcite-input-number>`);
 
-    const inputs = await page.findAll("calcite-input-number >>> input");
+    const inputs = await findAll(page, "calcite-input-number >>> input");
 
     for (const input of inputs) {
       expect(await input.getProperty("readOnly")).toBe(true);
@@ -1557,6 +1684,28 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("1.");
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
+  });
+
+  it("emits change event when value set directly and then cleared in 'de' locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-input-number lang="de" value="0" clearable></calcite-input-number>
+    `);
+
+    const calciteInputNumberChange = await page.spyOnEvent("calciteInputNumberChange");
+    const inputEl = await page.find("calcite-input-number");
+    const clearButtonEl = await page.find("calcite-input-number >>> .clear-button");
+
+    inputEl.setProperty("value", "49.173126");
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("49.173126");
+
+    await clearButtonEl.click();
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("");
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
   });
 
   it("sanitize leading zeros from value", async () => {
@@ -1815,24 +1964,177 @@ describe("calcite-input-number", () => {
   });
 
   describe("theme", () => {
-    themed(
-      html`
-        <calcite-input-number
-          placeholder="Placeholder text"
-          prefix-text="prefix"
-          suffix-text="suffix"
-        ></calcite-input-number>
-      `,
-      {
-        "--calcite-input-prefix-size": {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "inlineSize",
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-input-number
+            placeholder="Placeholder text"
+            prefix-text="prefix"
+            suffix-text="suffix"
+            value="2"
+            clearable
+            loading
+          ></calcite-input-number>
+        `,
+        {
+          "--calcite-input-actions-background-color": [
+            {
+              shadowSelector: `.${CSS.numberButtonItem}`,
+              targetProp: "backgroundColor",
+            },
+            {
+              shadowSelector: `.${CSS.clearButton}`,
+              targetProp: "backgroundColor",
+            },
+          ],
+          "--calcite-input-actions-background-color-hover": [
+            {
+              shadowSelector: `.${CSS.numberButtonItem}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.clearButton}`,
+              targetProp: "backgroundColor",
+              state: "hover",
+            },
+          ],
+          "--calcite-input-actions-background-color-press": [
+            {
+              shadowSelector: `.${CSS.numberButtonItem}`,
+              targetProp: "backgroundColor",
+              state: { press: `calcite-input-number >>> .${CSS.numberButtonItem}` },
+            },
+            {
+              shadowSelector: `.${CSS.clearButton}`,
+              targetProp: "backgroundColor",
+              state: { press: `calcite-input-number >>> .${CSS.clearButton}` },
+            },
+          ],
+          "--calcite-input-actions-icon-color": {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+          },
+          "--calcite-input-actions-icon-color-hover": {
+            shadowSelector: `calcite-icon`,
+            targetProp: "color",
+            state: "hover",
+          },
+          "--calcite-input-loading-background-color": {
+            shadowSelector: `calcite-progress`,
+            targetProp: "--calcite-progress-background-color",
+          },
+          "--calcite-input-loading-fill-color": {
+            shadowSelector: `calcite-progress`,
+            targetProp: "--calcite-progress-fill-color",
+          },
+          "--calcite-input-number-background-color": {
+            shadowSelector: `input`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-input-number-border-color": [
+            {
+              shadowSelector: `input`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.suffix}`,
+              targetProp: "borderColor",
+            },
+            {
+              shadowSelector: `.${CSS.numberButtonItem}`,
+              targetProp: "borderColor",
+            },
+          ],
+          "--calcite-input-number-corner-radius": [
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderStartStartRadius",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "borderEndStartRadius",
+            },
+            {
+              shadowSelector: `[data-adjustment="up"]`,
+              targetProp: "borderStartEndRadius",
+            },
+            {
+              shadowSelector: `[data-adjustment="down"]`,
+              targetProp: "borderEndEndRadius",
+            },
+          ],
+          "--calcite-input-number-height": [
+            {
+              shadowSelector: `input`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.prefix}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.suffix}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.numberButtonWrapper}`,
+              targetProp: "blockSize",
+            },
+          ],
+          "--calcite-input-number-text-color": {
+            shadowSelector: `input`,
+            targetProp: "color",
+          },
+          "--calcite-input-number-text-color-focus": {
+            shadowSelector: `input`,
+            targetProp: "color",
+            state: "focus",
+          },
+          "--calcite-input-prefix-background-color": {
+            shadowSelector: `.${CSS.prefix}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-input-prefix-size": {
+            shadowSelector: `.${CSS.prefix}`,
+            targetProp: "inlineSize",
+          },
+          "--calcite-input-prefix-text-color": {
+            shadowSelector: `.${CSS.prefix}`,
+            targetProp: "color",
+          },
+          "--calcite-input-suffix-background-color": {
+            shadowSelector: `.${CSS.suffix}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-input-suffix-text-color": {
+            shadowSelector: `.${CSS.suffix}`,
+            targetProp: "color",
+          },
+          "--calcite-input-suffix-size": {
+            shadowSelector: `.${CSS.suffix}`,
+            targetProp: "inlineSize",
+          },
         },
-        "--calcite-input-suffix-size": {
-          shadowSelector: `.${CSS.suffix}`,
-          targetProp: "inlineSize",
+      );
+    });
+
+    describe("readOnly", () => {
+      themed(html` <calcite-input-number read-only></calcite-input-number> `, {
+        "--calcite-input-number-background-color": {
+          shadowSelector: `input`,
+          targetProp: "backgroundColor",
         },
-      },
-    );
+        "--calcite-input-number-text-color-focus": {
+          shadowSelector: `input`,
+          targetProp: "color",
+          state: "focus",
+        },
+      });
+    });
   });
 });

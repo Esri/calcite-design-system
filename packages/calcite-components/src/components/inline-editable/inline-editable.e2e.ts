@@ -1,8 +1,11 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
+// @ts-strict-ignore
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
+import { accessible, disabled, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
+import { findAll } from "../../tests/utils/puppeteer";
+import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
@@ -55,7 +58,7 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>`,
       });
 
-      const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+      const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
 
       expect(buttons).toHaveLength(3);
 
@@ -71,7 +74,7 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>`,
       });
 
-      const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+      const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
 
       expect(buttons).toHaveLength(3);
 
@@ -218,11 +221,11 @@ describe("calcite-inline-editable", () => {
         const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
-      await input.type("typo");
-      expect(await input.getProperty("value")).toBe("John Doetypo");
-      const cancelEvent = page.waitForEvent("calciteInlineEditableEditCancel");
+      await input.type("-typo");
+      expect(await input.getProperty("value")).toBe("John Doe-typo");
+      const cancelEventSpy = await page.spyOnEvent("calciteInlineEditableEditCancel");
       await cancelEditingButton.click();
-      await cancelEvent;
+      await cancelEventSpy.next();
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditCancel).toHaveReceivedEventTimes(1);
       expect(await element.getProperty("editingEnabled")).toBe(false);
@@ -238,8 +241,8 @@ describe("calcite-inline-editable", () => {
         const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
-      await input.type("typo");
-      expect(await input.getProperty("value")).toBe("John Doetypo");
+      await input.type("-typo");
+      expect(await input.getProperty("value")).toBe("John Doe-typo");
       await page.keyboard.press("Escape");
       await calciteInlineEditableEditCancel;
       expect(await input.getProperty("value")).toBe("John Doe");
@@ -302,7 +305,8 @@ describe("calcite-inline-editable", () => {
 
     it("disables editing when afterConfirm resolves successfully", async () => {
       const element = await page.find("calcite-inline-editable");
-      const afterConfirm: () => Promise<void> = () => new Promise((resolve) => global.setTimeout(resolve, 100));
+      const { promise, resolve } = createControlledPromise<void>();
+      const afterConfirm = () => promise;
       // https://github.com/ionic-team/stencil/issues/1174
       await page.exposeFunction("afterConfirm", afterConfirm);
       await page.$eval("calcite-inline-editable", (el: InlineEditable["el"]) => {
@@ -312,15 +316,19 @@ describe("calcite-inline-editable", () => {
       const input = await page.find("calcite-input");
       const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
       await enableEditingButton.click();
-      const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
+      const confirmChangesButton = await page.find(`calcite-inline-editable >>> .${CSS.confirmChangesButton}`);
       await page.$eval("calcite-input", (element: Input["el"]): void => {
         const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("Moe");
+      const confirmEventSpy = await page.spyOnEvent("calciteInlineEditableEditConfirm");
       await confirmChangesButton.click();
-      expect(calciteInlineEditableEditConfirm).toHaveReceivedEventTimes(1);
+      resolve();
       await page.waitForChanges();
+      await confirmEventSpy.next();
+      await afterConfirm;
+      expect(calciteInlineEditableEditConfirm).toHaveReceivedEventTimes(1);
       expect(await input.getProperty("value")).toBe("John DoeMoe");
       expect(element).not.toHaveAttribute("editing-enabled");
     });
@@ -397,5 +405,72 @@ describe("calcite-inline-editable", () => {
 
   describe("translation support", () => {
     t9n("calcite-inline-editable");
+  });
+
+  describe("theme", () => {
+    themed("calcite-inline-editable", {
+      "--calcite-inline-editable-background-color-hover": {
+        shadowSelector: `.${CSS.wrapper}`,
+        state: "hover",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-inline-editable-background-color": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "backgroundColor",
+      },
+    });
+    themed(
+      html`<calcite-inline-editable controls editing-enabled>
+        <calcite-input />
+      </calcite-inline-editable>`,
+      {
+        "--calcite-inline-editable-button-corner-radius": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+        ],
+        "--calcite-inline-editable-button-loader-color": {
+          shadowSelector: `.${CSS.confirmChangesButton}`,
+          targetProp: "--calcite-button-loader-color",
+        },
+        "--calcite-inline-editable-button-shadow-color": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-shadow-color",
+          },
+        ],
+        "--calcite-inline-editable-button-text-color": [
+          {
+            shadowSelector: `.${CSS.enableEditingButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.cancelEditingButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: `.${CSS.confirmChangesButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+        ],
+      },
+    );
   });
 });

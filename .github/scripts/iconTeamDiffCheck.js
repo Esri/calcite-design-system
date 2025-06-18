@@ -37,13 +37,6 @@ module.exports = async ({ github, context, core }) => {
 
   core.debug(`Members of "${admins}" GitHub Team: ${JSON.stringify(adminTeamMembers)}`);
 
-  // passes when an admin approves the PR
-  if (github.event?.review?.state == "APPROVED" && adminTeamMembers.includes(github.event?.review?.user?.login)) {
-    core.debug(`Approved by admin: ${github.event?.review?.user?.login}`);
-    core.debug("Passing because an admin has approved this pull request");
-    process.exit(0);
-  }
-
   // passes if the author isn't on the icon designers team or if the author is on the admin team
   // admin(s) may be on the icon designers team for maintenance purposes
   if (adminTeamMembers.includes(author) || !iconTeamMembers.includes(author)) {
@@ -55,7 +48,7 @@ module.exports = async ({ github, context, core }) => {
 
   // passes if there was a previous approval from an admin
   reviews.forEach((review) => {
-    if (review.state == "APPROVED" && adminTeamMembers.includes(review.user.login)) {
+    if (review.state == "APPROVED" && review?.user?.login && adminTeamMembers.includes(review.user.login)) {
       core.debug(`Approved by admin: ${review.user.login}`);
       core.debug("Passing because an admin has approved this pull request");
       process.exit(0);

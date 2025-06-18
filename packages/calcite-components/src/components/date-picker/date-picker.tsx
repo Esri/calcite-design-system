@@ -1,4 +1,5 @@
-import { PropertyValues } from "lit";
+// @ts-strict-ignore
+import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -21,21 +22,16 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
-import { isBrowser } from "../../utils/browser";
 import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -43,22 +39,27 @@ declare global {
   }
 }
 
-export class DatePicker extends LitElement implements LoadableComponent {
-  // #region Static Members
-
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+export class DatePicker extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private rangeValueChangedByUser = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   /** Active end date. */
   @state() activeEndDate: Date;
@@ -81,9 +82,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
 
   @state() startAsDate: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the component's active date. */
   @property() activeDate: Date;
@@ -97,7 +98,10 @@ export class DatePicker extends LitElement implements LoadableComponent {
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * When the component resides in a form,
+   * specifies the latest allowed date (`"yyyy-mm-dd"`).
+   */
   @property({ reflect: true }) max: string;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
@@ -107,13 +111,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
+   * When the component resides in a form,
+   * specifies the earliest allowed date (`"yyyy-mm-dd"`).
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property({ reflect: true }) min: string;
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
@@ -140,9 +140,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Resets active date state.
@@ -162,9 +162,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`. */
   calciteDatePickerChange = createEvent({ cancelable: false });
@@ -172,9 +172,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
   /** Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. */
   calciteDatePickerRangeChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -199,7 +199,6 @@ export class DatePicker extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
@@ -227,17 +226,13 @@ export class DatePicker extends LitElement implements LoadableComponent {
     }
 
     if (changes.has("messages") && this.hasUpdated) {
-      this.loadLocaleData().catch(console.error);
+      this.loadLocaleData().catch(logger.error);
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private activeDateWatcher(newValue: Date): void {
     if (!this.range) {
@@ -294,7 +289,7 @@ export class DatePicker extends LitElement implements LoadableComponent {
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
 
@@ -604,9 +599,9 @@ export class DatePicker extends LitElement implements LoadableComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const date = dateFromRange(
@@ -629,7 +624,13 @@ export class DatePicker extends LitElement implements LoadableComponent {
 
     const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
 
-    return <>{this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}</>;
+    return (
+      <>
+        <div ariaHidden={true} class="container" tabIndex={-1}>
+          {this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
+        </div>
+      </>
+    );
   }
 
   /**
@@ -676,5 +677,5 @@ export class DatePicker extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

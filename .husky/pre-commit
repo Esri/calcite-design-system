@@ -6,10 +6,10 @@ check_ui_icon_name_consistency() {
   valid_pattern="^[a-z0-9-]+-(16|24|32)(-f)?\\.svg$"
 
   # this pattern will check for invalid use of "-f-" anywhere except right before the size
-  invalid_pattern="-[a-z0-9]+-f-"
+  invalid_pattern="\-[a-z0-9]+-f-"
 
   staged_files="$(
-    git diff --cached --name-only --diff-filter=ACM -- packages/calcite-ui-icons/icons/*.svg
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/calcite-ui-icons/icons/.*\.svg" || true
   )"
 
   if [ -n "$staged_files" ]; then
@@ -37,6 +37,22 @@ check_ui_icon_name_consistency() {
   unset staged_files
 }
 
+update_t9nmanifest() {
+
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACD | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
+  )"                                               
+
+  if [ -n "$staged_files" ]; then
+    # Run the script to update the t9nmanifest
+    npx tsx ./packages/calcite-components/support/updateT9nManifest.ts || {
+    echo "Error: Failed to update T9n manifest."
+    exit 1
+    }
+  fi
+}
+
+update_t9nmanifest
 lint-staged
 check_ui_icon_name_consistency
 

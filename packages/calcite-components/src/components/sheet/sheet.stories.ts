@@ -68,6 +68,28 @@ simpleDarkMode.parameters = { themes: modesDarkDefault };
 export const resizable = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
+export const resizableRTL = (): string =>
+  html`<calcite-sheet dir="rtl" resizable label="libero nunc" open position="inline-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
+export const resizableWithDropdown = (): string =>
+  html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start">
+    <calcite-panel heading="Map" id="panel-start">
+      <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-button slot="trigger">Select landform</calcite-button>
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </calcite-panel></calcite-sheet
+  >`;
+
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
 
@@ -110,12 +132,12 @@ export const resizableLoremIpsum = (): string =>
     Cras volutpat eros in velit euismod, at accumsan velit pulvinar.
   </calcite-sheet>`;
 
-export const inlineStartfloat_TestOnly = (): string =>
+export const inlineStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const blockStartfloat_TestOnly = (): string =>
+export const blockStartFloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;

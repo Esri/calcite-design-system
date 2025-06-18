@@ -509,12 +509,12 @@
         async function getSuggestions(locatorAutocomplete, suggestController) {
           const signal = suggestController.signal;
           removeOldItems(locatorAutocomplete);
-          locatorAutocomplete.open = true;
 
           const response = await suggestLocations(
             "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
             {
               text: locatorAutocomplete.inputValue,
+              maxSuggestions: 5,
             },
             { signal },
           );
@@ -535,7 +535,7 @@
             noResults.slot = "content-top";
             locatorAutocomplete.appendChild(noResults);
           } else {
-            response.slice(0, 5).forEach((location) => {
+            response.forEach((location) => {
               const item = document.createElement("calcite-autocomplete-item");
               item.className = "temporary";
               item.value = location.magicKey;

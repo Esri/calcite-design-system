@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
@@ -6,15 +7,11 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
@@ -30,7 +27,7 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
-export class AccordionItem extends LitElement implements LoadableComponent {
+export class AccordionItem extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -76,6 +73,16 @@ export class AccordionItem extends LitElement implements LoadableComponent {
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /**
+   * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
+   *
+   * @private
+   */
+  @property() appearance: Extract<"solid" | "transparent", Appearance>;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
@@ -97,7 +104,7 @@ export class AccordionItem extends LitElement implements LoadableComponent {
    *
    * @private
    */
-  @property() scale: Scale;
+  @property({ reflect: true }) scale: Scale;
 
   // #endregion
 
@@ -137,14 +144,6 @@ export class AccordionItem extends LitElement implements LoadableComponent {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
-  }
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -196,6 +195,7 @@ export class AccordionItem extends LitElement implements LoadableComponent {
       return;
     }
 
+    this.appearance = closestAccordionParent.appearance;
     this.iconPosition = closestAccordionParent.iconPosition;
     this.iconType = closestAccordionParent.iconType;
     this.scale = closestAccordionParent.scale;
@@ -267,7 +267,7 @@ export class AccordionItem extends LitElement implements LoadableComponent {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl } = this;
+    const { iconFlipRtl, heading, headingLevel } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -295,7 +295,13 @@ export class AccordionItem extends LitElement implements LoadableComponent {
           [`icon-type--${this.iconType}`]: true,
         }}
       >
-        <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{
+            [CSS.header]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [`header--${this.appearance}`]: true,
+          }}
+        >
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}
@@ -310,7 +316,9 @@ export class AccordionItem extends LitElement implements LoadableComponent {
             <div class={CSS.headerContainer}>
               {iconStartEl}
               <div class={CSS.headerText}>
-                <span class={CSS.heading}>{this.heading}</span>
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}

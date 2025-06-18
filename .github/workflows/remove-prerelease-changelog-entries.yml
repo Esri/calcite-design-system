@@ -8,7 +8,7 @@ permissions:
 name: clean-changelog
 jobs:
   clean-changelog:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

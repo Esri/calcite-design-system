@@ -1,15 +1,16 @@
-import { FocusTrap } from "focus-trap";
-import { PropertyValues } from "lit";
+// @ts-strict-ignore
+import { PropertyValues, isServer } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -48,14 +49,10 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
+  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
@@ -63,24 +60,17 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
+import { logger } from "../../utils/logger";
 import { styles } from "./input-date-picker.scss";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -96,22 +86,20 @@ export class InputDatePicker
   extends LitElement
   implements
     FloatingUIComponent,
-    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private commonDateSeparators = [".", "-", "/"];
 
@@ -135,17 +123,31 @@ export class InputDatePicker
 
   private focusOnOpen = false;
 
-  focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.datePickerEl?.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+      allowOutsideClick: true,
+      // Allow outside click and let the popover manager take care of closing the popover.
+      clickOutsideDeactivates: false,
+      initialFocus: false,
+      setReturnFocus: false,
+      onDeactivate: () => {
+        this.open = false;
+      },
+    },
+  })(this);
 
   formEl: HTMLFormElement;
 
   labelEl: Label["el"];
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
@@ -165,9 +167,16 @@ export class InputDatePicker
 
   private valueAsDateChangedExternally = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() datePickerActiveDate: Date;
 
@@ -175,9 +184,9 @@ export class InputDatePicker
 
   @state() private localeData: DateLocaleData;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -198,10 +207,16 @@ export class InputDatePicker
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
-  /** Specifies the latest allowed date ("yyyy-mm-dd"). */
+  /**
+   * When the component resides in a form,
+   * specifies the latest allowed date ("yyyy-mm-dd").
+   */
   @property({ reflect: true }) max: string;
 
   /** Specifies the latest allowed date as a full date object. */
@@ -211,13 +226,9 @@ export class InputDatePicker
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
+   * When the component resides in a form,
+   * specifies the earliest allowed date ("yyyy-mm-dd").
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
   @property({ reflect: true }) min: string;
 
   /** Specifies the earliest allowed date as a full date object. */
@@ -271,7 +282,10 @@ export class InputDatePicker
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -313,10 +327,12 @@ export class InputDatePicker
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
+    const valueChanged = value !== this._value;
+    const invalidValueCleared =
+      value === "" && (this.startInput?.value !== "" || this.endInput?.value !== "");
+
+    if (valueChanged || invalidValueCleared) {
       this._value = value;
       this.valueWatcher(value);
     }
@@ -325,9 +341,9 @@ export class InputDatePicker
   /** The component's value as a full date object. */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -360,9 +376,9 @@ export class InputDatePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
@@ -379,9 +395,9 @@ export class InputDatePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -434,15 +450,10 @@ export class InputDatePicker
       useGrouping: false,
     };
 
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -454,10 +465,6 @@ export class InputDatePicker
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
     }
@@ -511,33 +518,19 @@ export class InputDatePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }
 
   override disconnectedCallback(): void {
-    deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
+  //#region Private Methods
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
@@ -630,12 +623,12 @@ export class InputDatePicker
   private handleDateTimeFormatChange(): void {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
-      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      // @see [Arabic numbering system support context](https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195) for more info.
       numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._lang),
+      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -681,6 +674,10 @@ export class InputDatePicker
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -693,14 +690,7 @@ export class InputDatePicker
   }
 
   onOpen(): void {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.datePickerEl?.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
+    this.focusTrap.activate();
     this.calciteInputDatePickerOpen.emit();
   }
 
@@ -711,7 +701,7 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     hideFloatingUI(this);
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
   }
@@ -834,22 +824,16 @@ export class InputDatePicker
   }
 
   private setDatePickerRef(el: DatePicker["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.datePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        allowOutsideClick: true,
-        // Allow outside click and let the popover manager take care of closing the popover.
-        clickOutsideDeactivates: false,
-        initialFocus: false,
-        setReturnFocus: false,
-        onDeactivate: this.focusTrapDeactivates,
-      },
-    });
+    this.focusTrap.overrideFocusTrapEl(el);
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
@@ -1025,7 +1009,7 @@ export class InputDatePicker
   }
 
   private warnAboutInvalidValue(value: string): void {
-    console.warn(
+    logger.warn(
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }
@@ -1075,9 +1059,9 @@ export class InputDatePicker
     focusedInput.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1097,7 +1081,7 @@ export class InputDatePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.localeData && (
           <div class={CSS.container}>
-            <div class={CSS.inputContainer}>
+            <div aria-label={this.label} class={CSS.inputContainer} role="group">
               <div
                 class={CSS.inputWrapper}
                 data-position="start"
@@ -1120,6 +1104,7 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
+                  label={this.range ? this.messages.startDate : this.messages.date}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
@@ -1204,6 +1189,7 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
+                    label={this.messages.endDate}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}
@@ -1257,5 +1243,5 @@ export class InputDatePicker
     );
   }
 
-  // #endregion
+  //#endregion
 }

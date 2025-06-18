@@ -1,12 +1,8 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -14,6 +10,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -25,19 +22,20 @@ declare global {
 }
 
 /**
+ * @deprecated Use the `calcite-action-pad` component instead.
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-export class ActionPad extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class ActionPad extends LitElement {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionGroups: ActionGroup["el"][];
 
@@ -48,15 +46,22 @@ export class ActionPad extends LitElement implements LoadableComponent {
     this.calciteActionPadToggle.emit();
   };
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() expandTooltip: Tooltip["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
@@ -75,13 +80,6 @@ export class ActionPad extends LitElement implements LoadableComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -96,9 +94,9 @@ export class ActionPad extends LitElement implements LoadableComponent {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -107,16 +105,16 @@ export class ActionPad extends LitElement implements LoadableComponent {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionPadToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -128,7 +126,11 @@ export class ActionPad extends LitElement implements LoadableComponent {
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
+    logger.deprecated("component", {
+      name: "action-pad",
+      removalVersion: 4,
+      suggested: "action-bar",
+    });
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -145,17 +147,14 @@ export class ActionPad extends LitElement implements LoadableComponent {
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
@@ -189,9 +188,9 @@ export class ActionPad extends LitElement implements LoadableComponent {
     this.expandTooltip = tooltips[0];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBottomActionGroup(): JsxNode {
     const {
@@ -245,5 +244,5 @@ export class ActionPad extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

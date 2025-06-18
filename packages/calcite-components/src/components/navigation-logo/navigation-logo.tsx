@@ -1,10 +1,6 @@
-import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  LoadableComponent,
-  componentFocusable,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+// @ts-strict-ignore
+import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { componentFocusable } from "../../utils/component";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
@@ -16,7 +12,7 @@ declare global {
   }
 }
 
-export class NavigationLogo extends LitElement implements LoadableComponent {
+export class NavigationLogo extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -83,18 +79,6 @@ export class NavigationLogo extends LitElement implements LoadableComponent {
 
   // #endregion
 
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
-  // #endregion
-
   // #region Rendering
 
   private renderIcon(): JsxNode {
@@ -124,7 +108,7 @@ export class NavigationLogo extends LitElement implements LoadableComponent {
     ) : null;
 
     return headingNode || descriptionNode ? (
-      <div class={CSS.container} key={CSS.container}>
+      <div class={CSS.textContainer} key={CSS.textContainer}>
         {headingNode}
         {descriptionNode}
       </div>
@@ -132,13 +116,29 @@ export class NavigationLogo extends LitElement implements LoadableComponent {
   }
 
   override render(): JsxNode {
-    const { thumbnail } = this;
-    return (
-      <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
-        {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
-        {this.icon && this.renderIcon()}
+    const { icon, href, label, rel, target, thumbnail } = this;
+    const content = (
+      <>
+        {thumbnail && <img alt={label || ""} class={CSS.image} src={thumbnail} />}
+        {icon && this.renderIcon()}
         {this.renderHeaderContent()}
+      </>
+    );
+
+    return href ? (
+      <a
+        class={{
+          [CSS.container]: true,
+          [CSS.containerLink]: true,
+        }}
+        href={href}
+        rel={rel}
+        target={target}
+      >
+        {content}
       </a>
+    ) : (
+      <div class={CSS.container}>{content}</div>
     );
   }
 

@@ -1,4 +1,6 @@
+// @ts-strict-ignore
 import { Writable } from "type-fest";
+import { isServer } from "lit";
 import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
 import type { IconNameOrString } from "../components/icon/interfaces";
@@ -365,7 +367,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
     component.defaultChecked = component.checked;
   }
 
-  const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
+  const boundOnFormReset = onFormReset.bind(component);
   associatedForm.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
@@ -403,6 +405,8 @@ function onFormReset<T>(this: FormComponent<T>): void {
   }
 
   this.value = this.defaultValue;
+
+  this.onFormReset?.();
 }
 
 /**
@@ -456,6 +460,10 @@ function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
 
+  if (isServer) {
+    return;
+  }
+
   const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
   if (!formEl || !name) {
@@ -496,6 +504,7 @@ function syncHiddenFormInput(component: FormComponent): void {
 
     if (!input) {
       input = ownerDocument.createElement("input");
+      input.ariaHidden = "true";
       input.slot = hiddenFormInputSlotName;
     }
 

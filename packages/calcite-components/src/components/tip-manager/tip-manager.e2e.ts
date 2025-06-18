@@ -1,7 +1,9 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS, TEXT } from "./resources";
 
 describe("calcite-tip-manager", () => {
@@ -200,7 +202,7 @@ describe("calcite-tip-manager", () => {
       }, newTipId);
       await page.waitForChanges();
 
-      const tips = await page.findAll("calcite-tip-manager calcite-tip");
+      const tips = await findAll(page, "calcite-tip-manager calcite-tip");
       expect(tips.length).toBe(2);
 
       const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);

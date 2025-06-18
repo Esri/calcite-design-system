@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { logger } from "../../utils/logger";
@@ -19,19 +20,30 @@ declare global {
  * @slot thumbnail - A slot for adding an HTML image element.
  */
 export class Tip extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasThumbnail = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the close button is not present on the component. */
   @property({ reflect: true }) closeDisabled = false;
@@ -49,29 +61,22 @@ export class Tip extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * When `true`, the component is selected if it has a parent `calcite-tip-manager`.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
   @property({ reflect: true }) selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the component has been closed. */
   calciteTipDismiss = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
     logger.deprecated("component", {
@@ -81,9 +86,9 @@ export class Tip extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private hideTip(): void {
     this.closed = true;
@@ -95,9 +100,9 @@ export class Tip extends LitElement {
     this.hasThumbnail = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderHeader(): JsxNode {
     const { heading, headingLevel, el } = this;
@@ -164,5 +169,5 @@ export class Tip extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

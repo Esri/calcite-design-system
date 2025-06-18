@@ -9451,5 +9451,388 @@
     "alias": ["4.0.0", "knowledge graph", "points", "model", "select", "nodes"],
     "category": "Knowledge Graph",
     "release": "4.0.0"
+  },
+  "plug-connection": {
+    "alias": ["4.0.0", "objects", "connect", "power", "relation", "union", "bond", "adapter", "service"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "utility-network-layer": {
+    "alias": [
+      "4.0.0",
+      "layers",
+      "networking",
+      "lines",
+      "circles",
+      "points",
+      "dots",
+      "connection",
+      "connected",
+      "running-analysis"
+    ],
+    "category": "Layers",
+    "release": "4.0.0"
+  },
+  "crosshair": {
+    "alias": ["4.0.0", "gis", "dot", "lines", "reticule", "scope", "target", "aim", "marker", "goal", "point"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "hammer-coin": {
+    "alias": ["4.0.0", "objects", "tool", "mallet", "cash", "change", "currency"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "hammer-lock": {
+    "alias": ["4.0.0", "objects", "lock", "tool", "combination", "secure"],
+    "category": "Objects",
+    "release": "4.0.0"
+  },
+  "dual-image-location": {
+    "alias": ["4.0.0", "gis", "location", "direction", "two", "position", "site"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-area": {
+    "alias": ["4.0.0", "gis", "area", "zone", "region", "two", "image"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "dual-image-distance": {
+    "alias": ["4.0.0", "gis", "distance", "two", "gap", "span", "reach"],
+    "category": "GIS",
+    "release": "4.0.0"
+  },
+  "language-2": {
+    "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
+    "category": "Generic",
+    "release": "4.0.1"
+  },
+  "browser-join": {
+    "alias": ["4.1.0", "windows", "web", "explore", "combine", "tables"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "browser-plus": {
+    "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "parameters": {
+    "alias": ["4.1.1", "text", "framework", "limitation", "restriction", "specification"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "map-information": {
+    "alias": ["4.1.1", "gis", "map", "guide", "instructions"],
+    "category": "GIS",
+    "release": "4.1.1"
+  },
+  "parameters-gear": {
+    "alias": ["4.1.1", "text", "limit", "guideline", "criteria", "tool"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "layer-set": {
+    "alias": ["4.1.1", "layers", "tier", "stack", "bed", "stratum"],
+    "category": "Layers",
+    "release": "4.1.1"
+  },
+  "double-float-set": {
+    "alias": ["4.1.1", "text", "floating", "precision", "memory"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "variable-plus": {
+    "alias": ["4.1.1", "text", "add", "changeable", "fluctating", "inconstant"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "parameters-plus": {
+    "alias": ["4.1.1", "text", "framework", "restriction", "guideline", "limit"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "multiple-variables-set": {
+    "alias": ["4.1.1", "symbols", "changeable", "many", "numbers"],
+    "category": "Symbols",
+    "release": "4.1.1"
+  },
+  "string-set": {
+    "alias": ["4.1.1", "text", "chain", "sequence", "series", "group", "collection"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "table-set": {
+    "alias": ["4.1.1", "generic", "setting", "cover", "arrangement", "columns", "features"],
+    "category": "Generic",
+    "release": "4.1.1"
+  },
+  "mooc": {
+    "alias": ["4.2.0", "education", "courses", "training", "online", "graduation", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-gis-workflow": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "gis",
+      "lab",
+      "workflow",
+      "plan",
+      "interact",
+      "system",
+      "roadmap",
+      "productivity",
+      "map"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-steps": {
+    "alias": ["4.2.0", "education", "learning", "plan", "steps", "workflow", "planner", "number", "chronological"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "storymap-experience": {
+    "alias": ["4.2.0", "education", "web", "app", "logo", "app", "product"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "document-learning": {
+    "alias": ["4.2.0", "education", "document", "learning", "pencil", "note", "folder", "write", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-web-course": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "web",
+      "course",
+      "online",
+      "virtual",
+      "internet",
+      "interactive",
+      "cloud"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "classroom-gis": {
+    "alias": ["4.2.0", "education", "classroom", "gis", "presenter", "desk", "podium", "map", "teacher"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "video-learning": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "video",
+      "learning",
+      "visual",
+      "coffee",
+      "playback",
+      "relax",
+      "record",
+      "clip",
+      "cup",
+      "warm"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "e-learning-gis": {
+    "alias": ["4.2.0", "education", "learning", "gis", "presenter", "online", "video", "virtual", "asynchronous"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "mosaic-method-mean": {
+    "alias": ["4.2.0", "gis", "analysis", "error", "computer", "diagnosis"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-by-attribute": {
+    "alias": ["4.2.0", "gis", "sort-by", "atttribute", "data", "mosaic"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-blend": {
+    "alias": ["4.2.0", "gis", "combine", "merge", "fuse", "composite"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-nadir": {
+    "alias": ["4.2.0", "gis", "raster", "bottom", "lowest-point", "rock-bottom", "data"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-center": {
+    "alias": ["4.2.0", "gis", "center", "target", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-first": {
+    "alias": ["4.2.0", "gis", "collage", "composition", "fusion", "first"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-last": {
+    "alias": ["4.2.0", "gis", "final", "terminal", "concluding", "completion", "culmination"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-north-west": {
+    "alias": ["4.2.0", "gis", "number", "method", "modify", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-lock-raster": {
+    "alias": ["4.2.0", "gis", "technique", "select", "attribute", "spatial", "control"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-maximum": {
+    "alias": ["4.2.0", "gis", "dataset", "mixture", "collage", "blend", "variety"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-minimum": {
+    "alias": ["4.2.0", "gis", "smallest", "minimum", "collage", "small-scale"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-sum": {
+    "alias": ["4.2.0", "gis", "blend", "mix", "whole", "total"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-none": {
+    "alias": ["4.2.0", "gis", "nothing", "uncombined", "unblended", "separated", "disassembled"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-seamline": {
+    "alias": ["4.2.0", "gis", "boundary", "edge", "line", "border"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "calendar-heat-chart": {
+    "alias": ["4.2.0", "gis", "data", "display", "calendar", "value", "patterns"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "matrix-heat-chart": {
+    "alias": ["4.2.0", "gis", "analysis", "categorical", "count", "variable"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "progress-bar-chart": {
+    "alias": ["4.2.0", "charts and graphs", "indicator", "input", "control", "adjustment"],
+    "category": "Charts and Graphs",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "open", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outline", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "transfer": {
+    "alias": ["4.2.1", "people", "move", "shift", "remove", "conduct", "transmit"],
+    "category": "People",
+    "release": "4.2.1"
+  },
+  "tapestry": {
+    "alias": ["4.2.1", "brand", "segmentation", "data", "classification", "group"],
+    "category": "Brand",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "subheading-1-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-2-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-4-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-3-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-5-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "image-navigation": {
+    "alias": ["4.3.0", "generic", "gps", "image", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "sequential-navigation": {
+    "alias": ["4.3.0", "generic", "sequence", "gps", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "directional-navigation": {
+    "alias": ["4.3.0", "generic", "direction", "gps", "location", "instructions"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "content-side-by-side-right": {
+    "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
+    "category": "Windows",
+    "release": "4.3.0"
   }
 }

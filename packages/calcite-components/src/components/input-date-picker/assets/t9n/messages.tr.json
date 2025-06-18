@@ -1,4 +1,7 @@
 {
   "chooseDate": "Tarih seç",
-  "dateFormat": "Tarih Biçimi:"
+  "date": "Date",
+  "dateFormat": "Tarih Biçimi: {format}",
+  "endDate": "End Date",
+  "startDate": "Start Date"
 }

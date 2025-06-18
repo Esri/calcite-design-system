@@ -13,9 +13,13 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-action-pad", { display: "block" });
   });
@@ -296,7 +300,7 @@ describe("calcite-action-pad", () => {
 
     await page.waitForChanges();
 
-    let groups = await page.findAll("calcite-action-group");
+    let groups = await findAll(page, "calcite-action-group");
 
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
@@ -308,7 +312,7 @@ describe("calcite-action-pad", () => {
 
     expect(eventSpy).toHaveReceivedEventTimes(2);
 
-    groups = await page.findAll("calcite-action-group");
+    groups = await findAll(page, "calcite-action-group");
 
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
     expect(await groups[1].getProperty("menuOpen")).toBe(false);
@@ -355,7 +359,7 @@ describe("calcite-action-pad", () => {
     `;
     await page.waitForChanges();
 
-    const groups = await page.findAll("calcite-action-group");
+    const groups = await findAll(page, "calcite-action-group");
 
     for (const childGroup of groups) {
       expect(await childGroup.getProperty("layout")).toBe("vertical");

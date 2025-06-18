@@ -25,7 +25,7 @@ const DEFAULTS = {
  * @param floatingLayout.floatingLayout
  * @param floatingLayout – The effective floating layout to render the arrow vertically or horizontally. Possible values: `vertical` or `horizontal`.
  *
- * See [floating-ui](https://github.com/Esri/calcite-design-system/blob/dev/src/utils/floating-ui.ts)
+ * @see [floating-ui](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/utils/floating-ui.ts).
  * @param floatingLayout.key
  * @param floatingLayout.ref
  */

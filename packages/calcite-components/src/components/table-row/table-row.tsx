@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { render } from "lit-html";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
@@ -25,13 +26,13 @@ declare global {
 
 /** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
 export class TableRow extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   messages;
 
@@ -41,12 +42,36 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private tableRowSlotEl = createRef<HTMLSlotElement>();
 
-  // #endregion
+  private userTriggered = false;
 
-  // #region Public Properties
+  private _selected = false;
+
+  private clickHandler = (): void => {
+    this.handleRowSelection();
+  };
+
+  private handleKeyboardSelection = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
+      if (event.key === " ") {
+        event.preventDefault();
+      }
+      this.handleRowSelection();
+    }
+  };
+
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies the alignment of the component. */
   @property({ reflect: true }) alignment: Alignment;
+
+  /**
+   * When `true`, the item will be hidden
+   *
+   * @private
+   *  */
+  @property({ reflect: true }) itemHidden = false;
 
   /** @private */
   @property() bodyRowCount: number;
@@ -85,7 +110,17 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property() scale: Scale;
 
   /** When `true`, the component is selected. */
-  @property({ reflect: true }) selected = false;
+  @property({ reflect: true })
+  get selected(): boolean {
+    return this._selected;
+  }
+  set selected(value: boolean) {
+    const oldValue = this._selected;
+    if (value !== oldValue) {
+      this._selected = value;
+      this.handleCellChanges();
+    }
+  }
 
   /** @private */
   @property() selectedRowCount: number;
@@ -96,19 +131,22 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTableRowSelect = createEvent({ cancelable: false });
+
   /** Fires when the selected state of the component changes. */
   calciteTableRowSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -131,7 +169,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
-      (changes.has("selected") && (this.hasUpdated || this.selected !== false)) ||
       changes.has("selectedRowCount") ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive"))
@@ -145,6 +182,14 @@ export class TableRow extends LitElement implements InteractiveComponent {
     ) {
       this.handleDelayedCellChanges();
     }
+
+    if (
+      changes.has("selected") &&
+      (this.hasUpdated || this.selected !== false) &&
+      !this.userTriggered
+    ) {
+      this.calciteInternalTableRowSelect.emit();
+    }
   }
 
   override updated(): void {
@@ -157,9 +202,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleSlotChange(): void {
     this.updateCells();
@@ -312,24 +357,18 @@ export class TableRow extends LitElement implements InteractiveComponent {
     this.cellCount = cells?.length;
   }
 
-  private handleSelectionOfRow = (): void => {
+  private async handleRowSelection(): Promise<void> {
     if (this.rowType === "body" || (this.rowType === "head" && this.selectionMode === "multiple")) {
+      this.userTriggered = true;
+      this.selected = !this.selected;
+      await this.updateComplete;
       this.calciteTableRowSelect.emit();
     }
-  };
+  }
 
-  private handleKeyboardSelection = (event: KeyboardEvent): void => {
-    if (isActivationKey(event.key)) {
-      if (event.key === " ") {
-        event.preventDefault();
-      }
-      this.handleSelectionOfRow();
-    }
-  };
+  //#endregion
 
-  // #endregion
-
-  // #region Rendering
+  //#region Rendering
 
   renderSelectionIcon(): JsxNode {
     const icon =
@@ -350,7 +389,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         alignment="center"
         bodyRowCount={this.bodyRowCount}
         key="selection-head"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         selectedRowCount={this.selectedRowCount}
@@ -362,7 +401,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       <calcite-table-cell
         alignment="center"
         key="selection-body"
-        onClick={this.handleSelectionOfRow}
+        onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
@@ -438,5 +477,5 @@ export class TableRow extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

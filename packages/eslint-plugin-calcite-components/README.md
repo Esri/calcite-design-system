@@ -1,6 +1,6 @@
 # @esri/eslint-plugin-calcite-components
 
-ESLint rules specific to Stencil JS projects.
+ESLint rules specific to `@esri/calcite-components` development.
 
 ## Installation
 
@@ -59,7 +59,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-COPYRIGHT © 2024 Esri
+COPYRIGHT © 2025 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -67,6 +67,10 @@ This material is licensed for use under the Esri Master License Agreement (MLA),
 
 See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
-For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+For additional information, refer to [Calcite's licensing](https://developers.arcgis.com/calcite-design-system/resources/licensing) and contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
+
+## Third-party licenses
+
+See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).

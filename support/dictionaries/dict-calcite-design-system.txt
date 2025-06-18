@@ -19,6 +19,12 @@ t9nmanifest
 unslotted
 VDOM
 
+## eslint-plugin-import
+esmodule
+
+## eslint-plugin-calcite-components
+createelement
+
 ## events
 formdata
 
@@ -31,6 +37,7 @@ autofilled
 Bézier
 camelcase
 greeking
+greyscale
 lowercased
 Steffen
 signifiers
@@ -38,10 +45,19 @@ stringifying
 uppercased
 
 ## GIS
+ArcGIS
 ArcGISOnline
 basemap
 basemaps
 wkid
+
+## iso 8601
+YYYY
+MM
+DDTHH
+MM
+SS
+SSSZ
 
 # lorem-ipsum
 potenti
@@ -75,16 +91,24 @@ tibt
 xsmall
 xxsmall
 
-## style dictionary transforms for tokens studio
+## style-dictionary transforms for tokens studio
+Dtcg
+Expandables
+buch
 demi
 dreiviertelfett
+letterspacing
 extrafett
 extraleicht
 extralight
 fett
 halbfett
+hexrgba
+kraeftig
 kräftig
 leicht
+lineheight
+ultabold
 
 ## svg
 svgs
@@ -92,6 +116,21 @@ viewbox
 
 ## testing
 headful
+
+## time (meridiem)
+
+prijepodne
+popodne
+לפנה
+priešpiet
+popiet
+priekšpusdienā
+pēcpusdienā
+претпл
+попл
+manhã
+ก่อนเที
+หลังเที
 
 ## time zones
 
@@ -242,6 +281,7 @@ Jujuy
 Juneau
 Kentucky
 Monticello
+Kolkata
 Kralendijk
 La_Paz
 Lima
@@ -547,6 +587,10 @@ Wallis
 ## typescript
 enumify
 
+## units of measurement
+decisecond
+centisecond
+
 ## web
 CLDR
 
@@ -555,10 +599,11 @@ CLDR
 ### color
 hexa
 saturationv
+interactjs
+
+### interactjs
+resizeend
+resizestart
 
 ### stylelint
 stylelintrc
-
-### units of measurement
-decisecond
-centisecond

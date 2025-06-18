@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -16,35 +17,17 @@ declare global {
 
 /** @slot - A slot for adding custom content, primarily loading information. */
 export class Scrim extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private loaderEl: Loader["el"];
 
   private resizeObserver = createObserver("resize", () => this.handleResize());
-
-  // #endregion
-
-  // #region State Properties
-
-  @state() hasContent = false;
-
-  @state() loaderScale: Scale;
-
-  // #endregion
-
-  // #region Public Properties
-
-  /** When `true`, a busy indicator is displayed. */
-  @property({ reflect: true }) loading = false;
-
-  /** Use this property to override individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only
@@ -53,9 +36,27 @@ export class Scrim extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region State Properties
+
+  @state() hasContent = false;
+
+  @state() loaderScale: Scale;
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  //#endregion
+
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
@@ -65,9 +66,9 @@ export class Scrim extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleDefaultSlotChange(event: Event): void {
     this.hasContent = slotChangeHasContent(event);
@@ -98,9 +99,9 @@ export class Scrim extends LitElement {
     this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { hasContent, loading, messages } = this;
@@ -121,5 +122,5 @@ export class Scrim extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

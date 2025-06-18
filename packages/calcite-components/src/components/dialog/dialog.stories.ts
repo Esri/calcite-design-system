@@ -17,6 +17,8 @@ type DialogStoryArgs = Pick<
   | "closeDisabled"
   | "placement"
   | "loading"
+  | "icon"
+  | "iconFlipRtl"
   | "menuOpen"
   | "modal"
   | "overlayPositioning"
@@ -38,6 +40,8 @@ export default {
     description: "My description!",
     closeDisabled: false,
     loading: false,
+    icon: "",
+    iconFlipRtl: false,
     menuOpen: false,
     modal: false,
     dragEnabled: false,
@@ -107,6 +111,8 @@ export const simple = (args: DialogStoryArgs): string => html`
     width-scale="${args.widthScale}"
     placement="${args.placement}"
     heading="${args.heading}"
+    icon="${args.icon}"
+    icon-flip-rtl="${args.iconFlipRtl}"
     description="${args.description}"
     overlay-positioning="${args.overlayPositioning}"
   >
@@ -136,6 +142,22 @@ const footerContent = html`<calcite-button
   >
   <calcite-button slot="${SLOTS.footerEnd}" width="auto" appearance="outline">Cancel</calcite-button>
   <calcite-button slot="${SLOTS.footerEnd}" width="auto">Save</calcite-button>`;
+
+const customContent = html` <div
+  style="margin: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--calcite-color-background);
+        border: 1px solid var(--calcite-color-brand);
+        border-radius: 5px;"
+  slot="custom-content"
+>
+  <p>This dialog has default content replaced with custom content.</p>
+  <calcite-button id="custom-content-button" appearance="transparent" scale="s">Close</calcite-button>
+</div>`;
 
 export const slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
@@ -168,6 +190,91 @@ export const slotsWithModal = (): string => html`
       </calcite-action-group>
     </calcite-action-bar>
     ${footerContent}
+  </calcite-dialog>
+`;
+
+export const customContentSlot = (): string => html`
+  <calcite-dialog heading="Custom content slot dialog" open placement="cover"> ${customContent} </calcite-dialog>
+`;
+
+export const withIcon = (): string => html`
+  <calcite-dialog icon="banana" heading="Banana" description="This is bananas" open scale="m" width-scale="s" modal>
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindBrandIcon = (): string => html`
+  <calcite-dialog
+    kind="brand"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindDangerIcon = (): string => html`
+  <calcite-dialog
+    kind="danger"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindInfoIcon = (): string => html`
+  <calcite-dialog
+    kind="info"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindSuccessIcon = (): string => html`
+  <calcite-dialog
+    kind="success"
+    icon="banana"
+    heading="Banana"
+    description="This is bananas"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
+  </calcite-dialog>
+`;
+
+export const withKindWarningIcon = (): string => html`
+  <calcite-dialog
+    kind="warning"
+    icon="banana"
+    description="This is bananas"
+    heading="Banana"
+    open
+    scale="m"
+    width-scale="s"
+    modal
+  >
+    Hello world!
   </calcite-dialog>
 `;
 

@@ -1,0 +1,27 @@
+name: Remove Issue From Project
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  process-labeled-issue:
+    if: github.event.label.name == 'ready for dev'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+
+      - name: Remove Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node .github/scripts/removeIssuesFromDesignProjects.js

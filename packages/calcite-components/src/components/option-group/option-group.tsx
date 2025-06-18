@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { styles } from "./option-group.scss";
@@ -9,13 +10,13 @@ declare global {
 }
 /** @slot - A slot for adding `calcite-option`s. */
 export class OptionGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({
@@ -30,17 +31,16 @@ export class OptionGroup extends LitElement {
    */
   @property() label: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
-
   private calciteInternalOptionGroupChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -55,11 +55,9 @@ export class OptionGroup extends LitElement {
     }
   }
 
-  // #endregion
-  // #region Private Methods
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -70,5 +68,5 @@ export class OptionGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

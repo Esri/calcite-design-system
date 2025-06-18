@@ -4,7 +4,7 @@
     "liberty/use-logical-spec": [
       "always",
       {
-        "except": ["left", "right"]
+        "severity": "warning"
       }
     ]
   }

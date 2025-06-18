@@ -103,9 +103,58 @@ export const withAvatarAndIcon = (): string => {
   `;
 };
 
+// <div style="background-color:var(--calcite-color-foreground-current); padding:50px; display=inline-grid; grid-template-columns: 1fr; gap:var(--calcite-spacing-xxs);">
+
 export const withClosable = (args: ChipStoryArgs): string => html`
-  <div style="background-color:white;padding:100px">
+  <div
+    style="display: grid; background-color:var(--calcite-color-foreground-current); padding: 50px; gap:var(--calcite-spacing-xxs);"
+  >
     <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="brand" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="inverse" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="outline" kind="neutral" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="outline" kind="brand" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip icon="${iconNames[0]}" scale="m" appearance="outline" kind="inverse" label="${args.label}" closable>
+      My great chip</calcite-chip
+    >
+    <calcite-chip
+      icon="${iconNames[0]}"
+      scale="m"
+      appearance="outline-fill"
+      kind="neutral"
+      label="${args.label}"
+      closable
+    >
+      My great chip</calcite-chip
+    >
+    <calcite-chip
+      icon="${iconNames[0]}"
+      scale="m"
+      appearance="outline-fill"
+      kind="brand"
+      label="${args.label}"
+      closable
+    >
+      My great chip</calcite-chip
+    >
+    <calcite-chip
+      icon="${iconNames[0]}"
+      scale="m"
+      appearance="outline-fill"
+      kind="inverse"
+      label="${args.label}"
+      closable
+    >
       My great chip</calcite-chip
     >
   </div>

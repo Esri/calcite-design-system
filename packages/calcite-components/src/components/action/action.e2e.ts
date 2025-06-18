@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -38,6 +38,63 @@ describe("calcite-action", () => {
       {
         propertyName: "textEnabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "width",
+        defaultValue: "auto",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-action", [
+      {
+        propertyName: "active",
+        value: true,
+      },
+      {
+        propertyName: "alignment",
+        value: "end",
+      },
+      {
+        propertyName: "appearance",
+        value: "solid",
+      },
+      {
+        propertyName: "compact",
+        value: true,
+      },
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+      {
+        propertyName: "icon",
+        value: "hamburger",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+      },
+      {
+        propertyName: "indicator",
+        value: true,
+      },
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "textEnabled",
+        value: true,
+      },
+      {
+        propertyName: "width",
+        value: "full",
       },
     ]);
   });
@@ -223,7 +280,7 @@ describe("calcite-action", () => {
         "--calcite-action-background-color-press": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+          state: { press: { attribute: "class", value: CSS.button } },
         },
       });
     });
@@ -451,7 +508,7 @@ describe("calcite-action", () => {
         "--calcite-action-background-color-pressed": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+          state: { press: { attribute: "class", value: CSS.button } },
         },
       });
     });
@@ -472,7 +529,7 @@ describe("calcite-action", () => {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
           expectedValue: "rgba(0, 0, 0, 0.08)",
-          state: { press: { attribute: "class", value: ` ${CSS.button} ` } },
+          state: { press: { attribute: "class", value: CSS.button } },
         },
       });
     });

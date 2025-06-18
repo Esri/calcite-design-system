@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -8,9 +9,10 @@ import {
   state,
   JsxNode,
   stringOrBoolean,
+  LuminaJsx,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
-import { debounce } from "lodash-es";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { debounce, escapeRegExp } from "lodash-es";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -28,11 +30,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -56,9 +53,10 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
+import { componentFocusable } from "../../utils/component";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -81,17 +79,16 @@ export class Autocomplete
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent,
     TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = guid();
 
@@ -101,6 +98,8 @@ export class Autocomplete
   );
 
   defaultValue: Autocomplete["value"];
+
+  defaultInputValue: Autocomplete["inputValue"];
 
   floatingEl: HTMLDivElement;
 
@@ -121,15 +120,25 @@ export class Autocomplete
    */
   messages = useT9n<typeof T9nStrings>();
 
-  openTransitionProp = "opacity";
+  transitionProp = "opacity" as const;
 
   referenceEl: Input["el"];
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  private inputValueMatchPattern: RegExp;
 
-  // #region State Properties
+  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private resizeObserver = createObserver("resize", () => {
+    this.setFloatingElSize();
+  });
+
+  private getAllItemsDebounced = debounce(this.getAllItems, 0);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() activeDescendant = "";
 
@@ -153,9 +162,9 @@ export class Autocomplete
     return this.items.filter((item) => !item.disabled);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -164,9 +173,9 @@ export class Autocomplete
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: string;
+  @property() autocomplete: AutoFill;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -197,7 +206,8 @@ export class Autocomplete
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies the maximum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -207,7 +217,8 @@ export class Autocomplete
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the minimum length of text for the component's value.
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
@@ -235,7 +246,8 @@ export class Autocomplete
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Specifies a regex pattern the component's `value` must match for validation.
+   * When the component resides in a form,
+   * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
@@ -266,7 +278,10 @@ export class Autocomplete
    */
   @property({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -309,9 +324,9 @@ export class Autocomplete
   /** The component's value. */
   @property() value = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -338,6 +353,23 @@ export class Autocomplete
   }
 
   /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @example
+   * myAutocomplete.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.transitionEl?.scrollTo(options);
+  }
+
+  /**
    * Selects the text of the component's `value`.
    *
    * @returns {Promise<void>}
@@ -354,12 +386,14 @@ export class Autocomplete
    */
   @method()
   async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
     return this.referenceEl.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAutocompleteBeforeClose = createEvent({ cancelable: false });
@@ -382,9 +416,9 @@ export class Autocomplete
   /** Fires each time a new `inputValue` is typed. */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -396,24 +430,13 @@ export class Autocomplete
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
-
+    this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      this.openHandler();
-      onToggleOpenCloseComponent(this);
-    }
-
     connectFloatingUI(this);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.getAllItemsDebounced();
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -440,12 +463,27 @@ export class Autocomplete
       this.reposition(true);
     }
 
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+    let itemsAndGroupsUpdated = false;
+
+    if (changes.has("inputValue") && (this.hasUpdated || this.inputValue)) {
+      this.inputValueMatchPattern =
+        this.inputValue && new RegExp(`(${escapeRegExp(this.inputValue)})`, "i");
       this.updateItems();
       this.updateGroups();
+      itemsAndGroupsUpdated = true;
     }
 
-    if (changes.has("activeIndex") && (this.hasUpdated || this.activeIndex !== -1)) {
+    if (!itemsAndGroupsUpdated && changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.updateItems();
+      this.updateGroups();
+      itemsAndGroupsUpdated = true;
+    }
+
+    if (
+      !itemsAndGroupsUpdated &&
+      changes.has("activeIndex") &&
+      (this.hasUpdated || this.activeIndex !== -1)
+    ) {
       this.updateItems();
     }
   }
@@ -456,7 +494,7 @@ export class Autocomplete
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
-    setComponentLoaded(this);
+    this.defaultInputValue = this.inputValue || "";
     connectFloatingUI(this);
   }
 
@@ -468,9 +506,9 @@ export class Autocomplete
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
@@ -516,20 +554,20 @@ export class Autocomplete
     this.open = false;
   }
 
-  private handleInternalAutocompleteItemSelect(event: Event): void {
+  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
     event.stopPropagation();
     this.emitChange();
+    await this.setFocus();
+    this.open = false;
   }
-
-  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
-
-  private resizeObserver = createObserver("resize", () => {
-    this.setFloatingElSize();
-  });
 
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  onFormReset(): void {
+    this.inputValue = this.defaultInputValue;
   }
 
   onBeforeOpen(): void {
@@ -549,7 +587,6 @@ export class Autocomplete
   }
 
   private emitChange(): void {
-    this.open = false;
     this.calciteAutocompleteChange.emit();
   }
 
@@ -572,7 +609,12 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant: string = null;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
+      item.scale = this.scale;
+      item.inputValueMatchPattern = this.inputValueMatchPattern;
+    });
+
+    this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
       if (isActive) {
@@ -580,7 +622,6 @@ export class Autocomplete
       }
 
       item.active = isActive;
-      item.scale = this.scale;
     });
 
     this.activeDescendant = activeDescendant;
@@ -598,20 +639,12 @@ export class Autocomplete
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
-  private getAllItemsDebounced = debounce(this.getAllItems, 0);
-
   private getAllItems(): void {
     const { el } = this;
     this.groups = Array.from(el.querySelectorAll(groupItemSelector));
     this.items = Array.from(el.querySelectorAll(itemSelector));
     this.updateItems();
     this.updateGroups();
-  }
-
-  private getIcon(): IconNameOrString {
-    const { icon } = this;
-
-    return icon === true ? ICONS.search : icon || ICONS.search;
   }
 
   private setReferenceEl(el: Input["el"]): void {
@@ -624,11 +657,6 @@ export class Autocomplete
     this.resizeObserver?.observe(el);
 
     connectFloatingUI(this);
-
-    // TODO: fixme when supported in jsx
-    // https://devtopia.esri.com/WebGIS/arcgis-web-components/issues/2694
-    const enterKeyHint = this.el.getAttribute("enterkeyhint");
-    el.enterKeyHint = enterKeyHint;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -639,6 +667,8 @@ export class Autocomplete
     }
 
     const { open, activeIndex, enabledItems } = this;
+
+    const activeItem = enabledItems.length && activeIndex > -1 ? enabledItems[activeIndex] : null;
 
     switch (key) {
       case "Escape":
@@ -651,9 +681,10 @@ export class Autocomplete
         this.open = false;
         break;
       case "Enter":
-        if (open && activeIndex > -1) {
-          this.value = enabledItems[activeIndex].value;
+        if (open && activeItem) {
+          this.value = activeItem.value;
           this.emitChange();
+          this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {
           if (submitForm(this)) {
@@ -662,28 +693,44 @@ export class Autocomplete
         }
         break;
       case "ArrowDown":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.min(activeIndex + 1, enabledItems.length - 1) : 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        this.open = true;
-        this.activeIndex =
-          activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex =
+            activeIndex !== -1 ? Math.max(activeIndex - 1, 0) : enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "Home":
-        this.open = true;
-        this.activeIndex = 0;
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = 0;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
       case "End":
-        this.open = true;
-        this.activeIndex = enabledItems.length - 1;
-        event.preventDefault();
+        if (enabledItems.length) {
+          this.open = true;
+          this.activeIndex = enabledItems.length - 1;
+          this.scrollToActiveItem();
+          event.preventDefault();
+        }
         break;
     }
+  }
+
+  private scrollToActiveItem(): void {
+    this.enabledItems[this.activeIndex]?.scrollIntoView({ block: "nearest" });
   }
 
   private changeHandler(event: CustomEvent): void {
@@ -692,9 +739,18 @@ export class Autocomplete
     this.calciteAutocompleteTextChange.emit();
   }
 
+  private inputClickHandler(event: MouseEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    this.open = true;
+  }
+
   private inputHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.inputValue = (event.target as Input["el"]).value;
+    this.open = this.inputValue?.length > 0;
     this.calciteAutocompleteTextInput.emit();
   }
 
@@ -704,26 +760,23 @@ export class Autocomplete
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
-    const inputMode = this.el.getAttribute("inputmode") as
-      | "none"
-      | "text"
-      | "search"
-      | "email"
-      | "tel"
-      | "url"
-      | "numeric"
-      | "decimal";
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -741,8 +794,9 @@ export class Autocomplete
             class={CSS.input}
             clearable={true}
             disabled={disabled}
+            enterKeyHint={enterKeyHint}
             form={this.form}
-            icon={this.getIcon()}
+            icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
             inputMode={inputMode}
@@ -752,6 +806,7 @@ export class Autocomplete
             messageOverrides={this.messages}
             minLength={this.minLength}
             name={this.name}
+            onClick={this.inputClickHandler}
             onKeyDown={this.keyDownHandler}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}
@@ -842,5 +897,5 @@ export class Autocomplete
       ));
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,5 +1,5 @@
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -16,6 +16,8 @@ import {
 } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
+import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { getCity, toUserFriendlyName } from "./utils";
 
 /*
@@ -126,6 +128,8 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("translation support", () => {
+    mockConsole();
+
     t9n(simpleTestProvider);
   });
 
@@ -224,8 +228,9 @@ describe("calcite-input-time-zone", () => {
           }
         }
 
-        let matchedTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden])",
+        let matchedTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
         expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
 
@@ -234,7 +239,10 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.filter);
 
-        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+        matchedTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
+        );
 
         expect(matchedTimeZoneItems).toHaveLength(1);
 
@@ -243,7 +251,10 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.filter);
 
-        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+        matchedTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
+        );
 
         expect(matchedTimeZoneItems).toHaveLength(1);
 
@@ -252,7 +263,10 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.filter);
 
-        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+        matchedTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
+        );
 
         expect(matchedTimeZoneItems).toHaveLength(2);
 
@@ -260,7 +274,10 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.filter);
 
-        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+        matchedTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
+        );
 
         expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
       });
@@ -350,9 +367,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[1].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Phoenix, United States");
       });
 
       it("ignores invalid values", async () => {
@@ -369,9 +384,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[0].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Mexico City, Mexico");
       });
 
       it("properly sets region label when setting value programmatically", async () => {
@@ -390,7 +403,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("New York, United States");
       });
 
       it("maps deprecated time zones to aliases", async () => {
@@ -544,8 +557,9 @@ describe("calcite-input-time-zone", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.filter);
 
-        const sharedOffsetTimeZoneItems = await page.findAll(
-          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden])",
+        const sharedOffsetTimeZoneItems = await findAll(
+          page,
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
         );
         expect(sharedOffsetTimeZoneItems).toHaveLength(2);
 
@@ -649,5 +663,24 @@ describe("calcite-input-time-zone", () => {
 
       await assertItemLabelMatches(page, "UTC");
     });
+  });
+
+  it("keeps internal combobox in sync after selection when setting value along with time zone item-related props", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneItems[0].name);
+    await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+    const inputTimeZone = await page.find("calcite-input-time-zone");
+    const combobox = await page.find("calcite-input-time-zone >>> calcite-combobox");
+
+    inputTimeZone.setProperty("referenceDate", new Date());
+    inputTimeZone.setProperty("value", testTimeZoneItems[1].offset);
+    await page.waitForChanges();
+
+    await inputTimeZone.callMethod("setFocus");
+    await inputTimeZone.press("ArrowDown");
+    await inputTimeZone.press("Escape");
+    await page.waitForChanges();
+
+    expect(await combobox.getProperty("value")).not.toBe("");
   });
 });

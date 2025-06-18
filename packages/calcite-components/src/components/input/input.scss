@@ -5,7 +5,7 @@
  *
  * @prop --calcite-input-prefix-size: Specifies the component's prefix width, when present.
  * @prop --calcite-input-suffix-size: Specifies the component's suffix width, when present.
- * 
+ *
  * @prop --calcite-input-background-color: Specifies the component's background color.
  * @prop --calcite-input-border-color: Specifies the component's border color.
  * @prop --calcite-input-corner-radius: Specifies the component's corner radius.
@@ -21,10 +21,10 @@
  * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` and `number-button-type` elements.
  * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
  * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
- 
+
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element, when present.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element, when present.
- 
+
  * @prop --calcite-input-prefix-background-color:  Specifies the component's prefix background color, when present.
  * @prop --calcite-input-prefix-text-color:  Specifies the component's prefix text color, when present.
 
@@ -44,16 +44,13 @@
   & .suffix {
     @apply text-n2h h-6 px-2;
   }
+  & input[type="file"],
   & textarea {
-    @apply h-6;
     min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-6;
-  }
-  & input[type="file"] {
     @apply h-6;
   }
   & .clear-button {
@@ -74,15 +71,13 @@
   & .suffix {
     @apply text-n1h h-8 px-3;
   }
-  & textarea {
+  & textarea,
+  & input[type="file"] {
     min-block-size: theme("spacing.8");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-8;
-  }
-  & input[type="file"] {
     @apply h-8;
   }
   & .clear-button {
@@ -103,15 +98,13 @@
   & .suffix {
     @apply text-0h h-11 px-4;
   }
-  & textarea {
+  & textarea,
+  & input[type="file"] {
     min-block-size: theme("spacing.11");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
-    @apply h-11;
-  }
-  & input[type="file"] {
     @apply h-11;
   }
   & .clear-button {
@@ -155,12 +148,7 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
-    @apply font-normal;
-    color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
-  }
+
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -496,8 +484,8 @@ input[type="number"] {
   @apply order-1
       max-h-full
       min-h-full
-      self-stretch 
-      border 
+      self-stretch
+      border
       border-solid;
 
   &[data-adjustment="down"],
@@ -584,6 +572,7 @@ input[type="date"]::-webkit-input-placeholder {
     border-dashed
     text-center;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
+  block-size: initial;
 }
 
 :host([type="file"][scale="s"]) input {
@@ -623,6 +612,18 @@ input {
   }
 }
 
+:host([type="datetime-local"]) {
+  .element-wrapper {
+    inline-size: 100%;
+
+    input {
+      display: inline-block;
+      min-inline-size: 0;
+    }
+  }
+}
+
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include input-placeholder-text();

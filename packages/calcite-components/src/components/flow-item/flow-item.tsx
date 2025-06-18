@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
@@ -6,12 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -19,6 +15,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -45,22 +42,29 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class FlowItem extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class FlowItem extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private backButtonEl: Action["el"];
 
   private containerEl: Panel["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
   @property() beforeBack: () => Promise<void>;
@@ -99,6 +103,12 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -107,13 +117,6 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -137,9 +140,9 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
    */
   @property() showBackButton = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -176,9 +179,9 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the back button is clicked. */
   calciteFlowItemBack = createEvent();
@@ -195,13 +198,9 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
   /** @private */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -217,13 +216,10 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl) {
       return;
@@ -265,9 +261,9 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
     this.containerEl = node;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBackButton(): JsxNode {
     const { el } = this;
@@ -309,6 +305,8 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
       messages,
       overlayPositioning,
       beforeClose,
+      icon,
+      iconFlipRtl,
     } = this;
     return (
       <InteractiveContainer disabled={disabled}>
@@ -323,6 +321,8 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
+          icon={icon}
+          iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}
@@ -353,5 +353,5 @@ export class FlowItem extends LitElement implements InteractiveComponent, Loadab
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
@@ -14,7 +15,7 @@ function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
       .replace(":30", ".5")
       .replace(":45", ".75")
 
-      // ensures decimal string representation is parseable
+      // ensures decimal string representation is parsable
       .replace(minusSign, hyphen)
   );
 }
@@ -262,12 +263,12 @@ function getTimeZoneShortOffset(
   return parts.find(({ type }) => type === "timeZoneName").value;
 }
 
-function isGroup(item: TimeZoneItem | TimeZoneItemGroup): item is TimeZoneItemGroup {
-  return (item as TimeZoneItemGroup).items !== undefined;
+function hasGroups(items: TimeZoneItem[] | TimeZoneItemGroup[]): items is TimeZoneItemGroup[] {
+  return (items[0] as TimeZoneItemGroup).items !== undefined;
 }
 
 function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[]): TimeZoneItem[] {
-  return isGroup(timeZoneItems[0]) ? timeZoneItems.flatMap((item) => item.items) : timeZoneItems;
+  return hasGroups(timeZoneItems) ? timeZoneItems.flatMap((item) => item.items) : timeZoneItems;
 }
 
 export function findTimeZoneItemByProp(

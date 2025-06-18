@@ -1,4 +1,4 @@
-import { isBrowser } from "../../utils/browser";
+import { isServer } from "lit";
 import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
@@ -7,7 +7,7 @@ export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
 export const listItemSelector = "calcite-list-item";
 
-export function openAncestors(el: ListItem["el"]): void {
+export function expandedAncestors(el: ListItem["el"]): void {
   const ancestor = el.parentElement?.closest(listItemSelector);
 
   if (!ancestor) {
@@ -15,7 +15,7 @@ export function openAncestors(el: ListItem["el"]): void {
   }
 
   ancestor.open = true;
-  openAncestors(ancestor);
+  expandedAncestors(ancestor);
 }
 
 export function getListItemChildren(slotEl: HTMLSlotElement): {
@@ -42,16 +42,19 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
   const listItemChildren = slotEl
     .assignedElements({ flatten: true })
-    .filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
+    .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
+
+  const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
 
   listItemChildren.forEach((listItem) => {
-    listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
-    listItem.setSize = listItemChildren.length;
+    const index = filteredListItemChildren.indexOf(listItem);
+    listItem.setPosition = index === -1 ? undefined : index + 1;
+    listItem.setSize = index === -1 ? undefined : filteredListItemChildren.length;
   });
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!isBrowser()) {
+  if (isServer) {
     return 0;
   }
 
@@ -62,4 +65,8 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
   const result = document.evaluate(expression, element, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 
   return result.snapshotLength;
+}
+
+export function isListItem(element: Element): element is ListItem["el"] {
+  return element.tagName === "CALCITE-LIST-ITEM";
 }

@@ -1,7 +1,9 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-tile-select", () => {
   describe("renders", () => {
@@ -42,6 +44,8 @@ describe("calcite-tile-select", () => {
   });
 
   describe("disabled", () => {
+    mockConsole();
+
     disabled(
       "calcite-tile-select",
 

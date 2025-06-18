@@ -1,12 +1,57 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   describe("renders", () => {
     renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-chip", [
+      { propertyName: "appearance", defaultValue: "solid" },
+      { propertyName: "closable", defaultValue: false },
+      { propertyName: "closed", defaultValue: false },
+      { propertyName: "closeOnDelete", defaultValue: false },
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "icon", defaultValue: undefined },
+      { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "kind", defaultValue: "neutral" },
+      { propertyName: "label", defaultValue: undefined },
+      { propertyName: "messageOverrides", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "selected", defaultValue: false },
+      { propertyName: "value", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-chip", [
+      { propertyName: "appearance", value: "solid" },
+      { propertyName: "closable", value: true },
+      { propertyName: "closed", value: true },
+      { propertyName: "closeOnDelete", value: true },
+      { propertyName: "disabled", value: true },
+      { propertyName: "icon", value: "banana" },
+      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "kind", value: "neutral" },
+      { propertyName: "scale", value: "m" },
+      { propertyName: "selected", value: true },
+    ]);
   });
 
   describe("honors hidden attribute", () => {
@@ -77,39 +122,6 @@ describe("calcite-chip", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
   });
 
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("kind", "neutral");
-    expect(element).toEqualAttribute("scale", "m");
-
-    const close = await page.find(`calcite-chip >>> .${CSS.close}`);
-    expect(close).toBeNull();
-  });
-
-  it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "outline");
-    expect(element).toEqualAttribute("kind", "brand");
-    expect(element).toEqualAttribute("scale", "l");
-  });
-
-  it("renders outline-fill chip when appearance='outline-fill'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
-
-    const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "outline-fill");
-    expect(element).toEqualAttribute("kind", "brand");
-    expect(element).toEqualAttribute("scale", "l");
-  });
-
   describe("closing", () => {
     it("via mouse", async () => {
       const page = await newE2EPage();
@@ -151,90 +163,17 @@ describe("calcite-chip", () => {
     });
   });
 
-  describe("CSS properties for light/dark mode", () => {
-    const chipSnippet = `
-      <calcite-chip
-        class="layers"
-        icon="layer"
-        appearance="solid"
-        kind="neutral"
-        closable
-      >
-        Layers
-      </calcite-chip>
-    `;
-    let page;
-    let chipCloseButton;
-    let chipCloseButtonFocusStyle;
-    let chipCloseButtonHoverStyle;
+  it("should not render chip when closed set to true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-chip class="layers" icon="layer" appearance="solid" kind="neutral" closable> Layers </calcite-chip>
+    `);
 
-    describe("when mode attribute is not provided", () => {
-      it("should render chip pseudo classes with default values tied to mode", async () => {
-        page = await newE2EPage({ html: chipSnippet });
-        chipCloseButton = await page.find("calcite-chip >>> button");
-        await chipCloseButton.focus();
-        await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
+    const chipEl = await page.find(`calcite-chip`);
+    chipEl.toggleAttribute("closed", true);
+    await page.waitForChanges();
 
-        await chipCloseButton.hover();
-        await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
-      });
-    });
-
-    describe("when mode attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`,
-        });
-        chipCloseButton = await page.find("calcite-chip >>> button");
-        await chipCloseButton.focus();
-        await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-
-        await chipCloseButton.hover();
-        await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-      });
-    });
-
-    it("should allow the CSS custom property to be overridden", async () => {
-      const overrideStyle = "rgba(55, 5, 10, 0.19)";
-      page = await newE2EPage({
-        html: `
-        <style>
-          :root {
-            --calcite-color-transparent-hover: ${overrideStyle};
-          }
-        </style>
-        <div>${chipSnippet}</div>`,
-      });
-      chipCloseButton = await page.find("calcite-chip >>> button");
-      await chipCloseButton.focus();
-      await page.waitForChanges();
-      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-      expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-
-      await chipCloseButton.hover();
-      await page.waitForChanges();
-      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-      expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-    });
-
-    it("should not render chip when closed set to true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
-
-      const chipEl = await page.find(`calcite-chip`);
-      chipEl.toggleAttribute("closed", true);
-      await page.waitForChanges();
-
-      expect(await chipEl.isVisible()).toBe(false);
-    });
+    expect(await chipEl.isVisible()).toBe(false);
   });
 
   describe("translation support", () => {
@@ -288,7 +227,7 @@ describe("calcite-chip", () => {
       });
       describe("selected", () => {
         themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
-          "--calcite-chip-select-icon-color-pressed": {
+          "--calcite-chip-select-icon-color-press": {
             shadowSelector: `.${CSS.selectIcon}`,
             targetProp: "color",
           },
@@ -300,6 +239,15 @@ describe("calcite-chip", () => {
       themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
         "--calcite-chip-icon-color": {
           shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
+        "--calcite-chip-select-icon-color-pressed": {
+          shadowSelector: `.${CSS.selectIcon}`,
           targetProp: "color",
         },
       });

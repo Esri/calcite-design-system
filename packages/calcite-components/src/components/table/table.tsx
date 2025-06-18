@@ -1,18 +1,15 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
-import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import type { Pagination } from "../pagination/pagination";
+import { isHidden } from "../../utils/component";
 import {
   TableInteractionMode,
   TableLayout,
@@ -35,14 +32,14 @@ declare global {
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
-export class Table extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class Table extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private allRows: TableRow["el"][];
 
@@ -60,24 +57,30 @@ export class Table extends LitElement implements LoadableComponent {
 
   private tableHeadSlotEl = createRef<HTMLSlotElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() colCount = 0;
 
   @state() pageStartRow = 1;
 
-  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-
-  // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
   @state() readCellContentsToAT: boolean;
 
   @state() selectedCount = 0;
 
-  // #endregion
+  @state() _selectedItems: TableRow["el"][] = [];
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, displays borders in the component. */
   @property({ reflect: true }) bordered = false;
@@ -101,13 +104,6 @@ export class Table extends LitElement implements LoadableComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   /** When `true`, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
 
@@ -129,8 +125,6 @@ export class Table extends LitElement implements LoadableComponent {
     return this._selectedItems;
   }
 
-  @state() _selectedItems: TableRow["el"][] = [];
-
   /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
@@ -151,9 +145,9 @@ export class Table extends LitElement implements LoadableComponent {
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({ cancelable: false });
@@ -164,19 +158,22 @@ export class Table extends LitElement implements LoadableComponent {
   /** Emits when the component's selected rows change. */
   calciteTableSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
-    this.listen("calciteTableRowSelect", this.calciteChipSelectListener);
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
     this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
+    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
@@ -199,22 +196,27 @@ export class Table extends LitElement implements LoadableComponent {
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private handleSlotChange(): void {
     this.updateRows();
   }
 
-  private calciteChipSelectListener(event: CustomEvent): void {
+  private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
     }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (!event.composedPath().includes(this.el)) {
+      return;
+    }
+
+    this.updateSelectedItems(false);
+    event.stopPropagation();
   }
 
   private calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
@@ -223,8 +225,8 @@ export class Table extends LitElement implements LoadableComponent {
     const destination = event.detail.destination;
     const lastCell = event.detail.lastCell;
 
-    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
-    const visibleAll = this.allRows?.filter((row) => !row.hidden);
+    const visibleBody = this.bodyRows?.filter((row) => !isHidden(row));
+    const visibleAll = this.allRows?.filter((row) => !isHidden(row));
 
     const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
     const firstBodyRow = visibleBody[0]?.positionAll;
@@ -338,13 +340,13 @@ export class Table extends LitElement implements LoadableComponent {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
   }
 
-  private updateSelectedItems(emit?: boolean): void {
+  private async updateSelectedItems(emit?: boolean): Promise<void> {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
@@ -369,8 +371,7 @@ export class Table extends LitElement implements LoadableComponent {
       if (elToMatch?.rowType === "head") {
         el.selected = this.selectedCount !== this.bodyRows?.length;
       } else {
-        el.selected =
-          elToMatch === el ? !el.selected : this.selectionMode === "multiple" ? el.selected : false;
+        el.selected = this.selectionMode === "multiple" || elToMatch === el ? el.selected : false;
       }
     });
     this.updateSelectedItems(true);
@@ -386,12 +387,12 @@ export class Table extends LitElement implements LoadableComponent {
     return numberStringFormatter.localize(value.toString());
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelectionArea(): JsxNode {
-    const outOfViewCount = this._selectedItems?.filter((el) => el.hidden)?.length;
+    const outOfViewCount = this._selectedItems?.filter((el) => isHidden(el))?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
@@ -523,5 +524,5 @@ export class Table extends LitElement implements LoadableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

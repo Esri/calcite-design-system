@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -7,12 +8,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
@@ -30,19 +26,16 @@ declare global {
 }
 
 /** @slot - A slot for adding a `calcite-input`. */
-export class InlineEditable
-  extends LitElement
-  implements InteractiveComponent, LabelableComponent, LoadableComponent
-{
-  // #region Static Members
+export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private cancelEditingButton = createRef<Button["el"]>();
 
@@ -58,15 +51,18 @@ export class InlineEditable
 
   private shouldEmitCancel: boolean;
 
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
-
   private valuePriorToEditing: string;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
@@ -82,7 +78,6 @@ export class InlineEditable
   get editingEnabled(): boolean {
     return this._editingEnabled;
   }
-
   set editingEnabled(editingEnabled: boolean) {
     const oldEditingEnabled = this._editingEnabled;
     if (editingEnabled !== oldEditingEnabled) {
@@ -97,19 +92,12 @@ export class InlineEditable
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @property({ reflect: true }) scale: Scale;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -119,9 +107,9 @@ export class InlineEditable
     this.inputElement?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the component's "cancel editing" button is pressed. */
   calciteInlineEditableEditCancel = createEvent({ cancelable: false });
@@ -132,9 +120,9 @@ export class InlineEditable
   /** @private */
   calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -143,10 +131,6 @@ export class InlineEditable
 
   override connectedCallback(): void {
     connectLabel(this);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -163,17 +147,17 @@ export class InlineEditable
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   private disabledWatcher(disabled: boolean): void {
     if (this.inputElement) {
@@ -298,9 +282,9 @@ export class InlineEditable
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -368,5 +352,5 @@ export class InlineEditable
     );
   }
 
-  // #endregion
+  //#endregion
 }

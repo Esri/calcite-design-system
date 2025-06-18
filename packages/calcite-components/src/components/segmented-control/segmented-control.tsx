@@ -1,4 +1,5 @@
-import { PropertyValues } from "lit";
+// @ts-strict-ignore
+import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -24,16 +25,10 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
 import { CSS, IDS } from "./resources";
@@ -48,7 +43,7 @@ declare global {
 /** @slot - A slot for adding `calcite-segmented-control-item`s. */
 export class SegmentedControl
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -96,7 +91,10 @@ export class SegmentedControl
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -181,10 +179,6 @@ export class SegmentedControl
     connectForm(this);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -213,7 +207,6 @@ export class SegmentedControl
 
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value);
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -257,7 +250,7 @@ export class SegmentedControl
     }
   }
 
-  private handleSelected(event: Event): void {
+  private handleSelected(event: CustomEvent<void>): void {
     event.preventDefault();
     const el = event.target as SegmentedControlItem["el"];
     if (el.checked) {
@@ -383,10 +376,10 @@ export class SegmentedControl
     if (match && emit) {
       await this.updateComplete;
       this.calciteSegmentedControlChange.emit();
-    }
 
-    if (isBrowser() && match) {
-      match.focus();
+      if (!isServer) {
+        match.focus();
+      }
     }
   }
 

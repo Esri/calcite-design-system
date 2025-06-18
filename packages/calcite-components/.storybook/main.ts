@@ -18,7 +18,7 @@ module.exports = {
     name: "@storybook/web-components-vite",
     options: {},
   },
-  async viteFinal(config: UserConfig, { configType }) {
+  async viteFinal(config: UserConfig) {
     const { mergeConfig } = await import("vite");
 
     return mergeConfig(config, {

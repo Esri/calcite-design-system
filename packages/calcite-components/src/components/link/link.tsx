@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { focusElement, getElementDir } from "../../utils/dom";
@@ -6,12 +7,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -26,13 +22,13 @@ declare global {
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
- * Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this.
+ * Passing a 'href' will render an anchor link, instead of a button.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
  *
  * @slot - A slot for adding text.
  */
-export class Link extends LitElement implements InteractiveComponent, LoadableComponent {
+export class Link extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -42,7 +38,7 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
   // #region Private Properties
 
   /** the rendered child element */
-  private childEl: HTMLAnchorElement | HTMLSpanElement;
+  private childEl: HTMLAnchorElement | HTMLButtonElement;
 
   // #endregion
 
@@ -53,8 +49,9 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
-   * Without a value, the browser will suggest a filename/extension
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   * Without a value, the browser will suggest a filename/extension.
+   *
+   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -97,16 +94,8 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
     this.listen("click", this.clickHandler);
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -142,7 +131,7 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
   override render(): JsxNode {
     const { download, el } = this;
     const dir = getElementDir(el);
-    const childElType = this.href ? "a" : "span";
+    const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon
         class="calcite-link--icon icon-start"
@@ -162,11 +151,10 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
     );
 
     const DynamicHtmlTag =
-      childElType === "span"
-        ? (literal`span` as unknown as "span")
+      childElType === "button"
+        ? (literal`button` as unknown as "button")
         : (literal`a` as unknown as "a");
-    const role = childElType === "span" ? "link" : null;
-    const tabIndex = childElType === "span" ? 0 : null;
+    const tabIndex = childElType === "button" ? 0 : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "presentation";
 
@@ -189,7 +177,6 @@ export class Link extends LitElement implements InteractiveComponent, LoadableCo
           onClick={this.childElClickHandler}
           ref={this.storeTagRef}
           rel={childElType === "a" && this.rel}
-          role={role}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}
         >

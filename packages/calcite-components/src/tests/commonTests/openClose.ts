@@ -1,11 +1,9 @@
-import { toHaveNoViolations } from "jest-axe";
-import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+// @ts-strict-ignore
+import { E2EPage, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils";
+import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils/puppeteer";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
-
-expect.extend(toHaveNoViolations);
 
 type CollapseAxis = "horizontal" | "vertical";
 
@@ -162,22 +160,15 @@ async function testOpenCloseEvents({
   };
   const eventSequence = getEventSequence(tag);
 
-  const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) => {
-    return page.waitForEvent(event).then((spy) => {
-      timestamps[toOpenCloseName(event)] = Date.now();
-      return spy;
-    });
-  });
-
-  const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+  const [beforeOpenEventSpy, openEventSpy, beforeCloseEventSpy, closeEventSpy] = await Promise.all(
     eventSequence.map(async (event) => await page.spyOnEvent(event)),
   );
 
   function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
-    expect(openSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
-    expect(closeSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
+    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[0]);
+    expect(openEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[1]);
+    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[2]);
+    expect(closeEventSpy).toHaveReceivedEventTimes(expectedTimesPerEvent[3]);
   }
 
   if (startOpen) {
@@ -193,24 +184,26 @@ async function testOpenCloseEvents({
     );
   }
 
+  async function captureEventTimestamp(eventSpy: EventSpy, eventName: string): Promise<void> {
+    await eventSpy.next();
+    timestamps[toOpenCloseName(eventName)] = Date.now();
+  }
+
   const element = await page.find(tag);
-  await page.waitForChanges();
 
   if (!startOpen) {
     element.setProperty(openPropName, true);
   }
-
   await page.waitForChanges();
-  await beforeOpenEvent;
-  await openEvent;
+  await captureEventTimestamp(beforeOpenEventSpy, eventSequence.at(0));
+  await captureEventTimestamp(openEventSpy, eventSequence.at(1));
 
   assertEventSequence([1, 1, 0, 0]);
 
   element.setProperty(openPropName, false);
-
   await page.waitForChanges();
-  await beforeCloseEvent;
-  await closeEvent;
+  await captureEventTimestamp(beforeCloseEventSpy, eventSequence.at(2));
+  await captureEventTimestamp(closeEventSpy, eventSequence.at(3));
 
   assertEventSequence([1, 1, 1, 1]);
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { LuminaJsx } from "@arcgis/lumina";
 import { logLevel } from "./config";
 
@@ -52,11 +53,11 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
 let listFormatter: Intl.ListFormat;
 
 export const logger = {
-  debug: (message: Message) => forwardToConsole("debug", message),
-  info: (message: Message) => forwardToConsole("info", message),
-  warn: (message: Message) => forwardToConsole("warn", message),
-  error: (message: Message) => forwardToConsole("error", message),
-  trace: (message: Message) => forwardToConsole("trace", message),
+  debug: (message: Message, ...data: any[]) => forwardToConsole("debug", message, ...data),
+  info: (message: Message, ...data: any[]) => forwardToConsole("info", message, ...data),
+  warn: (message: Message, ...data: any[]) => forwardToConsole("warn", message, ...data),
+  error: (message: Message, ...data: any[]) => forwardToConsole("error", message, ...data),
+  trace: (message: Message, ...data: any[]) => forwardToConsole("trace", message, ...data),
 
   deprecated,
 } as const;

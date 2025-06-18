@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { throttle } from "lodash-es";
 import { createRef } from "lit-html/directives/ref.js";
 import {
@@ -10,7 +11,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import {
   connectForm,
   disconnectForm,
@@ -22,13 +23,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -43,7 +38,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS, RESIZE_TIMEOUT } from "./resources";
+import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
 declare global {
@@ -62,17 +57,16 @@ export class TextArea
   implements
     FormComponent,
     LabelableComponent,
-    LoadableComponent,
     InteractiveComponent,
     Omit<TextualInputComponent, "pattern">
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "spellcheck"],
@@ -83,55 +77,77 @@ export class TextArea
 
   private footerEl = createRef<HTMLElement>();
 
+  private validationMessageEl: HTMLDivElement;
+
   formEl: HTMLFormElement;
 
   private guid = guid();
 
   labelEl: Label["el"];
 
+  private textAreaEl: HTMLTextAreaElement;
+
   private localizedCharacterLengthObj: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
-    await componentLoaded(this);
-    const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightAndWidthOfElements();
+    await this.componentOnReady();
+    const {
+      textAreaHeight,
+      textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth,
+      validationMessageHeight,
+    } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.value.style.width = `${textAreaWidth}px`;
     }
-    if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
-      this.setHeightAndWidthToAuto();
+
+    if (this.resize === "none") {
+      return;
+    }
+
+    const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
+    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+      this.updateSizeToAuto("width");
+    }
+    if (
+      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      elStyleHeight !== "auto"
+    ) {
+      this.updateSizeToAuto("height");
     }
   });
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-
   // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
+  private updateSizeToAuto = throttle(
+    (dimension: "height" | "width"): void => {
+      this.el.style[dimension] = "auto";
     },
     RESIZE_TIMEOUT,
     { leading: false },
   );
 
-  private textAreaEl: HTMLTextAreaElement;
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() endSlotHasElements: boolean;
 
   @state() startSlotHasElements: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's number of columns.
@@ -161,7 +177,13 @@ export class TextArea
   @property() label: string;
 
   /**
-   * Specifies the maximum number of characters allowed.
+   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
+   */
+  @property({ reflect: true }) limitText = false;
+
+  /**
+   * When the component resides in a form,
+   * specifies the maximum number of characters allowed.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
@@ -171,14 +193,8 @@ export class TextArea
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
-   * Specifies the minimum number of characters allowed.
+   * When the component resides in a form,
+   * specifies the minimum number of characters allowed.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
@@ -204,13 +220,13 @@ export class TextArea
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @readonly
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    *
    * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
    */
@@ -270,14 +286,14 @@ export class TextArea
    */
   @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    await componentLoaded(this);
+    await this.componentOnReady();
     this.textAreaEl.select();
   }
 
@@ -288,9 +304,9 @@ export class TextArea
     this.textAreaEl.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new `value` is typed and committed. */
   calciteTextAreaChange = createEvent();
@@ -298,17 +314,13 @@ export class TextArea
   /** Fires each time a new `value` is typed. */
   calciteTextAreaInput = createEvent();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   override updated(): void {
@@ -316,19 +328,16 @@ export class TextArea
     this.setTextAreaHeight();
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
+    this.updateSizeToAuto?.cancel();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -395,8 +404,9 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
+    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
+      this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
       this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
@@ -408,13 +418,19 @@ export class TextArea
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
+    validationMessageHeight: number;
   } {
-    const { height: textAreaHeight, width: textAreaWidth } =
-      this.textAreaEl.getBoundingClientRect();
+    const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
+      ? this.textAreaEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerEl.value
       ? this.footerEl.value.getBoundingClientRect()
-      : { height: 0, width: 0 };
+      : NO_DIMENSIONS;
+
+    const { height: validationMessageHeight } = this.validationMessageEl
+      ? this.validationMessageEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
@@ -423,6 +439,7 @@ export class TextArea
       elWidth,
       footerHeight,
       footerWidth,
+      validationMessageHeight,
     };
   }
 
@@ -436,88 +453,99 @@ export class TextArea
     return this.value?.length > this.maxLength;
   }
 
-  // #endregion
+  private setValidationRef(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+    this.validationMessageEl = el;
+  }
 
-  // #region Rendering
+  //#endregion
+
+  //#region Rendering
 
   override render(): JsxNode {
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <textarea
-          aria-describedby={this.guid}
-          aria-errormessage={IDS.validationMessage}
-          ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
-          ariaLabel={getLabelText(this)}
-          autofocus={this.el.autofocus}
-          class={{
-            [CSS.textArea]: true,
-            [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
-            [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-            [CSS.textAreaOnly]: !hasFooter,
-          }}
-          cols={this.columns}
-          disabled={this.disabled}
-          name={this.name}
-          onChange={this.handleChange}
-          onInput={this.handleInput}
-          placeholder={this.placeholder}
-          readOnly={this.readOnly}
-          ref={this.setTextAreaEl}
-          required={this.required}
-          rows={this.rows}
-          spellcheck={this.el.spellcheck}
-          value={this.value}
-          wrap={this.wrap}
-        />
-        <span class={{ [CSS.content]: true }}>
-          <slot onSlotChange={this.contentSlotChangeHandler} />
-        </span>
-        <footer
-          class={{
-            [CSS.footer]: true,
-            [CSS.readOnly]: this.readOnly,
-            [CSS.hide]: !hasFooter,
-          }}
-          ref={this.footerEl}
-        >
-          <div
+        <div class={CSS.wrapper}>
+          <textarea
+            aria-describedby={this.guid}
+            aria-errormessage={IDS.validationMessage}
+            ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
+            ariaLabel={getLabelText(this)}
+            autofocus={this.el.autofocus}
             class={{
-              [CSS.container]: true,
-              [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements,
+              [CSS.textArea]: true,
+              [CSS.readOnly]: this.readOnly,
+              [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
+              [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
+              [CSS.textAreaOnly]: !hasFooter,
             }}
-          >
-            <slot
-              name={SLOTS.footerStart}
-              onSlotChange={(event) =>
-                (this.startSlotHasElements = slotChangeHasAssignedElement(event))
-              }
-            />
-            <slot
-              name={SLOTS.footerEnd}
-              onSlotChange={(event) =>
-                (this.endSlotHasElements = slotChangeHasAssignedElement(event))
-              }
-            />
-          </div>
-          {this.renderCharacterLimit()}
-        </footer>
-        <HiddenFormInputSlot component={this} />
-        {this.isCharacterLimitExceeded() && (
-          <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
-            {this.replacePlaceholdersInMessages()}
-          </span>
-        )}
-        {this.validationMessage && this.status === "invalid" ? (
-          <Validation
-            icon={this.validationIcon}
-            id={IDS.validationMessage}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
+            cols={this.columns}
+            disabled={this.disabled}
+            maxLength={this.limitText ? this.maxLength : undefined}
+            name={this.name}
+            onChange={this.handleChange}
+            onInput={this.handleInput}
+            placeholder={this.placeholder}
+            readOnly={this.readOnly}
+            ref={this.setTextAreaEl}
+            required={this.required}
+            rows={this.rows}
+            spellcheck={this.el.spellcheck}
+            value={this.value}
+            wrap={this.wrap}
           />
-        ) : null}
+          <span class={{ [CSS.content]: true }}>
+            <slot onSlotChange={this.contentSlotChangeHandler} />
+          </span>
+          <footer
+            class={{
+              [CSS.footer]: true,
+              [CSS.readOnly]: this.readOnly,
+              [CSS.hide]: !hasFooter,
+            }}
+            ref={this.footerEl}
+          >
+            <div
+              class={{
+                [CSS.container]: true,
+                [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements,
+              }}
+            >
+              <slot
+                name={SLOTS.footerStart}
+                onSlotChange={(event) =>
+                  (this.startSlotHasElements = slotChangeHasAssignedElement(event))
+                }
+              />
+              <slot
+                name={SLOTS.footerEnd}
+                onSlotChange={(event) =>
+                  (this.endSlotHasElements = slotChangeHasAssignedElement(event))
+                }
+              />
+            </div>
+            {this.renderCharacterLimit()}
+          </footer>
+          <HiddenFormInputSlot component={this} />
+          {this.isCharacterLimitExceeded() && (
+            <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
+              {this.replacePlaceholdersInMessages()}
+            </span>
+          )}
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              id={IDS.validationMessage}
+              message={this.validationMessage}
+              ref={this.setValidationRef}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </div>
       </InteractiveContainer>
     );
   }
@@ -538,5 +566,5 @@ export class TextArea
     return null;
   }
 
-  // #endregion
+  //#endregion
 }
