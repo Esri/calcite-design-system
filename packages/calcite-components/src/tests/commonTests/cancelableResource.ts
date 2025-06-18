@@ -21,7 +21,7 @@ export function cancelableBehavior(componentTag: string, cancelableMethod: strin
     it(`should cancel pending ${cancelableMethod} on disconnect`, async () => {
       const componentElement = componentTag.replace(/<|>/g, "");
 
-      const { component, el } = await mount<componentTag>(componentElement);
+      const { component, el } = await mount<`${componentTag}`>(componentElement);
 
       const cancelSpy = vi.spyOn(component[cancelableMethod], "cancel");
       const methodSpy = vi.spyOn(component, cancelableMethod);
