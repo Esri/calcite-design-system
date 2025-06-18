@@ -48,9 +48,5 @@ export function getTokenValue(token: string): string {
  * @returns a string of CSS variables with their new values.
  */
 export function setCSSVariables(tokens: string[], join = "\n"): string {
-  return tokens
-    .map((token) => {
-      return `${token}: ${getTokenValue(token)};`;
-    })
-    .join(join);
+  return tokens.map((token) => `${token}: ${getTokenValue(token)};`).join(join);
 }
