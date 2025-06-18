@@ -625,7 +625,7 @@ export class DatePicker extends LitElement {
 
     return (
       <>
-        <div ariaHidden="true" class="container" tabIndex="-1">
+        <div ariaHidden={true} class="container" tabIndex="-1">
           {this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
         </div>
       </>
