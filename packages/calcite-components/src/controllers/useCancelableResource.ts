@@ -11,25 +11,25 @@ export interface CancelableResource {
 /**
  * Interface for the CancelableResourceController.
  */
-export interface UseCancelableResourceController {
+export interface UseCancelableResource {
   /**
    * Adds a cancelable resource to the controller.
    *
    * @param resource - A resource with a `cancel` method.
    */
-  addResource: (resource: CancelableResource) => void;
+  add: (resource: CancelableResource) => void;
 
   /**
    * Cancels all tracked resources and clears the controller.
    */
-  cancelAllResources: () => void;
+  cancelAll: () => void;
 
   /**
    * Removes a specific resource from the controller without canceling it.
    *
    * @param resource - The resource to remove.
    */
-  removeResource: (resource: CancelableResource) => void;
+  remove: (resource: CancelableResource) => void;
 }
 
 /**
@@ -40,31 +40,31 @@ export interface UseCancelableResourceController {
  * @param options
  * @param options.autoCancelOnDisconnect
  */
-export const useCancelableResourceController = <T extends LitElement>(options?: {
+export const useCancelableResource = <T extends LitElement>(options?: {
   autoCancelOnDisconnect?: boolean;
-}): ReturnType<typeof makeGenericController<UseCancelableResourceController, T>> => {
+}): ReturnType<typeof makeGenericController<UseCancelableResource, T>> => {
   const { autoCancelOnDisconnect = true } = options || {};
 
-  return makeGenericController<UseCancelableResourceController, T>((component, controller) => {
+  return makeGenericController<UseCancelableResource, T>((component, controller) => {
     const args = { component, controller };
     const { controller: adaptedController } = args;
     const resources = new Set<CancelableResource>();
 
     adaptedController.onDisconnected(() => {
       if (autoCancelOnDisconnect) {
-        utils.cancelAllResources();
+        utils.cancelAll();
       }
     });
 
-    const utils: UseCancelableResourceController = {
-      addResource: (resource) => {
+    const utils: UseCancelableResource = {
+      add: (resource) => {
         resources.add(resource);
       },
-      cancelAllResources: () => {
+      cancelAll: () => {
         resources.forEach((resource) => resource.cancel());
         resources.clear();
       },
-      removeResource: (resource) => {
+      remove: (resource) => {
         resources.delete(resource);
       },
     };
