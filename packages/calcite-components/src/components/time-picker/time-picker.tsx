@@ -1,33 +1,23 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
 import {
-  EffectiveHourFormat,
-  formatTimePart,
-  getLocaleHourFormat,
   getLocalizedDecimalSeparator,
-  getLocalizedTimePartSuffix,
-  getMeridiem,
   getMeridiemOrder,
   HourFormat,
   isValidTime,
-  localizeTimePart,
-  localizeTimeStringToParts,
-  maxTenthForMinuteAndSecond,
-  Meridiem,
-  MinuteOrSecond,
   parseTimeString,
   TimePart,
 } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
-import { decimalPlaces, getDecimals } from "../../utils/math";
+import { decimalPlaces } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { TimeComponent, useTime } from "../../controllers/useTime";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -38,11 +28,7 @@ declare global {
   }
 }
 
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-export class TimePicker extends LitElement {
+export class TimePicker extends LitElement implements TimeComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -82,35 +68,7 @@ export class TimePicker extends LitElement {
 
   @state() activeEl: HTMLSpanElement;
 
-  @state() effectiveHourFormat: EffectiveHourFormat;
-
-  @state() fractionalSecond: string;
-
-  @state() hour: string;
-
   @state() localizedDecimalSeparator = ".";
-
-  @state() localizedFractionalSecond: string;
-
-  @state() localizedHour: string;
-
-  @state() localizedHourSuffix: string;
-
-  @state() localizedMeridiem: string;
-
-  @state() localizedMinute: string;
-
-  @state() localizedMinuteSuffix: string;
-
-  @state() localizedSecond: string;
-
-  @state() localizedSecondSuffix: string;
-
-  @state() meridiem: Meridiem;
-
-  @state() minute: string;
-
-  @state() second: string;
 
   @state() showFractionalSecond: boolean;
 
@@ -119,6 +77,11 @@ export class TimePicker extends LitElement {
   //#endregion
 
   //#region Public Properties
+
+  /**
+   * @internal
+   */
+  @property() time = useTime(this);
 
   /**
    * Specifies the component's hour format, where:
@@ -174,6 +137,7 @@ export class TimePicker extends LitElement {
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("pointerdown", this.pointerDownHandler);
+    this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
   override connectedCallback(): void {
@@ -191,7 +155,7 @@ export class TimePicker extends LitElement {
     }
 
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
-      this.setValue(this.value);
+      this.time.setValue(this.value);
     }
 
     if (changes.has("hourFormat") || changes.has("messages")) {
@@ -216,6 +180,7 @@ export class TimePicker extends LitElement {
       return;
     }
 
+    const { hourFormat } = this.time;
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
@@ -233,7 +198,7 @@ export class TimePicker extends LitElement {
             if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
-            } else if (this.effectiveHourFormat === "12") {
+            } else if (hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -249,7 +214,7 @@ export class TimePicker extends LitElement {
           case "ArrowRight":
             if (this.showFractionalSecond) {
               this.focusPart("fractionalSecond");
-            } else if (this.effectiveHourFormat === "12") {
+            } else if (hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -263,7 +228,7 @@ export class TimePicker extends LitElement {
             event.preventDefault();
             break;
           case "ArrowRight":
-            if (this.effectiveHourFormat === "12") {
+            if (hourFormat === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
             }
@@ -298,35 +263,6 @@ export class TimePicker extends LitElement {
     this[`${target || "hour"}El`]?.focus();
   }
 
-  private decrementHour(): void {
-    const newHour = !this.hour ? 0 : parseInt(this.hour) === 0 ? 23 : parseInt(this.hour) - 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private decrementMeridiem(): void {
-    const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
-    this.setValuePart("meridiem", newMeridiem);
-  }
-
-  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
-    let newValue;
-    if (isValidNumber(this[key])) {
-      const valueAsNumber = parseInt(this[key]);
-      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
-    } else {
-      newValue = 59;
-    }
-    this.setValuePart(key, newValue);
-  }
-
-  private decrementMinute(): void {
-    this.decrementMinuteOrSecond("minute");
-  }
-
-  private decrementSecond(): void {
-    this.decrementMinuteOrSecond("second");
-  }
-
   private focusHandler(event: FocusEvent): void {
     if (this.pointerActivated) {
       return;
@@ -334,147 +270,28 @@ export class TimePicker extends LitElement {
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
-  private fractionalSecondKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-    if (numberKeys.includes(key)) {
-      const { stepPrecision } = this;
-      const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-      const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
-
-      let newFractionalSecondAsIntegerString;
-
-      if (fractionalSecondAsIntegerLength >= stepPrecision) {
-        newFractionalSecondAsIntegerString = key.padStart(stepPrecision, "0");
-      } else if (fractionalSecondAsIntegerLength < stepPrecision) {
-        newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
-          stepPrecision,
-          "0",
-        );
-      }
-
-      this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.setValuePart("fractionalSecond", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.nudgeFractionalSecond("down");
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.nudgeFractionalSecond("up");
-          break;
-        case " ":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
   private fractionalSecondDownClickHandler(): void {
     this.activeEl = this.fractionalSecondEl;
     this.fractionalSecondEl.focus();
-    this.nudgeFractionalSecond("down");
+    this.time.nudgeFractionalSecond("down");
   }
 
   private fractionalSecondUpClickHandler(): void {
     this.activeEl = this.fractionalSecondEl;
     this.fractionalSecondEl.focus();
-    this.nudgeFractionalSecond("up");
+    this.time.nudgeFractionalSecond("up");
   }
 
   private hourDownClickHandler(): void {
     this.activeEl = this.hourEl;
     this.hourEl.focus();
-    this.decrementHour();
-  }
-
-  private hourKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newHour;
-      if (isValidNumber(this.hour)) {
-        switch (this.effectiveHourFormat) {
-          case "12":
-            newHour =
-              this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
-                ? `1${keyAsNumber}`
-                : keyAsNumber;
-            break;
-          case "24":
-            if (this.hour === "01") {
-              newHour = `1${keyAsNumber}`;
-            } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
-              newHour = `2${keyAsNumber}`;
-            } else {
-              newHour = keyAsNumber;
-            }
-            break;
-        }
-      } else {
-        newHour = keyAsNumber;
-      }
-      this.setValuePart("hour", newHour);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.setValuePart("hour", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.decrementHour();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.incrementHour();
-          break;
-        case " ":
-          event.preventDefault();
-          break;
-      }
-    }
+    this.time.decrementHour();
   }
 
   private hourUpClickHandler(): void {
     this.activeEl = this.hourEl;
     this.hourEl.focus();
-    this.incrementHour();
-  }
-
-  private incrementMeridiem(): void {
-    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setValuePart("meridiem", newMeridiem);
-  }
-
-  private incrementHour(): void {
-    const newHour = isValidNumber(this.hour)
-      ? this.hour === "23"
-        ? 0
-        : parseInt(this.hour) + 1
-      : 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
-    const newValue = isValidNumber(this[key])
-      ? this[key] === "59"
-        ? 0
-        : parseInt(this[key]) + 1
-      : 0;
-    this.setValuePart(key, newValue);
-  }
-
-  private incrementMinute(): void {
-    this.incrementMinuteOrSecond("minute");
-  }
-
-  private incrementSecond(): void {
-    this.incrementMinuteOrSecond("second");
+    this.time.incrementHour();
   }
 
   private inputClickHandler(event: MouseEvent): void {
@@ -484,122 +301,25 @@ export class TimePicker extends LitElement {
   private meridiemUpClickHandler(): void {
     this.activeEl = this.meridiemEl;
     this.meridiemEl.focus();
-    this.incrementMeridiem();
-  }
-
-  private meridiemKeyDownHandler(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "a":
-        this.setValuePart("meridiem", "AM");
-        break;
-      case "p":
-        this.setValuePart("meridiem", "PM");
-        break;
-      case "Backspace":
-      case "Delete":
-        this.setValuePart("meridiem", null);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.incrementMeridiem();
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.decrementMeridiem();
-        break;
-      case " ":
-        event.preventDefault();
-        break;
-    }
+    this.time.toggleMeridiem("up");
   }
 
   private meridiemDownClickHandler(): void {
     this.activeEl = this.meridiemEl;
     this.meridiemEl.focus();
-    this.decrementMeridiem();
+    this.time.toggleMeridiem("down");
   }
 
   private minuteDownClickHandler(): void {
     this.activeEl = this.minuteEl;
     this.minuteEl.focus();
-    this.decrementMinute();
+    this.time.decrementMinute();
   }
 
   private minuteUpClickHandler(): void {
     this.activeEl = this.minuteEl;
     this.minuteEl.focus();
-    this.incrementMinute();
-  }
-
-  private minuteKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newMinute;
-      if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
-        const minuteAsNumber = parseInt(this.minute);
-        newMinute =
-          minuteAsNumber > maxTenthForMinuteAndSecond
-            ? keyAsNumber
-            : `${minuteAsNumber}${keyAsNumber}`;
-      } else {
-        newMinute = keyAsNumber;
-      }
-      this.setValuePart("minute", newMinute);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.setValuePart("minute", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.decrementMinute();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.incrementMinute();
-          break;
-        case " ":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
-  private nudgeFractionalSecond(direction: "up" | "down"): void {
-    const stepDecimal = getDecimals(this.step);
-    const { stepPrecision } = this;
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue;
-    let nudgedValueRounded;
-    let nudgedValueRoundedDecimals;
-    let newFractionalSecond;
-    if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    if (direction === "down") {
-      nudgedValue =
-        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - stepDecimal
-          : fractionalSecondAsFloat - stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
-        Math.sign(nudgedValueRoundedDecimals) === 1
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    this.setValuePart("fractionalSecond", newFractionalSecond);
+    this.time.incrementMinute();
   }
 
   private sanitizeValue(value: string): string {
@@ -618,52 +338,16 @@ export class TimePicker extends LitElement {
       : fractionalSecond;
   }
 
-  private secondKeyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
-    if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newSecond;
-      if (isValidNumber(this.second) && this.second.startsWith("0")) {
-        const secondAsNumber = parseInt(this.second);
-        newSecond =
-          secondAsNumber > maxTenthForMinuteAndSecond
-            ? keyAsNumber
-            : `${secondAsNumber}${keyAsNumber}`;
-      } else {
-        newSecond = keyAsNumber;
-      }
-      this.setValuePart("second", newSecond);
-    } else {
-      switch (key) {
-        case "Backspace":
-        case "Delete":
-          this.setValuePart("second", null);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          this.decrementSecond();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          this.incrementSecond();
-          break;
-        case " ":
-          event.preventDefault();
-          break;
-      }
-    }
-  }
-
   private secondDownClickHandler(): void {
     this.activeEl = this.secondEl;
     this.secondEl.focus();
-    this.decrementSecond();
+    this.time.decrementSecond();
   }
 
   private secondUpClickHandler(): void {
     this.activeEl = this.secondEl;
     this.secondEl.focus();
-    this.incrementSecond();
+    this.time.incrementSecond();
   }
 
   private setHourEl(el: HTMLSpanElement): void {
@@ -686,177 +370,16 @@ export class TimePicker extends LitElement {
     this.fractionalSecondEl = el;
   }
 
-  private setValue(value: string): void {
-    if (isValidTime(value)) {
-      const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-      const {
-        effectiveHourFormat,
-        messages: { _lang: locale },
-        numberingSystem,
-        step,
-      } = this;
-      const {
-        hour: localizedHour,
-        hourSuffix: localizedHourSuffix,
-        minute: localizedMinute,
-        minuteSuffix: localizedMinuteSuffix,
-        second: localizedSecond,
-        secondSuffix: localizedSecondSuffix,
-        decimalSeparator: localizedDecimalSeparator,
-        fractionalSecond: localizedFractionalSecond,
-        meridiem: localizedMeridiem,
-      } = localizeTimeStringToParts({
-        value,
-        locale,
-        numberingSystem,
-        hour12: effectiveHourFormat === "12",
-        step,
-      });
-      this.hour = hour;
-      this.minute = minute;
-      this.second = second;
-      this.fractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
-      this.localizedHour = localizedHour;
-      this.localizedHourSuffix = localizedHourSuffix;
-      this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = localizedMinuteSuffix;
-      this.localizedSecond = localizedSecond;
-      this.localizedDecimalSeparator = localizedDecimalSeparator;
-      this.localizedFractionalSecond = localizedFractionalSecond;
-      this.localizedSecondSuffix = localizedSecondSuffix;
-      if (localizedMeridiem) {
-        this.localizedMeridiem = localizedMeridiem;
-        this.meridiem = getMeridiem(this.hour);
-      }
-    } else {
-      this.hour = null;
-      this.fractionalSecond = null;
-      this.localizedHour = null;
-      this.localizedHourSuffix = getLocalizedTimePartSuffix(
-        "hour",
-        this.messages._lang,
-        this.numberingSystem,
-      );
-      this.localizedMeridiem = null;
-      this.localizedMinute = null;
-      this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
-        "minute",
-        this.messages._lang,
-        this.numberingSystem,
-      );
-      this.localizedSecond = null;
-      this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-        this.messages._lang,
-        this.numberingSystem,
-      );
-      this.localizedFractionalSecond = null;
-      this.localizedSecondSuffix = getLocalizedTimePartSuffix(
-        "second",
-        this.messages._lang,
-        this.numberingSystem,
-      );
-      this.meridiem = null;
-      this.minute = null;
-      this.second = null;
-      this.value = null;
-    }
-  }
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
 
-  private setValuePart(
-    key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
-    value: number | string | Meridiem,
-  ): void {
-    const {
-      effectiveHourFormat,
-      messages: { _lang: locale },
-      numberingSystem,
-      step,
-    } = this;
-    const hour12 = effectiveHourFormat === "12";
-    if (key === "meridiem") {
-      this.meridiem = value as Meridiem;
-      if (isValidNumber(this.hour)) {
-        const hourAsNumber = parseInt(this.hour);
-        switch (value) {
-          case "AM":
-            if (hourAsNumber >= 12) {
-              this.hour = formatTimePart(hourAsNumber - 12);
-            }
-            break;
-          case "PM":
-            if (hourAsNumber < 12) {
-              this.hour = formatTimePart(hourAsNumber + 12);
-            }
-            break;
-        }
-        this.localizedHour = localizeTimePart({
-          value: this.hour,
-          part: "hour",
-          locale,
-          numberingSystem,
-          hour12,
-        });
-      }
-    } else if (key === "fractionalSecond") {
-      const { stepPrecision } = this;
-      if (typeof value === "number") {
-        this.fractionalSecond =
-          value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
-      } else {
-        this.fractionalSecond = value;
-      }
-      this.localizedFractionalSecond = localizeTimePart({
-        value: this.fractionalSecond,
-        part: "fractionalSecond",
-        locale,
-        numberingSystem,
-        hour12,
-      });
-    } else {
-      this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart({
-        value: this[key],
-        part: key,
-        locale,
-        numberingSystem,
-        hour12,
-      });
+    const newValue = event.detail;
+    if (newValue !== this.value) {
+      this.value = newValue;
     }
-    let emit = false;
-    let newValue;
-    if (this.hour && this.minute) {
-      newValue = `${this.hour}:${this.minute}`;
-      if (this.showSecond) {
-        newValue = `${newValue}:${this.second ?? "00"}`;
-        if (this.showFractionalSecond && this.fractionalSecond) {
-          newValue = `${newValue}.${this.fractionalSecond}`;
-        }
-      }
-    } else {
-      newValue = null;
-    }
-    if (this.value !== newValue) {
-      emit = true;
-    }
-    this.value = newValue;
-    this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts({
-          hour12,
-          locale,
-          numberingSystem,
-          step,
-          value: this.value,
-        })?.meridiem || null
-      : localizeTimePart({
-          hour12,
-          value: this.meridiem,
-          part: "meridiem",
-          locale,
-          numberingSystem,
-        });
-    if (emit) {
-      this.calciteTimePickerChange.emit();
-    }
+
+    // TODO: Figure out if we should change this to only emit on a commit action (Enter or blur).
+    this.calciteTimePickerChange.emit();
   }
 
   private toggleSecond(): void {
@@ -866,14 +389,14 @@ export class TimePicker extends LitElement {
   }
 
   private updateLocale() {
-    this.effectiveHourFormat =
-      this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
+    // TODO: handle locale changes here in the useTime controller
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.messages._lang,
       this.numberingSystem,
     );
     this.meridiemOrder = getMeridiemOrder(this.messages._lang);
-    this.setValue(this.sanitizeValue(this.value));
+    // TODO: Figure out if we need to keep sanitizeValue.  Consider rolling the logic for this into useTime.
+    this.time.setValue(this.sanitizeValue(this.value));
   }
 
   //#endregion
@@ -881,26 +404,50 @@ export class TimePicker extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const hourIsNumber = isValidNumber(this.hour);
-    const iconScale = getIconScale(this.scale);
-    const minuteIsNumber = isValidNumber(this.minute);
-    const secondIsNumber = isValidNumber(this.second);
-    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
-    const showSecondSuffix = this.messages._lang !== "bg" && this.localizedSecondSuffix;
-    const showMeridiem = this.effectiveHourFormat === "12";
+    const { activeEl, messages, scale } = this;
+    const { _lang: locale } = messages;
+    const {
+      fractionalSecond,
+      handleFractionalSecondKeyDownEvent,
+      handleHourKeyDownEvent,
+      handleMeridiemKeyDownEvent,
+      handleMinuteKeyDownEvent,
+      handleSecondKeyDownEvent,
+      hour,
+      hourFormat,
+      localizedDecimalSeparator,
+      localizedFractionalSecond,
+      localizedHour,
+      localizedHourSuffix,
+      localizedMeridiem,
+      localizedMinute,
+      localizedMinuteSuffix,
+      localizedSecond,
+      localizedSecondSuffix,
+      meridiem,
+      minute,
+      second,
+    } = this.time;
+    const hourIsNumber = isValidNumber(hour);
+    const iconScale = getIconScale(scale);
+    const minuteIsNumber = isValidNumber(minute);
+    const secondIsNumber = isValidNumber(second);
+    const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
+    const showSecondSuffix = locale !== "bg" && localizedSecondSuffix;
+    const showMeridiem = hourFormat === "12";
     return (
       <div
         class={{
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
           [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${this.scale}`]]: true,
+          [CSS[`scale-${scale}`]]: true,
         }}
         dir="ltr"
       >
         <div class={CSS.column} role="group">
           <span
-            ariaLabel={this.messages.hourUp}
+            ariaLabel={messages.hourUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourUp]: true,
@@ -912,27 +459,27 @@ export class TimePicker extends LitElement {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            ariaLabel={this.messages.hour}
+            ariaLabel={messages.hour}
             ariaValueMax="23"
             ariaValueMin="1"
-            ariaValueNow={(hourIsNumber && parseInt(this.hour)) || "0"}
-            ariaValueText={this.hour}
+            ariaValueNow={(hourIsNumber && parseInt(hour)) || "0"}
+            ariaValueText={hour}
             class={{
               [CSS.input]: true,
               [CSS.hour]: true,
-              [CSS.inputFocus]: this.activeEl && this.activeEl === this.hourEl,
+              [CSS.inputFocus]: activeEl && activeEl === this.hourEl,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
-            onKeyDown={this.hourKeyDownHandler}
+            onKeyDown={handleHourKeyDownEvent}
             ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedHour || "--"}
+            {localizedHour || "--"}
           </span>
           <span
-            ariaLabel={this.messages.hourDown}
+            ariaLabel={messages.hourDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourDown]: true,
@@ -944,12 +491,10 @@ export class TimePicker extends LitElement {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>
-          {this.localizedHourSuffix}
-        </span>
+        <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>{localizedHourSuffix}</span>
         <div class={CSS.column} role="group">
           <span
-            ariaLabel={this.messages.minuteUp}
+            ariaLabel={messages.minuteUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteUp]: true,
@@ -960,27 +505,27 @@ export class TimePicker extends LitElement {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            ariaLabel={this.messages.minute}
+            ariaLabel={messages.minute}
             ariaValueMax="12"
             ariaValueMin="1"
-            ariaValueNow={(minuteIsNumber && parseInt(this.minute)) || "0"}
-            ariaValueText={this.minute}
+            ariaValueNow={(minuteIsNumber && parseInt(minute)) || "0"}
+            ariaValueText={minute}
             class={{
               [CSS.input]: true,
               [CSS.minute]: true,
-              [CSS.inputFocus]: this.activeEl && this.activeEl === this.minuteEl,
+              [CSS.inputFocus]: activeEl && activeEl === this.minuteEl,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
-            onKeyDown={this.minuteKeyDownHandler}
+            onKeyDown={handleMinuteKeyDownEvent}
             ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedMinute || "--"}
+            {localizedMinute || "--"}
           </span>
           <span
-            ariaLabel={this.messages.minuteDown}
+            ariaLabel={messages.minuteDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteDown]: true,
@@ -993,13 +538,13 @@ export class TimePicker extends LitElement {
         </div>
         {this.showSecond && (
           <span class={{ [CSS.delimiter]: true, [CSS.minuteSuffix]: true }}>
-            {this.localizedMinuteSuffix}
+            {localizedMinuteSuffix}
           </span>
         )}
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
-              ariaLabel={this.messages.secondUp}
+              ariaLabel={messages.secondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondUp]: true,
@@ -1010,27 +555,27 @@ export class TimePicker extends LitElement {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              ariaLabel={this.messages.second}
+              ariaLabel={messages.second}
               ariaValueMax="59"
               ariaValueMin="0"
-              ariaValueNow={(secondIsNumber && parseInt(this.second)) || "0"}
-              ariaValueText={this.second}
+              ariaValueNow={(secondIsNumber && parseInt(second)) || "0"}
+              ariaValueText={second}
               class={{
                 [CSS.input]: true,
                 [CSS.second]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.secondEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.secondEl,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
-              onKeyDown={this.secondKeyDownHandler}
+              onKeyDown={handleSecondKeyDownEvent}
               ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedSecond || "--"}
+              {localizedSecond || "--"}
             </span>
             <span
-              ariaLabel={this.messages.secondDown}
+              ariaLabel={messages.secondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondDown]: true,
@@ -1044,13 +589,13 @@ export class TimePicker extends LitElement {
         )}
         {this.showFractionalSecond && (
           <span class={{ [CSS.delimiter]: true, [CSS.decimalSeparator]: true }}>
-            {this.localizedDecimalSeparator}
+            {localizedDecimalSeparator}
           </span>
         )}
         {this.showFractionalSecond && (
           <div class={CSS.column} role="group">
             <span
-              ariaLabel={this.messages.fractionalSecondUp}
+              ariaLabel={messages.fractionalSecondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
@@ -1061,27 +606,27 @@ export class TimePicker extends LitElement {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              ariaLabel={this.messages.fractionalSecond}
+              ariaLabel={messages.fractionalSecond}
               ariaValueMax="999"
               ariaValueMin="1"
-              ariaValueNow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
-              ariaValueText={this.localizedFractionalSecond}
+              ariaValueNow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
+              ariaValueText={localizedFractionalSecond}
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.fractionalSecondEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.fractionalSecondEl,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
-              onKeyDown={this.fractionalSecondKeyDownHandler}
+              onKeyDown={handleFractionalSecondKeyDownEvent}
               ref={this.setFractionalSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "".padStart(this.stepPrecision, "-")}
+              {localizedFractionalSecond || "".padStart(this.stepPrecision, "-")}
             </span>
             <span
-              ariaLabel={this.messages.fractionalSecondDown}
+              ariaLabel={messages.fractionalSecondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
@@ -1095,7 +640,7 @@ export class TimePicker extends LitElement {
         )}
         {showSecondSuffix && (
           <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
-            {this.localizedSecondSuffix}
+            {localizedSecondSuffix}
           </span>
         )}
         {showMeridiem && (
@@ -1107,7 +652,7 @@ export class TimePicker extends LitElement {
             role="group"
           >
             <span
-              ariaLabel={this.messages.meridiemUp}
+              ariaLabel={messages.meridiemUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemUp]: true,
@@ -1119,27 +664,27 @@ export class TimePicker extends LitElement {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              ariaLabel={this.messages.meridiem}
+              ariaLabel={messages.meridiem}
               ariaValueMax="2"
               ariaValueMin="1"
-              ariaValueNow={(this.meridiem === "PM" && "2") || "1"}
-              ariaValueText={this.meridiem}
+              ariaValueNow={(meridiem === "PM" && "2") || "1"}
+              ariaValueText={meridiem}
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.meridiemEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.meridiemEl,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
-              onKeyDown={this.meridiemKeyDownHandler}
+              onKeyDown={handleMeridiemKeyDownEvent}
               ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedMeridiem || "--"}
+              {localizedMeridiem || "--"}
             </span>
             <span
-              ariaLabel={this.messages.meridiemDown}
+              ariaLabel={messages.meridiemDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemDown]: true,

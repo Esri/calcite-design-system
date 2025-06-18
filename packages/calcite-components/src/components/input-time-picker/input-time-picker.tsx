@@ -516,11 +516,6 @@ export class InputTimePicker
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
-  private timePickerChangeHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    this.time.setValue((event.target as TimePicker["el"]).value, true);
-  }
-
   private toggleIconClickHandler() {
     this.open = !this.open;
   }
@@ -689,14 +684,13 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            hourFormat={this.time.hourFormat}
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
-            oncalciteTimePickerChange={this.timePickerChangeHandler}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
+            time={this.time}
             value={this.value}
           />
         </calcite-popover>
