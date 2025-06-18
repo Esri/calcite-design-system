@@ -12,6 +12,7 @@ import {
 import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
+import { useCancelableResource } from "../../controllers/useCancelableResource";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -34,6 +35,10 @@ export class Filter extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Properties
+
+  private cancelableResource = useCancelableResource<this>({
+    autoCancelOnDisconnect: true,
+  })(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
@@ -145,6 +150,10 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   //#region Lifecycle
 
+  override connectedCallback(): void {
+    this.cancelableResource.add(this.filterDebounced);
+  }
+
   async load(): Promise<void> {
     this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
   }
@@ -164,10 +173,6 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  override disconnectedCallback(): void {
-    this.filterDebounced.cancel();
   }
 
   //#endregion

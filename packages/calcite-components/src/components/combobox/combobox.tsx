@@ -58,6 +58,7 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
+import { useCancelableResource } from "../../controllers/useCancelableResource";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -111,6 +112,10 @@ export class Combobox
   private data: ItemData[];
 
   defaultValue: Combobox["value"];
+
+  private cancelableResource = useCancelableResource<this>({
+    autoCancelOnDisconnect: true,
+  })(this);
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
@@ -566,6 +571,7 @@ export class Combobox
 
     this.setFilteredPlacements();
     connectFloatingUI(this);
+    this.cancelableResource.add(this.filterItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
