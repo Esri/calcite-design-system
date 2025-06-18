@@ -110,26 +110,24 @@
   },
   "brand": {
     "default": {
-      "default": {
-        "value": "{core.color.high-saturation.blue.h-bb-060}",
-        "type": "color",
-        "attributes": {
-          "category": "color"
-        }
-      },
-      "hover": {
-        "value": "{core.color.high-saturation.blue.h-bb-070}",
-        "type": "color",
-        "attributes": {
-          "category": "color"
-        }
-      },
-      "press": {
-        "value": "{core.color.high-saturation.blue.h-bb-080}",
-        "type": "color",
-        "attributes": {
-          "category": "color"
-        }
+      "value": "{core.color.high-saturation.blue.h-bb-060}",
+      "type": "color",
+      "attributes": {
+        "category": "color"
+      }
+    },
+    "hover": {
+      "value": "{core.color.high-saturation.blue.h-bb-070}",
+      "type": "color",
+      "attributes": {
+        "category": "color"
+      }
+    },
+    "press": {
+      "value": "{core.color.high-saturation.blue.h-bb-080}",
+      "type": "color",
+      "attributes": {
+        "category": "color"
       }
     },
     "underline": {
