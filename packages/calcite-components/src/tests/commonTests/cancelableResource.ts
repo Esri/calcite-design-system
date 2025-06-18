@@ -1,33 +1,44 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { DEBOUNCE } from "../../utils/resources";
+import { DEBOUNCE, THROTTLE } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
 
 /**
- * Helper for testing debounced behavior in components.
+ * Helper for testing cancelable behavior in components (debounced or throttled).
  *
  * @example
- * describe("debounce behavior", () => {
- *   debounceBehavior("<calcite-action-bar>", "resize");
+ * describe("cancelable behavior", () => {
+ *   cancelableBehavior("<calcite-action-bar>", "resize", "debounced", "resize");
+ *   cancelableBehavior("<calcite-color-picker>", "drawColorControls", "throttled", "canvas");
  * });
  *
  * @param {string} componentTag - The tag name of the component to test.
- * @param {string} debouncedMethod - The name of the debounced method to test.
+ * @param {string} cancelableMethod - The name of the debounced or throttled method to test.
+ * @param {"debounced" | "throttled"} type - The type of cancelable method. Defaults is "debounced".
+ * @param {string} delayKey - The key in the DEBOUNCE or THROTTLE object that specifies the delay for the method.
  */
-export function debounceBehavior(componentTag: string, debouncedMethod: string): void {
-  describe(`debounced ${debouncedMethod} behavior`, () => {
+export function cancelableBehavior(
+  componentTag: string,
+  cancelableMethod: string,
+  type: "debounced" | "throttled" = "debounced",
+  delayKey: string,
+): void {
+  describe(`${type} ${cancelableMethod} behavior`, () => {
     mockConsole("warn");
 
-    it(`should cancel pending ${debouncedMethod} operations on disconnect`, async () => {
+    it(`should cancel pending ${type} ${cancelableMethod} on disconnect`, async () => {
       const componentElement = componentTag.replace(/<|>/g, "");
 
       const { component, el } = await mount<componentTag>(componentElement);
 
-      const cancelSpy = vi.spyOn(component[debouncedMethod], "cancel");
-      const methodSpy = vi.spyOn(component, debouncedMethod);
+      const cancelSpy = vi.spyOn(component[cancelableMethod], "cancel");
+      const methodSpy = vi.spyOn(component, cancelableMethod);
 
       el.remove();
-      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE[debouncedMethod]));
+      await new Promise((resolve) => {
+        const delay = type === "debounced" ? DEBOUNCE[delayKey] : THROTTLE[delayKey];
+        resolve(setTimeout(resolve, delay || 250));
+      });
 
       expect(cancelSpy.mock.calls.length).toBe(1);
       expect(methodSpy.mock.calls.length).toBe(0);

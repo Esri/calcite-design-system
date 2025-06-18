@@ -1,11 +1,11 @@
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { debounceBehavior } from "../../tests/commonTests/cancelableResource";
+import { cancelableBehavior } from "../../tests/commonTests/cancelableResource";
 
-describe("action-bar", () => {
+describe("filter", () => {
   mockConsole("warn");
 
-  describe("debounce behavior", () => {
-    debounceBehavior("<calcite-filter>", "filterDebounced");
+  describe("cancelable behavior", () => {
+    cancelableBehavior("<calcite-filter>", "filterDebounced", "debounced", "filter");
   });
 });

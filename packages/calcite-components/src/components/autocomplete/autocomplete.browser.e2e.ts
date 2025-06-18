@@ -1,11 +1,11 @@
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { debounceBehavior } from "../../tests/commonTests/cancelableResource";
+import { cancelableBehavior } from "../../tests/commonTests/cancelableResource";
 
-describe("action-bar", () => {
+describe("autocomplete", () => {
   mockConsole("warn");
 
-  describe("debounce behavior", () => {
-    debounceBehavior("<calcite-autocomplete>", "getAllItemsDebounced");
+  describe("cancelable behavior", () => {
+    cancelableBehavior("<calcite-autocomplete>", "getAllItemsDebounced");
   });
 });
