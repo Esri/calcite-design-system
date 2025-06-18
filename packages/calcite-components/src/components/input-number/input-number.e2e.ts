@@ -233,7 +233,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  describe.skip("increment/decrement functionality", () => {
+  describe("increment/decrement functionality", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
@@ -608,7 +608,7 @@ describe("calcite-input-number", () => {
           buttonUpLocation = [x, y];
         });
 
-        it.skip("should emit an event regularly on mousedown", async () => {
+        it("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
@@ -619,7 +619,7 @@ describe("calcite-input-number", () => {
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
 
-        it.skip("should stop emitting an event on mouseleave", async () => {
+        it("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
@@ -646,7 +646,7 @@ describe("calcite-input-number", () => {
           buttonDownLocation = [x, y];
         });
 
-        it.skip("should emit an event regularly on mousedown", async () => {
+        it("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
@@ -657,7 +657,7 @@ describe("calcite-input-number", () => {
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
 
-        it.skip("should stop emitting an event on mouseleave", async () => {
+        it("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
@@ -1882,7 +1882,7 @@ describe("calcite-input-number", () => {
     t9n("calcite-input-number");
   });
 
-  it.skip("should stop increasing the value when pointer is moved away from the increment button", async () => {
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-number></calcite-input-number>");
     const inputNumber = await page.find("calcite-input-number");

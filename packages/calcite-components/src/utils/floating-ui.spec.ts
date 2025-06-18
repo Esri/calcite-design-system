@@ -142,7 +142,7 @@ describe("repositioning", () => {
     assertOpenPositioning(floatingEl);
   });
 
-  it.skip("debounces positioning per instance", async () => {
+  it("debounces positioning per instance", async () => {
     const positionSpy = vi.spyOn(floatingUI, "positionFloatingUI");
     fakeFloatingUiComponent.open = true;
 

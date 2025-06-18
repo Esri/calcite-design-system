@@ -452,7 +452,7 @@ describe("calcite-radio-button", () => {
     expect(blurEvent).toHaveReceivedEventTimes(1);
   });
 
-  it.skip("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
+  it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`,
@@ -609,7 +609,7 @@ describe("calcite-radio-button", () => {
 
     // skipped until the util supports a parent component wrapping the form associated element(s)
     // https://github.com/Esri/calcite-design-system/issues/9221
-    describe.skip("group", () => {
+    describe("group", () => {
       formAssociated(
         html`
           <calcite-radio-button-group name="using" required>
