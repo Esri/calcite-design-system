@@ -93,7 +93,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
 
@@ -195,7 +195,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     inputElement.editingEnabled = this.editingEnabled;
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-    this.scale = this.scale || this.inputElement?.scale || "m";
   }
 
   onLabelClick(): void {
