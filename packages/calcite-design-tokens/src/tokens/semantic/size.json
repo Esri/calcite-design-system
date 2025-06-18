@@ -1,95 +1,95 @@
 {
-  "fixed": {
-    "xxxs": {
-      "value": "{core.size.default.2}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
+  "size": {
+    "fixed": {
+      "xxxs": {
+        "value": "{core.size.default.2}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
       },
-      "description": "deprecated"
+      "xxs": {
+        "value": "{core.size.default.4}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "xs": {
+        "value": "{core.size.default.6}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "sm": {
+        "value": "{core.size.default.8}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "sm+": {
+        "value": "{core.size.default.10}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "md": {
+        "value": "{core.size.default.12}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "md+": {
+        "value": "{core.size.default.14}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "lg": {
+        "value": "{core.size.default.16}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "xl": {
+        "value": "{core.size.default.20}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "xxl": {
+        "value": "{core.size.default.24}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      },
+      "xxxl": {
+        "value": "{core.size.default.32}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size"
+        },
+        "description": "deprecated"
+      }
     },
-    "xxs": {
-      "value": "{core.size.default.4}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "xs": {
-      "value": "{core.size.default.6}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "sm": {
-      "value": "{core.size.default.8}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "sm+": {
-      "value": "{core.size.default.10}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "md": {
-      "value": "{core.size.default.12}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "md+": {
-      "value": "{core.size.default.14}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "lg": {
-      "value": "{core.size.default.16}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "xl": {
-      "value": "{core.size.default.20}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "xxl": {
-      "value": "{core.size.default.24}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    },
-    "xxxl": {
-      "value": "{core.size.default.32}",
-      "type": "spacing",
-      "attributes": {
-        "category": "size"
-      },
-      "description": "deprecated"
-    }
-  },
-  "default": {
     "px": {
       "value": "{core.size.default.1}",
       "type": "sizing",
