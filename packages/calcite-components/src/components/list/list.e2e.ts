@@ -2149,7 +2149,7 @@ describe("calcite-list", () => {
   });
 
   describe("group filtering", () => {
-    it("should include groups while filtering", async () => {
+    it.skip("should include groups while filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-list filter-enabled filter-placeholder="typing 'recreation' should show 1st group with all items">

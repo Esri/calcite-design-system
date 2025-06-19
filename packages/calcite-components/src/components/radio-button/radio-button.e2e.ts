@@ -609,7 +609,7 @@ describe("calcite-radio-button", () => {
 
     // skipped until the util supports a parent component wrapping the form associated element(s)
     // https://github.com/Esri/calcite-design-system/issues/9221
-    describe("group", () => {
+    describe.skip("group", () => {
       formAssociated(
         html`
           <calcite-radio-button-group name="using" required>

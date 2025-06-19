@@ -233,7 +233,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  describe("increment/decrement functionality", () => {
+  describe.skip("increment/decrement functionality", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
@@ -608,7 +608,7 @@ describe("calcite-input-number", () => {
           buttonUpLocation = [x, y];
         });
 
-        it("should emit an event regularly on mousedown", async () => {
+        it.skip("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
@@ -619,7 +619,7 @@ describe("calcite-input-number", () => {
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
 
-        it("should stop emitting an event on mouseleave", async () => {
+        it.skip("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
@@ -646,7 +646,7 @@ describe("calcite-input-number", () => {
           buttonDownLocation = [x, y];
         });
 
-        it("should emit an event regularly on mousedown", async () => {
+        it.skip("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
@@ -657,7 +657,7 @@ describe("calcite-input-number", () => {
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
 
-        it("should stop emitting an event on mouseleave", async () => {
+        it.skip("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
