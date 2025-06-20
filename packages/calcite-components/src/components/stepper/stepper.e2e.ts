@@ -127,7 +127,7 @@ describe("calcite-stepper", () => {
     }
   });
 
-  describe.skip("honors hidden attribute", () => {
+  describe("honors hidden attribute", () => {
     hidden("calcite-stepper");
   });
 

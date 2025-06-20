@@ -452,7 +452,7 @@ describe("calcite-radio-button", () => {
     expect(blurEvent).toHaveReceivedEventTimes(1);
   });
 
-  it.skip("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
+  it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`,

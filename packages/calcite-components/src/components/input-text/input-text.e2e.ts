@@ -132,7 +132,7 @@ describe("calcite-input-text", () => {
     expect(changeEventSpy).not.toHaveReceivedEvent();
   });
 
-  it.skip("emits events when value is modified", async () => {
+  it("emits events when value is modified", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-text></calcite-input-text>`);
 
