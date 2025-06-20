@@ -15,7 +15,10 @@ const platforms: {
   files: string[];
   internal?: boolean;
 }[] = [
-  { name: Platform.CSS, files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"] },
+  {
+    name: Platform.CSS,
+    files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
+  },
   { name: Platform.SCSS, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
   { name: Platform.ES6, files: ["breakpoints", "core", "global", "semantic"] },
   { name: Platform.DOCS, files: ["core", "global", "semantic"], internal: true },

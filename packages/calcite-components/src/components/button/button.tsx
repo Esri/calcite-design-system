@@ -142,7 +142,7 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed and interaction is disabled. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */

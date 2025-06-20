@@ -4,5 +4,5 @@
     "outDir": "dist"
   },
   "extends": "./tsconfig-base",
-  "include": ["src/index.ts", "vite.config.mts"]
+  "include": ["src", "vite.config.mts"]
 }
