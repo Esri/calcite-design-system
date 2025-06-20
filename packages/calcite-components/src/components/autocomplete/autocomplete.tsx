@@ -444,22 +444,16 @@ export class Autocomplete
       this.handleDisabledChange(this.disabled);
     }
 
-    if (changes.has("flipPlacements")) {
-      this.reposition(true);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      changes.has("flipPlacements") ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
-      this.reposition(true);
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
       this.reposition(true);
     }
 
