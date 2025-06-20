@@ -12,10 +12,10 @@
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
  * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
- * @prop --calcite-input-prefix-size: Specifies the width of the prefix element.
+ * @prop --calcite-input-prefix-width: Specifies the width of the prefix element.
  * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
  * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix element.
- * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
+ * @prop --calcite-input-suffix-width: Specifies the width of the suffix element.
  * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  * @prop --calcite-input-text-background-color: Specifies background color of the component.
  * @prop --calcite-input-text-border-color: Specifies the border color of the component.
@@ -321,7 +321,7 @@ input[type="text"]::-ms-reveal {
 .prefix {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-prefix-size, auto);
+  inline-size: var(--calcite-input-prefix-width, auto);
   background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
   border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
@@ -330,7 +330,7 @@ input[type="text"]::-ms-reveal {
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-suffix-size, auto);
+  inline-size: var(--calcite-input-suffix-width, auto);
   background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
   border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
