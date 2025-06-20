@@ -14,6 +14,7 @@ import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelableResource } from "../../controllers/useCancelableResource";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { Action } from "../action/action";
@@ -50,7 +51,11 @@ export class ActionBar extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
-  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
+  private cancelableResource = useCancelableResource<this>({
+    autoCancelOnDisconnect: true,
+  })(this);
+
+  resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
@@ -200,6 +205,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.cancelableResource.add(this.resize);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

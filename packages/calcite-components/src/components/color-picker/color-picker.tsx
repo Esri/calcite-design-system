@@ -20,6 +20,7 @@ import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelableResource } from "../../controllers/useCancelableResource";
 import type { InputNumber } from "../input-number/input-number";
 import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
@@ -139,6 +140,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       skipEqual,
     );
   };
+
+  private cancelableResource = useCancelableResource<this>({
+    autoCancelOnDisconnect: true,
+  })(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
@@ -402,6 +407,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
+    this.cancelableResource.add(this.drawColorControls);
+    this.cancelableResource.add(this.resizeCanvas);
   }
 
   async load(): Promise<void> {

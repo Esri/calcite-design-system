@@ -35,6 +35,7 @@ import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelableResource } from "../../controllers/useCancelableResource";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -119,6 +120,10 @@ export class TextArea
       this.updateSizeToAuto("height");
     }
   });
+
+  private cancelableResource = useCancelableResource<this>({
+    autoCancelOnDisconnect: true,
+  })(this);
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
   // throttle is used to avoid flashing of textarea when user resizes.
@@ -321,6 +326,7 @@ export class TextArea
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+    this.cancelableResource.add(this.updateSizeToAuto);
   }
 
   override updated(): void {
@@ -332,7 +338,6 @@ export class TextArea
     disconnectLabel(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
-    this.updateSizeToAuto?.cancel();
   }
 
   //#endregion
