@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-actions-background-color: Specifies the background color of the component's `clearable` element.
- * @prop --calcite-input-actions-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
- * @prop --calcite-input-actions-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
- * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` & icon elements.
- * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` & icon elements when hovered.
- * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` & icon elements when pressed.
+ * @prop --calcite-input-action-background-color: Specifies the background color of the component's `clearable` element.
+ * @prop --calcite-input-action-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-action-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
+ * @prop --calcite-input-action-icon-color: Specifies the icon color of the component's `clearable` & icon elements.
+ * @prop --calcite-input-action-icon-color-hover: Specifies the icon color of the component's `clearable` & icon elements when hovered.
+ * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` & icon elements when pressed.
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
  * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
@@ -20,7 +20,6 @@
  * @prop --calcite-input-text-background-color: Specifies background color of the component.
  * @prop --calcite-input-text-border-color: Specifies the border color of the component.
  * @prop --calcite-input-text-corner-radius: Specifies the border radius of the component.
- * @prop --calcite-input-text-height: Specifies the height of the component.
  * @prop --calcite-input-text-placeholder-text-color: Specifies the text color of the placeholder in the component.
  * @prop --calcite-input-text-text-color: Specifies the text color of the component.
  * @prop --calcite-input-text-text-color-focus: Specifies the text color of the component when focused.
@@ -40,8 +39,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h;
-    block-size: var(--calcite-input-text-height, 1.5rem);
+    @apply text-n2h h-6;
   }
 
   & .prefix,
@@ -68,8 +66,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h;
-    block-size: var(--calcite-input-text-height, 2rem);
+    @apply text-n1h h-8;
   }
 
   & .prefix,
@@ -96,8 +93,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h;
-    block-size: var(--calcite-input-text-height, 2.75rem);
+    @apply text-0h h-11;
   }
 
   & .prefix,
@@ -167,7 +163,7 @@ input[readonly]:focus {
   color: var(--calcite-input-text-text-color-focus, var(--calcite-color-text-1));
 }
 calcite-icon {
-  color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-action-icon-color, var(--calcite-color-text-3));
 }
 
 //focus
@@ -261,21 +257,21 @@ input[type="text"]::-ms-reveal {
     border-solid;
 
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-input-action-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
     @apply transition-default;
-    background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-input-action-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
       @apply transition-default;
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-input-action-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:active {
-    background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-input-action-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-press, (--calcite-color-text-1));
+      color: var(--calcite-input-action-icon-color-press, (--calcite-color-text-1));
     }
   }
   &:focus {

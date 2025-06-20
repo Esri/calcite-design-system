@@ -459,7 +459,7 @@ describe("calcite-input-text", () => {
 
   describe("with prefix & suffix", () => {
     const componentTokens: ComponentTestTokens = {
-      "--calcite-input-actions-icon-color": {
+      "--calcite-input-action-icon-color": {
         shadowSelector: `.${CSS.inputIcon}`,
         targetProp: "color",
       },
@@ -543,20 +543,6 @@ describe("calcite-input-text", () => {
           expectedValue: "0px",
         },
       ],
-      "--calcite-input-text-height": [
-        {
-          shadowSelector: `input`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.suffix}`,
-          targetProp: "blockSize",
-        },
-      ],
       "--calcite-input-text-text-color": {
         shadowSelector: `input`,
         targetProp: "color",
@@ -583,30 +569,30 @@ describe("calcite-input-text", () => {
 
   describe("clearable", () => {
     const componentTokens: ComponentTestTokens = {
-      "--calcite-input-actions-background-color": {
+      "--calcite-input-action-background-color": {
         shadowSelector: `.${CSS.clearButton}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-input-actions-background-color-hover": {
+      "--calcite-input-action-background-color-hover": {
         shadowSelector: `.${CSS.clearButton}`,
         targetProp: "backgroundColor",
         state: "hover",
       },
-      "--calcite-input-actions-background-color-press": {
+      "--calcite-input-action-background-color-press": {
         shadowSelector: `.${CSS.clearButton}`,
         targetProp: "backgroundColor",
         state: { press: `calcite-input-text >>> .${CSS.clearButton}` },
       },
-      "--calcite-input-actions-icon-color": {
+      "--calcite-input-action-icon-color": {
         shadowSelector: `.${CSS.clearButton} calcite-icon`,
         targetProp: "color",
       },
-      "--calcite-input-actions-icon-color-hover": {
+      "--calcite-input-action-icon-color-hover": {
         shadowSelector: `.${CSS.clearButton} calcite-icon`,
         targetProp: "color",
         state: "hover",
       },
-      "--calcite-input-actions-icon-color-press": {
+      "--calcite-input-action-icon-color-press": {
         shadowSelector: `.${CSS.clearButton} calcite-icon`,
         targetProp: "color",
         state: { press: `calcite-input-text >>> .${CSS.clearButton} calcite-icon ` },

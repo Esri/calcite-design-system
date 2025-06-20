@@ -1,12 +1,12 @@
 import { html } from "../../support/formatting";
 
 export const inputTextTokens = {
-  calciteInputActionsBackgroundColor: "",
-  calciteInputActionsBackgroundColorHover: "",
-  calciteInputActionsBackgroundColorPress: "",
-  calciteInputActionsIconColor: "",
-  calciteInputActionsIconColorHover: "",
-  calciteInputActionsIconColorPress: "",
+  calciteInputActionBackgroundColor: "",
+  calciteInputActionBackgroundColorHover: "",
+  calciteInputActionBackgroundColorPress: "",
+  calciteInputActionIconColor: "",
+  calciteInputActionIconColorHover: "",
+  calciteInputActionIconColorPress: "",
   calciteInputLoadingBackgroundColor: "",
   calciteInputLoadingFillColor: "",
   calciteInputPrefixBackgroundColor: "",
