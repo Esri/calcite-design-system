@@ -60,6 +60,7 @@
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
     "test:watch:stable": "vitest watch",
     "test:watch:experimental": "npm run util:ensure-playwright-workaround && EXPERIMENTAL_TESTS=true vitest watch --browser.headless",
+    "util:add-internal-custom-css-prop-doc": "tsx support/addInternalCustomPropDoc.ts",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
     "util:ensure-playwright-workaround": "npx playwright install",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
