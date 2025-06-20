@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.18...@esri/calcite-components@3.3.0-next.19) (2025-06-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** stretch the height of slot container to match with component ([#12339](https://github.com/Esri/calcite-design-system/issues/12339)) ([6a6e2c8](https://github.com/Esri/calcite-design-system/commit/6a6e2c806d7ba40c2e58ec618a46783aef057e2c)), closes [#7411](https://github.com/Esri/calcite-design-system/issues/7411)
+
 ## [3.3.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.17...@esri/calcite-components@3.3.0-next.18) (2025-06-18)
 
 ### Bug Fixes
