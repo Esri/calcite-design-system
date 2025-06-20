@@ -12,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -1036,7 +1036,13 @@ export class InputNumber
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly

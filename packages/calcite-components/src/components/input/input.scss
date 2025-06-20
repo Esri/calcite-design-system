@@ -49,8 +49,7 @@
     min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-6;
   }
   & .clear-button {
@@ -76,8 +75,7 @@
     min-block-size: theme("spacing.8");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-8;
   }
   & .clear-button {
@@ -103,8 +101,7 @@
     min-block-size: theme("spacing.11");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-11;
   }
   & .clear-button {
@@ -609,6 +606,17 @@ input {
       flex
       cursor-pointer text-ellipsis;
     padding-inline-start: 0;
+  }
+}
+
+:host([type="datetime-local"]) {
+  .element-wrapper {
+    inline-size: 100%;
+
+    input {
+      display: inline-block;
+      min-inline-size: 0;
+    }
   }
 }
 

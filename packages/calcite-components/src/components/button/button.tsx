@@ -12,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   InteractiveComponent,
@@ -142,7 +142,7 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed and interaction is disabled. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -179,7 +179,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @property({ reflect: true }) type = "button";
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
@@ -360,11 +360,7 @@ export class Button
           tabIndex={this.disabled ? -1 : null}
           target={childElType === "a" && this.target}
           title={this.tooltipText}
-          type={
-            childElType === "button"
-              ? (this.type as LuminaJsx.HTMLElementTags["button"]["type"])
-              : null
-          }
+          type={childElType === "button" ? this.type : null}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}

@@ -41,8 +41,6 @@ declare global {
 export class DatePicker extends LitElement {
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
   static override styles = styles;
 
   //#endregion
@@ -625,7 +623,13 @@ export class DatePicker extends LitElement {
 
     const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
 
-    return <>{this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}</>;
+    return (
+      <>
+        <div ariaHidden={true} class="container" tabIndex={-1}>
+          {this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
+        </div>
+      </>
+    );
   }
 
   /**

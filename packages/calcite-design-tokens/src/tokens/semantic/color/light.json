@@ -44,6 +44,14 @@
           "type": "color",
           "attributes": {
             "category": "color"
+          },
+          "description": "deprecated, use --calcite-color-foreground-highlight instead"
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
           }
         }
       },
@@ -273,6 +281,13 @@
             "category": "color"
           }
         },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-080}",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
         "inverse": {
           "value": "{core.color.neutral.blk-000}",
           "type": "color",
@@ -329,6 +344,16 @@
           "type": "color",
           "attributes": {
             "category": "color"
+          }
+        }
+      },
+      "focus": {
+        "default": {
+          "value": "{semantic.color.brand.default.default}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "scope": "component"
           }
         }
       }

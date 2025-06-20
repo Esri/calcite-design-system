@@ -18,6 +18,15 @@
         --calcite-text-area-divider-color: yellow;
         --calcite-text-area-text-color: brown;
         --calcite-text-area-footer-border-color: orange;
+        --calcite-text-area-corner-radius: 12px;
+      }
+
+      .themed-realistic {
+        --calcite-text-area-border-color: transparent;
+        --calcite-text-area-divider-color: transparent;
+        --calcite-text-area-footer-background-color: var(--calcite-color-foreground-1);
+        --calcite-text-area-shadow: var(--calcite-shadow-sm);
+        --calcite-text-area-corner-radius: 4px;
       }
 
       .parent {
@@ -278,13 +287,48 @@
       <div class="parent">
         <div class="child-text">Custom Themed</div>
         <div class="child">
-          <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="s"></calcite-text-area>
+          <calcite-text-area placeholder="themed..." class="themed" scale="s"></calcite-text-area>
         </div>
         <div class="child">
           <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="m"></calcite-text-area>
         </div>
         <div class="child">
           <calcite-text-area placeholder="themed..." max-length="10" class="themed" scale="l"></calcite-text-area>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child-text">Realistic Themed</div>
+        <div class="child">
+          <calcite-text-area placeholder="themed..." class="themed-realistic" scale="s">
+            <div slot="footer-start">
+              <calcite-button scale="s" kind="neutral" icon-start="layers" round></calcite-button>
+              <calcite-button scale="s" kind="neutral" icon-start="map" round></calcite-button>
+            </div>
+            <calcite-button scale="s" icon-end="arrow-right" round slot="footer-end"
+              >Ask</calcite-button
+            ></calcite-text-area
+          >
+        </div>
+        <div class="child">
+          <calcite-text-area read-only placeholder="themed..." class="themed-realistic" scale="m">
+            <div slot="footer-start">
+              <calcite-button kind="neutral" icon-start="layers" round></calcite-button>
+              <calcite-button kind="neutral" icon-start="map" round></calcite-button>
+            </div>
+            <calcite-button icon-end="arrow-right" round slot="footer-end">Ask</calcite-button></calcite-text-area
+          >
+        </div>
+        <div class="child">
+          <calcite-text-area placeholder="themed..." class="themed-realistic" scale="l">
+            <div slot="footer-start">
+              <calcite-button scale="l" kind="neutral" icon-start="layers" round></calcite-button>
+              <calcite-button scale="l" kind="neutral" icon-start="map" round></calcite-button>
+            </div>
+            <calcite-button scale="l" icon-end="arrow-right" round slot="footer-end"
+              >Ask</calcite-button
+            ></calcite-text-area
+          >
         </div>
       </div>
 

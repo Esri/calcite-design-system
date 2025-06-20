@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { GenericController, T9nMeta } from "@arcgis/components-controllers";
+import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import { createEvent, LitElement } from "@arcgis/lumina";
 import {
@@ -21,12 +22,12 @@ import {
   MinuteOrSecond,
   parseTimeString,
   toISOTimeString,
-} from "../../utils/time";
-import { decimalPlaces, getDecimals } from "../../utils/math";
-import { isValidNumber } from "../../utils/number";
-import { capitalizeWord } from "../../utils/text";
-import { NumberingSystem, SupportedLocale } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
+} from "../utils/time";
+import { decimalPlaces, getDecimals } from "../utils/math";
+import { isValidNumber } from "../utils/number";
+import { capitalizeWord } from "../utils/text";
+import { NumberingSystem, SupportedLocale } from "../utils/locale";
+import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
   /**
@@ -63,7 +64,7 @@ type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
    */
-  calciteTimeChange: CustomEvent;
+  calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
    */
@@ -141,7 +142,7 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, TimeComponent> {
+class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Private Properties
 
   fractionalSecond: string;
@@ -377,24 +378,37 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
   }
 
   hostUpdate(changes: PropertyValues): void {
+    let updateHourFormat = false;
+    let updateMeridiemOrder = false;
+    let updateValue = false;
+
     if (changes.has("hourFormat")) {
-      this.setHourFormat();
-      this.setValue(this.component.value);
+      updateHourFormat = true;
+      updateValue = true;
     }
     if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
-      this.setHourFormat();
-      this.setMeridiemOrder();
-      this.setValue(this.component.value);
+      updateHourFormat = true;
+      updateMeridiemOrder = true;
+      updateValue = true;
     }
     if (changes.has("numberingSystem")) {
-      this.setValue(this.component.value);
+      updateValue = true;
     }
     if (changes.has("step")) {
       const oldStep = this.component.step;
       const newStep = changes.get("step");
       if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
-        this.setValue(this.component.value);
+        updateValue = true;
       }
+    }
+    if (updateHourFormat) {
+      this.setHourFormat();
+    }
+    if (updateMeridiemOrder) {
+      this.setMeridiemOrder();
+    }
+    if (updateValue) {
+      this.setValue(this.component.value);
     }
   }
 
@@ -505,15 +519,15 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedDecimalSeparator,
-        localizedFractionalSecond,
-        localizedSecondSuffix,
-        localizedMeridiem,
+        hour: localizedHour,
+        hourSuffix: localizedHourSuffix,
+        minute: localizedMinute,
+        minuteSuffix: localizedMinuteSuffix,
+        second: localizedSecond,
+        secondSuffix: localizedSecondSuffix,
+        decimalSeparator: localizedDecimalSeparator,
+        fractionalSecond: localizedFractionalSecond,
+        meridiem: localizedMeridiem,
       } = localizeTimeString({
         hour12,
         locale,
@@ -655,3 +669,5 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
 
   //#endregion
 }
+
+export const useTime = toFunction(TimeController);

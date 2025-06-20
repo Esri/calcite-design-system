@@ -181,7 +181,7 @@ type State = "press" | "hover" | "focus";
 
 /** Describes a test target for themed components. */
 type TestTarget = {
-  /** An object with target element and selector info. */
+  /** An object with the target element and selector info. */
   target: TargetInfo;
 
   /** The selector for the interaction's target element. */
@@ -312,6 +312,8 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.down();
       await page.mouse.up();
     }
+
+    await page.waitForChanges();
   } else if (state) {
     try {
       await targetEl[state as Exclude<State, "press">]();
@@ -329,8 +331,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       throw new Error(message);
     }
   }
-
-  await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
     const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);
