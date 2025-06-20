@@ -30,7 +30,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -531,7 +531,7 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (!this.open) {
       this.activeIndex = -1;

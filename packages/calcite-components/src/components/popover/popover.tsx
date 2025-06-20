@@ -28,7 +28,7 @@ import {
 } from "../../utils/floating-ui";
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
@@ -343,7 +343,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
   }

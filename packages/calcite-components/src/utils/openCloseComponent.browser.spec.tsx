@@ -3,10 +3,10 @@ import { JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
-import { onToggleOpenCloseComponent } from "./openCloseComponent";
+import { toggleOpenClose } from "./openCloseComponent";
 
 describe("openCloseComponent", () => {
-  describe("toggleOpenCloseComponent", () => {
+  describe("toggleOpenClose()", () => {
     it("emits beforeOpen/beforeClose events when the transition starts and open/close events when the transition is done", async () => {
       const emittedEvents: string[] = [];
 
@@ -63,7 +63,7 @@ describe("openCloseComponent", () => {
       ]);
 
       component.open = true;
-      onToggleOpenCloseComponent(component);
+      toggleOpenClose(component);
       await waitForAnimationFrame();
       expect(emittedEvents).toEqual(["beforeOpen"]);
 
@@ -80,7 +80,7 @@ describe("openCloseComponent", () => {
       ]);
 
       component.open = false;
-      onToggleOpenCloseComponent(component);
+      toggleOpenClose(component);
       await waitForAnimationFrame();
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
