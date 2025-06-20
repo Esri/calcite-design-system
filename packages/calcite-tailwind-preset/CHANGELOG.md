@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1-next.5...@esri/calcite-tailwind-preset@1.0.1-next.6) (2025-06-20)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
+## [1.0.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1-next.4...@esri/calcite-tailwind-preset@1.0.1-next.5) (2025-06-18)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
+## [1.0.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1-next.3...@esri/calcite-tailwind-preset@1.0.1-next.4) (2025-06-17)
+
+### Bug Fixes
+
+- **tokens:** restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([8bc246f](https://github.com/Esri/calcite-design-system/commit/8bc246fa5085fec8d0a009631c8ed653f53a7136)), closes [#11713](https://github.com/Esri/calcite-design-system/issues/11713) [#11711](https://github.com/Esri/calcite-design-system/issues/11711)
+
 ## [1.0.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1-next.2...@esri/calcite-tailwind-preset@1.0.1-next.3) (2025-06-10)
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset

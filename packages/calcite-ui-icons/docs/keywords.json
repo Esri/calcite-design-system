@@ -9829,5 +9829,10 @@
     "alias": ["4.3.0", "generic", "direction", "gps", "location", "instructions"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "content-side-by-side-right": {
+    "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
+    "category": "Windows",
+    "release": "4.3.0"
   }
 }
