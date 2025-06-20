@@ -351,15 +351,15 @@ describe("calcite-text-area", () => {
     });
     const element = await page.find("calcite-text-area");
     const textAreaRect = await getElementRect(page, "calcite-text-area", "textarea");
-    const inputEvent = page.waitForEvent("calciteTextAreaInput");
+    const inputEventSpy = await page.spyOnEvent("calciteTextAreaInput");
     await element.callMethod("setFocus");
     await page.keyboard.type("a");
     await page.waitForChanges();
-    await inputEvent;
-    const inputEvent2 = page.waitForEvent("calciteTextAreaInput");
+    await inputEventSpy.next();
+    const inputEventSpy2 = await page.spyOnEvent("calciteTextAreaInput");
     await page.waitForChanges();
     await page.keyboard.press("Backspace");
-    await inputEvent2;
+    await inputEventSpy2.next();
 
     expect(await element.getProperty("status")).toBe("invalid");
     const textAreaInvalidRect = await getElementRect(page, "calcite-text-area", "textarea");

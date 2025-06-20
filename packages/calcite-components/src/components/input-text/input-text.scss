@@ -49,8 +49,7 @@
     @apply px-2;
   }
 
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-6;
   }
 
@@ -78,8 +77,7 @@
     @apply px-3;
   }
 
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-8;
   }
 
@@ -107,8 +105,7 @@
     @apply px-4;
   }
 
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-11;
   }
 

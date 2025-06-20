@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, themed, focusable, reflects, defaults } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -23,6 +23,32 @@ describe("calcite-accordion-item", () => {
 
   describe("is focusable", () => {
     focusable("calcite-accordion-item");
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "scale",
+        value: "m ",
+      },
+    ]);
   });
 
   describe("theme", () => {

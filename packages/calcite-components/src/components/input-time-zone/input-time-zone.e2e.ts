@@ -367,9 +367,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[1].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Phoenix, United States");
       });
 
       it("ignores invalid values", async () => {
@@ -386,9 +384,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[0].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Mexico City, Mexico");
       });
 
       it("properly sets region label when setting value programmatically", async () => {
@@ -407,7 +403,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("New York, United States");
       });
 
       it("maps deprecated time zones to aliases", async () => {

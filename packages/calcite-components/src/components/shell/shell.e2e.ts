@@ -2,6 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
@@ -164,10 +165,13 @@ describe("calcite-shell", () => {
         </calcite-shell>`,
       );
       const block = await page.find("calcite-block");
-      block.click();
-      await page.waitForChanges();
+
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+      await block.click();
+      await openEventSpy.next();
+
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
     });
 
     it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -188,10 +192,12 @@ describe("calcite-shell", () => {
       );
       const block = await page.find("calcite-block");
 
-      block.click();
-      await page.waitForChanges();
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+      await block.click();
+      await openEventSpy.next();
+
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
     });
 
     it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -213,10 +219,13 @@ describe("calcite-shell", () => {
         </calcite-shell>`,
       );
       const block = await page.find("calcite-block");
-      block.click();
-      await page.waitForChanges();
+
+      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+      await block.click();
+      await openEventSpy.next();
+
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
     });
   });
 
