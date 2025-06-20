@@ -11,7 +11,7 @@ import { mockConsole } from "../../tests/utils/logging";
  *   cancelableBehavior("<calcite-color-picker>", "drawColorControls");
  * });
  *
- * @param {string} componentTag - The tag name of the component to test.
+ * @param {ComponentTag} componentTag - The tag name of the component to test.
  * @param {string} cancelableMethod - The name of the debounced or throttled method to test.
  */
 export function cancelableBehavior(componentTag: string, cancelableMethod: string): void {
@@ -21,7 +21,7 @@ export function cancelableBehavior(componentTag: string, cancelableMethod: strin
     it(`should cancel pending ${cancelableMethod} on disconnect`, async () => {
       const componentElement = componentTag.replace(/<|>/g, "");
 
-      const { component, el } = await mount<`${componentTag}`>(componentElement);
+      const { component, el } = await mount<typeof componentTag>(componentElement);
 
       const cancelSpy = vi.spyOn(component[cancelableMethod], "cancel");
       const methodSpy = vi.spyOn(component, cancelableMethod);
