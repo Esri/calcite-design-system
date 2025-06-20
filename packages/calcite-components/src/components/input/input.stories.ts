@@ -250,3 +250,13 @@ export const shrinkingInputDoesNotObscureCalendarIcon = (): string => html`
     ></calcite-input>
   </div>
 `;
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" type="text" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input>`;
