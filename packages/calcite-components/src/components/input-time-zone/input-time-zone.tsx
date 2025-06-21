@@ -304,6 +304,7 @@ export class InputTimeZone
   }
 
   loaded(): void {
+    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -372,23 +373,28 @@ export class InputTimeZone
    * @param open
    * @private
    */
-  private overrideSelectedLabelForRegion(): void {
+  private overrideSelectedLabelForRegion(open: boolean): void {
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {
       return;
     }
 
-    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem);
+    const { label, metadata } = this.selectedTimeZoneItem;
+
+    this.comboboxEl.selectedItems[0].textLabel =
+      !metadata.country || open
+        ? label
+        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion();
+    this.overrideSelectedLabelForRegion(false);
     this.calciteInputTimeZoneBeforeClose.emit();
   }
 
   private onComboboxBeforeOpen(event: CustomEvent): void {
     event.stopPropagation();
-    this.overrideSelectedLabelForRegion();
+    this.overrideSelectedLabelForRegion(true);
     this.calciteInputTimeZoneBeforeOpen.emit();
   }
 
@@ -477,7 +483,7 @@ export class InputTimeZone
 
   private getItemLabel(item: TimeZoneItem): string {
     const selected = this.selectedTimeZoneItem === item;
-    const { label, metadata } = item;
+    const { label, metadata } = this.selectedTimeZoneItem;
     return !this.open && item.metadata.country && selected
       ? getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages)
       : label;
