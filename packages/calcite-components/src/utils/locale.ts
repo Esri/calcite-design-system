@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
+import { logger } from "./logger";
 
 export const defaultLocale = "en";
 
@@ -146,7 +147,7 @@ export function getSupportedLocale(locale: string): SupportedLocale {
   }
 
   if (!supportedLocales.includes(locale)) {
-    console.warn(
+    logger.warn(
       `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
     );
     return defaultLocale;

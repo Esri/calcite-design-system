@@ -42,6 +42,7 @@ export function stampVersion(): void {
     return;
   }
 
+  // eslint-disable-next-line no-console -- bypassing logger to avoid muting version info
   console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
   const target = existingConfig || globalThis["calciteConfig"] || {};

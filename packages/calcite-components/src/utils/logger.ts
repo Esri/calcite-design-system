@@ -46,17 +46,18 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
   const badgeTemplate = "%ccalcite";
   const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
+  // eslint-disable-next-line no-console -- official messaging is managed through this module
   console[level].call(this, badgeTemplate, badgeStyle, ...data);
 }
 
 let listFormatter: Intl.ListFormat;
 
 export const logger = {
-  debug: (message: Message) => forwardToConsole("debug", message),
-  info: (message: Message) => forwardToConsole("info", message),
-  warn: (message: Message) => forwardToConsole("warn", message),
-  error: (message: Message) => forwardToConsole("error", message),
-  trace: (message: Message) => forwardToConsole("trace", message),
+  debug: (message: Message, ...data: any[]) => forwardToConsole("debug", message, ...data),
+  info: (message: Message, ...data: any[]) => forwardToConsole("info", message, ...data),
+  warn: (message: Message, ...data: any[]) => forwardToConsole("warn", message, ...data),
+  error: (message: Message, ...data: any[]) => forwardToConsole("error", message, ...data),
+  trace: (message: Message, ...data: any[]) => forwardToConsole("trace", message, ...data),
 
   deprecated,
 } as const;

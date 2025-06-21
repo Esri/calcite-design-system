@@ -56,6 +56,7 @@ import {
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -514,7 +515,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const { format } = this;
 
     if (alphaChannel && format !== "auto" && !alphaCompatible(format)) {
-      console.warn(
+      logger.warn(
         `ignoring alphaChannel as the current format (${format}) does not support alpha`,
       );
       this.alphaChannel = false;
@@ -876,7 +877,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
-    console.warn(
+    logger.warn(
       `ignoring color value (${value}) as it is not compatible with the current format (${format})`,
     );
   }
@@ -894,7 +895,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       const alphaMode = toAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
@@ -906,7 +907,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       const nonAlphaMode = toNonAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
