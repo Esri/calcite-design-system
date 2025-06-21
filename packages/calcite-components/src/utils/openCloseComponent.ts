@@ -55,6 +55,8 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export async function toggleOpenClose(component: OpenCloseComponent): Promise<void> {
+  await component.updateComplete;
+
   if (isOpen(component)) {
     component.onBeforeOpen();
   } else {
