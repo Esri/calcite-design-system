@@ -36,9 +36,7 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>

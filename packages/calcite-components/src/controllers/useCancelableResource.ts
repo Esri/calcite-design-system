@@ -18,54 +18,33 @@ export interface UseCancelableResource {
    * @param resource - A resource with a `cancel` method.
    */
   add: (resource: CancelableResource) => void;
-
-  /**
-   * Cancels all tracked resources and clears the controller.
-   */
-  cancelAll: () => void;
-
-  /**
-   * Removes a specific resource from the controller without canceling it.
-   *
-   * @param resource - The resource to remove.
-   */
-  remove: (resource: CancelableResource) => void;
 }
 
 /**
  * A controller for managing cancelable resources.
  *
  * Note: resources will be canceled automatically when the component is disconnected.
- *
- * @param options
- * @param options.autoCancelOnDisconnect
  */
-export const useCancelableResource = <T extends LitElement>(options?: {
-  autoCancelOnDisconnect?: boolean;
-}): ReturnType<typeof makeGenericController<UseCancelableResource, T>> => {
-  const { autoCancelOnDisconnect = true } = options || {};
-
+export const useCancelableResource = <T extends LitElement>(): ReturnType<
+  typeof makeGenericController<UseCancelableResource, T>
+> => {
   return makeGenericController<UseCancelableResource, T>((component, controller) => {
     const args = { component, controller };
     const { controller: adaptedController } = args;
     const resources = new Set<CancelableResource>();
 
+    const cancelAll = () => {
+      resources.forEach((resource) => resource.cancel());
+      resources.clear();
+    };
+
     adaptedController.onDisconnected(() => {
-      if (autoCancelOnDisconnect) {
-        utils.cancelAll();
-      }
+      cancelAll();
     });
 
     const utils: UseCancelableResource = {
       add: (resource) => {
         resources.add(resource);
-      },
-      cancelAll: () => {
-        resources.forEach((resource) => resource.cancel());
-        resources.clear();
-      },
-      remove: (resource) => {
-        resources.delete(resource);
       },
     };
 

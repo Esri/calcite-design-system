@@ -57,9 +57,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   sortable: Sortable;
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();

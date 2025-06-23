@@ -113,9 +113,7 @@ export class Combobox
 
   defaultValue: Combobox["value"];
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>

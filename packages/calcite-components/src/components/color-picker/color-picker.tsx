@@ -141,9 +141,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     );
   };
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {

@@ -92,9 +92,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   sortable: Sortable;
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();

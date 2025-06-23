@@ -135,9 +135,7 @@ export class Autocomplete
     this.setFloatingElSize();
   });
 
-  private cancelableResource = useCancelableResource<this>({
-    autoCancelOnDisconnect: true,
-  })(this);
+  private cancelableResource = useCancelableResource<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
