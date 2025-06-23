@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
@@ -570,11 +570,11 @@ describe("calcite-list", () => {
       await filter.callMethod("setFocus");
       await page.waitForChanges();
 
-      const calciteListFilterEvent = list.waitForEvent("calciteListFilter");
+      const calciteListFilterEventSpy = await list.spyOnEvent("calciteListFilter");
       await page.keyboard.type("one");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
-      await calciteListFilterEvent;
+      await calciteListFilterEventSpy.next();
       expect(eventSpy).toHaveReceivedEventTimes(0);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
@@ -593,11 +593,10 @@ describe("calcite-list", () => {
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
 
-      const calciteListFilterEvent2 = list.waitForEvent("calciteListFilter");
       await page.keyboard.type("two");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
-      await calciteListFilterEvent2;
+      await calciteListFilterEventSpy.next();
       expect(eventSpy).toHaveReceivedEventTimes(0);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
@@ -611,11 +610,10 @@ describe("calcite-list", () => {
       expect(await items[1].getProperty("setPosition")).toBe(1);
       expect(await items[1].getProperty("setSize")).toBe(1);
 
-      const calciteListFilterEvent3 = list.waitForEvent("calciteListFilter");
       await page.keyboard.type(" blah");
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
-      await calciteListFilterEvent3;
+      await calciteListFilterEventSpy.next();
       expect(eventSpy).toHaveReceivedEventTimes(0);
       expect(await list.getProperty("filteredItems")).toHaveLength(0);
       expect(await list.getProperty("filteredData")).toHaveLength(0);
@@ -1176,16 +1174,15 @@ describe("calcite-list", () => {
       `calcite-list-item[value=one] >>> .${ListItemCSS.contentContainer}`,
     );
 
-    const calciteListChangeEvent = list.waitForEvent("calciteListChange");
+    const calciteListChangeEventSpy = await list.spyOnEvent("calciteListChange");
     await listItemOneContentContainer.click();
-    await calciteListChangeEvent;
+    await calciteListChangeEventSpy.next();
 
     expect(await listItemOne.getProperty("selected")).toBe(true);
     expect(await list.getProperty("selectedItems")).toHaveLength(1);
 
-    const calciteListChangeEvent2 = list.waitForEvent("calciteListChange");
     await listItemOneContentContainer.click();
-    await calciteListChangeEvent2;
+    await calciteListChangeEventSpy.next();
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
 
@@ -1954,7 +1951,7 @@ describe("calcite-list", () => {
       ): Promise<void> {
         const component = await page.find("calcite-list");
         const eventName = `calciteSortHandleReorder`;
-        const event = component.waitForEvent(eventName);
+        const eventSpy = await component.spyOnEvent(eventName);
         await page.$eval(
           `calcite-list-item[value="one"]`,
           (item1: ListItem["el"], reorder, eventName) => {
@@ -1963,8 +1960,8 @@ describe("calcite-list", () => {
           reorder,
           eventName,
         );
-        await event;
         await page.waitForChanges();
+        await eventSpy.next();
         const itemsAfter = await findAll(page, "calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
@@ -2082,6 +2079,7 @@ describe("calcite-list", () => {
       ): Promise<void> {
         const component = await page.find(`#${listItemId}`);
         const eventName = `calciteSortHandleMove`;
+        // eslint-disable-next-line no-restricted-properties -- workaround for spyOnEvent throwing errors due to circular JSON structures when serializing the event payload
         const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${listItemId}`,
@@ -2271,6 +2269,8 @@ describe("calcite-list", () => {
 
   async function assertDescendantItems(page: E2EPage, groupSelector: string, visibility: boolean): Promise<void> {
     const items = await findAll(page, `calcite-list-item-group${groupSelector} > calcite-list-item`);
-    items.forEach(async (item: E2EElement) => expect(await item.isVisible()).toBe(visibility));
+    for (const item of items) {
+      expect(await item.isVisible()).toBe(visibility);
+    }
   }
 });

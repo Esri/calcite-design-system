@@ -57,7 +57,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -585,7 +585,7 @@ export class InputDatePicker
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled || this.readOnly) {
       return;
@@ -1080,7 +1080,7 @@ export class InputDatePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.localeData && (
           <div class={CSS.container}>
-            <div class={CSS.inputContainer}>
+            <div aria-label={this.label} class={CSS.inputContainer} role="group">
               <div
                 class={CSS.inputWrapper}
                 data-position="start"
@@ -1103,7 +1103,7 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  label={this.label}
+                  label={this.range ? this.messages.startDate : this.messages.date}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.startInputFocus}
@@ -1188,7 +1188,7 @@ export class InputDatePicker
                     }}
                     disabled={disabled}
                     icon="calendar"
-                    label={this.label}
+                    label={this.messages.endDate}
                     oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                     oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                     oncalciteInternalInputTextFocus={this.endInputFocus}

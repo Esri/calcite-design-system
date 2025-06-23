@@ -302,9 +302,10 @@ describe("calcite-tabs", () => {
       ),
     );
 
-    const tabChange = page.waitForEvent("calciteTabChange");
+    const tabChangeEventSpy = await page.spyOnEvent("calciteTabChange");
     await page.click("calcite-tab-title");
-    await tabChange;
+    await page.waitForChanges();
+    await tabChangeEventSpy.next();
 
     const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 

@@ -61,6 +61,12 @@ export class Action extends LitElement implements InteractiveComponent {
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
+  /**
+   * When `true`, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
+
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
 
@@ -302,8 +308,6 @@ export class Action extends LitElement implements InteractiveComponent {
         disabled={disabled}
         id={buttonId}
         ref={this.buttonEl}
-        // tabIndex is required for the button to be focusable on click in safari.
-        tabIndex={disabled ? null : 0}
       >
         {buttonContent}
       </button>

@@ -309,6 +309,21 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 "
 `;
 
+exports[`generated tokens > CSS > component should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:host {
+  --calcite-internal-color-focus: var(
+    --calcite-color-focus,
+    var(--calcite-ui-focus-color, var(--calcite-color-brand))
+  );
+}
+"
+`;
+
 exports[`generated tokens > CSS > core should match 1`] = `
 "/**
  * Calcite Design System
@@ -481,7 +496,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-color-medium-saturation-blue-m-bb-060: #6db5e3;
   --calcite-color-medium-saturation-blue-m-bb-070: #548eb4;
   --calcite-color-medium-saturation-blue-m-bb-080: #3a6884;
-  --calcite-color-medium-saturation-blue-m-bb-090: #214155;
+  --calcite-color-medium-saturation-blue-m-bb-090: #2b465f;
   --calcite-color-medium-saturation-blue-m-bb-100: #071a26;
   --calcite-color-medium-saturation-green-blue-m-gb-010: #dbf2f1;
   --calcite-color-medium-saturation-green-blue-m-gb-020: #beedec;
@@ -603,7 +618,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-color-medium-saturation-violet-m-vv-080: #584572;
   --calcite-color-medium-saturation-violet-m-vv-090: #36264c;
   --calcite-color-medium-saturation-violet-m-vv-100: #140726;
-  --calcite-color-high-saturation-blue-h-bb-010: #c7eaff;
+  --calcite-color-high-saturation-blue-h-bb-010: #d6efff;
   --calcite-color-high-saturation-blue-h-bb-020: #9fd4f3;
   --calcite-color-high-saturation-blue-h-bb-030: #77bde7;
   --calcite-color-high-saturation-blue-h-bb-040: #50a7da;
@@ -906,7 +921,8 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-3: #141414;
-  --calcite-color-foreground-current: #214155;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-foreground-highlight: #2b465f;
   --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -936,7 +952,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-text-1: #ffffff;
   --calcite-color-text-2: #bfbfbf;
   --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-highlight: #c7eaff;
+  --calcite-color-text-highlight: #d6efff;
   --calcite-color-text-inverse: #141414;
   --calcite-color-text-link: #00a0ff;
   --calcite-color-border-1: #545454;
@@ -945,6 +961,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-border-input: #757575;
   --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
   --calcite-color-border-white: #f7f7f7;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -966,7 +983,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-corner-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
@@ -1120,7 +1137,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -1167,7 +1185,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent: rgba(0, 0, 0, 0);
-    --calcite-color-foreground-current: #c7eaff;
+    --calcite-color-foreground-highlight: #d6efff;
+    --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
     --calcite-color-foreground-3: #ebebeb;
     --calcite-color-foreground-2: #f2f2f2;
     --calcite-color-foreground-1: #ffffff;
@@ -1185,7 +1204,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-border-1: #545454;
     --calcite-color-text-link: #00a0ff;
     --calcite-color-text-inverse: #141414;
-    --calcite-color-text-highlight: #c7eaff;
+    --calcite-color-text-highlight: #d6efff;
     --calcite-color-text-3: #9e9e9e;
     --calcite-color-text-2: #bfbfbf;
     --calcite-color-text-1: #ffffff;
@@ -1215,7 +1234,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
-    --calcite-color-foreground-current: #214155;
+    --calcite-color-foreground-highlight: #2b465f;
+    --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
     --calcite-color-foreground-3: #141414;
     --calcite-color-foreground-2: #212121;
     --calcite-color-foreground-1: #2b2b2b;
@@ -1262,7 +1282,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -1278,7 +1299,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-border-1: #545454;
   --calcite-color-text-link: #00a0ff;
   --calcite-color-text-inverse: #141414;
-  --calcite-color-text-highlight: #c7eaff;
+  --calcite-color-text-highlight: #d6efff;
   --calcite-color-text-3: #9e9e9e;
   --calcite-color-text-2: #bfbfbf;
   --calcite-color-text-1: #ffffff;
@@ -1308,7 +1329,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-current: #214155;
+  --calcite-color-foreground-highlight: #2b465f;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -1330,7 +1352,8 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-3: #ebebeb;
-  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-foreground-highlight: #d6efff;
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -1369,6 +1392,7 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-border-input: #949494;
   --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
   --calcite-color-border-white: #ffffff;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -1390,7 +1414,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-conder-radius-none instead */
+  --calcite-corner-radius-sharp: 0; /** deprecated, use --calcite-corner-radius-none instead */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
@@ -6116,7 +6140,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
     },
     {
       "key": "{core.color.medium-saturation.blue.m-bb-090}",
-      "value": "#214155",
+      "value": "#2b465f",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -9592,7 +9616,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
     },
     {
       "key": "{core.color.high-saturation.blue.h-bb-010}",
-      "value": "#c7eaff",
+      "value": "#d6efff",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -17808,13 +17832,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.color.foreground.current}",
-      "value": "{\\"light\\":\\"#c7eaff\\",\\"dark\\":\\"#214155\\"}",
+      "value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
         "type": "color",
         "item": "foreground",
         "subitem": "current",
+        "value": "#d6efff",
+        "description": "deprecated, use --calcite-color-foreground-highlight instead",
+        "filePath": "src/tokens/semantic/color/light.json",
+        "isSource": false,
+        "key": "{semantic.color.foreground.current}",
+        "name": "calcite-semantic-color-foreground-current",
+        "path": ["semantic", "color", "foreground", "current"],
+        "comment": "deprecated, use --calcite-color-foreground-highlight instead",
         "names": {
           "scss": "$calcite-color-foreground-current",
           "css": "var(--calcite-color-foreground-current)",
@@ -17828,10 +17860,39 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
+      "description": "deprecated, use --calcite-color-foreground-highlight instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground Current",
-      "path": ["semantic", "color", "foreground", "current"]
+      "path": ["semantic", "color", "foreground", "current"],
+      "comment": "deprecated, use --calcite-color-foreground-highlight instead"
+    },
+    {
+      "key": "{semantic.color.foreground.highlight}",
+      "value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "type": "color",
+        "item": "foreground",
+        "subitem": "highlight",
+        "names": {
+          "scss": "$calcite-color-foreground-highlight",
+          "css": "var(--calcite-color-foreground-highlight)",
+          "js": "semantic.color.foreground.highlight",
+          "docs": "semantic.color.foreground.highlight",
+          "es6": "calciteColorForegroundHighlight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Foreground Highlight",
+      "path": ["semantic", "color", "foreground", "highlight"]
     },
     {
       "key": "{semantic.color.transparent.default.default}",
@@ -18638,7 +18699,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.color.text.highlight}",
-      "value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#c7eaff\\"}",
+      "value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#d6efff\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -18878,6 +18939,34 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": false,
       "name": "Color Border White",
       "path": ["semantic", "color", "border", "white"]
+    },
+    {
+      "key": "{semantic.color.focus.default}",
+      "value": "{\\"light\\":\\"#007ac2\\",\\"dark\\":\\"#009af2\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "scope": "component",
+        "type": "color",
+        "item": "focus",
+        "subitem": "default",
+        "names": {
+          "scss": "$calcite-color-focus",
+          "css": "var(--calcite-color-focus)",
+          "js": "semantic.color.focus.default",
+          "docs": "semantic.color.focus.default",
+          "es6": "calciteColorFocus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Focus",
+      "path": ["semantic", "color", "focus", "default"]
     },
     {
       "key": "{semantic.border.width.none}",
@@ -19628,13 +19717,13 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "item": "radius",
         "subitem": "sharp",
         "value": "0",
-        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "description": "deprecated, use --calcite-corner-radius-none instead",
         "filePath": "src/tokens/semantic/corner.json",
         "isSource": true,
         "key": "{semantic.corner.radius.sharp}",
         "name": "calcite-semantic-corner-radius-sharp",
         "path": ["semantic", "corner", "radius", "sharp"],
-        "comment": "deprecated, use --calcite-conder-radius-none instead",
+        "comment": "deprecated, use --calcite-corner-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -19648,12 +19737,12 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "deprecated, use --calcite-conder-radius-none instead",
+      "description": "deprecated, use --calcite-corner-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
-      "comment": "deprecated, use --calcite-conder-radius-none instead"
+      "comment": "deprecated, use --calcite-corner-radius-none instead"
     },
     {
       "key": "{semantic.corner.radius.none}",
@@ -25849,13 +25938,13 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
         "item": "radius",
         "subitem": "sharp",
         "value": "0",
-        "description": "deprecated, use --calcite-conder-radius-none instead",
+        "description": "deprecated, use --calcite-corner-radius-none instead",
         "filePath": "src/tokens/semantic/corner.json",
         "isSource": true,
         "key": "{semantic.corner.radius.sharp}",
         "name": "calcite-semantic-corner-radius-sharp",
         "path": ["semantic", "corner", "radius", "sharp"],
-        "comment": "deprecated, use --calcite-conder-radius-none instead",
+        "comment": "deprecated, use --calcite-corner-radius-none instead",
         "names": {
           "scss": "$calcite-corner-radius-sharp",
           "css": "var(--calcite-corner-radius-sharp)",
@@ -25869,12 +25958,12 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "deprecated, use --calcite-conder-radius-none instead",
+      "description": "deprecated, use --calcite-corner-radius-none instead",
       "filePath": "src/tokens/semantic/corner.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
       "path": ["semantic", "corner", "radius", "sharp"],
-      "comment": "deprecated, use --calcite-conder-radius-none instead"
+      "comment": "deprecated, use --calcite-corner-radius-none instead"
     },
     {
       "key": "{semantic.corner.radius.none}",
@@ -29246,7 +29335,7 @@ export const calciteColorMediumSaturationBlueMBb050 = "#84c1e8";
 export const calciteColorMediumSaturationBlueMBb060 = "#6db5e3";
 export const calciteColorMediumSaturationBlueMBb070 = "#548eb4";
 export const calciteColorMediumSaturationBlueMBb080 = "#3a6884";
-export const calciteColorMediumSaturationBlueMBb090 = "#214155";
+export const calciteColorMediumSaturationBlueMBb090 = "#2b465f";
 export const calciteColorMediumSaturationBlueMBb100 = "#071a26";
 export const calciteColorMediumSaturationGreenBlueMGb010 = "#dbf2f1";
 export const calciteColorMediumSaturationGreenBlueMGb020 = "#beedec";
@@ -29368,7 +29457,7 @@ export const calciteColorMediumSaturationVioletMVv070 = "#796397";
 export const calciteColorMediumSaturationVioletMVv080 = "#584572";
 export const calciteColorMediumSaturationVioletMVv090 = "#36264c";
 export const calciteColorMediumSaturationVioletMVv100 = "#140726";
-export const calciteColorHighSaturationBlueHBb010 = "#c7eaff";
+export const calciteColorHighSaturationBlueHBb010 = "#d6efff";
 export const calciteColorHighSaturationBlueHBb020 = "#9fd4f3";
 export const calciteColorHighSaturationBlueHBb030 = "#77bde7";
 export const calciteColorHighSaturationBlueHBb040 = "#50a7da";
@@ -30333,8 +30422,12 @@ export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" };
 export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#212121" };
 export const calciteColorForeground3 = { light: "#ebebeb", dark: "#141414" };
 export const calciteColorForegroundCurrent = {
-  light: "#c7eaff",
-  dark: "#214155",
+  light: "#d6efff",
+  dark: "#2b465f",
+}; // deprecated, use --calcite-color-foreground-highlight instead
+export const calciteColorForegroundHighlight = {
+  light: "#d6efff",
+  dark: "#2b465f",
 };
 export const calciteColorTransparent = {
   light: "rgba(0, 0, 0, 0)",
@@ -30413,7 +30506,7 @@ export const calciteColorInversePress = { light: "#212121", dark: "#f2f2f2" };
 export const calciteColorText1 = { light: "#141414", dark: "#ffffff" };
 export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
 export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
-export const calciteColorTextHighlight = { light: "#004874", dark: "#c7eaff" };
+export const calciteColorTextHighlight = { light: "#004874", dark: "#d6efff" };
 export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
 export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
 export const calciteColorBorder1 = { light: "#c9c9c9", dark: "#545454" };
@@ -30425,6 +30518,7 @@ export const calciteColorBorderGhost = {
   dark: "rgba(117, 117, 117, 0.3)",
 };
 export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" };
+export const calciteColorFocus = { light: "#007ac2", dark: "#009af2" };
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -30446,7 +30540,7 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-corner-radius-none instead
 export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
@@ -30847,7 +30941,9 @@ export const calciteColorBackgroundNone: string;
 export const calciteColorForeground1: { light: string; dark: string };
 export const calciteColorForeground2: { light: string; dark: string };
 export const calciteColorForeground3: { light: string; dark: string };
+/** deprecated, use --calcite-color-foreground-highlight instead */
 export const calciteColorForegroundCurrent: { light: string; dark: string };
+export const calciteColorForegroundHighlight: { light: string; dark: string };
 export const calciteColorTransparent: { light: string; dark: string };
 export const calciteColorTransparentHover: { light: string; dark: string };
 export const calciteColorTransparentPress: { light: string; dark: string };
@@ -30892,6 +30988,7 @@ export const calciteColorBorder3: { light: string; dark: string };
 export const calciteColorBorderInput: { light: string; dark: string };
 export const calciteColorBorderGhost: { light: string; dark: string };
 export const calciteColorBorderWhite: { light: string; dark: string };
+export const calciteColorFocus: { light: string; dark: string };
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -30927,7 +31024,7 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** deprecated, use --calcite-conder-radius-none instead */
+/** deprecated, use --calcite-corner-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
@@ -31374,7 +31471,7 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-conder-radius-none instead
+export const calciteCornerRadiusSharp = "0"; // deprecated, use --calcite-corner-radius-none instead
 export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
@@ -31549,7 +31646,7 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** deprecated, use --calcite-conder-radius-none instead */
+/** deprecated, use --calcite-corner-radius-none instead */
 export const calciteCornerRadiusSharp: string;
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
@@ -37790,7 +37887,7 @@ export default {
           },
           "m-bb-090": {
             key: "{core.color.medium-saturation.blue.m-bb-090}",
-            value: "#214155",
+            value: "#2b465f",
             type: "color",
             attributes: {
               category: "color",
@@ -37814,7 +37911,7 @@ export default {
             filePath: "src/tokens/core/color.json",
             isSource: false,
             original: {
-              value: "#214155",
+              value: "#2b465f",
               type: "color",
               attributes: {
                 category: "color",
@@ -42510,7 +42607,7 @@ export default {
         blue: {
           "h-bb-010": {
             key: "{core.color.high-saturation.blue.h-bb-010}",
-            value: "#c7eaff",
+            value: "#d6efff",
             type: "color",
             attributes: {
               category: "color",
@@ -42534,7 +42631,7 @@ export default {
             filePath: "src/tokens/core/color.json",
             isSource: false,
             original: {
-              value: "#c7eaff",
+              value: "#d6efff",
               type: "color",
               attributes: {
                 category: "color",
@@ -54293,8 +54390,8 @@ export default {
         current: {
           key: "{semantic.color.foreground.current}",
           value: {
-            light: "#c7eaff",
-            dark: "#214155",
+            light: "#d6efff",
+            dark: "#2b465f",
           },
           type: "color",
           attributes: {
@@ -54302,12 +54399,66 @@ export default {
             type: "color",
             item: "foreground",
             subitem: "current",
+            value: "#d6efff",
+            description:
+              "deprecated, use --calcite-color-foreground-highlight instead",
+            filePath: "src/tokens/semantic/color/light.json",
+            isSource: false,
+            key: "{semantic.color.foreground.current}",
+            name: "calcite-semantic-color-foreground-current",
+            path: ["semantic", "color", "foreground", "current"],
+            comment:
+              "deprecated, use --calcite-color-foreground-highlight instead",
             names: {
               scss: "$calcite-color-foreground-current",
               css: "var(--calcite-color-foreground-current)",
               js: "semantic.color.foreground.current",
               docs: "semantic.color.foreground.current",
               es6: "calciteColorForegroundCurrent",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "color",
+              type: "color",
+            },
+          },
+          description:
+            "deprecated, use --calcite-color-foreground-highlight instead",
+          filePath: "src/tokens/semantic/color/light.json",
+          isSource: false,
+          original: {
+            value: "{core.color.high-saturation.blue.h-bb-010}",
+            type: "color",
+            attributes: {
+              category: "color",
+            },
+            description:
+              "deprecated, use --calcite-color-foreground-highlight instead",
+            key: "{semantic.color.foreground.current}",
+          },
+          name: "Color Foreground Current",
+          path: ["semantic", "color", "foreground", "current"],
+          comment:
+            "deprecated, use --calcite-color-foreground-highlight instead",
+        },
+        highlight: {
+          key: "{semantic.color.foreground.highlight}",
+          value: {
+            light: "#d6efff",
+            dark: "#2b465f",
+          },
+          type: "color",
+          attributes: {
+            category: "color",
+            type: "color",
+            item: "foreground",
+            subitem: "highlight",
+            names: {
+              scss: "$calcite-color-foreground-highlight",
+              css: "var(--calcite-color-foreground-highlight)",
+              js: "semantic.color.foreground.highlight",
+              docs: "semantic.color.foreground.highlight",
+              es6: "calciteColorForegroundHighlight",
             },
             "calcite-schema": {
               system: "calcite",
@@ -54323,10 +54474,10 @@ export default {
             attributes: {
               category: "color",
             },
-            key: "{semantic.color.foreground.current}",
+            key: "{semantic.color.foreground.highlight}",
           },
-          name: "Color Foreground Current",
-          path: ["semantic", "color", "foreground", "current"],
+          name: "Color Foreground Highlight",
+          path: ["semantic", "color", "foreground", "highlight"],
         },
       },
       transparent: {
@@ -55479,7 +55630,7 @@ export default {
           key: "{semantic.color.text.highlight}",
           value: {
             light: "#004874",
-            dark: "#c7eaff",
+            dark: "#d6efff",
           },
           type: "color",
           attributes: {
@@ -55818,6 +55969,48 @@ export default {
           },
           name: "Color Border White",
           path: ["semantic", "color", "border", "white"],
+        },
+      },
+      focus: {
+        default: {
+          key: "{semantic.color.focus.default}",
+          value: {
+            light: "#007ac2",
+            dark: "#009af2",
+          },
+          type: "color",
+          attributes: {
+            category: "color",
+            scope: "component",
+            type: "color",
+            item: "focus",
+            subitem: "default",
+            names: {
+              scss: "$calcite-color-focus",
+              css: "var(--calcite-color-focus)",
+              js: "semantic.color.focus.default",
+              docs: "semantic.color.focus.default",
+              es6: "calciteColorFocus",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "color",
+              type: "color",
+            },
+          },
+          filePath: "src/tokens/semantic/color/light.json",
+          isSource: false,
+          original: {
+            value: "{semantic.color.brand.default.default}",
+            type: "color",
+            attributes: {
+              category: "color",
+              scope: "component",
+            },
+            key: "{semantic.color.focus.default}",
+          },
+          name: "Color Focus",
+          path: ["semantic", "color", "focus", "default"],
         },
       },
     },
@@ -56834,13 +57027,13 @@ export default {
             item: "radius",
             subitem: "sharp",
             value: "0",
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             filePath: "src/tokens/semantic/corner.json",
             isSource: true,
             key: "{semantic.corner.radius.sharp}",
             name: "calcite-semantic-corner-radius-sharp",
             path: ["semantic", "corner", "radius", "sharp"],
-            comment: "deprecated, use --calcite-conder-radius-none instead",
+            comment: "deprecated, use --calcite-corner-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
@@ -56854,7 +57047,7 @@ export default {
               type: "dimension",
             },
           },
-          description: "deprecated, use --calcite-conder-radius-none instead",
+          description: "deprecated, use --calcite-corner-radius-none instead",
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
@@ -56863,12 +57056,12 @@ export default {
             attributes: {
               category: "corner",
             },
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             key: "{semantic.corner.radius.sharp}",
           },
           name: "Corner Radius Sharp",
           path: ["semantic", "corner", "radius", "sharp"],
-          comment: "deprecated, use --calcite-conder-radius-none instead",
+          comment: "deprecated, use --calcite-corner-radius-none instead",
         },
         none: {
           key: "{semantic.corner.radius.none}",
@@ -64285,6 +64478,7 @@ declare const tokens: {
         "2": DesignToken;
         "3": DesignToken;
         current: DesignToken;
+        highlight: DesignToken;
       };
       transparent: {
         default: {
@@ -64349,6 +64543,9 @@ declare const tokens: {
         input: DesignToken;
         ghost: DesignToken;
         white: DesignToken;
+      };
+      focus: {
+        default: DesignToken;
       };
     };
     border: {
@@ -65644,13 +65841,13 @@ export default {
             item: "radius",
             subitem: "sharp",
             value: "0",
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             filePath: "src/tokens/semantic/corner.json",
             isSource: true,
             key: "{semantic.corner.radius.sharp}",
             name: "calcite-semantic-corner-radius-sharp",
             path: ["semantic", "corner", "radius", "sharp"],
-            comment: "deprecated, use --calcite-conder-radius-none instead",
+            comment: "deprecated, use --calcite-corner-radius-none instead",
             names: {
               scss: "$calcite-corner-radius-sharp",
               css: "var(--calcite-corner-radius-sharp)",
@@ -65664,7 +65861,7 @@ export default {
               type: "dimension",
             },
           },
-          description: "deprecated, use --calcite-conder-radius-none instead",
+          description: "deprecated, use --calcite-corner-radius-none instead",
           filePath: "src/tokens/semantic/corner.json",
           isSource: true,
           original: {
@@ -65673,12 +65870,12 @@ export default {
             attributes: {
               category: "corner",
             },
-            description: "deprecated, use --calcite-conder-radius-none instead",
+            description: "deprecated, use --calcite-corner-radius-none instead",
             key: "{semantic.corner.radius.sharp}",
           },
           name: "Corner Radius Sharp",
           path: ["semantic", "corner", "radius", "sharp"],
-          comment: "deprecated, use --calcite-conder-radius-none instead",
+          comment: "deprecated, use --calcite-corner-radius-none instead",
         },
         none: {
           key: "{semantic.corner.radius.none}",
@@ -70180,7 +70377,7 @@ $calcite-color-medium-saturation-blue-m-bb-050: #84c1e8;
 $calcite-color-medium-saturation-blue-m-bb-060: #6db5e3;
 $calcite-color-medium-saturation-blue-m-bb-070: #548eb4;
 $calcite-color-medium-saturation-blue-m-bb-080: #3a6884;
-$calcite-color-medium-saturation-blue-m-bb-090: #214155;
+$calcite-color-medium-saturation-blue-m-bb-090: #2b465f;
 $calcite-color-medium-saturation-blue-m-bb-100: #071a26;
 $calcite-color-medium-saturation-green-blue-m-gb-010: #dbf2f1;
 $calcite-color-medium-saturation-green-blue-m-gb-020: #beedec;
@@ -70302,7 +70499,7 @@ $calcite-color-medium-saturation-violet-m-vv-070: #796397;
 $calcite-color-medium-saturation-violet-m-vv-080: #584572;
 $calcite-color-medium-saturation-violet-m-vv-090: #36264c;
 $calcite-color-medium-saturation-violet-m-vv-100: #140726;
-$calcite-color-high-saturation-blue-h-bb-010: #c7eaff;
+$calcite-color-high-saturation-blue-h-bb-010: #d6efff;
 $calcite-color-high-saturation-blue-h-bb-020: #9fd4f3;
 $calcite-color-high-saturation-blue-h-bb-030: #77bde7;
 $calcite-color-high-saturation-blue-h-bb-040: #50a7da;
@@ -70602,7 +70799,8 @@ $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #2b2b2b;
 $calcite-color-foreground-2: #212121;
 $calcite-color-foreground-3: #141414;
-$calcite-color-foreground-current: #214155;
+$calcite-color-foreground-current: #2b465f; // deprecated, use --calcite-color-foreground-highlight instead
+$calcite-color-foreground-highlight: #2b465f;
 $calcite-color-transparent: rgba(255, 255, 255, 0);
 $calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -70632,7 +70830,7 @@ $calcite-color-inverse-press: #f2f2f2;
 $calcite-color-text-1: #ffffff;
 $calcite-color-text-2: #bfbfbf;
 $calcite-color-text-3: #9e9e9e;
-$calcite-color-text-highlight: #c7eaff;
+$calcite-color-text-highlight: #d6efff;
 $calcite-color-text-inverse: #141414;
 $calcite-color-text-link: #00a0ff;
 $calcite-color-border-1: #545454;
@@ -70641,6 +70839,7 @@ $calcite-color-border-3: #404040;
 $calcite-color-border-input: #757575;
 $calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
 $calcite-color-border-white: #f7f7f7;
+$calcite-color-focus: $calcite-color-brand;
 "
 `;
 
@@ -70659,7 +70858,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-corner-radius-none instead
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;
@@ -70813,7 +71012,8 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -70829,7 +71029,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-border-1: #545454;
   --calcite-color-text-link: #00a0ff;
   --calcite-color-text-inverse: #141414;
-  --calcite-color-text-highlight: #c7eaff;
+  --calcite-color-text-highlight: #d6efff;
   --calcite-color-text-3: #9e9e9e;
   --calcite-color-text-2: #bfbfbf;
   --calcite-color-text-1: #ffffff;
@@ -70859,7 +71059,8 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-current: #214155;
+  --calcite-color-foreground-highlight: #2b465f;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -70879,7 +71080,8 @@ $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #ffffff;
 $calcite-color-foreground-2: #f2f2f2;
 $calcite-color-foreground-3: #ebebeb;
-$calcite-color-foreground-current: #c7eaff;
+$calcite-color-foreground-current: #d6efff; // deprecated, use --calcite-color-foreground-highlight instead
+$calcite-color-foreground-highlight: #d6efff;
 $calcite-color-transparent: rgba(0, 0, 0, 0);
 $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -70918,6 +71120,7 @@ $calcite-color-border-3: #dedede;
 $calcite-color-border-input: #949494;
 $calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
 $calcite-color-border-white: #ffffff;
+$calcite-color-focus: $calcite-color-brand;
 "
 `;
 
@@ -71266,7 +71469,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-conder-radius-none instead
+$calcite-corner-radius-sharp: 0; // deprecated, use --calcite-corner-radius-none instead
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;

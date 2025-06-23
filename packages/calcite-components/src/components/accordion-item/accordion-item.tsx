@@ -104,7 +104,7 @@ export class AccordionItem extends LitElement {
    *
    * @private
    */
-  @property() scale: Scale;
+  @property({ reflect: true }) scale: Scale;
 
   // #endregion
 

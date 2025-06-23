@@ -24,7 +24,7 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
@@ -303,7 +303,7 @@ export class Dropdown
   // #region Private Methods
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;
@@ -495,11 +495,11 @@ export class Dropdown
   }
 
   onBeforeOpen(): void {
+    this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
   }
 
-  async onOpen(): Promise<void> {
-    this.focusOnFirstActiveOrDefaultItem();
+  onOpen(): void {
     this.calciteDropdownOpen.emit();
   }
 
