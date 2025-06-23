@@ -8,7 +8,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { FlipContext, Position, Status } from "../interfaces";
+import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
@@ -171,6 +171,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Used to determine what menu options are available in the sort-handle

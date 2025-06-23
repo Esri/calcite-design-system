@@ -16,6 +16,90 @@
  * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
  */
 
+:host([scale="s"]) {
+  padding-block: var(--calcite-spacing-xs);
+
+  header {
+    padding: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-sm);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size-sm);
+    line-height: var(--calcite-font-line-height-relative-snug);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size-xs);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-xs));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-sm));
+  }
+}
+
+:host([scale="m"]) {
+  padding-block: var(--calcite-spacing-sm);
+
+  header {
+    padding: var(--calcite-spacing-md);
+    gap: var(--calcite-spacing-md);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-spacing-md);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-relative-tight);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size-sm);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
+  }
+}
+
+:host([scale="l"]) {
+  padding-block: var(--calcite-spacing-sm-plus);
+
+  header {
+    padding: var(--calcite-spacing-xl);
+    gap: var(--calcite-spacing-xl);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-xl);
+    padding-inline-end: var(--calcite-spacing-xl);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size-lg);
+    line-height: var(--calcite-font-line-height-relative-snug);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size-md);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-md-plus));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-lg));
+  }
+}
+
 :host {
   @extend %component-host;
   @extend %component-spacing;
@@ -33,10 +117,6 @@
   @apply justify-start;
 }
 
-.header--has-text {
-  padding: var(--calcite-spacing-md);
-}
-
 .header,
 .toggle {
   grid-area: header;
@@ -48,22 +128,6 @@
   grid-template-areas: "handle header control menu actions-end";
   grid-column: header-start / actions-end;
   grid-row: 1 / 2;
-}
-
-.content-start {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.icon,
-.icon--start,
-.icon--end {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.icon {
-  & calcite-loader {
-    margin-inline-end: var(--calcite-spacing-xxxs);
-  }
 }
 
 .icon--start,
@@ -110,16 +174,10 @@ calcite-handle {
   grid-area: handle;
 }
 
-.title {
-  @apply m-0;
-}
-
 .header .title .heading {
-  @apply text-n1
-    word-break
+  @apply word-break
     transition-color
     font-medium
-    leading-tight
     ease-in-out
     p-0;
 
@@ -127,11 +185,11 @@ calcite-handle {
 }
 
 .description {
-  @apply text-n2-wrap
-    word-break
+  @apply word-break
     mt-0.5
     p-0;
 
+  line-height: var(--calcite-font-line-height-relative-snug);
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
 }
 
@@ -161,8 +219,6 @@ calcite-handle {
 
 .icon-end-container {
   @apply flex items-center;
-
-  margin-inline-start: auto;
 }
 
 .toggle-icon {
@@ -170,8 +226,6 @@ calcite-handle {
   self-center
   justify-self-end
   ease-in-out;
-
-  margin-inline-end: var(--calcite-spacing-md);
   color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
 }
 
@@ -185,8 +239,6 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
-  padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
 }
 
 .content-start {
@@ -209,8 +261,6 @@ calcite-action-menu {
 }
 
 :host([expanded]) {
-  @apply my-2;
-
   .header .title .heading {
     color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
   }
