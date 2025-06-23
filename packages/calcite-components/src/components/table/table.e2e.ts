@@ -2799,99 +2799,107 @@ describe("keyboard navigation", () => {
     await selectRow(rowSelector);
     await expect(rowDeselected()).resolves.toBe(undefined);
   });
+  describe("theme", () => {
+    describe("themed table", () => {
+      themed(
+        html` <calcite-table
+          bordered
+          striped
+          selection-mode="multiple"
+          numbered
+          caption="Theming testing"
+          page-size="3"
+        >
+          <calcite-action slot="selection-actions" icon="trash"></calcite-action>
+          <calcite-action slot="selection-actions" icon="send"></calcite-action>
+          <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+          <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Example column heading"></calcite-table-header>
+            <calcite-table-header heading="Example heading"></calcite-table-header>
+            <calcite-table-header heading="Heading example">
+              <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
+            </calcite-table-header>
+            <calcite-table-header heading="Example"></calcite-table-header>
+            <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
+            <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
+            <calcite-table-header heading="Status"></calcite-table-header>
+            <calcite-table-header alignment="center" heading="More"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell alignment="end">test 1</calcite-table-cell>
+            <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+            <calcite-table-cell alignment="center">
+              <calcite-chip scale="s">Another thing</calcite-chip>
+            </calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell alignment="end">test 2</calcite-table-cell>
+            <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+            <calcite-table-cell alignment="center">
+              <calcite-chip scale="s">Another thing</calcite-chip>
+            </calcite-table-cell> </calcite-table-row
+          ><calcite-table-row selected>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell alignment="end">test 3</calcite-table-cell>
+            <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+            <calcite-table-cell alignment="center">
+              <calcite-chip scale="s">Another thing</calcite-chip>
+            </calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row slot="table-footer">
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell col-span="5">foot</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+        {
+          "--calcite-table-border-color": {
+            shadowSelector: `.${TABLE_CSS.tableContainer}`,
+            targetProp: "borderColor",
+          },
+          "--calcite-table-corner-radius": {
+            shadowSelector: `.${TABLE_CSS.tableContainer}`,
+            targetProp: "borderRadius",
+          },
+          "--calcite-table-shadow": {
+            shadowSelector: `.${TABLE_CSS.tableContainer}`,
+            targetProp: "boxShadow",
+          },
+        },
+      );
+    });
 
-  describe("themed table", () => {
-    themed(
-      html` <calcite-table bordered striped selection-mode="multiple" numbered caption="Theming testing" page-size="3">
-        <calcite-action slot="selection-actions" icon="trash"></calcite-action>
-        <calcite-action slot="selection-actions" icon="send"></calcite-action>
-        <calcite-action slot="selection-actions" icon="copy"></calcite-action>
-        <calcite-action slot="selection-actions" icon="plus"></calcite-action>
-        <calcite-table-row slot="table-header">
-          <calcite-table-header heading="Example column heading"></calcite-table-header>
-          <calcite-table-header heading="Example heading"></calcite-table-header>
-          <calcite-table-header heading="Heading example">
-            <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
-          </calcite-table-header>
-          <calcite-table-header heading="Example"></calcite-table-header>
-          <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
-          <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
-          <calcite-table-header heading="Status"></calcite-table-header>
-          <calcite-table-header alignment="center" heading="More"></calcite-table-header>
-        </calcite-table-row>
-        <calcite-table-row selected>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell alignment="end">test 1</calcite-table-cell>
-          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
-          <calcite-table-cell alignment="center">
-            <calcite-chip scale="s">Another thing</calcite-chip>
-          </calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row selected>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell alignment="end">test 2</calcite-table-cell>
-          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
-          <calcite-table-cell alignment="center">
-            <calcite-chip scale="s">Another thing</calcite-chip>
-          </calcite-table-cell> </calcite-table-row
-        ><calcite-table-row selected>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell alignment="end">test 3</calcite-table-cell>
-          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
-          <calcite-table-cell alignment="center">
-            <calcite-chip scale="s">Another thing</calcite-chip>
-          </calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row slot="table-footer">
-          <calcite-table-cell>foot</calcite-table-cell>
-          <calcite-table-cell>foot</calcite-table-cell>
-          <calcite-table-cell>foot</calcite-table-cell>
-          <calcite-table-cell col-span="5">foot</calcite-table-cell>
-        </calcite-table-row>
-      </calcite-table>`,
-      {
-        "--calcite-table-border-color": {
-          shadowSelector: `.${TABLE_CSS.tableContainer}`,
-          targetProp: "borderColor",
+    describe("themed table cell", () => {
+      themed(html` <calcite-table-cell>cell</calcite-table-cell> `, {
+        "--calcite-table-cell-background-color": {
+          shadowSelector: "td",
+          targetProp: "backgroundColor",
         },
-        "--calcite-table-corner-radius": {
-          shadowSelector: `.${TABLE_CSS.tableContainer}`,
-          targetProp: "borderRadius",
+        "--calcite-table-cell-text-color": {
+          shadowSelector: "td",
+          targetProp: "color",
         },
-        "--calcite-table-shadow": {
-          shadowSelector: `.${TABLE_CSS.tableContainer}`,
-          targetProp: "boxShadow",
+        "--calcite-table-cell-border-color": {
+          shadowSelector: "td",
+          targetProp: "borderInlineEndColor",
         },
-      },
-    );
-  });
-
-  describe("themed table cell", () => {
-    themed(html` <calcite-table-cell>cell</calcite-table-cell> `, {
-      "--calcite-table-cell-background-color": {
-        shadowSelector: "td",
-        targetProp: "backgroundColor",
-      },
-      "--calcite-table-cell-text-color": {
-        shadowSelector: "td",
-        targetProp: "color",
-      },
-      "--calcite-table-cell-border-color": {
-        shadowSelector: "td",
-        targetProp: "borderInlineEndColor",
-      },
+      });
     });
   });
 });
