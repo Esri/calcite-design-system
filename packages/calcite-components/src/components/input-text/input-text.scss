@@ -11,18 +11,18 @@
  * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` & icon elements when pressed.
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
- * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
- * @prop --calcite-input-prefix-width: Specifies the width of the prefix element.
- * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
- * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix element.
- * @prop --calcite-input-suffix-width: Specifies the width of the suffix element.
- * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
- * @prop --calcite-input-text-background-color: Specifies background color of the component.
- * @prop --calcite-input-text-border-color: Specifies the border color of the component.
- * @prop --calcite-input-text-corner-radius: Specifies the border radius of the component.
- * @prop --calcite-input-text-placeholder-text-color: Specifies the text color of the placeholder in the component.
- * @prop --calcite-input-text-text-color: Specifies the text color of the component.
- * @prop --calcite-input-text-text-color-focus: Specifies the text color of the component when focused.
+ * @prop --calcite-input-prefix-background-color: When `prefixText` is provided, specifies the background color of the component's prefix element.
+ * @prop --calcite-input-prefix-width: When `prefixText` is provided, specifies the width of the component's prefix element.
+ * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
+ * @prop --calcite-input-suffix-background-color: When `suffixText` is provided, specifies the background color of the component's suffix element.
+ * @prop --calcite-input-suffix-width: When suffixText` is provided, specifies the width of the component's suffix element.
+ * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the color of the component's suffix element.
+ * @prop --calcite-input-text-background-color: Specifies the component's background color.
+ * @prop --calcite-input-text-border-color: Specifies the component's border color.
+ * @prop --calcite-input-text-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-input-text-placeholder-text-color: Specifies the component's `placeholder` text color.
+ * @prop --calcite-input-text-text-color: Specifies the component's text color.
+ * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
  */
 
 :host {
