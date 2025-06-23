@@ -231,7 +231,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
