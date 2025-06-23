@@ -9,9 +9,9 @@ export const CSS = {
   assistiveText: "assistive-text",
   selectionActions: "selection-actions",
   dismissButton: "dismiss-button",
-  selectionChipActive: "selection-chip-active",
+  selectionChipActive: "selection-chip--active",
   selectionCountChip: "selection-chip",
-  selectionOutOfViewChip: "selection-out-of-view-chip",
+  selectionOutOfViewChip: "selection-chip--out-of-view",
 };
 
 export const SLOTS = {

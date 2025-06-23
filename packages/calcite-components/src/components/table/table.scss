@@ -153,14 +153,14 @@ table {
   --calcite-chip-corner-radius: var(--calcite-table-selection-chip-corner-radius);
   --calcite-chip-shadow: var(--calcite-table-selection-chip-shadow);
   --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color);
-  &.selection-chip-active {
+  &.selection-chip--active {
     --calcite-chip-background-color: var(--calcite-table-selection-chip-background-color-selected);
     --calcite-chip-border-color: var(--calcite-table-selection-chip-border-color-selected);
     --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color-selected);
   }
 }
 
-.selection-out-of-view-chip {
+.selection-chip--out-of-view {
   --calcite-chip-background-color: var(--calcite-table-selection-out-of-view-chip-background-color);
   --calcite-chip-border-color: var(--calcite-table-selection-out-of-view-chip-border-color);
   --calcite-chip-corner-radius: var(--calcite-table-selection-out-of-view-chip-corner-radius);
