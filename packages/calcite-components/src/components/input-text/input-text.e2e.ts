@@ -467,7 +467,7 @@ describe("calcite-input-text", () => {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-input-prefix-width": {
+      "--calcite-input-prefix-size": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "inlineSize",
       },
@@ -479,7 +479,7 @@ describe("calcite-input-text", () => {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-input-suffix-width": {
+      "--calcite-input-suffix-size": {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "inlineSize",
       },
