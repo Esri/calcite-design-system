@@ -315,7 +315,7 @@ export class Combobox
     }
   }
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`). */
   @property() filterProps: string[];
 
   /**
