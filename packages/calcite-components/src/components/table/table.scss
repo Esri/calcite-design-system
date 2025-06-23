@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-table-border-color: The border color of the component.
- * @prop --calcite-table-corner-radius: The border color of the component.
+ * @prop --calcite-table-corner-radius: The border radius of the component.
  * @prop --calcite-table-shadow: The shadow of the component.
 
  * @prop --calcite-table-number-cell-background-color: The background color of the component's `numbered` cell.
@@ -20,9 +20,9 @@
  * @prop --calcite-table-selection-chip-corner-radius: The corner radius of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-shadow: The shadow of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-text-color: The text color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-selected-background-color: The background color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-selected-border-color: The border color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-selected-text-color: The text color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-background-color-selected: The background color of the component's `selectionMode` selection chip when Table Rows are selected.
+ * @prop --calcite-table-selection-chip-selected-border-color: The border color of the component's `selectionMode` selection chip when Table Rows are selected.
+ * @prop --calcite-table-selection-chip-text-color-selected: The text color of the component's `selectionMode` selection chip when Table Rows are selected.
 
  * @prop --calcite-table-selection-out-of-view-chip-background-color: The background color of the component's `selectionMode` selection out of view chip.
  * @prop --calcite-table-selection-out-of-view-chip-border-color: The border color of the component's `selectionMode` selection out of view chip.
@@ -39,9 +39,9 @@
  * @prop --calcite-table-selection-dismiss-button-border-color: The border color of the component's `selectionMode` selection dismiss chip.
  * @prop --calcite-table-selection-dismiss-button-corner-radius: The corner radius of the component's `selectionMode` selection dismiss chip.
  * @prop --calcite-table-selection-dismiss-button-shadow: The shadow of the component's `selectionMode` selection dismiss chip.
- * @prop --calcite-table-selection-dismiss-button-text-color-active: The shadow of the component's `selectionMode` selection dismiss chip when active.
- * @prop --calcite-table-selection-dismiss-button-text-color-hover: The shadow of the component's `selectionMode` selection dismiss chip when hovered.
- * @prop --calcite-table-selection-dismiss-button-text-color: The shadow of the component's `selectionMode` selection dismiss chip.
+ * @prop --calcite-table-selection-dismiss-button-text-color-active: The text color of the component's `selectionMode` selection dismiss chip when active.
+ * @prop --calcite-table-selection-dismiss-button-text-color-hover: The text color of the component's `selectionMode` selection dismiss chip when hovered.
+ * @prop --calcite-table-selection-dismiss-button-text-color: The text color of the component's `selectionMode` selection dismiss chip.
 
  * @prop --calcite-table-pagination-color: Specifies the component's `pageSize` pagination item color.
  * @prop --calcite-table-pagination-color-hover: Specifies the component's `pageSize` pagination item color when hovered or selected.
@@ -155,7 +155,7 @@ table {
   --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color);
   &.selection-chip--active {
     --calcite-chip-background-color: var(--calcite-table-selection-chip-background-color-selected);
-    --calcite-chip-border-color: var(--calcite-table-selection-chip-border-color-selected);
+    --calcite-chip-border-color: var(--calcite-table-selection-chip-background-color-selected);
     --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color-selected);
   }
 }
