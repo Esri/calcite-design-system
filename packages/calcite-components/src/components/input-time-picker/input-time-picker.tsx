@@ -516,6 +516,10 @@ export class InputTimePicker
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
+  private timePickerChangeHandler(event: CustomEvent): void {
+    event.stopPropagation();
+  }
+
   private toggleIconClickHandler() {
     this.open = !this.open;
   }
@@ -688,6 +692,7 @@ export class InputTimePicker
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
+            oncalciteTimePickerChange={this.timePickerChangeHandler}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
