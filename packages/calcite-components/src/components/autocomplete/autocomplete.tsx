@@ -30,7 +30,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -444,22 +444,16 @@ export class Autocomplete
       this.handleDisabledChange(this.disabled);
     }
 
-    if (changes.has("flipPlacements")) {
-      this.reposition(true);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      changes.has("flipPlacements") ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
-      this.reposition(true);
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
       this.reposition(true);
     }
 
@@ -531,7 +525,7 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (!this.open) {
       this.activeIndex = -1;
