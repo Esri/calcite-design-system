@@ -13,11 +13,11 @@ export interface CancelableResource {
  */
 export interface UseCancelableResource {
   /**
-   * Adds a cancelable resource to the controller.
+   * Adds an array of cancelable resources to the controller.
    *
-   * @param resource - A resource with a `cancel` method.
+   * @param resources - Resources with a `cancel` method.
    */
-  add: (resource: CancelableResource) => void;
+  add: (resources: CancelableResource[]) => void;
 }
 
 /**
@@ -31,11 +31,11 @@ export const useCancelableResource = <T extends LitElement>(): ReturnType<
   return makeGenericController<UseCancelableResource, T>((component, controller) => {
     const args = { component, controller };
     const { controller: adaptedController } = args;
-    const resources = new Set<CancelableResource>();
+    const resources: CancelableResource[] = [];
 
     const cancelAll = () => {
       resources.forEach((resource) => resource.cancel());
-      resources.clear();
+      resources.length = 0;
     };
 
     adaptedController.onDisconnected(() => {
@@ -43,8 +43,9 @@ export const useCancelableResource = <T extends LitElement>(): ReturnType<
     });
 
     const utils: UseCancelableResource = {
-      add: (resource) => {
-        resources.add(resource);
+      add: (newResources) => {
+        resources.length = 0;
+        resources.push(...newResources);
       },
     };
 

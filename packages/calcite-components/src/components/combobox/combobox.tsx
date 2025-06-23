@@ -569,7 +569,7 @@ export class Combobox
 
     this.setFilteredPlacements();
     connectFloatingUI(this);
-    this.cancelableResource.add(this.filterItems);
+    this.cancelableResource.add([this.filterItems]);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

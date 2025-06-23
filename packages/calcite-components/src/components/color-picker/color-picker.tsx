@@ -405,8 +405,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
-    this.cancelableResource.add(this.drawColorControls);
-    this.cancelableResource.add(this.resizeCanvas);
+    this.cancelableResource.add([this.drawColorControls, this.resizeCanvas]);
   }
 
   async load(): Promise<void> {

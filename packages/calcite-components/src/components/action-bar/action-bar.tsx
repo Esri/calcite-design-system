@@ -203,7 +203,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
-    this.cancelableResource.add(this.resize);
+    this.cancelableResource.add([this.resize]);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

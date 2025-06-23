@@ -324,7 +324,7 @@ export class TextArea
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-    this.cancelableResource.add(this.updateSizeToAuto);
+    this.cancelableResource.add([this.updateSizeToAuto]);
   }
 
   override updated(): void {

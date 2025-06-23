@@ -436,7 +436,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
-    this.cancelableResource.add(this.getAllItemsDebounced);
+    this.cancelableResource.add([this.getAllItemsDebounced]);
   }
 
   async load(): Promise<void> {
