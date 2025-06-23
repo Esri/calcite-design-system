@@ -16,7 +16,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
+import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
@@ -1613,10 +1613,8 @@ describe("calcite-input-time-picker", () => {
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
 
-      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+      expect(await isElementFocused(page, `#${nextSibling}`)).toBe(true);
     });
   });
 
