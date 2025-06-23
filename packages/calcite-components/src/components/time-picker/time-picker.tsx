@@ -346,7 +346,6 @@ export class TimePicker extends LitElement implements TimeComponent {
       this.value = newValue;
     }
 
-    // TODO: Figure out if we should change this to only emit on a commit action (Enter or blur).
     this.calciteTimePickerChange.emit();
   }
 
