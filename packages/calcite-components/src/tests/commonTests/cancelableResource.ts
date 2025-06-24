@@ -18,7 +18,7 @@ export function cancelable(componentTag: ComponentTag): void {
     mockConsole("warn");
 
     it(`should cancel all added cancelable methods on disconnect`, async () => {
-      const { component, el } = await mount(componentTag);
+      const { component, el } = await mount<typeof componentTag>(componentTag);
 
       const addSpy = vi.spyOn(component.cancelableResource, "add");
 
