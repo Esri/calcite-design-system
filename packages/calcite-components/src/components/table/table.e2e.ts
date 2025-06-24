@@ -1077,7 +1077,7 @@ describe("selection modes", () => {
   it("correctly maintains selected items if they are paginated out of view", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1141,7 +1141,7 @@ describe("selection modes", () => {
   it("correctly updates selected items and does not emit public event when table row selected properties are programmatically set", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1221,7 +1221,7 @@ describe("pagination event", () => {
   it("correctly emits pagination event", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:800px">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1295,7 +1295,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when no pagination or selection present", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" style="width:800px">
+      html`<calcite-table caption="Simple table" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1370,7 +1370,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present and first page displayed", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1443,7 +1443,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1846,7 +1846,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when multiple header and multiple footer rows, pagination present, and navigation to other page occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:800px">
+      html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:50rem">
           <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -2454,7 +2454,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:800px">
+      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -2887,6 +2887,11 @@ describe("keyboard navigation", () => {
 
     describe("themed table cell", () => {
       themed(html` <calcite-table-cell>cell</calcite-table-cell> `, {
+        // `--calcite-table-cell-background` is deprecated
+        "--calcite-table-cell-background": {
+          shadowSelector: "td",
+          targetProp: "backgroundColor",
+        },
         "--calcite-table-cell-background-color": {
           shadowSelector: "td",
           targetProp: "backgroundColor",
@@ -2900,6 +2905,70 @@ describe("keyboard navigation", () => {
           targetProp: "borderInlineEndColor",
         },
       });
+    });
+
+    describe("themed table header", () => {
+      themed(html` <calcite-table-header heading="Heading" description="Description"></calcite-table-header> `, {
+        // `--calcite-table-header-background` is deprecated
+        "--calcite-table-header-background": {
+          shadowSelector: "th",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-header-background-color": {
+          shadowSelector: "th",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-header-border-color": {
+          shadowSelector: "th",
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-table-header-heading-text-color": {
+          shadowSelector: `.${HEADER_CSS.heading}`,
+          targetProp: "color",
+        },
+        "--calcite-table-header-description-text-color": {
+          shadowSelector: `.${HEADER_CSS.description}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("themed table row", () => {
+      themed(
+        html` <calcite-table-row id="row-1" selected>
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>`,
+        {
+          // `--calcite-table-row-background` is deprecated
+          "--calcite-table-row-background": {
+            shadowSelector: "tr",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-table-row-background-color": {
+            shadowSelector: "tr",
+            targetProp: "backgroundColor",
+          },
+          /*
+          "--calcite-table-row-background-color-striped": {
+            shadowSelector: "tr",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-table-row-background-color-selected": {
+            shadowSelector: "tr",
+            targetProp: "backgroundColor",
+          },
+          "--calcite-table-row-accent-color-selected": {
+            shadowSelector: "tr",
+            targetProp: "backgroundColor",
+          },
+          */
+          "--calcite-table-row-border-color": {
+            shadowSelector: "tr",
+            targetProp: "borderBlockEndColor",
+          },
+        },
+      );
     });
   });
 });

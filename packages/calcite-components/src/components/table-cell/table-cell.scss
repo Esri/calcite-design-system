@@ -123,12 +123,12 @@ td.last-cell {
 }
 
 .selection-cell.selected-cell {
-  box-shadow: inset 0.25rem 0 0 0 var(--calcite-table-row-selected-accent-color, var(--calcite-color-brand));
+  box-shadow: inset 0.25rem 0 0 0 var(--calcite-table-row-accent-color-selected, var(--calcite-color-brand));
   color: var(--calcite-table-selection-cell-icon-color-selected, var(--calcite-color-brand));
 }
 
 .calcite--rtl.selection-cell.selected-cell {
-  box-shadow: inset -0.25rem 0 0 0 var(--calcite-table-row-selected-accent-color, var(--calcite-color-brand));
+  box-shadow: inset -0.25rem 0 0 0 var(--calcite-table-row-accent-color-selected, var(--calcite-color-brand));
 }
 
 .selection-cell {
