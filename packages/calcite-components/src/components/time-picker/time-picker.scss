@@ -101,7 +101,7 @@
     @apply text-n1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-spacing-sm);
       padding-block: var(--calcite-spacing-xxs);
     }
     &:not(.show-meridiem) {
@@ -115,7 +115,7 @@
     @apply text-0;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-xl);
+      padding-inline: var(--calcite-spacing-md);
       padding-block: var(--calcite-spacing-sm);
     }
     &:not(.show-meridiem) {
@@ -129,7 +129,7 @@
     @apply text-1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-xxl);
+      padding-inline: var(--calcite-spacing-lg);
       padding-block: var(--calcite-spacing-md);
     }
     &:not(.show-meridiem) {
