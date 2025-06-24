@@ -1077,7 +1077,7 @@ describe("selection modes", () => {
   it("correctly maintains selected items if they are paginated out of view", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1141,7 +1141,7 @@ describe("selection modes", () => {
   it("correctly updates selected items and does not emit public event when table row selected properties are programmatically set", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:50rem">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1221,7 +1221,7 @@ describe("pagination event", () => {
   it("correctly emits pagination event", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:50rem">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1295,7 +1295,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when no pagination or selection present", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" style="width:50rem">
+      html`<calcite-table caption="Simple table" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1370,7 +1370,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present and first page displayed", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2" style="width:50rem">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1443,7 +1443,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2" style="width:50rem">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1846,7 +1846,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when multiple header and multiple footer rows, pagination present, and navigation to other page occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:50rem">
+      html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:800px">
           <calcite-table-row slot="${SLOTS.tableHeader}">
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -2454,7 +2454,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:50rem">
+      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:800px">
         <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -2805,8 +2805,8 @@ describe("keyboard navigation", () => {
         html` <calcite-table
           bordered
           striped
-          selection-mode="multiple"
           numbered
+          selection-mode="multiple"
           caption="Theming testing"
           page-size="3"
         >
@@ -2826,7 +2826,7 @@ describe("keyboard navigation", () => {
             <calcite-table-header heading="Status"></calcite-table-header>
             <calcite-table-header alignment="center" heading="More"></calcite-table-header>
           </calcite-table-row>
-          <calcite-table-row selected>
+          <calcite-table-row id="row-1">
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
@@ -2838,7 +2838,7 @@ describe("keyboard navigation", () => {
               <calcite-chip scale="s">Another thing</calcite-chip>
             </calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row selected>
+          <calcite-table-row id="row-2">
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
@@ -2849,7 +2849,7 @@ describe("keyboard navigation", () => {
             <calcite-table-cell alignment="center">
               <calcite-chip scale="s">Another thing</calcite-chip>
             </calcite-table-cell> </calcite-table-row
-          ><calcite-table-row selected>
+          ><calcite-table-row id="row-3">
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
@@ -2880,6 +2880,200 @@ describe("keyboard navigation", () => {
           "--calcite-table-shadow": {
             shadowSelector: `.${TABLE_CSS.tableContainer}`,
             targetProp: "boxShadow",
+          },
+          "--calcite-table-row-background-color-striped": {
+            selector: "#row-2",
+            shadowSelector: "tr",
+            targetProp: "--calcite-table-row-background-color",
+          },
+          "--calcite-table-number-cell-background-color": {
+            selector: "#row-1",
+            shadowSelector: `.${CELL_CSS.numberCell}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-table-number-cell-text-color": {
+            selector: "#row-1",
+            shadowSelector: `.${CELL_CSS.numberCell}`,
+            targetProp: "color",
+          },
+          "--calcite-table-selection-cell-background-color": {
+            selector: "#row-1",
+            shadowSelector: `.${CELL_CSS.selectionCell}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-table-selection-chip-background-color": {
+            shadowSelector: `.${TABLE_CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-chip-border-color": {
+            shadowSelector: `.${TABLE_CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-chip-corner-radius": {
+            shadowSelector: `.${TABLE_CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-corner-radius",
+          },
+          "--calcite-table-selection-chip-shadow": {
+            shadowSelector: `.${TABLE_CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-shadow",
+          },
+          "--calcite-table-selection-chip-text-color": {
+            shadowSelector: `.${TABLE_CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+        },
+      );
+    });
+
+    describe("themed table with selected rows", () => {
+      themed(
+        html` <calcite-table
+          bordered
+          striped
+          selection-mode="multiple"
+          numbered
+          caption="Theming testing"
+          page-size="1"
+        >
+          <calcite-action slot="selection-actions" icon="trash"></calcite-action>
+          <calcite-action slot="selection-actions" icon="send"></calcite-action>
+          <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+          <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Example column heading"></calcite-table-header>
+            <calcite-table-header heading="Example heading"></calcite-table-header>
+            <calcite-table-header heading="Heading example">
+              <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
+            </calcite-table-header>
+            <calcite-table-header heading="Example"></calcite-table-header>
+            <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
+            <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
+            <calcite-table-header heading="Status"></calcite-table-header>
+            <calcite-table-header alignment="center" heading="More"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row id="row-1" selected>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell alignment="end">test 1</calcite-table-cell>
+            <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+            <calcite-table-cell alignment="center">
+              <calcite-chip scale="s">Another thing</calcite-chip>
+            </calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-2" selected>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell alignment="end">test 2</calcite-table-cell>
+            <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+            <calcite-table-cell alignment="center">
+              <calcite-chip scale="s">Another thing</calcite-chip>
+            </calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row slot="table-footer">
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell>foot</calcite-table-cell>
+            <calcite-table-cell col-span="5">foot</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+        {
+          "--calcite-table-selection-cell-icon-color-selected": {
+            selector: "#row-1",
+            shadowSelector: `.${HEADER_CSS.selectionCell}`,
+            targetProp: "color",
+          },
+          "--calcite-table-selection-chip-background-color-selected": {
+            shadowSelector: `.${TABLE_CSS.selectionChipActive}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-chip-border-color-selected": {
+            shadowSelector: `.${TABLE_CSS.selectionChipActive}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-chip-text-color-selected": {
+            shadowSelector: `.${TABLE_CSS.selectionChipActive}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-background-color": {
+            shadowSelector: `.${TABLE_CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-border-color": {
+            shadowSelector: `.${TABLE_CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-corner-radius": {
+            shadowSelector: `.${TABLE_CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-corner-radius",
+          },
+          "--calcite-table-selection-out-of-view-chip-icon-color": {
+            shadowSelector: `.${TABLE_CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-icon-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-text-color": {
+            shadowSelector: `.${TABLE_CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+          "--calcite-table-selection-dismiss-button-background-color-hover": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: "hover",
+          },
+          "--calcite-table-selection-dismiss-button-background-color": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-background-color",
+          },
+          "--calcite-table-selection-dismiss-button-border-color-hover": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: "hover",
+          },
+          "--calcite-table-selection-dismiss-button-border-color": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-border-color",
+          },
+          "--calcite-table-selection-dismiss-button-corner-radius": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          "--calcite-table-selection-dismiss-button-shadow": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-shadow",
+          },
+          "--calcite-table-selection-dismiss-button-text-color": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          "--calcite-table-selection-dismiss-button-text-color-hover": {
+            shadowSelector: `.${TABLE_CSS.dismissButton}`,
+            targetProp: "--calcite-button-text-color",
+            state: "hover",
+          },
+          "--calcite-table-pagination-color": {
+            shadowSelector: "calcite-pagination",
+            targetProp: "--calcite-pagination-color",
+          },
+          "--calcite-table-pagination-color-hover": {
+            shadowSelector: "calcite-pagination",
+            targetProp: "--calcite-pagination-color-hover",
+          },
+          "--calcite-table-pagination-color-border-hover": {
+            shadowSelector: "calcite-pagination",
+            targetProp: "--calcite-pagination-color-border-hover",
+          },
+          "--calcite-table-pagination-background-color": {
+            shadowSelector: "calcite-pagination",
+            targetProp: "--calcite-pagination-background-color",
+          },
+          "--calcite-table-pagination-icon-color-background-hover": {
+            shadowSelector: "calcite-pagination",
+            targetProp: "--calcite-pagination-icon-color-background-hover",
           },
         },
       );
@@ -2935,35 +3129,48 @@ describe("keyboard navigation", () => {
 
     describe("themed table row", () => {
       themed(
-        html` <calcite-table-row id="row-1" selected>
-          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
-          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
-        </calcite-table-row>`,
+        html` <calcite-table
+          numbered
+          selection-mode="multiple"
+          striped
+          caption="Simple table"
+          interaction-mode="static"
+        >
+          <calcite-table-row id="row-1">
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-2">
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="row-3" selected>
+            <calcite-table-cell id="cell-3-1">cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row></calcite-table
+        >`,
         {
           // `--calcite-table-row-background` is deprecated
           "--calcite-table-row-background": {
+            selector: "#row-1",
             shadowSelector: "tr",
             targetProp: "backgroundColor",
           },
           "--calcite-table-row-background-color": {
-            shadowSelector: "tr",
-            targetProp: "backgroundColor",
-          },
-          /*
-          "--calcite-table-row-background-color-striped": {
+            selector: "#row-1",
             shadowSelector: "tr",
             targetProp: "backgroundColor",
           },
           "--calcite-table-row-background-color-selected": {
-            shadowSelector: "tr",
+            selector: "#cell-3-1",
+            shadowSelector: "td",
             targetProp: "backgroundColor",
           },
-          "--calcite-table-row-accent-color-selected": {
-            shadowSelector: "tr",
-            targetProp: "backgroundColor",
-          },
-          */
           "--calcite-table-row-border-color": {
+            selector: "#row-1",
             shadowSelector: "tr",
             targetProp: "borderBlockEndColor",
           },
