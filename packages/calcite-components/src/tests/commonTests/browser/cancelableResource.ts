@@ -1,7 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { mockConsole } from "../../tests/utils/logging";
-import { ComponentTag } from "./interfaces";
+import { mockConsole } from "../../../tests/utils/logging";
+import { ComponentTag } from "../interfaces";
 
 /**
  * Helper for testing cancelable behavior in components (debounced or throttled).
