@@ -76,7 +76,7 @@
     "axe-core": "4.10.3",
     "change-case": "5.4.4",
     "chokidar": "4.0.3",
-    "chromatic": "13.0.0",
+    "chromatic": "13.0.1",
     "concurrently": "9.1.2",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.1.0",
