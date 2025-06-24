@@ -1,12 +1,11 @@
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { cancelableBehavior } from "../../tests/commonTests/cancelableResource";
+import { cancelable } from "../../tests/commonTests/cancelableResource";
 
 describe("color-picker", () => {
   mockConsole("warn");
 
   describe("cancelable behavior", () => {
-    cancelableBehavior("<calcite-color-picker>", "drawColorControls");
-    cancelableBehavior("<calcite-color-picker>", "resizeCanvas");
+    cancelable("calcite-color-picker");
   });
 });

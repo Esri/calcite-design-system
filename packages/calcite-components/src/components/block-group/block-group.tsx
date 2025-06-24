@@ -183,7 +183,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItems();
     this.setUpSorting();
     this.setParentBlockGroup();
-    this.cancelableResource.add([this.updateBlockItems]);
+    this.cancelableResource.add(this.updateBlockItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

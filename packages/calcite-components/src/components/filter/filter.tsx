@@ -149,7 +149,7 @@ export class Filter extends LitElement implements InteractiveComponent {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.cancelableResource.add([this.filterDebounced]);
+    this.cancelableResource.add(this.filterDebounced);
   }
 
   async load(): Promise<void> {

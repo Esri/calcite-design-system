@@ -1,35 +1,42 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
+import { ComponentTag } from "./interfaces";
 
 /**
  * Helper for testing cancelable behavior in components (debounced or throttled).
  *
  * @example
  * describe("cancelable behavior", () => {
- *   cancelableBehavior("<calcite-action-bar>", "resize"");
- *   cancelableBehavior("<calcite-color-picker>", "drawColorControls");
+ *   cancelable("calcite-action-bar");
  * });
  *
  * @param {ComponentTag} componentTag - The tag name of the component to test.
- * @param {string} cancelableMethod - The name of the debounced or throttled method to test.
  */
-export function cancelableBehavior(componentTag: string, cancelableMethod: string): void {
-  describe(`${cancelableMethod} behavior`, () => {
+export function cancelable(componentTag: ComponentTag): void {
+  describe(`cancelable behavior`, () => {
     mockConsole("warn");
 
-    it(`should cancel pending ${cancelableMethod} on disconnect`, async () => {
-      const componentElement = componentTag.replace(/<|>/g, "");
+    it(`should cancel all added cancelable methods on disconnect`, async () => {
+      const { component, el } = await mount(componentTag);
 
-      const { component, el } = await mount<typeof componentTag>(componentElement);
+      const addSpy = vi.spyOn(component.cancelableResource, "add");
 
-      const cancelSpy = vi.spyOn(component[cancelableMethod], "cancel");
-      const methodSpy = vi.spyOn(component, cancelableMethod);
+      const mockResource1 = { cancel: vi.fn() };
+      const mockResource2 = { cancel: vi.fn() };
+
+      component.cancelableResource.add([mockResource1, mockResource2]);
+
+      expect(addSpy).toHaveBeenCalledTimes(1);
+      expect(addSpy).toHaveBeenCalledWith([mockResource1, mockResource2]);
+
+      const cancelSpies = [mockResource1, mockResource2].map((resource) => vi.spyOn(resource, "cancel"));
 
       el.remove();
 
-      expect(cancelSpy.mock.calls.length).toBe(1);
-      expect(methodSpy.mock.calls.length).toBe(0);
+      cancelSpies.forEach((cancelSpy) => {
+        expect(cancelSpy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 }

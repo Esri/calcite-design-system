@@ -426,7 +426,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
-    this.cancelableResource.add([this.updateListItems]);
+    this.cancelableResource.add(this.updateListItems);
   }
 
   async load(): Promise<void> {
