@@ -23,6 +23,7 @@ import { logger } from "../../utils/logger";
 import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { BlockSection } from "../block-section/block-section";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -360,13 +361,23 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
+  private updateScale(event: Event): void {
+    const descendants = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el): el is BlockSection["el"] => el?.matches("calcite-block-section"));
+
+    descendants.forEach((descendant: BlockSection["el"]) => {
+      descendant.scale = this.scale;
+    });
+  }
+
   //#endregion
 
   //#region Rendering
 
   private renderScrim(): JsxNode {
     const { loading } = this;
-    const defaultSlot = <slot />;
+    const defaultSlot = <slot onSlotChange={this.updateScale} />;
 
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }

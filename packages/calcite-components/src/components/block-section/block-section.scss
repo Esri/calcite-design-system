@@ -11,8 +11,7 @@
  */
 
 :host {
-  @apply text-n1 box-border block;
-
+  @apply box-border block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
@@ -54,32 +53,54 @@ calcite-switch {
   @apply border-b-0;
 }
 
-.toggle {
-  @apply font-sans w-full border-0;
+:host([scale="s"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-xxs);
+    gap: var(--calcite-spacing-sm);
+    font-size: var(--calcite-font-size-sm);
+  }
 
-  gap: var(--calcite-spacing-md);
-  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, transparent);
-
-  font-weight: var(--calcite-font-weight-normal);
-
-  &:hover {
-    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+  .content {
+    padding-block: var(--calcite-spacing-xxs);
   }
 }
 
-.toggle--switch,
-.section-header {
-  @apply text-n1
-    focus-base
-    mx-0
-    my-1
-    flex
-    cursor-pointer
-    select-none
-    items-center
-    px-0
-    py-2;
+:host([scale="m"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-md);
+    font-size: var(--calcite-font-size);
+  }
+  .content {
+    padding-block: var(--calcite-spacing-sm);
+  }
+}
+
+:host([scale="l"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-sm-plus);
+    gap: var(--calcite-spacing-md-plus);
+    font-size: var(--calcite-font-size-lg);
+  }
+  .content {
+    padding-block: var(--calcite-spacing-sm-plus);
+  }
+}
+
+.toggle {
+  @apply focus-base
+  flex
+  cursor-pointer
+  select-none
+  items-center
+  font-sans 
+  w-full 
+  border-0;
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-block-section-background-color, transparent);
+  font-weight: var(--calcite-font-weight-medium);
+  padding-inline: 0;
+  line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
     @apply focus-outset;

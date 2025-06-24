@@ -2,7 +2,7 @@
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -71,6 +71,9 @@ export class BlockSection extends LitElement {
     });
     this.expanded = value;
   }
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Displays a status-related indicator icon.

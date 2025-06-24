@@ -6,7 +6,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
 import { Block } from "./block";
 
-const { toggleDisplay } = ATTRIBUTES;
+const { toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
   extends Pick<
@@ -21,6 +21,7 @@ interface BlockStoryArgs
       | "menuPlacement"
       | "dragDisabled"
       | "sortHandleOpen"
+      | "scale"
     >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
@@ -43,6 +44,7 @@ export default {
     text: "Animals",
     sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
+    scale: scale.defaultValue,
   },
   argTypes: {
     menuPlacement: {
@@ -54,6 +56,10 @@ export default {
     },
     toggleDisplay: {
       options: toggleDisplay.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
   },
@@ -71,6 +77,7 @@ export const simple = (args: BlockStoryArgs): string => html`
     ${boolean("drag-disabled", args.dragDisabled)}
     ${boolean("sort-handle-open", args.dragDisabled)}
     heading-level="${args.headingLevel}"
+    scale="${args.scale}"
   >
     <calcite-block-section
       text="${args.text}"

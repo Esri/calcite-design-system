@@ -17,8 +17,6 @@
  */
 
 :host([scale="s"]) {
-  padding-block: var(--calcite-spacing-xs);
-
   header {
     padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
@@ -45,8 +43,6 @@
 }
 
 :host([scale="m"]) {
-  padding-block: var(--calcite-spacing-sm);
-
   header {
     padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
@@ -73,8 +69,6 @@
 }
 
 :host([scale="l"]) {
-  padding-block: var(--calcite-spacing-sm-plus);
-
   header {
     padding: var(--calcite-spacing-xl);
     gap: var(--calcite-spacing-xl);
@@ -103,10 +97,12 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
+  @apply ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
+  transition-property: padding-block;
+  transition-duration: var(--calcite-animation-timing);
 }
 
 @include disabled();
@@ -177,11 +173,14 @@ calcite-handle {
 .header .title .heading {
   @apply word-break
     transition-color
-    font-medium
     ease-in-out
     p-0;
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
+}
+
+.heading {
+  font-weight: var(--calcite-font-weight-medium);
 }
 
 .description {
@@ -189,8 +188,9 @@ calcite-handle {
     mt-0.5
     p-0;
 
-  line-height: var(--calcite-font-line-height-relative-snug);
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
+  font-weight: var(--calcite-font-weight-regular);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .icon {
@@ -273,6 +273,16 @@ calcite-action-menu {
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
   }
+}
+
+:host([expanded][scale="s"]) {
+  padding-block: var(--calcite-spacing-xs);
+}
+:host([expanded][scale="m"]) {
+  padding-block: var(--calcite-spacing-sm);
+}
+:host([expanded][scale="l"]) {
+  padding-block: var(--calcite-spacing-sm-plus);
 }
 
 @include base-component();
