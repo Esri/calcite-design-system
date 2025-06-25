@@ -6,13 +6,45 @@ $floating-ui-transition-offset: 5px;
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
+@mixin floating-ui-anim {
+  .calcite-floating-ui-anim {
+    position: relative;
+    transition-duration: var(--calcite-floating-ui-transition);
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    transition-property: inset, left, opacity, display;
+    opacity: 0;
+    box-shadow: $floating-ui-shadow;
+    @apply rounded z-default;
+    @include floating-ui-anim-starting-style;
+  }
+}
+
+@mixin floating-ui-anim-starting-style {
+  @starting-style {
+    opacity: 0;
+    inset-block-start: -$floating-ui-transition-offset;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: auto;
+  }
+}
+
+@mixin floating-ui-anim-active {
+  opacity: 1;
+  inset-block-start: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  left: 0;
+
+  @include floating-ui-anim-starting-style;
+}
+
 @mixin floating-ui-elem-anim($selector) {
   #{$selector} {
     .calcite-floating-ui-anim {
       position: relative;
-      transition: var(--calcite-floating-ui-transition);
+      transition-duration: var(--calcite-floating-ui-transition);
       /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-      transition-property: inset, left, opacity;
+      transition-property: inset-block-start, left, opacity, display;
+      transition-behavior: allow-discrete;
       opacity: 0;
       box-shadow: $floating-ui-shadow;
       @apply rounded z-default;
@@ -41,6 +73,10 @@ $floating-ui-transition-offset: 5px;
       inset-block-start: 0;
       /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
       left: 0;
+
+      @starting-style {
+        opacity: 0;
+      }
     }
   }
 }
@@ -54,6 +90,13 @@ $floating-ui-transition-offset: 5px;
   /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
   z-index: var(--calcite-floating-ui-z-index);
+
+  @starting-style {
+    opacity: 0;
+    inset-block-start: 0;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: 0;
+  }
 }
 
 @mixin floating-ui-arrow {
