@@ -199,7 +199,7 @@ describe("getSupportedLocale", () => {
 
   it("falls back to `en` if the language tag or language + region tag isn't supported", () => {
     assertAllContexts("zz", "en");
-    /* eslint-disable no-console -- assert on logger instead */
+    /* eslint-disable no-console -- assert on logger when converted to browser mode test */
     expect(console.warn).toHaveBeenCalledTimes(1);
 
     assertAllContexts("zz-ZZ", "en");

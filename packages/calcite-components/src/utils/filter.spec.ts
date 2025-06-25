@@ -7,7 +7,7 @@ describe("filter function", () => {
 
   it("warns and returns empty array for empty data", () => {
     const result = filter([], "test");
-    /* eslint-disable no-console -- assert on logger instead */
+    /* eslint-disable no-console -- assert on logger when converted to browser mode test */
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(result).toEqual([]);
     /* eslint-enable no-console */

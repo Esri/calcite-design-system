@@ -773,7 +773,7 @@ describe("calcite-popover", () => {
       );
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -788,7 +788,7 @@ describe("calcite-popover", () => {
       await popover.callMethod("remove");
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -797,7 +797,7 @@ describe("calcite-popover", () => {
       await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );

@@ -1356,7 +1356,7 @@ describe("calcite-tooltip", () => {
       );
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -1371,7 +1371,7 @@ describe("calcite-tooltip", () => {
       await tooltip.callMethod("remove");
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -1380,7 +1380,7 @@ describe("calcite-tooltip", () => {
       await page.setContent(`<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>`);
       await page.waitForChanges();
 
-      // eslint-disable-next-line no-console -- assert on logger instead
+      // eslint-disable-next-line no-console -- assert on logger when converted to browser mode test
       expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
