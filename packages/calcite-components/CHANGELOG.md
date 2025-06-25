@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.20...@esri/calcite-components@3.3.0-next.21) (2025-06-25)
+
+### Bug Fixes
+
+- ensure initial transitions are applied consistently ([#12392](https://github.com/Esri/calcite-design-system/issues/12392)) ([c1572d8](https://github.com/Esri/calcite-design-system/commit/c1572d8f0da0e556d53d0f46fddee6a339a24fdd)), closes [#12399](https://github.com/Esri/calcite-design-system/issues/12399) [#10227](https://github.com/Esri/calcite-design-system/issues/10227)
+
 ## [3.3.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.19...@esri/calcite-components@3.3.0-next.20) (2025-06-24)
 
 ### Bug Fixes
