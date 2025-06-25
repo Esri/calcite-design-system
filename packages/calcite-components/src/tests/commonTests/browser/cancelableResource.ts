@@ -1,7 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { mockConsole } from "../../../tests/utils/logging";
-import { ComponentTag, CancelableResourceComponent } from "../interfaces";
+import { ComponentTag } from "../interfaces";
 
 /**
  * Helper for testing cancelable behavior in components (debounced or throttled).
@@ -39,6 +39,17 @@ export function cancelable(componentTag: ComponentTag): void {
       expect(resources.size).toBe(0);
     });
   });
+}
+
+interface CancelableResource {
+  cancel: () => void;
+}
+
+interface CancelableResourceComponent {
+  cancelableResource: {
+    add: (resourcesToAdd: CancelableResource | CancelableResource[]) => void;
+    resources: Set<CancelableResource>;
+  };
 }
 
 function hasCancelableResourceController(component: unknown): component is CancelableResourceComponent {

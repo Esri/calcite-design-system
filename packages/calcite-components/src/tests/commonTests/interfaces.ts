@@ -51,14 +51,3 @@ export interface DisabledOptions {
    */
   shadowAriaAttributeTargetSelector?: string;
 }
-
-export interface CancelableResource {
-  cancel: () => void;
-}
-
-export interface CancelableResourceComponent {
-  cancelableResource: {
-    add: (resourcesToAdd: CancelableResource | CancelableResource[]) => void;
-    resources: Set<CancelableResource>;
-  };
-}
