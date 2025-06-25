@@ -24,7 +24,7 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
@@ -218,7 +218,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   // #region Private Methods
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.reposition(true);
   }
 

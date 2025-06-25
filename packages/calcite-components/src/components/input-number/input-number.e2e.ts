@@ -1882,7 +1882,7 @@ describe("calcite-input-number", () => {
     t9n("calcite-input-number");
   });
 
-  it.skip("should stop increasing the value when pointer is moved away from the increment button", async () => {
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-number></calcite-input-number>");
     const inputNumber = await page.find("calcite-input-number");

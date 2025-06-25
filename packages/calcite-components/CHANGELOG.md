@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.19...@esri/calcite-components@3.3.0-next.20) (2025-06-24)
+
+### Bug Fixes
+
+- **input-time-zone:** fix selected time zone label flicker and scroll delay for region mode ([#12384](https://github.com/Esri/calcite-design-system/issues/12384)) ([914161e](https://github.com/Esri/calcite-design-system/commit/914161e83c4968ad1201694140b21abfed61af37)), closes [#12375](https://github.com/Esri/calcite-design-system/issues/12375) [#10980](https://github.com/Esri/calcite-design-system/issues/10980) [#11965](https://github.com/Esri/calcite-design-system/issues/11965)
+
+## [3.3.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.18...@esri/calcite-components@3.3.0-next.19) (2025-06-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** stretch the height of slot container to match with component ([#12339](https://github.com/Esri/calcite-design-system/issues/12339)) ([6a6e2c8](https://github.com/Esri/calcite-design-system/commit/6a6e2c806d7ba40c2e58ec618a46783aef057e2c)), closes [#7411](https://github.com/Esri/calcite-design-system/issues/7411)
+
+## [3.3.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.17...@esri/calcite-components@3.3.0-next.18) (2025-06-18)
+
+### Bug Fixes
+
+- **input-date-picker:** no longer close when non-interactive areas are clicked in Safari ([#12139](https://github.com/Esri/calcite-design-system/issues/12139)) ([f3f1071](https://github.com/Esri/calcite-design-system/commit/f3f107157a67c5154115963cfc7977a82d26fa20)), closes [#11955](https://github.com/Esri/calcite-design-system/issues/11955)
+
+## [3.3.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.16...@esri/calcite-components@3.3.0-next.17) (2025-06-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.15...@esri/calcite-components@3.3.0-next.16) (2025-06-17)
+
+### Bug Fixes
+
+- **tokens:** restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([8bc246f](https://github.com/Esri/calcite-design-system/commit/8bc246fa5085fec8d0a009631c8ed653f53a7136)), closes [#11713](https://github.com/Esri/calcite-design-system/issues/11713) [#11711](https://github.com/Esri/calcite-design-system/issues/11711)
+
+## [3.3.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.14...@esri/calcite-components@3.3.0-next.15) (2025-06-13)
+
+### Bug Fixes
+
+- **chip:** adjust interactivity states enhancements ([#12329](https://github.com/Esri/calcite-design-system/issues/12329)) ([ddb9bc8](https://github.com/Esri/calcite-design-system/commit/ddb9bc89f86622a2daf4d6c8e1e4178fc7805c8e)), closes [#12286](https://github.com/Esri/calcite-design-system/issues/12286)
+
+## [3.3.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.13...@esri/calcite-components@3.3.0-next.14) (2025-06-13)
+
+### Bug Fixes
+
+- **input-time-zone:** address code review comments ([#12293](https://github.com/Esri/calcite-design-system/issues/12293)) ([88525bb](https://github.com/Esri/calcite-design-system/commit/88525bb12c002b598a58992d7dc16dfed7daa64d)), closes [#10980](https://github.com/Esri/calcite-design-system/issues/10980)
+
+## [3.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.12...@esri/calcite-components@3.3.0-next.13) (2025-06-10)
+
+### Bug Fixes
+
+- **input-time-picker:** apply aria-label and aria-controls attributes correctly to support NVDA and JAWS ([#12312](https://github.com/Esri/calcite-design-system/issues/12312)) ([45bbfc9](https://github.com/Esri/calcite-design-system/commit/45bbfc9ba51a4c3b77981da6e0f6cd272ba11756)), closes [#12153](https://github.com/Esri/calcite-design-system/issues/12153)
+
 ## [3.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.11...@esri/calcite-components@3.3.0-next.12) (2025-06-10)
 
 ### Bug Fixes

@@ -9814,5 +9814,25 @@
     "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
     "category": "Text",
     "release": "4.2.1"
+  },
+  "image-navigation": {
+    "alias": ["4.3.0", "generic", "gps", "image", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "sequential-navigation": {
+    "alias": ["4.3.0", "generic", "sequence", "gps", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "directional-navigation": {
+    "alias": ["4.3.0", "generic", "direction", "gps", "location", "instructions"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "content-side-by-side-right": {
+    "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
+    "category": "Windows",
+    "release": "4.3.0"
   }
 }

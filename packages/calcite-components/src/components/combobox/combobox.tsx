@@ -46,7 +46,7 @@ import {
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
@@ -315,7 +315,7 @@ export class Combobox
     }
   }
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`). */
   @property() filterProps: string[];
 
   /**
@@ -659,7 +659,7 @@ export class Combobox
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;

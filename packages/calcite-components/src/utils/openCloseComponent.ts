@@ -44,17 +44,19 @@ function isOpen(component: OpenCloseComponent): boolean {
  * Note: this should be called whenever the component's toggling property changes and would trigger a transition.
  *
  * @example
- * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+ * import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
  *
  * override willUpdate(changes: PropertyValues<this>): void {
  *   if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
- *     onToggleOpenCloseComponent(this);
+ *     toggleOpenClose(this);
  *   }
  *   // ...
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
-export async function onToggleOpenCloseComponent(component: OpenCloseComponent): Promise<void> {
+export async function toggleOpenClose(component: OpenCloseComponent): Promise<void> {
+  await component.updateComplete;
+
   if (isOpen(component)) {
     component.onBeforeOpen();
   } else {
