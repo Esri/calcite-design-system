@@ -1,12 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
-
-/**
- * Interface for cancelable resources.
- */
-export interface CancelableResource {
-  cancel: () => void;
-}
+import { CancelableResource } from "../tests/commonTests/interfaces";
 
 /**
  * Interface for the CancelableResourceController.
@@ -18,6 +12,11 @@ export interface UseCancelableResource {
    * @param resource - Resource with a `cancel` method.
    */
   add: (resource: CancelableResource | CancelableResource[]) => void;
+
+  /**
+   * A set of all cancelable resources managed by the controller.
+   */
+  resources: Set<CancelableResource>;
 }
 
 /**
@@ -47,6 +46,7 @@ export const useCancelableResource = <T extends LitElement>(): ReturnType<
         const resourceArray = Array.isArray(resourceOrResources) ? resourceOrResources : [resourceOrResources];
         resourceArray.forEach((resource) => resources.add(resource));
       },
+      resources,
     };
 
     return utils;

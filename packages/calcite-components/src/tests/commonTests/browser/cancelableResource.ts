@@ -1,7 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { mockConsole } from "../../../tests/utils/logging";
-import { ComponentTag } from "../interfaces";
+import { ComponentTag, CancelableResourceComponent } from "../interfaces";
 
 /**
  * Helper for testing cancelable behavior in components (debounced or throttled).
@@ -17,26 +17,34 @@ export function cancelable(componentTag: ComponentTag): void {
   describe(`cancelable behavior`, () => {
     mockConsole("warn");
 
-    it(`should cancel all added cancelable methods on disconnect`, async () => {
+    it(`should cancel all resources added by the component during connectedCallback on disconnect`, async () => {
       const { component, el } = await mount<typeof componentTag>(componentTag);
 
-      const addSpy = vi.spyOn(component.cancelableResource, "add");
+      if (!hasCancelableResourceController(component)) {
+        throw new Error("Component does not have a cancelableResource");
+      }
 
-      const mockResource1 = { cancel: vi.fn() };
-      const mockResource2 = { cancel: vi.fn() };
+      const { resources } = component.cancelableResource;
 
-      component.cancelableResource.add([mockResource1, mockResource2]);
+      expect(resources.size).toBeGreaterThan(0);
 
-      expect(addSpy).toHaveBeenCalledTimes(1);
-      expect(addSpy).toHaveBeenCalledWith([mockResource1, mockResource2]);
-
-      const cancelSpies = [mockResource1, mockResource2].map((resource) => vi.spyOn(resource, "cancel"));
+      const cancelSpies = Array.from(resources).map((resource) => vi.spyOn(resource, "cancel"));
 
       el.remove();
 
       cancelSpies.forEach((cancelSpy) => {
         expect(cancelSpy).toHaveBeenCalledTimes(1);
       });
+
+      expect(resources.size).toBe(0);
     });
   });
+}
+
+function hasCancelableResourceController(component: unknown): component is CancelableResourceComponent {
+  return (
+    "cancelableResource" in component &&
+    typeof (component as CancelableResourceComponent).cancelableResource.add === "function" &&
+    (component as CancelableResourceComponent).cancelableResource.resources instanceof Set
+  );
 }
