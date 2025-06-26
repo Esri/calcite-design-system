@@ -92,7 +92,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   sortable: Sortable;
 
-  private cancelableResource = useCancelable<this>()(this);
+  private cancelable = useCancelable<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();
@@ -426,7 +426,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
-    this.cancelableResource.add(this.updateListItems);
+    this.cancelable.add(this.updateListItems);
   }
 
   async load(): Promise<void> {

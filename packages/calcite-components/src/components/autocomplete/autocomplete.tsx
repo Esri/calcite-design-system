@@ -135,7 +135,7 @@ export class Autocomplete
     this.setFloatingElSize();
   });
 
-  private cancelableResource = useCancelable<this>()(this);
+  private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
@@ -436,7 +436,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
-    this.cancelableResource.add(this.getAllItemsDebounced);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {

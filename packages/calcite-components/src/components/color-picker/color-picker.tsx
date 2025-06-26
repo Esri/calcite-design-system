@@ -141,7 +141,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     );
   };
 
-  private cancelableResource = useCancelable<this>()(this);
+  private cancelable = useCancelable<this>()(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
@@ -405,7 +405,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
-    this.cancelableResource.add([this.drawColorControls, this.resizeCanvas]);
+    this.cancelable.add([this.drawColorControls, this.resizeCanvas]);
   }
 
   async load(): Promise<void> {

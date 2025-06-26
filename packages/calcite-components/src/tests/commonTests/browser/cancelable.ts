@@ -20,11 +20,11 @@ export function cancelable(componentTag: ComponentTag): void {
     it(`should cancel all resources added by the component during connectedCallback on disconnect`, async () => {
       const { component, el } = await mount<typeof componentTag>(componentTag);
 
-      if (!hasCancelableResourceController(component)) {
-        throw new Error("Component does not have a cancelableResource");
+      if (!hasCancelableController(component)) {
+        throw new Error("Component does not have a cancelable");
       }
 
-      const { resources } = component.cancelableResource;
+      const { resources } = component.cancelable;
 
       expect(resources.size).toBeGreaterThan(0);
 
@@ -41,21 +41,21 @@ export function cancelable(componentTag: ComponentTag): void {
   });
 }
 
-interface CancelableResource {
+interface Cancelable {
   cancel: () => void;
 }
 
-interface CancelableResourceComponent {
-  cancelableResource: {
-    add: (resourcesToAdd: CancelableResource | CancelableResource[]) => void;
-    resources: Set<CancelableResource>;
+interface CancelableComponent {
+  cancelable: {
+    add: (resourcesToAdd: Cancelable | Cancelable[]) => void;
+    resources: Set<Cancelable>;
   };
 }
 
-function hasCancelableResourceController(component: unknown): component is CancelableResourceComponent {
+function hasCancelableController(component: unknown): component is CancelableComponent {
   return (
-    "cancelableResource" in component &&
-    typeof (component as CancelableResourceComponent).cancelableResource.add === "function" &&
-    (component as CancelableResourceComponent).cancelableResource.resources instanceof Set
+    "cancelable" in component &&
+    typeof (component as CancelableComponent).cancelable.add === "function" &&
+    (component as CancelableComponent).cancelable.resources instanceof Set
   );
 }

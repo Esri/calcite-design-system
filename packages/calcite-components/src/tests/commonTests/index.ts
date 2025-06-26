@@ -1,6 +1,5 @@
 export { accessible } from "./accessible";
 export { defaults } from "./defaults";
-export { cancelableResource } from "./browser/cancelableResource";
 export { openClose } from "./openClose";
 export { reflects } from "./reflects";
 export { renders } from "./renders";

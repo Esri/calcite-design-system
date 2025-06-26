@@ -36,7 +36,7 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private cancelableResource = useCancelable<this>()(this);
+  private cancelable = useCancelable<this>()(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
@@ -149,7 +149,7 @@ export class Filter extends LitElement implements InteractiveComponent {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.cancelableResource.add(this.filterDebounced);
+    this.cancelable.add(this.filterDebounced);
   }
 
   async load(): Promise<void> {

@@ -113,7 +113,7 @@ export class Combobox
 
   defaultValue: Combobox["value"];
 
-  private cancelableResource = useCancelable<this>()(this);
+  private cancelable = useCancelable<this>()(this);
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
@@ -569,7 +569,7 @@ export class Combobox
 
     this.setFilteredPlacements();
     connectFloatingUI(this);
-    this.cancelableResource.add(this.filterItems);
+    this.cancelable.add(this.filterItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

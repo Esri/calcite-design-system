@@ -3,7 +3,7 @@ import { LitElement } from "@arcgis/lumina";
 import { Cancelable } from "../tests/commonTests/interfaces";
 
 /**
- * Interface for the CancelableController.
+ * Interface for the Cancelable Controller.
  */
 export interface useCancelable {
   /**
