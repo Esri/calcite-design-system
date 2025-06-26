@@ -21,7 +21,7 @@
  * @prop --calcite-table-selection-chip-shadow: Specifies the shadow of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-text-color: Specifies the text color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-background-color-selected: Specifies the background color of the component's `selectionMode` selection chip when Table Rows are selected.
- * @prop --calcite-table-selection-chip-selected-border-color: Specifies the border color of the component's `selectionMode` selection chip when Table Rows are selected.
+ * @prop --calcite-table-selection-chip-border-color-selected: Specifies the border color of the component's `selectionMode` selection chip when Table Rows are selected.
  * @prop --calcite-table-selection-chip-text-color-selected: Specifies the text color of the component's `selectionMode` selection chip when Table Rows are selected.
 
  * @prop --calcite-table-selection-out-of-view-chip-background-color: Specifies the background color of the component's `selectionMode` selection out of view chip.
@@ -155,7 +155,7 @@ table {
   --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color);
   &.selection-chip--active {
     --calcite-chip-background-color: var(--calcite-table-selection-chip-background-color-selected);
-    --calcite-chip-border-color: var(--calcite-table-selection-chip-background-color-selected);
+    --calcite-chip-border-color: var(--calcite-table-selection-chip-border-color-selected);
     --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color-selected);
   }
 }
