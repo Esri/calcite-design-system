@@ -97,7 +97,8 @@
           "value": "{core.size.default.14}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "md": {
@@ -312,7 +313,8 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-case"
           }
         },
         "uppercase": {
