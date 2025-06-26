@@ -18,6 +18,7 @@ export const inputTextTokens = {
   calciteInputTextBackgroundColor: "",
   calciteInputTextBorderColor: "",
   calciteInputTextCornerRadius: "",
+  calciteInputTextIconColor: "",
   calciteInputTextHeight: "",
   calciteInputTextPlaceholderTextColor: "",
   calciteInputTextTextColor: "",

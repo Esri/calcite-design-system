@@ -20,6 +20,7 @@
  * @prop --calcite-input-text-background-color: Specifies the component's background color.
  * @prop --calcite-input-text-border-color: Specifies the component's border color.
  * @prop --calcite-input-text-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-input-text-icon-color: Specifies the component's icon color.
  * @prop --calcite-input-text-placeholder-text-color: Specifies the component's `placeholder` text color.
  * @prop --calcite-input-text-text-color: Specifies the component's text color.
  * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
@@ -230,6 +231,7 @@ input:focus {
     absolute
     block
     z-default; // needed for firefox to display the icon properly
+  color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
 }
 
 // hide browser default clear

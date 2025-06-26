@@ -61,6 +61,7 @@
         --calcite-input-text-background-color: #ffffff;
         --calcite-input-text-border-color: #006400;
         --calcite-input-text-corner-radius: 8px;
+        --calcite-input-text-icon-color: brown;
         --calcite-input-text-placeholder-text-color: #808080;
         --calcite-input-text-text-color: #000080;
         --calcite-input-text-text-color-focus: #ff6347;
@@ -493,10 +494,13 @@
               suffix-text="Suffix"
               clearable
               value="Themed Input"
+              icon="layers"
             >
               <calcite-button icon-start="search" slot="action"></calcite-button
             ></calcite-input-text>
           </calcite-label>
+
+          <calcite-input icon="layers" type="text"></calcite-input>
         </div>
       </div>
     </demo-dom-swapper>

@@ -459,7 +459,7 @@ describe("calcite-input-text", () => {
 
   describe("with prefix & suffix", () => {
     const componentTokens: ComponentTestTokens = {
-      "--calcite-input-action-icon-color": {
+      "--calcite-input-text-icon-color": {
         shadowSelector: `.${CSS.inputIcon}`,
         targetProp: "color",
       },
