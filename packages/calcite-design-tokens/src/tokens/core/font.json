@@ -7,7 +7,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Monaco",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -15,7 +14,6 @@
           "value": "Avenir Next LT Pro",
           "type": "fontFamilies",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -23,7 +21,6 @@
           "value": "Avenir Next World",
           "type": "fontFamilies",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -32,7 +29,6 @@
           "type": "fontFamilies",
           "description": "Primary font family",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -41,7 +37,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Avenir Next",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -50,7 +45,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Monaco",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -59,7 +53,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Avenir Next",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -68,7 +61,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Monaco",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -76,7 +68,6 @@
           "value": "Monaco",
           "type": "fontFamilies",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -85,7 +76,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Monaco",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -94,7 +84,6 @@
           "type": "fontFamilies",
           "description": "Fallback for Avenir Next",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         }
@@ -105,7 +94,6 @@
           "type": "fontStyle",
           "description": "used in ratings",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         }
@@ -116,7 +104,6 @@
           "type": "fontWeights",
           "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -124,7 +111,6 @@
           "value": "Thin",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -133,7 +119,6 @@
           "type": "fontWeights",
           "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -141,7 +126,6 @@
           "value": "Regular",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -149,7 +133,6 @@
           "value": "Medium",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -157,7 +140,6 @@
           "value": "Medium Italic",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -165,7 +147,6 @@
           "value": "Demi",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -173,7 +154,6 @@
           "value": "Bold",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -182,7 +162,6 @@
           "type": "fontWeights",
           "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -191,7 +170,6 @@
           "type": "fontWeights",
           "description": "only for Avenir Next World (secondary font family)",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -199,7 +177,6 @@
           "value": "Heavy",
           "type": "fontWeights",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         }
@@ -210,7 +187,6 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -219,7 +195,6 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         }
@@ -230,7 +205,6 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -239,7 +213,6 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -248,7 +221,6 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         },
@@ -257,7 +229,6 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "tier": "core",
             "category": "font"
           }
         }
