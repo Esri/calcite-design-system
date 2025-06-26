@@ -6,6 +6,7 @@
           "value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
           "type": "fontFamilies",
           "attributes": {
+            "category": "font",
             "group": "family"
           },
           "description": "Primary font with fallbacks"
@@ -14,7 +15,8 @@
           "value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
           "type": "fontFamilies",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "family"
           },
           "description": "Font family for code with fallbacks"
         }
