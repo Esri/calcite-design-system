@@ -40,6 +40,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
+import { useValue } from "../../controllers/useValue";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -106,6 +107,8 @@ export class InputText
   private userChangedValue = false;
 
   private _value = "";
+
+  private valueController = useValue(this);
 
   /**
    * Made into a prop for testing purposes only
