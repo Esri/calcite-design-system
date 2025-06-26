@@ -1,6 +1,5 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { mockConsole } from "../../../tests/utils/logging";
 import { ComponentTag } from "../interfaces";
 
 /**
@@ -15,8 +14,6 @@ import { ComponentTag } from "../interfaces";
  */
 export function cancelable(componentTag: ComponentTag): void {
   describe(`cancelable behavior`, () => {
-    mockConsole("warn");
-
     it(`should cancel all resources added by the component during connectedCallback on disconnect`, async () => {
       const { component, el } = await mount<typeof componentTag>(componentTag);
 
