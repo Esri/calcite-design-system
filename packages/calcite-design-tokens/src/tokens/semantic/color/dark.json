@@ -24,7 +24,7 @@
           "value": "{core.color.neutral.blk-200}",
           "type": "color",
           "attributes": {
-            "group": "background",
+            "group": "foreground",
             "category": "color"
           }
         },
@@ -32,7 +32,7 @@
           "value": "{core.color.neutral.blk-210}",
           "type": "color",
           "attributes": {
-            "group": "background",
+            "group": "foreground",
             "category": "color"
           }
         },
@@ -40,7 +40,7 @@
           "value": "{core.color.neutral.blk-220}",
           "type": "color",
           "attributes": {
-            "group": "background",
+            "group": "foreground",
             "category": "color"
           }
         },
@@ -48,7 +48,7 @@
           "value": "{core.color.medium-saturation.blue.m-bb-090}",
           "type": "color",
           "attributes": {
-            "group": "background",
+            "group": "foreground",
             "category": "color"
           },
           "description": "deprecated, use --calcite-color-foreground-highlight instead"
@@ -57,7 +57,7 @@
           "value": "{core.color.medium-saturation.blue.m-bb-090}",
           "type": "color",
           "attributes": {
-            "group": "background",
+            "group": "foreground",
             "category": "color"
           }
         }
