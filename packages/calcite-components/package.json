@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.3.0-next.21",
+  "version": "3.3.0-next.22",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -93,8 +93,8 @@
   },
   "devDependencies": {
     "@arcgis/lumina-compiler": "^4.33.1",
-    "@esri/calcite-design-tokens": "3.2.0-next.3",
-    "@esri/calcite-tailwind-preset": "1.0.1-next.7",
+    "@esri/calcite-design-tokens": "3.2.0-next.4",
+    "@esri/calcite-tailwind-preset": "1.0.1-next.8",
     "@esri/eslint-plugin-calcite-components": "2.0.3-next.3",
     "@vitest/browser": "3.2.4",
     "playwright": "1.53.1",
