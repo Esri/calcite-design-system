@@ -1233,6 +1233,7 @@
     "sequential-navigation": 61770,
     "image-navigation": 61771,
     "directional-navigation": 61772,
-    "content-side-by-side-right": 61773
+    "content-side-by-side-right": 61773,
+    "location-label": 61774
   }
 }

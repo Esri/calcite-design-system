@@ -9834,5 +9834,10 @@
     "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
     "category": "Windows",
     "release": "4.3.0"
+  },
+  "location-label": {
+    "alias": ["4.3.0", "gis", "marker", "navigation", "map", "identify", "data"],
+    "category": "GIS",
+    "release": "4.3.0"
   }
 }
