@@ -28,11 +28,6 @@ $viewport-medium: 860px;
   --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
 
-.content-top[hidden],
-.content-bottom[hidden] {
-  @apply hidden;
-}
-
 .container {
   @apply text-color-2
     absolute
