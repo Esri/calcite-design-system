@@ -372,7 +372,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   //#endregion
 
-  //#region Methods
+  //#region Public Methods
 
   decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
