@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.3...@esri/calcite-design-tokens@3.2.0-next.4) (2025-06-26)
+
+### Bug Fixes
+
+- remove breakpoint tokens from semantic output ([#12397](https://github.com/Esri/calcite-design-system/issues/12397)) ([db421fb](https://github.com/Esri/calcite-design-system/commit/db421fb7fd47e704f2888ee6ba4b0be4e3ebf29b))
+
 ## [3.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.2...@esri/calcite-design-tokens@3.2.0-next.3) (2025-06-24)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
