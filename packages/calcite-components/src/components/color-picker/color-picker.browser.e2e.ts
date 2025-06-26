@@ -1,8 +1,8 @@
 import { describe } from "vitest";
-import { cancelable } from "../../tests/commonTests/browser/cancelableResource";
+import { cancelable } from "../../tests/commonTests/browser";
 
 describe("color-picker", () => {
-  describe("cancelable behavior", () => {
+  describe("cancelable", () => {
     cancelable("calcite-color-picker");
   });
 });

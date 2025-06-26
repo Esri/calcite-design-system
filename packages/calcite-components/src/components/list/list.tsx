@@ -31,7 +31,7 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -92,7 +92,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   sortable: Sortable;
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();

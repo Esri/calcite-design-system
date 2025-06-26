@@ -14,7 +14,7 @@ import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { Action } from "../action/action";
@@ -51,7 +51,7 @@ export class ActionBar extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;

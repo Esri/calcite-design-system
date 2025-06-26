@@ -7,7 +7,7 @@ import { ComponentTag } from "../interfaces";
  * Helper for testing cancelable behavior in components (debounced or throttled).
  *
  * @example
- * describe("cancelable behavior", () => {
+ * describe("cancelable", () => {
  *   cancelable("calcite-action-bar");
  * });
  *

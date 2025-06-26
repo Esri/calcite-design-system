@@ -12,7 +12,7 @@ import {
 import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -36,7 +36,7 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>

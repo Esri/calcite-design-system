@@ -39,6 +39,11 @@ export default tseslint.config(
               message:
                 "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
             },
+            {
+              group: ["tests/commonTests/browser/*"],
+              message:
+                "Import named functions from commonTests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+            },
           ],
         },
       ],

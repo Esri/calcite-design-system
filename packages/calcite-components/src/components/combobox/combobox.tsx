@@ -58,7 +58,7 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
@@ -113,7 +113,7 @@ export class Combobox
 
   defaultValue: Combobox["value"];
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>

@@ -47,7 +47,7 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
@@ -135,7 +135,7 @@ export class Autocomplete
     this.setFloatingElSize();
   });
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 

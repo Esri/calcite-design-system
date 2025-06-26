@@ -5,7 +5,7 @@ import { CancelableResource } from "../tests/commonTests/interfaces";
 /**
  * Interface for the CancelableResourceController.
  */
-export interface UseCancelableResource {
+export interface useCancelable {
   /**
    * Adds a cancelable resource to the controller.
    *
@@ -14,7 +14,9 @@ export interface UseCancelableResource {
   add: (resource: CancelableResource | CancelableResource[]) => void;
 
   /**
-   * A set of all cancelable resources managed by the controller.
+   * Made into a prop for testing purposes only
+   *
+   * @private
    */
   resources: Set<CancelableResource>;
 }
@@ -24,10 +26,8 @@ export interface UseCancelableResource {
  *
  * Note: resources will be canceled automatically when the component is disconnected.
  */
-export const useCancelableResource = <T extends LitElement>(): ReturnType<
-  typeof makeGenericController<UseCancelableResource, T>
-> => {
-  return makeGenericController<UseCancelableResource, T>((component, controller) => {
+export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGenericController<useCancelable, T>> => {
+  return makeGenericController<useCancelable, T>((component, controller) => {
     const args = { component, controller };
     const { controller: adaptedController } = args;
     const resources = new Set<CancelableResource>();
@@ -41,7 +41,7 @@ export const useCancelableResource = <T extends LitElement>(): ReturnType<
       cancelAll();
     });
 
-    const utils: UseCancelableResource = {
+    const utils: useCancelable = {
       add: (resourceOrResources) => {
         const resourceArray = Array.isArray(resourceOrResources) ? resourceOrResources : [resourceOrResources];
         resourceArray.forEach((resource) => resources.add(resource));

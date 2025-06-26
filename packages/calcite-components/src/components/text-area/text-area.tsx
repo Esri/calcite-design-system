@@ -35,7 +35,7 @@ import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -121,7 +121,7 @@ export class TextArea
     }
   });
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
   // throttle is used to avoid flashing of textarea when user resizes.

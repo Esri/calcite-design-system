@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement } from "@arcgis/lumina";
-import { useCancelableResource } from "./useCancelableResource";
+import { useCancelable } from "./useCancelable";
 
-describe("useCancelableResource", () => {
+describe("useCancelable", () => {
   class TestComponent extends LitElement {
-    private cancelableResource = useCancelableResource<this>()(this);
+    private cancelableResource = useCancelable<this>()(this);
 
     connectedCallback() {
       super.connectedCallback();

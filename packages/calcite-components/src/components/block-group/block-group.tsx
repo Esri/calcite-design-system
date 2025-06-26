@@ -21,7 +21,7 @@ import { Block } from "../block/block";
 import { focusFirstTabbable, getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
-import { useCancelableResource } from "../../controllers/useCancelableResource";
+import { useCancelable } from "../../controllers/useCancelable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -57,7 +57,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   sortable: Sortable;
 
-  private cancelableResource = useCancelableResource<this>()(this);
+  private cancelableResource = useCancelable<this>()(this);
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();

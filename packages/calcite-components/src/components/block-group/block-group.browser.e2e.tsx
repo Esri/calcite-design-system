@@ -1,8 +1,8 @@
 import { describe } from "vitest";
-import { cancelable } from "../../tests/commonTests/browser/cancelableResource";
+import { cancelable } from "../../tests/commonTests/browser";
 
 describe("block-group", () => {
-  describe("cancelable behavior", () => {
+  describe("cancelable", () => {
     cancelable("calcite-block-group");
   });
 });
