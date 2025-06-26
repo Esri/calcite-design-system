@@ -95,7 +95,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "transparent-inverse"
+              "group": "transparent",
+              "kind": "inverse"
             }
           },
           "press": {
@@ -103,7 +104,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "transparent-inverse"
+              "group": "transparent",
+              "kind": "inverse"
             }
           }
         },
@@ -167,7 +169,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-info"
+              "group": "status",
+              "kind": "info"
             }
           },
           "hover": {
@@ -175,7 +178,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-info"
+              "group": "status",
+              "kind": "info"
             }
           },
           "press": {
@@ -183,7 +187,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-info"
+              "group": "status",
+              "kind": "info"
             }
           }
         },
@@ -193,7 +198,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-success"
+              "group": "status",
+              "kind": "success"
             }
           },
           "hover": {
@@ -201,7 +207,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-success"
+              "group": "status",
+              "kind": "success"
             }
           },
           "press": {
@@ -209,7 +216,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-success"
+              "group": "status",
+              "kind": "success"
             }
           }
         },
@@ -219,7 +227,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-warning"
+              "group": "status",
+              "kind": "warning"
             }
           },
           "hover": {
@@ -227,7 +236,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-warning"
+              "group": "status",
+              "kind": "warning"
             }
           },
           "press": {
@@ -235,7 +245,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-warning"
+              "group": "status",
+              "kind": "warning"
             }
           }
         },
@@ -245,7 +256,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-danger"
+              "group": "status",
+              "kind": "danger"
             }
           },
           "hover": {
@@ -253,7 +265,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-danger"
+              "group": "status",
+              "kind": "danger"
             }
           },
           "press": {
@@ -261,7 +274,8 @@
             "type": "color",
             "attributes": {
               "category": "color",
-              "group": "status-danger"
+              "group": "status",
+              "kind": "danger"
             }
           }
         }
