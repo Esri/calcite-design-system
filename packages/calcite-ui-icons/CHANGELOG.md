@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.2...@esri/calcite-ui-icons@4.3.0-next.3) (2025-06-26)
+
+### Features
+
+- add location local ([#12406](https://github.com/Esri/calcite-design-system/issues/12406)) ([c2e6d29](https://github.com/Esri/calcite-design-system/commit/c2e6d298a92e2911a8fdab92fe04181d81387d88))
+
 ## [4.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.1...@esri/calcite-ui-icons@4.3.0-next.2) (2025-06-17)
 
 ### Features

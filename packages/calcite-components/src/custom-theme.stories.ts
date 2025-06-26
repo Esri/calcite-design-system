@@ -41,7 +41,14 @@ import {
   inputNumberReadOnlyWithPrefixSuffix,
   inputNumberTokens,
 } from "./custom-theme/input-number";
-import { inputText } from "./custom-theme/input-text";
+import {
+  inputText,
+  inputTextClearable,
+  inputTextLoading,
+  inputTextReadOnly,
+  inputTextTokens,
+  inputTextWithSuffixAndPrefix,
+} from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
@@ -157,8 +164,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputText} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
-        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly}
+        ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
+        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
+        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -244,6 +252,7 @@ const componentTokens = {
   ...inputNumberTokens,
   ...graphTokens,
   ...inputTokens,
+  ...inputTextTokens,
   ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
