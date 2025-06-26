@@ -6,6 +6,7 @@
           "value": "{core.size.default.none}",
           "type": "borderWidth",
           "attributes": {
+            "group": "width",
             "category": "border"
           }
         },
@@ -13,6 +14,7 @@
           "value": "{core.size.default.1}",
           "type": "borderWidth",
           "attributes": {
+            "group": "width",
             "category": "border"
           }
         },
@@ -20,6 +22,7 @@
           "value": "{core.size.default.2}",
           "type": "borderWidth",
           "attributes": {
+            "group": "width",
             "category": "border"
           }
         },
@@ -27,6 +30,7 @@
           "value": "{core.size.default.4}",
           "type": "borderWidth",
           "attributes": {
+            "group": "width",
             "category": "border"
           }
         }

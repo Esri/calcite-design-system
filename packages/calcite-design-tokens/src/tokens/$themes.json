@@ -54,7 +54,8 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/light": "enabled"
+      "semantic/color/light": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "$figmaVariableReferences": {
       "semantic.color.background.default": "4b2bc0bcbada4c05370b293f7b531661fa45565e",
@@ -166,7 +167,8 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/dark": "enabled"
+      "semantic/color/dark": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "$figmaVariableReferences": {
       "semantic.color.background.default": "4b2bc0bcbada4c05370b293f7b531661fa45565e",
@@ -696,7 +698,8 @@
       "core/color": "enabled",
       "core/container-size": "enabled",
       "core/opacity": "enabled",
-      "core/size": "enabled"
+      "core/size": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "$figmaVariableReferences": {
       "core.color.neutral.blk-000": "b74f097deb63cbc33a2fa2f1d6bb89d148e4d42f",
@@ -1237,7 +1240,8 @@
       "core/size": "source",
       "semantic/container-size": "enabled",
       "semantic/size": "enabled",
-      "semantic/space": "enabled"
+      "semantic/space": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "group": "size",
     "$figmaVariableReferences": {
@@ -1308,7 +1312,8 @@
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
       "core/size": "source",
-      "semantic/border": "enabled"
+      "semantic/border": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "group": "border",
     "$figmaVariableReferences": {
@@ -1326,7 +1331,8 @@
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
       "core/opacity": "source",
-      "semantic/opacity": "enabled"
+      "semantic/opacity": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "group": "opacity",
     "$figmaVariableReferences": {
@@ -1402,7 +1408,8 @@
     },
     "selectedTokenSets": {
       "semantic/font": "source",
-      "semantic/typography": "enabled"
+      "semantic/typography": "enabled",
+      "semantic/corner-radius": "disabled"
     },
     "group": "typography",
     "$figmaVariableReferences": {}
@@ -1419,7 +1426,8 @@
       "core/shadow": "source",
       "semantic/shadow": "enabled",
       "semantic/color/light": "source",
-      "semantic/color/dark": "source"
+      "semantic/color/dark": "source",
+      "semantic/corner-radius": "disabled"
     },
     "group": "shadow",
     "$figmaVariableReferences": {}
