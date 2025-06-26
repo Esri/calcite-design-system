@@ -70,7 +70,7 @@ export class TimePicker extends LitElement implements TimeComponent {
   /**
    * @internal
    */
-  @property() time: any = useTime(this);
+  @property() time: ReturnType<typeof useTime> = useTime(this);
 
   /**
    * Specifies the component's hour format, where:
