@@ -77,13 +77,18 @@ export class DatePicker extends LitElement {
 
   @state() private hoverRange: HoverRange;
 
-  @state() private localeData: DateLocaleData;
-
   @state() startAsDate: Date;
 
   //#endregion
 
   //#region Public Properties
+
+  /**
+   * The locale data used to provide localized month names and day names.
+   *
+   * @internal
+   */
+  @property() localeData: DateLocaleData;
 
   /** Specifies the component's active date. */
   @property() activeDate: Date;
@@ -199,8 +204,6 @@ export class DatePicker extends LitElement {
 
   async load(): Promise<void> {
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -298,7 +301,7 @@ export class DatePicker extends LitElement {
       useGrouping: false,
     };
 
-    this.localeData = await getLocaleData(this.messages._lang);
+    this.localeData ||= await getLocaleData(this.messages._lang);
     this.dateTimeFormat = getDateTimeFormat(this.messages._lang, DATE_PICKER_FORMAT_OPTIONS);
   }
 

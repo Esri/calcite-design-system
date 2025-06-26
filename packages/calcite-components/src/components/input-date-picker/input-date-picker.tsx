@@ -453,10 +453,7 @@ export class InputDatePicker
   }
 
   async load(): Promise<void> {
-    this.handleDateTimeFormatChange();
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -464,12 +461,11 @@ export class InputDatePicker
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false))
+    ) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
-    }
-
-    if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
-      this.handleDisabledAndReadOnlyChange(this.readOnly);
     }
 
     if (changes.has("valueAsDate")) {
@@ -507,7 +503,7 @@ export class InputDatePicker
       this.setReferenceEl();
     }
 
-    if (changes.has("messages")) {
+    if (changes.has("messages") && this.hasUpdated) {
       this.loadLocaleData();
     }
   }
@@ -1144,6 +1140,7 @@ export class InputDatePicker
                     activeRange={this.focusedInput}
                     headingLevel={this.headingLevel}
                     layout={this.layout}
+                    localeData={this.localeData}
                     max={this.max}
                     maxAsDate={this.maxAsDate}
                     messageOverrides={this.messageOverrides}
