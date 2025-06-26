@@ -49,7 +49,6 @@
         "value": "{core.size.relative.100}",
         "type": "borderRadius",
         "attributes": {
-          "element": "",
           "category": "corner-radius"
         }
       }

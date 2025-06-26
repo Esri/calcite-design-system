@@ -151,7 +151,8 @@
             "type": "lineHeights",
             "attributes": {
               "category": "font",
-              "group": "line-height-fixed"
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "base": {
@@ -159,7 +160,8 @@
             "type": "lineHeights",
             "attributes": {
               "category": "font",
-              "group": "line-height-fixed"
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "lg": {
@@ -167,7 +169,8 @@
             "type": "lineHeights",
             "attributes": {
               "category": "font",
-              "group": "line-height-fixed"
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "xl": {
@@ -175,7 +178,8 @@
             "type": "lineHeights",
             "attributes": {
               "category": "font",
-              "group": "line-height-fixed"
+              "group": "line-height",
+              "kind": "fixed"
             }
           }
         },
@@ -186,7 +190,8 @@
             "description": "1",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "tight": {
@@ -195,7 +200,8 @@
             "description": "1.25",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "snug": {
@@ -204,7 +210,8 @@
             "description": "1.375",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "normal": {
@@ -213,7 +220,8 @@
             "description": "1.5",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "relaxed": {
@@ -222,7 +230,8 @@
             "description": "1.625",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "loose": {
@@ -231,7 +240,8 @@
             "description": "2",
             "attributes": {
               "category": "font",
-              "group": "line-height-relative"
+              "group": "line-height",
+              "kind": "relative"
             }
           }
         }
