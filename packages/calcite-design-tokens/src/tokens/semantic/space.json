@@ -72,7 +72,6 @@
           "value": "{core.size.default.none}",
           "type": "spacing",
           "attributes": {
-            "pattern": "",
             "category": "space"
           }
         },
@@ -80,7 +79,6 @@
           "value": "{core.size.default.1}",
           "type": "spacing",
           "attributes": {
-            "pattern": "",
             "category": "space"
           }
         },
@@ -88,7 +86,6 @@
           "value": "{core.size.default.2}",
           "type": "spacing",
           "attributes": {
-            "pattern": "",
             "category": "space"
           }
         },
@@ -96,21 +93,21 @@
           "value": "{core.size.default.4}",
           "type": "dimension",
           "attributes": {
-            "category": "size"
+            "category": "space"
           }
         },
         "xs": {
           "value": "{core.size.default.6}",
           "type": "dimension",
           "attributes": {
-            "category": "size"
+            "category": "space"
           }
         },
         "sm": {
           "value": "{core.size.default.8}",
           "type": "dimension",
           "attributes": {
-            "category": "size"
+            "category": "space"
           }
         },
         "sm+": {
