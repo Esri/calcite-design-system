@@ -29,11 +29,9 @@ export interface useCancelable {
  */
 export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGenericController<useCancelable, T>> => {
   return makeGenericController<useCancelable, T>((component, controller) => {
-    const args = { component, controller };
-    const { controller: adaptedController } = args;
     const resources = new Set<Cancelable>();
 
-    adaptedController.onDisconnected(() => {
+    controller.onDisconnected(() => {
       resources.forEach((resource) => resource.cancel());
     });
 

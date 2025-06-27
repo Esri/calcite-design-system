@@ -36,15 +36,8 @@ export function cancelable(componentTag: ComponentTag): void {
   });
 }
 
-interface Cancelable {
-  cancel: () => void;
-}
-
 interface CancelableComponent {
-  cancelable: {
-    add: (resourcesToAdd: Cancelable | Cancelable[]) => void;
-    resources: Set<Cancelable>;
-  };
+  cancelable: UseCancelableResource;
 }
 
 function hasCancelableController(component: unknown): component is CancelableComponent {
