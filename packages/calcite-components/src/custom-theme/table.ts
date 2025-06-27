@@ -99,7 +99,7 @@ export const table = html`
       <calcite-table-cell alignment="center">
         <calcite-chip scale="s">Another thing</calcite-chip>
       </calcite-table-cell> </calcite-table-row
-    ><calcite-table-row>
+    ><calcite-table-row selected>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
@@ -121,7 +121,7 @@ export const table = html`
       <calcite-table-cell alignment="center">
         <calcite-chip scale="s">Another thing</calcite-chip>
       </calcite-table-cell> </calcite-table-row
-    ><calcite-table-row selected>
+    ><calcite-table-row>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
