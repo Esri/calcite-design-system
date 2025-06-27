@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ComponentTag } from "../interfaces";
 
 /**
- * Helper for testing cancelable behavior in components (debounced or throttled).
+ * Helper for testing cancelable behavior in components e.g., debounced or throttled methods.
  *
  * @example
  * describe("cancelable", () => {
