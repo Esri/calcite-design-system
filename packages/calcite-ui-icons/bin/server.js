@@ -1,41 +1,39 @@
 #!/usr/bin/env node
-const build = require("./build");
-const pathData = require("./path-data");
-const optimize = require("./optimize");
-const debounce = require("debounce");
-const { execSync } = require("child_process");
-const bs = require("browser-sync").create();
+import build from "./build.js";
+import pathData from "./path-data.js";
+import optimize from "./optimize.js";
+import debounce from "lodash-es/debounce.js";
+import { execSync } from "node:child_process";
+import { create } from "browser-sync";
+const bs = { create }.create();
 const options = {
-  awaitWriteFinish: true,
-  ignoreInitial: true,
+    awaitWriteFinish: true,
+    ignoreInitial: true,
 };
-
 console.log("🗜  optimizing icons... \n");
-
 build().then(() => {
-  bs.init({
-    server: "./docs",
-    notify: false,
-    ui: false,
-    port: 8080,
-  });
-  execSync("npm run build:fonts");
-  bs.watch("./icons/*.svg", options, onChange);
-  bs.watch("./docs/keywords.json", options, onChange);
-
-  function onChange(event, file) {
-    if (event === "add") {
-      console.log("🗜  new icon detected, optimizing... \n");
-      optimize(file, true).then(() => {});
-    } else {
-      update();
-    }
-  }
-
-  const update = debounce(function () {
-    pathData().then(() => {
-      console.log("✨  path file updated");
-      bs.reload();
+    bs.init({
+        server: "./docs",
+        notify: false,
+        ui: false,
+        port: 8080,
     });
-  }, 300);
+    execSync("npm run build:fonts");
+    bs.watch("./icons/*.svg", options, onChange);
+    bs.watch("./docs/keywords.json", options, onChange);
+    function onChange(event, file) {
+        if (event === "add") {
+            console.log("🗜  new icon detected, optimizing... \n");
+            optimize(file, true).then(() => { });
+        }
+        else {
+            update();
+        }
+    }
+    const update = debounce(function () {
+        pathData().then(() => {
+            console.log("✨  path file updated");
+            bs.reload();
+        });
+    }, 300);
 });
