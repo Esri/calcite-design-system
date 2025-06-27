@@ -64,7 +64,7 @@
         var filled = key.substring(key.length - 2);
         var isFilled = filled === "-f";
         var baseName = isFilled ? key.substring(0, key.length - 2) : key;
-        var baseURL = "https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/" + encodeURIComponent(baseName) + "-";
+        var baseURL = "https://raw.githubusercontent.com/Esri/calcite-design-system/main/packages/calcite-ui-icons/icons/" + encodeURIComponent(baseName) + "-";
         var suffix = ".svg";
         var tags = icon.alias
             .map(function (alias) {
