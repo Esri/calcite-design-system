@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 import { execSync } from "node:child_process";
-import { readdirSync, mkdirSync, rmSync, existsSync, lstatSync, symlinkSync, unlinkSync, readFileSync, writeFileSync } from "fs";
+import {
+  readdirSync,
+  mkdirSync,
+  rmSync,
+  existsSync,
+  lstatSync,
+  symlinkSync,
+  unlinkSync,
+  readFileSync,
+  writeFileSync,
+} from "fs";
 import { join, basename } from "node:path";
 import prettier from "@prettier/sync";
 const SCRIPT_DIR = import.meta.dirname;
@@ -10,49 +20,52 @@ const iconsDir = join(PACKAGE_ROOT, "icons");
 const sizes = [16, 24, 32];
 const ensureDir = (dir) => mkdirSync(dir, { recursive: true });
 const clearAndPrepareDirs = () => {
-    if (existsSync(fontsDir)) {
-        rmSync(fontsDir, { recursive: true, force: true });
-    }
-    sizes.forEach((size) => ensureDir(join(fontsDir, size.toString())));
+  if (existsSync(fontsDir)) {
+    rmSync(fontsDir, { recursive: true, force: true });
+  }
+  sizes.forEach((size) => ensureDir(join(fontsDir, size.toString())));
 };
-const filterIcons = () => readdirSync(iconsDir).filter((file) => {
+const filterIcons = () =>
+  readdirSync(iconsDir).filter((file) => {
     const filePath = join(iconsDir, file);
     return file.endsWith(".svg") && !readFileSync(filePath, "utf8").includes("opacity");
-});
+  });
 const createLinks = (icons) => {
-    icons.forEach((icon) => {
-        const src = join(iconsDir, icon);
-        const dest = join(fontsDir, basename(icon));
-        symlinkSync(src, dest);
-    });
+  icons.forEach((icon) => {
+    const src = join(iconsDir, icon);
+    const dest = join(fontsDir, basename(icon));
+    symlinkSync(src, dest);
+  });
 };
 const organizeIconsBySize = (size) => {
-    const sizeDir = join(fontsDir, size.toString());
-    readdirSync(fontsDir).forEach((file) => {
-        if (file.includes(`-${size}`)) {
-            const src = join(fontsDir, file);
-            const dest = join(sizeDir, file.replace(`-${size}`, ""));
-            if (lstatSync(src).isSymbolicLink()) {
-                if (existsSync(dest))
-                    unlinkSync(dest);
-                symlinkSync(src, dest);
-            }
+  const sizeDir = join(fontsDir, size.toString());
+  readdirSync(fontsDir).forEach((file) => {
+    if (file.includes(`-${size}`)) {
+      const src = join(fontsDir, file);
+      const dest = join(sizeDir, file.replace(`-${size}`, ""));
+      if (lstatSync(src).isSymbolicLink()) {
+        if (existsSync(dest)) {
+          unlinkSync(dest);
         }
-    });
+        symlinkSync(src, dest);
+      }
+    }
+  });
 };
-const generateFonts = (size) => execSync(`fantasticon fonts/icons/${size}/ -n calcite-ui-icons-${size} --normalize true -t ttf -g json -o fonts/`, {
+const generateFonts = (size) =>
+  execSync(`fantasticon fonts/icons/${size}/ -n calcite-ui-icons-${size} --normalize true -t ttf -g json -o fonts/`, {
     stdio: "inherit",
-});
+  });
 const updateConfig = () => {
-    const codepoints = JSON.parse(readFileSync(join(PACKAGE_ROOT, "fonts/calcite-ui-icons-16.json"), "utf8"));
-    const config = prettier.format(JSON.stringify({ codepoints }), { parser: "json" });
-    writeFileSync(join(PACKAGE_ROOT, "fantasticonrc.json"), config);
+  const codepoints = JSON.parse(readFileSync(join(PACKAGE_ROOT, "fonts/calcite-ui-icons-16.json"), "utf8"));
+  const config = prettier.format(JSON.stringify({ codepoints }), { parser: "json" });
+  writeFileSync(join(PACKAGE_ROOT, "fantasticonrc.json"), config);
 };
 const main = () => {
-    clearAndPrepareDirs();
-    createLinks(filterIcons());
-    sizes.forEach(organizeIconsBySize);
-    sizes.forEach(generateFonts);
-    updateConfig();
+  clearAndPrepareDirs();
+  createLinks(filterIcons());
+  sizes.forEach(organizeIconsBySize);
+  sizes.forEach(generateFonts);
+  updateConfig();
 };
 main();

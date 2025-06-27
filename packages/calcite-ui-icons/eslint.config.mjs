@@ -1,13 +1,15 @@
-import calciteCoreConfig from "@esri/eslint-config-calcite/core.js";
+// import calciteCoreConfig from "@esri/eslint-config-calcite/core.js";
 import tseslint from "typescript-eslint";
+import eslint from "@eslint/js";
 
 export default tseslint.config(
   {
-    ignores: ["**/js"],
+    ignores: ["**/js", "docs/resources/*"],
   },
 
   {
-    extends: [calciteCoreConfig],
+    files: ["**/*.js"],
+    extends: [eslint.configs.recommended, tseslint.configs.recommended],
 
     languageOptions: {
       parserOptions: {
