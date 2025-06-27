@@ -446,10 +446,6 @@
   }
 }
 
-.content[hidden] {
-  @apply hidden;
-}
-
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
 .content ::slotted(calcite-panel:not([closed])) {
