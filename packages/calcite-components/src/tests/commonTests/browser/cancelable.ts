@@ -32,8 +32,6 @@ export function cancelable(componentTag: ComponentTag): void {
       cancelSpies.forEach((cancelSpy) => {
         expect(cancelSpy).toHaveBeenCalledTimes(1);
       });
-
-      expect(resources.size).toBe(0);
     });
   });
 }

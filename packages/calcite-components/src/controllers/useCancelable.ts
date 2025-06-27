@@ -1,9 +1,10 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
+import type { Arrayable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
 import { Cancelable } from "../tests/commonTests/interfaces";
 
 /**
- * Interface for the Cancelable Controller.
+ * Interface for the CancelableController.
  */
 export interface useCancelable {
   /**
@@ -11,7 +12,7 @@ export interface useCancelable {
    *
    * @param resource - Resource with a `cancel` method.
    */
-  add: (resource: Cancelable | Cancelable[]) => void;
+  add: (resource: Arrayable<Cancelable>) => void;
 
   /**
    * Made into a prop for testing purposes only
@@ -32,19 +33,13 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
     const { controller: adaptedController } = args;
     const resources = new Set<Cancelable>();
 
-    const cancelAll = () => {
-      resources.forEach((resource) => resource.cancel());
-      resources.clear();
-    };
-
     adaptedController.onDisconnected(() => {
-      cancelAll();
+      resources.forEach((resource) => resource.cancel());
     });
 
     const utils: useCancelable = {
       add: (resourceOrResources) => {
-        const resourceArray = Array.isArray(resourceOrResources) ? resourceOrResources : [resourceOrResources];
-        resourceArray.forEach((resource) => resources.add(resource));
+        [resourceOrResources].flat().forEach((resource) => resources.add(resource));
       },
       resources,
     };

@@ -26,7 +26,5 @@ describe("useCancelable", () => {
     cancelSpies.forEach((cancelSpy) => {
       expect(cancelSpy).toHaveBeenCalledTimes(1);
     });
-
-    expect(component.cancelable.resources.size).toBe(0);
   });
 });
