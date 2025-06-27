@@ -55,6 +55,11 @@
     "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
+    "lint": "concurrently npm:lint:*",
+    "lint:html": "prettier --write \"**/*.html\" >/dev/null",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
