@@ -1,28 +1,7 @@
 import type { Config } from "tailwindcss";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
-
-/**
- * This helper inverts a value based on a boolean CSS prop flag
- *
- * When the flag is 0, it will not be inverted. When 1, it will invert it (multiplied by -1)
- *
- * @param {string} value - the CSS value to invert
- * @param {string} flagPropName - the boolean CSS prop (value must be 0 or 1)
- */
-function invert(value: string, flagPropName: string): string {
-  return `calc(
-            ${value} *
-            calc(
-              1 -
-              2 * clamp(
-                0,
-                var(${flagPropName}),
-                1
-              )
-            )
-          )`;
-}
+import { invert } from "./utils";
 
 // we omit content to work around https://github.com/tailwindlabs/tailwindcss/issues/11725 (fixed in v4, but not v3)
 const config: Omit<Config, "content"> = {
@@ -254,23 +233,26 @@ const config: Omit<Config, "content"> = {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
         },
         ".focus-outset-danger": {
-          outline: "2px solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
         },
         ".focus-inset-danger": {
-          outline: "2px solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
         },
         ".transition-default": {
           // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance

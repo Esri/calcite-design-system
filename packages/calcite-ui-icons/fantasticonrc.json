@@ -1232,6 +1232,8 @@
     "subheading-1-rtl": 61769,
     "sequential-navigation": 61770,
     "image-navigation": 61771,
-    "directional-navigation": 61772
+    "directional-navigation": 61772,
+    "content-side-by-side-right": 61773,
+    "location-label": 61774
   }
 }
