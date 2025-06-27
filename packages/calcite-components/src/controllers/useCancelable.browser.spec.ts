@@ -9,7 +9,8 @@ describe("useCancelable", () => {
 
     connectedCallback() {
       super.connectedCallback();
-      this.cancelable.add([{ cancel: vi.fn() }, { cancel: vi.fn() }, { cancel: vi.fn() }]);
+      this.cancelable.add({ cancel: vi.fn() });
+      this.cancelable.add([{ cancel: vi.fn() }, { cancel: vi.fn() }]);
     }
   }
 
