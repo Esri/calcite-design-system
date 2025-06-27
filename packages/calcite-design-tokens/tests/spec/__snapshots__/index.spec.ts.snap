@@ -18457,7 +18457,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent-inverse",
+        "group": "transparent",
+        "kind": "inverse",
         "type": "color",
         "item": "transparent",
         "subitem": "inverse",
@@ -18486,7 +18487,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent-inverse",
+        "group": "transparent",
+        "kind": "inverse",
         "type": "color",
         "item": "transparent",
         "subitem": "inverse",
@@ -18686,7 +18688,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-info",
+        "group": "status",
+        "kind": "info",
         "type": "color",
         "item": "status",
         "subitem": "info",
@@ -18715,7 +18718,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-info",
+        "group": "status",
+        "kind": "info",
         "type": "color",
         "item": "status",
         "subitem": "info",
@@ -18744,7 +18748,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-info",
+        "group": "status",
+        "kind": "info",
         "type": "color",
         "item": "status",
         "subitem": "info",
@@ -18773,7 +18778,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-success",
+        "group": "status",
+        "kind": "success",
         "type": "color",
         "item": "status",
         "subitem": "success",
@@ -18802,7 +18808,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-success",
+        "group": "status",
+        "kind": "success",
         "type": "color",
         "item": "status",
         "subitem": "success",
@@ -18831,7 +18838,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-success",
+        "group": "status",
+        "kind": "success",
         "type": "color",
         "item": "status",
         "subitem": "success",
@@ -18860,7 +18868,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-warning",
+        "group": "status",
+        "kind": "warning",
         "type": "color",
         "item": "status",
         "subitem": "warning",
@@ -18889,7 +18898,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-warning",
+        "group": "status",
+        "kind": "warning",
         "type": "color",
         "item": "status",
         "subitem": "warning",
@@ -18918,7 +18928,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-warning",
+        "group": "status",
+        "kind": "warning",
         "type": "color",
         "item": "status",
         "subitem": "warning",
@@ -18947,7 +18958,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-danger",
+        "group": "status",
+        "kind": "danger",
         "type": "color",
         "item": "status",
         "subitem": "danger",
@@ -18976,7 +18988,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-danger",
+        "group": "status",
+        "kind": "danger",
         "type": "color",
         "item": "status",
         "subitem": "danger",
@@ -19005,7 +19018,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "status-danger",
+        "group": "status",
+        "kind": "danger",
         "type": "color",
         "item": "status",
         "subitem": "danger",
@@ -20374,7 +20388,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "100%",
       "type": "dimension",
       "attributes": {
-        "element": "",
         "category": "corner-radius",
         "type": "corner-radius",
         "item": "pill",
@@ -20728,6 +20741,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "fontSize",
       "attributes": {
         "category": "font",
+        "group": "size",
         "type": "font",
         "item": "size",
         "subitem": "default",
@@ -20905,7 +20919,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -20934,7 +20949,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -20963,7 +20979,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -20992,7 +21009,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -21022,7 +21040,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "1",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21061,7 +21080,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "1.25",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21100,7 +21120,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "1.375",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21139,7 +21160,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "1.5",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21178,7 +21200,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "1.625",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21217,7 +21240,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "2",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -21484,6 +21508,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "Deprecated",
       "attributes": {
         "category": "font",
+        "group": "text-case",
         "type": "textCase",
         "item": "text-case",
         "subitem": "none",
@@ -22814,7 +22839,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -22842,7 +22866,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -22870,7 +22893,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -22898,7 +22920,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -22925,7 +22947,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -22952,7 +22974,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -23168,7 +23190,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "typography",
       "value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"letterSpacing\\":\\"0\\",\\"lineHeight\\":\\"16px\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "attributes": {
-        "category": "",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "default",
@@ -23212,7 +23234,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "light",
@@ -23257,7 +23279,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "light",
@@ -23302,7 +23324,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "light",
@@ -23347,7 +23369,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "light",
@@ -23392,7 +23414,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "light",
@@ -23437,7 +23459,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "regular",
@@ -23482,7 +23504,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "regular",
@@ -23510,7 +23532,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"letterSpacing\\":\\"0\\",\\"lineHeight\\":\\"16px\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "type": "typography",
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "regular",
@@ -23555,7 +23577,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "regular",
@@ -23600,7 +23622,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "regular",
@@ -23645,7 +23667,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "medium",
@@ -23690,7 +23712,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "medium",
@@ -23735,7 +23757,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "medium",
@@ -23780,7 +23802,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "medium",
@@ -23825,7 +23847,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "medium",
@@ -23870,7 +23892,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "bold",
@@ -23915,7 +23937,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "bold",
@@ -23960,7 +23982,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "bold",
@@ -24005,7 +24027,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "bold",
@@ -24050,7 +24072,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "default",
+        "category": "typography",
         "type": "typography",
         "item": "default",
         "subitem": "bold",
@@ -24095,7 +24117,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24140,7 +24162,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24185,7 +24207,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24230,7 +24252,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24275,7 +24297,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24320,7 +24342,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "light",
@@ -24365,7 +24387,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24410,7 +24432,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24455,7 +24477,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24500,7 +24522,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24545,7 +24567,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24590,7 +24612,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "regular",
@@ -24635,7 +24657,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24680,7 +24702,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24725,7 +24747,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24770,7 +24792,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24815,7 +24837,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24860,7 +24882,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "medium",
@@ -24905,7 +24927,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -24950,7 +24972,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -24995,7 +25017,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -25040,7 +25062,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -25085,7 +25107,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -25130,7 +25152,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         }
       },
       "attributes": {
-        "category": "wrap",
+        "category": "typography",
         "type": "typography",
         "item": "wrap",
         "subitem": "bold",
@@ -25158,7 +25180,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "display",
@@ -25186,7 +25208,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "display",
@@ -25214,7 +25236,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "heading",
@@ -25242,7 +25264,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "heading",
@@ -25270,7 +25292,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "heading",
@@ -25298,7 +25320,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "heading",
@@ -25326,7 +25348,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "heading",
@@ -25354,7 +25376,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"lineHeight\\":\\"1.375\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "body",
@@ -25382,7 +25404,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"letterSpacing\\":\\"0\\",\\"lineHeight\\":\\"16px\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "body",
@@ -25410,7 +25432,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"lineHeight\\":\\"12px\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "overline",
@@ -25437,7 +25459,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "type": "typography",
       "attributes": {
-        "category": "hierarchy",
+        "category": "typography",
         "type": "typography",
         "item": "hierarchy",
         "subitem": "caption",
@@ -26625,7 +26647,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "100%",
       "type": "dimension",
       "attributes": {
-        "element": "",
         "category": "corner-radius",
         "type": "corner-radius",
         "item": "pill",
@@ -26979,6 +27000,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "fontSize",
       "attributes": {
         "category": "font",
+        "group": "size",
         "type": "font",
         "item": "size",
         "subitem": "default",
@@ -27156,7 +27178,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -27185,7 +27208,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -27214,7 +27238,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -27243,7 +27268,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "lineHeight",
       "attributes": {
         "category": "font",
-        "group": "line-height-fixed",
+        "group": "line-height",
+        "kind": "fixed",
         "type": "font",
         "item": "line-height",
         "subitem": "fixed",
@@ -27273,7 +27299,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "1",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27312,7 +27339,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "1.25",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27351,7 +27379,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "1.375",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27390,7 +27419,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "1.5",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27429,7 +27459,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "1.625",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27468,7 +27499,8 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "2",
       "attributes": {
         "category": "font",
-        "group": "line-height-relative",
+        "group": "line-height",
+        "kind": "relative",
         "type": "lineHeight",
         "item": "line-height",
         "subitem": "relative",
@@ -27735,6 +27767,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "Deprecated",
       "attributes": {
         "category": "font",
+        "group": "text-case",
         "type": "textCase",
         "item": "text-case",
         "subitem": "none",
@@ -29065,7 +29098,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -29093,7 +29125,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -29121,7 +29152,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "pattern": "",
         "category": "space",
         "type": "spacing",
         "item": "default",
@@ -29149,7 +29179,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -29176,7 +29206,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -29203,7 +29233,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "size",
+        "category": "space",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -56125,7 +56155,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "transparent-inverse",
+              group: "transparent",
+              kind: "inverse",
               type: "color",
               item: "transparent",
               subitem: "inverse",
@@ -56150,7 +56181,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "transparent-inverse",
+                group: "transparent",
+                kind: "inverse",
               },
               key: "{semantic.color.transparent.inverse.hover}",
             },
@@ -56166,7 +56198,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "transparent-inverse",
+              group: "transparent",
+              kind: "inverse",
               type: "color",
               item: "transparent",
               subitem: "inverse",
@@ -56191,7 +56224,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "transparent-inverse",
+                group: "transparent",
+                kind: "inverse",
               },
               key: "{semantic.color.transparent.inverse.press}",
             },
@@ -56459,7 +56493,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-info",
+              group: "status",
+              kind: "info",
               type: "color",
               item: "status",
               subitem: "info",
@@ -56484,7 +56519,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-info",
+                group: "status",
+                kind: "info",
               },
               key: "{semantic.color.status.info.default}",
             },
@@ -56500,7 +56536,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-info",
+              group: "status",
+              kind: "info",
               type: "color",
               item: "status",
               subitem: "info",
@@ -56525,7 +56562,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-info",
+                group: "status",
+                kind: "info",
               },
               key: "{semantic.color.status.info.hover}",
             },
@@ -56541,7 +56579,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-info",
+              group: "status",
+              kind: "info",
               type: "color",
               item: "status",
               subitem: "info",
@@ -56566,7 +56605,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-info",
+                group: "status",
+                kind: "info",
               },
               key: "{semantic.color.status.info.press}",
             },
@@ -56584,7 +56624,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-success",
+              group: "status",
+              kind: "success",
               type: "color",
               item: "status",
               subitem: "success",
@@ -56609,7 +56650,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-success",
+                group: "status",
+                kind: "success",
               },
               key: "{semantic.color.status.success.default}",
             },
@@ -56625,7 +56667,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-success",
+              group: "status",
+              kind: "success",
               type: "color",
               item: "status",
               subitem: "success",
@@ -56650,7 +56693,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-success",
+                group: "status",
+                kind: "success",
               },
               key: "{semantic.color.status.success.hover}",
             },
@@ -56666,7 +56710,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-success",
+              group: "status",
+              kind: "success",
               type: "color",
               item: "status",
               subitem: "success",
@@ -56691,7 +56736,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-success",
+                group: "status",
+                kind: "success",
               },
               key: "{semantic.color.status.success.press}",
             },
@@ -56709,7 +56755,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-warning",
+              group: "status",
+              kind: "warning",
               type: "color",
               item: "status",
               subitem: "warning",
@@ -56734,7 +56781,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-warning",
+                group: "status",
+                kind: "warning",
               },
               key: "{semantic.color.status.warning.default}",
             },
@@ -56750,7 +56798,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-warning",
+              group: "status",
+              kind: "warning",
               type: "color",
               item: "status",
               subitem: "warning",
@@ -56775,7 +56824,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-warning",
+                group: "status",
+                kind: "warning",
               },
               key: "{semantic.color.status.warning.hover}",
             },
@@ -56791,7 +56841,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-warning",
+              group: "status",
+              kind: "warning",
               type: "color",
               item: "status",
               subitem: "warning",
@@ -56816,7 +56867,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-warning",
+                group: "status",
+                kind: "warning",
               },
               key: "{semantic.color.status.warning.press}",
             },
@@ -56834,7 +56886,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-danger",
+              group: "status",
+              kind: "danger",
               type: "color",
               item: "status",
               subitem: "danger",
@@ -56859,7 +56912,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-danger",
+                group: "status",
+                kind: "danger",
               },
               key: "{semantic.color.status.danger.default}",
             },
@@ -56875,7 +56929,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-danger",
+              group: "status",
+              kind: "danger",
               type: "color",
               item: "status",
               subitem: "danger",
@@ -56900,7 +56955,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-danger",
+                group: "status",
+                kind: "danger",
               },
               key: "{semantic.color.status.danger.hover}",
             },
@@ -56916,7 +56972,8 @@ export default {
             type: "color",
             attributes: {
               category: "color",
-              group: "status-danger",
+              group: "status",
+              kind: "danger",
               type: "color",
               item: "status",
               subitem: "danger",
@@ -56941,7 +56998,8 @@ export default {
               type: "color",
               attributes: {
                 category: "color",
-                group: "status-danger",
+                group: "status",
+                kind: "danger",
               },
               key: "{semantic.color.status.danger.press}",
             },
@@ -58807,7 +58865,6 @@ export default {
         value: "100%",
         type: "dimension",
         attributes: {
-          element: "",
           category: "corner-radius",
           type: "corner-radius",
           item: "pill",
@@ -58830,7 +58887,6 @@ export default {
           value: "{core.size.relative.100}",
           type: "dimension",
           attributes: {
-            element: "",
             category: "corner-radius",
           },
           key: "{semantic.corner-radius.pill}",
@@ -59287,6 +59343,7 @@ export default {
           type: "fontSize",
           attributes: {
             category: "font",
+            group: "size",
             type: "font",
             item: "size",
             subitem: "default",
@@ -59310,6 +59367,7 @@ export default {
             type: "fontSize",
             attributes: {
               category: "font",
+              group: "size",
             },
             key: "{semantic.font.size.default}",
           },
@@ -59523,7 +59581,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -59548,7 +59607,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.sm}",
             },
@@ -59561,7 +59621,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -59586,7 +59647,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.base}",
             },
@@ -59599,7 +59661,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -59624,7 +59687,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.lg}",
             },
@@ -59637,7 +59701,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -59662,7 +59727,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.xl}",
             },
@@ -59678,7 +59744,8 @@ export default {
             description: "1",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59712,7 +59779,8 @@ export default {
               description: "1",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.default}",
             },
@@ -59727,7 +59795,8 @@ export default {
             description: "1.25",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59761,7 +59830,8 @@ export default {
               description: "1.25",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.tight}",
             },
@@ -59776,7 +59846,8 @@ export default {
             description: "1.375",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59810,7 +59881,8 @@ export default {
               description: "1.375",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.snug}",
             },
@@ -59825,7 +59897,8 @@ export default {
             description: "1.5",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59859,7 +59932,8 @@ export default {
               description: "1.5",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.normal}",
             },
@@ -59874,7 +59948,8 @@ export default {
             description: "1.625",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59908,7 +59983,8 @@ export default {
               description: "1.625",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.relaxed}",
             },
@@ -59923,7 +59999,8 @@ export default {
             description: "2",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -59957,7 +60034,8 @@ export default {
               description: "2",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.loose}",
             },
@@ -60269,6 +60347,7 @@ export default {
           description: "Deprecated",
           attributes: {
             category: "font",
+            group: "text-case",
             type: "textCase",
             item: "text-case",
             subitem: "none",
@@ -60301,6 +60380,7 @@ export default {
             description: "Deprecated",
             attributes: {
               category: "font",
+              group: "text-case",
             },
             key: "{semantic.font.text-case.none}",
           },
@@ -62005,7 +62085,6 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -62029,7 +62108,6 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.none}",
@@ -62042,7 +62120,6 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -62066,7 +62143,6 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.px}",
@@ -62079,7 +62155,6 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -62103,7 +62178,6 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.base}",
@@ -62116,7 +62190,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -62139,7 +62213,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -62151,7 +62225,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -62174,7 +62248,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -62186,7 +62260,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -62209,7 +62283,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.sm}",
           },
@@ -62484,7 +62558,7 @@ export default {
             textDecoration: "none",
           },
           attributes: {
-            category: "",
+            category: "typography",
             type: "typography",
             item: "default",
             subitem: "default",
@@ -62516,7 +62590,7 @@ export default {
               textDecoration: "{semantic.font.text-decoration.none}",
             },
             attributes: {
-              category: "",
+              category: "typography",
             },
             key: "{semantic.typography.default.default}",
           },
@@ -62550,7 +62624,7 @@ export default {
               },
             },
             attributes: {
-              category: "",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "light",
@@ -62581,7 +62655,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "",
+                category: "typography",
               },
               key: "{semantic.typography.default.light.-3h}",
             },
@@ -62613,7 +62687,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "light",
@@ -62643,7 +62717,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.light.-2h}",
             },
@@ -62674,7 +62748,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "light",
@@ -62703,7 +62777,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.light.-1h}",
             },
@@ -62736,7 +62810,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "light",
@@ -62767,7 +62841,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.light.0h}",
             },
@@ -62800,7 +62874,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "light",
@@ -62831,7 +62905,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.light.1h}",
             },
@@ -62865,7 +62939,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "regular",
@@ -62895,7 +62969,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.regular.-3h}",
             },
@@ -62926,7 +63000,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "regular",
@@ -62955,7 +63029,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.regular.-2h}",
             },
@@ -62981,7 +63055,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "regular",
@@ -63005,7 +63079,7 @@ export default {
               value: "{semantic.typography.default.default}",
               type: "typography",
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.regular.-1h}",
             },
@@ -63037,7 +63111,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "regular",
@@ -63067,7 +63141,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.regular.0h}",
             },
@@ -63099,7 +63173,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "regular",
@@ -63129,7 +63203,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.regular.1h}",
             },
@@ -63164,7 +63238,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "medium",
@@ -63195,7 +63269,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.medium.-3h}",
             },
@@ -63227,7 +63301,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "medium",
@@ -63257,7 +63331,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.medium.-2h}",
             },
@@ -63288,7 +63362,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "medium",
@@ -63317,7 +63391,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.medium.-1h}",
             },
@@ -63350,7 +63424,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "medium",
@@ -63381,7 +63455,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.medium.0h}",
             },
@@ -63414,7 +63488,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "medium",
@@ -63445,7 +63519,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.medium.1h}",
             },
@@ -63480,7 +63554,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "bold",
@@ -63511,7 +63585,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.bold.-3h}",
             },
@@ -63543,7 +63617,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "bold",
@@ -63573,7 +63647,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.bold.-2h}",
             },
@@ -63604,7 +63678,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "bold",
@@ -63633,7 +63707,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.bold.-1h}",
             },
@@ -63666,7 +63740,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "bold",
@@ -63697,7 +63771,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.bold.0h}",
             },
@@ -63730,7 +63804,7 @@ export default {
               },
             },
             attributes: {
-              category: "default",
+              category: "typography",
               type: "typography",
               item: "default",
               subitem: "bold",
@@ -63761,7 +63835,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "default",
+                category: "typography",
               },
               key: "{semantic.typography.default.bold.1h}",
             },
@@ -63798,7 +63872,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -63829,7 +63903,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.0}",
             },
@@ -63862,7 +63936,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -63893,7 +63967,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.1}",
             },
@@ -63926,7 +64000,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -63957,7 +64031,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.2}",
             },
@@ -63990,7 +64064,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -64021,7 +64095,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.3}",
             },
@@ -64054,7 +64128,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -64085,7 +64159,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.-2}",
             },
@@ -64117,7 +64191,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "light",
@@ -64147,7 +64221,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.light.-1}",
             },
@@ -64181,7 +64255,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64211,7 +64285,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.0}",
             },
@@ -64243,7 +64317,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64273,7 +64347,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.1}",
             },
@@ -64305,7 +64379,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64335,7 +64409,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.2}",
             },
@@ -64367,7 +64441,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64397,7 +64471,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.3}",
             },
@@ -64429,7 +64503,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64459,7 +64533,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.-2}",
             },
@@ -64490,7 +64564,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "regular",
@@ -64519,7 +64593,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.regular.-1}",
             },
@@ -64554,7 +64628,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64585,7 +64659,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.0}",
             },
@@ -64618,7 +64692,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64649,7 +64723,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.1}",
             },
@@ -64682,7 +64756,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64713,7 +64787,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.2}",
             },
@@ -64746,7 +64820,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64777,7 +64851,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.3}",
             },
@@ -64810,7 +64884,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64841,7 +64915,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.-2}",
             },
@@ -64873,7 +64947,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "medium",
@@ -64903,7 +64977,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.medium.-1}",
             },
@@ -64938,7 +65012,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -64969,7 +65043,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.0}",
             },
@@ -65002,7 +65076,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -65033,7 +65107,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.1}",
             },
@@ -65066,7 +65140,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -65097,7 +65171,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.2}",
             },
@@ -65130,7 +65204,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -65161,7 +65235,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.3}",
             },
@@ -65194,7 +65268,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -65225,7 +65299,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.-2}",
             },
@@ -65257,7 +65331,7 @@ export default {
               },
             },
             attributes: {
-              category: "wrap",
+              category: "typography",
               type: "typography",
               item: "wrap",
               subitem: "bold",
@@ -65287,7 +65361,7 @@ export default {
                 "calcite.extends": "{semantic.typography.default.default}",
               },
               attributes: {
-                category: "wrap",
+                category: "typography",
               },
               key: "{semantic.typography.wrap.bold.-1}",
             },
@@ -65307,7 +65381,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "display",
@@ -65331,7 +65405,7 @@ export default {
               value: "{semantic.typography.wrap.bold.3}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.display.1}",
             },
@@ -65347,7 +65421,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "display",
@@ -65371,7 +65445,7 @@ export default {
               value: "{semantic.typography.wrap.bold.2}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.display.2}",
             },
@@ -65389,7 +65463,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "heading",
@@ -65413,7 +65487,7 @@ export default {
               value: "{semantic.typography.wrap.medium.3}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.heading.1}",
             },
@@ -65429,7 +65503,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "heading",
@@ -65453,7 +65527,7 @@ export default {
               value: "{semantic.typography.wrap.medium.2}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.heading.2}",
             },
@@ -65469,7 +65543,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "heading",
@@ -65493,7 +65567,7 @@ export default {
               value: "{semantic.typography.wrap.medium.1}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.heading.3}",
             },
@@ -65509,7 +65583,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "heading",
@@ -65533,7 +65607,7 @@ export default {
               value: "{semantic.typography.wrap.medium.0}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.heading.4}",
             },
@@ -65548,7 +65622,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "heading",
@@ -65572,7 +65646,7 @@ export default {
               value: "{semantic.typography.wrap.medium.-1}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.heading.5}",
             },
@@ -65588,7 +65662,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "body",
@@ -65612,7 +65686,7 @@ export default {
               value: "{semantic.typography.wrap.regular.-1}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.body.snug}",
             },
@@ -65638,7 +65712,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
               type: "typography",
               item: "hierarchy",
               subitem: "body",
@@ -65662,7 +65736,7 @@ export default {
               value: "{semantic.typography.default.default}",
               type: "typography",
               attributes: {
-                category: "hierarchy",
+                category: "typography",
               },
               key: "{semantic.typography.hierarchy.body.default}",
             },
@@ -65679,7 +65753,7 @@ export default {
           },
           type: "typography",
           attributes: {
-            category: "hierarchy",
+            category: "typography",
             type: "typography",
             item: "hierarchy",
             subitem: "overline",
@@ -65706,7 +65780,7 @@ export default {
             },
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
             },
             key: "{semantic.typography.hierarchy.overline}",
           },
@@ -65721,7 +65795,7 @@ export default {
           },
           type: "typography",
           attributes: {
-            category: "hierarchy",
+            category: "typography",
             type: "typography",
             item: "hierarchy",
             subitem: "caption",
@@ -65744,7 +65818,7 @@ export default {
             value: "{semantic.typography.wrap.regular.-2}",
             type: "typography",
             attributes: {
-              category: "hierarchy",
+              category: "typography",
             },
             key: "{semantic.typography.hierarchy.caption}",
           },
@@ -67685,7 +67759,6 @@ export default {
         value: "100%",
         type: "dimension",
         attributes: {
-          element: "",
           category: "corner-radius",
           type: "corner-radius",
           item: "pill",
@@ -67708,7 +67781,6 @@ export default {
           value: "{core.size.relative.100}",
           type: "dimension",
           attributes: {
-            element: "",
             category: "corner-radius",
           },
           key: "{semantic.corner-radius.pill}",
@@ -68165,6 +68237,7 @@ export default {
           type: "fontSize",
           attributes: {
             category: "font",
+            group: "size",
             type: "font",
             item: "size",
             subitem: "default",
@@ -68188,6 +68261,7 @@ export default {
             type: "fontSize",
             attributes: {
               category: "font",
+              group: "size",
             },
             key: "{semantic.font.size.default}",
           },
@@ -68401,7 +68475,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -68426,7 +68501,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.sm}",
             },
@@ -68439,7 +68515,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -68464,7 +68541,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.base}",
             },
@@ -68477,7 +68555,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -68502,7 +68581,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.lg}",
             },
@@ -68515,7 +68595,8 @@ export default {
             type: "lineHeight",
             attributes: {
               category: "font",
-              group: "line-height-fixed",
+              group: "line-height",
+              kind: "fixed",
               type: "font",
               item: "line-height",
               subitem: "fixed",
@@ -68540,7 +68621,8 @@ export default {
               type: "lineHeight",
               attributes: {
                 category: "font",
-                group: "line-height-fixed",
+                group: "line-height",
+                kind: "fixed",
               },
               key: "{semantic.font.line-height.fixed.xl}",
             },
@@ -68556,7 +68638,8 @@ export default {
             description: "1",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68590,7 +68673,8 @@ export default {
               description: "1",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.default}",
             },
@@ -68605,7 +68689,8 @@ export default {
             description: "1.25",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68639,7 +68724,8 @@ export default {
               description: "1.25",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.tight}",
             },
@@ -68654,7 +68740,8 @@ export default {
             description: "1.375",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68688,7 +68775,8 @@ export default {
               description: "1.375",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.snug}",
             },
@@ -68703,7 +68791,8 @@ export default {
             description: "1.5",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68737,7 +68826,8 @@ export default {
               description: "1.5",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.normal}",
             },
@@ -68752,7 +68842,8 @@ export default {
             description: "1.625",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68786,7 +68877,8 @@ export default {
               description: "1.625",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.relaxed}",
             },
@@ -68801,7 +68893,8 @@ export default {
             description: "2",
             attributes: {
               category: "font",
-              group: "line-height-relative",
+              group: "line-height",
+              kind: "relative",
               type: "lineHeight",
               item: "line-height",
               subitem: "relative",
@@ -68835,7 +68928,8 @@ export default {
               description: "2",
               attributes: {
                 category: "font",
-                group: "line-height-relative",
+                group: "line-height",
+                kind: "relative",
               },
               key: "{semantic.font.line-height.relative.loose}",
             },
@@ -69147,6 +69241,7 @@ export default {
           description: "Deprecated",
           attributes: {
             category: "font",
+            group: "text-case",
             type: "textCase",
             item: "text-case",
             subitem: "none",
@@ -69179,6 +69274,7 @@ export default {
             description: "Deprecated",
             attributes: {
               category: "font",
+              group: "text-case",
             },
             key: "{semantic.font.text-case.none}",
           },
@@ -70883,7 +70979,6 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -70907,7 +71002,6 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.none}",
@@ -70920,7 +71014,6 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -70944,7 +71037,6 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.px}",
@@ -70957,7 +71049,6 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            pattern: "",
             category: "space",
             type: "spacing",
             item: "default",
@@ -70981,7 +71072,6 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              pattern: "",
               category: "space",
             },
             key: "{semantic.spacing.default.base}",
@@ -70994,7 +71084,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -71017,7 +71107,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -71029,7 +71119,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -71052,7 +71142,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -71064,7 +71154,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "size",
+            category: "space",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -71087,7 +71177,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "size",
+              category: "space",
             },
             key: "{semantic.spacing.default.sm}",
           },
