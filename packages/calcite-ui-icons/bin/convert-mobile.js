@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 import fsExtra from "fs-extra";
-import * as svg2img from "svg2img";
+import svg2img from "svg2img";
 import path from "node:path";
 import yargs from "yargs";
+import { hideBin } from 'yargs/helpers';
 const { readdir, writeFile, readFile, mkdirSync, writeFileSync, existsSync } = fsExtra;
-const options = yargs
+
+const options = yargs(hideBin(process.argv))
     .usage("Usage: -n <name of icon, omit if doing bulk>, \n-s <output size, defaults to 24>, \n-o <output path (defaults to ./output)>, \n-p <target platform (e.g. ios) \n-i <16, 24, 32, omit for 16>")
     .option("n", {
     alias: "name",
