@@ -28,7 +28,7 @@ export interface useCancelable {
  * Note: resources will be canceled automatically when the component is disconnected.
  */
 export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGenericController<useCancelable, T>> => {
-  return makeGenericController<useCancelable, T>((component, controller) => {
+  return makeGenericController<useCancelable, T>((_, controller) => {
     const resources = new Set<Cancelable>();
 
     controller.onDisconnected(() => {

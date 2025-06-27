@@ -5,7 +5,7 @@ import { useCancelable } from "./useCancelable";
 
 describe("useCancelable", () => {
   class TestComponent extends LitElement {
-    private cancelable = useCancelable<this>()(this);
+    cancelable = useCancelable<this>()(this);
 
     connectedCallback() {
       super.connectedCallback();

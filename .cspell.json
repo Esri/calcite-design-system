@@ -61,5 +61,6 @@
       "name": "embedded-svg-source",
       "pattern": "data:image\\/svg\\+xml;.+\\w+"
     }
-  ]
+  ],
+  "words": ["Arrayable"]
 }

@@ -1,6 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { ComponentTag } from "../interfaces";
+import { useCancelable } from "../../../controllers/useCancelable";
 
 /**
  * Helper for testing cancelable behavior in components e.g., debounced or throttled methods.
@@ -37,13 +38,13 @@ export function cancelable(componentTag: ComponentTag): void {
 }
 
 interface CancelableComponent {
-  cancelable: UseCancelableResource;
+  cancelable: useCancelable;
 }
 
-function hasCancelableController(component: unknown): component is CancelableComponent {
+function hasCancelableController(component: any): component is CancelableComponent {
   return (
     "cancelable" in component &&
-    typeof (component as CancelableComponent).cancelable.add === "function" &&
-    (component as CancelableComponent).cancelable.resources instanceof Set
+    typeof component.cancelable?.add === "function" &&
+    component.cancelable?.resources instanceof Set
   );
 }
