@@ -14,7 +14,7 @@ export function isBreakpointExpand(token: DesignToken): boolean {
 }
 
 export function isCornerRadius(token: DesignToken): boolean {
-  return token.path.join(".").includes("corner.radius");
+  return token.path.includes("corner-radius");
 }
 
 export function isFontRelated(token: TransformedToken): boolean {

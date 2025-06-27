@@ -6,6 +6,7 @@
           "value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
           "type": "fontFamilies",
           "attributes": {
+            "category": "font",
             "group": "family"
           },
           "description": "Primary font with fallbacks"
@@ -14,7 +15,8 @@
           "value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
           "type": "fontFamilies",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "family"
           },
           "description": "Font family for code with fallbacks"
         }
@@ -24,7 +26,8 @@
           "value": "{core.font.weight.light}",
           "type": "fontWeights",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           },
           "description": "For Avenir Next World (secondary font family)"
         },
@@ -35,7 +38,8 @@
             "calcite.deprecated": true
           },
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           },
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\""
         },
@@ -43,28 +47,32 @@
           "value": "{core.font.weight.regular}",
           "type": "fontWeights",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           }
         },
         "medium": {
           "value": "{core.font.weight.medium}",
           "type": "fontWeights",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           }
         },
         "semibold": {
           "value": "{core.font.weight.demi}",
           "type": "fontWeights",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           }
         },
         "bold": {
           "value": "{core.font.weight.demi}",
           "type": "fontWeights",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "weight"
           }
         }
       },
@@ -73,49 +81,56 @@
           "value": "{core.size.default.10}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "sm": {
           "value": "{core.size.default.12}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "default": {
           "value": "{core.size.default.14}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "md": {
           "value": "{core.size.default.16}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "lg": {
           "value": "{core.size.default.2} * 9",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "xl": {
           "value": "{core.size.default.20}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         },
         "xxl": {
           "value": "{core.size.default.24}",
           "type": "fontSizes",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "size"
           }
         }
       },
@@ -125,7 +140,8 @@
           "type": "fontStyle",
           "description": "used in ratings",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "style"
           }
         }
       },
@@ -135,28 +151,36 @@
             "value": "{core.size.default.12}",
             "type": "lineHeights",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "base": {
             "value": "{core.size.default.16}",
             "type": "lineHeights",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "lg": {
             "value": "{core.size.default.20}",
             "type": "lineHeights",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "fixed"
             }
           },
           "xl": {
             "value": "{core.size.default.24}",
             "type": "lineHeights",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "fixed"
             }
           }
         },
@@ -166,7 +190,9 @@
             "type": "lineHeights",
             "description": "1",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "tight": {
@@ -174,7 +200,9 @@
             "type": "lineHeights",
             "description": "1.25",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "snug": {
@@ -182,7 +210,9 @@
             "type": "lineHeights",
             "description": "1.375",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "normal": {
@@ -190,7 +220,9 @@
             "type": "lineHeights",
             "description": "1.5",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "relaxed": {
@@ -198,7 +230,9 @@
             "type": "lineHeights",
             "description": "1.625",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           },
           "loose": {
@@ -206,7 +240,9 @@
             "type": "lineHeights",
             "description": "2",
             "attributes": {
-              "category": "font"
+              "category": "font",
+              "group": "line-height",
+              "kind": "relative"
             }
           }
         }
@@ -217,7 +253,8 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "letter-spacing"
           }
         },
         "normal": {
@@ -225,7 +262,8 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "letter-spacing"
           }
         },
         "wide": {
@@ -233,7 +271,8 @@
           "type": "letterSpacing",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "letter-spacing"
           }
         }
       },
@@ -243,7 +282,8 @@
           "type": "paragraphSpacing",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "paragraph-spacing"
           }
         }
       },
@@ -253,7 +293,8 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-decoration"
           }
         },
         "underline": {
@@ -261,7 +302,8 @@
           "type": "textDecoration",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-decoration"
           }
         }
       },
@@ -271,7 +313,8 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-case"
           }
         },
         "uppercase": {
@@ -279,7 +322,8 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-case"
           }
         },
         "lowercase": {
@@ -287,7 +331,8 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-case"
           }
         },
         "capitalize": {
@@ -295,7 +340,8 @@
           "type": "textCase",
           "description": "Deprecated",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "group": "text-case"
           }
         }
       }
