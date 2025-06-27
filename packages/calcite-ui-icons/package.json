@@ -60,17 +60,17 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "devDependencies": {
-    "browser-sync": "3.0.2",
+    "browser-sync": "3.0.4",
     "calcite-web": "github:Esri/calcite-web#v1.2.5",
     "cli-progress": "^3.12.0",
     "fantasticon": "3.0.0",
-    "fs-extra": "11.2.0",
-    "glob": "^11.0.0",
+    "fs-extra": "11.3.0",
+    "glob": "^11.0.3",
     "svg2img": "1.0.0-beta.2",
-    "svgo": "^1.3.0",
+    "svgo": "^4.0.0",
     "svgson": "5.3.1",
     "svgstore-cli": "2.0.1",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "volta": {
     "extends": "../../package.json"
