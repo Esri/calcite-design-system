@@ -14,6 +14,7 @@
  * @prop --calcite-input-number-background-color: Specifies the background color of the component.
  * @prop --calcite-input-number-border-color: Specifies the border color of the component.
  * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-input-number-icon-color: Specifies the component's icon color.
  * @prop --calcite-input-number-height: Specifies the height of the component.
  * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
  * @prop --calcite-input-number-text-color: Specifies the text color of the component.
@@ -134,10 +135,6 @@ input[readonly]:focus {
   color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
 }
 
-calcite-icon {
-  color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
-}
-
 //focus
 input {
   @apply focus-base;
@@ -202,6 +199,7 @@ input:focus {
     absolute
     block
     z-default; // needed for firefox to display the icon properly
+  color: var(--calcite-input-number-icon-color, var(--calcite-color-text-3));
 }
 
 .clear-button {
@@ -222,6 +220,10 @@ input:focus {
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: theme("borderWidth.0");
+
+  calcite-icon {
+    color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
+  }
 
   &:hover {
     @apply transition-default;
@@ -385,6 +387,7 @@ input:focus {
 
   & calcite-icon {
     @apply transition-default pointer-events-none;
+    color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
   }
 
   &:disabled {

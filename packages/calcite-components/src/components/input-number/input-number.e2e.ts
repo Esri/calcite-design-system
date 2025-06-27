@@ -1974,6 +1974,7 @@ describe("calcite-input-number", () => {
             value="2"
             clearable
             loading
+            icon="layers"
           ></calcite-input-number>
         `,
         {
@@ -2094,6 +2095,10 @@ describe("calcite-input-number", () => {
             shadowSelector: `input`,
             targetProp: "color",
             state: "focus",
+          },
+          "--calcite-input-number-icon-color": {
+            shadowSelector: `.${CSS.inputIcon}`,
+            targetProp: "color",
           },
           "--calcite-input-prefix-background-color": {
             shadowSelector: `.${CSS.prefix}`,
