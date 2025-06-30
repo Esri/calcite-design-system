@@ -401,6 +401,10 @@ export class Table extends LitElement {
     return (
       <div class={CSS.selectionArea}>
         <calcite-chip
+          class={{
+            [CSS.selectionCountChip]: true,
+            [CSS.selectionChipActive]: this.selectedCount > 0,
+          }}
           kind={this.selectedCount > 0 ? "brand" : "neutral"}
           label={selectionText}
           scale={this.scale}
@@ -410,6 +414,7 @@ export class Table extends LitElement {
         </calcite-chip>
         {outOfViewCount > 0 && (
           <calcite-chip
+            class={CSS.selectionOutOfViewChip}
             icon="hide-empty"
             label={outOfView}
             scale={this.scale}
@@ -421,6 +426,7 @@ export class Table extends LitElement {
         )}
         {this.selectedCount > 0 && (
           <calcite-button
+            class={CSS.dismissButton}
             iconStart="x"
             kind="neutral"
             onClick={this.handleDeselectAllRows}
