@@ -518,7 +518,6 @@ export class InputTimePicker
 
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
-    this.time.setValue((event.target as TimePicker["el"]).value, true);
   }
 
   private toggleIconClickHandler() {
@@ -564,7 +563,7 @@ export class InputTimePicker
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          aria-controls={CSS.inputContainer}
+          aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,
@@ -697,6 +696,7 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
+            time={this.time}
             value={this.value}
           />
         </calcite-popover>
