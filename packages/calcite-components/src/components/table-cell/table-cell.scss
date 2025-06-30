@@ -42,7 +42,7 @@ td {
     var(--calcite-table-cell-background-color, transparent)
   );
   font-size: var(--calcite-internal-table-cell-font-size);
-  border-inline-end: 1px solid
+  border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   padding: var(--calcite-internal-table-cell-padding);
 
@@ -74,14 +74,14 @@ td.last-cell {
     var(--calcite-table-cell-background, var(--calcite-color-background))
   );
 
-  border-block-start: 1px solid
+  border-block-start: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
 }
 
 .number-cell,
 .selection-cell {
   @apply text-center;
-  border-inline-end: 1px solid
+  border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   inline-size: 2rem;
   min-inline-size: 2rem;

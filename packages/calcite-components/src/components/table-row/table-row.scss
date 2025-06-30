@@ -38,7 +38,7 @@ calcite-table-cell {
 }
 
 tr {
-  border-block-end: 1px solid var(--calcite-table-row-border-color, transparent);
+  border-block-end: var(--calcite-border-width-sm) solid var(--calcite-table-row-border-color, transparent);
   background-color: var(--calcite-table-row-background-color, var(--calcite-color-foreground-1));
 }
 
