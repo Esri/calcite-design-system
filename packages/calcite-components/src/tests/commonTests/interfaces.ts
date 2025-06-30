@@ -51,7 +51,3 @@ export interface DisabledOptions {
    */
   shadowAriaAttributeTargetSelector?: string;
 }
-
-export interface Cancelable {
-  cancel: () => void;
-}

@@ -1,7 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import type { Arrayable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
-import { Cancelable } from "../tests/commonTests/interfaces";
 
 /**
  * Interface for the CancelableController.
@@ -20,6 +19,10 @@ export interface UseCancelable {
    * @private
    */
   resources: Set<Cancelable>;
+}
+
+interface Cancelable {
+  cancel: () => void;
 }
 
 /**
