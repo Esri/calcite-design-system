@@ -55,7 +55,7 @@
     "@storybook/preview-api": "8.6.14",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/web-components-vite": "8.6.14",
-    "@tokens-studio/sd-transforms": "2.0.0",
+    "@tokens-studio/sd-transforms": "2.0.1",
     "@types/dedent": "0.7.2",
     "@types/eslint": "9.6.1",
     "@types/estree": "1.0.8",
