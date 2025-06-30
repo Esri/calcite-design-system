@@ -308,11 +308,6 @@ describe("calcite-block-section", () => {
               state: "hover",
             },
             {
-              shadowSelector: `.${CSS.sectionHeader}`,
-              targetProp: "color",
-              state: "hover",
-            },
-            {
               shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",
               state: "hover",

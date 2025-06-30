@@ -97,12 +97,10 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  @apply ease-cubic flex flex-shrink-0 flex-grow-0
+  @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
-  transition-property: padding-block;
-  transition-duration: var(--calcite-animation-timing);
 }
 
 @include disabled();
@@ -261,6 +259,8 @@ calcite-action-menu {
 }
 
 :host([expanded]) {
+  @apply my-2;
+
   .header .title .heading {
     color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
   }
@@ -273,16 +273,6 @@ calcite-action-menu {
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
   }
-}
-
-:host([expanded][scale="s"]) {
-  padding-block: var(--calcite-spacing-xs);
-}
-:host([expanded][scale="m"]) {
-  padding-block: var(--calcite-spacing-sm);
-}
-:host([expanded][scale="l"]) {
-  padding-block: var(--calcite-spacing-sm-plus);
 }
 
 @include base-component();

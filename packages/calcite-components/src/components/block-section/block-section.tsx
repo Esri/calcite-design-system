@@ -190,7 +190,6 @@ export class BlockSection extends LitElement {
             ariaExpanded={expanded}
             class={{
               [CSS.toggle]: true,
-              [CSS.toggleSwitch]: true,
             }}
             id={IDS.toggle}
             onClick={this.toggleSection}
@@ -225,7 +224,6 @@ export class BlockSection extends LitElement {
             aria-controls={IDS.content}
             ariaExpanded={expanded}
             class={{
-              [CSS.sectionHeader]: true,
               [CSS.toggle]: true,
             }}
             id={IDS.toggle}

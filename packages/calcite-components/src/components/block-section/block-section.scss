@@ -14,6 +14,7 @@
   @apply box-border block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 calcite-switch {
@@ -54,10 +55,11 @@ calcite-switch {
 }
 
 :host([scale="s"]) {
+  font-size: var(--calcite-font-size-sm);
+
   .toggle {
-    padding-block: var(--calcite-spacing-xxs);
+    margin-block: var(--calcite-spacing-xxs);
     gap: var(--calcite-spacing-sm);
-    font-size: var(--calcite-font-size-sm);
   }
 
   .content {
@@ -66,10 +68,11 @@ calcite-switch {
 }
 
 :host([scale="m"]) {
+  font-size: var(--calcite-font-size);
+
   .toggle {
-    padding-block: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-md);
-    font-size: var(--calcite-font-size);
   }
   .content {
     padding-block: var(--calcite-spacing-sm);
@@ -77,10 +80,11 @@ calcite-switch {
 }
 
 :host([scale="l"]) {
+  font-size: var(--calcite-font-size-lg);
+
   .toggle {
-    padding-block: var(--calcite-spacing-sm-plus);
+    margin-block: var(--calcite-spacing-sm-plus);
     gap: var(--calcite-spacing-md-plus);
-    font-size: var(--calcite-font-size-lg);
   }
   .content {
     padding-block: var(--calcite-spacing-sm-plus);
@@ -100,7 +104,6 @@ calcite-switch {
   background-color: var(--calcite-block-section-background-color, transparent);
   font-weight: var(--calcite-font-weight-medium);
   padding-inline: 0;
-  line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
     @apply focus-outset;
