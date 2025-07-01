@@ -65,7 +65,7 @@
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/\" --flat",
+    "util:copy-icons": "cpy \"../../../calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-supported-browsers-json": "tsx support/generateSupportedBrowsersJSON.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
