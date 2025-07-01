@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
 
@@ -28,8 +27,7 @@ const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
 
-const runningInE2ETest = import.meta.env.MODE === "test" && !isServer;
-export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
+export const logLevel: LogLevel = existingConfig?.logLevel || "info";
 
 // the following placeholders are replaced by the build
 const version = __CALCITE_VERSION__;
