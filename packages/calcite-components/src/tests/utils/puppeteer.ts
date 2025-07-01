@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
-import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
+import { LitElement, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "../commonTests/interfaces";
@@ -15,9 +15,9 @@ type FilterPropsByPropertyName<T, PropName extends string> = {
 
 /** Helper to extract a type by filtering the type by the property name. */
 export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  LuminaJsx.IntrinsicElements,
+  DeclareElements,
   T
->[keyof FilterPropsByPropertyName<LuminaJsx.IntrinsicElements, T>];
+>[keyof FilterPropsByPropertyName<DeclareElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 

@@ -47,6 +47,7 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
@@ -133,6 +134,8 @@ export class Autocomplete
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
   });
+
+  private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
@@ -433,6 +436,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {
