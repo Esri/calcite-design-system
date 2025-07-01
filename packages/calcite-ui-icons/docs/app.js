@@ -67,12 +67,13 @@
         var baseURL = "https://raw.githubusercontent.com/Esri/calcite-design-system/main/packages/calcite-ui-icons/icons/" + encodeURIComponent(baseName) + "-";
         var suffix = ".svg";
         var tags = icon.alias
-            .map(function (alias) {
-            return ('<span class="label inline-block margin-right-quarter trailer-quarter">' +
-                encodeURIComponent(alias) +
-                "</span>");
-        })
-            .join("");
+          .map(function (alias) {
+            const span = document.createElement("span");
+            span.classList.add("label", "inline-block", "margin-right-quarter", "trailer-quarter");
+            span.textContent = alias;
+            return span.outerHTML;
+          })
+          .join("");
         window.location.hash = encodeURIComponent(key);
         document.querySelector(".js-detail-name").textContent = key;
         document.querySelector(".js-detail-aliases").innerHTML = (tags && tags) || "---";
