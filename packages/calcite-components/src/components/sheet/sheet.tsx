@@ -24,7 +24,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { CSS } from "./resources";
+import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
@@ -325,8 +325,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     const { position } = this;
 
     return position === "block-start" || position === "block-end"
-      ? "drag-resize-vertical"
-      : "drag-resize-horizontal";
+      ? ICONS.dragVertical
+      : ICONS.dragHorizontal;
   }
 
   private getContentElDOMRect(): DOMRect {
@@ -610,7 +610,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} id="sheet-content" ref={this.setContentEl}>
+        <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>

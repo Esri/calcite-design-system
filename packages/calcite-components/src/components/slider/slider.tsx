@@ -139,7 +139,7 @@ export class Slider
     return numberStringFormatter.localize(value.toString());
   };
 
-  private guid = `calcite-slider-${guid()}`;
+  private guid = IDS.sliderId(guid());
 
   labelEl: Label["el"];
 
@@ -1124,7 +1124,7 @@ export class Slider
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
-            [`scale--${this.scale}`]: true,
+            [CSS.scale(this.scale)]: true,
           }}
         >
           {this.renderGraph()}

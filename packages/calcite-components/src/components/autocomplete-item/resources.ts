@@ -15,3 +15,7 @@ export const SLOTS = {
   contentEnd: "content-end",
   contentStart: "content-start",
 } as const;
+
+export const IDS = {
+  autocompleteItemId: (id: string) => `autocomplete-item-${id}`,
+} as const;

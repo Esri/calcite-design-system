@@ -10,7 +10,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
 import { highlightText } from "../../utils/text";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
 declare global {
@@ -50,7 +50,7 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
    *
    * @private
    */
-  @property() guid = `autocomplete-item-${guid()}`;
+  @property() guid = IDS.autocompleteItemId(guid());
 
   /**
    * Specifies heading text for the component.

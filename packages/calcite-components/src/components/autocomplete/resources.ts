@@ -17,4 +17,6 @@ export const CSS = {
 
 export const IDS = {
   validationMessage: "autocompleteValidationMessage",
+  inputId: (id: string) => `autocomplete-input-${id}`,
+  listId: (id: string) => `autocomplete-list-${id}`,
 } as const;

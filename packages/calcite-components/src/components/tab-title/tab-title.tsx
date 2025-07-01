@@ -28,7 +28,7 @@ import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -53,7 +53,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
-  private guid = `calcite-tab-title-${guid()}`;
+  private guid = IDS.tabTitleId(guid());
 
   /** watches for changing text content */
   private mutationObserver: MutationObserver = createObserver("mutation", () =>

@@ -32,3 +32,14 @@ export const INPUT_TYPE_ICONS = {
 export const SLOTS = {
   action: "action",
 };
+
+export const BUTTON_ADJUSTMENT = {
+  up: "up",
+  down: "down",
+};
+
+export const ICONS = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+  close: "x",
+};

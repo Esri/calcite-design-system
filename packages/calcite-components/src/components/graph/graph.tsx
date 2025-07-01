@@ -5,7 +5,7 @@ import { createObserver } from "../../utils/observers";
 import { ColorStop, DataSeries, Point } from "./interfaces";
 import { area, range, translate } from "./util";
 import { styles } from "./graph.scss";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -22,7 +22,7 @@ export class Graph extends LitElement {
 
   // #region Private Properties
 
-  private graphId = `calcite-graph-${guid()}`;
+  private graphId = IDS.graphId(guid());
 
   private resizeObserver = createObserver("resize", () => this.requestUpdate());
 
@@ -114,7 +114,7 @@ export class Graph extends LitElement {
     const [hMinX] = t([highlightMin, currentMax[1]]);
     const [hMaxX] = t([highlightMax, currentMax[1]]);
     const areaPath = area({ data, min: rangeMin, max: rangeMax, t });
-    const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
+    const fill = colorStops ? `url(#${IDS.linearGradientId(id)})` : undefined;
     return (
       <svg
         ariaHidden="true"
@@ -126,7 +126,7 @@ export class Graph extends LitElement {
       >
         {colorStops ? (
           <defs>
-            <linearGradient id={`linear-gradient-${id}`} x1="0" x2="1" y1="0" y2="0">
+            <linearGradient id={IDS.linearGradientId(id)} x1="0" x2="1" y1="0" y2="0">
               {colorStops.map(({ offset, color, opacity }) => (
                 <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity} />
               ))}
@@ -136,7 +136,7 @@ export class Graph extends LitElement {
 
         {highlightMin !== undefined ? (
           [
-            <mask height="100%" id={`${id}1`} width="100%" x="0%" y="0%">
+            <mask height="100%" id={IDS.maskId(id, 1)} width="100%" x="0%" y="0%">
               <path
                 d={`
             M 0,0
@@ -149,7 +149,7 @@ export class Graph extends LitElement {
               />
             </mask>,
 
-            <mask height="100%" id={`${id}2`} width="100%" x="0%" y="0%">
+            <mask height="100%" id={IDS.maskId(id, 2)} width="100%" x="0%" y="0%">
               <path
                 d={`
             M ${hMinX + 1},0
@@ -162,7 +162,7 @@ export class Graph extends LitElement {
               />
             </mask>,
 
-            <mask height="100%" id={`${id}3`} width="100%" x="0%" y="0%">
+            <mask height="100%" id={IDS.maskId(id, 3)} width="100%" x="0%" y="0%">
               <path
                 d={`
                 M ${hMaxX + 1},0
@@ -175,9 +175,24 @@ export class Graph extends LitElement {
               />
             </mask>,
 
-            <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
-            <path class={CSS.graphPathHighlight} d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
-            <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${id}3)`} />,
+            <path
+              class={CSS.graphPath}
+              d={areaPath}
+              fill={fill}
+              mask={`url(#${IDS.maskId(id, 1)})`}
+            />,
+            <path
+              class={CSS.graphPathHighlight}
+              d={areaPath}
+              fill={fill}
+              mask={`url(#${IDS.maskId(id, 2)})`}
+            />,
+            <path
+              class={CSS.graphPath}
+              d={areaPath}
+              fill={fill}
+              mask={`url(#${IDS.maskId(id, 3)})`}
+            />,
           ]
         ) : (
           <path class={CSS.graphPath} d={areaPath} fill={fill} />

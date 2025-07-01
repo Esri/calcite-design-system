@@ -28,7 +28,7 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces, getDecimals } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
 
@@ -909,7 +909,7 @@ export class TimePicker extends LitElement {
             onClick={this.hourUpClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
           </span>
           <span
             ariaLabel={this.messages.hour}
@@ -941,7 +941,7 @@ export class TimePicker extends LitElement {
             onClick={this.hourDownClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
           </span>
         </div>
         <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>
@@ -957,7 +957,7 @@ export class TimePicker extends LitElement {
             onClick={this.minuteUpClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
           </span>
           <span
             ariaLabel={this.messages.minute}
@@ -988,7 +988,7 @@ export class TimePicker extends LitElement {
             onClick={this.minuteDownClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
           </span>
         </div>
         {this.showSecond && (
@@ -1007,7 +1007,7 @@ export class TimePicker extends LitElement {
               onClick={this.secondUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={this.messages.second}
@@ -1038,7 +1038,7 @@ export class TimePicker extends LitElement {
               onClick={this.secondDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}
@@ -1058,7 +1058,7 @@ export class TimePicker extends LitElement {
               onClick={this.fractionalSecondUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={this.messages.fractionalSecond}
@@ -1089,7 +1089,7 @@ export class TimePicker extends LitElement {
               onClick={this.fractionalSecondDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}
@@ -1116,7 +1116,7 @@ export class TimePicker extends LitElement {
               onClick={this.meridiemUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={this.messages.meridiem}
@@ -1148,7 +1148,7 @@ export class TimePicker extends LitElement {
               onClick={this.meridiemDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}

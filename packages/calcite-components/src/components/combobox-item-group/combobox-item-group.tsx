@@ -4,7 +4,7 @@ import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item-group.scss";
 
 declare global {
@@ -79,14 +79,14 @@ export class ComboboxItemGroup extends LitElement {
     return (
       <ul
         aria-labelledby={this.guid}
-        class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
+        class={{ [CSS.list]: true, [CSS.scale(scale)]: true }}
         role="group"
       >
         <li
           class={{ [CSS.label]: true }}
           id={this.guid}
           role="presentation"
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{ [itemSpacingMultiplier]: `${depth}` }}
         >
           <span class={CSS.title}>{this.label}</span>
         </li>

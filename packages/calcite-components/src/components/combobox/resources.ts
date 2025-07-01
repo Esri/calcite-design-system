@@ -22,8 +22,27 @@ export const CSS = {
   wrapper: "wrapper",
   wrapperSingle: "wrapper--single",
   wrapperActive: "wrapper--active",
+  gridInput: "grid-input",
+  inputSingle: "input--single",
+  inputIcon: "input--icon",
+  inputWrap: "input-wrap",
+  inputWrapSingle: "input-wrap--single",
+  iconEnd: "icon-end",
+  iconStart: "icon-start",
+  list: "list",
+  listHide: "list--hide",
 };
 
 export const IDS = {
   validationMessage: "comboboxValidationMessage",
+  itemUidPrefix: (id: string) => `combobox-item-${id}` as const,
+  chipUidPrefix: (id: string) => `combobox-chip-${id}` as const,
+  labelUidPrefix: (id: string) => `combobox-label-${id}` as const,
+  listboxUidPrefix: (id: string) => `combobox-listbox-${id}` as const,
+  inputUidPrefix: (id: string) => `combobox-input-${id}` as const,
+};
+
+export const ICONS = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };

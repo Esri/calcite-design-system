@@ -12,3 +12,7 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   selectedIndicator: "selected-indicator",
 };
+
+export const IDS = {
+  tabTitleId: (id: any) => `calcite-tab-title-${id}` as const,
+};

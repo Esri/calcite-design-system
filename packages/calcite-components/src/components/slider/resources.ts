@@ -1,3 +1,5 @@
+import { Scale } from "../interfaces";
+
 export const CSS = {
   container: "container",
   containerRange: "container--range",
@@ -25,10 +27,12 @@ export const CSS = {
   track: "track",
   trackRange: "track__range",
   transformed: "transformed",
+  scale: (scale: Scale) => `scale--${scale}` as const,
 };
 
 export const IDS = {
   validationMessage: "validationMessage",
+  sliderId: (id: any) => `calcite-slider-${id}` as const,
 };
 
 export const maxTickElementThreshold = 250;

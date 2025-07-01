@@ -3,6 +3,7 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-link", () => {
   describe("renders", () => {
@@ -72,8 +73,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).toBeNull();
@@ -108,8 +109,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).not.toBeNull();
@@ -123,8 +124,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
@@ -137,8 +138,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsButton).toBeNull();
@@ -153,8 +154,8 @@ describe("calcite-link", () => {
     );
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsButton).toBeNull();
@@ -171,8 +172,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -184,8 +185,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
@@ -197,8 +198,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus' icon-end='plus'>Continue</calcite-link>`);
     const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
+    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
