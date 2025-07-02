@@ -2014,11 +2014,11 @@ describe("calcite-input-number", () => {
           ],
           "--calcite-input-actions-icon-color": {
             shadowSelector: `calcite-icon`,
-            targetProp: "color",
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-input-actions-icon-color-hover": {
             shadowSelector: `calcite-icon`,
-            targetProp: "color",
+            targetProp: "--calcite-icon-color",
             state: "hover",
           },
           "--calcite-input-loading-background-color": {
@@ -2098,7 +2098,7 @@ describe("calcite-input-number", () => {
           },
           "--calcite-input-number-icon-color": {
             shadowSelector: `.${CSS.inputIcon}`,
-            targetProp: "color",
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-input-prefix-background-color": {
             shadowSelector: `.${CSS.prefix}`,
