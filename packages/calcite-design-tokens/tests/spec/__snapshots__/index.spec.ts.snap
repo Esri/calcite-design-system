@@ -23222,7 +23222,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-light-minus-3h)",
           "js": "semantic.typography.default.light.-3h",
           "docs": "semantic.typography.default.light.-3h",
-          "es6": "calciteTypographyLightMinus3H"
+          "es6": "calciteTypographyLightMinus3h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23267,7 +23267,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-light-minus-2h)",
           "js": "semantic.typography.default.light.-2h",
           "docs": "semantic.typography.default.light.-2h",
-          "es6": "calciteTypographyLightMinus2H"
+          "es6": "calciteTypographyLightMinus2h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23312,7 +23312,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-light-minus-1h)",
           "js": "semantic.typography.default.light.-1h",
           "docs": "semantic.typography.default.light.-1h",
-          "es6": "calciteTypographyLightMinus1H"
+          "es6": "calciteTypographyLightMinus1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23357,7 +23357,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-light-0h)",
           "js": "semantic.typography.default.light.0h",
           "docs": "semantic.typography.default.light.0h",
-          "es6": "calciteTypographyLight0H"
+          "es6": "calciteTypographyLight0h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23402,7 +23402,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-light-1h)",
           "js": "semantic.typography.default.light.1h",
           "docs": "semantic.typography.default.light.1h",
-          "es6": "calciteTypographyLight1H"
+          "es6": "calciteTypographyLight1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23447,7 +23447,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-regular-minus-3h)",
           "js": "semantic.typography.default.regular.-3h",
           "docs": "semantic.typography.default.regular.-3h",
-          "es6": "calciteTypographyRegularMinus3H"
+          "es6": "calciteTypographyRegularMinus3h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23492,7 +23492,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-regular-minus-2h)",
           "js": "semantic.typography.default.regular.-2h",
           "docs": "semantic.typography.default.regular.-2h",
-          "es6": "calciteTypographyRegularMinus2H"
+          "es6": "calciteTypographyRegularMinus2h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23520,7 +23520,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-regular-minus-1h)",
           "js": "semantic.typography.default.regular.-1h",
           "docs": "semantic.typography.default.regular.-1h",
-          "es6": "calciteTypographyRegularMinus1H"
+          "es6": "calciteTypographyRegularMinus1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23565,7 +23565,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-regular-0h)",
           "js": "semantic.typography.default.regular.0h",
           "docs": "semantic.typography.default.regular.0h",
-          "es6": "calciteTypographyRegular0H"
+          "es6": "calciteTypographyRegular0h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23610,7 +23610,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-regular-1h)",
           "js": "semantic.typography.default.regular.1h",
           "docs": "semantic.typography.default.regular.1h",
-          "es6": "calciteTypographyRegular1H"
+          "es6": "calciteTypographyRegular1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23655,7 +23655,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-medium-minus-3h)",
           "js": "semantic.typography.default.medium.-3h",
           "docs": "semantic.typography.default.medium.-3h",
-          "es6": "calciteTypographyMediumMinus3H"
+          "es6": "calciteTypographyMediumMinus3h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23700,7 +23700,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-medium-minus-2h)",
           "js": "semantic.typography.default.medium.-2h",
           "docs": "semantic.typography.default.medium.-2h",
-          "es6": "calciteTypographyMediumMinus2H"
+          "es6": "calciteTypographyMediumMinus2h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23745,7 +23745,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-medium-minus-1h)",
           "js": "semantic.typography.default.medium.-1h",
           "docs": "semantic.typography.default.medium.-1h",
-          "es6": "calciteTypographyMediumMinus1H"
+          "es6": "calciteTypographyMediumMinus1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23790,7 +23790,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-medium-0h)",
           "js": "semantic.typography.default.medium.0h",
           "docs": "semantic.typography.default.medium.0h",
-          "es6": "calciteTypographyMedium0H"
+          "es6": "calciteTypographyMedium0h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23835,7 +23835,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-medium-1h)",
           "js": "semantic.typography.default.medium.1h",
           "docs": "semantic.typography.default.medium.1h",
-          "es6": "calciteTypographyMedium1H"
+          "es6": "calciteTypographyMedium1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23880,7 +23880,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-bold-minus-3h)",
           "js": "semantic.typography.default.bold.-3h",
           "docs": "semantic.typography.default.bold.-3h",
-          "es6": "calciteTypographyBoldMinus3H"
+          "es6": "calciteTypographyBoldMinus3h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23925,7 +23925,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-bold-minus-2h)",
           "js": "semantic.typography.default.bold.-2h",
           "docs": "semantic.typography.default.bold.-2h",
-          "es6": "calciteTypographyBoldMinus2H"
+          "es6": "calciteTypographyBoldMinus2h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -23970,7 +23970,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-bold-minus-1h)",
           "js": "semantic.typography.default.bold.-1h",
           "docs": "semantic.typography.default.bold.-1h",
-          "es6": "calciteTypographyBoldMinus1H"
+          "es6": "calciteTypographyBoldMinus1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -24015,7 +24015,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-bold-0h)",
           "js": "semantic.typography.default.bold.0h",
           "docs": "semantic.typography.default.bold.0h",
-          "es6": "calciteTypographyBold0H"
+          "es6": "calciteTypographyBold0h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -24060,7 +24060,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "css": "var(--calcite-typography-bold-1h)",
           "js": "semantic.typography.default.bold.1h",
           "docs": "semantic.typography.default.bold.1h",
-          "es6": "calciteTypographyBold1H"
+          "es6": "calciteTypographyBold1h"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -62098,7 +62098,7 @@ export default {
                 css: "var(--calcite-typography-light-minus-3h)",
                 js: "semantic.typography.default.light.-3h",
                 docs: "semantic.typography.default.light.-3h",
-                es6: "calciteTypographyLightMinus3H",
+                es6: "calciteTypographyLightMinus3h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62161,7 +62161,7 @@ export default {
                 css: "var(--calcite-typography-light-minus-2h)",
                 js: "semantic.typography.default.light.-2h",
                 docs: "semantic.typography.default.light.-2h",
-                es6: "calciteTypographyLightMinus2H",
+                es6: "calciteTypographyLightMinus2h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62222,7 +62222,7 @@ export default {
                 css: "var(--calcite-typography-light-minus-1h)",
                 js: "semantic.typography.default.light.-1h",
                 docs: "semantic.typography.default.light.-1h",
-                es6: "calciteTypographyLightMinus1H",
+                es6: "calciteTypographyLightMinus1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62284,7 +62284,7 @@ export default {
                 css: "var(--calcite-typography-light-0h)",
                 js: "semantic.typography.default.light.0h",
                 docs: "semantic.typography.default.light.0h",
-                es6: "calciteTypographyLight0H",
+                es6: "calciteTypographyLight0h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62348,7 +62348,7 @@ export default {
                 css: "var(--calcite-typography-light-1h)",
                 js: "semantic.typography.default.light.1h",
                 docs: "semantic.typography.default.light.1h",
-                es6: "calciteTypographyLight1H",
+                es6: "calciteTypographyLight1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62413,7 +62413,7 @@ export default {
                 css: "var(--calcite-typography-regular-minus-3h)",
                 js: "semantic.typography.default.regular.-3h",
                 docs: "semantic.typography.default.regular.-3h",
-                es6: "calciteTypographyRegularMinus3H",
+                es6: "calciteTypographyRegularMinus3h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62474,7 +62474,7 @@ export default {
                 css: "var(--calcite-typography-regular-minus-2h)",
                 js: "semantic.typography.default.regular.-2h",
                 docs: "semantic.typography.default.regular.-2h",
-                es6: "calciteTypographyRegularMinus2H",
+                es6: "calciteTypographyRegularMinus2h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62529,7 +62529,7 @@ export default {
                 css: "var(--calcite-typography-regular-minus-1h)",
                 js: "semantic.typography.default.regular.-1h",
                 docs: "semantic.typography.default.regular.-1h",
-                es6: "calciteTypographyRegularMinus1H",
+                es6: "calciteTypographyRegularMinus1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62585,7 +62585,7 @@ export default {
                 css: "var(--calcite-typography-regular-0h)",
                 js: "semantic.typography.default.regular.0h",
                 docs: "semantic.typography.default.regular.0h",
-                es6: "calciteTypographyRegular0H",
+                es6: "calciteTypographyRegular0h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62647,7 +62647,7 @@ export default {
                 css: "var(--calcite-typography-regular-1h)",
                 js: "semantic.typography.default.regular.1h",
                 docs: "semantic.typography.default.regular.1h",
-                es6: "calciteTypographyRegular1H",
+                es6: "calciteTypographyRegular1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62712,7 +62712,7 @@ export default {
                 css: "var(--calcite-typography-medium-minus-3h)",
                 js: "semantic.typography.default.medium.-3h",
                 docs: "semantic.typography.default.medium.-3h",
-                es6: "calciteTypographyMediumMinus3H",
+                es6: "calciteTypographyMediumMinus3h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62775,7 +62775,7 @@ export default {
                 css: "var(--calcite-typography-medium-minus-2h)",
                 js: "semantic.typography.default.medium.-2h",
                 docs: "semantic.typography.default.medium.-2h",
-                es6: "calciteTypographyMediumMinus2H",
+                es6: "calciteTypographyMediumMinus2h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62836,7 +62836,7 @@ export default {
                 css: "var(--calcite-typography-medium-minus-1h)",
                 js: "semantic.typography.default.medium.-1h",
                 docs: "semantic.typography.default.medium.-1h",
-                es6: "calciteTypographyMediumMinus1H",
+                es6: "calciteTypographyMediumMinus1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62898,7 +62898,7 @@ export default {
                 css: "var(--calcite-typography-medium-0h)",
                 js: "semantic.typography.default.medium.0h",
                 docs: "semantic.typography.default.medium.0h",
-                es6: "calciteTypographyMedium0H",
+                es6: "calciteTypographyMedium0h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -62962,7 +62962,7 @@ export default {
                 css: "var(--calcite-typography-medium-1h)",
                 js: "semantic.typography.default.medium.1h",
                 docs: "semantic.typography.default.medium.1h",
-                es6: "calciteTypographyMedium1H",
+                es6: "calciteTypographyMedium1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -63028,7 +63028,7 @@ export default {
                 css: "var(--calcite-typography-bold-minus-3h)",
                 js: "semantic.typography.default.bold.-3h",
                 docs: "semantic.typography.default.bold.-3h",
-                es6: "calciteTypographyBoldMinus3H",
+                es6: "calciteTypographyBoldMinus3h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -63091,7 +63091,7 @@ export default {
                 css: "var(--calcite-typography-bold-minus-2h)",
                 js: "semantic.typography.default.bold.-2h",
                 docs: "semantic.typography.default.bold.-2h",
-                es6: "calciteTypographyBoldMinus2H",
+                es6: "calciteTypographyBoldMinus2h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -63152,7 +63152,7 @@ export default {
                 css: "var(--calcite-typography-bold-minus-1h)",
                 js: "semantic.typography.default.bold.-1h",
                 docs: "semantic.typography.default.bold.-1h",
-                es6: "calciteTypographyBoldMinus1H",
+                es6: "calciteTypographyBoldMinus1h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -63214,7 +63214,7 @@ export default {
                 css: "var(--calcite-typography-bold-0h)",
                 js: "semantic.typography.default.bold.0h",
                 docs: "semantic.typography.default.bold.0h",
-                es6: "calciteTypographyBold0H",
+                es6: "calciteTypographyBold0h",
               },
               "calcite-schema": {
                 system: "calcite",
@@ -63278,7 +63278,7 @@ export default {
                 css: "var(--calcite-typography-bold-1h)",
                 js: "semantic.typography.default.bold.1h",
                 docs: "semantic.typography.default.bold.1h",
-                es6: "calciteTypographyBold1H",
+                es6: "calciteTypographyBold1h",
               },
               "calcite-schema": {
                 system: "calcite",
