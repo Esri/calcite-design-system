@@ -1978,6 +1978,7 @@ describe("calcite-input-number", () => {
             value="2"
             clearable
             loading
+            icon="layers"
           ></calcite-input-number>
         `,
         {
@@ -2017,11 +2018,11 @@ describe("calcite-input-number", () => {
           ],
           "--calcite-input-actions-icon-color": {
             shadowSelector: `calcite-icon`,
-            targetProp: "color",
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-input-actions-icon-color-hover": {
             shadowSelector: `calcite-icon`,
-            targetProp: "color",
+            targetProp: "--calcite-icon-color",
             state: "hover",
           },
           "--calcite-input-loading-background-color": {
@@ -2098,6 +2099,10 @@ describe("calcite-input-number", () => {
             shadowSelector: `input`,
             targetProp: "color",
             state: "focus",
+          },
+          "--calcite-input-number-icon-color": {
+            shadowSelector: `.${CSS.inputIcon}`,
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-input-prefix-background-color": {
             shadowSelector: `.${CSS.prefix}`,
