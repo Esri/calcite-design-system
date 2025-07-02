@@ -139,13 +139,13 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   calciteSortHandleClose = createEvent({ cancelable: false });
 
   /** Fires when a move item has been selected. */
-  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: false });
+  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
   /** Fires when a reorder has been selected. */
-  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: false });
+  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
   // #endregion
 

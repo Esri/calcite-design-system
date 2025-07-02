@@ -17,7 +17,7 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
@@ -416,7 +416,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
     transitionEl.classList.add(idleClass);
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
   }
 
   private handleCloseClick() {

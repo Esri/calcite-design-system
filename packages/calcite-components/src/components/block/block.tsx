@@ -9,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -267,7 +267,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {

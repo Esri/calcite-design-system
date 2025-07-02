@@ -861,4 +861,28 @@ describe("calcite-autocomplete", () => {
 
     expect(inputEvent).toHaveReceivedEventTimes(4);
   });
+
+  it("should open on input if text exists or close otherwise", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    autocomplete.setProperty("open", false);
+    await page.waitForChanges();
+
+    await page.keyboard.type("a");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(false);
+  });
 });

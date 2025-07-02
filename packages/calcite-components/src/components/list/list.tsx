@@ -30,6 +30,7 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -38,7 +39,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListDisplayMode } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -70,6 +71,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   filterEl: Filter["el"];
 
+  defaultSlotEl: HTMLSlotElement;
+
   private focusableItems: ListItem["el"][] = [];
 
   handleSelector = "calcite-sort-handle";
@@ -88,6 +91,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   private parentListEl: List["el"];
 
   sortable: Sortable;
+
+  private cancelable = useCancelable<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();
@@ -231,7 +236,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -423,6 +428,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
+    this.cancelable.add(this.updateListItems);
   }
 
   async load(): Promise<void> {
@@ -613,10 +619,14 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private setUpSorting(): void {
-    const { dragEnabled } = this;
+    const { dragEnabled, defaultSlotEl } = this;
 
     if (!dragEnabled) {
       return;
+    }
+
+    if (defaultSlotEl) {
+      updateListItemChildren(defaultSlotEl);
     }
 
     connectSortableComponent(this);
@@ -632,10 +642,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
-  }
-
-  onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.expanded = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
@@ -654,8 +660,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
-    updateListItemChildren(event.target as HTMLSlotElement);
+  private handleDefaultSlotChange(): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
@@ -812,6 +817,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     filterEl.value = filterText;
     filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
+  }
+
+  private setDefaultSlotEl(el: HTMLSlotElement): void {
+    this.defaultSlotEl = el;
   }
 
   private setFilterEl(el: Filter["el"]): void {
@@ -1127,7 +1136,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
-              <slot onSlotChange={this.handleDefaultSlotChange} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>
           <div

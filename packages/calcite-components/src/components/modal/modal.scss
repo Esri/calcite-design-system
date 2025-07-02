@@ -11,6 +11,9 @@
  *
  */
 
+$viewport-small: 480px;
+$viewport-medium: 860px;
+
 :host {
   --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
@@ -23,11 +26,6 @@
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-}
-
-.content-top[hidden],
-.content-bottom[hidden] {
-  @apply hidden;
 }
 
 .container {

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { render } from "lit-html";
 import { Alignment, Scale, SelectionMode } from "../interfaces";

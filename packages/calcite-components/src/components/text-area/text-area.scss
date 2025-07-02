@@ -14,41 +14,71 @@
  * @prop --calcite-text-area-min-width: Specifies the component's text area minimum width.
  * @prop --calcite-text-area-text-color: Specifies the component's text color.
  * @prop --calcite-text-area-footer-border-color: Specifies the footer's border color.
+ * @prop --calcite-text-area-corner-radius: Specifies component's corner radius.
+ * @prop --calcite-text-area-shadow: Specifies the component's shadow.
+ * @prop --calcite-text-area-footer-background-color: Specifies the footer's background color.
+
  */
 
 :host {
-  @apply inline-block relative w-full h-full;
-
+  @apply inline-block relative w-full h-full box-border;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
     --calcite-text-area-footer-border-color,
     var(--calcite-internal-text-area-border-color)
   );
+  --calcite-internal-text-area-corner-radius: var(
+    --calcite-text-area-corner-radius,
+    var(--calcite-corner-radius-default)
+  );
+  --calcite-internal-text-area-shadow: var(--calcite-text-area-shadow, var(--calcite-shadow-none));
+  --calcite-internal-text-area-footer-background-color: var(
+    --calcite-text-area-footer-background-color,
+    var(--calcite-text-area-background-color, var(--calcite-color-foreground-1))
+  );
+
+  // avoids host to shrink beyond the textarea
+  min-block-size: var(
+    --calcite-text-area-min-height,
+    calc(calc(2 * var(--calcite-internal-text-area-padding-block)) + calc(2 * var(--calcite-border-width-sm)))
+  );
+  min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
+}
+
+.wrapper {
+  @apply h-full w-full box-border;
+  box-shadow: var(--calcite-internal-text-area-shadow);
+  border-radius: var(--calcite-internal-text-area-corner-radius);
 }
 
 .text-area,
 .footer {
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
-  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
-  padding-block: var(--calcite-spacing-sm);
-  padding-inline: var(--calcite-spacing-md);
+  padding-block: var(--calcite-internal-text-area-padding-block);
+  padding-inline: var(--calcite-internal-text-area-padding-inline);
+}
+
+.footer {
+  background-color: var(--calcite-internal-text-area-footer-background-color);
+  border-radius: 0 0 var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius);
 }
 
 .text-area {
   @apply relative font-sans block box-border w-full m-0;
-
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
-
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
   font-family: var(--calcite-sans-family);
 
   max-block-size: var(--calcite-text-area-max-height);
-  min-block-size: var(--calcite-text-area-min-height);
+  min-block-size: calc(
+    var(--calcite-text-area-min-height, 0px) - var(--calcite-internal-text-area-footer-min-height, 0px)
+  );
   max-inline-size: var(--calcite-text-area-max-width);
   min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
-
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius) 0 0;
   &::placeholder {
     @apply font-normal;
   }
@@ -73,6 +103,10 @@
     min-inline-size: theme("spacing.72");
   }
 
+  &.text-area--only {
+    border-radius: var(--calcite-internal-text-area-corner-radius);
+  }
+
   &:not(.text-area--only, .text-area--invalid) {
     --calcite-internal-text-area-border-block-end-color: var(
       --calcite-text-area-divider-color,
@@ -85,7 +119,7 @@
   @apply flex box-border items-center;
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
-  min-block-size: 2.25rem;
+  min-block-size: var(--calcite-internal-text-area-footer-min-height);
 }
 
 .character-limit {
@@ -103,8 +137,12 @@
 }
 
 .readonly {
-  background-color: var(--calcite-color-background);
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-background));
   font-weight: var(--calcite-font-weight-medium);
+}
+
+.footer.readonly {
+  background-color: var(--calcite-internal-text-area-footer-background-color, var(--calcite-color-background));
 }
 
 .content,
@@ -126,6 +164,7 @@
 
 .text-area.text-area--only {
   @apply h-full;
+  min-block-size: var(--calcite-text-area-min-height, 0);
 }
 
 :host([resize="none"]) .text-area {
@@ -141,49 +180,39 @@
 }
 
 :host([scale="s"]) {
+  --calcite-internal-text-area-padding-block: var(--calcite-spacing-xxs);
+  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-sm);
+  --calcite-internal-text-area-footer-min-height: 1.75rem;
+
   .text-area,
   .footer,
   .character-limit {
-    @apply pl-2;
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--2));
   }
 
-  .footer {
-    min-block-size: 1.75rem;
-  }
-
-  .text-area {
-    @apply py-1 px-2;
+  .character-limit {
+    padding-inline-start: var(--calcite-spacing-sm);
   }
 }
 
 :host([scale="m"]) {
-  .text-area {
-    @apply py-2 px-3;
-  }
-
-  .footer {
-    @apply py-2 px-3;
-    min-block-size: 2.25rem;
-  }
+  --calcite-internal-text-area-padding-block: var(--calcite-spacing-sm);
+  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-md);
+  --calcite-internal-text-area-footer-min-height: 2.25rem;
 }
 
 :host([scale="l"]) {
-  .text-area,
-  .footer {
-    font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
-    padding-block: var(--calcite-spacing-md);
-    padding-inline: var(--calcite-spacing-lg);
-  }
-
-  .footer {
-    min-block-size: 2.75rem;
-  }
+  --calcite-internal-text-area-padding-block: var(--calcite-spacing-md);
+  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-lg);
+  --calcite-internal-text-area-footer-min-height: 2.75rem;
 
   .text-area,
   .footer,
   .character-limit {
     font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
+  }
+
+  .character-limit {
     padding-inline-start: var(--calcite-spacing-lg);
   }
 }

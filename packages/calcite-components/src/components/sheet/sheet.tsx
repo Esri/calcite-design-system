@@ -14,7 +14,7 @@ import {
 } from "@arcgis/lumina";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -290,7 +290,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (

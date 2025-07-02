@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";

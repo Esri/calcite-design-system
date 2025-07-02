@@ -3,21 +3,19 @@ import StyleDictionary from "style-dictionary";
 import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
 import { TransformNameRemoveTier } from "../name/remove-tier.js";
 import { TransformNameRemoveDefault } from "../name/remove-default.js";
-import { TransformNameRemoveColorMode } from "../name/remove-color-mode.js";
 import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
-import { TransformValueSizeUnitlessToPx } from "../value/unitless-breakpoint-to-px.js";
 import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
 import { TransformAttributeSchema } from "../attribute/schema.js";
 import { RegisterFn } from "../../../types/interfaces.js";
 import { TransformValueEnsureType } from "../value/ensure-type.js";
-import { TransformValueCorrectValue } from "../value/correct-value.js";
+import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.js";
 import { Platform } from "../../utils/enums.js";
+import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.js";
 
 export const platformTransforms = {
   [Platform.css]: [
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
-    TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
     TransformAttributePlatformNames,
     TransformAttributeSchema,
@@ -28,14 +26,13 @@ export const platformTransforms = {
     transforms.nameCamel,
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
-    TransformNameRemoveColorMode,
     TransformNameIncludePlusMinus,
   ],
 };
 
 export function getTransforms(): string[] {
   const agnosticTransforms = [
-    TransformValueCorrectValue,
+    TransformValueCorrectPreprocessValue,
     "ts/descriptionToComment",
     "ts/resolveMath",
     "ts/size/px",
@@ -44,8 +41,8 @@ export function getTransforms(): string[] {
     "ts/typography/fontWeight",
     "ts/color/modifiers",
     TransformValueSizePxToRem,
-    TransformValueSizeUnitlessToPx,
     TransformValueEnsureType,
+    TransformValueCorrectPostprocessValue,
   ];
 
   return [...agnosticTransforms, ...platformTransforms[Platform.css]];

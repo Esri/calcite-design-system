@@ -14,7 +14,7 @@ import {
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -156,7 +156,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (

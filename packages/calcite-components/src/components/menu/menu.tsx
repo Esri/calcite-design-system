@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";

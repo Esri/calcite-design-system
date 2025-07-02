@@ -11,6 +11,7 @@ import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } fro
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
@@ -80,6 +81,9 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance: Extract<"solid" | "transparent", Appearance>;
 
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
@@ -102,7 +106,7 @@ export class AccordionItem extends LitElement {
    *
    * @private
    */
-  @property() scale: Scale;
+  @property({ reflect: true }) scale: Scale;
 
   // #endregion
 
@@ -266,7 +270,7 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl } = this;
+    const { iconFlipRtl, heading, headingLevel } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -315,7 +319,9 @@ export class AccordionItem extends LitElement {
             <div class={CSS.headerContainer}>
               {iconStartEl}
               <div class={CSS.headerText}>
-                <span class={CSS.heading}>{this.heading}</span>
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}

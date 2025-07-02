@@ -379,10 +379,10 @@ export class SegmentedControl
     if (match && emit) {
       await this.updateComplete;
       this.calciteSegmentedControlChange.emit();
-    }
 
-    if (!isServer && match) {
-      match.focus();
+      if (!isServer) {
+        match.focus();
+      }
     }
   }
 

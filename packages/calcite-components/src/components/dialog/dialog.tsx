@@ -7,7 +7,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -18,6 +18,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -176,6 +177,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
   >;
+
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -402,7 +409,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     transitionEl.classList.toggle(CSS.openingActive, value);
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -438,8 +445,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
+          const { minBlockSize } = window.getComputedStyle(transitionEl);
+          const minHeight = getStylePixelValue(minBlockSize);
+          const height = this.getTransitionElDOMRect().height;
+
+          if (height <= minHeight) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - resizeShiftStep,
+            size: height - resizeShiftStep,
             type: "blockSize",
           });
           resizePosition.bottom -= resizeShiftStep;
@@ -472,8 +487,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         break;
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
+          const { minInlineSize } = window.getComputedStyle(transitionEl);
+          const minWidth = getStylePixelValue(minInlineSize);
+          const width = this.getTransitionElDOMRect().width;
+
+          if (width <= minWidth) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - resizeShiftStep,
+            size: width - resizeShiftStep,
             type: "inlineSize",
           });
           resizePosition.right -= resizeShiftStep;
@@ -743,7 +766,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   //#region Rendering
 
   override render(): JsxNode {
-    const { assistiveText, description, heading, opened } = this;
+    const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
         class={{
@@ -782,6 +805,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}
+                icon={icon}
+                iconFlipRtl={iconFlipRtl}
                 loading={this.loading}
                 menuOpen={this.menuOpen}
                 messageOverrides={this.messageOverrides}

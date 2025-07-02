@@ -146,8 +146,10 @@ export class BlockSection extends LitElement {
     ) : null;
   }
 
-  private renderIcon(icon: string): JsxNode {
-    const { iconFlipRtl } = this;
+  private renderIcon(position: "start" | "end"): JsxNode {
+    const { iconFlipRtl, iconStart, iconEnd } = this;
+
+    const icon = position === "start" ? iconStart : iconEnd;
 
     if (icon === undefined) {
       return null;
@@ -155,16 +157,15 @@ export class BlockSection extends LitElement {
 
     const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
     const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
-
-    const isIconStart = icon === this.iconStart;
+    const isIconStart = position === "start";
 
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
         class={isIconStart ? CSS.iconStart : CSS.iconEnd}
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
-        icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? this.iconStart : this.iconEnd}
+        icon={isIconStart ? iconStart : iconEnd}
+        key={isIconStart ? iconStart : iconEnd}
         scale="s"
       />
     );
@@ -197,12 +198,12 @@ export class BlockSection extends LitElement {
             tabIndex={0}
             title={toggleLabel}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
 
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
             <calcite-switch
               checked={expanded}
@@ -229,9 +230,9 @@ export class BlockSection extends LitElement {
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
-            {this.renderIcon(this.iconStart)}
+            {this.renderIcon("start")}
             <span class={CSS.sectionHeaderText}>{text}</span>
-            {this.renderIcon(this.iconEnd)}
+            {this.renderIcon("end")}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
           </button>

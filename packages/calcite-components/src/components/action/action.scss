@@ -13,7 +13,7 @@
  * @prop --calcite-action-corner-radius-start-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start start.
  * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
- * @prop --calcite-action-text-color-press: Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color-press: Specifies the component's text color when pressed or hovered.
  * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
  */
@@ -34,6 +34,18 @@
 
 .interaction-container {
   border-radius: inherit;
+}
+
+:host([width="full"]) {
+  flex: 1 0 auto;
+
+  .button {
+    justify-content: center;
+
+    .text-container--visible {
+      flex: none;
+    }
+  }
 }
 
 :host([drag-handle]) {
@@ -116,7 +128,6 @@
     leading-6
     opacity-0
     transition-opacity
-    duration-150
     ease-in-out;
 
   transition-property: margin;
@@ -173,7 +184,6 @@
   .button {
     @apply bg-transparent
       transition-shadow
-      duration-150
       ease-in-out;
 
     &:hover {
@@ -186,7 +196,7 @@
   }
 }
 
-:host([data-active]) .button {
+:host([active-descendant]) .button {
   @apply focus-inset;
 }
 

@@ -1,6 +1,7 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.2.0-next.3",
+  "version": "4.3.0-next.4",
+  "type": "module",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
   "keywords": [
@@ -54,24 +55,27 @@
     "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
     "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
+    "lint": "concurrently npm:lint:*",
+    "lint:html": "prettier --write \"**/*.html\" >/dev/null",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "devDependencies": {
-    "browser-sync": "3.0.2",
+    "browser-sync": "3.0.4",
     "calcite-web": "github:Esri/calcite-web#v1.2.5",
-    "camelcase": "6.3.0",
     "cli-progress": "^3.12.0",
-    "debounce": "^2.1.0",
     "fantasticon": "3.0.0",
-    "fs-extra": "11.2.0",
-    "glob": "^11.0.0",
+    "fs-extra": "11.3.0",
+    "glob": "^11.0.3",
     "svg2img": "1.0.0-beta.2",
-    "svgo": "^1.3.0",
+    "svgo": "^4.0.0",
     "svgson": "5.3.1",
     "svgstore-cli": "2.0.1",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "volta": {
     "extends": "../../package.json"

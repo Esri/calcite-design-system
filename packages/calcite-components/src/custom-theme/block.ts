@@ -7,6 +7,9 @@ export const blockTokens = {
   calciteBlockTextColor: "",
   calciteBlockHeadingTextColor: "",
   calciteBlockHeadingTextColorPress: "",
+  calciteBlockDescriptionTextColor: "",
+  calciteBlockIconColor: "",
+  calciteBlockIconColorHover: "",
 };
 
 export const block = html` <calcite-block

@@ -14,7 +14,7 @@ import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom"
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
@@ -255,7 +255,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
   //#region Private Methods
 
   private handleActiveChange(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();

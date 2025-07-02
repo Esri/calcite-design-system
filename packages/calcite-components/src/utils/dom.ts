@@ -587,16 +587,9 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
  *
  * @param targetEl The element to watch for the animation to complete.
  * @param animationName The name of the animation to watch for completion.
- * @param onStart A callback to run when the animation starts.
- * @param onEnd A callback to run when the animation ends or is canceled.
  */
-export async function whenAnimationDone(
-  targetEl: HTMLElement,
-  animationName: string,
-  onStart?: () => void,
-  onEnd?: () => void,
-): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, animationName, "animation", onStart, onEnd);
+export async function whenAnimationDone(targetEl: HTMLElement, animationName: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, animationName, "animation");
 }
 
 /**
@@ -604,29 +597,13 @@ export async function whenAnimationDone(
  *
  * @param targetEl The element to watch for the transition to complete.
  * @param transitionProp The name of the transition to watch for completion.
- * @param onStart A callback to run when the transition starts.
- * @param onEnd A callback to run when the transition ends or is canceled.
  */
-export async function whenTransitionDone(
-  targetEl: HTMLElement,
-  transitionProp: string,
-  onStart?: () => void,
-  onEnd?: () => void,
-): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition", onStart, onEnd);
+export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition");
 }
 
 type TransitionOrAnimation = "transition" | "animation";
 type TransitionOrAnimationInstance = CSSTransition | Animation;
-
-async function triggerFallbackStartEnd(start: () => void, end: () => void): Promise<void> {
-  // offset callbacks by a frame to simulate event counterparts
-  await nextFrame();
-  start?.();
-
-  await nextFrame();
-  end?.();
-}
 
 function findAnimation(
   targetEl: HTMLElement,
@@ -645,15 +622,11 @@ function findAnimation(
  * @param targetEl The element to watch for the transition or animation to complete.
  * @param transitionPropOrAnimationName The transition or animation property to watch for completion.
  * @param type The type of property to watch for completion. Defaults to "transition".
- * @param onStart A callback to run when the transition or animation starts.
- * @param onEnd A callback to run when the transition or animation ends or is canceled.
  */
 export async function whenTransitionOrAnimationDone(
   targetEl: HTMLElement,
   transitionPropOrAnimationName: string,
   type: TransitionOrAnimation,
-  onStart?: () => void,
-  onEnd?: () => void,
 ): Promise<void> {
   let anim = findAnimation(targetEl, type, transitionPropOrAnimationName);
 
@@ -664,17 +637,13 @@ export async function whenTransitionOrAnimationDone(
   }
 
   if (!anim) {
-    return triggerFallbackStartEnd(onStart, onEnd);
+    return;
   }
-
-  onStart?.();
 
   try {
     await anim.finished;
   } catch {
     // swallow error if canceled
-  } finally {
-    onEnd?.();
   }
 }
 

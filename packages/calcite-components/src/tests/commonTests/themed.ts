@@ -11,6 +11,7 @@ interface TargetInfo {
   el: E2EElement;
   selector: string;
   shadowSelector: string;
+  expectedValue?: string;
 }
 
 // only `before`, `after`, `first-letter` and `first-line` support the legacy syntax (single `:`)
@@ -103,7 +104,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
-        const { shadowSelector, targetProp, state } = selectors[i];
+        const { shadowSelector, targetProp, state, expectedValue } = selectors[i];
         const selector = selectors[i].selector || tag;
 
         if (selector.includes(">>>")) {
@@ -112,7 +113,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
-        const target: TargetInfo = { el, selector, shadowSelector };
+        const target: TargetInfo = { el, selector, shadowSelector, expectedValue };
         let interactionSelector: InteractionSelector;
         let stateName: State;
 
@@ -147,7 +148,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           targetProp,
           interactionSelector,
           state: stateName,
-          expectedValue: tokens[token].expectedValue || setTokens[token],
+          expectedValue: tokens[token].expectedValue || target.expectedValue || setTokens[token],
           token: token as CalciteCSSCustomProp,
         });
       }
@@ -181,7 +182,7 @@ type State = "press" | "hover" | "focus";
 
 /** Describes a test target for themed components. */
 type TestTarget = {
-  /** An object with target element and selector info. */
+  /** An object with the target element and selector info. */
   target: TargetInfo;
 
   /** The selector for the interaction's target element. */
@@ -312,6 +313,8 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.down();
       await page.mouse.up();
     }
+
+    await page.waitForChanges();
   } else if (state) {
     try {
       await targetEl[state as Exclude<State, "press">]();
@@ -329,8 +332,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       throw new Error(message);
     }
   }
-
-  await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
     const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);

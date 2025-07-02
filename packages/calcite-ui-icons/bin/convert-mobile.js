@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+import fsExtra from "fs-extra";
+import svg2img from "svg2img";
+import path from "node:path";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+const { readdir, writeFile, readFile, mkdirSync, writeFileSync, existsSync } = fsExtra;
 
-const { readdir, writeFile, readFile, mkdirSync, writeFileSync, existsSync } = require("fs-extra");
-const svg2img = require("svg2img");
-const path = require("path");
-const yargs = require("yargs");
-
-const options = yargs
+const options = yargs(hideBin(process.argv))
   .usage(
     "Usage: -n <name of icon, omit if doing bulk>, \n-s <output size, defaults to 24>, \n-o <output path (defaults to ./output)>, \n-p <target platform (e.g. ios) \n-i <16, 24, 32, omit for 16>",
   )
@@ -29,7 +30,6 @@ const options = yargs
   })
   .option("i", { alias: "inSize", describe: "source svg variant, defaults to 16", type: "string", demandOption: false })
   .option("s", { alias: "outSize", describe: "size of output image", type: "string", demandOption: false }).argv;
-
 /**
  * Converts a single svg to png, with given width & height values. The function will automatically append '.png'
  * @param {string} svgFilePath - filepath to icon .svg
@@ -61,7 +61,6 @@ function convertSingleIconToPng(svgFilePath, width, height, outputBasePath, outp
     writeFileSync(real_output_path, buffer);
   });
 }
-
 /**
  * Creates an ImageSet (including Contents.json file) for an icon
  * @param {string} svgFilePath - filepath to icon .svg
@@ -72,14 +71,12 @@ function convertSingleIconToPng(svgFilePath, width, height, outputBasePath, outp
  */
 function convertIconToXcodeImageSet(svgFilePath, width, height, outputBasePath, outputName) {
   const outputImagesetPath = path.join(outputBasePath, outputName + ".imageset");
-
   // Create images at 3 sizes
   convertSingleIconToPng(svgFilePath, width, height, outputImagesetPath, outputName, "@1x");
   convertSingleIconToPng(svgFilePath, width * 2, height * 2, outputImagesetPath, outputName, "@2x");
   convertSingleIconToPng(svgFilePath, width * 3, height * 3, outputImagesetPath, outputName, "@3x");
-
   // read template
-  const imagesetTemplatePath = path.join(__dirname, "templates", "imageset.json");
+  const imagesetTemplatePath = path.join(import.meta.dirname, "templates", "imageset.json");
   // create Contents.json for asset catalog asset
   readFile(imagesetTemplatePath, "utf8", function (error, buffer) {
     if (error) {
@@ -91,14 +88,13 @@ function convertIconToXcodeImageSet(svgFilePath, width, height, outputBasePath, 
     writeFileSync(contentsJsonOutputPath, contentsJsonBuffer);
   });
 }
-
 /**
  * Indexes all calcite icons contained in directory at path
  * @param {string} baseIconPath - path to calcite .svg icons directory
  */
 async function indexCalciteIcons(baseIconPath) {
   return new Promise((resolve) => {
-    var iconIndex = {};
+    const iconIndex = {};
     readdir(baseIconPath, function (error, files) {
       if (error) {
         console.log(error);
@@ -106,9 +102,9 @@ async function indexCalciteIcons(baseIconPath) {
       }
       files.forEach(function (file) {
         // strip all files of file size information, catalog in an index
-        var base_name = path.basename(file);
+        let base_name = path.basename(file);
         base_name = base_name.replace(".svg", "");
-        var size = undefined;
+        let size = undefined;
         if (base_name.includes("-16")) {
           base_name = base_name.replace("-16", "");
           size = 16;
@@ -128,7 +124,6 @@ async function indexCalciteIcons(baseIconPath) {
     });
   });
 }
-
 /**
  * Indexes all calcite icons contained in directory at path
  * @param {string} xcAssetsBaseDirectory - path where to derive calcite.xcassets
@@ -136,7 +131,7 @@ async function indexCalciteIcons(baseIconPath) {
 async function createCalciteXCAssets(xcAssetsBaseDirectory) {
   return new Promise((resolve) => {
     // Put in .xcassets folder
-    var directory = path.join(xcAssetsBaseDirectory, "calcite.xcassets");
+    const directory = path.join(xcAssetsBaseDirectory, "calcite.xcassets");
     // Make sure dir exists
     if (!existsSync(directory)) {
       mkdirSync(directory, {
@@ -144,7 +139,7 @@ async function createCalciteXCAssets(xcAssetsBaseDirectory) {
       });
     }
     // read contents.json template
-    let template_path = path.join(__dirname, "templates", "xcassets.json");
+    const template_path = path.join(import.meta.dirname, "templates", "xcassets.json");
     // write out file
     readFile(template_path, "utf8", function (error, buffer) {
       if (error) {
@@ -152,23 +147,22 @@ async function createCalciteXCAssets(xcAssetsBaseDirectory) {
         process.exit(1);
       }
       const contents_output_path = path.join(directory, "Contents.json");
-      writeFile(contents_output_path, buffer, function (error) {
+      writeFile(contents_output_path, buffer, function () {
         resolve(directory);
       });
     });
   });
 }
-
 async function main() {
   // index all calcite icons
-  let iconIndex = await indexCalciteIcons("./icons/");
+  const iconIndex = await indexCalciteIcons("./icons/");
   // establish output root path
-  var outputRoot = path.join(__dirname, "output");
+  let outputRoot = path.join(import.meta.dirname, "output");
   if (options.outputDir) {
-    outputRoot = path.join(__dirname, options.outputDir);
+    outputRoot = path.join(import.meta.dirname, options.outputDir);
   }
   // establish input size
-  var inputSize = 24;
+  let inputSize = 24;
   if (options.inSize === "16") {
     inputSize = 16;
   } else if (options.inSize === "24") {
@@ -176,7 +170,7 @@ async function main() {
   } else if (options.inSize === "32") {
     inputSize = 32;
   } else if (options.outSize) {
-    let size = parseInt(options.outSize);
+    const size = parseInt(options.outSize);
     if (size < 24) {
       inputSize = 16;
     } else if (size < 32) {
@@ -186,9 +180,9 @@ async function main() {
     }
   }
   // establish output size (in pixels)
-  var outputSize = 24;
+  let outputSize = 24;
   if (options.outSize) {
-    let size = parseInt(options.outSize);
+    const size = parseInt(options.outSize);
     if (size) {
       outputSize = size;
     }
@@ -202,30 +196,29 @@ async function main() {
   }
   // build xcassets if output for iOS
   if (options.outputPlatform === "ios") {
-    let xcAssetsDirectory = await createCalciteXCAssets(outputRoot);
+    const xcAssetsDirectory = await createCalciteXCAssets(outputRoot);
     if (options.name) {
-      let name = options.name;
-      let file = iconIndex[name][inputSize];
+      const name = options.name;
+      const file = iconIndex[name][inputSize];
       convertIconToXcodeImageSet(file, outputSize, outputSize, xcAssetsDirectory, name);
     } else {
-      for (let key in iconIndex) {
-        let file = iconIndex[key][inputSize];
+      for (const key in iconIndex) {
+        const file = iconIndex[key][inputSize];
         convertIconToXcodeImageSet(file, outputSize, outputSize, xcAssetsDirectory, key);
       }
     }
   } else {
     // platform is not ios, render plain png
     if (options.name) {
-      let name = options.name;
-      let file = iconIndex[name][inputSize];
+      const name = options.name;
+      const file = iconIndex[name][inputSize];
       convertSingleIconToPng(file, outputSize, outputSize, outputRoot, name, undefined);
     } else {
-      for (let key in iconIndex) {
-        let file = iconIndex[key][inputSize];
+      for (const key in iconIndex) {
+        const file = iconIndex[key][inputSize];
         convertSingleIconToPng(file, outputSize, outputSize, outputRoot, key, undefined);
       }
     }
   }
 }
-
 main();

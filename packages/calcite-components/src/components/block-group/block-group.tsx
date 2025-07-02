@@ -21,6 +21,7 @@ import { getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useCancelable } from "../../controllers/useCancelable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -55,6 +56,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   private parentBlockGroupEl: BlockGroup["el"];
 
   sortable: Sortable;
+
+  private cancelable = useCancelable<this>()(this);
 
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();
@@ -182,6 +185,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItems();
     this.setUpSorting();
     this.setParentBlockGroup();
+    this.cancelable.add(this.updateBlockItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

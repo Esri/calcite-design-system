@@ -1,4 +1,4 @@
-import { makeGenericController } from "@arcgis/components-controllers";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode } from "../utils/dom";

@@ -217,3 +217,13 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     ></calcite-input-number>
   `);
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input-number placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input-number>`;

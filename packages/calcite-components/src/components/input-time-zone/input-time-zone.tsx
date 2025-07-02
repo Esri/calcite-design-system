@@ -307,7 +307,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -360,11 +359,6 @@ export class InputTimeZone
 
     this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
-
-    if (normalized !== value) {
-      await this.updateComplete;
-      this.overrideSelectedLabelForRegion(this.open);
-    }
   }
 
   onLabelClick(): void {
@@ -386,12 +380,7 @@ export class InputTimeZone
       return;
     }
 
-    const { label, metadata } = this.selectedTimeZoneItem;
-
-    this.comboboxEl.selectedItems[0].textLabel =
-      !metadata.country || open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem, open);
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -489,6 +478,14 @@ export class InputTimeZone
     return value ? this.normalizer(value) : value;
   }
 
+  private getItemLabel(item: TimeZoneItem, open: boolean = this.open): string {
+    const selected = this.selectedTimeZoneItem === item;
+    const { label, metadata } = item;
+    return !metadata.country || open || !selected
+      ? label
+      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -559,7 +556,7 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-
+          const textLabel = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
@@ -567,7 +564,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={label}
+              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">

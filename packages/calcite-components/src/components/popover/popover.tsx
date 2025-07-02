@@ -28,7 +28,7 @@ import {
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -187,7 +187,13 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   * The `referenceElement` used to position the component according to its `placement` value.
+   *
+   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   *
+   * However, a string `id` of the reference element can also be used.
+   *
+   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    *
    * @required
    */
@@ -340,7 +346,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
   }

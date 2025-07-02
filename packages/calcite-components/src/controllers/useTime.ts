@@ -1,5 +1,6 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { GenericController, T9nMeta } from "@arcgis/components-controllers";
+import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
 import { createEvent, LitElement } from "@arcgis/lumina";
 import {
@@ -21,12 +22,12 @@ import {
   MinuteOrSecond,
   parseTimeString,
   toISOTimeString,
-} from "../../utils/time";
-import { decimalPlaces, getDecimals } from "../../utils/math";
-import { isValidNumber } from "../../utils/number";
-import { capitalizeWord } from "../../utils/text";
-import { NumberingSystem, SupportedLocale } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
+} from "../utils/time";
+import { decimalPlaces, getDecimals } from "../utils/math";
+import { isValidNumber } from "../utils/number";
+import { capitalizeWord } from "../utils/text";
+import { NumberingSystem, SupportedLocale } from "../utils/locale";
+import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
   /**
@@ -63,7 +64,7 @@ type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
    */
-  calciteTimeChange: CustomEvent;
+  calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
    */
@@ -141,8 +142,8 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  //#region Private Properties
+class TimeController extends GenericController<TimeProperties, TimeComponent> {
+  //#region Properties
 
   fractionalSecond: string;
 
@@ -349,9 +350,12 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
         this.setValuePart("meridiem");
         break;
       case "ArrowUp":
+        event.preventDefault();
+        this.toggleMeridiem("up");
+        break;
       case "ArrowDown":
         event.preventDefault();
-        this.toggleMeridiem(event.key);
+        this.toggleMeridiem("down");
         break;
       case " ":
       case "Spacebar":
@@ -368,79 +372,35 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
 
   //#endregion
 
-  //#region Private Methods
+  //#region Public Methods
 
-  hostConnected(): void {
-    this.setHourFormat();
-    this.setMeridiemOrder();
-    this.setValue(this.component.value);
-  }
-
-  hostUpdate(changes: PropertyValues): void {
-    if (changes.has("hourFormat")) {
-      this.setHourFormat();
-      this.setValue(this.component.value);
-    }
-    if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
-      this.setHourFormat();
-      this.setMeridiemOrder();
-      this.setValue(this.component.value);
-    }
-    if (changes.has("numberingSystem")) {
-      this.setValue(this.component.value);
-    }
-    if (changes.has("step")) {
-      const oldStep = this.component.step;
-      const newStep = changes.get("step");
-      if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
-        this.setValue(this.component.value);
-      }
-    }
-  }
-
-  private decrementHour(): void {
+  decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
   }
 
-  private decrementMinute(): void {
+  decrementMinute(): void {
     this.decrementMinuteOrSecond("minute");
   }
 
-  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
-    let newValue;
-    if (isValidNumber(this[key])) {
-      const valueAsNumber = parseInt(this[key]);
-      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
-    } else {
-      newValue = 59;
-    }
-    this.setValuePart(key, newValue);
-  }
-
-  private decrementSecond(): void {
+  decrementSecond(): void {
     this.decrementMinuteOrSecond("second");
   }
 
-  private incrementHour(): void {
+  incrementHour(): void {
     const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
     this.setValuePart("hour", newHour);
   }
 
-  private incrementMinute(): void {
+  incrementMinute(): void {
     this.incrementMinuteOrSecond("minute");
   }
 
-  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
-    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
-    this.setValuePart(key, newValue);
-  }
-
-  private incrementSecond(): void {
+  incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
   }
 
-  private nudgeFractionalSecond(direction: "up" | "down"): void {
+  nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.component.step);
     const stepPrecision = decimalPlaces(this.component.step);
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
@@ -475,6 +435,77 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
+  toggleMeridiem(direction: "down" | "up"): void {
+    let newMeridiem;
+    if (!this.meridiem) {
+      newMeridiem = direction === "down" ? "PM" : "AM";
+    } else {
+      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    }
+    this.setValuePart("meridiem", newMeridiem);
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  hostConnected(): void {
+    this.setHourFormat();
+    this.setMeridiemOrder();
+    this.setValue(this.component.value);
+  }
+
+  hostUpdate(changes: PropertyValues): void {
+    let updateHourFormat = false;
+    let updateMeridiemOrder = false;
+    let updateValue = false;
+
+    if (changes.has("hourFormat")) {
+      updateHourFormat = true;
+      updateValue = true;
+    }
+    if (changes.has("messages") && changes.get("messages")?._lang !== this.component.messages._lang) {
+      updateHourFormat = true;
+      updateMeridiemOrder = true;
+      updateValue = true;
+    }
+    if (changes.has("numberingSystem")) {
+      updateValue = true;
+    }
+    if (changes.has("step")) {
+      const oldStep = this.component.step;
+      const newStep = changes.get("step");
+      if ((oldStep >= 60 && newStep > 0 && newStep < 60) || (newStep >= 60 && oldStep > 0 && oldStep < 60)) {
+        updateValue = true;
+      }
+    }
+    if (updateHourFormat) {
+      this.setHourFormat();
+    }
+    if (updateMeridiemOrder) {
+      this.setMeridiemOrder();
+    }
+    if (updateValue) {
+      this.setValue(this.component.value);
+    }
+  }
+
+  private decrementMinuteOrSecond(key: MinuteOrSecond): void {
+    let newValue;
+    if (isValidNumber(this[key])) {
+      const valueAsNumber = parseInt(this[key]);
+      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
+    } else {
+      newValue = 59;
+    }
+    this.setValuePart(key, newValue);
+  }
+
+  private incrementMinuteOrSecond(key: MinuteOrSecond): void {
+    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
+    this.setValuePart(key, newValue);
+  }
+
   private setHourFormat(): void {
     const { hourFormat, messages } = this.component;
     const locale = messages._lang as SupportedLocale;
@@ -487,16 +518,6 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     this.meridiemOrder = getMeridiemOrder(locale);
   }
 
-  private toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
-    let newMeridiem;
-    if (!this.meridiem) {
-      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
-    } else {
-      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    }
-    this.setValuePart("meridiem", newMeridiem);
-  }
-
   setValue(value: string, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
@@ -505,15 +526,15 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
       const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedDecimalSeparator,
-        localizedFractionalSecond,
-        localizedSecondSuffix,
-        localizedMeridiem,
+        hour: localizedHour,
+        hourSuffix: localizedHourSuffix,
+        minute: localizedMinute,
+        minuteSuffix: localizedMinuteSuffix,
+        second: localizedSecond,
+        secondSuffix: localizedSecondSuffix,
+        decimalSeparator: localizedDecimalSeparator,
+        fractionalSecond: localizedFractionalSecond,
+        meridiem: localizedMeridiem,
       } = localizeTimeString({
         hour12,
         locale,
@@ -655,3 +676,5 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
 
   //#endregion
 }
+
+export const useTime = toFunction(TimeController);

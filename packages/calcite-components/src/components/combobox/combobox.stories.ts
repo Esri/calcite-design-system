@@ -965,6 +965,41 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
   </calcite-combobox>
 `;
 
+export const selectAllEnabled = (): string => html`
+  <calcite-combobox selection-mode="multiple" placeholder="placeholder" select-all-enabled open scale="l">
+    <calcite-combobox-item value="Trees" text-label="Trees" selected>
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+
+  <calcite-combobox style="margin-top:280px; margin-bottom:350px;" selection-mode="multiple" select-all-enabled open>
+    <calcite-combobox-item value="Trees" text-label="Trees" selected>
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+
+  <calcite-combobox style="margin-top:450px; margin-bottom:30px;" selection-mode="multiple" select-all-enabled open>
+    <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Flowers" text-label="Flowers" selected>
+      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
 export const withDescriptionShortLabelAndContentSlots = (): string => html`
   <calcite-combobox-item
     description="the first installment in this thrilling series"

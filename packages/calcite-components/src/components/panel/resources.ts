@@ -7,6 +7,7 @@ export const CSS = {
   header: "header",
   headerContainer: "header-container",
   headerContainerBorderEnd: "header-container--border-end",
+  headingTextContent: "heading-text-content",
   heading: "heading",
   summary: "summary",
   description: "description",
@@ -14,6 +15,7 @@ export const CSS = {
   headerActions: "header-actions",
   headerActionsEnd: "header-actions--end",
   headerActionsStart: "header-actions--start",
+  icon: "icon",
   contentWrapper: "content-wrapper",
   fabContainer: "fab-container",
   footer: "footer",
@@ -21,7 +23,9 @@ export const CSS = {
   footerActions: "footer-actions",
   footerStart: "footer-start",
   footerEnd: "footer-end",
-  headerSlottedContent: "header-slotted-content",
+  headerSlottedContent: "header--slotted-content",
+  headerNonSlottedContent: "header--non-slotted-content",
+  menuAction: "menu-action",
 };
 
 export const IDS = {
