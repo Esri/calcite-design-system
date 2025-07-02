@@ -9834,5 +9834,35 @@
     "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
     "category": "Windows",
     "release": "4.3.0"
+  },
+  "location-label": {
+    "alias": ["4.3.0", "gis", "marker", "navigation", "map", "identify", "data"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "create", "location", "point", "radius", "pass"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "bezier-curve": {
+    "alias": ["4.3.0", "geometry editing", "nonlinear", "create", "shape", "angle", "height"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "tangent-curve": {
+    "alias": ["4.3.0", "geometry editing", "create", "segments", "points", "circular"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "arrow-curve-tool": {
+    "alias": ["4.3.0", "geometry editing", "tool", "map", "points", "midpoint", "line"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "end-point-arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "circular", "create", "typing", "define", "point"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
   }
 }

@@ -649,30 +649,28 @@ export class DatePicker extends LitElement {
     endDate: Date,
   ): JsxNode {
     return (
-      this.localeData && (
-        <calcite-date-picker-month
-          activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
-          endDate={this.range ? endDate : undefined}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
-          hoverRange={this.hoverRange}
-          layout={this.layout}
-          localeData={this.localeData}
-          max={maxDate}
-          messages={this.messages}
-          min={minDate}
-          monthStyle={this.monthStyle}
-          oncalciteInternalDatePickerDayHover={this.monthHoverChange}
-          oncalciteInternalDatePickerDaySelect={this.monthDateChange}
-          oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
-          oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
-          oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
-          range={this.range}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate : date}
-          startDate={this.range ? date : undefined}
-        />
-      )
+      <calcite-date-picker-month
+        activeDate={activeDate}
+        dateTimeFormat={this.dateTimeFormat}
+        endDate={this.range ? endDate : undefined}
+        headingLevel={this.headingLevel || HEADING_LEVEL}
+        hoverRange={this.hoverRange}
+        layout={this.layout}
+        localeData={this.localeData}
+        max={maxDate}
+        messages={this.messages}
+        min={minDate}
+        monthStyle={this.monthStyle}
+        oncalciteInternalDatePickerDayHover={this.monthHoverChange}
+        oncalciteInternalDatePickerDaySelect={this.monthDateChange}
+        oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
+        oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
+        oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
+        range={this.range}
+        scale={this.scale}
+        selectedDate={this.activeRange === "end" ? endDate : date}
+        startDate={this.range ? date : undefined}
+      />
     );
   }
 

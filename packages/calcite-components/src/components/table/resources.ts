@@ -8,6 +8,10 @@ export const CSS = {
   tableFixed: "table--fixed",
   assistiveText: "assistive-text",
   selectionActions: "selection-actions",
+  dismissButton: "dismiss-button",
+  selectionChipActive: "selection-chip--active",
+  selectionCountChip: "selection-chip",
+  selectionOutOfViewChip: "selection-chip--out-of-view",
 };
 
 export const SLOTS = {
