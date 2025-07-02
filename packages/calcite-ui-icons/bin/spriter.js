@@ -1,3 +1,2 @@
 #!/usr/bin/env node
-
-require("../lib/spriter/cli");
+import "../lib/spriter/cli.js";
