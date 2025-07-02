@@ -135,6 +135,10 @@
   color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
 }
 
+:host([complete]) .stepper-item-icon {
+  @apply opacity-disabled;
+}
+
 // stepper item title
 :host .stepper-item-header-text {
   @apply flex-col;
