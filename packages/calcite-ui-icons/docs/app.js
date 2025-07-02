@@ -70,11 +70,10 @@
     const suffix = ".svg";
     const tags = icon.alias
       .map(function (alias) {
-        return (
-          '<span class="label inline-block margin-right-quarter trailer-quarter">' +
-          encodeURIComponent(alias) +
-          "</span>"
-        );
+        const span = document.createElement("span");
+        span.classList.add("label", "inline-block", "margin-right-quarter", "trailer-quarter");
+        span.textContent = alias;
+        return span.outerHTML;
       })
       .join("");
     window.location.hash = encodeURIComponent(key);

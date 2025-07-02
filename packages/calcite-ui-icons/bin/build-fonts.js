@@ -44,9 +44,7 @@ const organizeIconsBySize = (size) => {
       const src = join(fontsDir, file);
       const dest = join(sizeDir, file.replace(`-${size}`, ""));
       if (lstatSync(src).isSymbolicLink()) {
-        if (existsSync(dest)) {
-          unlinkSync(dest);
-        }
+        if (existsSync(dest)) unlinkSync(dest);
         symlinkSync(src, dest);
       }
     }

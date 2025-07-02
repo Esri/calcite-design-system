@@ -1,6 +1,6 @@
 "use strict";
-import { readFileSync } from "node:fs";
 import spriter from "./index.js";
+import { readFileSync } from "node:fs";
 const args = process.argv.slice(2); // skip runtime & script args
 function hasArg(name, shorthand) {
   return getArgIndex(name, shorthand) > -1;

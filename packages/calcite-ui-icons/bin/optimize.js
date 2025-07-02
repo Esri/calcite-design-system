@@ -24,7 +24,6 @@ const options = {
 };
 /**
  * Reads an icon file off disk and optimizes it, saving to same location
- *
  * @param {string[]}           filePaths  array of relative file paths
  * @param {SingleBar}          bar        progress bar instance
  * @return {Promise}

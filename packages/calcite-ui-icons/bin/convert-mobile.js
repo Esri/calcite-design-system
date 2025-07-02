@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import path from "node:path";
 import fsExtra from "fs-extra";
 import svg2img from "svg2img";
+import path from "node:path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 const { readdir, writeFile, readFile, mkdirSync, writeFileSync, existsSync } = fsExtra;
@@ -32,7 +32,6 @@ const options = yargs(hideBin(process.argv))
   .option("s", { alias: "outSize", describe: "size of output image", type: "string", demandOption: false }).argv;
 /**
  * Converts a single svg to png, with given width & height values. The function will automatically append '.png'
- *
  * @param {string} svgFilePath - filepath to icon .svg
  * @param {int} width - width of output file
  * @param {int} height - height of output file
@@ -64,7 +63,6 @@ function convertSingleIconToPng(svgFilePath, width, height, outputBasePath, outp
 }
 /**
  * Creates an ImageSet (including Contents.json file) for an icon
- *
  * @param {string} svgFilePath - filepath to icon .svg
  * @param {int} width - width of output file @1x
  * @param {int} height - height of output file @1x
@@ -92,7 +90,6 @@ function convertIconToXcodeImageSet(svgFilePath, width, height, outputBasePath, 
 }
 /**
  * Indexes all calcite icons contained in directory at path
- *
  * @param {string} baseIconPath - path to calcite .svg icons directory
  */
 async function indexCalciteIcons(baseIconPath) {
@@ -129,7 +126,6 @@ async function indexCalciteIcons(baseIconPath) {
 }
 /**
  * Indexes all calcite icons contained in directory at path
- *
  * @param {string} xcAssetsBaseDirectory - path where to derive calcite.xcassets
  */
 async function createCalciteXCAssets(xcAssetsBaseDirectory) {

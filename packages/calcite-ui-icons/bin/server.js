@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import { execSync } from "node:child_process";
-import debounce from "lodash-es/debounce.js";
-import { create } from "browser-sync";
 import build from "./build.js";
 import pathData from "./path-data.js";
 import optimize from "./optimize.js";
+import debounce from "lodash-es/debounce.js";
+import { execSync } from "node:child_process";
+import { create } from "browser-sync";
 const bs = { create }.create();
 const options = {
   awaitWriteFinish: true,

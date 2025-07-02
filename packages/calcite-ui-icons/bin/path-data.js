@@ -1,14 +1,13 @@
-import path from "node:path";
-import { camelCase } from "change-case";
+import camelCase from "lodash-es/camelCase.js";
 import fsExtra from "fs-extra";
 import { glob } from "glob";
 import { parse } from "svgson";
+import path from "node:path";
 import package$0 from "../package.json" with { type: "json" };
 const { writeFile, readFile, readFileSync } = fsExtra;
 const version = package$0.version;
 /**
  * Gets all important information about an icon.
- *
  * @param {string} svg - Path to icon file.
  * @return {object} - Formatted object with all icon metadata
  */
@@ -25,9 +24,8 @@ function formatSVG(svg) {
 }
 /**
  * Find the path(s) from an icon's svgson data
- *
  * @param {object} svg - Object as returned from svgson.
- * @return {Array} - Array of paths
+ * @return {array} - Array of paths
  */
 function getPaths(svg) {
   const bbPaths = ["M0 0h16v16H0z", "M0 0h24v24H0z", "M0 0h32v32H0z"];
@@ -40,10 +38,9 @@ function getPaths(svg) {
 }
 /**
  * Find the base icon name
- *
  * @param {string} name - Icon filename
  * @param {boolean} filled - Icon filename
- * @return {Array} - Icon filename without size, fill, or file extension
+ * @return {array} - Icon filename without size, fill, or file extension
  */
 function getVariant(name, filled) {
   const noF = name.replace("-f.svg", ".svg");
@@ -51,7 +48,6 @@ function getVariant(name, filled) {
 }
 /**
  * Find an icon's size
- *
  * @param {string} name - Icon filename
  * @return {integer} - 16, 24, 36
  */
@@ -61,7 +57,6 @@ function getSize(name) {
 }
 /**
  * Read an icon from disc and get data as json
- *
  * @param {string} fileName - Icon filename (full path)
  * @return {Promise} - Promise resolving to object which includes name and svgson data
  */
@@ -109,8 +104,7 @@ export type CalciteIconPath = string | CalciteMultiPathEntry[];
         const variant = file.variant.match(/^\d/) ? `i${file.variant}` : file.variant;
         const camelCaseName = camelCase(`${file.filled ? base : variant}-${file.size}${file.filled ? "-f" : ""}`);
         jsFile += `export {${camelCaseName}} from "./js/${camelCaseName}.js";\n`;
-        let contents;
-        let tsContents;
+        let contents, tsContents;
         if (typeof paths === "string") {
           tsFile += `export const ${camelCaseName}: string;\n`;
           contents = `export const ${camelCaseName} = "${paths}";\n`;

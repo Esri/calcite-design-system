@@ -1,6 +1,6 @@
 "use strict";
-import path from "node:path";
 import fsExtra from "fs-extra";
+import path from "node:path";
 const { readdir, mkdir, writeFile, readFile } = fsExtra;
 const ICONS = path.resolve(path.dirname(process.argv[1]), "../icons");
 const NAME = "generated";
@@ -12,7 +12,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Icon descriptor.
  *
- * @typedef {object} IconDescriptor
+ * @typedef {Object} IconDescriptor
  *
  * @property {string} name
  * @property {string} size - possible options are "16" | "24" | "32"
@@ -21,7 +21,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Requested icon.
  *
- * @typedef {object} IconRequest
+ * @typedef {Object} IconRequest
  *
  * @property {string} name
  * @property {string} size - possible options are "16" | "24" | "32"
@@ -31,7 +31,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Config icon.
  *
- * @typedef {object} ConfigIcon
+ * @typedef {Object} ConfigIcon
  *
  * @property {string} name
  * @property {string[] = [16]} size - possible options are 16 | 24 | 32
@@ -40,7 +40,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Config
  *
- * @typedef {object} Config
+ * @typedef {Object} Config
  *
  * @property {ConfigIcon[]} input - icons to process, if missing all icons will be included.
  * @property {string = "output"} output - output directory for spritesheets, if missing "output" will be used
@@ -48,7 +48,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Spritesheet export info.
  *
- * @typedef {object} ExportInfo
+ * @typedef {Object} ExportInfo
  *
  * @property {string} [16] - Size 16 Icons
  * @property {string} [24] - Size 24 Icons
@@ -57,7 +57,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Export summary.
  *
- * @typedef {object} ExportSummary
+ * @typedef {Object} ExportSummary
  *
  * @property {number} ellapsed - total ellapsed time in ms
  * @property {ExportedSpritesheet[]}
@@ -65,7 +65,7 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
  * Exported spritesheet info
  *
- * @typedef {object} ExportedSpritesheet
+ * @typedef {Object} ExportedSpritesheet
  *
  * @property {string} output - output path
  * @property {IconDescriptor[]} icons - exported icons
@@ -184,9 +184,6 @@ function svgToSymbol(icon) {
  * @param {string} object.output - Output directory.
  * @param {number} object.size - Target icon size.
  *
- * @param params.icons
- * @param params.output
- * @param params.size
  * @return {ThenPromise<T>} - Promise that resolves when spritesheet is created
  */
 function createSpritesheet({ icons, output, size }) {
