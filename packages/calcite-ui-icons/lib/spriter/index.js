@@ -1,13 +1,12 @@
+"use strict";
 import fsExtra from "fs-extra";
 import path from "node:path";
-"use strict";
-const { readdir, mkdir, writeFile, readFile, lstatSync } = fsExtra;
+const { readdir, mkdir, writeFile, readFile } = fsExtra;
 const ICONS = path.resolve(path.dirname(process.argv[1]), "../icons");
 const NAME = "generated";
 const SIZES = [16, 24, 32];
 const OUTLINE = "outline";
 const FILL = "fill";
-const isDir = (file) => lstatSync(`${ICONS}/${file}`).isDirectory();
 const readSVG = (icon) => readFile(`${ICONS}/${icon.fileName}`, { encoding: "utf-8" });
 const has = (haystack, needle) => haystack.indexOf(needle) > -1;
 /**
@@ -79,12 +78,12 @@ const has = (haystack, needle) => haystack.indexOf(needle) > -1;
  * @return {ThenPromise<T>} - Promise that resolves when directory creation is ensured.
  */
 function ensureDir(dir) {
-    return mkdir(dir).catch((error) => {
-        const triedToCreateExisting = error.code === "EEXIST";
-        if (!triedToCreateExisting) {
-            throw error;
-        }
-    });
+  return mkdir(dir).catch((error) => {
+    const triedToCreateExisting = error.code === "EEXIST";
+    if (!triedToCreateExisting) {
+      throw error;
+    }
+  });
 }
 /**
  * Builds map of requested icons.
@@ -94,19 +93,19 @@ function ensureDir(dir) {
  * @return {ExportInfo} - Key-value pair where keys correspond to icon size and values are @link{IconRequest[] requested icons}.
  */
 function getRequestedIcons(input) {
-    const iconsPerSize = {};
-    SIZES.forEach((size) => (iconsPerSize[size] = []));
-    input.forEach((icon) => {
-        const { name, sizes = SIZES[0], style = OUTLINE } = icon;
-        sizes
-            .filter((size) => has(SIZES, size))
-            .forEach((size) => {
-            const fillPart = style === FILL ? "-f" : "";
-            const fileName = `${name}-${size}${fillPart}.svg`;
-            iconsPerSize[size].push({ name, size, style, fileName });
-        });
-    });
-    return iconsPerSize;
+  const iconsPerSize = {};
+  SIZES.forEach((size) => (iconsPerSize[size] = []));
+  input.forEach((icon) => {
+    const { name, sizes = SIZES[0], style = OUTLINE } = icon;
+    sizes
+      .filter((size) => has(SIZES, size))
+      .forEach((size) => {
+        const fillPart = style === FILL ? "-f" : "";
+        const fileName = `${name}-${size}${fillPart}.svg`;
+        iconsPerSize[size].push({ name, size, style, fileName });
+      });
+  });
+  return iconsPerSize;
 }
 /**
  * Creates spritesheet export details.
@@ -116,51 +115,51 @@ function getRequestedIcons(input) {
  * @return {ThenPromise<ExportInfo>} - Promise that resolves with export info.
  */
 function generateExportInfo(requested) {
-    const processRequested = (icons) => {
-        SIZES.forEach((size) => {
-            requested[size].forEach((icon) => {
-                if (!has(icons, icon.fileName)) {
-                    return;
-                }
-                exportInfo[size].push({
-                    name: icon.name,
-                    style: icon.style,
-                    size,
-                    fileName: icon.fileName,
-                });
-            });
-        });
-    };
-    const processAll = (icons) => {
-        icons.forEach((icon) => {
-            SIZES.forEach((size) => {
-                const fileMatchesSize = icon.indexOf(`-${size}`) > -1;
-                if (!fileMatchesSize) {
-                    return;
-                }
-                const parserPattern = /(.+)-\d\d(-f)?\.svg/;
-                const [, name, filled] = parserPattern.exec(icon);
-                exportInfo[size].push({
-                    name,
-                    style: filled ? FILL : OUTLINE,
-                    size,
-                    fileName: icon,
-                });
-            });
-        });
-    };
-    const includeAll = SIZES.every((size) => requested[size].length === 0);
-    const exportInfo = {};
-    SIZES.forEach((size) => (exportInfo[size] = []));
-    return readdir(ICONS)
-        .then((icons) => {
-        if (includeAll) {
-            processAll(icons);
-            return;
+  const processRequested = (icons) => {
+    SIZES.forEach((size) => {
+      requested[size].forEach((icon) => {
+        if (!has(icons, icon.fileName)) {
+          return;
         }
-        processRequested(icons);
+        exportInfo[size].push({
+          name: icon.name,
+          style: icon.style,
+          size,
+          fileName: icon.fileName,
+        });
+      });
+    });
+  };
+  const processAll = (icons) => {
+    icons.forEach((icon) => {
+      SIZES.forEach((size) => {
+        const fileMatchesSize = icon.indexOf(`-${size}`) > -1;
+        if (!fileMatchesSize) {
+          return;
+        }
+        const parserPattern = /(.+)-\d\d(-f)?\.svg/;
+        const [, name, filled] = parserPattern.exec(icon);
+        exportInfo[size].push({
+          name,
+          style: filled ? FILL : OUTLINE,
+          size,
+          fileName: icon,
+        });
+      });
+    });
+  };
+  const includeAll = SIZES.every((size) => requested[size].length === 0);
+  const exportInfo = {};
+  SIZES.forEach((size) => (exportInfo[size] = []));
+  return readdir(ICONS)
+    .then((icons) => {
+      if (includeAll) {
+        processAll(icons);
+        return;
+      }
+      processRequested(icons);
     })
-        .then(() => exportInfo);
+    .then(() => exportInfo);
 }
 /**
  * Converts an SVG into a Symbol element.
@@ -170,12 +169,12 @@ function generateExportInfo(requested) {
  * @return {ThenPromise<string>} - Promise that resolves with symbol element text content.
  */
 function svgToSymbol(icon) {
-    return readSVG(icon).then((svgContent) => {
-        const svgContentCapturingPattern = /^\s*\<svg[^>]*>(.+)\<\/svg>\s*$/;
-        const [, innerContent] = svgContentCapturingPattern.exec(svgContent);
-        const { size } = icon;
-        return `<symbol id="${icon.name}-${size}" viewbox="0 0 ${size} ${size}">${innerContent}</symbol>`;
-    });
+  return readSVG(icon).then((svgContent) => {
+    const svgContentCapturingPattern = /^\s*<svg[^>]*>(.+)<\/svg>\s*$/;
+    const [, innerContent] = svgContentCapturingPattern.exec(svgContent);
+    const { size } = icon;
+    return `<symbol id="${icon.name}-${size}" viewbox="0 0 ${size} ${size}">${innerContent}</symbol>`;
+  });
 }
 /**
  * Creates spritesheet content.
@@ -188,9 +187,9 @@ function svgToSymbol(icon) {
  * @return {ThenPromise<T>} - Promise that resolves when spritesheet is created
  */
 function createSpritesheet({ icons, output, size }) {
-    return Promise.all(icons.map(svgToSymbol))
-        .then((symbols) => `<svg xmlns="http://www.w3.org/2000/svg">${symbols.join("")}</svg>`)
-        .then((content) => writeFile(`${output}/${`${NAME}-${size}.svg`}`, content));
+  return Promise.all(icons.map(svgToSymbol))
+    .then((symbols) => `<svg xmlns="http://www.w3.org/2000/svg">${symbols.join("")}</svg>`)
+    .then((content) => writeFile(`${output}/${`${NAME}-${size}.svg`}`, content));
 }
 /**
  * Creates icon spritesheet from config.
@@ -200,28 +199,32 @@ function createSpritesheet({ icons, output, size }) {
  * @return {ThenPromise<ExportSummary>} - Promise that resolves with export summary.
  */
 function spriter(config) {
-    const startTime = process.hrtime();
-    const { input = [], output = "./output" } = config;
-    return ensureDir(output)
-        .then(() => generateExportInfo(getRequestedIcons(input)))
-        .then((exportInfo) => Promise.all(SIZES.map((size) => {
-        const icons = exportInfo[size];
-        if (icons.length === 0) {
+  const startTime = process.hrtime();
+  const { input = [], output = "./output" } = config;
+  return ensureDir(output)
+    .then(() => generateExportInfo(getRequestedIcons(input)))
+    .then((exportInfo) =>
+      Promise.all(
+        SIZES.map((size) => {
+          const icons = exportInfo[size];
+          if (icons.length === 0) {
             return;
-        }
-        return createSpritesheet({ icons, output, size });
-    })).then(() => exportInfo))
-        .then((exportInfo) => {
-        const endTime = process.hrtime(startTime);
-        const nanoToMillis = 1000000;
-        const ellapsed = endTime[1] / nanoToMillis;
-        const spritesheets = Object.keys(exportInfo).map((size) => {
-            return {
-                output: `${output}/${NAME}-${size}.svg`,
-                icons: exportInfo[size],
-            };
-        });
-        return { ellapsed, spritesheets };
+          }
+          return createSpritesheet({ icons, output, size });
+        }),
+      ).then(() => exportInfo),
+    )
+    .then((exportInfo) => {
+      const endTime = process.hrtime(startTime);
+      const nanoToMillis = 1000000;
+      const ellapsed = endTime[1] / nanoToMillis;
+      const spritesheets = Object.keys(exportInfo).map((size) => {
+        return {
+          output: `${output}/${NAME}-${size}.svg`,
+          icons: exportInfo[size],
+        };
+      });
+      return { ellapsed, spritesheets };
     });
 }
 export default spriter;
