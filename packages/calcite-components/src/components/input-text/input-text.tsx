@@ -86,10 +86,7 @@ export class InputText
 
   private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
+      this.valueController.setValue((event.target as HTMLInputElement).value);
     }
     this.setFocus();
     event.stopPropagation();
@@ -413,13 +410,10 @@ export class InputText
     this.setFocus();
   }
 
-  private clearInputTextValue(nativeEvent: KeyboardEvent | MouseEvent): void {
-    this.setValue({
-      committing: true,
-      nativeEvent,
-      origin: "user",
-      value: "",
-    });
+  private clearInputTextValue(): void {
+    // TODO: Handle nativeEvent Default Prevention
+    const { calciteInputTextChange: changeEvent, valueController } = this;
+    valueController.commitValue({ changeEvent, value: "" });
   }
 
   private emitChangeIfUserModified(): void {
@@ -434,8 +428,8 @@ export class InputText
       element: this.childEl,
       value: this.value,
     });
-
-    this.emitChangeIfUserModified();
+    const { calciteInputTextChange: changeEvent, value, valueController } = this;
+    valueController.commitValue({ changeEvent, value });
   }
 
   private clickHandler(event: MouseEvent): void {
@@ -466,11 +460,9 @@ export class InputText
     if (this.disabled || this.readOnly) {
       return;
     }
-    this.setValue({
-      nativeEvent,
-      origin: "user",
-      value: (nativeEvent.target as HTMLInputElement).value,
-    });
+    const { calciteInputTextInput: inputEvent, valueController } = this;
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    valueController.inputValue({ inputEvent, value });
   }
 
   private inputTextKeyDownHandler(event: KeyboardEvent): void {
@@ -478,7 +470,8 @@ export class InputText
       return;
     }
     if (event.key === "Enter") {
-      this.emitChangeIfUserModified();
+      const { calciteInputTextChange: changeEvent, value, valueController } = this;
+      valueController.commitValue({ changeEvent, value });
     }
   }
 
