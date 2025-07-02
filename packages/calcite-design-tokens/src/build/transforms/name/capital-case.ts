@@ -1,10 +1,10 @@
 import type { NameTransform } from "style-dictionary/types";
-import { capitalCase } from "change-case";
+import { startCase } from "lodash-es";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../../types/interfaces.js";
 
 export const transformNameCapitalCase: NameTransform["transform"] = (token) => {
-  return capitalCase(token.name);
+  return startCase(token.name);
 };
 
 export const registerNameCapitalCase: RegisterFn = () => {

@@ -1,4 +1,4 @@
-import { camelCase } from "change-case";
+import { camelCase } from "lodash-es";
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../support/formatting";

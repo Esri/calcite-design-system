@@ -1,6 +1,6 @@
 import { TransformedToken } from "style-dictionary";
 import type { NameTransform } from "style-dictionary/types";
-import { capitalCase, kebabCase } from "change-case";
+import { startCase, kebabCase } from "lodash-es";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn } from "../../../types/interfaces.js";
 
@@ -24,9 +24,9 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
       const isCamelCased = regex.camelCase.test(token.name);
 
       if (isCamelCased) {
-        text = capitalCase(text);
-        formattedText = capitalCase(formattedText);
-        plusMinus = capitalCase(plusMinus);
+        text = startCase(text);
+        formattedText = startCase(formattedText);
+        plusMinus = startCase(plusMinus);
       } else {
         formattedText = findSymbol[1] ? `-${formattedText}` : `${formattedText}-`;
         text = kebabCase(text);
