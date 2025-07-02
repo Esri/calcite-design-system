@@ -37,13 +37,13 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private guid = IDS.actionId(guid());
+  private guid = guid();
 
   private buttonEl = createRef<HTMLButtonElement>();
 
-  private buttonId = IDS.buttonId(this.guid);
+  private buttonId = IDS.button(this.guid);
 
-  private indicatorId = IDS.indicatorId(this.guid);
+  private indicatorId = IDS.indicator(this.guid);
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 

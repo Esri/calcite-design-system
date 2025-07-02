@@ -720,9 +720,7 @@ export class Combobox
 
     if (this.allSelected) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(
-          `#${IDS.chipUidPrefix(item.guid)}`,
-        );
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -1103,9 +1101,7 @@ export class Combobox
 
     if (this.allSelected && this.selectAllEnabled) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(
-          `#${IDS.chipUidPrefix(item.guid)}`,
-        );
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -1114,9 +1110,7 @@ export class Combobox
 
     if (this.indeterminate) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(
-          `#${IDS.chipUidPrefix(item.guid)}`,
-        );
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.showChip(chipEl);
         }
@@ -1447,9 +1441,7 @@ export class Combobox
   private focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
 
-    const chip = guid
-      ? this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chipUidPrefix(guid)}`)
-      : null;
+    const chip = guid ? this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`) : null;
     chip?.setFocus();
   }
 
@@ -1490,7 +1482,7 @@ export class Combobox
     this.keyboardNavItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
-        activeDescendant = `${IDS.itemUidPrefix(el.guid)}`;
+        activeDescendant = `${IDS.item(el.guid)}`;
       } else {
         el.active = false;
       }
@@ -1560,7 +1552,7 @@ export class Combobox
           data-test-id={`chip-${i}`}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
-          id={item.guid ? `${IDS.chipUidPrefix(item.guid)}` : null}
+          id={item.guid ? `${IDS.chip(item.guid)}` : null}
           key={itemLabel}
           label={label}
           messageOverrides={{ dismissLabel: messages.removeTag }}
@@ -1727,9 +1719,9 @@ export class Combobox
         )}
         <input
           aria-activedescendant={this.activeDescendant}
-          aria-controls={`${IDS.listboxUidPrefix(guid)}`}
+          aria-controls={`${IDS.listbox(guid)}`}
           aria-errormessage={IDS.validationMessage}
-          aria-owns={`${IDS.listboxUidPrefix(guid)}`}
+          aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
           ariaExpanded={open}
           ariaHasPopup="listbox"
@@ -1743,7 +1735,7 @@ export class Combobox
           }}
           data-test-id="input"
           disabled={disabled}
-          id={`${IDS.inputUidPrefix(guid)}`}
+          id={`${IDS.input(guid)}`}
           key="input"
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
@@ -1764,7 +1756,7 @@ export class Combobox
       this.createScreenReaderItem({
         ariaLabel: item.label,
         ariaSelected: item.selected,
-        id: `${IDS.itemUidPrefix(item.guid)}`,
+        id: `${IDS.item(item.guid)}`,
         textContent: item.heading || item.textLabel,
       }),
     );
@@ -1903,8 +1895,8 @@ export class Combobox
               ]}
             <label
               class={CSS.screenReadersOnly}
-              htmlFor={`${IDS.inputUidPrefix(guid)}`}
-              id={`${IDS.labelUidPrefix(guid)}`}
+              htmlFor={`${IDS.input(guid)}`}
+              id={`${IDS.label(guid)}`}
             >
               {label}
             </label>
@@ -1922,10 +1914,10 @@ export class Combobox
           {!readOnly && this.renderChevronIcon()}
         </div>
         <ul
-          aria-labelledby={`${IDS.labelUidPrefix(guid)}`}
+          aria-labelledby={`${IDS.label(guid)}`}
           ariaMultiSelectable="true"
           class={CSS.screenReadersOnly}
-          id={`${IDS.listboxUidPrefix(guid)}`}
+          id={`${IDS.listbox(guid)}`}
           role="listbox"
           tabIndex={-1}
         >

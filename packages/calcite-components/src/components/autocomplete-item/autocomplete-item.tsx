@@ -50,7 +50,7 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
    *
    * @private
    */
-  @property() guid = IDS.autocompleteItemId(guid());
+  @property() guid = IDS.host(guid());
 
   /**
    * Specifies heading text for the component.

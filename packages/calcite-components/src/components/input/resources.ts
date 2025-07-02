@@ -33,7 +33,7 @@ export const SLOTS = {
   action: "action",
 };
 
-export const BUTTON_ADJUSTMENT = {
+export const DIRECTION = {
   up: "up",
   down: "down",
 };

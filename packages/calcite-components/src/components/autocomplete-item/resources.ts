@@ -16,6 +16,8 @@ export const SLOTS = {
   contentStart: "content-start",
 } as const;
 
+const idPrefix = "autocomplete-item";
+
 export const IDS = {
-  autocompleteItemId: (id: string) => `autocomplete-item-${id}`,
+  host: (id: string) => `${idPrefix}-${id}`,
 } as const;

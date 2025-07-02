@@ -17,7 +17,8 @@ export const ICONS = {
   chevronRight: "chevron-right",
 };
 
+const idPrefix = "calcite-stepper-action";
+
 export const IDS = {
-  stepperId: (id: any) => `calcite-stepper-action-${id}`,
-  positionId: (id: any, isPositionStart: boolean) => `${id}-${isPositionStart ? "start" : "end"}`,
+  position: (id: any, isPositionStart: boolean) => `${idPrefix}-${id}-${isPositionStart ? "start" : "end"}`,
 } as const;

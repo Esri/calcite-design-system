@@ -33,14 +33,16 @@ export const CSS = {
   listHide: "list--hide",
 };
 
+const idPrefix = "combobox";
+
 export const IDS = {
   validationMessage: "comboboxValidationMessage",
-  itemUidPrefix: (id: string) => `combobox-item-${id}` as const,
-  chipUidPrefix: (id: string) => `combobox-chip-${id}` as const,
-  labelUidPrefix: (id: string) => `combobox-label-${id}` as const,
-  listboxUidPrefix: (id: string) => `combobox-listbox-${id}` as const,
-  inputUidPrefix: (id: string) => `combobox-input-${id}` as const,
-};
+  item: (id: string) => `${idPrefix}-item-${id}`,
+  chip: (id: string) => `${idPrefix}-chip-${id}`,
+  label: (id: string) => `${idPrefix}-label-${id}`,
+  listbox: (id: string) => `${idPrefix}-listbox-${id}`,
+  input: (id: string) => `${idPrefix}-input-${id}`,
+} as const;
 
 export const ICONS = {
   chevronUp: "chevron-up",

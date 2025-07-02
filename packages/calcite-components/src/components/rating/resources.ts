@@ -12,7 +12,9 @@ export const CSS = {
   partial: "partial",
 };
 
+const idPrefix = "calcite-ratings";
+
 export const IDS = {
   validationMessage: "validationMessage",
-  ratingId: (id: any) => `calcite-ratings-${id}` as const,
+  host: (id: any) => `${idPrefix}-${id}` as const,
 };

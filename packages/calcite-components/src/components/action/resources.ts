@@ -12,10 +12,11 @@ export const CSS = {
   indicatorWithoutIcon: "indicator-without-icon",
 };
 
+const prefixId = "calcite-action";
+
 export const IDS = {
-  actionId: (id: string) => `calcite-action-${id}`,
-  buttonId: (id: string) => `${id}-button`,
-  indicatorId: (id: string) => `${id}-indicator`,
+  button: (id: string) => `${prefixId}-${id}-button`,
+  indicator: (id: string) => `${prefixId}-${id}-indicator`,
 } as const;
 
 export const SLOTS = {

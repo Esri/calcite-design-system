@@ -20,7 +20,7 @@ export class CarouselItem extends LitElement {
 
   // #region Private Properties
 
-  private guid = IDS.itemId(guid());
+  private guid = IDS.host(guid());
 
   // #endregion
 

@@ -48,7 +48,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private container: HTMLDivElement;
 
-  private containerId = IDS.containerId(guid());
+  private containerId = IDS.host(guid());
 
   private itemContainer: HTMLDivElement;
 

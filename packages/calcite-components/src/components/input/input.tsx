@@ -55,7 +55,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, BUTTON_ADJUSTMENT } from "./resources";
+import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -1010,7 +1010,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment={BUTTON_ADJUSTMENT.up}
+        data-adjustment={DIRECTION.up}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1029,7 +1029,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment={BUTTON_ADJUSTMENT.down}
+        data-adjustment={DIRECTION.down}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}

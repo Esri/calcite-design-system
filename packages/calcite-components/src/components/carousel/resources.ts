@@ -37,6 +37,8 @@ export const centerItemsByBreakpoint = {
   xxsmall: 1,
 };
 
+const idPrefix = "calcite-carousel-container";
+
 export const IDS = {
-  containerId: (id: string) => `calcite-carousel-container-${id}` as const,
+  host: (id: string) => `${idPrefix}-${id}` as const,
 };

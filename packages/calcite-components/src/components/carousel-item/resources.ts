@@ -3,6 +3,8 @@ export const CSS = {
   selected: "selected",
 };
 
+const idPrefix = "calcite-carousel-item";
+
 export const IDS = {
-  itemId: (id: string) => `calcite-carousel-item-${id}` as const,
+  host: (id: string) => `${idPrefix}-${id}` as const,
 };

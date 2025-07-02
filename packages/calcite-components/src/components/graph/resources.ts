@@ -4,8 +4,10 @@ export const CSS = {
   graphPathHighlight: "graph-path--highlight",
 };
 
+const idPrefix = "calcite-graph";
+
 export const IDS = {
-  graphId: (id: string) => `calcite-graph-${id}`,
-  linearGradientId: (id: string) => `linear-gradient-${id}`,
-  maskId: (id: string, maskId: number) => `${id}${maskId}`,
+  host: (id: string) => `${idPrefix}-${id}`,
+  linearGradient: (id: string) => `linear-gradient-${idPrefix}-${id}`,
+  mask: (id: string, maskId: number) => `${idPrefix}-${id}${maskId}`,
 } as const;

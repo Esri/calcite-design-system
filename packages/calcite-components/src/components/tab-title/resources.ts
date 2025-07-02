@@ -13,6 +13,8 @@ export const CSS = {
   selectedIndicator: "selected-indicator",
 };
 
+const idPrefix = "calcite-tab-title";
+
 export const IDS = {
-  tabTitleId: (id: any) => `calcite-tab-title-${id}` as const,
-};
+  host: (id: any) => `${idPrefix}-${id}`,
+} as const;

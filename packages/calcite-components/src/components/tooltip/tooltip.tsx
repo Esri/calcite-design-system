@@ -53,7 +53,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   floatingEl: HTMLDivElement;
 
-  private guid = IDS.tooltipId(guid());
+  private guid = IDS.host(guid());
 
   transitionProp = "opacity" as const;
 

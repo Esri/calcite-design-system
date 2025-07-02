@@ -45,7 +45,7 @@ export class ActionMenu extends LitElement {
 
   // #region Private Properties
 
-  private guid = IDS.actionMenuId(guid());
+  private guid = guid();
 
   private actionElements: Action["el"][] = [];
 
@@ -55,7 +55,7 @@ export class ActionMenu extends LitElement {
     this.toggleOpen();
   };
 
-  private menuButtonId = IDS.menuButtonId(this.guid);
+  private menuButtonId = IDS.button(this.guid);
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -95,7 +95,7 @@ export class ActionMenu extends LitElement {
     this.handleActionNavigation(event, key, actionElements);
   };
 
-  private menuId = IDS.menuId(this.guid);
+  private menuId = IDS.menu(this.guid);
 
   private _open = false;
 
@@ -107,8 +107,7 @@ export class ActionMenu extends LitElement {
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
-    const id = IDS.actionId(guid, index);
-
+    const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
 

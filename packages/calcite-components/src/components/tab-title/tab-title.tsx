@@ -53,7 +53,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
-  private guid = IDS.tabTitleId(guid());
+  private guid = IDS.host(guid());
 
   /** watches for changing text content */
   private mutationObserver: MutationObserver = createObserver("mutation", () =>

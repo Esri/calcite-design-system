@@ -30,9 +30,11 @@ export const CSS = {
   scale: (scale: Scale) => `scale--${scale}` as const,
 };
 
+const idPrefix = "calcite-slider";
+
 export const IDS = {
   validationMessage: "validationMessage",
-  sliderId: (id: any) => `calcite-slider-${id}` as const,
-};
+  host: (id: any) => `${idPrefix}-${id}`,
+} as const;
 
 export const maxTickElementThreshold = 250;

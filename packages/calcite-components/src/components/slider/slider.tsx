@@ -139,7 +139,7 @@ export class Slider
     return numberStringFormatter.localize(value.toString());
   };
 
-  private guid = IDS.sliderId(guid());
+  private guid = IDS.host(guid());
 
   labelEl: Label["el"];
 

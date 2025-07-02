@@ -66,7 +66,7 @@ export class Dropdown
 
   private groups: DropdownGroup["el"][] = [];
 
-  private guid = IDS.dropdownId(guid());
+  private guid = guid();
 
   private items: DropdownItem["el"][] = [];
 
@@ -619,13 +619,13 @@ export class Dropdown
       <InteractiveContainer disabled={this.disabled}>
         <div
           class={CSS.triggerContainer}
-          id={IDS.menuButtonId(guid)}
+          id={IDS.menuButton(guid)}
           onClick={this.toggleDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
           <slot
-            aria-controls={IDS.menuId(guid)}
+            aria-controls={IDS.menu(guid)}
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.dropdownTrigger}
@@ -643,13 +643,13 @@ export class Dropdown
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={IDS.menuButtonId(guid)}
+            aria-labelledby={IDS.menuButton(guid)}
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={IDS.menuId(guid)}
+            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

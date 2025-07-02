@@ -110,7 +110,7 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  private dialogId = IDS.dialogId(guid());
+  private dialogId = IDS.dialog(guid());
 
   private endInput: InputText["el"];
 
@@ -148,7 +148,7 @@ export class InputDatePicker
 
   transitionProp = "opacity" as const;
 
-  private placeholderTextId = IDS.placeholderId(guid());
+  private placeholderTextId = IDS.placeholder(guid());
 
   private rangeStartValueChangedByUser = false;
 

@@ -60,7 +60,7 @@ export class Rating
 
   formEl: HTMLFormElement;
 
-  private guid = IDS.ratingId(guid());
+  private guid = IDS.host(guid());
 
   private isKeyboardInteraction = true;
 

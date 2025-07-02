@@ -108,11 +108,11 @@ export class Autocomplete
 
   formEl: HTMLFormElement;
 
-  private inputId = IDS.inputId(this.guid);
+  private inputId = IDS.input(this.guid);
 
   labelEl: Label["el"];
 
-  private listId = IDS.listId(this.guid);
+  private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only

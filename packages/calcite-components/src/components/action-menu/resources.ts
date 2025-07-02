@@ -3,11 +3,12 @@ export const CSS = {
   defaultTrigger: "default-trigger",
 };
 
+const idPrefix = "calcite-action-menu";
+
 export const IDS = {
-  actionMenuId: (id: string) => `calcite-action-menu-${id}`,
-  menuButtonId: (id: string) => `${id}-menu-button`,
-  menuId: (id: string) => `${id}-menu`,
-  actionId: (id: string, actionId: number) => `${id}-action-${actionId}`,
+  button: (id: string) => `${idPrefix}-${id}-menu-button`,
+  menu: (id: string) => `${idPrefix}-${id}-menu`,
+  action: (id: string, actionId: number) => `${idPrefix}-${id}-action-${actionId}`,
 } as const;
 
 export const SLOTS = {

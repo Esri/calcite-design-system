@@ -40,7 +40,7 @@ export class Stepper extends LitElement {
 
   private enabledItems: StepperItem["el"][] = [];
 
-  private guid = IDS.stepperId(guid());
+  private guid = guid();
 
   private itemMap = new Map<StepperItem["el"], { position: number; content: Node[] }>();
 
@@ -442,7 +442,7 @@ export class Stepper extends LitElement {
     const isPositionStart = position === "start";
     const path = isPositionStart ? ICONS.chevronLeft : ICONS.chevronRight;
     const { currentActivePosition, multipleViewMode, layout } = this;
-    const id = IDS.positionId(this.guid, isPositionStart);
+    const id = IDS.position(this.guid, isPositionStart);
     const offset = isPositionStart ? -1 : 1;
     const direction = isPositionStart ? "previous" : "next";
     const disabled = this.getEnabledStepIndex(currentActivePosition + offset, direction) === null;
