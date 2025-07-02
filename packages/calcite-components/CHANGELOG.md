@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.26...@esri/calcite-components@3.3.0-next.27) (2025-07-02)
+
+### Bug Fixes
+
+- **input-number:** add token to customize icon color ([#12414](https://github.com/Esri/calcite-design-system/issues/12414)) ([9b5c397](https://github.com/Esri/calcite-design-system/commit/9b5c3974ec23d7a2e529ef8369dddbd77867bfb6)), closes [#12408](https://github.com/Esri/calcite-design-system/issues/12408)
+
 ## [3.3.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.25...@esri/calcite-components@3.3.0-next.26) (2025-07-02)
 
 **Note:** Version bump only for package @esri/calcite-components
@@ -1569,7 +1575,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **flow-item:** Add action bar slot ([#6887](https://github.com/Esri/calcite-design-system/issues/6887)) ([aa8b46c](https://github.com/Esri/calcite-design-system/commit/aa8b46c5c0cf19080d45b1d38b911f5d83a1dd05)), closes [#6886](https://github.com/Esri/calcite-design-system/issues/6886)
 
 - **list:**
-
   - adds `calciteListChange` event to get `selectedItems`. ([#6894](https://github.com/Esri/calcite-design-system/issues/6894)) ([37959ce](https://github.com/Esri/calcite-design-system/commit/37959ce01fdd4263adaf8479d230d02c9942c871)), closes [#6362](https://github.com/Esri/calcite-design-system/issues/6362)
 
   - Add `single-persist` selection mode ([#6882](https://github.com/Esri/calcite-design-system/issues/6882)) ([dc332cb](https://github.com/Esri/calcite-design-system/commit/dc332cbc917026d3b6480fd9d0b6ff68cd8fe21b)), closes [#6382](https://github.com/Esri/calcite-design-system/issues/6382)
@@ -1615,7 +1620,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **tip-manager:** Set padding for tips and tip-groups consistently ([#6959](https://github.com/Esri/calcite-design-system/issues/6959)) ([fbd2f3f](https://github.com/Esri/calcite-design-system/commit/fbd2f3fe6d53929bc3dd34bad1a7a6a7d9b2d3f0)), closes [#6464](https://github.com/Esri/calcite-design-system/issues/6464)
 
 - **tooltip:**
-
   - fix focusing tooltip when a referenceElement is within a shadowDOM ([#6915](https://github.com/Esri/calcite-design-system/issues/6915)) ([453d527](https://github.com/Esri/calcite-design-system/commit/453d52765f38af06a8d0bb9ffecb77d338814d62)), closes [#6893](https://github.com/Esri/calcite-design-system/issues/6893)
 
   - close tooltip when pointer is moving ([#6922](https://github.com/Esri/calcite-design-system/issues/6922)) ([dd2c98c](https://github.com/Esri/calcite-design-system/commit/dd2c98cee2126afc055766b86b50f78cfbcfa7b2)), closes [#6785](https://github.com/Esri/calcite-design-system/issues/6785)
@@ -1779,7 +1783,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### ⚠ BREAKING CHANGES
 
 - **styles:** Use "mode" nomenclature instead of "theme"
-
   - `.calcite-theme-auto`, `.calcite-theme-dark`, and
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light`
@@ -1789,7 +1792,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   focused.
 
 - **panel, shell-panel, flow-item:** Update available css variables.
-
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
   - Removes css variables for Panel - the component will now fill
@@ -1797,71 +1799,58 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   - Documents public css variables for Shell Panel.
 
 - **accordion:**
-
   - Removed `"default"` value for the `appearance` property, use `"solid"`
     instead.
   - Removed `"minimal"` value for the `appearance` property.
 
 - **card:**
-
   - Removed `footer-leading` and `footer-trailing` slots, use
     `footer-start` and `footer-end` instead.
 
 - **color-picker:**
-
   - Removed `appearance` property, use `--calcite-ui-border-1:transparent`
     to remove the border instead of the `"minimal"` value
 
 - **combobox-item:**
-
   - Removed `toggleSelected` method, use the `selected` property instead.
 
 - **date-picker:**
-
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
 - **input-time-picker:**
-
   - Removed the event payload from `calciteInputTimePickerChange` event.
 
 - **modal:**
-
   - The `width` property no longer accepts a custom width. Accepted values
     are `s`, `m`, `l`.
   - Adds `--calcite-modal-width` and `--calcite-modal-height` css
     variables.
 
 - **pagination:**
-
   - Removed the `--calcite-pagination-spacing` css variable
   - Removed the property `num`, use `pageSize` instead
   - Removed the property `total`, use `totalItems` instead
   - Removed the property `start`, use `startItem` instead
 
 - **popover:**
-
   - Removed the `toggle` method, use the `open` property instead.
 
 - **radio-button-group:**
-
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
 - **radio-group, radio-group-item:** Renames components.
-
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
 - **segmented-control:**
-
   - Updates `segmented-control` event to `calciteSegmentedControlChange`.
 
 - **stepper:**
-
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteStepperItemChange`, use `event.target` and the property
