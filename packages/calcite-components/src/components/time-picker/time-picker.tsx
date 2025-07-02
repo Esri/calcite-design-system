@@ -398,7 +398,7 @@ export class TimePicker extends LitElement implements TimeComponent {
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
           [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${scale}`]]: true,
+          [CSS.scale(scale)]: true,
         }}
         dir="ltr"
       >

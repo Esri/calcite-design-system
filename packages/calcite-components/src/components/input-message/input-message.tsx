@@ -92,7 +92,7 @@ export class InputMessage extends LitElement {
     if (iconName) {
       return (
         <calcite-icon
-          class={CSS.calciteInputMessageIcon}
+          class={CSS.inputMessageIcon}
           flipRtl={this.iconFlipRtl}
           icon={iconName}
           scale="s"

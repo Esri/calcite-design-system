@@ -1,3 +1,3 @@
 export const CSS = {
-  calciteInputMessageIcon: "calcite-input-message-icon",
+  inputMessageIcon: "calcite-input-message-icon",
 };
