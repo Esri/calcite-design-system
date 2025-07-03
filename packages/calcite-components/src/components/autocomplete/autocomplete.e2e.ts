@@ -455,6 +455,14 @@ describe("calcite-autocomplete", () => {
     focusable("calcite-autocomplete");
   });
 
+  it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
+    expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
+  });
+
   it("should be able to remove icon", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
