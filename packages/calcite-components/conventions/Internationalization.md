@@ -32,7 +32,7 @@ This pattern enables components to support built-in translations. In order to su
 3. Add an appropriate E2E test by using the `t9n` common test helper.
 4. Internal components that support public t9n components
    1. Do not have to implement the `useT9n` controller
-   2. Should use an internal `messages` property and its type should correspond to the parent component's messages type as mentioned [here](https://qawebgis.esri.com/components/lumina/controllers/useT9n#sharing-strings-between-parent-and-sub-component).
+   2. Should use an internal `messages` property and its type should correspond to the parent component's messages type as mentioned in the [Lumina `useT9n` doc](https://qawebgis.esri.com/components/lumina/controllers/useT9n#sharing-strings-between-parent-and-sub-component).
 5. Please refer to [Calcite Translation Build Process](https://devtopia.esri.com/WebGIS/calcite-design-system/wiki/Calcite-Translations-Build-Process) before submitting the PR.
 
 #### Notes
