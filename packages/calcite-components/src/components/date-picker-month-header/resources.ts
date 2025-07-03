@@ -9,6 +9,7 @@ export const CSS = {
   rangeCalendar: "range-calendar",
   suffix: "suffix",
   yearContainer: "year-container",
+  year: "year",
 };
 
 export const ICON = {

@@ -10,7 +10,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
 import { isHidden } from "../../utils/component";
-import { CSS } from "./resources";
+import { CSS, ICONS, IDS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
   StepperItemChangeEventDetail,
@@ -40,7 +40,7 @@ export class Stepper extends LitElement {
 
   private enabledItems: StepperItem["el"][] = [];
 
-  private guid = `calcite-stepper-action-${guid()}`;
+  private guid = guid();
 
   private itemMap = new Map<StepperItem["el"], { position: number; content: Node[] }>();
 
@@ -440,9 +440,9 @@ export class Stepper extends LitElement {
 
   private renderAction(position: Position): JsxNode {
     const isPositionStart = position === "start";
-    const path = isPositionStart ? "chevron-left" : "chevron-right";
+    const path = isPositionStart ? ICONS.chevronLeft : ICONS.chevronRight;
     const { currentActivePosition, multipleViewMode, layout } = this;
-    const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
+    const id = IDS.position(this.guid, isPositionStart);
     const offset = isPositionStart ? -1 : 1;
     const direction = isPositionStart ? "previous" : "next";
     const disabled = this.getEnabledStepIndex(currentActivePosition + offset, direction) === null;

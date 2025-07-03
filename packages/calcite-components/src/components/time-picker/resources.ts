@@ -1,3 +1,5 @@
+import { Scale } from "../interfaces";
+
 export const CSS = {
   button: "button",
   buttonBottomLeft: "button--bottom-left",
@@ -29,9 +31,12 @@ export const CSS = {
   secondSuffix: "second-suffix",
   showMeridiem: "show-meridiem",
   showSecond: "show-second",
-  "scale-s": "scale-s",
-  "scale-m": "scale-m",
-  "scale-l": "scale-l",
+  scale: (scale: Scale) => `scale-${scale}` as const,
   timePicker: "time-picker",
   meridiemStart: "meridiem--start",
+};
+
+export const ICONS = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };

@@ -19,3 +19,8 @@ export const SLOTS = {
   tableHeader: "table-header",
   tableFooter: "table-footer",
 };
+
+export const ICONS = {
+  hideEmpty: "hide-empty",
+  clear: "x",
+};

@@ -79,7 +79,7 @@ export class ComboboxItemGroup extends LitElement {
     return (
       <ul
         aria-labelledby={this.guid}
-        class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
+        class={{ [CSS.list]: true, [CSS.scale(scale)]: true }}
         role="group"
       >
         <li

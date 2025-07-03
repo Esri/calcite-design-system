@@ -7,7 +7,7 @@ import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import type { Sheet } from "./sheet";
 
 describe("calcite-sheet", () => {
@@ -616,7 +616,7 @@ describe("calcite-sheet", () => {
         </calcite-sheet>`,
         {
           "--calcite-sheet-background-color": {
-            shadowSelector: `#sheet-content.${CSS.content}`,
+            shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
             targetProp: "backgroundColor",
           },
           "--calcite-sheet-border-color": {
@@ -625,7 +625,7 @@ describe("calcite-sheet", () => {
           },
           "--calcite-sheet-corner-radius": [
             {
-              shadowSelector: `#sheet-content.${CSS.content}`,
+              shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
               targetProp: "borderRadius",
             },
             {
@@ -646,7 +646,7 @@ describe("calcite-sheet", () => {
             targetProp: "color",
           },
           "--calcite-sheet-shadow": {
-            shadowSelector: `#sheet-content.${CSS.content}`,
+            shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
             targetProp: "boxShadow",
           },
           "--calcite-sheet-resize-background-color": {

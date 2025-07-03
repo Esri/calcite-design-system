@@ -577,8 +577,8 @@ export class TabNav extends LitElement {
           [CSS.container]: true,
           [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
           [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
-          [`scale-${this.scale}`]: true,
-          [`position-${this.position}`]: true,
+          [CSS.scale(this.scale)]: true,
+          [CSS.position(this.position)]: true,
           [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
         }}
       >

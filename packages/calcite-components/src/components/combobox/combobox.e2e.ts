@@ -2466,12 +2466,12 @@ describe("calcite-combobox", () => {
     const inputEl = await page.find("calcite-combobox >>> span");
     await page.waitForChanges();
 
-    expect(inputEl).toHaveClass("icon-start");
+    expect(inputEl).toHaveClass(CSS.iconStart);
 
     comboboxEl.setProperty("open", true);
     await page.waitForChanges();
 
-    expect(inputEl).toHaveClass("icon-start");
+    expect(inputEl).toHaveClass(CSS.iconStart);
   });
 
   it("should be able to type when tab through the component once", async () => {

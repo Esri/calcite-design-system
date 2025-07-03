@@ -5,7 +5,7 @@ import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
-import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
+import { CHECKER_DIMENSIONS, COLORS, CSS, IDS } from "./resources";
 import { styles } from "./color-picker-swatch.scss";
 
 declare global {
@@ -105,7 +105,7 @@ export class ColorPickerSwatch extends LitElement {
     if (isEmpty) {
       return (
         <>
-          <clipPath id="shape">
+          <clipPath id={IDS.shape}>
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
           {this.renderSwatchRect({
@@ -127,7 +127,7 @@ export class ColorPickerSwatch extends LitElement {
         <defs>
           <pattern
             height={CHECKER_DIMENSIONS.size}
-            id="checker"
+            id={IDS.checker}
             patternUnits="userSpaceOnUse"
             width={CHECKER_DIMENSIONS.size}
             x="0"

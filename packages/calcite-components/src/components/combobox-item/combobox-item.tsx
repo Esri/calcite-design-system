@@ -14,7 +14,7 @@ import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item.scss";
 
 declare global {
@@ -318,7 +318,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
             [CSS.container]: true,
             [CSS.scale(this.scale)]: true,
           }}
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{ [itemSpacingMultiplier]: `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}

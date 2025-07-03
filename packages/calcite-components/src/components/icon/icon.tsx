@@ -174,7 +174,7 @@ export class Icon extends LitElement {
         ariaHidden="true"
         class={{
           [CSS.flipRtl]: dir === "rtl" && flipRtl,
-          svg: true,
+          [CSS.svg]: true,
         }}
         fill="currentColor"
         height="100%"

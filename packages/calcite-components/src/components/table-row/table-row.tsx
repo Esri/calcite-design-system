@@ -15,7 +15,7 @@ import {
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
 
 declare global {
@@ -373,12 +373,12 @@ export class TableRow extends LitElement implements InteractiveComponent {
   renderSelectionIcon(): JsxNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
-        ? "check-square-f"
+        ? ICONS.checkSquare
         : this.selectionMode === "multiple"
-          ? "square"
+          ? ICONS.square
           : this.selected
-            ? "circle-f"
-            : "circle";
+            ? ICONS.circleF
+            : ICONS.circle;
 
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }

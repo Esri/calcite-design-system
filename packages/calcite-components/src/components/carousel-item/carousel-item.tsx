@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { LitElement, property, h, JsxNode, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./carousel-item.scss";
 
 declare global {
@@ -20,7 +20,7 @@ export class CarouselItem extends LitElement {
 
   // #region Private Properties
 
-  private guid = `calcite-carousel-item-${guid()}`;
+  private guid = IDS.host(guid());
 
   // #endregion
 

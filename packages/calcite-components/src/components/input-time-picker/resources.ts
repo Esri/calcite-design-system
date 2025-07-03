@@ -24,3 +24,9 @@ export const IDS = {
   inputContainer: "inputContainer",
   validationMessage: "inputTimePickerValidationMessage",
 };
+
+export const ICONS = {
+  clock: "clock",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+};

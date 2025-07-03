@@ -26,7 +26,7 @@ import {
 import { guid } from "../../utils/guid";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { ARIA_DESCRIBED_BY, CSS } from "./resources";
+import { ARIA_DESCRIBED_BY, CSS, IDS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
 import { styles } from "./tooltip.scss";
@@ -53,7 +53,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   floatingEl: HTMLDivElement;
 
-  private guid = `calcite-tooltip-${guid()}`;
+  private guid = IDS.host(guid());
 
   transitionProp = "opacity" as const;
 

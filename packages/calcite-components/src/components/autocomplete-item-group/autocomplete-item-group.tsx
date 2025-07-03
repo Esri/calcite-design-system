@@ -56,7 +56,7 @@ export class AutocompleteItemGroup extends LitElement {
         class={{
           [CSS.container]: true,
           [CSS.containerNoSpacing]: this.disableSpacing,
-          [`scale--${scale}`]: true,
+          [CSS.scale(scale)]: true,
         }}
         role="group"
       >
