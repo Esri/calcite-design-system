@@ -50,7 +50,7 @@ import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -986,7 +986,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -1007,7 +1007,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="up"
+        data-adjustment={DIRECTION.up}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1015,7 +1015,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1026,7 +1026,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="down"
+        data-adjustment={DIRECTION.down}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1034,7 +1034,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
       </button>
     );
 

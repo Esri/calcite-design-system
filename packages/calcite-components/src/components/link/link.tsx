@@ -12,6 +12,7 @@ import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./link.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -136,7 +137,7 @@ export class Link extends LitElement implements InteractiveComponent {
     const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon
-        class="calcite-link--icon icon-start"
+        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -145,7 +146,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-link--icon icon-end"
+        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"

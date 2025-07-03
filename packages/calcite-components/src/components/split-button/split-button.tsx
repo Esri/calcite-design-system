@@ -18,7 +18,7 @@ import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
 
 declare global {
@@ -38,6 +38,16 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Properties
+
+  private get dropdownIcon(): string {
+    return this.dropdownIconType === "chevron"
+      ? ICONS.chevronDown
+      : this.dropdownIconType === "caret"
+        ? ICONS.caretDown
+        : this.dropdownIconType === "ellipsis"
+          ? ICONS.ellipsis
+          : ICONS.handleVertical;
+  }
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -173,16 +183,6 @@ export class SplitButton extends LitElement implements InteractiveComponent {
 
   // #region Private Methods
 
-  private get dropdownIcon(): string {
-    return this.dropdownIconType === "chevron"
-      ? "chevronDown"
-      : this.dropdownIconType === "caret"
-        ? "caretDown"
-        : this.dropdownIconType === "ellipsis"
-          ? "ellipsis"
-          : "handle-vertical";
-  }
-
   private calciteSplitButtonPrimaryClickHandler(): void {
     this.calciteSplitButtonPrimaryClick.emit();
   }
@@ -242,7 +242,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
               kind={this.kind}
               label={this.dropdownLabel}
               scale={this.scale}
-              slot="trigger"
+              slot={SLOTS.trigger}
               splitChild={"secondary"}
               type="button"
             />

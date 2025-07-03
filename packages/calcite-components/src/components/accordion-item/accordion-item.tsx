@@ -12,7 +12,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { SLOTS, CSS, IDS } from "./resources";
+import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
 
@@ -294,15 +294,15 @@ export class AccordionItem extends LitElement {
     return (
       <div
         class={{
-          [`icon-position--${this.iconPosition}`]: true,
-          [`icon-type--${this.iconType}`]: true,
+          [CSS.iconPosition(this.iconPosition)]: true,
+          [CSS.iconType(this.iconType)]: true,
         }}
       >
         <div
           class={{
             [CSS.header]: true,
             [CSS_UTILITY.rtl]: dir === "rtl",
-            [`header--${this.appearance}`]: true,
+            [CSS.headerAppearance(this.appearance)]: true,
           }}
         >
           {this.renderActionsStart()}
@@ -330,12 +330,12 @@ export class AccordionItem extends LitElement {
               class={CSS.expandIcon}
               icon={
                 this.iconType === "chevron"
-                  ? "chevronDown"
+                  ? ICONS.chevronDown
                   : this.iconType === "caret"
-                    ? "caretDown"
+                    ? ICONS.caretDown
                     : this.expanded
-                      ? "minus"
-                      : "plus"
+                      ? ICONS.minus
+                      : ICONS.plus
               }
               scale={getIconScale(this.scale)}
             />

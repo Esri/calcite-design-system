@@ -3,6 +3,7 @@ import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { styles } from "./progress.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -54,10 +55,10 @@ export class Progress extends LitElement {
         ariaValueNow={isDeterminate ? this.value : undefined}
         role="progressbar"
       >
-        <div class="track">
+        <div class={CSS.track}>
           <div
             class={{
-              bar: true,
+              [CSS.bar]: true,
               indeterminate: this.type === "indeterminate",
               [CSS_UTILITY.rtl]: dir === "rtl",
               reversed: this.reversed,
@@ -65,7 +66,7 @@ export class Progress extends LitElement {
             style={barStyles}
           />
         </div>
-        {this.text ? <div class="text">{this.text}</div> : null}
+        {this.text ? <div class={CSS.text}>{this.text}</div> : null}
       </div>
     );
   }

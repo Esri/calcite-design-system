@@ -18,3 +18,8 @@ export const SLOTS = {
   actionBar: "action-bar",
   header: "header",
 };
+
+export const ICONS = {
+  dragVertical: "drag-resize-vertical",
+  dragHorizontal: "drag-resize-horizontal",
+};

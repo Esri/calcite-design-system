@@ -32,7 +32,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { IDS } from "./resources";
+import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 
 declare global {
@@ -59,7 +59,7 @@ export class Rating
 
   formEl: HTMLFormElement;
 
-  private guid = `calcite-ratings-${guid()}`;
+  private guid = IDS.host(guid());
 
   private isKeyboardInteraction = true;
 
@@ -389,15 +389,15 @@ export class Rating
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <span class="wrapper">
-          <fieldset class="fieldset" disabled={this.disabled}>
-            <legend class="visually-hidden">{this.messages.rating}</legend>
+        <span class={CSS.wrapper}>
+          <fieldset class={CSS.fieldSet} disabled={this.disabled}>
+            <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
             {this.starsMap.map(
               ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
                   <label
                     class={{
-                      star: true,
+                      [CSS.star]: true,
                       selected,
                       hovered,
                       average,
@@ -416,7 +416,7 @@ export class Rating
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
                       checked={checked}
-                      class="visually-hidden"
+                      class={CSS.visuallyHidden}
                       disabled={this.disabled || this.readOnly}
                       id={id}
                       name={this.guid}
@@ -427,11 +427,11 @@ export class Rating
                     />
                     <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
-                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                      <div class={CSS.fraction} style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />
                       </div>
                     )}
-                    <span class="visually-hidden">
+                    <span class={CSS.visuallyHidden}>
                       {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>
@@ -441,8 +441,8 @@ export class Rating
 
             {(this.count || this.average) && this.showChip ? (
               <calcite-chip label={countString} scale={this.scale} value={countString}>
-                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({countString})</span>}
+                {!!this.average && <span class={CSS.numberAverage}>{this.average.toString()}</span>}
+                {!!this.count && <span class={CSS.numberCount}>({countString})</span>}
               </calcite-chip>
             ) : null}
           </fieldset>

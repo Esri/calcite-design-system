@@ -22,7 +22,6 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
 import { styles } from "./dropdown-item.scss";
 
 declare global {
@@ -329,7 +328,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
           {selectionMode !== "none" ? (
             <calcite-icon
               class={CSS.icon}
-              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
+              icon={selectionMode === "multiple" ? ICONS.check : ICONS.bulletPoint}
               scale={getIconScale(this.scale)}
             />
           ) : null}

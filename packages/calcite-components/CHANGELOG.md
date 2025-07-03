@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.27...@esri/calcite-components@3.3.0-next.28) (2025-07-03)
+
+### Features
+
+- **stepper-item:** improve single selection icon color ([#12436](https://github.com/Esri/calcite-design-system/issues/12436)) ([5380778](https://github.com/Esri/calcite-design-system/commit/538077845e200b0a3ef6f1c6ad7b31d4831a049c)), closes [#9820](https://github.com/Esri/calcite-design-system/issues/9820)
+
+## [3.3.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.26...@esri/calcite-components@3.3.0-next.27) (2025-07-02)
+
+### Bug Fixes
+
+- **input-number:** add token to customize icon color ([#12414](https://github.com/Esri/calcite-design-system/issues/12414)) ([9b5c397](https://github.com/Esri/calcite-design-system/commit/9b5c3974ec23d7a2e529ef8369dddbd77867bfb6)), closes [#12408](https://github.com/Esri/calcite-design-system/issues/12408)
+
 ## [3.3.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.25...@esri/calcite-components@3.3.0-next.26) (2025-07-02)
 
 **Note:** Version bump only for package @esri/calcite-components

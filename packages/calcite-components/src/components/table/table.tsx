@@ -16,7 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
@@ -415,7 +415,7 @@ export class Table extends LitElement {
         {outOfViewCount > 0 && (
           <calcite-chip
             class={CSS.selectionOutOfViewChip}
-            icon="hide-empty"
+            icon={ICONS.hideEmpty}
             label={outOfView}
             scale={this.scale}
             title={outOfView}
@@ -427,7 +427,7 @@ export class Table extends LitElement {
         {this.selectedCount > 0 && (
           <calcite-button
             class={CSS.dismissButton}
-            iconStart="x"
+            iconStart={ICONS.clear}
             kind="neutral"
             onClick={this.handleDeselectAllRows}
             round

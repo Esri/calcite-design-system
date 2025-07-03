@@ -12,6 +12,7 @@ import { SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./card-group.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -204,7 +205,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div ariaLabel={this.label} class="container" role={role}>
+        <div ariaLabel={this.label} class={CSS.container} role={role}>
           <slot onSlotChange={this.updateItemsOnSlotChange} ref={this.slotRefEl} />
         </div>
       </InteractiveContainer>

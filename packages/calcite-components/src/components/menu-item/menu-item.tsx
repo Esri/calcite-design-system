@@ -17,7 +17,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, SLOTS, ICONS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
@@ -308,7 +308,7 @@ export class MenuItem extends LitElement {
     return (
       <calcite-icon
         class={`${CSS.icon} ${CSS.iconBreadcrumb}`}
-        icon={dir === "rtl" ? "chevron-left" : "chevron-right"}
+        icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         key={CSS.iconBreadcrumb}
         scale="s"
       />
@@ -323,8 +323,8 @@ export class MenuItem extends LitElement {
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
-              ? "chevron-up"
-              : "chevron-down"
+              ? ICONS.chevronUp
+              : ICONS.chevronDown
             : dirChevron
         }
         key={CSS.iconDropdown}
@@ -341,8 +341,8 @@ export class MenuItem extends LitElement {
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
-              ? "chevron-up"
-              : "chevron-down"
+              ? ICONS.chevronUp
+              : ICONS.chevronDown
             : dirChevron
         }
         key={CSS.dropdownAction}
@@ -368,7 +368,7 @@ export class MenuItem extends LitElement {
         layout="vertical"
         role="menu"
       >
-        <slot name="submenu-item" onSlotChange={this.handleMenuItemSlotChange} />
+        <slot name={SLOTS.submenuItem} onSlotChange={this.handleMenuItemSlotChange} />
       </calcite-menu>
     );
   }
@@ -377,7 +377,7 @@ export class MenuItem extends LitElement {
     return (
       <calcite-icon
         class={CSS.hoverHrefIcon}
-        icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+        icon={dir === "rtl" ? ICONS.arrowLeft : ICONS.arrowRight}
         key={CSS.hoverHrefIcon}
         scale="s"
       />

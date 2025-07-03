@@ -284,7 +284,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         onClick={backButtonClick}
         ref={this.setBackRef}
         scale="s"
-        slot="header-actions-start"
+        slot={SLOTS.headerActionsStart}
         text={label}
         title={label}
       />
