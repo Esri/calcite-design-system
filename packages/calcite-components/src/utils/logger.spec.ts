@@ -24,6 +24,7 @@ describe("logger", () => {
     vi.restoreAllMocks();
   });
 
+  /* eslint-disable no-console -- need to assert on console */
   describe("deprecated", () => {
     it("helps log planned deprecations", () => {
       const params = {
@@ -174,4 +175,5 @@ describe("logger", () => {
       expect(console.warn).toHaveBeenCalledTimes(0);
     });
   });
+  /* eslint-enable no-console */
 });

@@ -42,6 +42,7 @@ import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -384,7 +385,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
     const { el, referenceElement, referenceEl } = this;
     if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+      logger.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
     }

@@ -393,8 +393,10 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
+    /* eslint-disable no-console -- assert on logger when converted to browser mode test */
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledWith(
+      /* eslint-enable no-console */
       expect.stringMatching(
         new RegExp(
           `\\s*ignoring color value \\(${value}\\) as it is not compatible with the current format \\(${format}\\)\\s*`,

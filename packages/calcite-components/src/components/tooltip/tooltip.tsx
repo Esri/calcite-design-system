@@ -26,6 +26,7 @@ import {
 import { guid } from "../../utils/guid";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { logger } from "../../utils/logger";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
@@ -262,7 +263,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
     const { el, referenceElement, referenceEl } = this;
     if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+      logger.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el,
       });
     }

@@ -55,6 +55,7 @@ describe("config", () => {
       expect(globalThis.calciteConfig.version).toBe(testVersion);
     });
 
+    /* eslint-disable no-console -- needed for assertions */
     const originalConsoleInfo = console.warn;
 
     beforeEach(() => {
@@ -71,5 +72,7 @@ describe("config", () => {
       config.stampVersion();
       expect(console.info).toHaveBeenCalled();
     });
+
+    /* eslint-enable no-console */
   });
 });

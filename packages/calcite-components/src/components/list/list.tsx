@@ -4,6 +4,7 @@ import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
+import { logger } from "../../utils/logger";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -950,7 +951,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 

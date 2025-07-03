@@ -21,6 +21,8 @@ class DemoForm extends HTMLElement {
     for (const pair of event.formData.entries()) {
       data[pair[0]] = pair[1];
     }
+
+    // eslint-disable-next-line no-console -- logging for testing purposes
     console.log(data);
   }
 }
