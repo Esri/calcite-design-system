@@ -22521,7 +22521,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "4px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -22558,7 +22558,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "6px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -22595,7 +22595,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "8px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -22632,7 +22632,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "12px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -22669,7 +22669,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "14px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -22706,7 +22706,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "16px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -22743,7 +22743,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "20px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -22780,7 +22780,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "32px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -22817,7 +22817,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "none",
@@ -22844,7 +22844,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "px",
@@ -22871,7 +22871,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "base",
@@ -22898,7 +22898,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -22925,7 +22925,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -22952,7 +22952,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -22979,7 +22979,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.625rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm+",
@@ -23006,7 +23006,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md",
@@ -23033,7 +23033,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md+",
@@ -23060,7 +23060,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "lg",
@@ -23087,7 +23087,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xl",
@@ -23114,7 +23114,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxl",
@@ -23141,7 +23141,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "2rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxxl",
@@ -28302,7 +28302,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "4px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -28339,7 +28339,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "6px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -28376,7 +28376,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "8px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -28413,7 +28413,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "12px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -28450,7 +28450,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "14px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -28487,7 +28487,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "16px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -28524,7 +28524,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "20px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -28561,7 +28561,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "32px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -28598,7 +28598,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "none",
@@ -28625,7 +28625,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "px",
@@ -28652,7 +28652,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "base",
@@ -28679,7 +28679,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -28706,7 +28706,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -28733,7 +28733,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -28760,7 +28760,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.625rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm+",
@@ -28787,7 +28787,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md",
@@ -28814,7 +28814,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md+",
@@ -28841,7 +28841,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "lg",
@@ -28868,7 +28868,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xl",
@@ -28895,7 +28895,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxl",
@@ -28922,7 +28922,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "2rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxxl",
@@ -61179,7 +61179,7 @@ export default {
           value: "4px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxs",
@@ -61211,7 +61211,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxs}",
@@ -61225,7 +61225,7 @@ export default {
           value: "6px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xs",
@@ -61257,7 +61257,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xs}",
@@ -61271,7 +61271,7 @@ export default {
           value: "8px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "sm",
@@ -61303,7 +61303,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.sm}",
@@ -61317,7 +61317,7 @@ export default {
           value: "12px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "md",
@@ -61349,7 +61349,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.md}",
@@ -61363,7 +61363,7 @@ export default {
           value: "14px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "lg",
@@ -61395,7 +61395,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.lg}",
@@ -61409,7 +61409,7 @@ export default {
           value: "16px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xl",
@@ -61441,7 +61441,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xl}",
@@ -61455,7 +61455,7 @@ export default {
           value: "20px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxl",
@@ -61487,7 +61487,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxl}",
@@ -61501,7 +61501,7 @@ export default {
           value: "32px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxxl",
@@ -61533,7 +61533,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxxl}",
@@ -61549,7 +61549,7 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "none",
@@ -61572,7 +61572,7 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.none}",
           },
@@ -61584,7 +61584,7 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "px",
@@ -61607,7 +61607,7 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.px}",
           },
@@ -61619,7 +61619,7 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "base",
@@ -61642,7 +61642,7 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.base}",
           },
@@ -61654,7 +61654,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -61677,7 +61677,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -61689,7 +61689,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -61712,7 +61712,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -61724,7 +61724,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -61747,7 +61747,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm}",
           },
@@ -61759,7 +61759,7 @@ export default {
           value: "0.625rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm+",
@@ -61782,7 +61782,7 @@ export default {
             value: "{core.size.default.10}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm+}",
           },
@@ -61794,7 +61794,7 @@ export default {
           value: "0.75rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md",
@@ -61817,7 +61817,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md}",
           },
@@ -61829,7 +61829,7 @@ export default {
           value: "0.875rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md+",
@@ -61852,7 +61852,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md+}",
           },
@@ -61864,7 +61864,7 @@ export default {
           value: "1rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "lg",
@@ -61887,7 +61887,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.lg}",
           },
@@ -61899,7 +61899,7 @@ export default {
           value: "1.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xl",
@@ -61922,7 +61922,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xl}",
           },
@@ -61934,7 +61934,7 @@ export default {
           value: "1.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxl",
@@ -61957,7 +61957,7 @@ export default {
             value: "{core.size.default.24}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxl}",
           },
@@ -61969,7 +61969,7 @@ export default {
           value: "2rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxxl",
@@ -61992,7 +61992,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxxl}",
           },
@@ -69415,7 +69415,7 @@ export default {
           value: "4px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxs",
@@ -69447,7 +69447,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxs}",
@@ -69461,7 +69461,7 @@ export default {
           value: "6px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xs",
@@ -69493,7 +69493,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xs}",
@@ -69507,7 +69507,7 @@ export default {
           value: "8px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "sm",
@@ -69539,7 +69539,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.sm}",
@@ -69553,7 +69553,7 @@ export default {
           value: "12px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "md",
@@ -69585,7 +69585,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.md}",
@@ -69599,7 +69599,7 @@ export default {
           value: "14px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "lg",
@@ -69631,7 +69631,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.lg}",
@@ -69645,7 +69645,7 @@ export default {
           value: "16px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xl",
@@ -69677,7 +69677,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xl}",
@@ -69691,7 +69691,7 @@ export default {
           value: "20px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxl",
@@ -69723,7 +69723,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxl}",
@@ -69737,7 +69737,7 @@ export default {
           value: "32px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxxl",
@@ -69769,7 +69769,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxxl}",
@@ -69785,7 +69785,7 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "none",
@@ -69808,7 +69808,7 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.none}",
           },
@@ -69820,7 +69820,7 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "px",
@@ -69843,7 +69843,7 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.px}",
           },
@@ -69855,7 +69855,7 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "base",
@@ -69878,7 +69878,7 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.base}",
           },
@@ -69890,7 +69890,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -69913,7 +69913,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -69925,7 +69925,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -69948,7 +69948,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -69960,7 +69960,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -69983,7 +69983,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm}",
           },
@@ -69995,7 +69995,7 @@ export default {
           value: "0.625rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm+",
@@ -70018,7 +70018,7 @@ export default {
             value: "{core.size.default.10}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm+}",
           },
@@ -70030,7 +70030,7 @@ export default {
           value: "0.75rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md",
@@ -70053,7 +70053,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md}",
           },
@@ -70065,7 +70065,7 @@ export default {
           value: "0.875rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md+",
@@ -70088,7 +70088,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md+}",
           },
@@ -70100,7 +70100,7 @@ export default {
           value: "1rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "lg",
@@ -70123,7 +70123,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.lg}",
           },
@@ -70135,7 +70135,7 @@ export default {
           value: "1.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xl",
@@ -70158,7 +70158,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xl}",
           },
@@ -70170,7 +70170,7 @@ export default {
           value: "1.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxl",
@@ -70193,7 +70193,7 @@ export default {
             value: "{core.size.default.24}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxl}",
           },
@@ -70205,7 +70205,7 @@ export default {
           value: "2rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxxl",
@@ -70228,7 +70228,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxxl}",
           },
