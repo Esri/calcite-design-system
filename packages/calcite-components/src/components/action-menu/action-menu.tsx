@@ -20,6 +20,7 @@ import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
