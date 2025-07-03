@@ -50,7 +50,7 @@ describe("calcite-input-message", () => {
     <calcite-input-message>Text</calcite-input-message>
     `);
 
-    const icon = await page.find(`calcite-input-message >>> .${CSS.calciteInputMessageIcon}`);
+    const icon = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
     expect(icon).toBeNull();
   });
 
@@ -70,7 +70,7 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message icon>Text</calcite-input-message>
           `);
-          iconEl = await page.find(`calcite-input-message >>> .${CSS.calciteInputMessageIcon}`);
+          iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
           requestedIcon = await iconEl.getAttribute("icon");
           expect(requestedIcon).toEqual(StatusIconDefaults.idle);
           expect(iconEl).not.toBeNull();
@@ -82,7 +82,7 @@ describe("calcite-input-message", () => {
               <calcite-input-message icon status="invalid">An example with icon</calcite-input-message>
             `);
             element = await page.find("calcite-input-message");
-            iconEl = await page.find(`calcite-input-message >>> .${CSS.calciteInputMessageIcon}`);
+            iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
             requestedIcon = await iconEl.getAttribute("icon");
             expect(requestedIcon).toEqual(StatusIconDefaults.invalid);
             expect(iconEl).not.toBeNull();
@@ -90,7 +90,7 @@ describe("calcite-input-message", () => {
             await element.setAttribute("status", "valid");
             await page.waitForChanges();
 
-            iconEl = await page.find(`calcite-input-message >>> .${CSS.calciteInputMessageIcon}`);
+            iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
             requestedIcon = await iconEl.getAttribute("icon");
             expect(requestedIcon).toEqual(StatusIconDefaults.valid);
             expect(iconEl).not.toBeNull();
@@ -104,7 +104,7 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message !icon>Text</calcite-input-message>
           `);
-          iconEl = await page.find(`calcite-input-message >>> .${CSS.calciteInputMessageIcon}`);
+          iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
           expect(iconEl).toBeNull();
         });
       });
