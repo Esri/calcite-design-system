@@ -22,6 +22,7 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
 
 declare global {
