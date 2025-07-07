@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.28...@esri/calcite-components@3.3.0-next.29) (2025-07-07)
+
+### Bug Fixes
+
+- **autocomplete:** announce result to screen readers using aria-live attribute ([#12443](https://github.com/Esri/calcite-design-system/issues/12443)) ([89e138d](https://github.com/Esri/calcite-design-system/commit/89e138dd2c50b2d2d4b747a73b108a379f6b11f9)), closes [#12433](https://github.com/Esri/calcite-design-system/issues/12433)
+- **title:** apply alignment on slotted content ([#12451](https://github.com/Esri/calcite-design-system/issues/12451)) ([7d5cc5b](https://github.com/Esri/calcite-design-system/commit/7d5cc5bee5e84a2f27660ac9ec7f317eb6cb058a)), closes [#10525](https://github.com/Esri/calcite-design-system/issues/10525)
+
 ## [3.3.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.27...@esri/calcite-components@3.3.0-next.28) (2025-07-03)
 
 ### Features
