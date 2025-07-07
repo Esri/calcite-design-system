@@ -97,7 +97,7 @@
     "@esri/calcite-tailwind-preset": "1.0.1-next.10",
     "@esri/eslint-plugin-calcite-components": "2.0.3-next.3",
     "@vitest/browser": "3.2.4",
-    "playwright": "1.53.1",
+    "playwright": "1.53.2",
     "vitest": "3.2.4"
   },
   "volta": {
