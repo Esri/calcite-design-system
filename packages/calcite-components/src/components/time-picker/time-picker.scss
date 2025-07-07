@@ -11,6 +11,7 @@
  * @prop --calcite-time-picker-icon-color: Specifies the component's icon color.
  * @prop --calcite-time-picker-input-border-color-press: Specifies the input's border color when active.
  * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
+ * @prop --calcite-time-picker-border-color: Specifies the border color of the time picker.
  */
 
 :host {
@@ -19,11 +20,12 @@
 
 .time-picker {
   @apply flex
-    shadow-2
     select-none
     items-center
+    border-solid
+    border
     font-medium;
-
+  border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
