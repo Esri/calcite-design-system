@@ -1,7 +1,7 @@
 {
   "chooseDate": "Alegeți data",
-  "date": "Date",
+  "date": "Data",
   "dateFormat": "Format dată: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Data terminării",
+  "startDate": "Data începerii"
 }
