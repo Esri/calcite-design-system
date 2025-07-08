@@ -35,6 +35,7 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
     const resources = new Set<Cancelable>();
 
     controller.onDisconnected(() => {
+      // eslint-disable-next-line no-restricted-properties -- this controller manages cancel calls
       resources.forEach((resource) => resource.cancel());
     });
 
