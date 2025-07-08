@@ -60,8 +60,7 @@ export default tseslint.config(
         {
           object: "*",
           property: "cancel",
-          message:
-            "Use the useCancelable controller utility instead of calling .cancel directly. Register resources with .add for consistent cleanup.",
+          message: "Use the useCancelable controller to manage cancelable resources.",
         },
       ],
 
