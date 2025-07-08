@@ -589,6 +589,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent): void {
 
   autoUpdatingComponentMap.delete(component);
 
+  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
 }
