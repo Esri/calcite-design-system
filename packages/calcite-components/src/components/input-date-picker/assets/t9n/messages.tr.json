@@ -1,7 +1,7 @@
 {
   "chooseDate": "Tarih seç",
-  "date": "Date",
+  "date": "Tarih",
   "dateFormat": "Tarih Biçimi: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Bitiş Tarihi",
+  "startDate": "Başlangıç Tarihi"
 }

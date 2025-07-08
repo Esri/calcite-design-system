@@ -1,7 +1,7 @@
 {
   "chooseDate": "Επιλογή ημερομηνίας",
-  "date": "Date",
+  "date": "Ημερομηνία",
   "dateFormat": "Μορφότυπο ημερομηνίας: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Ημερομηνία λήξης",
+  "startDate": "Ημερομηνία έναρξης"
 }

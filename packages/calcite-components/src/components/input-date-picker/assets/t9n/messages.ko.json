@@ -1,7 +1,7 @@
 {
   "chooseDate": "날짜 선택",
-  "date": "Date",
+  "date": "날짜",
   "dateFormat": "날짜 형식: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "종료일",
+  "startDate": "시작일"
 }
