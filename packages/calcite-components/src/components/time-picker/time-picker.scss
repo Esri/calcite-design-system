@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-time-picker-background-color: Specifies the background color of the time picker.
+ * @prop --calcite-time-picker-border-color: Specifies the border color of the time picker.
  * @prop --calcite-time-picker-corner-radius: Specifies the border radius of the time picker.
  * @prop --calcite-time-picker-button-background-color-hover: Specifies the button's background color when hovered or focused.
  * @prop --calcite-time-picker-button-background-color-press: Specifies the button's background color when active.
@@ -11,7 +12,6 @@
  * @prop --calcite-time-picker-icon-color: Specifies the component's icon color.
  * @prop --calcite-time-picker-input-border-color-press: Specifies the input's border color when active.
  * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
- * @prop --calcite-time-picker-border-color: Specifies the border color of the time picker.
  */
 
 :host {

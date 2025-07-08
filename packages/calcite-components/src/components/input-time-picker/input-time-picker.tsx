@@ -687,6 +687,7 @@ export class InputTimePicker
           oncalcitePopoverOpen={this.popoverOpenHandler}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
+          pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.containerEl}
           triggerDisabled={true}
