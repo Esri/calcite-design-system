@@ -17,7 +17,7 @@
  */
 
 :host([scale="s"]) {
-  header {
+  .header {
     padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
   }
@@ -43,7 +43,7 @@
 }
 
 :host([scale="m"]) {
-  header {
+  .header {
     padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
   }
@@ -55,11 +55,12 @@
 
   .heading {
     font-size: var(--calcite-font-size);
-    line-height: var(--calcite-font-line-height-relative-tight);
+    line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .description {
     font-size: var(--calcite-font-size-sm);
+    line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .content {
@@ -69,7 +70,7 @@
 }
 
 :host([scale="l"]) {
-  header {
+  .header {
     padding: var(--calcite-spacing-xl);
     gap: var(--calcite-spacing-xl);
   }
@@ -175,9 +176,6 @@ calcite-handle {
     p-0;
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
-}
-
-.heading {
   font-weight: var(--calcite-font-weight-medium);
 }
 
