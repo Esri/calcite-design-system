@@ -1,7 +1,7 @@
 /**
-  * Local props
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  * These should be made public and documented post-release of token work.
+  * CSS Custom Properties
+  *
+  * These properties can be overridden using the component's tag as selector.
   *
   * --calcite-carousel-item-background-color-active: Specifies the background color of the component's slide item while active.
   * --calcite-carousel-item-background-color-hover: Specifies the background color of the component's slide item while hovered.
@@ -12,8 +12,8 @@
   * --calcite-carousel-item-icon-color: Specifies the icon color of the component's slide item.
   * --calcite-carousel-control-color-hover: Specifies the icon color of the component's slide slide arrow and autoplay button while hovered.
   * --calcite-carousel-control-color: Specifies the icon color of the component's slide arrow and autoplay button.
-  * --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's progress when `autoplay`.
-  * --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay`.
+  * --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's progress when `autoplay` is specified.
+  * --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay` is specified.
   *
 */
 
