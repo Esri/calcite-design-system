@@ -1489,6 +1489,10 @@ describe("calcite-time-picker", () => {
           state: "hover",
           shadowSelector: `.${CSS.input}`,
         },
+        "--calcite-time-picker-border-color": {
+          targetProp: "borderColor",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
       });
     });
 
