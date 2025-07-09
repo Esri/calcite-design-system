@@ -681,6 +681,7 @@ export class InputTimePicker
           focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
+          offsetDistance={0}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
           oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
           oncalcitePopoverClose={this.popoverCloseHandler}
