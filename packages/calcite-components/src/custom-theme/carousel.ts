@@ -1,15 +1,15 @@
 import { html } from "../../support/formatting";
 
 export const carouselTokens = {
-  calciteCarouselItemBackgroundColorActive: "",
-  calciteCarouselItemBackgroundColorHover: "",
-  calciteCarouselItemBackgroundColorSelected: "",
-  calciteCarouselItemBackgroundColor: "",
-  calciteCarouselItemIconColorHover: "",
-  calciteCarouselItemIconColorSelected: "",
-  calciteCarouselItemIconColor: "",
-  calciteCarouselControlColorHover: "",
-  calciteCarouselControlColor: "",
+  calciteCarouselPaginationBackgroundColor: "",
+  calciteCarouselPaginationBackgroundColorHover: "",
+  calciteCarouselPaginationBackgroundColorActive: "",
+  calciteCarouselPaginationBackgroundColorSelected: "",
+  calciteCarouselPaginationIconColor: "",
+  calciteCarouselPaginationIconColorHover: "",
+  calciteCarouselPaginationIconColorSelected: "",
+  calciteCarouselControlIconColor: "",
+  calciteCarouselControlIconColorHover: "",
   calciteCarouselAutoplayProgressBackgroundColor: "",
   calciteCarouselAutoplayProgressFillColor: "",
 };
