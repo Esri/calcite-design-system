@@ -1309,7 +1309,7 @@ describe("renders the expected number of pagination items when overflowing", () 
               state: "hover",
             },
           ],
-          "--calcite-carousel-pagination-background-color-active": [
+          "--calcite-carousel-pagination-background-color-press": [
             {
               shadowSelector: `.${CSS.paginationItem}`,
               targetProp: "backgroundColor",

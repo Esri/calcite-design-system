@@ -462,7 +462,7 @@ export const themed_simple = (): string =>
       calcite-carousel {
         --calcite-carousel-pagination-background-color: rgba(20, 180, 200, 0.8);
         --calcite-carousel-pagination-background-color-hover: yellow;
-        --calcite-carousel-pagination-background-color-active: orange;
+        --calcite-carousel-pagination-background-color-press: orange;
         --calcite-carousel-pagination-background-color-selected: red;
         --calcite-carousel-pagination-icon-color-hover: white;
         --calcite-carousel-pagination-icon-color-selected: pink;
@@ -528,7 +528,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
       calcite-carousel {
         --calcite-carousel-pagination-background-color: rgba(20, 180, 200, 0.8);
         --calcite-carousel-pagination-background-color-hover: yellow;
-        --calcite-carousel-pagination-background-color-active: orange;
+        --calcite-carousel-pagination-background-color-press: orange;
         --calcite-carousel-pagination-background-color-selected: red;
         --calcite-carousel-pagination-icon-color-hover: white;
         --calcite-carousel-pagination-icon-color-selected: pink;

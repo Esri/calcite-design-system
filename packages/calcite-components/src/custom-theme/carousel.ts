@@ -3,7 +3,7 @@ import { html } from "../../support/formatting";
 export const carouselTokens = {
   calciteCarouselPaginationBackgroundColor: "",
   calciteCarouselPaginationBackgroundColorHover: "",
-  calciteCarouselPaginationBackgroundColorActive: "",
+  calciteCarouselPaginationBackgroundColorPress: "",
   calciteCarouselPaginationBackgroundColorSelected: "",
   calciteCarouselPaginationIconColor: "",
   calciteCarouselPaginationIconColorHover: "",

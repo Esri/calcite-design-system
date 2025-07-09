@@ -5,7 +5,7 @@
   *
   * --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination item, navigation arrows, and autoplay controls.
   * --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls while hovered.
-  * --calcite-carousel-pagination-background-color-active: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls while active.
+  * --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
   * --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
   * --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items.
   * --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items while hovered.
@@ -29,8 +29,8 @@
     --calcite-carousel-pagination-background-color-hover,
     transparent
   );
-  --calcite-internal-carousel-pagination-background-color-active: var(
-    --calcite-carousel-pagination-background-color-active,
+  --calcite-internal-carousel-pagination-background-color-press: var(
+    --calcite-carousel-pagination-background-color-press,
     transparent
   );
   --calcite-internal-carousel-pagination-background-color-selected: var(
@@ -46,7 +46,7 @@
     var(--calcite-color-foreground-2)
   );
   --calcite-internal-carousel-pagination-overlay-background-color-active: var(
-    --calcite-carousel-pagination-background-color-active,
+    --calcite-carousel-pagination-background-color-press,
     var(--calcite-color-foreground-2)
   );
   --calcite-internal-carousel-pagination-overlay-background-color-selected: var(
@@ -216,11 +216,11 @@ calcite-carousel-item:not([selected]) {
     color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   &:focus {
-    background-color: var(--calcite-internal-carousel-pagination-background-color-active);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-press);
     @apply focus-inset;
   }
   &:active {
-    background-color: var(--calcite-internal-carousel-pagination-background-color-active);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-press);
     color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   & calcite-icon {
