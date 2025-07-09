@@ -57,6 +57,10 @@ export default tseslint.config(
           property: "waitForEvent",
           message: "Use spyOnEvent and await on its next property instead for more reliable async event handling.",
         },
+        {
+          property: "cancel",
+          message: "Use the useCancelable controller to manage cancelable resources.",
+        },
       ],
 
       "unused-imports/no-unused-imports": "error",
