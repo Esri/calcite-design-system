@@ -106,7 +106,7 @@ export class Menu extends LitElement {
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -114,7 +114,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowUp") {
       if (this.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[submenuItems.length - 1].setFocus();
@@ -122,7 +122,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -130,7 +130,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           this.focusParentElement(event.target as MenuItem["el"]);

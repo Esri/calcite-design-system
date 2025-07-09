@@ -535,6 +535,7 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {Element} currentElement The current element.
  * @param {FocusElementInGroupDestination} destination The target destination element to focus.
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
+ * @param {boolean} includeParent Determines if the parent of the focused element should be focused as well - defaults to true.
  * @returns {Element} The focused element
  */
 export const focusElementInGroup = <T extends Element = Element>(
@@ -542,6 +543,7 @@ export const focusElementInGroup = <T extends Element = Element>(
   currentElement: Element,
   destination: FocusElementInGroupDestination,
   cycle = true,
+  includeParent = true,
 ): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
@@ -562,7 +564,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget, focusTarget);
+  focusElement(focusTarget, includeParent ? focusTarget : undefined);
   return focusTarget;
 };
 
