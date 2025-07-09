@@ -483,7 +483,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @returns {Element[]} An array of elements.
  */
 export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
-  return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
+  return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
 /**
