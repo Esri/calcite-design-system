@@ -15,7 +15,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -37,13 +37,13 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private guid = `calcite-action-${guid()}`;
+  private guid = guid();
 
   private buttonEl = createRef<HTMLButtonElement>();
 
-  private buttonId = `${this.guid}-button`;
+  private buttonId = IDS.button(this.guid);
 
-  private indicatorId = `${this.guid}-indicator`;
+  private indicatorId = IDS.indicator(this.guid);
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 

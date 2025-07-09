@@ -9,6 +9,7 @@ export const timePickerTokens = {
   calciteTimePickerIconColor: "",
   calciteTimePickerInputBorderColorPress: "",
   calciteTimePickerInputBorderColorHover: "",
+  calciteTimePickerBorderColor: "",
 };
 
 export const timePicker = html`<calcite-time-picker></calcite-time-picker>`;

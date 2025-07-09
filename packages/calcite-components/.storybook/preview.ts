@@ -4,7 +4,7 @@ export const decorators = [themeDecorator];
 
 export const parameters = {
   a11y: {
-    element: "#root",
+    context: "#storybook-root",
     config: {},
     options: {},
     manual: false,

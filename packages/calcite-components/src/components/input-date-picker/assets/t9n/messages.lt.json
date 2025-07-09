@@ -1,7 +1,7 @@
 {
   "chooseDate": "Pasirinkite datą",
-  "date": "Date",
+  "date": "Data",
   "dateFormat": "Datos formatas: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Pabaigos data",
+  "startDate": "Pradžios data"
 }

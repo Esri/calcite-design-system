@@ -111,7 +111,7 @@ describe("calcite-icon", () => {
           await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
           const calciteIcon = await page.find(`calcite-icon`);
           const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
-          const svg = await page.find(`calcite-icon >>> svg`);
+          const svg = await page.find(`calcite-icon >>> ${CSS.svg}`);
           const sizeInPx = scaleToPx[scale];
 
           expect(calciteIconComputedStyle.height).toBe(`${sizeInPx}px`);

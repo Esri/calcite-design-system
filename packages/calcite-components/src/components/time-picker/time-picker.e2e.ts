@@ -777,7 +777,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Delete");
       await page.waitForChanges();
 
-      expect(await timePicker.getProperty("value")).toBeUndefined();
+      expect(await timePicker.getProperty("value")).toBe("");
       expect(hour.textContent).toBe("--");
       expect(minute.textContent).toBe("--");
       expect(second.textContent).toBe("--");
@@ -1488,6 +1488,10 @@ describe("calcite-time-picker", () => {
           targetProp: "boxShadow",
           state: "hover",
           shadowSelector: `.${CSS.input}`,
+        },
+        "--calcite-time-picker-border-color": {
+          targetProp: "borderColor",
+          shadowSelector: `.${CSS.timePicker}`,
         },
       });
     });

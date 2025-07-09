@@ -41,7 +41,14 @@ import {
   inputNumberReadOnlyWithPrefixSuffix,
   inputNumberTokens,
 } from "./custom-theme/input-number";
-import { inputText } from "./custom-theme/input-text";
+import {
+  inputText,
+  inputTextClearable,
+  inputTextLoading,
+  inputTextReadOnly,
+  inputTextTokens,
+  inputTextWithSuffixAndPrefix,
+} from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
@@ -79,6 +86,7 @@ import {
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
 import { meter, meterTokens } from "./custom-theme/meter";
+import { table, tableTokens } from "./custom-theme/table";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -156,8 +164,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputText} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
-        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly}
+        ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
+        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
+        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -207,6 +216,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${stepperItemVertical}</div>
       <div class="demo-column">${stepperItem}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${table}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -240,6 +252,7 @@ const componentTokens = {
   ...inputNumberTokens,
   ...graphTokens,
   ...inputTokens,
+  ...inputTextTokens,
   ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
@@ -271,6 +284,7 @@ const componentTokens = {
   ...shellPanelTokens,
   ...meterTokens,
   ...stepperTokens,
+  ...tableTokens,
 };
 
 export default {

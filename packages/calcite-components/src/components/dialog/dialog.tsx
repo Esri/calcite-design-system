@@ -8,7 +8,7 @@ import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -409,7 +409,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     transitionEl.classList.toggle(CSS.openingActive, value);
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
   }
 
   private async triggerInteractModifiers(): Promise<void> {

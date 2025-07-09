@@ -14,6 +14,7 @@ import { Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { StatusIconDefaults } from "./interfaces";
 import { styles } from "./input-message.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -91,7 +92,7 @@ export class InputMessage extends LitElement {
     if (iconName) {
       return (
         <calcite-icon
-          class="calcite-input-message-icon"
+          class={CSS.inputMessageIcon}
           flipRtl={this.iconFlipRtl}
           icon={iconName}
           scale="s"
