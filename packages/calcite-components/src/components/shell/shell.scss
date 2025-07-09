@@ -63,7 +63,8 @@
     pointer-events-none;
 }
 
-::slotted(calcite-shell-center-row) {
+::slotted(calcite-shell-center-row),
+::slotted(calcite-shell-panel) {
   inline-size: unset;
 }
 
@@ -92,7 +93,10 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
-slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])),
+slot[name="center-row"]::slotted(calcite-shell-panel:not([display-mode^="float"])),
+slot[name="panel-top"]::slotted(calcite-shell-panel:not([display-mode^="float"])),
+slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float"])) {
   border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-sm);
@@ -111,7 +115,8 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   justify-content: flex-end;
 }
 
-::slotted(calcite-shell-center-row) {
+::slotted(calcite-shell-center-row),
+::slotted(calcite-shell-panel) {
   flex: none;
   align-self: stretch;
 }
@@ -132,8 +137,14 @@ slot[name="center-row"]::slotted(calcite-shell-center-row),
 slot[name="panel-bottom"]::slotted(calcite-shell-center-row) {
   margin-block-start: auto;
 }
-
 slot[name="panel-top"]::slotted(calcite-shell-center-row) {
+  margin-block-end: auto;
+}
+slot[name="center-row"]::slotted(calcite-shell-panel),
+slot[name="panel-bottom"]::slotted(calcite-shell-panel) {
+  margin-block-start: auto;
+}
+slot[name="panel-top"]::slotted(calcite-shell-panel) {
   margin-block-end: auto;
 }
 
