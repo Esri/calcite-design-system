@@ -26,6 +26,12 @@ type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
 }>;
 
+type TestPanelWindow = GlobalTestProps<{
+  lastEventCancelable: boolean;
+  lastEventDefaultPrevented: boolean;
+  calledTimes: number;
+}>;
+
 const panelTemplate = (scrollable = false) =>
   html`<div style="height: 200px; display: flex">
     <calcite-panel>
@@ -367,18 +373,27 @@ describe("calcite-panel", () => {
     const panel = await page.find("calcite-panel");
     const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
 
-    const calcitePanelClose = await panel.spyOnEvent("calcitePanelClose");
-
     await page.$eval("calcite-panel", (panel: Panel["el"]) => {
-      panel.addEventListener("calcitePanelClose", (event) => event.preventDefault());
+      (window as TestPanelWindow).calledTimes = 0;
+
+      panel.addEventListener("calcitePanelClose", (event) => {
+        event.preventDefault();
+        (window as TestPanelWindow).lastEventCancelable = event.cancelable;
+        (window as TestPanelWindow).lastEventDefaultPrevented = event.defaultPrevented;
+        (window as TestPanelWindow).calledTimes++;
+      });
     });
 
     await closeButton.click();
     await page.waitForChanges();
 
-    expect(calcitePanelClose).toHaveReceivedEventTimes(1);
-    expect(calcitePanelClose.lastEvent.cancelable).toBe(true);
-    //expect(calcitePanelClose.lastEvent.defaultPrevented).toBe(true);
+    const calledTimes = await page.evaluate(() => (window as TestPanelWindow).calledTimes);
+    const lastEventCancelable = await page.evaluate(() => (window as TestPanelWindow).lastEventCancelable);
+    const lastEventDefaultPrevented = await page.evaluate(() => (window as TestPanelWindow).lastEventDefaultPrevented);
+
+    expect(calledTimes).toBe(1);
+    expect(lastEventCancelable).toBe(true);
+    expect(lastEventDefaultPrevented).toBe(true);
     expect(await panel.getProperty("closed")).toBe(false);
   });
 
