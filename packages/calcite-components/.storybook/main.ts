@@ -2,15 +2,7 @@ import { UserConfig } from "vite";
 import { html } from "../support/formatting";
 
 module.exports = {
-  addons: [
-    "@storybook/addon-a11y",
-    "@storybook/addon-docs",
-    "@storybook/addon-controls",
-    "@storybook/addon-mdx-gfm",
-    "@storybook/addon-themes",
-    "@whitespace/storybook-addon-html",
-    "storybook-addon-rtl",
-  ],
+  addons: ["@storybook/addon-a11y", "@storybook/addon-docs", "@storybook/addon-themes", "storybook-addon-rtl"],
   core: {
     builder: "@storybook/builder-vite",
   },
