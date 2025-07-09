@@ -58,7 +58,12 @@ import {
   numberStringFormatter,
 } from "../../utils/locale";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  rangeFromAttribute,
+} from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
@@ -272,7 +277,14 @@ export class InputDatePicker
   @property() proximitySelectionDisabled = false;
 
   /** When `true`, activates a range for the component. */
-  @property({ reflect: true }) range = false;
+  @property({
+    reflect: true,
+    converter: {
+      fromAttribute: rangeFromAttribute,
+      toAttribute: stringOrBoolean.toAttribute,
+    },
+  })
+  range: boolean | "single" = false;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -1097,8 +1109,8 @@ export class InputDatePicker
                 ariaInvalid={this.status === "invalid"}
                 class={{
                   [CSS.input]: true,
-                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                  [CSS.inputNoRightBorder]: this.range,
+                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && !!this.range,
+                  [CSS.inputNoRightBorder]: !!this.range,
                 }}
                 disabled={disabled}
                 icon={ICONS.calendar}
@@ -1161,12 +1173,12 @@ export class InputDatePicker
                 />
               </div>
             </div>
-            {this.range && (
+            {!!this.range && (
               <div class={CSS.dividerContainer}>
                 <div class={CSS.divider} />
               </div>
             )}
-            {this.range && (
+            {!!this.range && (
               <div
                 class={CSS.inputWrapper}
                 data-position={POSITION.end}
@@ -1181,9 +1193,9 @@ export class InputDatePicker
                   ariaHasPopup="dialog"
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    [CSS.inputNoTopBorder]: this.layout === "vertical" && !!this.range,
+                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && !!this.range,
+                    [CSS.inputNoRightBorder]: this.layout === "vertical" && !!this.range,
                   }}
                   disabled={disabled}
                   icon={ICONS.calendar}

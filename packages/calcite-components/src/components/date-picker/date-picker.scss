@@ -38,7 +38,8 @@
   border-radius: var(--calcite-date-picker-corner-radius, 0);
 }
 
-:host([scale="s"]) {
+:host([scale="s"]),
+:host([scale="s"][range="single"]) {
   inline-size: 236px;
   min-inline-size: 216px;
   max-inline-size: 380px;
@@ -50,19 +51,21 @@
   max-inline-size: 772px;
 }
 
-:host([scale="m"]) {
+:host([scale="m"]),
+:host([scale="m"][range="single"]) {
   inline-size: 298px;
   min-inline-size: 272px;
   max-inline-size: 480px;
 }
 
-:host([scale="m"][range][layout="horizontal"]) {
+:host([scale="m"][range][layout="horizontal"]:not([range="single"])) {
   inline-size: 608px;
   min-inline-size: 544px;
   max-inline-size: 972px;
 }
 
-:host([scale="l"]) {
+:host([scale="l"]),
+:host([scale="l"][range="single"]) {
   inline-size: 334px;
   min-inline-size: 320px;
   max-inline-size: 600px;

@@ -9,6 +9,8 @@ import {
   method,
   state,
   JsxNode,
+  stringOrBoolean,
+  // stringOrBoolean,
 } from "@arcgis/lumina";
 import {
   dateFromISO,
@@ -29,7 +31,7 @@ import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
-import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
+import { DateLocaleData, getLocaleData, getValueAsDateRange, rangeFromAttribute } from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -128,7 +130,14 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
   /** When `true`, activates the component's range mode to allow a start and end date. */
-  @property({ reflect: true }) range = false;
+  @property({
+    reflect: true,
+    converter: {
+      fromAttribute: rangeFromAttribute,
+      toAttribute: stringOrBoolean.toAttribute,
+    },
+  })
+  range: boolean | "single" = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -622,7 +631,6 @@ export class DatePicker extends LitElement {
         : this.minAsDate;
 
     const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
-
     return (
       <>
         <div ariaHidden={true} class={CSS.container} tabIndex={-1}>

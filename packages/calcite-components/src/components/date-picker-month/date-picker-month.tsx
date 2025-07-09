@@ -16,6 +16,7 @@ import { HeadingLevel } from "../functional/Heading";
 import type { DatePickerMonthHeader } from "../date-picker-month-header/date-picker-month-header";
 import type { DatePickerDay } from "../date-picker-day/date-picker-day";
 import type { DatePicker } from "../date-picker/date-picker";
+// import { rangeFromAttribute } from "../date-picker/utils";
 import { CSS } from "./resources";
 import { styles } from "./date-picker-month.scss";
 
@@ -110,7 +111,13 @@ export class DatePickerMonth extends LitElement {
   @property() monthStyle: "abbreviated" | "wide";
 
   /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
-  @property({ reflect: true }) range: boolean = false;
+  @property({
+    reflect: true,
+    // converter: {
+    //   fromAttribute: rangeFromAttribute,
+    // },
+  })
+  range: boolean | "single" = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
@@ -555,7 +562,7 @@ export class DatePickerMonth extends LitElement {
   private updateFocusableDate(date: Date): void {
     if (!this.selectedDate || !this.range) {
       this.focusedDate = this.getFirstValidDateOfMonth(date);
-    } else if (this.selectedDate && this.range) {
+    } else if (this.selectedDate && !!this.range) {
       if (!hasSameMonthAndYear(this.startDate, date) || !hasSameMonthAndYear(this.endDate, date)) {
         this.focusedDate = this.getFirstValidDateOfMonth(date);
       }
@@ -605,7 +612,9 @@ export class DatePickerMonth extends LitElement {
     return (
       <div class={{ [CSS.calendarContainer]: true }} role="grid">
         {this.renderCalendar(adjustedWeekDays, days)}
-        {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
+        {this.range &&
+          this.range !== "single" &&
+          this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
       </div>
     );
   }
@@ -642,7 +651,7 @@ export class DatePickerMonth extends LitElement {
             [CSS.currentDay]: currentDay,
             [CSS.insideRangeHover]: this.isHoverInRange(),
             [CSS.outsideRangeHover]: !this.isHoverInRange(),
-            [CSS.noncurrent]: this.range && !currentMonth,
+            [CSS.noncurrent]: !!this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}
@@ -689,6 +698,7 @@ export class DatePickerMonth extends LitElement {
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
           position={isEndCalendar ? "end" : this.range ? "start" : null}
+          range={this.range}
           scale={this.scale}
           selectedDate={this.selectedDate}
         />
