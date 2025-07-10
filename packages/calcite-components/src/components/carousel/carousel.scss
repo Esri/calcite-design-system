@@ -1,68 +1,81 @@
 /**
-  * Local props
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  * These should be made public and documented post-release of token work.
+  * CSS Custom Properties
   *
-  * --calcite-internal-carousel-item-background-color-active: Specifies the background color of the component's slide item while active.
-  * --calcite-internal-carousel-item-background-color-hover: Specifies the background color of the component's slide item while hovered.
-  * --calcite-internal-carousel-item-background-color-selected: Specifies the background color of the component's slide item when selected.
-  * --calcite-internal-carousel-item-background-color: Specifies the background color of the component's slide item.
-  * --calcite-internal-carousel-item-icon-color-hover: Specifies the icon color of the component's slide item while hovered.
-  * --calcite-internal-carousel-item-icon-color-selected: Specifies the icon color of the component's slide item when selected.
-  * --calcite-internal-carousel-item-icon-color: Specifies the icon color of the component's slide item.
-  * --calcite-internal-carousel-control-color-hover: Specifies the icon color of the component's slide slide arrow and autoplay button while hovered.
-  * --calcite-internal-carousel-control-color: Specifies the icon color of the component's slide arrow and autoplay button.
-  * --calcite-internal-carousel-autoplay-progress-background-color: Specifies the background color of the component's progress when `autoplay`.
-  * --calcite-internal-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay`.
+  * These properties can be overridden using the component's tag as selector.
+  *
+  * --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination item, navigation arrows, and autoplay controls.
+  * --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+  * --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+  * --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+  * --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items.
+  * --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items when hovered or pressed.
+  * --calcite-carousel-pagination-icon-color-selected: Specifies the icon color of the component's pagination items when selected.
+  * --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrows and autoplay controls.
+  * --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrows and autoplay controls when hovered or pressed.
+  * --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+  * --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
   *
 */
 
 :host {
   @apply flex w-full;
-  --calcite-internal-internal-carousel-item-space: 1.5rem;
-  --calcite-internal-internal-carousel-item-space-wide: 3.5rem;
-  --calcite-internal-internal-carousel-item-background-color: var(
-    --calcite-internal-carousel-item-background-color,
+  --calcite-internal-carousel-pagination-space: 1.5rem;
+  --calcite-internal-carousel-pagination-space-wide: 3.5rem;
+  --calcite-internal-carousel-pagination-background-color: var(
+    --calcite-carousel-pagination-background-color,
+    transparent
+  );
+  --calcite-internal-carousel-pagination-background-color-hover: var(
+    --calcite-carousel-pagination-background-color-hover,
+    transparent
+  );
+  --calcite-internal-carousel-pagination-background-color-press: var(
+    --calcite-carousel-pagination-background-color-press,
+    transparent
+  );
+  --calcite-internal-carousel-pagination-background-color-selected: var(
+    --calcite-carousel-pagination-background-color-selected,
+    transparent
+  );
+  --calcite-internal-carousel-pagination-overlay-background-color: var(
+    --calcite-carousel-pagination-background-color,
     var(--calcite-color-foreground-1)
   );
-  --calcite-internal-internal-carousel-item-background-color-hover: var(
-    --calcite-internal-carousel-item-background-color-hover,
+  --calcite-internal-carousel-pagination-overlay-background-color-hover: var(
+    --calcite-carousel-pagination-background-color-hover,
     var(--calcite-color-foreground-2)
   );
-  --calcite-internal-internal-carousel-item-background-color-active: var(
-    --calcite-internal-carousel-item-background-color-active,
+  --calcite-internal-carousel-pagination-overlay-background-color-active: var(
+    --calcite-carousel-pagination-background-color-press,
     var(--calcite-color-foreground-2)
   );
-  --calcite-internal-internal-carousel-item-background-color-selected: var(
-    --calcite-internal-carousel-item-background-color-selected,
+  --calcite-internal-carousel-pagination-overlay-background-color-selected: var(
+    --calcite-carousel-pagination-background-color-selected,
     var(--calcite-color-foreground-1)
   );
-  --calcite-internal-internal-carousel-item-icon-color-hover: var(
-    --calcite-internal-carousel-item-icon-color-hover,
+  --calcite-internal-carousel-pagination-icon-color-hover: var(
+    --calcite-carousel-pagination-icon-color-hover,
     var(--calcite-color-text-1)
   );
-  --calcite-internal-internal-carousel-item-icon-color: var(
-    --calcite-internal-carousel-item-icon-color,
+  --calcite-internal-carousel-pagination-icon-color: var(
+    --calcite-carousel-pagination-icon-color,
     var(--calcite-color-border-1)
   );
-  --calcite-internal-internal-carousel-item-icon-color-selected: var(
-    --calcite-internal-carousel-item-icon-color-selected,
+  --calcite-internal-carousel-pagination-icon-color-selected: var(
+    --calcite-carousel-pagination-icon-color-selected,
     var(--calcite-color-brand)
   );
-  --calcite-internal-internal-carousel-control-color-hover: var(
-    --calcite-internal-carousel-control-color-hover,
+  --calcite-internal-carousel-control-icon-color-hover: var(
+    --calcite-carousel-control-icon-color-hover,
     var(--calcite-color-text-1)
   );
-  --calcite-internal-internal-carousel-control-color: var(
-    --calcite-internal-carousel-item-icon-color,
-    var(--calcite-color-text-3)
-  );
-  --calcite-internal-internal-carousel-autoplay-progress-background-color: var(
-    --calcite-internal-carousel-autoplay-progress-background-color,
+  --calcite-internal-carousel-control-color: var(--calcite-carousel-pagination-icon-color, var(--calcite-color-text-3));
+  --calcite-internal-carousel-autoplay-progress-background-color: var(
+    --calcite-carousel-autoplay-progress-background-color,
     var(--calcite-color-border-3)
   );
-  --calcite-internal-internal-carousel-autoplay-progress-fill-color: var(
-    --calcite-internal-carousel-autoplay-progress-fill-color,
+  --calcite-internal-carousel-autoplay-progress-fill-color: var(
+    --calcite-carousel-autoplay-progress-fill-color,
     var(--calcite-color-brand)
   );
 }
@@ -82,8 +95,8 @@
 }
 
 .container--edged:not(.container--overlaid) {
-  padding-inline: var(--calcite-internal-internal-carousel-item-space-wide);
-  inline-size: calc(100% - var(--calcite-internal-internal-carousel-item-space-wide) * 2);
+  padding-inline: var(--calcite-internal-carousel-pagination-space-wide);
+  inline-size: calc(100% - var(--calcite-internal-carousel-pagination-space-wide) * 2);
 }
 
 .item-container {
@@ -132,9 +145,9 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item.page-next,
 .pagination-item.page-previous {
-  color: var(--calcite-internal-internal-carousel-control-color);
+  color: var(--calcite-internal-carousel-control-color);
   &:hover {
-    color: var(--calcite-internal-internal-carousel-control-color-hover);
+    color: var(--calcite-internal-carousel-control-icon-color-hover);
   }
 }
 
@@ -164,9 +177,9 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item.autoplay-control {
   position: relative;
-  color: var(--calcite-internal-internal-carousel-control-color);
-  --calcite-progress-fill-color: var(--calcite-internal-internal-carousel-autoplay-progress-fill-color);
-  --calcite-progress-background-color: var(--calcite-internal-internal-carousel-autoplay-progress-background-color);
+  color: var(--calcite-internal-carousel-control-color);
+  --calcite-progress-fill-color: var(--calcite-internal-carousel-autoplay-progress-fill-color);
+  --calcite-progress-background-color: var(--calcite-internal-carousel-autoplay-progress-background-color);
 }
 
 .autoplay-control:focus .autoplay-progress {
@@ -196,28 +209,27 @@ calcite-carousel-item:not([selected]) {
   display: flex;
   align-content: center;
   justify-content: center;
-  --calcite-color-foreground-1: var(--calcite-internal-internal-carousel-item-background-color);
-  color: var(--calcite-internal-internal-carousel-item-icon-color);
+  background-color: var(--calcite-internal-carousel-pagination-background-color);
+  color: var(--calcite-internal-carousel-pagination-icon-color);
   &:hover {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-hover);
-    color: var(--calcite-internal-internal-carousel-item-icon-color-hover);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-hover);
+    color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   &:focus {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-active);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-press);
     @apply focus-inset;
   }
   &:active {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-active);
-    color: var(--calcite-internal-internal-carousel-item-icon-color-hover);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-press);
+    color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   & calcite-icon {
     color: inherit;
     pointer-events: none;
   }
   &.pagination-item--selected {
-    --calcite-color-foreground-1: var(--calcite-internal-internal-carousel-item-background-color-selected);
-    --calcite-color-foreground-3: var(--calcite-internal-internal-carousel-item-background-color-selected);
-    color: var(--calcite-internal-internal-carousel-item-icon-color-selected);
+    background-color: var(--calcite-internal-carousel-pagination-background-color-selected);
+    color: var(--calcite-internal-carousel-pagination-icon-color-selected);
   }
 }
 
@@ -241,15 +253,19 @@ calcite-carousel-item:not([selected]) {
 }
 
 .container--overlaid .pagination-item {
-  background-color: var(--calcite-internal-internal-carousel-item-background-color);
+  background-color: var(--calcite-internal-carousel-pagination-overlay-background-color);
   &:hover {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-hover);
+    background-color: var(--calcite-internal-carousel-pagination-overlay-background-color-hover);
   }
   &:focus {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-active);
+    background-color: var(--calcite-internal-carousel-pagination-overlay-background-color-active);
   }
   &:active {
-    background-color: var(--calcite-internal-internal-carousel-item-background-color-active);
+    background-color: var(--calcite-internal-carousel-pagination-overlay-background-color-active);
+  }
+  &.pagination-item--selected {
+    background-color: var(--calcite-internal-carousel-pagination-overlay-background-color-selected);
+    color: var(--calcite-internal-carousel-pagination-icon-color-selected);
   }
 }
 
