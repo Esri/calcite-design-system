@@ -1,4 +1,7 @@
 {
   "chooseDate": "Válasszon dátumot",
-  "dateFormat": "Dátumformátum: {format}"
+  "date": "Dátum",
+  "dateFormat": "Dátumformátum: {format}",
+  "endDate": "Záró dátum",
+  "startDate": "Kezdés dátuma"
 }

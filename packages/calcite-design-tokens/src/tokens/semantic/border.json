@@ -6,28 +6,32 @@
           "value": "{core.size.default.none}",
           "type": "borderWidth",
           "attributes": {
-            "category": "border"
+            "category": "border",
+            "group": "width"
           }
         },
         "sm": {
           "value": "{core.size.default.1}",
           "type": "borderWidth",
           "attributes": {
-            "category": "border"
+            "category": "border",
+            "group": "width"
           }
         },
         "md": {
           "value": "{core.size.default.2}",
           "type": "borderWidth",
           "attributes": {
-            "category": "border"
+            "category": "border",
+            "group": "width"
           }
         },
         "lg": {
           "value": "{core.size.default.4}",
           "type": "borderWidth",
           "attributes": {
-            "category": "border"
+            "category": "border",
+            "group": "width"
           }
         }
       }

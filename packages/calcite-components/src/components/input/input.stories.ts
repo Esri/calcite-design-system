@@ -229,3 +229,34 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
     ></calcite-input>
   `);
+
+export const shrinkingInputDoesNotObscureCalendarIcon = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      background: #abcdef;
+      padding: 8px;
+      width: 200px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input
+      clearable
+      icon="date-time"
+      step=".001"
+      type="datetime-local"
+      value="2024-05-09T12:00:00.000"
+    ></calcite-input>
+  </div>
+`;
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" type="text" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input>`;

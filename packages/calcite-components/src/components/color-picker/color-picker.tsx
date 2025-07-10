@@ -20,6 +20,7 @@ import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { InputNumber } from "../input-number/input-number";
 import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
@@ -52,6 +53,7 @@ import {
   RGB_LIMITS,
   SCOPE_SIZE,
   STATIC_DIMENSIONS,
+  ICONS,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -139,6 +141,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       skipEqual,
     );
   };
+
+  private cancelable = useCancelable<this>()(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
@@ -402,6 +406,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
+    this.cancelable.add([this.drawColorControls, this.resizeCanvas]);
   }
 
   async load(): Promise<void> {
@@ -1438,13 +1443,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
-
-    const channels = color[channelMode]()
-      .array()
-      .map((value, index) => {
-        const isAlpha = index === 3;
-        return isAlpha ? value : Math.floor(value);
-      });
+    const channels = color[channelMode]().round().array();
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1
@@ -1634,7 +1633,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.deleteColor}
                     disabled={noColor}
-                    iconStart="minus"
+                    iconStart={ICONS.minus}
                     kind="neutral"
                     label={messages.deleteColor}
                     onClick={this.deleteColor}
@@ -1645,7 +1644,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.saveColor}
                     disabled={noColor}
-                    iconStart="plus"
+                    iconStart={ICONS.plus}
                     kind="neutral"
                     label={messages.saveColor}
                     onClick={this.saveColor}

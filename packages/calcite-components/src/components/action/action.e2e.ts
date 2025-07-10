@@ -39,6 +39,10 @@ describe("calcite-action", () => {
         propertyName: "textEnabled",
         defaultValue: false,
       },
+      {
+        propertyName: "width",
+        defaultValue: "auto",
+      },
     ]);
   });
 
@@ -87,6 +91,10 @@ describe("calcite-action", () => {
       {
         propertyName: "textEnabled",
         value: true,
+      },
+      {
+        propertyName: "width",
+        value: "full",
       },
     ]);
   });

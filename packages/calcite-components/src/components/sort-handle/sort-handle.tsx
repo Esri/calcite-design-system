@@ -17,7 +17,7 @@ import {
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
+import { CSS, ICONS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
@@ -136,13 +136,13 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   calciteSortHandleClose = createEvent({ cancelable: false });
 
   /** Fires when a move item has been selected. */
-  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: false });
+  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
   /** Fires when a reorder has been selected. */
-  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: false });
+  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
   // #endregion
 
@@ -274,7 +274,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale={scale}
-            slot="trigger"
+            slot={SLOTS.trigger}
             text={text}
             title={text}
           />

@@ -3,8 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-time-picker-background-color: The background color of the time picker.
- * @prop --calcite-time-picker-corner-radius: The border radius of the time picker.
+ * @prop --calcite-time-picker-background-color: Specifies the background color of the time picker.
+ * @prop --calcite-time-picker-border-color: Specifies the border color of the time picker.
+ * @prop --calcite-time-picker-corner-radius: Specifies the border radius of the time picker.
  * @prop --calcite-time-picker-button-background-color-hover: Specifies the button's background color when hovered or focused.
  * @prop --calcite-time-picker-button-background-color-press: Specifies the button's background color when active.
  * @prop --calcite-time-picker-color: Specifies the component's text color.
@@ -19,11 +20,12 @@
 
 .time-picker {
   @apply flex
-    shadow-2
     select-none
     items-center
+    border-solid
+    border
     font-medium;
-
+  border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
@@ -101,7 +103,7 @@
     @apply text-n1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-spacing-sm);
       padding-block: var(--calcite-spacing-xxs);
     }
     &:not(.show-meridiem) {
@@ -115,7 +117,7 @@
     @apply text-0;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-xl);
+      padding-inline: var(--calcite-spacing-md);
       padding-block: var(--calcite-spacing-sm);
     }
     &:not(.show-meridiem) {
@@ -129,7 +131,7 @@
     @apply text-1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-xxl);
+      padding-inline: var(--calcite-spacing-lg);
       padding-block: var(--calcite-spacing-md);
     }
     &:not(.show-meridiem) {

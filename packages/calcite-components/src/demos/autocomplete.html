@@ -509,7 +509,6 @@
         async function getSuggestions(locatorAutocomplete, suggestController) {
           const signal = suggestController.signal;
           removeOldItems(locatorAutocomplete);
-          locatorAutocomplete.open = true;
 
           const response = await suggestLocations(
             "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",

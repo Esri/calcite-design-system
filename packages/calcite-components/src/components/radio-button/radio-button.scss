@@ -35,7 +35,11 @@
 :host(:not([checked])[focused]:not([disabled])) {
   .radio {
     box-shadow: inset 0 0 0 var(--calcite-border-width-md)
-      var(--calcite-radio-button-border-color, var(--calcite-color-brand));
+      var(--calcite-radio-button-border-color, var(--calcite-color-brand-hover));
+
+    &:active {
+      box-shadow: inset 0 0 0 var(--calcite-border-width-md) var(--calcite-color-brand-press);
+    }
   }
 }
 

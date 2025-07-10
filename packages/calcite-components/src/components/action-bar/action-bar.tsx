@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  Fragment,
-  h,
-  method,
-  state,
-  JsxNode,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
@@ -23,11 +14,14 @@ import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { Action } from "../action/action";
+import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -51,12 +45,16 @@ export class ActionBar extends LitElement {
 
   //#region Private Properties
 
+  private expandToggleEl: Action["el"];
+
   private actionGroups: ActionGroup["el"][];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
+  private cancelable = useCancelable<this>()(this);
+
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -66,8 +64,8 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const actions = queryActions(el);
-    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const itemSizes = this.getItemSizes();
+
     this.updateGroups();
 
     const groupCount =
@@ -75,16 +73,10 @@ export class ActionBar extends LitElement {
         ? actionGroups.length + 1
         : actionGroups.length;
 
-    const { actionHeight, actionWidth } = geActionDimensions(actions);
-
     const overflowCount = getOverflowCount({
-      layout,
-      actionCount,
-      actionHeight,
-      actionWidth,
-      height,
-      width,
-      groupCount,
+      bufferSize: groupCount, // 1px border for each group
+      containerSize: layout === "horizontal" ? width : height,
+      itemSizes,
     });
 
     overflowActions({
@@ -132,6 +124,11 @@ export class ActionBar extends LitElement {
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
 
+  /**
+   * When `true`, the component is in a floating state.
+   */
+  @property({ reflect: true }) floating = false;
+
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
@@ -139,7 +136,8 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
-  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -205,6 +203,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.cancelable.add(this.resize);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -245,6 +244,20 @@ export class ActionBar extends LitElement {
 
   //#region Private Methods
 
+  private getItemSizes(): number[] {
+    const { el, layout, expandToggleEl } = this;
+
+    const actions = queryActions(el);
+
+    if (expandToggleEl) {
+      actions.push(expandToggleEl);
+    }
+
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
+    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+    return actions.map((action) => action[clientSize] || fallbackSize);
+  }
+
   private expandedHandler(): void {
     const { el, expanded } = this;
     toggleChildActionText({ el, expanded });
@@ -284,11 +297,10 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
-    this.setGroupLayout(groups);
-  }
-
-  private setGroupLayout(groups: ActionGroup["el"][]): void {
-    groups.forEach((group) => (group.layout = this.layout));
+    groups.forEach((group) => {
+      group.layout = this.layout;
+      group.scale = this.scale;
+    });
   }
 
   private handleDefaultSlotChange(): void {
@@ -338,6 +350,7 @@ export class ActionBar extends LitElement {
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={(el: Action["el"]) => (this.expandToggleEl = el)}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
@@ -363,10 +376,10 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <>
+      <div class={CSS.container}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
-      </>
+      </div>
     );
   }
 

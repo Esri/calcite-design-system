@@ -104,3 +104,8 @@ export const STATIC_DIMENSIONS = {
 };
 
 export const SCOPE_SIZE = 1;
+
+export const ICONS = {
+  minus: "minus",
+  plus: "plus",
+};

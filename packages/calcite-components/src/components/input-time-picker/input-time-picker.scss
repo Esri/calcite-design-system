@@ -50,6 +50,7 @@
   &:focus,
   &:hover:focus {
     background-color: Highlight;
+    color: HighlightText;
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
@@ -119,6 +120,11 @@
       @apply focus-inset-danger;
     }
   }
+}
+
+calcite-time-picker {
+  --calcite-time-picker-border-color: transparent;
+  --calcite-time-picker-corner-radius: var(--calcite-corner-radius-round);
 }
 
 @include form-validation-message();

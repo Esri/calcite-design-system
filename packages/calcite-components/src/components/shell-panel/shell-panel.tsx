@@ -17,7 +17,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
@@ -369,7 +369,7 @@ export class ShellPanel extends LitElement {
   private getResizeIcon(): string {
     const { layout } = this;
 
-    return layout === "horizontal" ? "drag-resize-vertical" : "drag-resize-horizontal";
+    return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
   }
 
   //#endregion
@@ -458,7 +458,9 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <slot key="action-bar" name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      <div class={CSS.actionBarContainer} key="action-bar-container">
+        <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
+      </div>
     );
 
     const mainNodes = [actionBarNode, contentNode];

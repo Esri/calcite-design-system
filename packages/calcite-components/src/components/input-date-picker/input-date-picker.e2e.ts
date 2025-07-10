@@ -18,7 +18,7 @@ import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { CSS } from "./resources";
+import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
 const animationDurationInMs = 200;
@@ -370,14 +370,14 @@ describe("calcite-input-date-picker", () => {
         expect(await calendar.isVisible()).toBe(false);
 
         const startInput = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.start}] calcite-input-text`,
         );
 
         const endInput = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] calcite-input-text`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.end}] calcite-input-text`,
         );
         const endInputToggle = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] .${CSS.toggleIcon}`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.end}] .${CSS.toggleIcon}`,
         );
 
         // toggling via start date input
@@ -537,7 +537,7 @@ describe("calcite-input-date-picker", () => {
       expect(await calendar.isVisible()).toBe(false);
 
       const startInput = await page.find(
-        `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
+        `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.start}] calcite-input-text`,
       );
 
       await startInput.click();
@@ -625,10 +625,10 @@ describe("calcite-input-date-picker", () => {
           `<calcite-input-date-picker lang="${locale}" value="2023-05-31"></calcite-input-date-picker>`,
         );
         const inputDatePicker = await page.find("calcite-input-date-picker");
-        const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+        const calciteInputDatePickerOpenEventSpy = await page.spyOnEvent("calciteInputDatePickerOpen");
 
         await inputDatePicker.click();
-        await calciteInputDatePickerOpenEvent;
+        await calciteInputDatePickerOpenEventSpy.next();
 
         await selectDayInMonthByIndex(page, 1);
         await inputDatePicker.callMethod("blur");
@@ -974,9 +974,9 @@ describe("calcite-input-date-picker", () => {
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
-      const opening = page.waitForEvent("calciteInputDatePickerOpen");
+      const openEventSpy = await page.spyOnEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
-      await opening;
+      await openEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");
@@ -987,9 +987,9 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
-      const closing = page.waitForEvent("calciteInputDatePickerClose");
+      const closeEventSpy = await page.spyOnEvent("calciteInputDatePickerClose");
       await page.keyboard.press("Escape");
-      await closing;
+      await closeEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
@@ -1024,9 +1024,9 @@ describe("calcite-input-date-picker", () => {
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
-      const startOpening = page.waitForEvent("calciteInputDatePickerOpen");
+      const openEventSpy = await page.spyOnEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
-      await startOpening;
+      await openEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");
@@ -1037,9 +1037,9 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
-      const startClosing = page.waitForEvent("calciteInputDatePickerClose");
+      const closeEventSpy = await page.spyOnEvent("calciteInputDatePickerClose");
       await page.keyboard.press("Escape");
-      await startClosing;
+      await closeEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
@@ -1047,9 +1047,8 @@ describe("calcite-input-date-picker", () => {
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
-      const endOpening = page.waitForEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
-      await endOpening;
+      await openEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");
@@ -1060,9 +1059,8 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
-      const endClosing = page.waitForEvent("calciteInputDatePickerClose");
       await page.keyboard.press("Escape");
-      await endClosing;
+      await closeEventSpy.next();
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT-TEXT");
 
@@ -1918,7 +1916,9 @@ describe("calcite-input-date-picker", () => {
     await skipAnimations(page);
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
-    const endInput = await page.find(`calcite-input-date-picker >>> div[data-position="end"] >>> calcite-input-text`);
+    const endInput = await page.find(
+      `calcite-input-date-picker >>> div[data-position=${POSITION.end}] >>> calcite-input-text`,
+    );
     await page.$eval("calcite-input-date-picker", (element: InputDatePicker["el"]) => {
       element.valueAsDate = [new Date("09-21-2025"), new Date("11-11-2025")];
     });

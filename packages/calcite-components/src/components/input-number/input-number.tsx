@@ -12,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -53,7 +53,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
 
@@ -871,6 +871,27 @@ export class InputNumber
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
     this.value = validNewValue;
 
+    const localizedCharAllowlist = new Set([
+      "e",
+      "E",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    const childInputValue = this.childNumberEl?.value;
+    // remove invalid characters from child input
+    if (childInputValue) {
+      const sanitizedChildInputValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
+      }
+    }
+
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(validNewValue);
@@ -918,7 +939,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.clear} scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -939,7 +960,7 @@ export class InputNumber
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="up"
+        data-adjustment={DIRECTION.up}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -947,7 +968,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -958,7 +979,7 @@ export class InputNumber
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="down"
+        data-adjustment={DIRECTION.down}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -966,7 +987,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1015,7 +1036,13 @@ export class InputNumber
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly

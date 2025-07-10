@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -15,10 +15,13 @@ import {
 } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
+  mockConsole();
+
   describe("renders when closed", () => {
     renders("calcite-popover", { display: "contents" });
   });
@@ -264,60 +267,60 @@ describe("calcite-popover", () => {
 
   it("should honor Enter key interaction", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
-
     await skipAnimations(page);
-
-    await page.waitForChanges();
 
     const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
     expect(await positionContainer.isVisible()).toBe(false);
 
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
 
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.focus();
     await page.keyboard.press("Enter");
     await page.waitForChanges();
+    await closeEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(false);
   });
 
   it("should honor Space key interaction", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
         <div id="ref" tabindex="0">referenceElement</div>`,
     );
-
     await skipAnimations(page);
-
-    await page.waitForChanges();
 
     const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
     const ref = await page.find("#ref");
 
     expect(await positionContainer.isVisible()).toBe(false);
 
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
 
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.focus();
     await page.keyboard.press(" ");
     await page.waitForChanges();
+    await closeEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(false);
   });
@@ -657,7 +660,6 @@ describe("calcite-popover", () => {
 
   it("should still function when disconnected and reconnected", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
       <div id="transfer"></div>
@@ -669,17 +671,20 @@ describe("calcite-popover", () => {
     const ref = await page.find("#ref");
     expect(await positionContainer.isVisible()).toBe(true);
 
+    const closeEventSpy = await page.spyOnEvent("calcitePopoverClose");
     await ref.click();
-    await page.waitForChanges();
+    await closeEventSpy.next();
+
     expect(await positionContainer.isVisible()).toBe(false);
 
     await page.$eval("calcite-popover", (popoverEl: Popover["el"]) => {
       const transferEl = document.getElementById("transfer");
       transferEl.appendChild(popoverEl);
     });
-
     await page.waitForChanges();
+    const openEventSpy = await page.spyOnEvent("calcitePopoverOpen");
     await ref.click();
+    await openEventSpy.next();
 
     expect(await positionContainer.isVisible()).toBe(true);
   });
@@ -760,17 +765,6 @@ describe("calcite-popover", () => {
   });
 
   describe("warning messages", () => {
-    let consoleSpy: MockInstance;
-
-    beforeEach(
-      () =>
-        (consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {
-          // hide warning messages during test
-        })),
-    );
-
-    afterEach(() => consoleSpy.mockClear());
-
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -779,7 +773,7 @@ describe("calcite-popover", () => {
       );
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("does not warn after removal", async () => {
@@ -793,7 +787,7 @@ describe("calcite-popover", () => {
       await popover.callMethod("remove");
       await page.waitForChanges();
 
-      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it("warns if reference element is not present", async () => {
@@ -801,7 +795,7 @@ describe("calcite-popover", () => {
       await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
       await page.waitForChanges();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
     });

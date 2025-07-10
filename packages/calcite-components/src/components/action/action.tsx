@@ -10,12 +10,12 @@ import {
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale } from "../interfaces";
+import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -37,13 +37,13 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private guid = `calcite-action-${guid()}`;
+  private guid = guid();
 
   private buttonEl = createRef<HTMLButtonElement>();
 
-  private buttonId = `${this.guid}-button`;
+  private buttonId = IDS.button(this.guid);
 
-  private indicatorId = `${this.guid}-indicator`;
+  private indicatorId = IDS.indicator(this.guid);
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
@@ -60,6 +60,12 @@ export class Action extends LitElement implements InteractiveComponent {
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
+
+  /**
+   * When `true`, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
@@ -104,6 +110,13 @@ export class Action extends LitElement implements InteractiveComponent {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `full`, the component's width spans all its parent's available space
+   *
+   * @private
+   */
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**
    * Specifies text that accompanies the icon.
@@ -295,8 +308,6 @@ export class Action extends LitElement implements InteractiveComponent {
         disabled={disabled}
         id={buttonId}
         ref={this.buttonEl}
-        // tabIndex is required for the button to be focusable on click in safari.
-        tabIndex={disabled ? null : 0}
       >
         {buttonContent}
       </button>

@@ -581,12 +581,6 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
  * @param component - A floating-ui component.
  */
 export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  const { floatingEl, referenceEl } = component;
-
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (trackedState?.state === "active") {
@@ -595,6 +589,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent): void {
 
   autoUpdatingComponentMap.delete(component);
 
+  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
 }

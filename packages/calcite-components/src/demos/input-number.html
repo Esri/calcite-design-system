@@ -55,6 +55,31 @@
       .locale {
         flex: 0 0 20%;
       }
+
+      .themed {
+        --calcite-input-actions-background-color: pink;
+        --calcite-input-actions-background-color-hover: #b2ebf2;
+        --calcite-input-actions-background-color-press: #80deea;
+        --calcite-input-actions-icon-color: #00796b;
+        --calcite-input-actions-icon-color-hover: #004d40;
+        --calcite-input-actions-icon-color-press: #00251a;
+        --calcite-input-loading-background-color: #e8f5e9;
+        --calcite-input-loading-fill-color: #43a047;
+        --calcite-input-number-background-color: yellow;
+        --calcite-input-number-border-color: #1e88e5;
+        --calcite-input-number-corner-radius: 4px;
+        --calcite-input-number-icon-color: red;
+        --calcite-input-number-height: 40px;
+        --calcite-input-number-placeholder-text-color: #9e9e9e;
+        --calcite-input-number-text-color: #212121;
+        --calcite-input-number-text-color-focus: #0d47a1;
+        --calcite-input-prefix-background-color: #e3f2fd;
+        --calcite-input-prefix-size: 80px;
+        --calcite-input-prefix-text-color: #1565c0;
+        --calcite-input-suffix-background-color: #e3f2fd;
+        --calcite-input-suffix-size: 80px;
+        --calcite-input-suffix-text-color: #1565c0;
+      }
     </style>
 
     <script src="./_assets/head.ts"></script>
@@ -135,14 +160,8 @@
         <div class="child-flex font right-aligned-text">Number Vertical</div>
         <div class="child-flex">
           <calcite-label scale="s">
-            Input Label AR2
-            <calcite-input-number
-              placeholder="Placeholder"
-              scale="s"
-              value="123"
-              lang="ar"
-              numbering-system="arab"
-            ></calcite-input-number>
+            Input Label
+            <calcite-input-number placeholder="Placeholder" scale="s" value="123" step="1"></calcite-input-number>
           </calcite-label>
         </div>
 
@@ -678,6 +697,24 @@
         <div class="child-flex font right-aligned-text">step-any</div>
         <div class="child-flex">
           <calcite-input-number name="step-any" step="any" placeholder='step="any"'></calcite-input-number>
+        </div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">themed</div>
+        <div class="child-flex themed">
+          <calcite-input-number
+            name="step-any-group"
+            step="any"
+            group-separator
+            placeholder='step="any" with group'
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            clearable
+            value="100"
+            loading
+            icon="layers"
+          ></calcite-input-number>
         </div>
       </div>
     </demo-dom-swapper>

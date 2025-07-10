@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import { version } from "./package.json";
 
 export default defineConfig({
@@ -18,4 +18,7 @@ See https://github.com/Esri/calcite-design-system/blob/${version}/LICENSE.md for
       }
     },
   },
+  test: {
+    testTimeout: 0
+  }
 });

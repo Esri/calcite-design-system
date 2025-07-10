@@ -7,7 +7,7 @@
  * @module usePreventDocumentScroll
  */
 
-import { makeGenericController } from "@arcgis/components-controllers";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 
 let openedComponentCount: number = 0;

@@ -15,7 +15,7 @@
             "textDecoration": "{semantic.font.text-decoration.none}"
           },
           "attributes": {
-            "category": ""
+            "category": "typography"
           }
         },
         "light": {
@@ -30,7 +30,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": ""
+              "category": "typography"
             }
           },
           "-2h": {
@@ -43,7 +43,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-1h": {
@@ -55,7 +55,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "0h": {
@@ -69,7 +69,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "1h": {
@@ -83,7 +83,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           }
         },
@@ -98,7 +98,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-2h": {
@@ -110,14 +110,14 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-1h": {
             "value": "{semantic.typography.default.default}",
             "type": "typography",
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "0h": {
@@ -130,7 +130,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "1h": {
@@ -143,7 +143,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           }
         },
@@ -159,7 +159,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-2h": {
@@ -172,7 +172,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-1h": {
@@ -184,7 +184,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "0h": {
@@ -198,7 +198,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "1h": {
@@ -212,7 +212,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           }
         },
@@ -228,7 +228,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-2h": {
@@ -241,7 +241,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "-1h": {
@@ -253,7 +253,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "0h": {
@@ -267,7 +267,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           },
           "1h": {
@@ -281,7 +281,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "default"
+              "category": "typography"
             }
           }
         }
@@ -299,7 +299,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "1": {
@@ -313,7 +313,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "2": {
@@ -327,7 +327,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "3": {
@@ -341,7 +341,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-2": {
@@ -355,7 +355,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-1": {
@@ -368,7 +368,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           }
         },
@@ -383,7 +383,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "1": {
@@ -396,7 +396,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "2": {
@@ -409,7 +409,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "3": {
@@ -422,7 +422,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-2": {
@@ -435,7 +435,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-1": {
@@ -447,7 +447,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           }
         },
@@ -463,7 +463,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "1": {
@@ -477,7 +477,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "2": {
@@ -491,7 +491,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "3": {
@@ -505,7 +505,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-2": {
@@ -519,7 +519,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-1": {
@@ -532,7 +532,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           }
         },
@@ -548,7 +548,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "1": {
@@ -562,7 +562,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "2": {
@@ -576,7 +576,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "3": {
@@ -590,7 +590,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-2": {
@@ -604,7 +604,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           },
           "-1": {
@@ -617,7 +617,7 @@
               "calcite.extends": "{semantic.typography.default.default}"
             },
             "attributes": {
-              "category": "wrap"
+              "category": "typography"
             }
           }
         }
@@ -628,14 +628,14 @@
             "value": "{semantic.typography.wrap.bold.3}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "2": {
             "value": "{semantic.typography.wrap.bold.2}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           }
         },
@@ -644,35 +644,35 @@
             "value": "{semantic.typography.wrap.medium.3}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "2": {
             "value": "{semantic.typography.wrap.medium.2}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "3": {
             "value": "{semantic.typography.wrap.medium.1}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "4": {
             "value": "{semantic.typography.wrap.medium.0}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "5": {
             "value": "{semantic.typography.wrap.medium.-1}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           }
         },
@@ -681,14 +681,14 @@
             "value": "{semantic.typography.wrap.regular.-1}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           },
           "default": {
             "value": "{semantic.typography.default.default}",
             "type": "typography",
             "attributes": {
-              "category": "hierarchy"
+              "category": "typography"
             }
           }
         },
@@ -700,14 +700,14 @@
           },
           "type": "typography",
           "attributes": {
-            "category": "hierarchy"
+            "category": "typography"
           }
         },
         "caption": {
           "value": "{semantic.typography.wrap.regular.-2}",
           "type": "typography",
           "attributes": {
-            "category": "hierarchy"
+            "category": "typography"
           }
         }
       }

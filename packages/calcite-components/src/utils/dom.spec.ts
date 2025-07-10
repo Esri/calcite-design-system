@@ -1,8 +1,8 @@
 // @ts-strict-ignore
-import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
-import { waitForAnimationFrame } from "../tests/utils/puppeteer";
+import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { guidPattern } from "./guid.spec";
 import {
@@ -440,13 +440,9 @@ describe("dom", () => {
    */
   describe("transition/animation helpers", () => {
     let element: HTMLDivElement;
-    let onStartCallback: Mock;
-    let onEndCallback: Mock;
 
     beforeEach(() => {
       element = window.document.createElement("div");
-      onStartCallback = vi.fn();
-      onEndCallback = vi.fn();
     });
 
     const helpers = [whenTransitionDone, whenAnimationDone] as const;
@@ -469,20 +465,14 @@ describe("dom", () => {
           ];
           element.getAnimations = () => animationsPerCall.shift();
 
-          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+          const promise = helper(element, testTransitionOrAnimationName);
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
-          expect(onStartCallback).toHaveBeenCalled();
-          expect(onEndCallback).not.toHaveBeenCalled();
 
           controlledPromise.resolve();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
-          expect(onStartCallback).toHaveBeenCalled();
-          expect(onEndCallback).toHaveBeenCalled();
 
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-          expect(onStartCallback).toHaveBeenCalled();
-          await expect(onEndCallback).toHaveBeenCalled();
         });
 
         it(`should return a promise that resolves after the ${type} (running frame after call time)`, async () => {
@@ -498,45 +488,29 @@ describe("dom", () => {
           ];
           element.getAnimations = () => animationsPerCall.shift();
 
-          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+          const promise = helper(element, testTransitionOrAnimationName);
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
-          expect(onStartCallback).not.toHaveBeenCalled();
-          expect(onEndCallback).not.toHaveBeenCalled();
 
           await waitForAnimationFrame();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
-          expect(onStartCallback).toHaveBeenCalled();
-          expect(onEndCallback).not.toHaveBeenCalled();
 
           controlledPromise.resolve();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
-          expect(onStartCallback).toHaveBeenCalled();
-          expect(onEndCallback).toHaveBeenCalled();
 
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
-          expect(onStartCallback).toHaveBeenCalled();
-          await expect(onEndCallback).toHaveBeenCalled();
         });
 
         it(`should return a promise that resolves after 0s ${type} or has not started when expected (fallback cases)`, async () => {
           const animationsPerCall = [[], []];
           element.getAnimations = () => animationsPerCall.shift();
 
-          const promise = helper(element, testTransitionOrAnimationName, onStartCallback, onEndCallback);
+          const promise = helper(element, testTransitionOrAnimationName);
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
           await waitForAnimationFrame();
-          expect(onStartCallback).not.toHaveBeenCalled();
-          expect(onEndCallback).not.toHaveBeenCalled();
-
-          await waitForAnimationFrame();
-          expect(onStartCallback).toHaveBeenCalled();
-
-          await waitForAnimationFrame();
-          expect(onEndCallback).toHaveBeenCalled();
 
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
         });

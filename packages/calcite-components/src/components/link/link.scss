@@ -12,7 +12,7 @@
 
 // link base
 :host a,
-:host span {
+:host button {
   @apply font-inherit
     relative
     flex
@@ -34,7 +34,7 @@
 
 // focus styles
 :host a,
-:host span {
+:host button {
   @apply focus-base;
   &:focus {
     @apply focus-outset;
@@ -63,7 +63,7 @@ calcite-icon {
 }
 
 :host {
-  span,
+  button,
   a {
     @apply relative
       inline
@@ -73,7 +73,8 @@ calcite-icon {
     color: var(--calcite-link-text-color, var(--calcite-color-text-link));
     line-height: inherit;
     white-space: initial;
-    background-image: linear-gradient(currentColor, currentColor),
+    background-image:
+      linear-gradient(currentColor, currentColor),
       linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
     background-position-x: 0%, 100%;
     background-position-y: min(1.5em, 100%);
