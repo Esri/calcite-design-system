@@ -24,14 +24,14 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -66,7 +66,7 @@ export class Dropdown
 
   private groups: DropdownGroup["el"][] = [];
 
-  private guid = `calcite-dropdown-${guid()}`;
+  private guid = guid();
 
   private items: DropdownItem["el"][] = [];
 
@@ -303,7 +303,7 @@ export class Dropdown
   // #region Private Methods
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;
@@ -495,11 +495,11 @@ export class Dropdown
   }
 
   onBeforeOpen(): void {
+    this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
   }
 
-  async onOpen(): Promise<void> {
-    this.focusOnFirstActiveOrDefaultItem();
+  onOpen(): void {
     this.calciteDropdownOpen.emit();
   }
 
@@ -618,14 +618,14 @@ export class Dropdown
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class="calcite-trigger-container"
-          id={`${guid}-menubutton`}
+          class={CSS.triggerContainer}
+          id={IDS.menuButton(guid)}
           onClick={this.toggleDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
           <slot
-            aria-controls={`${guid}-menu`}
+            aria-controls={IDS.menu(guid)}
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.dropdownTrigger}
@@ -643,13 +643,13 @@ export class Dropdown
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={`${guid}-menubutton`}
+            aria-labelledby={IDS.menuButton(guid)}
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={`${guid}-menu`}
+            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

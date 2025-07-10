@@ -46,7 +46,7 @@ import {
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
@@ -58,9 +58,10 @@ import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
 import type { Label } from "../label/label";
+import { useCancelable } from "../../controllers/useCancelable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -75,12 +76,6 @@ declare global {
     "calcite-combobox": Combobox;
   }
 }
-
-const itemUidPrefix = "combobox-item-";
-const chipUidPrefix = "combobox-chip-";
-const labelUidPrefix = "combobox-label-";
-const listboxUidPrefix = "combobox-listbox-";
-const inputUidPrefix = "combobox-input-";
 
 /** @slot - A slot for adding `calcite-combobox-item`s. */
 export class Combobox
@@ -102,6 +97,8 @@ export class Combobox
 
   private closeButtonEl = createRef<HTMLButtonElement>();
 
+  private selectAllComboboxItemReferenceEl = createRef<HTMLCalciteComboboxItemElement>();
+
   private allSelectedIndicatorChipEl: Chip["el"];
 
   private chipContainerEl: HTMLDivElement;
@@ -109,6 +106,8 @@ export class Combobox
   private data: ItemData[];
 
   defaultValue: Combobox["value"];
+
+  private cancelable = useCancelable<this>()(this);
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
@@ -146,12 +145,12 @@ export class Combobox
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
-      this.filteredItems.forEach((item) => {
+      this.keyboardNavItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
 
       if (setOpenToEmptyState) {
-        this.open = this.filterText.trim().length > 0 && this.filteredItems.length > 0;
+        this.open = this.filterText.trim().length > 0 && this.keyboardNavItems.length > 0;
       }
 
       if (emit) {
@@ -262,8 +261,6 @@ export class Combobox
 
   @state() selectedVisibleChipsCount = 0;
 
-  @state() selectAllComboboxItemReferenceEl: HTMLCalciteComboboxItemElement;
-
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state()
@@ -278,16 +275,18 @@ export class Combobox
 
   @state()
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
-    const { selectAllComboboxItemReferenceEl, items } = this;
+    const { selectAllComboboxItemReferenceEl } = this;
 
-    if (selectAllComboboxItemReferenceEl) {
-      return [selectAllComboboxItemReferenceEl, ...items.filter((item) => !item.disabled)];
+    const filteredItems = this.filteredItems.filter((item) => !item.disabled);
+
+    if (selectAllComboboxItemReferenceEl.value) {
+      return [selectAllComboboxItemReferenceEl.value, ...filteredItems];
     }
 
-    return items.filter((item) => !item.disabled);
+    return filteredItems;
   }
 
-  // #endregion
+  //#endregion
 
   //#region Public Properties
 
@@ -313,7 +312,7 @@ export class Combobox
     }
   }
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`). */
   @property() filterProps: string[];
 
   /**
@@ -322,7 +321,7 @@ export class Combobox
    * @readonly
    */
   @property() get filteredItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this.keyboardNavItems.filter((item) => !isHidden(item));
+    return this.items.filter((item) => !isHidden(item));
   }
 
   /** Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available. */
@@ -564,6 +563,7 @@ export class Combobox
 
     this.setFilteredPlacements();
     connectFloatingUI(this);
+    this.cancelable.add(this.filterItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -657,7 +657,7 @@ export class Combobox
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;
@@ -720,7 +720,7 @@ export class Combobox
 
     if (this.allSelected) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -735,13 +735,15 @@ export class Combobox
       return;
     }
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
-    const isSelectAllTarget = event.composedPath().includes(this.selectAllComboboxItemReferenceEl);
+    const isSelectAllTarget = event
+      .composedPath()
+      .includes(this.selectAllComboboxItemReferenceEl.value);
 
     if (this.selectAllEnabled) {
       this.handleSelectAll(isSelectAllTarget);
     }
 
-    const newIndex = this.filteredItems.indexOf(target);
+    const newIndex = this.keyboardNavItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
@@ -800,10 +802,8 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.selectedItems = this.items.filter((item) => {
-      item.selected = toggledValue;
-      return toggledValue;
-    });
+    this.items.forEach((item) => (item.selected = toggledValue));
+    this.selectedItems = toggledValue ? this.items : [];
     this.emitComboboxChange();
   }
 
@@ -843,7 +843,7 @@ export class Combobox
         }
         break;
       case "ArrowUp":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(-1);
@@ -857,7 +857,7 @@ export class Combobox
         this.scrollToActiveOrSelectedItem();
         break;
       case "ArrowDown":
-        if (this.filteredItems.length) {
+        if (this.keyboardNavItems.length) {
           event.preventDefault();
           if (this.open) {
             this.shiftActiveItemIndex(1);
@@ -913,12 +913,12 @@ export class Combobox
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
-          const item = this.filteredItems[this.activeItemIndex];
+          const item = this.keyboardNavItems[this.activeItemIndex];
           this.toggleSelection(item, !item.selected);
           event.preventDefault();
 
           if (this.selectAllEnabled) {
-            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl);
+            this.handleSelectAll(item === this.selectAllComboboxItemReferenceEl.value);
           }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -1101,7 +1101,7 @@ export class Combobox
 
     if (this.allSelected && this.selectAllEnabled) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -1110,7 +1110,7 @@ export class Combobox
 
     if (this.indeterminate) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${item.guid}`);
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.showChip(chipEl);
         }
@@ -1175,10 +1175,6 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
-  }
-
-  private setSelectAllComboboxItemReferenceEl(el: HTMLCalciteComboboxItemElement): void {
-    this.selectAllComboboxItemReferenceEl = el;
   }
 
   private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
@@ -1445,9 +1441,7 @@ export class Combobox
   private focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
 
-    const chip = guid
-      ? this.referenceEl.querySelector<Chip["el"]>(`#${chipUidPrefix}${guid}`)
-      : null;
+    const chip = guid ? this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`) : null;
     chip?.setFocus();
   }
 
@@ -1455,7 +1449,7 @@ export class Combobox
     const item =
       scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
-        : this.filteredItems[this.activeItemIndex];
+        : this.keyboardNavItems[this.activeItemIndex];
 
     if (!item) {
       return;
@@ -1463,7 +1457,7 @@ export class Combobox
 
     item.scrollIntoView({ block: "nearest" });
 
-    const stickyElement = this.selectAllComboboxItemReferenceEl;
+    const stickyElement = this.selectAllComboboxItemReferenceEl.value;
     const stickyHeight = stickyElement?.offsetHeight || 0;
 
     const listContainer = this.listContainerEl;
@@ -1476,7 +1470,7 @@ export class Combobox
   }
 
   private shiftActiveItemIndex(delta: number): void {
-    const { length } = this.filteredItems;
+    const { length } = this.keyboardNavItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
     this.scrollToActiveOrSelectedItem();
@@ -1485,10 +1479,10 @@ export class Combobox
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
     let activeDescendant: string = null;
-    this.filteredItems.forEach((el, i) => {
+    this.keyboardNavItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
-        activeDescendant = `${itemUidPrefix}${el.guid}`;
+        activeDescendant = `${IDS.item(el.guid)}`;
       } else {
         el.active = false;
       }
@@ -1510,6 +1504,24 @@ export class Combobox
     }
 
     this.textInput.value?.focus();
+  }
+
+  private createScreenReaderItem({
+    ariaLabel,
+    ariaSelected,
+    id,
+    textContent,
+  }: {
+    ariaLabel?: string;
+    ariaSelected: boolean;
+    id?: string;
+    textContent: string;
+  }): JsxNode {
+    return (
+      <li aria-label={ariaLabel} aria-selected={ariaSelected} id={id} role="option" tabIndex={-1}>
+        {textContent}
+      </li>
+    );
   }
 
   //#endregion
@@ -1540,7 +1552,7 @@ export class Combobox
           data-test-id={`chip-${i}`}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
-          id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
+          id={item.guid ? `${IDS.chip(item.guid)}` : null}
           key={itemLabel}
           label={label}
           messageOverrides={{ dismissLabel: messages.removeTag }}
@@ -1570,10 +1582,11 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: !(this.allSelected && !selectedVisibleChipsCount),
           [CSS.allSelected]: true,
         }}
+        data-test-id="all-selected-indicator-chip"
         label={label}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
@@ -1625,7 +1638,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
         label={label}
@@ -1667,7 +1680,7 @@ export class Combobox
     return (
       <calcite-chip
         class={{
-          chip: true,
+          [CSS.chip]: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
         label={label}
@@ -1689,8 +1702,8 @@ export class Combobox
     return (
       <span
         class={{
-          "input-wrap": true,
-          "input-wrap--single": single,
+          [CSS.inputWrap]: true,
+          [CSS.inputWrapSingle]: single,
         }}
       >
         {showLabel && (
@@ -1706,9 +1719,9 @@ export class Combobox
         )}
         <input
           aria-activedescendant={this.activeDescendant}
-          aria-controls={`${listboxUidPrefix}${guid}`}
+          aria-controls={`${IDS.listbox(guid)}`}
           aria-errormessage={IDS.validationMessage}
-          aria-owns={`${listboxUidPrefix}${guid}`}
+          aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
           ariaExpanded={open}
           ariaHasPopup="listbox"
@@ -1716,13 +1729,13 @@ export class Combobox
           ariaLabel={getLabelText(this)}
           class={{
             [CSS.input]: true,
-            "input--single": true,
+            [CSS.inputSingle]: true,
             [CSS.inputHidden]: showLabel,
-            "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
+            [CSS.inputIcon]: this.showingInlineIcon && !!this.placeholderIcon,
           }}
           data-test-id="input"
           disabled={disabled}
-          id={`${inputUidPrefix}${guid}`}
+          id={`${IDS.input(guid)}`}
           key="input"
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
@@ -1739,20 +1752,13 @@ export class Combobox
   }
 
   private renderListBoxOptions(): JsxNode {
-    const mappedListBoxOptions = this.filteredItems.map(
-      (item: HTMLCalciteComboboxItemElement["el"]) => {
-        return (
-          <li
-            ariaLabel={item.label}
-            ariaSelected={item.selected}
-            id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
-            role="option"
-            tabIndex="-1"
-          >
-            {item.heading || item.textLabel}
-          </li>
-        );
-      },
+    const mappedListBoxOptions = this.keyboardNavItems.map((item) =>
+      this.createScreenReaderItem({
+        ariaLabel: item.label,
+        ariaSelected: item.selected,
+        id: `${IDS.item(item.guid)}`,
+        textContent: item.heading || item.textLabel,
+      }),
     );
 
     if (
@@ -1760,17 +1766,11 @@ export class Combobox
       this.selectionMode !== "single" &&
       this.selectionMode !== "single-persist"
     ) {
-      const selectAllComboboxItem = (
-        <li
-          ariaLabel={this.messages.selectAll}
-          ariaSelected={this.allSelected}
-          id={`${this.guid}-select-all-enabled-screen-reader`}
-          role="option"
-          tabIndex="-1"
-        >
-          {this.messages.selectAll}
-        </li>
-      );
+      const selectAllComboboxItem = this.createScreenReaderItem({
+        ariaLabel: this.messages.selectAll,
+        ariaSelected: this.allSelected,
+        textContent: this.messages.selectAll,
+      });
 
       if (selectAllComboboxItem) {
         mappedListBoxOptions.unshift(selectAllComboboxItem);
@@ -1791,7 +1791,7 @@ export class Combobox
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
-          <ul class={{ list: true, "list--hide": !open }}>
+          <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
@@ -1800,7 +1800,7 @@ export class Combobox
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={this.messages.selectAll}
-                  ref={this.setSelectAllComboboxItemReferenceEl}
+                  ref={this.selectAllComboboxItemReferenceEl}
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
@@ -1823,7 +1823,7 @@ export class Combobox
 
     return (
       this.showingInlineIcon && (
-        <span class="icon-start" key="selected-placeholder-icon">
+        <span class={CSS.iconStart} key="selected-placeholder-icon">
           <calcite-icon
             class={{
               [CSS.selectedIcon]: !showPlaceholder,
@@ -1841,10 +1841,10 @@ export class Combobox
   private renderChevronIcon(): JsxNode {
     const { open } = this;
     return (
-      <span class="icon-end" key="chevron">
+      <span class={CSS.iconEnd} key="chevron">
         <calcite-icon
           class={CSS.icon}
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>
@@ -1875,7 +1875,7 @@ export class Combobox
           {this.renderSelectedOrPlaceholderIcon()}
           <div
             class={{
-              "grid-input": true,
+              [CSS.gridInput]: true,
               [CSS.selectionDisplayFit]: fitSelectionDisplay,
               [CSS.selectionDisplaySingle]: singleSelectionDisplay,
             }}
@@ -1895,8 +1895,8 @@ export class Combobox
               ]}
             <label
               class={CSS.screenReadersOnly}
-              htmlFor={`${inputUidPrefix}${guid}`}
-              id={`${labelUidPrefix}${guid}`}
+              htmlFor={`${IDS.input(guid)}`}
+              id={`${IDS.label(guid)}`}
             >
               {label}
             </label>
@@ -1914,10 +1914,10 @@ export class Combobox
           {!readOnly && this.renderChevronIcon()}
         </div>
         <ul
-          aria-labelledby={`${labelUidPrefix}${guid}`}
+          aria-labelledby={`${IDS.label(guid)}`}
           ariaMultiSelectable="true"
           class={CSS.screenReadersOnly}
-          id={`${listboxUidPrefix}${guid}`}
+          id={`${IDS.listbox(guid)}`}
           role="listbox"
           tabIndex={-1}
         >

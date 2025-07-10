@@ -480,9 +480,7 @@ export class DatePickerMonthHeader extends LitElement {
       <span class={CSS.yearContainer}>
         <input
           ariaLabel={this.messages.year}
-          class={{
-            year: true,
-          }}
+          class={{ [CSS.year]: true }}
           inputMode="numeric"
           maxLength="4"
           minLength="1"

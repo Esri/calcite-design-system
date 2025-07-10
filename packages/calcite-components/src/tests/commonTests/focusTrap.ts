@@ -1,4 +1,4 @@
-import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { camelCase, pascalCase } from "change-case";
 import { isElementFocused, skipAnimations } from "../utils/puppeteer";
@@ -40,12 +40,12 @@ export function focusTrap(componentTestSetup: ComponentTestSetup, options: Focus
     let element: E2EElement;
     let focusTargetSelector: string;
 
-    let openEvent: ReturnType<typeof page.waitForEvent>;
+    let openEventSpy: EventSpy;
 
     async function toggleComponent(page: E2EPage, element: E2EElement, options: FocusTrapOptions): Promise<void> {
       element.setProperty(options.toggleProp, true);
       await page.waitForChanges();
-      await openEvent;
+      await openEventSpy.next();
       await page.waitForChanges();
     }
 
@@ -54,7 +54,7 @@ export function focusTrap(componentTestSetup: ComponentTestSetup, options: Focus
       await skipAnimations(page);
       element = await page.find(tag);
       const openEventName = `${camelCase(`${tag}${pascalCase(options.toggleProp)}`)}`;
-      openEvent = page.waitForEvent(openEventName);
+      openEventSpy = await page.spyOnEvent(openEventName);
       focusTargetSelector = options.focusTargetSelector || tag;
     });
 

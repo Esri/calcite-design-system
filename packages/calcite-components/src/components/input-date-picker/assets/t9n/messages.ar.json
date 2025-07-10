@@ -1,4 +1,7 @@
 {
   "chooseDate": "اختر تاريخ",
-  "dateFormat": "تنسيق التاريخ: {format}"
+  "date": "تاريخ",
+  "dateFormat": "تنسيق التاريخ: {format}",
+  "endDate": "تاريخ الانتهاء",
+  "startDate": "تاريخ البداية"
 }

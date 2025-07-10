@@ -167,3 +167,13 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-input-text>
   </div>
 `;
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input-text placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input-text>`;

@@ -1,8 +1,8 @@
 {
   "reorder": "Umordnen",
   "moveTo": "Verschieben nach",
-  "moveToTop": "Nach oben verschieben",
-  "moveToBottom": "Nach unten verschieben",
+  "moveToTop": "Ganz nach oben verschieben",
+  "moveToBottom": "Ganz nach unten verschieben",
   "moveUp": "Nach oben verschieben",
   "moveDown": "Nach unten verschieben",
   "repositionLabel": "Neu positionieren: {label}. Aktuelle Position {position} von {total}.",

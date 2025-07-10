@@ -1,3 +1,4 @@
+@import "@esri/calcite-design-tokens/dist/css/component.css";
 @import "@esri/calcite-design-tokens/dist/scss/index";
 @import "@esri/calcite-design-tokens/dist/scss/core";
 
@@ -95,6 +96,7 @@
 }
 
 @mixin base-component() {
+  /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
   :host([hidden]) {
     @apply hidden;
   }
@@ -102,6 +104,7 @@
   [hidden] {
     @apply hidden;
   }
+  /* stylelint-enable selector-attribute-name-disallowed-list */
 }
 
 @mixin x-button(

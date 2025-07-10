@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
 import { GenericT9nStrings } from "@arcgis/components-utils";
@@ -21,12 +22,12 @@ import {
   MinuteOrSecond,
   parseTimeString,
   toISOTimeString,
-} from "../../utils/time";
-import { decimalPlaces, getDecimals } from "../../utils/math";
-import { isValidNumber } from "../../utils/number";
-import { capitalizeWord } from "../../utils/text";
-import { NumberingSystem, SupportedLocale } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
+} from "../utils/time";
+import { decimalPlaces, getDecimals } from "../utils/math";
+import { isValidNumber } from "../utils/number";
+import { capitalizeWord } from "../utils/text";
+import { NumberingSystem, SupportedLocale } from "../utils/locale";
+import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
   /**
@@ -63,7 +64,7 @@ type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
    */
-  calciteTimeChange: CustomEvent;
+  calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
    */
@@ -141,8 +142,8 @@ type TimeProperties = {
   second: string;
 };
 
-export class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  //#region Private Properties
+class TimeController extends GenericController<TimeProperties, TimeComponent> {
+  //#region Properties
 
   fractionalSecond: string;
 
@@ -349,9 +350,12 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
         this.setValuePart("meridiem");
         break;
       case "ArrowUp":
+        event.preventDefault();
+        this.toggleMeridiem("up");
+        break;
       case "ArrowDown":
         event.preventDefault();
-        this.toggleMeridiem(event.key);
+        this.toggleMeridiem("down");
         break;
       case " ":
       case "Spacebar":
@@ -365,6 +369,81 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
   //#region Events
 
   calciteTimeChange = createEvent<string>();
+
+  //#endregion
+
+  //#region Public Methods
+
+  decrementHour(): void {
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  decrementMinute(): void {
+    this.decrementMinuteOrSecond("minute");
+  }
+
+  decrementSecond(): void {
+    this.decrementMinuteOrSecond("second");
+  }
+
+  incrementHour(): void {
+    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
+    this.setValuePart("hour", newHour);
+  }
+
+  incrementMinute(): void {
+    this.incrementMinuteOrSecond("minute");
+  }
+
+  incrementSecond(): void {
+    this.incrementMinuteOrSecond("second");
+  }
+
+  nudgeFractionalSecond(direction: "up" | "down"): void {
+    const stepDecimal = getDecimals(this.component.step);
+    const stepPrecision = decimalPlaces(this.component.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue;
+    let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
+    let newFractionalSecond;
+    if (direction === "up") {
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    if (direction === "down") {
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    this.setValuePart("fractionalSecond", newFractionalSecond);
+  }
+
+  toggleMeridiem(direction: "down" | "up"): void {
+    let newMeridiem;
+    if (!this.meridiem) {
+      newMeridiem = direction === "down" ? "PM" : "AM";
+    } else {
+      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    }
+    this.setValuePart("meridiem", newMeridiem);
+  }
 
   //#endregion
 
@@ -411,15 +490,6 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     }
   }
 
-  private decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private decrementMinute(): void {
-    this.decrementMinuteOrSecond("minute");
-  }
-
   private decrementMinuteOrSecond(key: MinuteOrSecond): void {
     let newValue;
     if (isValidNumber(this[key])) {
@@ -431,61 +501,9 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     this.setValuePart(key, newValue);
   }
 
-  private decrementSecond(): void {
-    this.decrementMinuteOrSecond("second");
-  }
-
-  private incrementHour(): void {
-    const newHour = isValidNumber(this.hour) ? (this.hour === "23" ? 0 : parseInt(this.hour) + 1) : 1;
-    this.setValuePart("hour", newHour);
-  }
-
-  private incrementMinute(): void {
-    this.incrementMinuteOrSecond("minute");
-  }
-
   private incrementMinuteOrSecond(key: MinuteOrSecond): void {
     const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]) + 1) : 0;
     this.setValuePart(key, newValue);
-  }
-
-  private incrementSecond(): void {
-    this.incrementMinuteOrSecond("second");
-  }
-
-  private nudgeFractionalSecond(direction: "up" | "down"): void {
-    const stepDecimal = getDecimals(this.component.step);
-    const stepPrecision = decimalPlaces(this.component.step);
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
-    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue;
-    let nudgedValueRounded;
-    let nudgedValueRoundedDecimals;
-    let newFractionalSecond;
-    if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    if (direction === "down") {
-      nudgedValue =
-        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - stepDecimal
-          : fractionalSecondAsFloat - stepDecimal;
-      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
-      newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
-        Math.sign(nudgedValueRoundedDecimals) === 1
-          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-    }
-    this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
   private setHourFormat(): void {
@@ -498,16 +516,6 @@ export class TimeController extends GenericController<TimeProperties, TimeCompon
     const { messages } = this.component;
     const locale = messages._lang as SupportedLocale;
     this.meridiemOrder = getMeridiemOrder(locale);
-  }
-
-  private toggleMeridiem(direction: "ArrowDown" | "ArrowUp"): void {
-    let newMeridiem;
-    if (!this.meridiem) {
-      newMeridiem = direction === "ArrowDown" ? "PM" : "AM";
-    } else {
-      newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    }
-    this.setValuePart("meridiem", newMeridiem);
   }
 
   setValue(value: string, userChangedValue: boolean = false): void {
