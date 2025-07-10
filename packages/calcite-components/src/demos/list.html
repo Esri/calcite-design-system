@@ -5830,8 +5830,14 @@
 
                 await list1.componentOnReady();
                 await list2.componentOnReady();
-                list1.canPut = () => true;
-                list2.canPut = () => false;
+                list1.canPut = () => {
+                  console.log("canPut called for list 1");
+                  return true;
+                };
+                list2.canPut = () => {
+                  console.log("canPut called for list 2");
+                  return false;
+                };
               });
             </script>
           </div>
