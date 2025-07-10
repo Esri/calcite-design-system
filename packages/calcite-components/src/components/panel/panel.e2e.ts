@@ -367,14 +367,14 @@ describe("calcite-panel", () => {
   });
 
   it("close event can be cancelled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-panel heading="Hello World" closable>Hello World</calcite-panel>`);
-
-    const panel = await page.find("calcite-panel");
-    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
-
-    await page.$eval("calcite-panel", (panel: Panel["el"]) => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate(() => {
       (window as TestPanelWindow).calledTimes = 0;
+
+      const panel = document.createElement("calcite-panel");
+      panel.heading = "Hello World";
+      panel.closable = true;
+      panel.innerText = "Hello World";
 
       panel.addEventListener("calcitePanelClose", (event) => {
         event.preventDefault();
@@ -382,8 +382,13 @@ describe("calcite-panel", () => {
         (window as TestPanelWindow).lastEventDefaultPrevented = event.defaultPrevented;
         (window as TestPanelWindow).calledTimes++;
       });
-    });
 
+      document.body.append(panel);
+    });
+    await page.waitForChanges();
+
+    const panel = await page.find("calcite-panel");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
     await closeButton.click();
     await page.waitForChanges();
 
