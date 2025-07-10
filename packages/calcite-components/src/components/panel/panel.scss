@@ -114,10 +114,6 @@
   @apply box-border;
 }
 
-.container[hidden] {
-  @apply hidden;
-}
-
 .header {
   @apply flex flex-col z-header;
 

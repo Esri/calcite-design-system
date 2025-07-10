@@ -277,9 +277,9 @@ describe("calcite-split-button", () => {
   </calcite-split-button>`);
     const positionContainer = await page.find(`calcite-split-button >>> calcite-dropdown >>> .${DropdownCSS.wrapper}`);
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
-    const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
+    const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
     await secondary.click();
-    await dropdownOpenEvent;
+    await dropdownOpenEventSpy.next();
     expect(await positionContainer.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
     await page.keyboard.press("ArrowDown");
@@ -288,9 +288,10 @@ describe("calcite-split-button", () => {
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
-    const dropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
+    const dropdownCloseEventSpy = await page.spyOnEvent("calciteDropdownClose");
     await page.keyboard.press("Enter");
-    await dropdownCloseEvent;
+    await page.waitForChanges();
+    await dropdownCloseEventSpy.next();
     expect(await positionContainer.isVisible()).toBe(false);
   });
 

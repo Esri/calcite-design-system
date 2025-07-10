@@ -461,7 +461,7 @@ describe("calcite-block-group", () => {
       ): Promise<void> {
         const component = await page.find("calcite-block-group");
         const eventName = `calciteSortHandleReorder`;
-        const event = component.waitForEvent(eventName);
+        const eventSpy = await component.spyOnEvent(eventName);
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
@@ -470,8 +470,8 @@ describe("calcite-block-group", () => {
           reorder,
           eventName,
         );
-        await event;
         await page.waitForChanges();
+        await eventSpy.next();
         const itemsAfter = await findAll(page, "calcite-block");
         expect(itemsAfter.length).toBe(3);
 
@@ -571,6 +571,7 @@ describe("calcite-block-group", () => {
       ): Promise<void> {
         const component = await page.find(`#${componentItemId}`);
         const eventName = `calciteSortHandleMove`;
+        // eslint-disable-next-line no-restricted-properties -- workaround for spyOnEvent throwing errors due to circular JSON structures when serializing the event payload
         const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${componentItemId}`,

@@ -84,6 +84,9 @@ describe("calcite-icon", () => {
         expect(path.getAttribute("d")).toBeFalsy();
 
         icon.setProperty("style", null);
+
+        // intentional double waitForChanges to ensure the icon is loaded (sequenced prop updates)
+        await page.waitForChanges();
         await page.waitForChanges();
 
         expect(path.getAttribute("d")).toBeTruthy();
@@ -108,7 +111,7 @@ describe("calcite-icon", () => {
           await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
           const calciteIcon = await page.find(`calcite-icon`);
           const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
-          const svg = await page.find(`calcite-icon >>> svg`);
+          const svg = await page.find(`calcite-icon >>> ${CSS.svg}`);
           const sizeInPx = scaleToPx[scale];
 
           expect(calciteIconComputedStyle.height).toBe(`${sizeInPx}px`);

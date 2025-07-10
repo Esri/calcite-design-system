@@ -18,6 +18,7 @@ import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import { getCity, toUserFriendlyName } from "./utils";
 
 /*
@@ -367,9 +368,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[1].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Phoenix, United States");
       });
 
       it("ignores invalid values", async () => {
@@ -386,9 +385,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(
-          toUserFriendlyName(getCity(testTimeZoneItems[0].name)),
-        );
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("Mexico City, Mexico");
       });
 
       it("properly sets region label when setting value programmatically", async () => {
@@ -407,7 +404,35 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(region)));
+        expect(await timeZoneItem.getProperty("textLabel")).toBe("New York, United States");
+      });
+
+      it("updates the label and shows selection immediately on user interaction", async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+        await page.setContent(
+          // animation needed to reproduce update label delay
+          html`<calcite-input-time-zone mode="region"></calcite-input-time-zone>`,
+        );
+        const input = await page.find("calcite-input-time-zone");
+        const openSpy = await input.spyOnEvent("calciteInputTimeZoneOpen");
+
+        const timeZoneScrollerSelector = `calcite-input-time-zone >>> calcite-combobox >>> .${ComboboxCSS.listContainer}`;
+
+        // we use page click to avoid the internal call to waitForChanges that E2EElement interaction APIs have
+        await page.click("calcite-input-time-zone");
+        const scrollTop = await page.$eval(timeZoneScrollerSelector, (el) => el.scrollTop);
+
+        await openSpy.next();
+
+        expect(scrollTop).toEqual(await page.$eval(timeZoneScrollerSelector, (el) => el.scrollTop));
+
+        const testTimeZoneItemSelector = "calcite-input-time-zone >>> calcite-combobox-item[data-label='New York']";
+
+        // we use page click to avoid the internal call to waitForChanges that E2EElement interaction APIs have
+        await page.click(testTimeZoneItemSelector);
+
+        expect(await page.$eval(testTimeZoneItemSelector, async (el) => el.textLabel)).toBe("New York, United States");
       });
 
       it("maps deprecated time zones to aliases", async () => {
