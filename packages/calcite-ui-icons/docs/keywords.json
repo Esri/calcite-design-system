@@ -9842,5 +9842,10 @@
     "alias": ["4.3.0", "geometry editing", "circular", "create", "typing", "define", "point"],
     "category": "Geometry Editing",
     "release": "4.3.0"
+  },
+  "dimensions-centered": {
+    "alias": ["4.3.0", "generic", "alignment", "placement", "position", "settings"],
+    "category": "Generic",
+    "release": "4.3.0"
   }
 }
