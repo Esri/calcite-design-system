@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.6...@esri/calcite-ui-icons@4.3.0-next.7) (2025-07-10)
+
+### Features
+
+- add dimensions centered ([#12483](https://github.com/Esri/calcite-design-system/issues/12483)) ([5b4b3b5](https://github.com/Esri/calcite-design-system/commit/5b4b3b518389f716ef613f0a2c75ca58f80c6091))
+
 ## [4.3.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.5...@esri/calcite-ui-icons@4.3.0-next.6) (2025-07-03)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
