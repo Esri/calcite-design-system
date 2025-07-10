@@ -94,7 +94,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   private cancelable = useCancelable<this>()(this);
 
-  private updateListItems = debounce((): void => {
+  private updateListItems = debounce((options?: { validateMoveItems: boolean }): void => {
     this.updateGroupItems();
 
     const {
@@ -111,6 +111,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
 
+    const fromEl = el;
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+
     items.forEach((item) => {
       item.scale = scale;
       item.selectionAppearance = selectionAppearance;
@@ -120,6 +123,19 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         item.moveToItems = moveToItems.filter(
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
+
+        if (options?.validateMoveItems) {
+          item.moveToItems.filter((moveToItem) => {
+            return this.validateMove({
+              fromEl,
+              toEl: moveToItem.element as List["el"],
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: fromElItems.indexOf(item),
+            });
+          });
+        }
+
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
       }
@@ -336,17 +352,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   //#region Public Methods
 
   /**
-   * Emits a `calciteListMoveHalt` event.
-   *
-   * @private
-   * @param dragDetail
-   */
-  @method()
-  putFailed(dragDetail: ListDragDetail): void {
-    this.calciteListMoveHalt.emit(dragDetail);
-  }
-
-  /**
    * Sets focus on the component's first focusable element.
    *
    * @returns {Promise<void>}
@@ -385,7 +390,11 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  /**
+   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
+   *
+   * @deprecated No longer necessary.
+   */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
   /** Fires when the component's item order changes. */
@@ -407,6 +416,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
+    this.listen("calciteInternalListItemSortHandleBeforeOpen", this.handleInternalSortBeforeOpen);
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
     this.listen(
       "calciteInternalListItemSelectMultiple",
@@ -540,6 +550,11 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     event.preventDefault();
     this.handleReorder(event);
+  }
+
+  private handleInternalSortBeforeOpen(event: CustomEvent): void {
+    event.stopPropagation();
+    this.updateListItems({ validateMoveItems: true });
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
@@ -954,18 +969,21 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     }
   }
 
-  private handleMove(event: CustomEvent<MoveEventDetail>): void {
-    const { moveTo } = event.detail;
-
-    const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
-    const toEl = moveTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
-    const oldIndex = fromElItems.indexOf(dragEl);
-    const newIndex = 0;
-
-    if (!fromEl) {
-      return;
+  private validateMove({
+    fromEl,
+    toEl,
+    dragEl,
+    newIndex,
+    oldIndex,
+  }: {
+    fromEl?: List["el"];
+    toEl?: List["el"];
+    dragEl: ListItem["el"];
+    newIndex: number;
+    oldIndex: number;
+  }): boolean {
+    if (!fromEl || !toEl) {
+      return false;
     }
 
     if (
@@ -977,8 +995,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      this.calciteListMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
-      return;
+      return false;
     }
 
     if (
@@ -990,7 +1007,23 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return false;
+    }
+
+    return true;
+  }
+
+  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+    const { moveTo } = event.detail;
+
+    const dragEl = event.target as ListItem["el"];
+    const fromEl = dragEl?.parentElement as List["el"];
+    const toEl = moveTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 
