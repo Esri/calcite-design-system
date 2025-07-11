@@ -33,12 +33,6 @@ function createNoticeBlock(props: string[]): string {
   return !props.length ? "" : dedent`${noticeHeader}\n${props.map((prop) => `// ${prop}`).join("\n")}\n`;
 }
 
-/**
- * Inserts the notice block after any leading comments.
- *
- * @param content
- * @param noticeBlock
- */
 function insertNoticeAfterComments(content: string, noticeBlock: string): string {
   const lines = content.split("\n");
   let insertAt = 0;
@@ -102,14 +96,18 @@ async function updateFileWithInternalProps(filePath: string): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  console.log("Updating internal custom property documentation...");
-
-  const scssFiles = await globby(["src/components/**/*.scss"]);
+  const cliFiles = process.argv.slice(2);
+  const scssFiles =
+    cliFiles.length > 0
+      ? cliFiles.filter((file) => file.endsWith(".scss"))
+      : await globby(["src/components/**/*.scss"]);
 
   if (!scssFiles.length) {
     console.log("No SCSS files found.");
     return;
   }
+
+  console.log(`Updating internal custom property documentation for ${scssFiles.length} file(s)...`);
 
   for (const filePath of scssFiles) {
     await updateFileWithInternalProps(filePath);
@@ -118,9 +116,11 @@ async function main(): Promise<void> {
   console.log("Internal custom property documentation updated.");
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error("Error updating internal custom property documentation:", error);
-  process.exit(1);
-}
+(async () => {
+  try {
+    await main();
+  } catch (error) {
+    console.error("Error updating internal custom property documentation:", error);
+    process.exit(1);
+  }
+})();
