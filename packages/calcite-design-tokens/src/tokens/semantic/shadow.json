@@ -37,7 +37,8 @@
           ],
           "type": "boxShadow",
           "attributes": {
-            "category": "shadow"
+            "category": "shadow",
+            "mode": "light"
           }
         },
         "dark": {
@@ -61,7 +62,8 @@
           ],
           "type": "boxShadow",
           "attributes": {
-            "category": "shadow"
+            "category": "shadow",
+            "mode": "dark"
           }
         }
       },
@@ -87,7 +89,8 @@
           ],
           "type": "boxShadow",
           "attributes": {
-            "category": "shadow"
+            "category": "shadow",
+            "mode": "light"
           }
         },
         "dark": {
@@ -111,7 +114,8 @@
           ],
           "type": "boxShadow",
           "attributes": {
-            "category": "shadow"
+            "category": "shadow",
+            "mode": "dark"
           }
         }
       }
