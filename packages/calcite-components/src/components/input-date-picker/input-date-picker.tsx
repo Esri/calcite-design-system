@@ -62,7 +62,7 @@ import {
   DateLocaleData,
   getLocaleData,
   getValueAsDateRange,
-  rangeFromAttribute,
+  stringOrBooleanFromAttribute,
 } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -280,7 +280,7 @@ export class InputDatePicker
   @property({
     reflect: true,
     converter: {
-      fromAttribute: rangeFromAttribute,
+      fromAttribute: stringOrBooleanFromAttribute,
       toAttribute: stringOrBoolean.toAttribute,
     },
   })

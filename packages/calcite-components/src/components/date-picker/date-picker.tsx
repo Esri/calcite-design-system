@@ -31,7 +31,12 @@ import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
-import { DateLocaleData, getLocaleData, getValueAsDateRange, rangeFromAttribute } from "./utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  stringOrBooleanFromAttribute,
+} from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -133,7 +138,7 @@ export class DatePicker extends LitElement {
   @property({
     reflect: true,
     converter: {
-      fromAttribute: rangeFromAttribute,
+      fromAttribute: stringOrBooleanFromAttribute,
       toAttribute: stringOrBoolean.toAttribute,
     },
   })

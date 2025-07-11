@@ -83,9 +83,8 @@ export function getValueAsDateRange(value: string[]): Date[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
 }
 
-export function rangeFromAttribute(value: string | boolean): boolean | "single" {
-  if (value === "single") {
-    return value;
+export function stringOrBooleanFromAttribute(value: string | boolean): string | boolean {
+  if (typeof value === "string") {
+    return value === "" ? true : value;
   }
-  return value === "" || value === "true";
 }
