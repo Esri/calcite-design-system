@@ -1,10 +1,16 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
+import { Promisable } from "type-fest";
 import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode } from "../utils/dom";
 
+type FocusMode = Parameters<typeof focusElement>[1];
+
 export interface UseSetFocus {
-  (getFocusTarget: () => FocusableElement | undefined): Promise<void>;
+  // TODO: confirm if promisable is useful here or not
+  (
+    getFocusTarget: () => Promisable<FocusableElement | { target: FocusableElement; mode: FocusMode }> | undefined,
+  ): Promise<void>;
 }
 
 interface SetFocusComponent extends LitElement {
@@ -39,10 +45,12 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
     });
 
     return async (getFocusTarget): Promise<void> => {
-      const target = getFocusTarget();
-      if (!target) {
+      const focusConfig = toFocusConfig(await getFocusTarget());
+      if (!focusConfig) {
         return;
       }
+
+      const { target, mode } = focusConfig;
 
       const rootNode = getRootNode(component.el);
       const currentActiveElement = rootNode.activeElement;
@@ -56,7 +64,24 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
       }
 
       component.el.removeEventListener("focus", handleFocusOut);
-      return focusElement(target, component.el);
+
+      return focusElement(target, mode, component.el);
     };
   });
 };
+
+function isFocusOverride(
+  focusTarget: FocusableElement | { target: FocusableElement; mode: FocusMode },
+): focusTarget is { target: FocusableElement; mode: FocusMode } {
+  return (focusTarget as { target: FocusableElement; mode: FocusMode }).mode !== undefined;
+}
+
+function toFocusConfig(
+  focusTarget: FocusableElement | { target: FocusableElement; mode: FocusMode } | undefined,
+): { target: FocusableElement; mode: FocusMode } | undefined {
+  if (!focusTarget) {
+    return;
+  }
+
+  return isFocusOverride(focusTarget) ? focusTarget : { target: focusTarget, mode: "auto" };
+}

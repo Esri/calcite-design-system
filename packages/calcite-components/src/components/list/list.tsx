@@ -2,7 +2,7 @@
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -10,14 +10,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode, Scale } from "../interfaces";
+import { InteractionMode, Scale, SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import {
+  expandedAncestors,
   isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
-  expandedAncestors,
   updateListItemChildren,
 } from "../list-item/utils";
 import {
@@ -38,8 +38,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode } from "./interfaces";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -355,7 +354,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(): Promise<void> {
-    return this.focusSetter(() => {
+    return this.focusSetter(async () => {
       if (this.filterEnabled) {
         return this.filterEl;
       }

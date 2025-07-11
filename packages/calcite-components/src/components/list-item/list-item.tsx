@@ -277,7 +277,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         return;
       }
 
-      return containerEl;
+      return { target: containerEl, mode: "container" };
     });
   }
 

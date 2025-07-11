@@ -265,36 +265,57 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  *
  * @param {Element} el An element.
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
+ * @param mode The mode to use when focusing. "auto" (default) uses `setFocus` if available, otherwise focuses the first tabbable element. "host" uses the element's `focus` method. "contents" focuses the first tabbable element.
  */
-export async function focusElement(el: FocusableElement, context?: HTMLElement): Promise<void> {
+export async function focusElement(
+  el: FocusableElement,
+  mode: "auto" | "container" | "children" = "auto",
+  context?: HTMLElement,
+): Promise<void> {
   if (!el) {
     return;
   }
 
-  return isCalciteFocusable(el) && context !== el ? el.setFocus() : focusFirstTabbable(el);
+  if (mode === "auto" && isCalciteFocusable(el)) {
+    if (context === el) {
+      focusFirstTabbable(el);
+      return;
+    }
+
+    return el.setFocus();
+  }
+
+  if (mode === "container") {
+    return el.focus();
+  }
+
+  return focusFirstTabbable(el);
 }
 
 /**
  * Helper to get the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
  * @returns the first tabbable element.
  */
-export function getFirstTabbable(element: HTMLElement): HTMLElement {
+export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
   if (!element) {
     return;
   }
 
-  return (tabbable(element, tabbableOptions)[0] ?? element) as HTMLElement;
+  return (tabbable(element, { ...tabbableOptions, includeContainer })[0] ?? element) as HTMLElement;
 }
 
 /**
  * Helper to focus the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
  */
-export function focusFirstTabbable(element: HTMLElement): void {
-  getFirstTabbable(element)?.focus();
+export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean): void {
+  getFirstTabbable(element, includeContainer)?.focus();
 }
 
 /**
@@ -564,7 +585,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget, includeParent ? focusTarget : undefined);
+  focusElement(focusTarget, includeParent ? "container" : "auto", currentElement as HTMLElement);
   return focusTarget;
 };
 

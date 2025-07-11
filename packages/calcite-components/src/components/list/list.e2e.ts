@@ -1339,14 +1339,12 @@ describe("calcite-list", () => {
           </calcite-list-item>
         </calcite-list>
       `);
-      await page.waitForChanges();
       const list = await page.find("calcite-list");
       await list.callMethod("setFocus");
       await page.waitForChanges();
 
       const one = await page.find("#one");
       expect(await one.getProperty("open")).toBe(false);
-
       expect(await isElementFocused(page, "#one")).toBe(true);
 
       await list.press("ArrowRight");
@@ -2149,7 +2147,7 @@ describe("calcite-list", () => {
   });
 
   describe("group filtering", () => {
-    it.skip("should include groups while filtering", async () => {
+    it("should include groups while filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-list filter-enabled filter-placeholder="typing 'recreation' should show 1st group with all items">
@@ -2203,9 +2201,11 @@ describe("calcite-list", () => {
       const group3 = await page.find("#beaches");
       const group4 = await page.find("#underwater");
 
+      const filterSpy = await list.spyOnEvent("calciteListFilter");
       await page.keyboard.type("Bui");
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await filterSpy.next();
+
       expect(await list.getProperty("filterText")).toBe("Bui");
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
 
