@@ -31,4 +31,5 @@ export const INPUT_TYPE_ICONS = {
 
 export const SLOTS = {
   action: "action",
+  internalLabelContent: "internal-label-content",
 };

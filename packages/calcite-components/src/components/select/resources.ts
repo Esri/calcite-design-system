@@ -8,3 +8,7 @@ export const CSS = {
 export const IDS = {
   validationMessage: "selectValidationMessage",
 };
+
+export const SLOTS = {
+  internalLabelContent: "internal-label-content",
+};

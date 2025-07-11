@@ -31,6 +31,7 @@ import {
 } from "../../utils/interactive";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
@@ -49,6 +50,7 @@ declare global {
 
 /**
  * @slot - A slot for adding text.
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
  * @slot footer-start - A slot for adding content to the start of the component's footer.
  * @slot footer-end - A slot for adding content to the end of the component's footer.
  */
@@ -175,6 +177,9 @@ export class TextArea
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /**
    * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
@@ -469,6 +474,14 @@ export class TextArea
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.wrapper}>
+          {this.labelText && (
+            <InternalLabel
+              labelText={this.labelText}
+              required={this.required}
+              slot={<slot name={SLOTS.internalLabelContent} />}
+              tooltipText={this.messages.required}
+            />
+          )}
           <textarea
             aria-describedby={this.guid}
             aria-errormessage={IDS.validationMessage}

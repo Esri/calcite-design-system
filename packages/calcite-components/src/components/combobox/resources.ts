@@ -27,3 +27,7 @@ export const CSS = {
 export const IDS = {
   validationMessage: "comboboxValidationMessage",
 };
+
+export const SLOTS = {
+  internalLabelContent: "internal-label-content",
+};

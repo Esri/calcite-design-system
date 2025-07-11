@@ -1,6 +1,7 @@
 export const SLOTS = {
   contentBottom: "content-bottom",
   contentTop: "content-top",
+  internalLabelContent: "internal-label-content",
 } as const;
 
 export const CSS = {

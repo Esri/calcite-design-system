@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
@@ -41,6 +42,7 @@ import type { Label } from "../label/label";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
+import { SLOTS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -52,6 +54,9 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+/**
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class Slider
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -239,6 +244,9 @@ export class Slider
 
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** For multiple selections, the component's lower value. */
   @property() minValue: number;
@@ -1117,6 +1125,13 @@ export class Slider
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}

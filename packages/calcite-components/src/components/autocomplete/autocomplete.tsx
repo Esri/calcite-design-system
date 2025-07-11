@@ -51,6 +51,7 @@ import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
 import { componentFocusable } from "../../utils/component";
@@ -71,6 +72,7 @@ declare global {
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
  * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
  */
 export class Autocomplete
   extends LitElement
@@ -201,6 +203,9 @@ export class Autocomplete
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -424,6 +429,7 @@ export class Autocomplete
     super();
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
+    this.listen("click", this.autocompleteOnClickFocusHandler);
   }
 
   override connectedCallback(): void {
@@ -560,6 +566,14 @@ export class Autocomplete
     this.emitChange();
     await this.setFocus();
     this.open = false;
+  }
+
+  private autocompleteOnClickFocusHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.setFocus();
   }
 
   onLabelClick(): void {
@@ -780,12 +794,22 @@ export class Autocomplete
 
     return (
       <InteractiveContainer disabled={disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
+            aria-label={this.labelText}
             aria-owns={listId}
+            aria-required={this.required}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}
             ariaHasPopup="listbox"

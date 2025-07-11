@@ -48,6 +48,7 @@ import {
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -65,7 +66,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a `calcite-button` next to the component. */
+/**
+ * @slot action - A slot for positioning a `calcite-button` next to the component.
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class Input
   extends LitElement
   implements
@@ -216,6 +220,9 @@ export class Input
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -452,6 +459,7 @@ export class Input
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.listen("click", this.inputOnClickFocusHandler);
   }
 
   override connectedCallback(): void {
@@ -575,6 +583,14 @@ export class Input
         event.preventDefault();
       }
     }
+  }
+
+  private inputOnClickFocusHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.setFocus();
   }
 
   onLabelClick(): void {
@@ -1061,7 +1077,8 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelText || getLabelText(this)}
+          ariaRequired={this.required}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
@@ -1098,7 +1115,8 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelText || getLabelText(this)}
+          ariaRequired={this.required}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1136,6 +1154,15 @@ export class Input
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            tooltipText={this.messages.required}
+          />
+        )}
+
         <div
           class={{
             [CSS.inputWrapper]: true,

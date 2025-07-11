@@ -20,7 +20,8 @@ import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
-import { CSS } from "./resources";
+import { InternalLabel } from "../functional/InternalLabel";
+import { CSS, SLOTS } from "./resources";
 import { styles } from "./checkbox.scss";
 
 declare global {
@@ -29,6 +30,9 @@ declare global {
   }
 }
 
+/**
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class Checkbox
   extends LitElement
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent
@@ -94,6 +98,9 @@ export class Checkbox
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /**
    * Specifies the name of the component.
@@ -243,6 +250,14 @@ export class Checkbox
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            //tooltipText={this.messages.required}
+          />
+        )}
         <div
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
