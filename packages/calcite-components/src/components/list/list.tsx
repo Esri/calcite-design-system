@@ -2,7 +2,7 @@
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import { createEvent, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
