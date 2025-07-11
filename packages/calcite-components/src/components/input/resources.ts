@@ -33,3 +33,14 @@ export const SLOTS = {
   action: "action",
   internalLabelContent: "internal-label-content",
 };
+
+export const DIRECTION = {
+  up: "up",
+  down: "down",
+};
+
+export const ICONS = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+  close: "x",
+};

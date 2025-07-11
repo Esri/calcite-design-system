@@ -9,6 +9,7 @@ import {
   method,
   JsxNode,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import {
@@ -28,7 +29,8 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
-import { CSS } from "./resources";
+import { slotChangeHasContent } from "../../utils/dom";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
 
@@ -65,6 +67,12 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() stepperItemHasContent: boolean;
 
   //#endregion
 
@@ -346,8 +354,15 @@ export class StepperItem extends LitElement implements InteractiveComponent {
               <span class={CSS.stepperItemDescription}>{this.description}</span>
             </div>
           </div>
-          <div class={CSS.stepperItemContent}>
-            <slot />
+          <div
+            class={{
+              [CSS.stepperItemContent]: true,
+              [CSS.hasSlottedContent]: this.stepperItemHasContent,
+            }}
+          >
+            <slot
+              onSlotChange={(event) => (this.stepperItemHasContent = slotChangeHasContent(event))}
+            />
           </div>
         </div>
       </InteractiveContainer>
@@ -355,18 +370,18 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   private renderIcon(): JsxNode {
-    let path: IconNameOrString = "circle";
+    let path: IconNameOrString = ICONS.circle;
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
-      path = "circleF";
+      path = ICONS.circleF;
     } else if (this.error) {
-      path = "exclamationMarkCircleF";
+      path = ICONS.exclamationMarkCircleF;
     } else if (this.complete) {
-      path = "checkCircleF";
+      path = ICONS.checkCircleF;
     }
 
     return (
-      <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
+      <calcite-icon class={CSS.stepperItemIcon} flipRtl={this.iconFlipRtl} icon={path} scale="s" />
     );
   }
 

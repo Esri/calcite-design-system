@@ -10,3 +10,12 @@ export const CSS = {
   resizeHandleBar: "resize-handle-bar",
   height: "height",
 };
+
+export const IDS = {
+  sheetContent: "sheet-content",
+};
+
+export const ICONS = {
+  dragVertical: "drag-resize-vertical",
+  dragHorizontal: "drag-resize-horizontal",
+};

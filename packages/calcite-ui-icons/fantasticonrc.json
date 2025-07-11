@@ -1224,6 +1224,22 @@
     "spike-data-visualization-open": 61761,
     "transfer": 61762,
     "tapestry": 61763,
-    "spike-data-visualization-outlined-open-f": 61764
+    "spike-data-visualization-outlined-open-f": 61764,
+    "subheading-5-rtl": 61765,
+    "subheading-4-rtl": 61766,
+    "subheading-3-rtl": 61767,
+    "subheading-2-rtl": 61768,
+    "subheading-1-rtl": 61769,
+    "sequential-navigation": 61770,
+    "image-navigation": 61771,
+    "directional-navigation": 61772,
+    "content-side-by-side-right": 61773,
+    "location-label": 61774,
+    "tangent-curve": 61775,
+    "end-point-arc-segment": 61776,
+    "bezier-curve": 61777,
+    "arrow-curve-tool": 61778,
+    "arc-segment": 61779,
+    "dimensions-centered": 61780
   }
 }

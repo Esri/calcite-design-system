@@ -15,7 +15,7 @@ import {
 import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -24,7 +24,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { CSS } from "./resources";
+import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
@@ -287,7 +287,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (
@@ -325,8 +325,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     const { position } = this;
 
     return position === "block-start" || position === "block-end"
-      ? "drag-resize-vertical"
-      : "drag-resize-horizontal";
+      ? ICONS.dragVertical
+      : ICONS.dragHorizontal;
   }
 
   private getContentElDOMRect(): DOMRect {
@@ -610,7 +610,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} id="sheet-content" ref={this.setContentEl}>
+        <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>

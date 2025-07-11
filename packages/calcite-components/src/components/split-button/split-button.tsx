@@ -19,7 +19,7 @@ import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
-import { CSS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
 
 declare global {
@@ -42,12 +42,12 @@ export class SplitButton extends LitElement implements InteractiveComponent {
 
   private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"
-      ? "chevronDown"
+      ? ICONS.chevronDown
       : this.dropdownIconType === "caret"
-        ? "caretDown"
+        ? ICONS.caretDown
         : this.dropdownIconType === "ellipsis"
-          ? "ellipsis"
-          : "handle-vertical";
+          ? ICONS.ellipsis
+          : ICONS.handleVertical;
   }
 
   // #endregion
@@ -239,7 +239,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
               kind={this.kind}
               label={this.dropdownLabel}
               scale={this.scale}
-              slot="trigger"
+              slot={SLOTS.trigger}
               splitChild={"secondary"}
               type="button"
             />

@@ -630,7 +630,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the property `intlDragHandleIdle`, use `messsageOverrides.dragHandleIdle` instead.
 
 - **value-list-item:**
-
   - Renamed the property `disableDeselect`, use `deselectDisabled`
     instead.
 

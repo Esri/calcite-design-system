@@ -16,7 +16,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
+import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
@@ -129,7 +129,7 @@ describe("calcite-input-time-picker", () => {
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
 
-    describe.skip("initially open", () => {
+    describe("initially open", () => {
       openClose.initial("calcite-input-time-picker");
     });
   });
@@ -145,10 +145,10 @@ describe("calcite-input-time-picker", () => {
 
     await assertDisplayedTime(page, "04:35 AM");
 
-    const openEvent = page.waitForEvent("calciteInputTimePickerOpen");
+    const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
     inputTimePicker.setProperty("open", true);
     await page.waitForChanges();
-    await openEvent;
+    await openEventSpy.next();
 
     const hourUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonHourUp}`);
     const minuteUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonMinuteUp}`);
@@ -156,10 +156,10 @@ describe("calcite-input-time-picker", () => {
     await hourUpEl.click();
     await minuteUpEl.click();
 
-    const closeEvent = page.waitForEvent("calciteInputTimePickerClose");
+    const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    await closeEvent;
+    await closeEventSpy.next();
 
     expect(await inputTimePicker.getProperty("value")).toBe("05:36");
     await assertDisplayedTime(page, "05:36 AM");
@@ -1613,10 +1613,8 @@ describe("calcite-input-time-picker", () => {
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
 
-      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+      expect(await isElementFocused(page, `#${nextSibling}`)).toBe(true);
     });
   });
 

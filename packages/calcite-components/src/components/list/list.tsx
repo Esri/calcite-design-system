@@ -31,6 +31,7 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -90,6 +91,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   private parentListEl: List["el"];
 
   sortable: Sortable;
+
+  private cancelable = useCancelable<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();
@@ -231,7 +234,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -423,6 +426,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
+    this.cancelable.add(this.updateListItems);
   }
 
   async load(): Promise<void> {

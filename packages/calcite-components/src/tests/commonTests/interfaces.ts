@@ -1,7 +1,6 @@
-import { LuminaJsx } from "@arcgis/lumina";
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 
-export type ComponentTag = keyof LuminaJsx.IntrinsicElements;
+export type ComponentTag = keyof DeclareElements;
 export type ComponentHTML = string;
 export type TagOrHTML = ComponentTag | ComponentHTML;
 export type BeforeContent = (page: E2EPage) => Promise<void>;

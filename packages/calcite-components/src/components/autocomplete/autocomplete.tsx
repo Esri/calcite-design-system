@@ -30,7 +30,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -47,6 +47,7 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
@@ -109,11 +110,11 @@ export class Autocomplete
 
   formEl: HTMLFormElement;
 
-  private inputId = `autocomplete-input-${this.guid}`;
+  private inputId = IDS.input(this.guid);
 
   labelEl: Label["el"];
 
-  private listId = `autocomplete-list-${this.guid}`;
+  private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only
@@ -135,6 +136,8 @@ export class Autocomplete
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
   });
+
+  private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
@@ -439,6 +442,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {
@@ -450,22 +454,16 @@ export class Autocomplete
       this.handleDisabledChange(this.disabled);
     }
 
-    if (changes.has("flipPlacements")) {
-      this.reposition(true);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      changes.has("flipPlacements") ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
-      this.reposition(true);
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
       this.reposition(true);
     }
 
@@ -537,7 +535,7 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (!this.open) {
       this.activeIndex = -1;
@@ -893,6 +891,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"
