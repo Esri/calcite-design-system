@@ -343,6 +343,29 @@
           }
         }
       },
+      "shadow": {
+        "1": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
+        "2": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.12})",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        },
+        "3": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.16})",
+          "type": "color",
+          "attributes": {
+            "category": "color"
+          }
+        }
+      },
       "focus": {
         "default": {
           "value": "{semantic.color.brand.default.default}",
