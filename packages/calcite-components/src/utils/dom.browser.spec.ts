@@ -25,6 +25,7 @@ import {
   slotChangeHasContent,
   slotChangeHasTextContent,
   toAriaBoolean,
+  viewportUnitToPixel,
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
@@ -527,13 +528,13 @@ describe("dom", () => {
 
     it("calculates the pixel value for 'vw' values", () => {
       const viewportWidth = window.innerWidth;
-      expect(getStylePixelValue("50vw")).toBe((viewportWidth / 100) * 50);
+      expect(getStylePixelValue("50vw")).toBe(viewportUnitToPixel(50, viewportWidth));
       expect(getStylePixelValue("100vw")).toBe(viewportWidth);
     });
 
     it("calculates the pixel value for 'vh' values", () => {
       const viewportHeight = window.innerHeight;
-      expect(getStylePixelValue("50vh")).toBe((viewportHeight / 100) * 50);
+      expect(getStylePixelValue("50vh")).toBe(viewportUnitToPixel(50, viewportHeight));
       expect(getStylePixelValue("100vh")).toBe(viewportHeight);
     });
 
