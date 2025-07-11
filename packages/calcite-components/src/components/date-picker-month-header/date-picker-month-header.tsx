@@ -106,9 +106,6 @@ export class DatePickerMonthHeader extends LitElement {
   /** When `true`, activates the component's range mode. */
   @property({
     reflect: true,
-    // converter: {
-    //   fromAttribute: rangeFromAttribute,
-    // },
   })
   range: boolean | "single" = false;
 

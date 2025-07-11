@@ -16,7 +16,6 @@ import { HeadingLevel } from "../functional/Heading";
 import type { DatePickerMonthHeader } from "../date-picker-month-header/date-picker-month-header";
 import type { DatePickerDay } from "../date-picker-day/date-picker-day";
 import type { DatePicker } from "../date-picker/date-picker";
-// import { rangeFromAttribute } from "../date-picker/utils";
 import { CSS } from "./resources";
 import { styles } from "./date-picker-month.scss";
 
@@ -113,9 +112,6 @@ export class DatePickerMonth extends LitElement {
   /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({
     reflect: true,
-    // converter: {
-    //   fromAttribute: rangeFromAttribute,
-    // },
   })
   range: boolean | "single" = false;
 
