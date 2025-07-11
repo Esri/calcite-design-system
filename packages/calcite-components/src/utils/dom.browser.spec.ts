@@ -25,6 +25,7 @@ import {
   slotChangeHasContent,
   slotChangeHasTextContent,
   toAriaBoolean,
+  viewportUnitToPixel,
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
@@ -196,152 +197,329 @@ describe("dom", () => {
     });
   });
 
-  describe("getSlotAssignedElements()", () => {
-    it("returns slotted elements with no selector", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
-      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
-    });
-    it("returns no slotted elements", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [];
-      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
-    });
-    it("returns slotted elements with direct element selector", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [
-        document.createElement("span"),
-        document.createElement("div"),
-        document.createElement("span"),
-      ];
-      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
-      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
-    });
-    it("returns slotted elements with class selector", () => {
-      const slotEl = document.createElement("slot");
-      const spanEl = document.createElement("span");
-      spanEl.className = "my-span";
-      const divEl = document.createElement("div");
-      divEl.className = "my-div";
-      slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
-      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
-      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
-    });
-  });
+  describe("slot utils", () => {
+    function defineTestElement(slotHandler: (slotEl: HTMLSlotElement) => void, slotHtml = "<slot><slot>"): string {
+      // ensure unique tag name per test to avoid "custom element already defined" error
+      const tagName =
+        "test-element-" +
+        expect
+          .getState()
+          .currentTestName.split(">")
+          .map((part) => part.trim())
+          .join(" ")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric with dashes
+          .replace(/^-+|-+$/g, "") // trim leading/trailing dashes
+          .replace(/--+/g, "-");
 
-  describe("slotChangeGetAssignedElements()", () => {
-    it("handles slotted elements", async () =>
-      await setUpSlotChange({
-        assignedElements: [document.createElement("div"), document.createElement("div")],
-        onSlotChange: (event) => expect(slotChangeGetAssignedElements(event)).toHaveLength(2),
-      }));
+      class TestElement extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = slotHtml;
+          shadow.querySelectorAll("slot").forEach(slotHandler);
+        }
+      }
+      customElements.define(tagName, TestElement);
 
-    it("handles no slotted elements", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeGetAssignedElements(event)).toHaveLength(0),
-      }));
-  });
+      return tagName;
+    }
 
-  describe("slotChangeHasAssignedElement()", () => {
-    it("handles slotted elements", async () =>
-      await setUpSlotChange({
-        assignedElements: [document.createElement("div"), document.createElement("div")],
-        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(true),
-      }));
+    function appendChildren(parent: HTMLElement, children: Node[]): void {
+      parent.append(...children);
+      document.body.append(parent);
+    }
 
-    it("handles no slotted elements", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(false),
-      }));
-  });
+    function createEl<K extends keyof HTMLElementTagNameMap>(
+      tag: string,
+      props?: Partial<HTMLElementTagNameMap[K]>,
+    ): HTMLElement {
+      const el = document.createElement(tag);
 
-  describe("slotChangeHasAssignedNode()", () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(true),
-      }));
+      if (props) {
+        Object.entries(props).forEach(([key, value]) => {
+          el[key] = value;
+        });
+      }
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(false),
-      }));
-  });
+      return el;
+    }
 
-  describe("slotChangeGetAssignedNodes()", () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeGetAssignedNodes(event)).toHaveLength(2),
-      }));
-
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeGetAssignedNodes(event)).toHaveLength(0),
-      }));
-  });
-
-  describe("slotChangeGetTextContent()", () => {
-    it("handles slotted nodes", async () => {
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual("helloworld"),
+    describe("getSlotAssignedElements()", () => {
+      it("returns slotted elements with no selector", () => {
+        const slotEl = document.createElement("slot");
+        slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+        expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
+      });
+      it("returns no slotted elements", () => {
+        const slotEl = document.createElement("slot");
+        slotEl.assignedElements = () => [];
+        expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+      });
+      it("returns slotted elements with direct element selector", () => {
+        const slotEl = document.createElement("slot");
+        slotEl.assignedElements = () => [
+          document.createElement("span"),
+          document.createElement("div"),
+          document.createElement("span"),
+        ];
+        expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
+        expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
+      });
+      it("returns slotted elements with class selector", () => {
+        const slotEl = document.createElement("slot");
+        const spanEl = document.createElement("span");
+        spanEl.className = "my-span";
+        const divEl = document.createElement("div");
+        divEl.className = "my-div";
+        slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
+        expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
+        expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
       });
     });
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual(""),
-      }));
-  });
+    describe("slotChangeGetAssignedElements()", () => {
+      it("handles slotted elements", async () => {
+        let assigned: Element[];
+        const testElName = defineTestElement((slotEl) => {
+          slotEl.addEventListener("slotchange", (event) => {
+            assigned = slotChangeGetAssignedElements(event);
+          });
+        });
+        const testEl = createEl(testElName);
+        const slottedEls = [createEl("div"), createEl("div")];
 
-  describe("slotChangeHasContent()", () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
-      }));
+        appendChildren(testEl, slottedEls);
+        await waitForAnimationFrame();
 
-    it("handles slotted elements", async () =>
-      await setUpSlotChange({
-        assignedElements: [document.createElement("div")],
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
-      }));
+        expect(assigned).toEqual(slottedEls);
 
-    it("handles no slotted nodes or elements", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(false),
-      }));
-  });
+        assigned = null;
+        slottedEls.forEach((el) => el.remove());
+        await waitForAnimationFrame();
 
-  describe("slotChangeHasTextContent()", () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(true),
-      }));
+        expect(assigned).toEqual([]);
+      });
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(false),
-      }));
-  });
+      it("handles nested slot structure", async () => {
+        const slotToAssigned: Record<string, Element[]> = {};
+        const slotHtml = html`
+          <slot></slot>
+          <!-- using comments between slots to avoid introducing whitespace-->
+          <slot name="foo"
+            ><!--
+          --><slot name="bar"></slot
+            ><!--
+          --><slot name="baz"></slot
+            ><!--
+        --></slot
+          >
+        `;
+        const testElName = defineTestElement((slotEl) => {
+          slotEl.addEventListener("slotchange", (event) => {
+            slotToAssigned[slotEl.name] = slotChangeGetAssignedElements(event);
+          });
+        }, slotHtml);
+        const testEl = createEl(testElName);
+        const nodes = [
+          document.createTextNode("hello"),
+          createEl("div"),
+          createEl("div", { slot: "foo" }),
+          createEl("div", { slot: "bar" }),
+          createEl("div", { slot: "bar" }),
+          createEl("div", { slot: "baz" }),
+          createEl("div", { slot: "baz" }),
+          createEl("div", { slot: "baz" }),
+        ];
 
-  describe("hasVisibleContent", () => {
-    it("should return true if element has visible content", () => {
-      const element = document.createElement("div");
-      element.innerHTML = "<p>hello</p>";
-      document.body.append(element);
-      expect(hasVisibleContent(element)).toBe(true);
+        appendChildren(testEl, nodes);
+        await waitForAnimationFrame();
+
+        expect(slotToAssigned).toEqual({
+          "": [nodes[1]],
+          foo: [nodes[2]],
+          bar: [nodes[3], nodes[4]],
+          baz: [nodes[5], nodes[6], nodes[7]],
+        });
+
+        Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
+        nodes.forEach((el) => el.remove());
+        await waitForAnimationFrame();
+
+        expect(slotToAssigned).toEqual({
+          "": [],
+          foo: [],
+          bar: [],
+          baz: [],
+        });
+      });
     });
 
-    it("should return false if element has no visible content", () => {
-      const element = document.createElement("div");
-      document.body.append(element);
-      expect(hasVisibleContent(element)).toBe(false);
+    describe("slotChangeHasAssignedElement()", () => {
+      it("handles slotted elements", async () =>
+        await setUpSlotChange({
+          assignedElements: [document.createElement("div"), document.createElement("div")],
+          onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(true),
+        }));
 
-      element.innerHTML = "\n<!-- some comment -->\n";
-      expect(hasVisibleContent(element)).toBe(false);
+      it("handles no slotted elements", async () =>
+        await setUpSlotChange({
+          onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(false),
+        }));
+    });
+
+    describe("slotChangeHasAssignedNode()", () => {
+      it("handles slotted nodes", async () =>
+        await setUpSlotChange({
+          assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+          onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(true),
+        }));
+
+      it("handles no slotted nodes", async () =>
+        await setUpSlotChange({
+          onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(false),
+        }));
+    });
+
+    describe("slotChangeGetAssignedNodes()", () => {
+      it("returns assigned nodes on slotchange", async () => {
+        let assigned: Node[];
+        const testElName = defineTestElement((slotEl) => {
+          slotEl.addEventListener("slotchange", (event) => {
+            assigned = slotChangeGetAssignedNodes(event);
+          });
+        });
+        const testEl = createEl(testElName);
+        const nodes = [document.createTextNode("hello"), createEl("div"), document.createTextNode("world")];
+
+        appendChildren(testEl, nodes);
+        await waitForAnimationFrame();
+
+        expect(assigned).toEqual(nodes);
+
+        assigned = null;
+        nodes.forEach((el) => el.remove());
+        await waitForAnimationFrame();
+
+        expect(assigned).toEqual([]);
+      });
+
+      it("handles nested slot structure", async () => {
+        const slotToAssigned: Record<string, Node[]> = {};
+        const slotHtml = html`
+          <slot></slot>
+          <!-- using comments between slots to avoid introducing whitespace-->
+          <slot name="foo"
+            ><!--
+          --><slot name="bar"></slot
+            ><!--
+          --><slot name="baz"></slot
+            ><!--
+        --></slot
+          >
+        `;
+        const testElName = defineTestElement((slotEl) => {
+          slotEl.addEventListener("slotchange", (event) => {
+            slotToAssigned[slotEl.name] = slotChangeGetAssignedNodes(event);
+          });
+        }, slotHtml);
+        const testEl = createEl(testElName);
+        const nodes = [
+          document.createTextNode("hello"),
+          createEl("div"),
+          createEl("div", { slot: "foo" }),
+          createEl("div", { slot: "bar" }),
+          createEl("div", { slot: "bar" }),
+          createEl("div", { slot: "baz" }),
+          createEl("div", { slot: "baz" }),
+          createEl("div", { slot: "baz" }),
+        ];
+
+        appendChildren(testEl, nodes);
+        await waitForAnimationFrame();
+
+        expect(slotToAssigned).toEqual({
+          "": [nodes[0], nodes[1]],
+          foo: [nodes[2]],
+          bar: [nodes[3], nodes[4]],
+          baz: [nodes[5], nodes[6], nodes[7]],
+        });
+
+        Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
+        nodes.forEach((node) => node.remove());
+        await waitForAnimationFrame();
+
+        expect(slotToAssigned).toEqual({
+          "": [],
+          foo: [],
+          bar: [],
+          baz: [],
+        });
+      });
+    });
+
+    describe("slotChangeGetTextContent()", () => {
+      it("handles slotted nodes", async () => {
+        await setUpSlotChange({
+          assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+          onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual("helloworld"),
+        });
+      });
+
+      it("handles no slotted nodes", async () =>
+        await setUpSlotChange({
+          onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual(""),
+        }));
+    });
+
+    describe("slotChangeHasContent()", () => {
+      it("handles slotted nodes", async () =>
+        await setUpSlotChange({
+          assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+          onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
+        }));
+
+      it("handles slotted elements", async () =>
+        await setUpSlotChange({
+          assignedElements: [document.createElement("div")],
+          onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
+        }));
+
+      it("handles no slotted nodes or elements", async () =>
+        await setUpSlotChange({
+          onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(false),
+        }));
+    });
+
+    describe("slotChangeHasTextContent()", () => {
+      it("handles slotted nodes", async () =>
+        await setUpSlotChange({
+          assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
+          onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(true),
+        }));
+
+      it("handles no slotted nodes", async () =>
+        await setUpSlotChange({
+          onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(false),
+        }));
+    });
+
+    describe("hasVisibleContent", () => {
+      it("should return true if element has visible content", () => {
+        const element = document.createElement("div");
+        element.innerHTML = "<p>hello</p>";
+        document.body.append(element);
+        expect(hasVisibleContent(element)).toBe(true);
+      });
+
+      it("should return false if element has no visible content", () => {
+        const element = document.createElement("div");
+        document.body.append(element);
+        expect(hasVisibleContent(element)).toBe(false);
+
+        element.innerHTML = "\n<!-- some comment -->\n";
+        expect(hasVisibleContent(element)).toBe(false);
+      });
     });
   });
 
@@ -527,13 +705,13 @@ describe("dom", () => {
 
     it("calculates the pixel value for 'vw' values", () => {
       const viewportWidth = window.innerWidth;
-      expect(getStylePixelValue("50vw")).toBe((viewportWidth / 100) * 50);
+      expect(getStylePixelValue("50vw")).toBe(viewportUnitToPixel(50, viewportWidth));
       expect(getStylePixelValue("100vw")).toBe(viewportWidth);
     });
 
     it("calculates the pixel value for 'vh' values", () => {
       const viewportHeight = window.innerHeight;
-      expect(getStylePixelValue("50vh")).toBe((viewportHeight / 100) * 50);
+      expect(getStylePixelValue("50vh")).toBe(viewportUnitToPixel(50, viewportHeight));
       expect(getStylePixelValue("100vh")).toBe(viewportHeight);
     });
 

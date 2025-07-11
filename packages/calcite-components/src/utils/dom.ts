@@ -483,7 +483,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @returns {Element[]} An array of elements.
  */
 export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
-  return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
+  return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
 /**
@@ -662,14 +662,23 @@ function nextFrame(): Promise<void> {
  * @returns {number} The pixel equivalent of the provided value.
  */
 export function getStylePixelValue(value: string): number {
-  switch (true) {
-    case value.endsWith("px"):
-      return parseFloat(value);
-    case value.endsWith("vw"):
-      return (window.innerWidth / 100) * parseFloat(value);
-    case value.endsWith("vh"):
-      return (window.innerHeight / 100) * parseFloat(value);
-    default:
-      return 0;
+  if (value.endsWith("px")) {
+    return parseFloat(value);
+  } else if (value.endsWith("vw")) {
+    return viewportUnitToPixel(parseFloat(value), window.innerWidth);
+  } else if (value.endsWith("vh")) {
+    return viewportUnitToPixel(parseFloat(value), window.innerHeight);
   }
+
+  return 0;
+}
+
+/**
+ * Exported for testing purposes only.
+ *
+ * @private
+ */
+export function viewportUnitToPixel(value: number, viewportSize: number): number {
+  // intentionally dividing last to avoid rounding errors
+  return (value * viewportSize) / 100;
 }
