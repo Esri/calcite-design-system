@@ -321,7 +321,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, hides the color graph. */
-  @property() fieldDisabled = false;
+  @property({ reflect: true }) fieldDisabled = false;
 
   /**
    * The format of `value`.
