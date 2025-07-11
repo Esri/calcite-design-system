@@ -52,7 +52,9 @@
             "group": "foreground"
           },
           "description": "deprecated, use --calcite-color-foreground-highlight instead"
-        },
+        }
+      },
+      "surface": {
         "highlight": {
           "value": "{core.color.high-saturation.blue.h-bb-010}",
           "type": "color",
