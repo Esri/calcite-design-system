@@ -53,6 +53,10 @@
     padding-inline-end: var(--calcite-spacing-md);
   }
 
+  .title {
+    gap: var(--calcite-spacing-base);
+  }
+
   .heading {
     font-size: var(--calcite-font-size);
     line-height: var(--calcite-font-line-height-fixed-base);
@@ -169,6 +173,10 @@ calcite-handle {
   grid-area: handle;
 }
 
+.title {
+  @apply flex flex-col;
+}
+
 .header .title .heading {
   @apply word-break
     transition-color
@@ -181,7 +189,6 @@ calcite-handle {
 
 .description {
   @apply word-break
-    mt-0.5
     p-0;
 
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
