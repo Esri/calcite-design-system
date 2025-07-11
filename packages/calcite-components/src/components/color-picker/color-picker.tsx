@@ -320,7 +320,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, hides the color graph. */
+  /** When `true`, hides the color field. */
   @property({ reflect: true }) fieldDisabled = false;
 
   /**
