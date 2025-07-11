@@ -3,36 +3,36 @@
     "border": {
       "width": {
         "none": {
-          "value": "{core.size.default.none}",
-          "type": "borderWidth",
           "attributes": {
             "category": "border",
             "group": "width"
-          }
+          },
+          "$type": "borderWidth",
+          "$value": "{core.size.default.none}"
         },
         "sm": {
-          "value": "{core.size.default.1}",
-          "type": "borderWidth",
           "attributes": {
             "category": "border",
             "group": "width"
-          }
+          },
+          "$type": "borderWidth",
+          "$value": "{core.size.default.1}"
         },
         "md": {
-          "value": "{core.size.default.2}",
-          "type": "borderWidth",
           "attributes": {
             "category": "border",
             "group": "width"
-          }
+          },
+          "$type": "borderWidth",
+          "$value": "{core.size.default.2}"
         },
         "lg": {
-          "value": "{core.size.default.4}",
-          "type": "borderWidth",
           "attributes": {
             "category": "border",
             "group": "width"
-          }
+          },
+          "$type": "borderWidth",
+          "$value": "{core.size.default.4}"
         }
       }
     }

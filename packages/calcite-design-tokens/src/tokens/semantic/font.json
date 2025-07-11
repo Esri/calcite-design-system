@@ -3,37 +3,35 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
-          "type": "fontFamilies",
           "attributes": {
             "category": "font",
             "group": "family"
           },
-          "description": "Primary font with fallbacks"
+          "$type": "fontFamilies",
+          "$value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
+          "$description": "Primary font with fallbacks"
         },
         "code": {
-          "value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
-          "type": "fontFamilies",
           "attributes": {
             "category": "font",
             "group": "family"
           },
-          "description": "Font family for code with fallbacks"
+          "$type": "fontFamilies",
+          "$value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
+          "$description": "Font family for code with fallbacks"
         }
       },
       "weight": {
         "light": {
-          "value": "{core.font.weight.light}",
-          "type": "fontWeights",
           "attributes": {
             "category": "font",
             "group": "weight"
           },
-          "description": "For Avenir Next World (secondary font family)"
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.light}",
+          "$description": "For Avenir Next World (secondary font family)"
         },
         "normal": {
-          "value": "{core.font.weight.regular}",
-          "type": "fontWeights",
           "extensions": {
             "calcite.deprecated": true
           },
@@ -41,308 +39,310 @@
             "category": "font",
             "group": "weight"
           },
-          "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\""
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.regular}",
+          "$description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\""
         },
         "regular": {
-          "value": "{core.font.weight.regular}",
-          "type": "fontWeights",
           "attributes": {
             "category": "font",
             "group": "weight"
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.regular}"
         },
         "medium": {
-          "value": "{core.font.weight.medium}",
-          "type": "fontWeights",
           "attributes": {
             "category": "font",
             "group": "weight"
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.medium}"
         },
         "semibold": {
-          "value": "{core.font.weight.demi}",
-          "type": "fontWeights",
           "attributes": {
             "category": "font",
             "group": "weight"
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.demi}"
         },
         "bold": {
-          "value": "{core.font.weight.demi}",
-          "type": "fontWeights",
           "attributes": {
             "category": "font",
             "group": "weight"
-          }
+          },
+          "$type": "fontWeights",
+          "$value": "{core.font.weight.demi}"
         }
       },
       "size": {
         "xs": {
-          "value": "{core.size.default.10}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.10}"
         },
         "sm": {
-          "value": "{core.size.default.12}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.12}"
         },
         "default": {
-          "value": "{core.size.default.14}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.14}"
         },
         "md": {
-          "value": "{core.size.default.16}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.16}"
         },
         "lg": {
-          "value": "{core.size.default.2} * 9",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.2} * 9"
         },
         "xl": {
-          "value": "{core.size.default.20}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.20}"
         },
         "xxl": {
-          "value": "{core.size.default.24}",
-          "type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.default.24}"
         }
       },
       "style": {
         "emphasis": {
-          "value": "{core.font.style.italic}",
-          "type": "fontStyle",
-          "description": "used in ratings",
           "attributes": {
             "category": "font",
             "group": "style"
-          }
+          },
+          "$type": "fontStyle",
+          "$value": "{core.font.style.italic}",
+          "$description": "used in ratings"
         }
       },
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{core.size.default.12}",
-            "type": "lineHeights",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "fixed"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.default.12}"
           },
           "base": {
-            "value": "{core.size.default.16}",
-            "type": "lineHeights",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "fixed"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.default.16}"
           },
           "lg": {
-            "value": "{core.size.default.20}",
-            "type": "lineHeights",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "fixed"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.default.20}"
           },
           "xl": {
-            "value": "{core.size.default.24}",
-            "type": "lineHeights",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "fixed"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.default.24}"
           }
         },
         "relative": {
           "default": {
-            "value": "{core.size.relative.auto}",
-            "type": "lineHeights",
-            "description": "1",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.auto}",
+            "$description": "1"
           },
           "tight": {
-            "value": "{core.size.relative.125}",
-            "type": "lineHeights",
-            "description": "1.25",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.125}",
+            "$description": "1.25"
           },
           "snug": {
-            "value": "{core.size.relative.137}",
-            "type": "lineHeights",
-            "description": "1.375",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.137}",
+            "$description": "1.375"
           },
           "normal": {
-            "value": "{core.size.relative.150}",
-            "type": "lineHeights",
-            "description": "1.5",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.150}",
+            "$description": "1.5"
           },
           "relaxed": {
-            "value": "{core.size.relative.162}",
-            "type": "lineHeights",
-            "description": "1.625",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.162}",
+            "$description": "1.625"
           },
           "loose": {
-            "value": "{core.size.relative.200}",
-            "type": "lineHeights",
-            "description": "2",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            }
+            },
+            "$type": "lineHeights",
+            "$value": "{core.size.relative.200}",
+            "$description": "2"
           }
         }
       },
       "letter-spacing": {
         "tight": {
-          "value": "{core.size.default.none} - .4 ",
-          "type": "letterSpacing",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "letter-spacing"
-          }
+          },
+          "$type": "letterSpacing",
+          "$value": "{core.size.default.none} - .4 ",
+          "$description": "Deprecated"
         },
         "normal": {
-          "value": "{core.size.default.none}",
-          "type": "letterSpacing",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "letter-spacing"
-          }
+          },
+          "$type": "letterSpacing",
+          "$value": "{core.size.default.none}",
+          "$description": "Deprecated"
         },
         "wide": {
-          "value": "{core.size.default.none} + .4 ",
-          "type": "letterSpacing",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "letter-spacing"
-          }
+          },
+          "$type": "letterSpacing",
+          "$value": "{core.size.default.none} + .4 ",
+          "$description": "Deprecated"
         }
       },
       "paragraph-spacing": {
         "normal": {
-          "value": "{core.size.default.4}",
-          "type": "paragraphSpacing",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "paragraph-spacing"
-          }
+          },
+          "$type": "paragraphSpacing",
+          "$value": "{core.size.default.4}",
+          "$description": "Deprecated"
         }
       },
       "text-decoration": {
         "none": {
-          "value": "{core.font.text-decoration.none}",
-          "type": "textDecoration",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-decoration"
-          }
+          },
+          "$type": "textDecoration",
+          "$value": "{core.font.text-decoration.none}",
+          "$description": "Deprecated"
         },
         "underline": {
-          "value": "{core.font.text-decoration.underline}",
-          "type": "textDecoration",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-decoration"
-          }
+          },
+          "$type": "textDecoration",
+          "$value": "{core.font.text-decoration.underline}",
+          "$description": "Deprecated"
         }
       },
       "text-case": {
         "none": {
-          "value": "{core.font.text-case.none}",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-case"
-          }
+          },
+          "$type": "textCase",
+          "$value": "{core.font.text-case.none}",
+          "$description": "Deprecated"
         },
         "uppercase": {
-          "value": "{core.font.text-case.uppercase}",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-case"
-          }
+          },
+          "$type": "textCase",
+          "$value": "{core.font.text-case.uppercase}",
+          "$description": "Deprecated"
         },
         "lowercase": {
-          "value": "{core.font.text-case.lowercase}",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-case"
-          }
+          },
+          "$type": "textCase",
+          "$value": "{core.font.text-case.lowercase}",
+          "$description": "Deprecated"
         },
         "capitalize": {
-          "value": "{core.font.text-case.capitalize}",
-          "type": "textCase",
-          "description": "Deprecated",
           "attributes": {
             "category": "font",
             "group": "text-case"
-          }
+          },
+          "$type": "textCase",
+          "$value": "{core.font.text-case.capitalize}",
+          "$description": "Deprecated"
         }
       }
     }
