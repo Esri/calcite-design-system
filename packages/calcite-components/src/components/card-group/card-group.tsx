@@ -121,16 +121,22 @@ export class CardGroup extends LitElement implements InteractiveComponent {
       const interactiveItems = this.items.filter((el) => !el.disabled);
       switch (event.detail["key"]) {
         case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "next");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "next", true, false);
           break;
         case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "previous");
+          focusElementInGroup(
+            interactiveItems,
+            event.target as Card["el"],
+            "previous",
+            true,
+            false,
+          );
           break;
         case "Home":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "first");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "first", true, false);
           break;
         case "End":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "last");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "last", true, false);
           break;
       }
     }

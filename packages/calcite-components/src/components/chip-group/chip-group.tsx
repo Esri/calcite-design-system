@@ -151,11 +151,11 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     const item = event.target as Chip["el"];
     if (this.items?.includes(item)) {
       if (this.items?.indexOf(item) > 0) {
-        focusElementInGroup(this.items, item, "previous");
+        focusElementInGroup(this.items, item, "previous", false, false);
       } else if (this.items?.indexOf(item) === 0) {
-        focusElementInGroup(this.items, item, "next");
+        focusElementInGroup(this.items, item, "next", false, false);
       } else {
-        focusElementInGroup(this.items, item, "first");
+        focusElementInGroup(this.items, item, "first", false, false);
       }
     }
     this.items = this.items?.filter((el) => el !== item);

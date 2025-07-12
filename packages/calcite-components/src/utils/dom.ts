@@ -286,7 +286,7 @@ export async function focusElement(
   }
 
   if (mode === "container") {
-    return el.focus();
+    return focusFirstTabbable(el, true);
   }
 
   return focusFirstTabbable(el);
