@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "3.3.0-next.19",
+  "version": "3.3.0-next.33",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -65,7 +65,7 @@
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/\" --flat",
+    "util:copy-icons": "cpy \"../calcite-ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-supported-browsers-json": "tsx support/generateSupportedBrowsersJSON.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
@@ -75,9 +75,9 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/components-utils": "^4.33.0-next.163",
-    "@arcgis/lumina": "^4.33.0-next.163",
-    "@esri/calcite-ui-icons": "4.3.0-next.2",
+    "@arcgis/components-utils": "^4.33.10",
+    "@arcgis/lumina": "^4.33.10",
+    "@esri/calcite-ui-icons": "4.3.0-next.7",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
@@ -92,13 +92,13 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.33.0-next.163",
-    "@esri/calcite-design-tokens": "3.2.0-next.2",
-    "@esri/calcite-tailwind-preset": "1.0.1-next.6",
-    "@esri/eslint-plugin-calcite-components": "2.0.3-next.2",
-    "@vitest/browser": "3.2.3",
-    "playwright": "1.53.1",
-    "vitest": "3.2.3"
+    "@arcgis/lumina-compiler": "^4.33.10",
+    "@esri/calcite-design-tokens": "3.2.0-next.8",
+    "@esri/calcite-tailwind-preset": "1.0.1-next.12",
+    "@esri/eslint-plugin-calcite-components": "2.0.3-next.3",
+    "@vitest/browser": "3.2.4",
+    "playwright": "1.53.2",
+    "vitest": "3.2.4"
   },
   "volta": {
     "extends": "../../package.json"

@@ -47,7 +47,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, options?: Open
   it(`emits with animations enabled`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await page.addStyleTag({
-      content: `:root { --calcite-duration-factor: 2; }`,
+      content: `:root { --calcite-duration-factor: 3; }`,
     });
 
     await setUpEventListeners(tag, page);
@@ -96,7 +96,7 @@ openClose.initial = function openCloseInitial(
   it("emits on initialization with animations enabled", async () => {
     const page = await newProgrammaticE2EPage();
     await page.addStyleTag({
-      content: `:root { --calcite-duration-factor: 2; }`,
+      content: `:root { --calcite-duration-factor: 3; }`,
     });
     await beforeContent(page);
     await setUpEventListeners(tag, page);

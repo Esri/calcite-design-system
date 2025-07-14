@@ -16,7 +16,7 @@ import type { Input } from "../input/input";
 import type { Label } from "../label/label";
 import type { Button } from "../button/button";
 import { styles } from "./inline-editable.scss";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
@@ -302,7 +302,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               appearance="transparent"
               class={CSS.enableEditingButton}
               disabled={this.disabled}
-              iconStart="pencil"
+              iconStart={ICONS.pencil}
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
@@ -321,7 +321,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                   appearance="transparent"
                   class={CSS.cancelEditingButton}
                   disabled={this.disabled}
-                  iconStart="x"
+                  iconStart={ICONS.close}
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
@@ -335,7 +335,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 appearance="solid"
                 class={CSS.confirmChangesButton}
                 disabled={this.disabled}
-                iconStart="check"
+                iconStart={ICONS.check}
                 kind="brand"
                 label={this.messages.confirmChanges}
                 loading={this.loading}

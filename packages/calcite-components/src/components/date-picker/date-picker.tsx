@@ -28,7 +28,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
+import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
 
@@ -625,7 +625,7 @@ export class DatePicker extends LitElement {
 
     return (
       <>
-        <div ariaHidden={true} class="container" tabIndex={-1}>
+        <div ariaHidden={true} class={CSS.container} tabIndex={-1}>
           {this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
         </div>
       </>
@@ -649,30 +649,28 @@ export class DatePicker extends LitElement {
     endDate: Date,
   ): JsxNode {
     return (
-      this.localeData && (
-        <calcite-date-picker-month
-          activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
-          endDate={this.range ? endDate : undefined}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
-          hoverRange={this.hoverRange}
-          layout={this.layout}
-          localeData={this.localeData}
-          max={maxDate}
-          messages={this.messages}
-          min={minDate}
-          monthStyle={this.monthStyle}
-          oncalciteInternalDatePickerDayHover={this.monthHoverChange}
-          oncalciteInternalDatePickerDaySelect={this.monthDateChange}
-          oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
-          oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
-          oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
-          range={this.range}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate : date}
-          startDate={this.range ? date : undefined}
-        />
-      )
+      <calcite-date-picker-month
+        activeDate={activeDate}
+        dateTimeFormat={this.dateTimeFormat}
+        endDate={this.range ? endDate : undefined}
+        headingLevel={this.headingLevel || HEADING_LEVEL}
+        hoverRange={this.hoverRange}
+        layout={this.layout}
+        localeData={this.localeData}
+        max={maxDate}
+        messages={this.messages}
+        min={minDate}
+        monthStyle={this.monthStyle}
+        oncalciteInternalDatePickerDayHover={this.monthHoverChange}
+        oncalciteInternalDatePickerDaySelect={this.monthDateChange}
+        oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
+        oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
+        oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
+        range={this.range}
+        scale={this.scale}
+        selectedDate={this.activeRange === "end" ? endDate : date}
+        startDate={this.range ? date : undefined}
+      />
     );
   }
 

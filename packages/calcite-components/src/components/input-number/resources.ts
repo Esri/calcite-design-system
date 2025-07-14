@@ -25,3 +25,14 @@ export const IDS = {
 export const SLOTS = {
   action: "action",
 };
+
+export const ICONS = {
+  clear: "x",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+};
+
+export const DIRECTION = {
+  up: "up",
+  down: "down",
+};
