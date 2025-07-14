@@ -16,7 +16,8 @@
         "type": "boxShadow",
         "attributes": {
           "category": "shadow"
-        }
+        },
+        "description": "deprecated, use --calcite-shadow-sm from @esri/calcite-design-tokens/dist/css/light or .../dark instead"
       },
       "md": {
         "value": [
@@ -26,7 +27,8 @@
         "type": "boxShadow",
         "attributes": {
           "category": "shadow"
-        }
+        },
+        "description": "deprecated, use --calcite-shadow-md from @esri/calcite-design-tokens/dist/css/light or .../dark instead"
       },
       "light": {
         "sm": {
