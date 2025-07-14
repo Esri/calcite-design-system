@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.7...@esri/calcite-ui-icons@4.3.0-next.8) (2025-07-14)
+
+### Features
+
+- add person magnifying glass ([#12509](https://github.com/Esri/calcite-design-system/issues/12509)) ([42dc729](https://github.com/Esri/calcite-design-system/commit/42dc7297395095e9a92cc898bb52113d6ea4cb6c))
+
 ## [4.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.6...@esri/calcite-ui-icons@4.3.0-next.7) (2025-07-10)
 
 ### Features
