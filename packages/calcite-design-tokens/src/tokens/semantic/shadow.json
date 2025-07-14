@@ -2,14 +2,7 @@
   "semantic": {
     "shadow": {
       "none": {
-        "value": {
-          "x": "0",
-          "y": "0",
-          "blur": "0",
-          "spread": "0",
-          "color": "rgba(0,0,0,0,0)",
-          "type": "dropShadow"
-        },
+        "value": "{core.shadow.0}",
         "type": "boxShadow",
         "attributes": {
           "category": "shadow"
@@ -39,19 +32,19 @@
         "sm": {
           "value": [
             {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.1)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.2}",
+              "blur": "{core.size.default.8}",
+              "spread": "{core.size.default.none}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.10})",
               "type": "dropShadow"
             },
             {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.04)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.2}",
+              "blur": "{core.size.default.8}",
+              "spread": "{core.size.default.none}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.4})",
               "type": "dropShadow"
             }
           ],
@@ -64,19 +57,19 @@
         "md": {
           "value": [
             {
-              "x": "0",
-              "y": "6",
-              "blur": "20",
-              "spread": "-4",
-              "color": "rgba(0,0,0,0.1)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.6}",
+              "blur": "{core.size.default.20}",
+              "spread": "-{core.size.default.4}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.10})",
               "type": "dropShadow"
             },
             {
-              "x": "0",
-              "y": "4",
-              "blur": "12",
-              "spread": "-2",
-              "color": "rgba(0,0,0,0.08)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.4}",
+              "blur": "{core.size.default.12}",
+              "spread": "-{core.size.default.2}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.8})",
               "type": "dropShadow"
             }
           ],
@@ -91,19 +84,19 @@
         "sm": {
           "value": [
             {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.16)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.2}",
+              "blur": "{core.size.default.8}",
+              "spread": "{core.size.default.none}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.16})",
               "type": "dropShadow"
             },
             {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.12)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.2}",
+              "blur": "{core.size.default.8}",
+              "spread": "{core.size.default.none}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.12})",
               "type": "dropShadow"
             }
           ],
@@ -116,19 +109,19 @@
         "md": {
           "value": [
             {
-              "x": "0",
-              "y": "6",
-              "blur": "20",
-              "spread": "-4",
-              "color": "rgba(0,0,0,0.16)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.6}",
+              "blur": "{core.size.default.20}",
+              "spread": "-{core.size.default.4}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.16})",
               "type": "dropShadow"
             },
             {
-              "x": "0",
-              "y": "4",
-              "blur": "12",
-              "spread": "-2",
-              "color": "rgba(0,0,0,0.12)",
+              "x": "{core.size.default.none}",
+              "y": "{core.size.default.4}",
+              "blur": "{core.size.default.12}",
+              "spread": "-{core.size.default.2}",
+              "color": "rgba({core.color.neutral.blk-240},{core.opacity.12})",
               "type": "dropShadow"
             }
           ],
