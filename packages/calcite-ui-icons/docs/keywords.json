@@ -9847,5 +9847,10 @@
     "alias": ["4.3.0", "generic", "alignment", "placement", "position", "settings"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "person-magnifying-glass": {
+    "alias": ["4.3.0", "people", "launch", "preview", "information", "magnify", "user"],
+    "category": "People",
+    "release": "4.3.0"
   }
 }
