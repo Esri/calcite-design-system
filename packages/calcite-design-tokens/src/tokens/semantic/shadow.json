@@ -16,7 +16,27 @@
         }
       },
       "sm": {
-        "light": {
+        "value": [
+          "{core.shadow.1}",
+          "{core.shadow.2}"
+        ],
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      },
+      "md": {
+        "value": [
+          "{core.shadow.3}",
+          "{core.shadow.4}"
+        ],
+        "type": "boxShadow",
+        "attributes": {
+          "category": "shadow"
+        }
+      },
+      "light": {
+        "sm": {
           "value": [
             {
               "x": "0",
@@ -41,34 +61,7 @@
             "mode": "light"
           }
         },
-        "dark": {
-          "value": [
-            {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.16)",
-              "type": "dropShadow"
-            },
-            {
-              "x": "0",
-              "y": "2",
-              "blur": "8",
-              "spread": "0",
-              "color": "rgba(0,0,0,0.12)",
-              "type": "dropShadow"
-            }
-          ],
-          "type": "boxShadow",
-          "attributes": {
-            "category": "shadow",
-            "mode": "dark"
-          }
-        }
-      },
-      "md": {
-        "light": {
+        "md": {
           "value": [
             {
               "x": "0",
@@ -92,8 +85,35 @@
             "category": "shadow",
             "mode": "light"
           }
+        }
+      },
+      "dark": {
+        "sm": {
+          "value": [
+            {
+              "x": "0",
+              "y": "2",
+              "blur": "8",
+              "spread": "0",
+              "color": "rgba(0,0,0,0.16)",
+              "type": "dropShadow"
+            },
+            {
+              "x": "0",
+              "y": "2",
+              "blur": "8",
+              "spread": "0",
+              "color": "rgba(0,0,0,0.12)",
+              "type": "dropShadow"
+            }
+          ],
+          "type": "boxShadow",
+          "attributes": {
+            "category": "shadow",
+            "mode": "dark"
+          }
         },
-        "dark": {
+        "md": {
           "value": [
             {
               "x": "0",
