@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.33...@esri/calcite-components@3.3.0-next.34) (2025-07-14)
+
+### Features
+
+- **time-picker:** apply rounded corners inside popover ([#12502](https://github.com/Esri/calcite-design-system/issues/12502)) ([6fcf7b4](https://github.com/Esri/calcite-design-system/commit/6fcf7b4fb4c523710f64d59f0f488e0c364ebcd5)), closes [#9533](https://github.com/Esri/calcite-design-system/issues/9533)
+
 ## [3.3.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.32...@esri/calcite-components@3.3.0-next.33) (2025-07-12)
 
 ### Features
