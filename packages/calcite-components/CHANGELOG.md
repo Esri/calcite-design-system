@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.32...@esri/calcite-components@3.3.0-next.33) (2025-07-12)
+
+### Features
+
+- **color-picker:** support hiding color-field ([#12484](https://github.com/Esri/calcite-design-system/issues/12484)) ([108925c](https://github.com/Esri/calcite-design-system/commit/108925c781ef13e18fb3fc82940c6aa73318cae4)), closes [#10031](https://github.com/Esri/calcite-design-system/issues/10031)
+
 ## [3.3.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.31...@esri/calcite-components@3.3.0-next.32) (2025-07-10)
 
 **Note:** Version bump only for package @esri/calcite-components
