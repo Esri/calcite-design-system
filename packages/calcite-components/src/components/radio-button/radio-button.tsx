@@ -423,12 +423,18 @@ export class RadioButton
       case "ArrowLeft":
       case "ArrowUp":
         event.preventDefault();
-        this.selectItem(radioButtons, this.getNextNonDisabledIdx(radioButtons, currentIndex, -1));
+        this.selectItem(
+          radioButtons,
+          this.getNextNonDisabledIdx(radioButtons, currentIndex, "left"),
+        );
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        this.selectItem(radioButtons, this.getNextNonDisabledIdx(radioButtons, currentIndex));
+        this.selectItem(
+          radioButtons,
+          this.getNextNonDisabledIdx(radioButtons, currentIndex, "right"),
+        );
         return;
       default:
         return;
@@ -437,16 +443,17 @@ export class RadioButton
 
   private getNextNonDisabledIdx(
     radioButtons: RadioButton["el"][],
-    startIdx: number,
-    dir = 1,
+    startIndex: number,
+    dir = "left" | "right",
   ): number {
-    const radioButtonsLength = radioButtons.length;
-    let selectIdx = getRoundRobinIndex(startIdx + dir, radioButtonsLength);
-    while (radioButtons[selectIdx].disabled) {
-      selectIdx = getRoundRobinIndex(selectIdx + dir, radioButtonsLength);
+    const totalButtons = radioButtons.length;
+    const offset = dir === "left" ? -1 : 1;
+    let selectIndex = getRoundRobinIndex(startIndex + offset, totalButtons);
+    while (radioButtons[selectIndex].disabled) {
+      selectIndex = getRoundRobinIndex(selectIndex + offset, totalButtons);
     }
 
-    return selectIdx;
+    return selectIndex;
   }
 
   private onContainerBlur(): void {

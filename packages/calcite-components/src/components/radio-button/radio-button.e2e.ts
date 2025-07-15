@@ -85,7 +85,7 @@ describe("calcite-radio-button", () => {
 
   it("skips disabled radio-buttons", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-label layout="inline" id="1">
         <calcite-radio-button value="trees" disabled name="bug2"></calcite-radio-button>
         Trees
@@ -107,25 +107,18 @@ describe("calcite-radio-button", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    let selected = await page.find("calcite-radio-button[focused]");
-    let value = await selected.getProperty("value");
+    const selected = await page.find("calcite-radio-button[focused]");
+    const value = await selected.getProperty("value");
     expect(value).toBe("flowers");
 
     await selected.press("ArrowDown");
-    await page.waitForChanges();
     await selected.press("ArrowDown");
-    await page.waitForChanges();
 
-    selected = await page.find("calcite-radio-button[focused]");
-    value = await selected.getProperty("value");
-    expect(value).toBe("misc");
+    expect(await getFocusedElementProp(page, "value")).toBe("misc");
 
     await selected.press("ArrowDown");
-    await page.waitForChanges();
 
-    selected = await page.find("calcite-radio-button[focused]");
-    value = await selected.getProperty("value");
-    expect(value).toBe("flowers");
+    expect(await getFocusedElementProp(page, "value")).toBe("flowers");
   });
 
   describe("is focusable", () => {
