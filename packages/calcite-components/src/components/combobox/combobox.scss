@@ -250,6 +250,16 @@ calcite-chip {
   z-index: var(--calcite-z-index-sticky);
 }
 
+.no-matches {
+  @apply block px-4 py-2;
+  color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+  background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+
+  strong {
+    color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
+  }
+}
+
 @include disabled();
 @include x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",

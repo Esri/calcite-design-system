@@ -156,7 +156,7 @@ export class Combobox
       });
 
       if (setOpenToEmptyState) {
-        this.open = this.filterText.trim().length > 0 && this.keyboardNavItems.length > 0;
+        this.open = this.filterText.trim().length > 0;
       }
 
       if (emit) {
@@ -1788,6 +1788,30 @@ export class Combobox
     return mappedListBoxOptions;
   }
 
+  private renderNoMatchesOrAddCustomText(): JsxNode {
+    const { allowCustomValues, filterText, open } = this;
+    if (!open || !filterText) {
+      return null;
+    }
+
+    const filteredItems = this.filteredItems.filter((item) => !isHidden(item));
+    if (filteredItems.length > 0) {
+      return null;
+    }
+
+    // const noMatchesMsg = messageOverrides?.noMatches ?? messages.noMatches;
+    // const addMsg = messageOverrides?.add ?? messages.add;
+
+    if (allowCustomValues) {
+      return (
+        <li class={CSS.noMatches}>
+          {"Add"} <strong>{filterText}</strong>
+        </li>
+      );
+    }
+    return <li class={CSS.noMatches}>{"No matches"}</li>;
+  }
+
   private renderFloatingUIContainer(): JsxNode {
     const { setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
@@ -1817,6 +1841,7 @@ export class Combobox
                 />
               )}
             <slot />
+            {this.renderNoMatchesOrAddCustomText()}
           </ul>
         </div>
       </div>
