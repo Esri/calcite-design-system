@@ -29,6 +29,7 @@
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  overflow: hidden;
 
   .column {
     @apply flex
