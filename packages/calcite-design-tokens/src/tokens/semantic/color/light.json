@@ -51,7 +51,7 @@
             "category": "color",
             "group": "foreground"
           },
-          "description": "deprecated, use --calcite-color-foreground-highlight instead"
+          "description": "deprecated, use --calcite-color-surface-highlight instead"
         }
       },
       "surface": {
