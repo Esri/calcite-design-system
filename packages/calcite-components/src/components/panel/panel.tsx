@@ -123,7 +123,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   set closed(value: boolean) {
     const oldValue = this._closed;
     if (value !== oldValue) {
-      this.toggleClosed(value);
+      this.setClosedState(value);
     }
   }
 
@@ -248,7 +248,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Methods
 
-  private async toggleClosed(value: boolean): Promise<void> {
+  private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
       try {
         await this.beforeClose?.();
@@ -283,6 +283,10 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private setContainerRef(node: HTMLElement): void {
     this.containerEl = node;
+  }
+
+  private closeClickHandler(): void {
+    this.emitCloseEvent();
   }
 
   private emitCloseEvent(): void {
@@ -491,7 +495,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
-        onClick={this.emitCloseEvent}
+        onClick={this.closeClickHandler}
         scale={this.scale}
         text={close}
         title={close}

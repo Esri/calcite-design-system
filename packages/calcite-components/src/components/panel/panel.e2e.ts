@@ -378,6 +378,7 @@ describe("calcite-panel", () => {
 
       panel.addEventListener("calcitePanelClose", (event) => {
         event.preventDefault();
+        // needed to work around event spy limitation - details are captured before event is canceled
         (window as TestPanelWindow).lastEventCancelable = event.cancelable;
         (window as TestPanelWindow).lastEventDefaultPrevented = event.defaultPrevented;
         (window as TestPanelWindow).calledTimes++;

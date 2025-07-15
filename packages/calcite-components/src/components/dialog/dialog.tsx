@@ -203,7 +203,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   set open(value: boolean) {
     const oldValue = this._open;
     if (value !== oldValue) {
-      this.toggleOpen(value);
+      this.setOpenState(value);
     }
   }
 
@@ -383,7 +383,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.calciteDialogClose.emit();
   }
 
-  private async toggleOpen(value: boolean): Promise<void> {
+  private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {
       try {
         await this.beforeClose?.();
