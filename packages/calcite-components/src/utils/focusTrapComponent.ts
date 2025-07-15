@@ -54,6 +54,20 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
 const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
 
 /**
+ * Default behavior for returning focus when the FocusTrap is deactivated.
+ *
+ * @param hostEl
+ * @param el
+ */
+function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
+  if (!outsideClickDeactivated.has(hostEl)) {
+    focusElement(el as FocusableElement);
+  }
+
+  return false;
+}
+
+/**
  * Helper to create the FocusTrap options.
  *
  * @param hostEl
@@ -65,12 +79,6 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
 
   return {
     fallbackFocus,
-    setReturnFocus: (el) => {
-      if (!outsideClickDeactivated.has(hostEl)) {
-        focusElement(el as FocusableElement);
-      }
-      return false;
-    },
     ...options,
 
     // the following options are not overridable
@@ -85,6 +93,14 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);
+    },
+    setReturnFocus: (el) => {
+      const returnFocusTarget =
+        typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
+
+      console.log(returnFocusTarget, "RETURN FOCUS TARGET");
+
+      return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
     },
   };
 }
