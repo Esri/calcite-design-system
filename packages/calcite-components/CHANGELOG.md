@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.34...@esri/calcite-components@3.3.0-next.35) (2025-07-15)
+
+### Bug Fixes
+
+- **slider:** remove fill color when dragged handle is released and no longer has focus ([#12511](https://github.com/Esri/calcite-design-system/issues/12511)) ([f798c98](https://github.com/Esri/calcite-design-system/commit/f798c989598c4a9408d5bde9878ca9ed0a367cb1)), closes [#12132](https://github.com/Esri/calcite-design-system/issues/12132)
+
 ## [3.3.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.33...@esri/calcite-components@3.3.0-next.34) (2025-07-14)
 
 ### Features
