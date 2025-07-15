@@ -6,6 +6,7 @@
  * @prop --calcite-popover-background-color: Specifies the component's background color.
  * @prop --calcite-popover-border-color: Specifies the component's border color.
  * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-popover-text-color: Specifies the component's text color.
  * @prop --calcite-popover-z-index: Specifies the component's z-index value.
  */
@@ -17,6 +18,7 @@
 
 .position-container {
   @include floating-ui-container();
+  max-inline-size: var(--calcite-popover-max-size-x);
 }
 
 @include floating-ui-elem-anim(".position-container");

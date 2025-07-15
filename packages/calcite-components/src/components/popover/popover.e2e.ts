@@ -838,6 +838,10 @@ describe("calcite-popover", () => {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderRadius",
           },
+          "--calcite-popover-max-size-x": {
+            shadowSelector: `.${CSS.positionContainer}`,
+            targetProp: "maxInlineSize",
+          },
           "--calcite-popover-text-color": [
             {
               shadowSelector: `.${CSS.heading}`,
