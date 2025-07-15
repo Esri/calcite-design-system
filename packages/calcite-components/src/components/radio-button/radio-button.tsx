@@ -435,7 +435,11 @@ export class RadioButton
     }
   }
 
-  private getNextNonDisabledIdx(radioButtons: RadioButton[], startIdx: number, dir = 1): number {
+  private getNextNonDisabledIdx(
+    radioButtons: RadioButton["el"][],
+    startIdx: number,
+    dir = 1,
+  ): number {
     const radioButtonsLength = radioButtons.length;
     let selectIdx = getRoundRobinIndex(startIdx + dir, radioButtonsLength);
     while (radioButtons[selectIdx].disabled) {
