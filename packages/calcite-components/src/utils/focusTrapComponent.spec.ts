@@ -1,5 +1,7 @@
 // @ts-strict-ignore
-import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { DetachedWindowAPI, Window as HappyDOMWindow } from "happy-dom";
+import { GlobalThis } from "type-fest";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
 import {
   activateFocusTrap,
@@ -144,30 +146,35 @@ describe("focusTrapComponent", () => {
   });
 
   describe("focusTrapOptions", () => {
+    let happyDOM: DetachedWindowAPI;
+    let fakeComponent: FocusTrapComponent;
+    let insideButton: HTMLButtonElement;
+    let previousFocusedEl: HTMLInputElement;
+    let nextFocusedEl: HTMLInputElement;
+
+    function setUpTest(options: Parameters<typeof connectFocusTrap>[1]): void {
+      fakeComponent = {} as FocusTrapComponent;
+      fakeComponent.el = document.createElement("div");
+      insideButton = document.createElement("button");
+      insideButton.id = "inside-button";
+      fakeComponent.el.append(insideButton);
+      previousFocusedEl = document.createElement("input");
+      nextFocusedEl = document.createElement("input");
+      document.body.append(nextFocusedEl, previousFocusedEl, fakeComponent.el);
+      previousFocusedEl.focus();
+
+      connectFocusTrap(fakeComponent, options);
+    }
+
+    beforeEach(() => {
+      happyDOM = (globalThis as GlobalThis & HappyDOMWindow).happyDOM;
+    });
+
     describe("setReturnFocus option", () => {
       it("should use custom setReturnFocus function if provided", async () => {
-        const happyDOM = (globalThis as any).happyDOM;
-        const fakeComponent = {} as FocusTrapComponent;
-        fakeComponent.el = document.createElement("div");
-        const insideButton = document.createElement("button");
-        insideButton.id = "inside-button";
-        fakeComponent.el.append(insideButton);
-        const previousFocusedEl = document.createElement("input");
-        previousFocusedEl.id = "previous-focused";
-        const nextFocusedEl = document.createElement("input");
-        nextFocusedEl.id = "next-focused";
-        document.body.append(nextFocusedEl);
-        document.body.append(previousFocusedEl);
-        document.body.append(fakeComponent.el);
-
-        previousFocusedEl.focus();
-        expect(document.activeElement).toBe(previousFocusedEl);
-
-        connectFocusTrap(fakeComponent, {
+        setUpTest({
           focusTrapOptions: {
-            setReturnFocus: () => {
-              return nextFocusedEl;
-            },
+            setReturnFocus: () => nextFocusedEl,
           },
         });
 
@@ -183,19 +190,7 @@ describe("focusTrapComponent", () => {
       });
 
       it("allows disabling return focus behavior", async () => {
-        const happyDOM = (globalThis as any).happyDOM;
-        const fakeComponent = {} as FocusTrapComponent;
-        fakeComponent.el = document.createElement("div");
-        const insideButton = document.createElement("button");
-        insideButton.id = "inside-button";
-        fakeComponent.el.append(insideButton);
-        const previousFocusedEl = document.createElement("input");
-        const nextFocusedEl = document.createElement("input");
-        document.body.append(nextFocusedEl);
-        document.body.append(previousFocusedEl);
-        document.body.append(fakeComponent.el);
-        previousFocusedEl.focus();
-        connectFocusTrap(fakeComponent, {
+        setUpTest({
           focusTrapOptions: {
             setReturnFocus: false,
           },
@@ -213,23 +208,11 @@ describe("focusTrapComponent", () => {
       });
 
       it("should use default setReturnFocus if custom function is not provided", async () => {
-        const happyDOM = (globalThis as any).happyDOM;
-        const fakeComponent = {} as FocusTrapComponent;
-        fakeComponent.el = document.createElement("div");
-        const insideButton = document.createElement("button");
-        insideButton.id = "inside-button";
-        fakeComponent.el.append(insideButton);
-        document.body.append(fakeComponent.el);
-        const previousFocusedEl = document.createElement("input");
-        document.body.append(previousFocusedEl);
-
-        connectFocusTrap(fakeComponent, {
+        setUpTest({
           focusTrapOptions: {
             setReturnFocus: undefined,
           },
         });
-
-        previousFocusedEl.focus();
 
         activateFocusTrap(fakeComponent);
         await happyDOM.waitUntilComplete();
