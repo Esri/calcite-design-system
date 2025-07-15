@@ -19,8 +19,8 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
-import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -271,13 +271,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         const cells = this.getGridCells();
         if (cells[focusIndex]) {
           this.focusCell(cells[focusIndex]);
+          return;
         } else {
-          return containerEl;
+          return { target: containerEl, mode: "container", type: "focusable" };
         }
-        return;
       }
 
-      return { target: containerEl, mode: "container" };
+      return { target: containerEl, mode: "container", type: "focusable" };
     });
   }
 

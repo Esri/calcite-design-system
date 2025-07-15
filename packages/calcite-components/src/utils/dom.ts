@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { tabbable } from "tabbable";
+import { focusable, tabbable } from "tabbable";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
@@ -266,19 +266,23 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  * @param {Element} el An element.
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param mode The mode to use when focusing. "auto" (default) uses `setFocus` if available, otherwise focuses the first tabbable element. "host" uses the element's `focus` method. "contents" focuses the first tabbable element.
+ * @param type
  */
 export async function focusElement(
   el: FocusableElement,
   mode: "auto" | "container" | "children" = "auto",
   context?: HTMLElement,
+  type: "focusable" | "tabbable" = "tabbable",
 ): Promise<void> {
   if (!el) {
     return;
   }
 
+  const firstFocusFunction = type === "tabbable" ? focusFirstTabbable : focusFirstFocusable;
+
   if (mode === "auto" && isCalciteFocusable(el)) {
     if (context === el) {
-      focusFirstTabbable(el);
+      firstFocusFunction(el);
       return;
     }
 
@@ -286,10 +290,10 @@ export async function focusElement(
   }
 
   if (mode === "container") {
-    return focusFirstTabbable(el, true);
+    return firstFocusFunction(el, true);
   }
 
-  return focusFirstTabbable(el);
+  return firstFocusFunction(el);
 }
 
 /**
@@ -316,6 +320,36 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  */
 export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean): void {
   getFirstTabbable(element, includeContainer)?.focus();
+}
+
+/**
+ * Helper to get the first focusable element.
+ *
+ * @param {HTMLElement} element The html element containing focusable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
+ * @returns the first focusable element.
+ *
+ * @internal
+ */
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+  if (!element) {
+    return;
+  }
+
+  return (focusable(element, { ...tabbableOptions, includeContainer })[0] ?? element) as HTMLElement;
+}
+
+/**
+ * Helper to focus the first focusable element.
+ *
+ * @param {HTMLElement} element The html element containing focusable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
+ * @internal
+ */
+function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean): void {
+  getFirstFocusable(element, includeContainer)?.focus();
 }
 
 /**

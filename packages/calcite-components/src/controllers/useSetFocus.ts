@@ -1,16 +1,15 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
-import { Promisable } from "type-fest";
 import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode } from "../utils/dom";
 
 type FocusMode = Parameters<typeof focusElement>[1];
+type FocusType = "focusable" | "tabbable";
+type FocusConfig = { target: FocusableElement; mode: FocusMode; type: FocusType };
 
 export interface UseSetFocus {
   // TODO: confirm if promisable is useful here or not
-  (
-    getFocusTarget: () => Promisable<FocusableElement | { target: FocusableElement; mode: FocusMode }> | undefined,
-  ): Promise<void>;
+  (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
 }
 
 interface SetFocusComponent extends LitElement {
@@ -45,12 +44,12 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
     });
 
     return async (getFocusTarget): Promise<void> => {
-      const focusConfig = toFocusConfig(await getFocusTarget());
+      const focusConfig = toFocusConfig(getFocusTarget());
       if (!focusConfig) {
         return;
       }
 
-      const { target, mode } = focusConfig;
+      const { target, mode, type } = focusConfig;
 
       const rootNode = getRootNode(component.el);
       const currentActiveElement = rootNode.activeElement;
@@ -65,23 +64,19 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
 
       component.el.removeEventListener("focus", handleFocusOut);
 
-      return focusElement(target, mode, component.el);
+      return focusElement(target, mode, component.el, type);
     };
   });
 };
 
-function isFocusOverride(
-  focusTarget: FocusableElement | { target: FocusableElement; mode: FocusMode },
-): focusTarget is { target: FocusableElement; mode: FocusMode } {
-  return (focusTarget as { target: FocusableElement; mode: FocusMode }).mode !== undefined;
+function isFocusOverride(focusTarget: FocusableElement | FocusConfig): focusTarget is FocusConfig {
+  return (focusTarget as FocusConfig).mode !== undefined;
 }
 
-function toFocusConfig(
-  focusTarget: FocusableElement | { target: FocusableElement; mode: FocusMode } | undefined,
-): { target: FocusableElement; mode: FocusMode } | undefined {
+function toFocusConfig(focusTarget: FocusableElement | FocusConfig | undefined): FocusConfig | undefined {
   if (!focusTarget) {
     return;
   }
 
-  return isFocusOverride(focusTarget) ? focusTarget : { target: focusTarget, mode: "auto" };
+  return isFocusOverride(focusTarget) ? focusTarget : { target: focusTarget, mode: "auto", type: "tabbable" };
 }
