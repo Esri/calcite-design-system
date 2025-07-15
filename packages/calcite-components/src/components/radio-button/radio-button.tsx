@@ -412,8 +412,6 @@ export class RadioButton
     ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
-    const radioButtonsLength = radioButtons.length;
-
     radioButtons.some((item, index) => {
       if (item.checked) {
         currentIndex = index;
@@ -425,19 +423,26 @@ export class RadioButton
       case "ArrowLeft":
       case "ArrowUp":
         event.preventDefault();
-        this.selectItem(
-          radioButtons,
-          getRoundRobinIndex(Math.max(currentIndex - 1, -1), radioButtonsLength),
-        );
+        this.selectItem(radioButtons, this.getNextNonDisabledIdx(radioButtons, currentIndex, -1));
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        this.selectItem(radioButtons, getRoundRobinIndex(currentIndex + 1, radioButtonsLength));
+        this.selectItem(radioButtons, this.getNextNonDisabledIdx(radioButtons, currentIndex));
         return;
       default:
         return;
     }
+  }
+
+  private getNextNonDisabledIdx(radioButtons: RadioButton[], startIdx: number, dir = 1): number {
+    const radioButtonsLength = radioButtons.length;
+    let selectIdx = getRoundRobinIndex(startIdx + dir, radioButtonsLength);
+    while (radioButtons[selectIdx].disabled) {
+      selectIdx = getRoundRobinIndex(selectIdx + dir, radioButtonsLength);
+    }
+
+    return selectIdx;
   }
 
   private onContainerBlur(): void {

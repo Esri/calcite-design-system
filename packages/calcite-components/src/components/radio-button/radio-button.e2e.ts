@@ -83,6 +83,51 @@ describe("calcite-radio-button", () => {
     expect(value).toBe("third");
   });
 
+  it("skips disabled radio-buttons", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-label layout="inline" id="1">
+        <calcite-radio-button value="trees" disabled name="bug2"></calcite-radio-button>
+        Trees
+      </calcite-label>
+      <calcite-label layout="inline">
+        <calcite-radio-button value="flowers" name="bug2"></calcite-radio-button>
+        Flowers
+      </calcite-label>
+      <calcite-label layout="inline">
+        <calcite-radio-button value="pedestals" disabled name="bug2"></calcite-radio-button>
+        pedestals
+      </calcite-label>
+      <calcite-label layout="inline">
+        <calcite-radio-button value="misc" id="misc" name="bug2"></calcite-radio-button>
+        misc
+      </calcite-label>
+    `);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    let selected = await page.find("calcite-radio-button[focused]");
+    let value = await selected.getProperty("value");
+    expect(value).toBe("flowers");
+
+    await selected.press("ArrowDown");
+    await page.waitForChanges();
+    await selected.press("ArrowDown");
+    await page.waitForChanges();
+
+    selected = await page.find("calcite-radio-button[focused]");
+    value = await selected.getProperty("value");
+    expect(value).toBe("misc");
+
+    await selected.press("ArrowDown");
+    await page.waitForChanges();
+
+    selected = await page.find("calcite-radio-button[focused]");
+    value = await selected.getProperty("value");
+    expect(value).toBe("flowers");
+  });
+
   describe("is focusable", () => {
     focusable("calcite-radio-button", {
       shadowFocusTargetSelector: ".container",
