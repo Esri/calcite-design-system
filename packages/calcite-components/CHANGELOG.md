@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.33...@esri/calcite-components@3.3.0-next.34) (2025-07-14)
+
+### Features
+
+- **time-picker:** apply rounded corners inside popover ([#12502](https://github.com/Esri/calcite-design-system/issues/12502)) ([6fcf7b4](https://github.com/Esri/calcite-design-system/commit/6fcf7b4fb4c523710f64d59f0f488e0c364ebcd5)), closes [#9533](https://github.com/Esri/calcite-design-system/issues/9533)
+
+## [3.3.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.32...@esri/calcite-components@3.3.0-next.33) (2025-07-12)
+
+### Features
+
+- **color-picker:** support hiding color-field ([#12484](https://github.com/Esri/calcite-design-system/issues/12484)) ([108925c](https://github.com/Esri/calcite-design-system/commit/108925c781ef13e18fb3fc82940c6aa73318cae4)), closes [#10031](https://github.com/Esri/calcite-design-system/issues/10031)
+
+## [3.3.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.31...@esri/calcite-components@3.3.0-next.32) (2025-07-10)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.30...@esri/calcite-components@3.3.0-next.31) (2025-07-10)
+
+### Features
+
+- **carousel:** Add component tokens ([#12474](https://github.com/Esri/calcite-design-system/issues/12474)) ([a6a81e5](https://github.com/Esri/calcite-design-system/commit/a6a81e54c0982661a6ad5da168284693b3497a75)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.3.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.29...@esri/calcite-components@3.3.0-next.30) (2025-07-09)
+
+### Features
+
+- **time-picker:** apply consistent styling for floating elements ([#12467](https://github.com/Esri/calcite-design-system/issues/12467)) ([cb745e9](https://github.com/Esri/calcite-design-system/commit/cb745e93383c3b2f49f63517d8d0020e1aea9ef6)), closes [#9533](https://github.com/Esri/calcite-design-system/issues/9533)
+
 ## [3.3.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.28...@esri/calcite-components@3.3.0-next.29) (2025-07-07)
 
 ### Bug Fixes

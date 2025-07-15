@@ -122,5 +122,10 @@
   }
 }
 
+calcite-time-picker {
+  --calcite-time-picker-border-color: transparent;
+  --calcite-time-picker-corner-radius: var(--calcite-corner-radius-round);
+}
+
 @include form-validation-message();
 @include base-component();

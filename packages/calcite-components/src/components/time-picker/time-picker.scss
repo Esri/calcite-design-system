@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-time-picker-background-color: Specifies the background color of the time picker.
+ * @prop --calcite-time-picker-border-color: Specifies the border color of the time picker.
  * @prop --calcite-time-picker-corner-radius: Specifies the border radius of the time picker.
  * @prop --calcite-time-picker-button-background-color-hover: Specifies the button's background color when hovered or focused.
  * @prop --calcite-time-picker-button-background-color-press: Specifies the button's background color when active.
@@ -19,14 +20,16 @@
 
 .time-picker {
   @apply flex
-    shadow-2
     select-none
     items-center
+    border-solid
+    border
     font-medium;
-
+  border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  overflow: hidden;
 
   .column {
     @apply flex
