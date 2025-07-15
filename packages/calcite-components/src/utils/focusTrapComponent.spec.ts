@@ -112,6 +112,7 @@ describe("focusTrapComponent", () => {
       expect(customFocusTrapStack).toHaveLength(1);
     });
   });
+
   describe("focusTrapDisabledOverride", () => {
     const fakeComponent = {} as FocusTrapComponent;
     let activateSpy: ReturnType<typeof vi.fn>;
@@ -139,6 +140,107 @@ describe("focusTrapComponent", () => {
       activateFocusTrap(fakeComponent);
 
       expect(activateSpy).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe("focusTrapOptions", () => {
+    describe("setReturnFocus option", () => {
+      it("should use custom setReturnFocus function if provided", async () => {
+        const happyDOM = (globalThis as any).happyDOM;
+        const fakeComponent = {} as FocusTrapComponent;
+        fakeComponent.el = document.createElement("div");
+        const insideButton = document.createElement("button");
+        insideButton.id = "inside-button";
+        fakeComponent.el.append(insideButton);
+        const previousFocusedEl = document.createElement("input");
+        previousFocusedEl.id = "previous-focused";
+        const nextFocusedEl = document.createElement("input");
+        nextFocusedEl.id = "next-focused";
+        document.body.append(nextFocusedEl);
+        document.body.append(previousFocusedEl);
+        document.body.append(fakeComponent.el);
+
+        previousFocusedEl.focus();
+        expect(document.activeElement).toBe(previousFocusedEl);
+
+        connectFocusTrap(fakeComponent, {
+          focusTrapOptions: {
+            setReturnFocus: () => {
+              return nextFocusedEl;
+            },
+          },
+        });
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(nextFocusedEl);
+      });
+
+      it("allows disabling return focus behavior", async () => {
+        const happyDOM = (globalThis as any).happyDOM;
+        const fakeComponent = {} as FocusTrapComponent;
+        fakeComponent.el = document.createElement("div");
+        const insideButton = document.createElement("button");
+        insideButton.id = "inside-button";
+        fakeComponent.el.append(insideButton);
+        const previousFocusedEl = document.createElement("input");
+        const nextFocusedEl = document.createElement("input");
+        document.body.append(nextFocusedEl);
+        document.body.append(previousFocusedEl);
+        document.body.append(fakeComponent.el);
+        previousFocusedEl.focus();
+        connectFocusTrap(fakeComponent, {
+          focusTrapOptions: {
+            setReturnFocus: false,
+          },
+        });
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+      });
+
+      it("should use default setReturnFocus if custom function is not provided", async () => {
+        const happyDOM = (globalThis as any).happyDOM;
+        const fakeComponent = {} as FocusTrapComponent;
+        fakeComponent.el = document.createElement("div");
+        const insideButton = document.createElement("button");
+        insideButton.id = "inside-button";
+        fakeComponent.el.append(insideButton);
+        document.body.append(fakeComponent.el);
+        const previousFocusedEl = document.createElement("input");
+        document.body.append(previousFocusedEl);
+
+        connectFocusTrap(fakeComponent, {
+          focusTrapOptions: {
+            setReturnFocus: undefined,
+          },
+        });
+
+        previousFocusedEl.focus();
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(previousFocusedEl);
+      });
     });
   });
 });

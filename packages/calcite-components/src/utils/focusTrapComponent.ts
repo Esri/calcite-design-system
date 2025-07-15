@@ -17,6 +17,17 @@ export interface FocusTrapComponent {
   focusTrap: FocusTrap;
 
   /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   */
+  focusTrapOptions?: Partial<FocusTrapOptions>;
+
+  /**
    * Method to update the element(s) that are used within the FocusTrap component.
    *
    * This should be implemented for components that allow user content and/or have conditionally-rendered focusable elements within the trap.
@@ -97,8 +108,6 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     setReturnFocus: (el) => {
       const returnFocusTarget =
         typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
-
-      console.log(returnFocusTarget, "RETURN FOCUS TARGET");
 
       return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
     },
