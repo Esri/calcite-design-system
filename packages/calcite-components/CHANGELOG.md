@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.35...@esri/calcite-components@3.3.0-next.36) (2025-07-15)
+
+### Features
+
+- **dialog, modal, popover, sheet:** add `setReturnFocus` to `focusTrapOptions` ([#12513](https://github.com/Esri/calcite-design-system/issues/12513)) ([2bb4dfc](https://github.com/Esri/calcite-design-system/commit/2bb4dfc74a41ad1bc5ee53ee4f1f2dfecd93828b)), closes [#9369](https://github.com/Esri/calcite-design-system/issues/9369)
+
 ## [3.3.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.34...@esri/calcite-components@3.3.0-next.35) (2025-07-15)
 
 ### Bug Fixes
