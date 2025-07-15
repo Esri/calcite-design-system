@@ -2,9 +2,9 @@
 **/package-lock.json
 
 # prevents modifying licenses
-THIRD-PARTY-LICENSES.md
+**/THIRD-PARTY-LICENSES.md
 
 # calcite-design-tokens
 
 ## source tokens are managed by the Tokens Studio plugin, which syncs directly to GitHub
-src/tokens/**/*.json
+packages/calcite-design-tokens/src/tokens/**/*.json
