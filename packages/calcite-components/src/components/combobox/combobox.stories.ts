@@ -1030,6 +1030,25 @@ export const withDescriptionShortLabelAndContentSlots = (): string => html`
     <calcite-icon icon="number-circle-6" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
 `;
+
+export const noMatchesOrAddCustomValue = (): string => html`
+  <div style="display: flex; gap: 48px; padding: 100px;">
+    <div>
+      <calcite-combobox open filter-text="Three" selection-mode="single">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+
+    <div>
+      <calcite-combobox open allow-custom-values filter-text="Three" selection-mode="single">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+  </div>
+`;
+
 withDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };
