@@ -1,11 +1,11 @@
 {
-  "space": {
+  "spacing": {
     "fixed": {
       "xxs": {
         "value": "{core.size.default.4}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -13,7 +13,7 @@
         "value": "{core.size.default.6}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -21,7 +21,7 @@
         "value": "{core.size.default.8}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -29,7 +29,7 @@
         "value": "{core.size.default.12}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -37,7 +37,7 @@
         "value": "{core.size.default.14}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -45,7 +45,7 @@
         "value": "{core.size.default.16}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -53,7 +53,7 @@
         "value": "{core.size.default.20}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       },
@@ -61,103 +61,102 @@
         "value": "{core.size.default.32}",
         "type": "spacing",
         "attributes": {
-          "category": "space"
+          "category": "spacing"
         },
         "description": "deprecated"
       }
     },
-    "none": {
-      "value": "{core.size.default.none}",
-      "type": "spacing",
-      "attributes": {
-        "pattern": "",
-        "category": "space"
-      }
-    },
-    "px": {
-      "value": "{core.size.default.1}",
-      "type": "spacing",
-      "attributes": {
-        "pattern": "",
-        "category": "space"
-      }
-    },
-    "base": {
-      "value": "{core.size.default.2}",
-      "type": "spacing",
-      "attributes": {
-        "pattern": "",
-        "category": "space"
-      }
-    },
-    "xxs": {
-      "value": "{core.size.default.4}",
-      "type": "dimension",
-      "attributes": {
-        "category": "size"
-      }
-    },
-    "xs": {
-      "value": "{core.size.default.6}",
-      "type": "dimension",
-      "attributes": {
-        "category": "size"
-      }
-    },
-    "sm": {
-      "value": "{core.size.default.8}",
-      "type": "dimension",
-      "attributes": {
-        "category": "size"
-      }
-    },
-    "sm+": {
-      "value": "{core.size.default.10}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "md": {
-      "value": "{core.size.default.12}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "md+": {
-      "value": "{core.size.default.14}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "lg": {
-      "value": "{core.size.default.16}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "xl": {
-      "value": "{core.size.default.20}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "xxl": {
-      "value": "{core.size.default.24}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
-      }
-    },
-    "xxxl": {
-      "value": "{core.size.default.32}",
-      "type": "dimension",
-      "attributes": {
-        "category": "space"
+    "default": {
+      "none": {
+        "value": "{core.size.default.none}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "px": {
+        "value": "{core.size.default.1}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "base": {
+        "value": "{core.size.default.2}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xxs": {
+        "value": "{core.size.default.4}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xs": {
+        "value": "{core.size.default.6}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "sm": {
+        "value": "{core.size.default.8}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "sm+": {
+        "value": "{core.size.default.10}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "md": {
+        "value": "{core.size.default.12}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "md+": {
+        "value": "{core.size.default.14}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "lg": {
+        "value": "{core.size.default.16}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xl": {
+        "value": "{core.size.default.20}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xxl": {
+        "value": "{core.size.default.24}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xxxl": {
+        "value": "{core.size.default.32}",
+        "type": "dimension",
+        "attributes": {
+          "category": "spacing"
+        }
       }
     }
   }

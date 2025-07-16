@@ -1,29 +1,31 @@
 {
-  "none": {
-    "value": "{core.shadow.0}",
-    "type": "boxShadow",
-    "attributes": {
-      "category": "shadow"
-    }
-  },
-  "sm": {
-    "value": [
-      "{core.shadow.1}",
-      "{core.shadow.2}"
-    ],
-    "type": "boxShadow",
-    "attributes": {
-      "category": "shadow"
-    }
-  },
-  "md": {
-    "value": [
-      "{core.shadow.3}",
-      "{core.shadow.4}"
-    ],
-    "type": "boxShadow",
-    "attributes": {
-      "category": "shadow"
+  "shadow": {
+    "none": {
+      "value": "{core.shadow.0}",
+      "type": "boxShadow",
+      "attributes": {
+        "category": "shadow"
+      }
+    },
+    "sm": {
+      "value": [
+        "{core.shadow.1}",
+        "{core.shadow.2}"
+      ],
+      "type": "boxShadow",
+      "attributes": {
+        "category": "shadow"
+      }
+    },
+    "md": {
+      "value": [
+        "{core.shadow.3}",
+        "{core.shadow.4}"
+      ],
+      "type": "boxShadow",
+      "attributes": {
+        "category": "shadow"
+      }
     }
   }
 }
