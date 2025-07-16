@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.36...@esri/calcite-components@3.3.0-next.37) (2025-07-16)
+
+### Bug Fixes
+
+- **dialog:** ensure beforeClose is called once and fix animation on dialog ([#12152](https://github.com/Esri/calcite-design-system/issues/12152)) ([14c86d1](https://github.com/Esri/calcite-design-system/commit/14c86d100562c2399aea7181652fc6a22c474f89)), closes [#10666](https://github.com/Esri/calcite-design-system/issues/10666) [#11917](https://github.com/Esri/calcite-design-system/issues/11917)
+
 ## [3.3.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.35...@esri/calcite-components@3.3.0-next.36) (2025-07-15)
 
 ### Features
