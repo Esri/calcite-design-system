@@ -95,6 +95,7 @@ export class Slider
     event.preventDefault();
     if (this.dragProp) {
       const value = this.mapToRange(event.clientX || event.pageX);
+      const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -114,6 +115,15 @@ export class Slider
           this.maxValueDragRange = this.maxValue - value;
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
+      } else if (
+        isRange(this.value) &&
+        isRange(this.previousEmittedValue) &&
+        this.dragProp === "maxValue" &&
+        previousEmittedMinValue === previousEmittedMaxValue &&
+        value < previousEmittedMinValue
+      ) {
+        this.dragProp = "minValue";
+        this.minHandle.focus();
       } else {
         this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
@@ -158,6 +168,8 @@ export class Slider
 
     this.dragEnd(event);
   };
+
+  private previousEmittedValue;
 
   private trackEl: HTMLDivElement;
 
@@ -368,6 +380,7 @@ export class Slider
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
+    this.previousEmittedValue = this.value;
   }
 
   load(): void {
@@ -639,6 +652,7 @@ export class Slider
 
   private emitChange(): void {
     this.calciteSliderChange.emit();
+    this.previousEmittedValue = this.value;
   }
 
   private removeDragListeners() {
