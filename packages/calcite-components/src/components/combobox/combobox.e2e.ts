@@ -2209,12 +2209,15 @@ describe("calcite-combobox", () => {
     it("should allow enter unknown tag when tabbing away", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox allow-custom-values>
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
-        </calcite-combobox>
-        <button>OK</button>
+        <div class="child" style="display: flex; flex-direction: row">
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+          <button>OK</button>
+          <div></div>
+        </div>
       `);
       const chip = await page.find("calcite-combobox >>> calcite-chip");
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");

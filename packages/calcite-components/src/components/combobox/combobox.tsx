@@ -148,6 +148,12 @@ export class Combobox
         }
       });
 
+      if (this.filteredItems.length === 0 && this.filterText) {
+        this.noMatches = this.allowCustomValues ? "add" : "none";
+      } else {
+        this.noMatches = null;
+      }
+
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
@@ -291,6 +297,8 @@ export class Combobox
 
     return filteredItems;
   }
+
+  @state() noMatches: "none" | "add" | null = null;
 
   //#endregion
 
@@ -1788,30 +1796,6 @@ export class Combobox
     return mappedListBoxOptions;
   }
 
-  private renderNoMatchesOrAddCustomText(): JsxNode {
-    const { allowCustomValues, filterText, open } = this;
-    if (!open || !filterText) {
-      return null;
-    }
-
-    const filteredItems = this.filteredItems.filter((item) => !isHidden(item));
-    if (filteredItems.length > 0) {
-      return null;
-    }
-
-    // const noMatchesMsg = messageOverrides?.noMatches ?? messages.noMatches;
-    // const addMsg = messageOverrides?.add ?? messages.add;
-
-    if (allowCustomValues) {
-      return (
-        <li class={CSS.noMatches}>
-          {"Add"} <strong>{filterText}</strong>
-        </li>
-      );
-    }
-    return <li class={CSS.noMatches}>{"No matches"}</li>;
-  }
-
   private renderFloatingUIContainer(): JsxNode {
     const { setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
@@ -1819,6 +1803,8 @@ export class Combobox
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open,
     };
+    // const noMatchesMsg = messageOverrides?.noMatches ?? messages.noMatches;
+    // const addMsg = messageOverrides?.add ?? messages.add;
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
@@ -1841,7 +1827,12 @@ export class Combobox
                 />
               )}
             <slot />
-            {this.renderNoMatchesOrAddCustomText()}
+            {this.noMatches === "add" && (
+              <li class={CSS.noMatches}>
+                {"Add"} <strong>{this.filterText}</strong>
+              </li>
+            )}
+            {this.noMatches === "none" && <li class={CSS.noMatches}>{"No matches"}</li>}
           </ul>
         </div>
       </div>
