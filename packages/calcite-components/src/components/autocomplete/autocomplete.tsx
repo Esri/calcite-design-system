@@ -869,6 +869,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"

@@ -76,8 +76,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private ignoreOpenChange = false;
-
   private interaction: Interactable;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
@@ -163,6 +161,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -204,11 +203,10 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this._open = open;
-      this.toggleDialog(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      this.setOpenState(value);
     }
   }
 
@@ -389,16 +387,22 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.calciteDialogClose.emit();
   }
 
-  private toggleDialog(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
+  private async setOpenState(value: boolean): Promise<void> {
+    if (this.beforeClose && !value) {
+      try {
+        await this.beforeClose?.();
+      } catch {
+        return;
+      }
     }
 
+    this._open = value;
+
     if (value) {
-      this.openDialog();
-    } else {
-      this.closeDialog();
+      await this.componentOnReady();
     }
+
+    this.opened = value;
   }
 
   private handleOpenedChange(value: boolean): void {
@@ -716,6 +720,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       return;
     }
 
+    event.preventDefault();
     event.stopPropagation();
     this.open = false;
   }
@@ -726,35 +731,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
   }
 
-  private async openDialog(): Promise<void> {
-    await this.componentOnReady();
-    this.opened = true;
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
     }
 
     this.open = false;
-  }
-
-  private async closeDialog(): Promise<void> {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose();
-      } catch {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    this.opened = false;
   }
 
   private handleMutationObserver(): void {
@@ -798,10 +780,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           <slot name={SLOTS.customContent}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                beforeClose={this.beforeClose}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
-                closed={!opened}
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}

@@ -1,7 +1,7 @@
 {
   "chooseDate": "Izberi datum",
-  "date": "Date",
+  "date": "Datum",
   "dateFormat": "Oblika datuma: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Datum zaključka",
+  "startDate": "Začetni datum"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.3.0-next.6",
+  "version": "4.3.0-next.8",
   "type": "module",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
@@ -59,7 +59,7 @@
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
-    "lint:ts": "eslint --fix . && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
+    "lint:ts": "eslint --fix && prettier --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"

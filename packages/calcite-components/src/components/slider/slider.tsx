@@ -66,8 +66,6 @@ export class Slider
 
   // #region Private Properties
 
-  private activeProp: ActiveSliderProperty = "value";
-
   defaultValue: Slider["value"];
 
   private dragEnd = (event: PointerEvent): void => {
@@ -168,6 +166,8 @@ export class Slider
   // #endregion
 
   // #region State Properties
+
+  @state() activeProp: ActiveSliderProperty = "value";
 
   @state() private maxValueDragRange: number = null;
 
