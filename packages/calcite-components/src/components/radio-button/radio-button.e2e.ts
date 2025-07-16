@@ -107,10 +107,9 @@ describe("calcite-radio-button", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    const selected = await page.find("calcite-radio-button[focused]");
-    const value = await selected.getProperty("value");
-    expect(value).toBe("flowers");
+    expect(await getFocusedElementProp<RadioButton["el"]>(page, "value")).toBe("flowers");
 
+    const selected = await page.find("calcite-radio-button[focused]");
     await selected.press("ArrowDown");
     await selected.press("ArrowDown");
 
