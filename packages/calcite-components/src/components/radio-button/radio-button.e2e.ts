@@ -114,11 +114,11 @@ describe("calcite-radio-button", () => {
     await selected.press("ArrowDown");
     await selected.press("ArrowDown");
 
-    expect(await getFocusedElementProp(page, "value")).toBe("misc");
+    expect(await getFocusedElementProp<RadioButton["el"]>(page, "value")).toBe("misc");
 
     await selected.press("ArrowDown");
 
-    expect(await getFocusedElementProp(page, "value")).toBe("flowers");
+    expect(await getFocusedElementProp<RadioButton["el"]>(page, "value")).toBe("flowers");
   });
 
   describe("is focusable", () => {

@@ -444,7 +444,7 @@ export class RadioButton
   private getNextNonDisabledIdx(
     radioButtons: RadioButton["el"][],
     startIndex: number,
-    dir = "left" | "right",
+    dir: "left" | "right",
   ): number {
     const totalButtons = radioButtons.length;
     const offset = dir === "left" ? -1 : 1;
