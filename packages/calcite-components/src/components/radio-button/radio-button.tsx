@@ -425,7 +425,7 @@ export class RadioButton
         event.preventDefault();
         this.selectItem(
           radioButtons,
-          this.getNextNonDisabledIdx(radioButtons, currentIndex, "left"),
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "left"),
         );
         return;
       case "ArrowRight":
@@ -433,7 +433,7 @@ export class RadioButton
         event.preventDefault();
         this.selectItem(
           radioButtons,
-          this.getNextNonDisabledIdx(radioButtons, currentIndex, "right"),
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "right"),
         );
         return;
       default:
@@ -441,7 +441,7 @@ export class RadioButton
     }
   }
 
-  private getNextNonDisabledIdx(
+  private getNextNonDisabledIndex(
     radioButtons: RadioButton["el"][],
     startIndex: number,
     dir: "left" | "right",
