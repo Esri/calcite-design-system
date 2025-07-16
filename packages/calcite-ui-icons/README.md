@@ -19,7 +19,7 @@ Every concept has 3 sizes:
 
 ### Why 3 Sizes?
 
-More info on what happens when you scale vector based icons [here](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons)
+See the [What Happens When You Scale Vector-Based Icons wiki entry](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons) for more info on scaling behavior.
 
 ### Outline icons are the standard
 
@@ -113,7 +113,7 @@ This will give you an object containing all the icons in the library at all size
 }
 ```
 
-*Note: path data omitted for brevity.*
+_Note: path data omitted for brevity._
 
 Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be annotated with the `multiPath` flag.
 
