@@ -3331,5 +3331,40 @@ describe("calcite-combobox", () => {
         },
       });
     });
+
+    describe("no-matches", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+            <calcite-combobox open allow-custom-values>
+              <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+              <calcite-combobox-item value="Maple" text-label="Maple"></calcite-combobox-item>
+            </calcite-combobox>
+          `);
+
+          const combobox = await page.find("calcite-combobox");
+          combobox.setProperty("filterText", "Oak");
+          await page.waitForChanges();
+          await page.waitForTimeout(DEBOUNCE.filter);
+
+          return { tag: "calcite-combobox", page };
+        },
+        {
+          "--calcite-combobox-background-color": {
+            shadowSelector: `.${CSS.noMatches}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-close-icon-color": {
+            shadowSelector: `.${CSS.noMatches}`,
+            targetProp: "color",
+          },
+          "--calcite-combobox-input-text-color": {
+            shadowSelector: `.${CSS.noMatches} >>> strong`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 });
