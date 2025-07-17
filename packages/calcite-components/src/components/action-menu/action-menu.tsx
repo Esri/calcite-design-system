@@ -20,7 +20,7 @@ import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS, IDS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -45,7 +45,7 @@ export class ActionMenu extends LitElement {
 
   // #region Private Properties
 
-  private guid = `calcite-action-menu-${guid()}`;
+  private guid = guid();
 
   private actionElements: Action["el"][] = [];
 
@@ -55,7 +55,7 @@ export class ActionMenu extends LitElement {
     this.toggleOpen();
   };
 
-  private menuButtonId = `${this.guid}-menu-button`;
+  private menuButtonId = IDS.button(this.guid);
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -95,7 +95,7 @@ export class ActionMenu extends LitElement {
     this.handleActionNavigation(event, key, actionElements);
   };
 
-  private menuId = `${this.guid}-menu`;
+  private menuId = IDS.menu(this.guid);
 
   private _open = false;
 
@@ -107,8 +107,7 @@ export class ActionMenu extends LitElement {
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
-    const id = `${guid}-action-${index}`;
-
+    const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
 
@@ -366,7 +365,7 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true,
@@ -384,6 +383,7 @@ export class ActionMenu extends LitElement {
         return previousValue;
       }, []);
 
+    await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   }
 

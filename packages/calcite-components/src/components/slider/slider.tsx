@@ -66,8 +66,6 @@ export class Slider
 
   // #region Private Properties
 
-  private activeProp: ActiveSliderProperty = "value";
-
   defaultValue: Slider["value"];
 
   private dragEnd = (event: PointerEvent): void => {
@@ -139,7 +137,7 @@ export class Slider
     return numberStringFormatter.localize(value.toString());
   };
 
-  private guid = `calcite-slider-${guid()}`;
+  private guid = IDS.host(guid());
 
   labelEl: Label["el"];
 
@@ -166,6 +164,8 @@ export class Slider
   // #endregion
 
   // #region State Properties
+
+  @state() activeProp: ActiveSliderProperty = "value";
 
   @state() private maxValueDragRange: number = null;
 
@@ -1124,7 +1124,7 @@ export class Slider
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
-            [`scale--${this.scale}`]: true,
+            [CSS.scale(this.scale)]: true,
           }}
         >
           {this.renderGraph()}

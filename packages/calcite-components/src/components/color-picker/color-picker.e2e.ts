@@ -63,6 +63,10 @@ describe("calcite-color-picker", () => {
         propertyName: "scale",
         value: "m",
       },
+      {
+        propertyName: "fieldDisabled",
+        value: true,
+      },
     ]);
   });
 
@@ -86,6 +90,10 @@ describe("calcite-color-picker", () => {
       },
       {
         propertyName: "clearable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "fieldDisabled",
         defaultValue: false,
       },
       {
@@ -2234,13 +2242,14 @@ describe("calcite-color-picker", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-color-picker></calcite-color-picker>`);
 
-    type HiddenSection = "hex" | "channels" | "saved";
+    type HiddenSection = "hex" | "channels" | "saved" | "field";
 
     async function assertHiddenSection(hiddenSections: HiddenSection[]): Promise<void> {
       const sectionVisibility: Record<HiddenSection, boolean> = {
         hex: true,
         channels: true,
         saved: true,
+        field: true,
       };
 
       hiddenSections.forEach((section) => (sectionVisibility[section] = false));
@@ -2256,16 +2265,18 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
       }
 
-      const [hex, channels, saved] = await Promise.all([
+      const [hex, channels, saved, field] = await Promise.all([
         page.find(`calcite-color-picker >>> .${CSS.hexOptions}`),
         page.find(`calcite-color-picker >>> .${CSS.colorModeContainer}`),
         page.find(`calcite-color-picker >>> .${CSS.savedColors}`),
+        page.find(`calcite-color-picker >>> .${CSS.colorField}`),
       ]);
 
       const sectionNodes: Record<HiddenSection, E2EElement> = {
         hex,
         channels,
         saved,
+        field,
       };
 
       sections.forEach((section) => {
@@ -2276,13 +2287,14 @@ describe("calcite-color-picker", () => {
       });
     }
 
-    await assertHiddenSection(["hex", "channels", "saved"]);
+    await assertHiddenSection(["hex", "channels", "saved", "field"]);
     await assertHiddenSection(["hex", "channels"]);
     await assertHiddenSection(["hex", "saved"]);
     await assertHiddenSection(["hex"]);
     await assertHiddenSection(["channels", "saved"]);
     await assertHiddenSection(["saved"]);
     await assertHiddenSection(["channels"]);
+    await assertHiddenSection(["field"]);
     await assertHiddenSection([]);
   });
 

@@ -6,3 +6,14 @@ export const CSS = {
   widthHalf: "width-half",
   widthFull: "width-full",
 };
+
+export const SLOTS = {
+  trigger: "trigger",
+};
+
+export const ICONS = {
+  chevronDown: "chevronDown",
+  caretDown: "caretDown",
+  ellipsis: "ellipsis",
+  handleVertical: "handle-vertical",
+};

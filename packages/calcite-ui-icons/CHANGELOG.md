@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.9...@esri/calcite-ui-icons@4.3.0-next.10) (2025-07-17)
+
+### Features
+
+- add arrow left 10 and arrow right 10 ([#12541](https://github.com/Esri/calcite-design-system/issues/12541)) ([301416e](https://github.com/Esri/calcite-design-system/commit/301416e0f96958265edc9b26808a958edd84ccdc))
+
+## [4.3.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.8...@esri/calcite-ui-icons@4.3.0-next.9) (2025-07-17)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.7...@esri/calcite-ui-icons@4.3.0-next.8) (2025-07-14)
+
+### Features
+
+- add person magnifying glass ([#12509](https://github.com/Esri/calcite-design-system/issues/12509)) ([42dc729](https://github.com/Esri/calcite-design-system/commit/42dc7297395095e9a92cc898bb52113d6ea4cb6c))
+
+## [4.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.6...@esri/calcite-ui-icons@4.3.0-next.7) (2025-07-10)
+
+### Features
+
+- add dimensions centered ([#12483](https://github.com/Esri/calcite-design-system/issues/12483)) ([5b4b3b5](https://github.com/Esri/calcite-design-system/commit/5b4b3b518389f716ef613f0a2c75ca58f80c6091))
+
+## [4.3.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.5...@esri/calcite-ui-icons@4.3.0-next.6) (2025-07-03)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.4...@esri/calcite-ui-icons@4.3.0-next.5) (2025-07-02)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
 ## [4.3.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.3...@esri/calcite-ui-icons@4.3.0-next.4) (2025-07-02)
 
 ### Features
