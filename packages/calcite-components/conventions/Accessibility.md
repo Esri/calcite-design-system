@@ -1,11 +1,3 @@
-<style>
-    span {
-        background-color:gray; 
-        border-radius: 0.5rem; 
-        padding:0.2rem
-    }
-</style>
-
 # Accessibility
 
 Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.org/WAI/standards-guidelines) to ensure the applications and experiences are usable by a wide range of audiences. Additional considerations in designing for individuals include:
@@ -23,43 +15,43 @@ Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.or
 
 ### Content
 
-- [ ] Information should not depend on color, sound, shape, size, or visual location <span>design</span>
-- [ ] Text and background color should have sufficient contrast <span>design</span>
-- [ ] Links should be descriptive and provide intent <span>design</span>
-- [ ] Links should be visually identifiable <span>design</span>
-- [ ] Use descriptive section headings <span>design</span>
-- [ ] Content should use semantic HTML elements <span>development</span>
-- [ ] HTML should be valid and error-free <span>development</span>
-- [ ] Forms have descriptive labels <span>design</span>
-- [ ] Forms have helpful and accessible error and verification messages <span>design</span>
-- [ ] Labels and help text should be programmatically associated with form fields <span>development</span>
-- [ ] Use correct HTML5 input types <span>development</span>
-- [ ] Content does not loose context when zoomed/enlarged <span>development</span>
-- [ ] Site should not time out unexpectedly <span>design</span>, <span>development</span>
-- [ ] Pages are understandable with no styles enabled <span>development</span>
-- [ ] Web page size should not exceed 500k <span>development</span>
+- [ ] Information should not depend on color, sound, shape, size, or visual location ==design==
+- [ ] Text and background color should have sufficient contrast ==design==
+- [ ] Links should be descriptive and provide intent ==design==
+- [ ] Links should be visually identifiable ==design==
+- [ ] Use descriptive section headings ==design==
+- [ ] Content should use semantic HTML elements ==development==
+- [ ] HTML should be valid and error-free ==development==
+- [ ] Forms have descriptive labels ==design==
+- [ ] Forms have helpful and accessible error and verification messages ==design==
+- [ ] Labels and help text should be programmatically associated with form fields ==development==
+- [ ] Use correct HTML5 input types ==development==
+- [ ] Content does not loose context when zoomed/enlarged ==development==
+- [ ] Site should not time out unexpectedly ==design==, ==development==
+- [ ] Pages are understandable with no styles enabled ==development==
+- [ ] Web page size should not exceed 500k ==development==
 
 ### Keyboard & assistive technology
 
-- [ ] Users should be able to navigate content using a screen reader <span>design</span>, <span>development</span>
-- [ ] Avoid mouse only interactions <span>design</span>, <span>development</span>
-- [ ] Support keyboard navigation <span>development</span>
-- [ ] Focus states should be visible for keyboard users <span>design</span>, <span>development</span>
-- [ ] Allow keyboard users to skip navigation <span>development</span>
-- [ ] Offer multiple ways to find pages on your website <span>design</span>
-- [ ] Use ARIA landmarks where applicable <span>development</span>
-- [ ] Set focus on modals, popovers, alerts, etc. <span>development</span>
+- [ ] Users should be able to navigate content using a screen reader ==design==, ==development==
+- [ ] Avoid mouse only interactions ==design==, ==development==
+- [ ] Support keyboard navigation ==development==
+- [ ] Focus states should be visible for keyboard users ==design==, ==development==
+- [ ] Allow keyboard users to skip navigation ==development==
+- [ ] Offer multiple ways to find pages on your website ==design==
+- [ ] Use ARIA landmarks where applicable ==development==
+- [ ] Set focus on modals, popovers, alerts, etc. ==development==
 
 ### Multimedia & data visualization
 
-- [ ] Images should have meaningful alternative text or intentionally marked decorative <span>design</span>, <span>development</span>
-- [ ] Decorative images should not be visible to screen readers <span>development</span>
-- [ ] Content that moves automatically has the ability to be paused <span>design</span>, <span>development</span>
-- [ ] Limit or remove any flashing elements <span>design</span>
-- [ ] Ensure audio and video is not played automatically unless that is the expected behavior <span>development</span>
-- [ ] Multimedia should have alternative ways to be consumed <span>design</span>, <span>development</span>
-- [ ] Make data available for graphs, charts, maps, SVGs, etc. through assistive technology <span>design</span>, <span>development</span>
-- [ ] Table data is accessible to non-sighted users <span>development</span>
+- [ ] Images should have meaningful alternative text or intentionally marked decorative ==design==, ==development==
+- [ ] Decorative images should not be visible to screen readers ==development==
+- [ ] Content that moves automatically has the ability to be paused ==design==, ==development==
+- [ ] Limit or remove any flashing elements ==design==
+- [ ] Ensure audio and video is not played automatically unless that is the expected behavior ==development==
+- [ ] Multimedia should have alternative ways to be consumed ==design==, ==development==
+- [ ] Make data available for graphs, charts, maps, SVGs, etc. through assistive technology ==design==, ==development==
+- [ ] Table data is accessible to non-sighted users ==development==
 
 ### Renderring SVG elements within components
 
