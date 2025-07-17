@@ -219,7 +219,7 @@ Calcite follows [Conventional Commits](https://www.conventionalcommits.org/en/v1
 Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
 
 - [Commit type](#commit-type)
-- [Scope of change](#scope-of-change), *optional*
+- [Scope of change](#scope-of-change), _optional_
 - [Descriptive commit subject](#descriptive-commit-subject)
 
 Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
@@ -240,7 +240,7 @@ Contributions must adhere to **one** of the following types:
 
 ### Scope of change
 
-*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+_Optional_. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
 
 - `text-area`
 - `dropdown, dropdown-group, dropdown-item`

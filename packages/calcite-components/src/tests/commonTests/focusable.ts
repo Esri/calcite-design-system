@@ -1,17 +1,9 @@
 // @ts-strict-ignore
-import {} from "../utils/puppeteer";
 import { expect, it } from "vitest";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
 export interface FocusableOptions {
-  /**
-   * use this to pass an ID to setFocus()
-   *
-   * @deprecated components should no longer use a focusId parameter for setFocus()
-   */
-  focusId?: string;
-
   /** selector used to assert the focused DOM element */
   focusTargetSelector?: string;
 
@@ -37,7 +29,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
     const { page, tag } = await getTagAndPage(componentTestSetup);
     const element = await page.find(tag);
     const focusTargetSelector = options?.focusTargetSelector || tag;
-    await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
+    await element.callMethod("setFocus"); // assumes element is FocusableElement
 
     if (options?.shadowFocusTargetSelector) {
       expect(
