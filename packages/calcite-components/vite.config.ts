@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- follows vitest doc, see https://vitest.dev/guide/#configuring-vitest
+/// <reference types="vitest/config" />
+
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -35,11 +38,6 @@ export default defineConfig({
           // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
           bundleIn: nonEsmDependencies,
         },
-        ssr: {
-          stencilCompatibility: {
-            enabled: true,
-          },
-        },
         wrappers: [
           {
             type: "react18",
@@ -70,16 +68,10 @@ export default defineConfig({
         additionalData(code: string, id: string) {
           const globalCss = "/src/assets/styles/includes";
           if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
-            return undefined;
+            return "";
           }
           return `@import "${globalCss}";\n${code}`;
         },
-        silenceDeprecations: [
-          // TODO: [MIGRATION] Migrate away from deprecated SASS import syntax. See https://github.com/Esri/calcite-design-system/issues/10583
-          "import",
-          // TODO: [MIGRATION] Migrate away from deprecated SASS global built-ins. See https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=refactor%2C0+-+new%2Cneeds+triage&projects=&template=refactor.yml
-          "global-builtin",
-        ],
       },
     },
     postcss: {
