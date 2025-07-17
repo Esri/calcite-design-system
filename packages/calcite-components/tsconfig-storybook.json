@@ -1,4 +1,0 @@
-{
-  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
-  "include": [".storybook/declarations.d.ts", "src/**/*.stories.ts"]
-}
