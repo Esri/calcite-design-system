@@ -774,6 +774,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     if (this.willFilterEmit) {
       this.willFilterEmit = false;
+      console.log("emitted with ", filteredItems.length);
       this.calciteListFilter.emit();
     }
   }
