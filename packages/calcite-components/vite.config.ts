@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- follows vitest doc, see https://vitest.dev/guide/#configuring-vitest
-/// <reference types="vitest/config" />
-
 import { execSync } from "child_process";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import autoprefixer from "autoprefixer";
