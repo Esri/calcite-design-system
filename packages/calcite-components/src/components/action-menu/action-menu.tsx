@@ -365,7 +365,7 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true,
@@ -383,6 +383,7 @@ export class ActionMenu extends LitElement {
         return previousValue;
       }, []);
 
+    await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   }
 
