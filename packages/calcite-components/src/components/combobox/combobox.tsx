@@ -251,6 +251,29 @@ export class Combobox
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
+
+  private customChipAddHandler = (): void => {
+    this.addCustomChip(this.filterText, true);
+  };
+
   //#endregion
 
   //#region State Properties
@@ -638,25 +661,6 @@ export class Combobox
 
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
-  }
-
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
-
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
   }
 
   private filterTextChange(value: string): void {
@@ -1820,7 +1824,14 @@ export class Combobox
               )}
             <slot />
             {this.noMatches === "add" && (
-              <li class={CSS.noMatches}>
+              <li
+                aria-label={`${add} ${this.filterText}`}
+                class={CSS.noMatches}
+                onClick={this.customChipAddHandler}
+                role="option"
+                style={{ cursor: "pointer" }}
+                tabIndex={0}
+              >
                 {add} <strong>{this.filterText}</strong>
               </li>
             )}
