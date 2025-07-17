@@ -18,6 +18,7 @@ import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resour
 import {
   dragAndDrop,
   findAll,
+  flushNextEvents,
   getFocusedElementProp,
   GlobalTestProps,
   isElementFocused,
@@ -2206,7 +2207,7 @@ describe("calcite-list", () => {
       const filterSpy = await list.spyOnEvent("calciteListFilter");
       await page.keyboard.type("Bui");
       await page.waitForChanges();
-      await filterSpy.next();
+      await flushNextEvents(filterSpy);
 
       expect(await list.getProperty("filterText")).toBe("Bui");
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
@@ -2222,7 +2223,8 @@ describe("calcite-list", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await flushNextEvents(filterSpy);
+
       expect(await list.getProperty("filterText")).toBe("");
       expect(await list.getProperty("filteredItems")).toHaveLength(8);
 
@@ -2237,7 +2239,8 @@ describe("calcite-list", () => {
 
       await page.keyboard.type("Bea");
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await flushNextEvents(filterSpy);
+
       expect(await list.getProperty("filterText")).toBe("Bea");
       expect(await list.getProperty("filteredItems")).toHaveLength(4);
 
@@ -2252,7 +2255,8 @@ describe("calcite-list", () => {
 
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
+      await flushNextEvents(filterSpy);
+
       expect(await list.getProperty("filterText")).toBe("Be");
       expect(await list.getProperty("filteredItems")).toHaveLength(4);
     });

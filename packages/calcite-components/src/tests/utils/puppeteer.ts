@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, ToElement } from "@arcgis/lumina";
-import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "../commonTests/interfaces";
 import { waitForAnimationFrame as waitForRaf } from "./timing";
@@ -643,4 +643,16 @@ export async function createEventTimePropValuesAsserter<
   );
 
   return () => callbackAfterEvent.then(onEvent);
+}
+
+/**
+ * Awaits all unhandled events received by the spy
+ *
+ * @param spy
+ */
+export async function flushNextEvents(spy: EventSpy): Promise<void> {
+  let event;
+  do {
+    ({ value: event } = await spy.next());
+  } while (event !== undefined && event !== spy.lastEvent);
 }
