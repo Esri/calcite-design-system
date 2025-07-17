@@ -105,4 +105,4 @@ export default defineConfig({
    * See https://vite.dev/config/
    * See https://vitest.dev/config/
    */
-} as any);
+});
