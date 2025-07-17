@@ -95,7 +95,6 @@ export class Slider
     event.preventDefault();
     if (this.dragProp) {
       const value = this.mapToRange(event.clientX || event.pageX);
-      const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
       if (isRange(this.value) && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -118,12 +117,16 @@ export class Slider
       } else if (
         isRange(this.value) &&
         isRange(this.previousEmittedValue) &&
-        this.dragProp === "maxValue" &&
-        previousEmittedMinValue === previousEmittedMaxValue &&
-        value < previousEmittedMinValue
+        this.dragProp === "maxValue"
       ) {
-        this.dragProp = "minValue";
-        this.minHandle.focus();
+        const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
+        if (
+          previousEmittedMinValue === previousEmittedMaxValue &&
+          value < previousEmittedMinValue
+        ) {
+          this.dragProp = "minValue";
+          this.minHandle.focus();
+        }
       } else {
         this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
