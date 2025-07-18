@@ -71,6 +71,7 @@
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
     "util:prep-build-reqs": "npm run util:copy-assets",
+    "util:sync-t9n-en-bundles": "tsx support/syncEnT9nBundles.ts",
     "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
