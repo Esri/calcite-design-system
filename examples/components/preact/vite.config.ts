@@ -10,7 +10,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: resolve("node_modules", "@esri", "calcite-components", "dist", "calcite", "assets"),
+          src: resolve("node_modules", "@esri", "calcite-components", "dist", "cdn", "assets"),
           dest: ".",
         },
       ],

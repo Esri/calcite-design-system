@@ -7,7 +7,7 @@
   } = await import("fs");
   try {
     const outFile = resolve(import.meta.dirname, "..", "dist", "docs", "translations.json");
-    const assetsPaths = resolve(import.meta.dirname, "..", "dist", "calcite", "assets");
+    const assetsPaths = resolve(import.meta.dirname, "..", "dist", "cdn", "assets");
     const components = await readdir(assetsPaths);
 
     const data = {};
