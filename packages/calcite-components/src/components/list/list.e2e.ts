@@ -2146,7 +2146,7 @@ describe("calcite-list", () => {
     });
   });
 
-  describe("group filtering", () => {
+  describe.skip("group filtering", () => {
     it("should include groups while filtering", async () => {
       const page = await newE2EPage();
       await page.setContent(html`

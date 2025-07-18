@@ -1,18 +1,18 @@
 {
-  "name": "@esri/eslint-config-calcite",
-  "version": "0.0.1-next.3",
+  "name": "@esri/calcite-typescript-config",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "The shared ESLint config for Esri's Calcite Design System",
+  "description": "The shared TypeScript config for Esri's Calcite Design System",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
-    "directory": "packages/eslint-config-calcite"
+    "directory": "packages/typescript-config"
   },
   "license": "SEE LICENSE.md",
   "files": [
-    "core.js",
-    "jsx.js"
+    "tsconfig.base.json",
+    "tsconfig.lumina.json"
   ]
 }

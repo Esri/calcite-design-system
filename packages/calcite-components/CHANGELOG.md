@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.38...@esri/calcite-components@3.3.0-next.39) (2025-07-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.37...@esri/calcite-components@3.3.0-next.38) (2025-07-17)
+
+### Bug Fixes
+
+- **action-menu:** ensure children are ready before setting a11y attributes ([#12533](https://github.com/Esri/calcite-design-system/issues/12533)) ([8cc4821](https://github.com/Esri/calcite-design-system/commit/8cc4821a59bd3d6a4cda7695716c36efab6d2552)), closes [#12532](https://github.com/Esri/calcite-design-system/issues/12532)
+- **radio-button:** fix navigation with disabled buttons ([#12514](https://github.com/Esri/calcite-design-system/issues/12514)) ([97f36f7](https://github.com/Esri/calcite-design-system/commit/97f36f7f9a2c1f940c0f94d94f56060217dc8822)), closes [#10844](https://github.com/Esri/calcite-design-system/issues/10844)
+
 ## [3.3.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.36...@esri/calcite-components@3.3.0-next.37) (2025-07-16)
 
 ### Bug Fixes
