@@ -12,7 +12,7 @@ export interface UseSetFocus {
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
 }
 
-interface SetFocusComponent extends LitElement, InteractiveComponent {
+interface SetFocusComponent extends LitElement, Partial<Pick<InteractiveComponent, "disabled">> {
   /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
   setFocus: () => Promise<void>;
 }
