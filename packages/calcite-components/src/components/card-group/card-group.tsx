@@ -71,9 +71,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (!this.disabled) {
-        return this.items[0];
-      }
+      return this.items[0];
     });
   }
 

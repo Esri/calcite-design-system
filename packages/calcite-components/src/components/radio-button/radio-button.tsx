@@ -128,9 +128,7 @@ export class RadioButton
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (!this.disabled) {
-        return this.containerEl;
-      }
+      return this.containerEl;
     });
   }
 

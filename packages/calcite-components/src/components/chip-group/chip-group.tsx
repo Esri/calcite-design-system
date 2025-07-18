@@ -82,9 +82,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (!this.disabled) {
-        return this.selectedItems[0] || this.items[0];
-      }
+      return this.selectedItems[0] || this.items[0];
     });
   }
 

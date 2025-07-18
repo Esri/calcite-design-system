@@ -130,9 +130,7 @@ export class Card extends LitElement implements InteractiveComponent {
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (!this.disabled) {
-        return this.containerEl.value;
-      }
+      return this.containerEl.value;
     });
   }
 

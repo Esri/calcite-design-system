@@ -2,6 +2,7 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode } from "../utils/dom";
+import { type InteractiveComponent } from "../utils/interactive";
 
 type FocusMode = Parameters<typeof focusElement>[1];
 type FocusType = "focusable" | "tabbable";
@@ -11,7 +12,7 @@ export interface UseSetFocus {
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
 }
 
-interface SetFocusComponent extends LitElement {
+interface SetFocusComponent extends LitElement, InteractiveComponent {
   /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
   setFocus: () => Promise<void>;
 }
@@ -43,6 +44,10 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
     });
 
     return async (getFocusTarget): Promise<void> => {
+      if (component.disabled) {
+        return;
+      }
+
       const focusConfig = toFocusConfig(getFocusTarget());
       if (!focusConfig) {
         return;

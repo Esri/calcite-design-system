@@ -139,9 +139,9 @@ export class Chip extends LitElement implements InteractiveComponent {
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (!this.disabled && this.interactive) {
+      if (this.interactive) {
         return this.containerEl.value;
-      } else if (!this.disabled && this.closable) {
+      } else if (this.closable) {
         return this.closeButtonEl.value;
       }
     });
