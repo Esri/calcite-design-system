@@ -88,7 +88,7 @@ describe("useSetFocus", () => {
 
     expect(document.activeElement).not.toBe(el);
 
-    const input = el.shadowRoot.querySelector("calcite-input");
+    const input = el.shadowRoot.querySelector("calcite-input")!;
     await input.setFocus();
 
     const spy = vi.spyOn(input, "setFocus");
@@ -139,7 +139,7 @@ describe("useSetFocus", () => {
     const { el } = await mount(Test);
     expect(document.activeElement).not.toBe(el);
 
-    const input = el.shadowRoot.querySelector("calcite-input");
+    const input = el.shadowRoot.querySelector("calcite-input")!;
     await input.setFocus();
 
     const spy = vi.spyOn(input, "setFocus");
@@ -177,7 +177,7 @@ describe("useSetFocus", () => {
 
     expect(document.activeElement).toBe(document.body);
 
-    const input = el.shadowRoot.querySelector("calcite-input");
+    const input = el.shadowRoot.querySelector("calcite-input")!;
     const spy = vi.spyOn(input, "setFocus");
     const setFocusPromise = el.setFocus();
     i.focus();
