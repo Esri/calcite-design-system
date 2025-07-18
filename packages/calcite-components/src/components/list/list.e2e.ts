@@ -1339,12 +1339,14 @@ describe("calcite-list", () => {
           </calcite-list-item>
         </calcite-list>
       `);
+      await page.waitForChanges();
       const list = await page.find("calcite-list");
       await list.callMethod("setFocus");
       await page.waitForChanges();
 
       const one = await page.find("#one");
       expect(await one.getProperty("open")).toBe(false);
+
       expect(await isElementFocused(page, "#one")).toBe(true);
 
       await list.press("ArrowRight");

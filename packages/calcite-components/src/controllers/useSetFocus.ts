@@ -8,7 +8,6 @@ type FocusType = "focusable" | "tabbable";
 type FocusConfig = { target: FocusableElement; mode: FocusMode; type: FocusType };
 
 export interface UseSetFocus {
-  // TODO: confirm if promisable is useful here or not
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
 }
 
