@@ -126,6 +126,8 @@ export class Slider
         ) {
           this.dragProp = "minValue";
           this.minHandle.focus();
+        } else {
+          this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
         }
       } else {
         this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
