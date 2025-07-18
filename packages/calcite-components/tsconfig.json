@@ -1,12 +1,14 @@
 {
+  "extends": "@esri/calcite-typescript-config/tsconfig.lumina.json",
   "compilerOptions": {
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
     "plugins": [
       {
         "name": "typescript-strict-plugin"
       }
     ]
   },
-  "extends": "./tsconfig-base",
   "include": ["src", "*.ts"],
   "exclude": ["src/demos/**/*", "src/tests/**/*", "src/**/*.stories.ts"]
 }
