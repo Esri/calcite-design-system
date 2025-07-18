@@ -524,16 +524,65 @@ describe("dom", () => {
   });
 
   describe("focusElementInGroup()", () => {
-    it("should cycle through the array by default", () => {
-      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
+    function createElements(withFocusableChild = false): HTMLElement[] {
+      const totalItems = 3;
+
+      return Array.from({ length: totalItems }, (_, index) => {
+        const el = document.createElement("div");
+        el.id = `item-${index}`;
+        el.tabIndex = 0;
+
+        if (withFocusableChild) {
+          const child = document.createElement("div");
+          child.id = `child-${index}`;
+          child.tabIndex = 0;
+          el.append(child);
+        }
+
+        return el;
+      });
+    }
+
+    it("cycles through the array by default", () => {
+      const elements = createElements();
+      document.body.append(...elements);
+
       expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
+      expect(document.activeElement).toBe(elements[2]);
       expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
+      expect(document.activeElement).toBe(elements[0]);
     });
 
-    it("should not cycle through the array", () => {
-      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
+    it("supports not cycling through the array", () => {
+      const elements = createElements();
+      document.body.append(...elements);
+
       expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
+      expect(document.activeElement).toBe(elements[0]);
       expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
+      expect(document.activeElement).toBe(elements[2]);
+    });
+
+    describe("when item and first child are both focusable", () => {
+      it("focus item (default)", () => {
+        const elements = createElements(true);
+        document.body.append(...elements);
+
+        expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
+        expect(document.activeElement).toBe(elements[2]);
+        expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
+        expect(document.activeElement).toBe(elements[0]);
+      });
+
+      it("focus item's first focusable", () => {
+        const elements = createElements(true);
+        document.body.append(...elements);
+
+        expect(focusElementInGroup(elements, elements[0], "previous", true, false)).toBe(elements[2]);
+        expect(document.activeElement).toBe(elements[2].firstElementChild);
+        expect(focusElementInGroup(elements, elements[2], "next", true, false)).toBe(elements[0]);
+        expect(document.activeElement).toBe(elements[0].firstElementChild);
+      });
     });
   });
 
