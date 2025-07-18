@@ -328,8 +328,7 @@ export class Slider
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      const handle = this.minHandle ? this.minHandle : this.maxHandle;
-      return handle;
+      return this.minHandle || this.maxHandle;
     });
   }
 

@@ -114,15 +114,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
       const noticeLinkEl = this.el.querySelector("calcite-link");
-
-      if (!this.closeButton.value && !noticeLinkEl) {
-        return;
-      }
-      if (noticeLinkEl) {
-        return noticeLinkEl;
-      } else if (this.closeButton.value) {
-        return this.closeButton.value;
-      }
+      return noticeLinkEl || this.closeButton.value;
     });
   }
 

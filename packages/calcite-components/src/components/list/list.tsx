@@ -355,11 +355,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @method()
   async setFocus(): Promise<void> {
     return this.focusSetter(() => {
-      if (this.filterEnabled) {
-        return this.filterEl;
-      }
-
-      return this.focusableItems.find((listItem) => listItem.active);
+      return this.filterEnabled
+        ? this.filterEl
+        : this.focusableItems.find((listItem) => listItem.active);
     });
   }
 
