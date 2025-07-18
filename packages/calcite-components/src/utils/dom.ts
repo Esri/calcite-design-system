@@ -264,36 +264,26 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
  *
  * @param {Element} el An element.
+ * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
- * @param mode The mode to use when focusing. "auto" (default) uses `setFocus` if available, otherwise focuses the first tabbable element. "host" uses the element's `focus` method. "contents" focuses the first tabbable element.
- * @param type
+ * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
  */
 export async function focusElement(
   el: FocusableElement,
-  mode: "auto" | "container" | "children" = "auto",
+  includeContainer = false,
   context?: HTMLElement,
-  type: "focusable" | "tabbable" = "tabbable",
+  strategy: "focusable" | "tabbable" = "tabbable",
 ): Promise<void> {
   if (!el) {
     return;
   }
 
-  const firstFocusFunction = type === "tabbable" ? focusFirstTabbable : focusFirstFocusable;
-
-  if (mode === "auto" && isCalciteFocusable(el)) {
-    if (context === el) {
-      firstFocusFunction(el);
-      return;
-    }
-
+  if (isCalciteFocusable(el) && context !== el) {
     return el.setFocus();
   }
 
-  if (mode === "container") {
-    return firstFocusFunction(el, true);
-  }
-
-  return firstFocusFunction(el);
+  const firstFocusFunction = strategy === "tabbable" ? focusFirstTabbable : focusFirstFocusable;
+  return firstFocusFunction(el, includeContainer);
 }
 
 /**
@@ -619,7 +609,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget, includeParent ? "container" : "auto", currentElement as HTMLElement);
+  focusElement(focusTarget, includeParent, currentElement as HTMLElement);
   return focusTarget;
 };
 
