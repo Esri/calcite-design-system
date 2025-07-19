@@ -68,7 +68,7 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
 
       component.el.removeEventListener("focus", handleFocusOut);
 
-      return focusElement(target, mode, component.el, type);
+      return focusElement(target, mode, type, component.el);
     };
   });
 };

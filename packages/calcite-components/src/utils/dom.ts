@@ -265,14 +265,14 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  *
  * @param {Element} el An element.
  * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
- * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
+ * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  */
 export async function focusElement(
   el: FocusableElement,
   includeContainer = false,
-  context?: HTMLElement,
   strategy: "focusable" | "tabbable" = "tabbable",
+  context?: HTMLElement,
 ): Promise<void> {
   if (!el) {
     return;
@@ -609,7 +609,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget, includeParent, currentElement as HTMLElement);
+  focusElement(focusTarget, includeParent);
   return focusTarget;
 };
 
