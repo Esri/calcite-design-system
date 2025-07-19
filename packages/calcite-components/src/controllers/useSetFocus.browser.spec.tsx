@@ -198,18 +198,18 @@ describe("useSetFocus", () => {
     }
 
     const { el } = await mount(Test);
-    const i = document.createElement("input");
-    document.body.append(i);
+    const input = document.createElement("input");
+    document.body.append(input);
 
     expect(document.activeElement).toBe(document.body);
 
-    const input = el.shadowRoot.querySelector("calcite-input")!;
-    const spy = vi.spyOn(input, "setFocus");
+    const internalInput = el.shadowRoot.querySelector("calcite-input")!;
+    const spy = vi.spyOn(internalInput, "setFocus");
     const setFocusPromise = el.setFocus();
-    i.focus();
+    input.focus();
     await setFocusPromise;
 
-    expect(document.activeElement).toBe(i);
+    expect(document.activeElement).toBe(input);
     expect(spy).not.toHaveBeenCalled();
   });
 });
