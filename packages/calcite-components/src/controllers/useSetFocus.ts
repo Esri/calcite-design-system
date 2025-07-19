@@ -73,7 +73,7 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
 };
 
 function isFocusOverride(focusTarget: FocusableElement | FocusConfig): focusTarget is FocusConfig {
-  return "target" in focusTarget;
+  return "target" in focusTarget && ("includeContainer" in focusTarget || "strategy" in focusTarget);
 }
 
 function toFocusConfig(focusTarget: FocusableElement | FocusConfig | undefined): FocusConfig | undefined {
