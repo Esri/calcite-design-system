@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils/timing";
@@ -7,6 +7,7 @@ import { createControlledPromise } from "../tests/utils/promises";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
+  focusElement,
   focusElementInGroup,
   getModeName,
   getShadowRootNode,
@@ -520,6 +521,76 @@ describe("dom", () => {
         element.innerHTML = "\n<!-- some comment -->\n";
         expect(hasVisibleContent(element)).toBe(false);
       });
+    });
+  });
+
+  describe("focusElement()", () => {
+    function create(tag: string, props?: Partial<HTMLElement>, appendTo: HTMLElement = document.body): HTMLElement {
+      const el = document.createElement(tag);
+
+      if (props) {
+        Object.entries(props).forEach(([key, value]) => {
+          el[key] = value;
+        });
+      }
+
+      appendTo.append(el);
+
+      return el;
+    }
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    it("focuses the element if it is focusable", () => {
+      const el = create("div", { tabIndex: 0 });
+      focusElement(el);
+      expect(document.activeElement).toBe(el);
+    });
+
+    it("does not focus the element if it is not focusable", () => {
+      const el = create("div");
+      focusElement(el);
+      expect(document.activeElement).not.toBe(el);
+    });
+
+    it("focuses first focusable child if includeContainer = false", () => {
+      const el = create("div", { tabIndex: -1 });
+      const child = create("div", { tabIndex: 0 }, el);
+      focusElement(el, false);
+      expect(document.activeElement).toBe(child);
+    });
+
+    it("focuses element if focusable and includeContainer = true (default)", () => {
+      const el = create("div", { tabIndex: 0 });
+      create("div", { tabIndex: 0 }, el);
+      focusElement(el, true);
+      expect(document.activeElement).toBe(el);
+    });
+
+    it("does not focus if element has no focusable child and includeContainer = false", () => {
+      const el = create("div");
+      focusElement(el, false);
+      expect(document.activeElement).not.toBe(el);
+    });
+
+    it("does not call setFocus if el === context", () => {
+      // This test is a placeholder, consider removing or implementing if setFocus logic is present
+    });
+
+    it("focuses first focusable when strategy='focusable'", () => {
+      const el = create("div");
+      const child = create("div", { tabIndex: -1 }, el);
+      focusElement(el, false, undefined, "focusable");
+      expect(document.activeElement).toBe(child);
+    });
+
+    it("focuses first tabbable when strategy='tabbable'", () => {
+      const el = create("div", { tabIndex: -1 });
+      const child = create("div", { tabIndex: 0 }, el);
+      focusElement(el, true, undefined, "tabbable");
+      expect(document.activeElement).toBe(child);
     });
   });
 
