@@ -575,22 +575,59 @@ describe("dom", () => {
       expect(document.activeElement).not.toBe(el);
     });
 
-    it("does not call setFocus if el === context", () => {
-      // This test is a placeholder, consider removing or implementing if setFocus logic is present
-    });
-
     it("focuses first focusable when strategy='focusable'", () => {
       const el = create("div");
       const child = create("div", { tabIndex: -1 }, el);
-      focusElement(el, false, undefined, "focusable");
+      focusElement(el, false, "focusable");
       expect(document.activeElement).toBe(child);
     });
 
     it("focuses first tabbable when strategy='tabbable'", () => {
       const el = create("div", { tabIndex: -1 });
       const child = create("div", { tabIndex: 0 }, el);
-      focusElement(el, true, undefined, "tabbable");
+      focusElement(el, true, "tabbable");
       expect(document.activeElement).toBe(child);
+    });
+
+    it("avoids infinite loop on setFocus components by using context", async () => {
+      let useContext = true;
+      let setFocusCalls = 0;
+
+      class Test extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
+        }
+
+        async setFocus(): Promise<void> {
+          if (setFocusCalls++ > 10) {
+            // simulates infinite loop without having to trigger a real one in test environment
+            throw new RangeError("setFocus called too many times, likely an infinite loop");
+          }
+
+          return focusElement(this, false, "tabbable", useContext ? this : undefined);
+        }
+      }
+      customElements.define("test-element", Test);
+
+      const el = document.createElement("test-element") as Test;
+      document.body.appendChild(el);
+      vi.spyOn(el, "focus");
+      vi.spyOn(el, "setFocus");
+
+      await el.setFocus();
+
+      expect(el.setFocus).toHaveBeenCalledTimes(1);
+      expect(el.focus).toHaveBeenCalledTimes(0);
+
+      useContext = false;
+      try {
+        await el.setFocus();
+        expect.unreachable("should not reach here, setFocus should throw an error");
+      } catch (error) {
+        expect(error).toBeInstanceOf(RangeError);
+      }
     });
   });
 
