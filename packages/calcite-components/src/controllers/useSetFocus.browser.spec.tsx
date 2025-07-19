@@ -212,4 +212,65 @@ describe("useSetFocus", () => {
     expect(document.activeElement).toBe(input);
     expect(spy).not.toHaveBeenCalled();
   });
+
+  describe("focus behavior options", () => {
+    it("allows setting includeContainer", async () => {
+      class Test extends LitElement {
+        private focusSetter = useSetFocus()(this);
+        private ref = createRef<HTMLDivElement>();
+
+        async setFocus(): Promise<void> {
+          return this.focusSetter(() => {
+            return { target: this.ref.value!, includeContainer: true };
+          });
+        }
+
+        override render(): JsxNode {
+          return (
+            <div id="target" ref={this.ref} tabIndex={0}>
+              <button>Button</button>
+            </div>
+          );
+        }
+      }
+      const { el } = await mount(Test);
+
+      expect(document.activeElement).not.toBe(el);
+
+      await el.setFocus();
+      expect(document.activeElement!.shadowRoot!.activeElement).toBe(
+        el.shadowRoot.querySelector("#target"),
+      );
+    });
+
+    it("allows setting focus strategy", async () => {
+      class Test extends LitElement {
+        private focusSetter = useSetFocus()(this);
+        private ref = createRef<HTMLDivElement>();
+
+        async setFocus(): Promise<void> {
+          return this.focusSetter(() => {
+            return { target: this.ref.value!, strategy: "focusable" };
+          });
+        }
+
+        override render(): JsxNode {
+          return (
+            <div ref={this.ref}>
+              <div id="target" tabIndex={-1} />
+              <button>Button</button>
+            </div>
+          );
+        }
+      }
+      const { el } = await mount(Test);
+
+      expect(document.activeElement).not.toBe(el);
+
+      await el.setFocus();
+      expect(document.activeElement!.shadowRoot!.activeElement).toBe(
+        el.shadowRoot.querySelector("#target"),
+      );
+    });
+  });
 });
