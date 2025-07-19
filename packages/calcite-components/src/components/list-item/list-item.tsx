@@ -273,11 +273,11 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           this.focusCell(cells[focusIndex]);
           return;
         } else {
-          return { target: containerEl, mode: "container", type: "focusable" };
+          return { target: containerEl, includeContainer: true, strategy: "focusable" };
         }
       }
 
-      return { target: containerEl, mode: "container", type: "focusable" };
+      return { target: containerEl, includeContainer: true, strategy: "focusable" };
     });
   }
 

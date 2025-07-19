@@ -4,9 +4,8 @@ import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode } from "../utils/dom";
 import { type InteractiveComponent } from "../utils/interactive";
 
-type FocusMode = Parameters<typeof focusElement>[1];
-type FocusType = "focusable" | "tabbable";
-type FocusConfig = { target: FocusableElement; mode: FocusMode; type: FocusType };
+type FocusStrategy = "focusable" | "tabbable";
+type FocusConfig = { target: FocusableElement; includeContainer?: boolean; strategy?: FocusStrategy };
 
 export interface UseSetFocus {
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
@@ -53,7 +52,7 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
         return;
       }
 
-      const { target, mode, type } = focusConfig;
+      const { target, includeContainer, strategy } = focusConfig;
 
       const rootNode = getRootNode(component.el);
       const currentActiveElement = rootNode.activeElement;
@@ -68,13 +67,13 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
 
       component.el.removeEventListener("focus", handleFocusOut);
 
-      return focusElement(target, mode, type, component.el);
+      return focusElement(target, includeContainer, strategy, component.el);
     };
   });
 };
 
 function isFocusOverride(focusTarget: FocusableElement | FocusConfig): focusTarget is FocusConfig {
-  return (focusTarget as FocusConfig).mode !== undefined;
+  return "target" in focusTarget;
 }
 
 function toFocusConfig(focusTarget: FocusableElement | FocusConfig | undefined): FocusConfig | undefined {
@@ -82,5 +81,5 @@ function toFocusConfig(focusTarget: FocusableElement | FocusConfig | undefined):
     return;
   }
 
-  return isFocusOverride(focusTarget) ? focusTarget : { target: focusTarget, mode: "auto", type: "tabbable" };
+  return isFocusOverride(focusTarget) ? focusTarget : { target: focusTarget };
 }
