@@ -129,16 +129,16 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
       const interactiveItems = this.items?.filter((el) => !el.disabled);
       switch (event.detail.key) {
         case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
+          focusElementInGroup(interactiveItems, event.detail.target, "next", true, true, true);
           break;
         case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
+          focusElementInGroup(interactiveItems, event.detail.target, "previous", true, true, true);
           break;
         case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
+          focusElementInGroup(interactiveItems, event.detail.target, "first", true, true, true);
           break;
         case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
+          focusElementInGroup(interactiveItems, event.detail.target, "last", true, true, true);
           break;
       }
     }
