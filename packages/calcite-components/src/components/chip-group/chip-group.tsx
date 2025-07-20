@@ -2,7 +2,11 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -126,20 +130,17 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
 
   private calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next", true, true, true);
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous", true, true, true);
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first", true, true, true);
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last", true, true, true);
-          break;
+      const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
+        ArrowRight: "next",
+        ArrowLeft: "previous",
+        Home: "first",
+        End: "last",
+      };
+      const destination = destinationFromKey[event.detail.key];
+
+      if (destination) {
+        const interactiveItems = this.items?.filter((el) => !el.disabled);
+        focusElementInGroup(interactiveItems, event.detail.target, destination, true, true, true);
       }
     }
     event.stopPropagation();
