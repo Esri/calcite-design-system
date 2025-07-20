@@ -31,6 +31,31 @@ import {
   whenTransitionDone,
 } from "./dom";
 
+/**
+ * Registers a test element with a unique tag name.
+ * This is useful for testing custom elements without conflicts.
+ *
+ * @param elementClass
+ */
+function registerTestElement(elementClass: typeof HTMLElement): string {
+  // ensure unique tag name per test to avoid "custom element already defined" error
+  const tagName =
+    "test-element-" +
+    expect
+      .getState()
+      .currentTestName.split(">")
+      .map((part) => part.trim())
+      .join(" ")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric with dashes
+      .replace(/^-+|-+$/g, "") // trim leading/trailing dashes
+      .replace(/--+/g, "-");
+
+  customElements.define(tagName, elementClass);
+
+  return tagName;
+}
+
 describe("dom", () => {
   async function setUpSlotChange({
     assignedElements = [],
@@ -200,19 +225,6 @@ describe("dom", () => {
 
   describe("slot utils", () => {
     function defineTestElement(slotHandler: (slotEl: HTMLSlotElement) => void, slotHtml = "<slot><slot>"): string {
-      // ensure unique tag name per test to avoid "custom element already defined" error
-      const tagName =
-        "test-element-" +
-        expect
-          .getState()
-          .currentTestName.split(">")
-          .map((part) => part.trim())
-          .join(" ")
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric with dashes
-          .replace(/^-+|-+$/g, "") // trim leading/trailing dashes
-          .replace(/--+/g, "-");
-
       class TestElement extends HTMLElement {
         constructor() {
           super();
@@ -221,9 +233,8 @@ describe("dom", () => {
           shadow.querySelectorAll("slot").forEach(slotHandler);
         }
       }
-      customElements.define(tagName, TestElement);
 
-      return tagName;
+      return registerTestElement(TestElement);
     }
 
     function appendChildren(parent: HTMLElement, children: Node[]): void {
@@ -609,9 +620,10 @@ describe("dom", () => {
           return focusElement(this, false, "tabbable", useContext ? this : undefined);
         }
       }
-      customElements.define("test-element", Test);
 
-      const el = document.createElement("test-element") as Test;
+      const testElTag = registerTestElement(Test);
+
+      const el = document.createElement(testElTag) as Test;
       document.body.appendChild(el);
       vi.spyOn(el, "focus");
       vi.spyOn(el, "setFocus");
@@ -691,6 +703,41 @@ describe("dom", () => {
         expect(focusElementInGroup(elements, elements[2], "next", true, false)).toBe(elements[0]);
         expect(document.activeElement).toBe(elements[0].firstElementChild);
       });
+    });
+
+    it("allows specifying target as focus context", () => {
+      class Test extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = `<div tabindex="0" id="inner"></div>`;
+        }
+
+        async setFocus(): Promise<void> {
+          // simulate setFocus workflow
+          this.focus();
+        }
+      }
+
+      const testTag = registerTestElement(Test);
+
+      const elements = Array.from({ length: 3 }, (_, index) => {
+        const el = document.createElement(testTag) as Test;
+        el.id = `item-${index}`;
+        el.tabIndex = 0;
+        document.body.appendChild(el);
+        return el;
+      });
+
+      // assertions only cover the focus context portion, the rest is covered by the previous tests
+
+      expect(focusElementInGroup(elements, elements[0], "next", true, false)).toBe(elements[1]);
+      expect(document.activeElement).toBe(elements[1]);
+      expect(document.activeElement.shadowRoot.activeElement).toBe(null);
+
+      expect(focusElementInGroup(elements, elements[0], "next", true, false, true)).toBe(elements[1]);
+      expect(document.activeElement).toBe(elements[1]);
+      expect(document.activeElement?.shadowRoot.activeElement).toBe(elements[1].shadowRoot.querySelector("#inner"));
     });
   });
 
