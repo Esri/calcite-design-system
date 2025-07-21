@@ -273,4 +273,31 @@ describe("useSetFocus", () => {
       );
     });
   });
+
+  it("supports passing focus options", async () => {
+    class Test extends LitElement {
+      private focusSetter = useSetFocus()(this);
+
+      inputRef = createRef<HTMLInputElement>();
+
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
+      }
+
+      override render(): JsxNode {
+        return <input ref={this.inputRef} />;
+      }
+    }
+
+    const { el, component } = await mount(Test);
+    const focusSpy = vi.spyOn(component.inputRef.value!, "focus");
+
+    expect(document.activeElement).not.toBe(el);
+
+    const focusOptions: FocusOptions = { preventScroll: true };
+    await el.setFocus(focusOptions);
+    expect(document.activeElement).toBe(el);
+    expect(focusSpy).toHaveBeenCalledWith(focusOptions);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
+  });
 });
