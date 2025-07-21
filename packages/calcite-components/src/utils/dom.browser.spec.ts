@@ -625,7 +625,7 @@ describe("dom", () => {
       const testElTag = registerTestElement(Test);
 
       const el = document.createElement(testElTag) as Test;
-      document.body.appendChild(el);
+      document.body.append(el);
       vi.spyOn(el, "focus");
       vi.spyOn(el, "setFocus");
 
@@ -829,7 +829,7 @@ describe("dom", () => {
         const el = document.createElement(testTag) as Test;
         el.id = `item-${index}`;
         el.tabIndex = 0;
-        document.body.appendChild(el);
+        document.body.append(el);
         return el;
       });
 
