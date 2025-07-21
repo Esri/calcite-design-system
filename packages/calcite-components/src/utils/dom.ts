@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
+import { LitElement } from "@arcgis/lumina";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
@@ -245,19 +246,20 @@ export function containsCrossShadowBoundary(element: Element, maybeDescendant: E
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
-/** An element which may contain a `setFocus` method. */
-export interface FocusableElement extends HTMLElement {
-  setFocus?: (options?: FocusOptions) => Promise<void>;
+export type FocusableElement = SetFocusable | HTMLElement;
+
+export interface SetFocusable extends LitElement {
+  setFocus: (options?: FocusOptions) => Promise<void>;
 }
 
 /**
  * This helper returns true when an element has a setFocus method.
  *
  * @param {Element} el An element.
- * @returns {boolean} The result.
+ * @returns {boolean} Whether the element is focusable.
  */
-export function isCalciteFocusable(el: FocusableElement): boolean {
-  return typeof el?.setFocus === "function";
+export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
+  return typeof (el as SetFocusable)?.setFocus === "function";
 }
 
 /**

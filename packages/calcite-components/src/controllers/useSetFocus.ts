@@ -1,7 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { LitElement } from "@arcgis/lumina";
 import { componentFocusable } from "../utils/component";
-import { FocusableElement, focusElement, getRootNode } from "../utils/dom";
+import { FocusableElement, focusElement, getRootNode, SetFocusable } from "../utils/dom";
 import { type InteractiveComponent } from "../utils/interactive";
 
 type FocusStrategy = "focusable" | "tabbable";
@@ -11,9 +10,7 @@ export interface UseSetFocus {
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined, options?: FocusOptions): Promise<void>;
 }
 
-export interface SetFocusComponent extends LitElement, Partial<Pick<InteractiveComponent, "disabled">> {
-  setFocus: (options?: Parameters<HTMLElement["focus"]>[0]) => Promise<void>;
-}
+type SetFocusComponent = SetFocusable & Partial<Pick<InteractiveComponent, "disabled">>;
 
 /**
  * A controller for centralized setFocus behavior.
