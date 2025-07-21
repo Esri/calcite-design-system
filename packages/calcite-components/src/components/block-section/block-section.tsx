@@ -3,7 +3,7 @@ import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from 
 import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Scale, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
@@ -143,7 +143,7 @@ export class BlockSection extends LitElement {
     };
 
     return statusIcon ? (
-      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s" />
+      <calcite-icon class={statusIconClasses} icon={statusIcon} scale={getIconScale(this.scale)} />
     ) : null;
   }
 
@@ -167,7 +167,7 @@ export class BlockSection extends LitElement {
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
         icon={isIconStart ? iconStart : iconEnd}
         key={isIconStart ? iconStart : iconEnd}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -233,7 +233,11 @@ export class BlockSection extends LitElement {
             <span class={CSS.sectionHeaderText}>{text}</span>
             {this.renderIcon("end")}
             {this.renderStatusIcon()}
-            <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
+            <calcite-icon
+              class={CSS.chevronIcon}
+              icon={arrowIcon}
+              scale={getIconScale(this.scale)}
+            />
           </button>
         </div>
       );

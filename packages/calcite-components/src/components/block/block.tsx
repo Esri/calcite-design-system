@@ -9,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -407,7 +407,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             [CSS.invalid]: status == "invalid",
           }}
           icon={ICONS[status]}
-          scale="s"
+          scale={getIconScale(this.scale)}
         />
       </div>
     ) : (
@@ -460,14 +460,13 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       return undefined;
     }
 
-    /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
         class={iconClass}
         flipRtl={flipRtl}
         icon={iconValue}
         key={iconValue}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -535,7 +534,11 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {this.renderIcon("end")}
-              <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
+              <calcite-icon
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale={getIconScale(this.scale)}
+              />
             </div>
           </button>
         ) : this.iconEnd ? (

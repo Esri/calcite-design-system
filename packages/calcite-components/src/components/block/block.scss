@@ -29,7 +29,6 @@
 
   .heading {
     font-size: var(--calcite-font-size-sm);
-    line-height: var(--calcite-font-line-height-relative-snug);
   }
 
   .description {
@@ -59,12 +58,10 @@
 
   .heading {
     font-size: var(--calcite-font-size);
-    line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .description {
     font-size: var(--calcite-font-size-sm);
-    line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .content {
@@ -75,8 +72,8 @@
 
 :host([scale="l"]) {
   .header {
-    padding: var(--calcite-spacing-xl);
-    gap: var(--calcite-spacing-xl);
+    padding: var(--calcite-spacing-lg);
+    gap: var(--calcite-spacing-lg);
   }
 
   .icon-end-container {
@@ -86,7 +83,6 @@
 
   .heading {
     font-size: var(--calcite-font-size-lg);
-    line-height: var(--calcite-font-line-height-relative-snug);
   }
 
   .description {
@@ -185,6 +181,7 @@ calcite-handle {
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
   font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .description {
