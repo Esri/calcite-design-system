@@ -387,13 +387,14 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.referenceEl;
-    });
+    }, options);
   }
 
   //#endregion

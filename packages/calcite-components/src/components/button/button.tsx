@@ -190,10 +190,14 @@ export class Button
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
-    return this.focusSetter(() => this.childEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.childEl, options);
   }
 
   //#endregion

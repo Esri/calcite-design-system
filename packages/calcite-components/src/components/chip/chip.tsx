@@ -135,16 +135,20 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       if (this.interactive) {
         return this.containerEl.value;
       } else if (this.closable) {
         return this.closeButtonEl.value;
       }
-    });
+    }, options);
   }
 
   //#endregion

@@ -82,12 +82,16 @@ export class Navigation extends LitElement {
 
   // #region Public Methods
 
-  /** When `navigationAction` is `true`, sets focus on the component's action element. */
+  /**
+   * When `navigationAction` is `true`, sets focus on the component's action element.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.navigationActionEl.value;
-    });
+    }, options);
   }
 
   // #endregion

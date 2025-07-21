@@ -247,7 +247,7 @@ export function containsCrossShadowBoundary(element: Element, maybeDescendant: E
 
 /** An element which may contain a `setFocus` method. */
 export interface FocusableElement extends HTMLElement {
-  setFocus?: () => Promise<void>;
+  setFocus?: (options?: FocusOptions) => Promise<void>;
 }
 
 /**
@@ -267,23 +267,25 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
  * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
  * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
+ * @param options
  */
 export async function focusElement(
   el: FocusableElement,
   includeContainer = false,
   strategy: "focusable" | "tabbable" = "tabbable",
   context?: HTMLElement,
+  options?: FocusOptions,
 ): Promise<void> {
   if (!el) {
     return;
   }
 
   if (isCalciteFocusable(el) && context !== el) {
-    return el.setFocus();
+    return el.setFocus(options);
   }
 
   const firstFocusFunction = strategy === "tabbable" ? focusFirstTabbable : focusFirstFocusable;
-  return firstFocusFunction(el, includeContainer);
+  return firstFocusFunction(el, includeContainer, options);
 }
 
 /**
@@ -307,9 +309,10 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
  * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param options
  */
-export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean): void {
-  getFirstTabbable(element, includeContainer)?.focus();
+export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+  getFirstTabbable(element, includeContainer)?.focus(options);
 }
 
 /**
@@ -338,8 +341,8 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
  *
  * @internal
  */
-function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean): void {
-  getFirstFocusable(element, includeContainer)?.focus();
+function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+  getFirstFocusable(element, includeContainer)?.focus(options);
 }
 
 /**

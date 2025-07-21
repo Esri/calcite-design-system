@@ -257,9 +257,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       const {
         containerEl: { value: containerEl },
@@ -278,7 +282,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       }
 
       return { target: containerEl, includeContainer: true, strategy: "focusable" };
-    });
+    }, options);
   }
 
   //#endregion

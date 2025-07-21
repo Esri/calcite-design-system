@@ -8,17 +8,15 @@ type FocusStrategy = "focusable" | "tabbable";
 type FocusConfig = { target: FocusableElement; includeContainer?: boolean; strategy?: FocusStrategy };
 
 export interface UseSetFocus {
-  (getFocusTarget: () => FocusableElement | FocusConfig | undefined): Promise<void>;
+  (getFocusTarget: () => FocusableElement | FocusConfig | undefined, options?: FocusOptions): Promise<void>;
 }
 
-interface SetFocusComponent extends LitElement, Partial<Pick<InteractiveComponent, "disabled">> {
-  setFocus: () => Promise<void>;
+export interface SetFocusComponent extends LitElement, Partial<Pick<InteractiveComponent, "disabled">> {
+  setFocus: (options?: Parameters<HTMLElement["focus"]>[0]) => Promise<void>;
 }
 
 /**
  * A controller for centralized setFocus behavior.
- *
- * @param options
  */
 export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
   typeof makeGenericController<UseSetFocus, T>
@@ -41,7 +39,7 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
       component.el.removeEventListener("focusout", handleFocusOut);
     });
 
-    return async (getFocusTarget): Promise<void> => {
+    return async (getFocusTarget, options?: FocusOptions): Promise<void> => {
       if (component.disabled) {
         return;
       }
@@ -66,7 +64,7 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
 
       component.el.removeEventListener("focus", handleFocusOut);
 
-      return focusElement(target, includeContainer, strategy, component.el);
+      return focusElement(target, includeContainer, strategy, component.el, options);
     };
   });
 };

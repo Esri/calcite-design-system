@@ -110,12 +110,16 @@ export class TableCell extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.containerEl.value;
-    });
+    }, options);
   }
 
   //#endregion

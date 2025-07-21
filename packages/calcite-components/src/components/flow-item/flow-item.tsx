@@ -166,13 +166,14 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /**
    * Sets focus on the component.
    *
+   * @param options
    * @returns promise.
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.backButtonEl || this.containerEl;
-    });
+    }, options);
   }
 
   //#endregion

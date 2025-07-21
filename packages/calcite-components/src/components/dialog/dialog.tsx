@@ -265,13 +265,14 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @param options
    * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.panelEl.value ?? this.el;
-    });
+    }, options);
   }
 
   /**

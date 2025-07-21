@@ -109,13 +109,17 @@ export class Notice extends LitElement implements OpenCloseComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       const noticeLinkEl = this.el.querySelector("calcite-link");
       return noticeLinkEl || this.closeButton.value;
-    });
+    }, options);
   }
 
   //#endregion

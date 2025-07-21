@@ -95,16 +95,20 @@ export class RadioButtonGroup extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
+  /**
+   * Sets focus on the fist focusable `calcite-radio-button` element in the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       if (this.selectedItem && !this.selectedItem.disabled) {
         return this.selectedItem;
       }
 
       return this.getFocusableRadioButton();
-    });
+    }, options);
   }
 
   // #endregion

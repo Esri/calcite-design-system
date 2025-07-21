@@ -168,13 +168,15 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /**
    * Sets focus on the component's "close" button, the first focusable item.
    *
-   *     `@returns` {Promise<void>}
+   * `@returns` {Promise<void>}
+   *
+   * @param options
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   //#endregion

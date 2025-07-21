@@ -611,13 +611,13 @@ describe("dom", () => {
           this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
         }
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           if (setFocusCalls++ > 10) {
             // simulates infinite loop without having to trigger a real one in test environment
             throw new RangeError("setFocus called too many times, likely an infinite loop");
           }
 
-          return focusElement(this, false, "tabbable", useContext ? this : undefined);
+          return focusElement(this, false, "tabbable", useContext ? this : undefined, options);
         }
       }
 
@@ -713,9 +713,9 @@ describe("dom", () => {
           this.shadowRoot.innerHTML = `<div tabindex="0" id="inner"></div>`;
         }
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           // simulate setFocus workflow
-          this.focus();
+          this.focus(options);
         }
       }
 

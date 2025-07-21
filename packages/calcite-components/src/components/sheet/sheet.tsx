@@ -227,12 +227,16 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's "close" button - the first focusable item. */
+  /**
+   * Sets focus on the component's "close" button - the first focusable item.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   /**
