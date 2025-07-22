@@ -7,7 +7,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -15,6 +14,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -61,6 +61,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -168,15 +170,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const { backButtonEl, containerEl } = this;
-
-    if (backButtonEl) {
-      return backButtonEl.setFocus();
-    } else if (containerEl) {
-      return containerEl.setFocus();
-    }
+    return this.focusSetter(() => {
+      return this.backButtonEl || this.containerEl;
+    });
   }
 
   //#endregion

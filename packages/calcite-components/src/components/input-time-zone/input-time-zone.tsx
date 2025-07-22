@@ -17,7 +17,6 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -30,6 +29,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import {
   createTimeZoneItems,
@@ -85,6 +85,8 @@ export class InputTimeZone
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -232,8 +234,9 @@ export class InputTimeZone
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    await this.comboboxEl.setFocus();
+    return this.focusSetter(() => {
+      return this.comboboxEl;
+    });
   }
 
   //#endregion
