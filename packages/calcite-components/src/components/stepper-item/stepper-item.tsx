@@ -24,11 +24,11 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -67,6 +67,8 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -147,9 +149,9 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.layout === "vertical" ? this.el : this.headerEl.value)?.focus();
+    return this.focusSetter(() => {
+      return this.layout === "vertical" ? this.el : this.headerEl.value;
+    });
   }
 
   //#endregion

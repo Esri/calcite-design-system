@@ -16,10 +16,10 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 
@@ -58,6 +58,8 @@ export class Checkbox
   };
 
   private toggleEl = createRef<HTMLDivElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -144,9 +146,9 @@ export class Checkbox
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.toggleEl.value?.focus();
+    return this.focusSetter(() => {
+      return this.toggleEl.value;
+    });
   }
 
   // #endregion
