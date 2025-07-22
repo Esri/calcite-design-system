@@ -35,7 +35,7 @@ describe("calcite-pagination", () => {
     t9n("calcite-pagination");
   });
 
-  describe.only("defaults", () => {
+  describe("defaults", () => {
     defaults("calcite-pagination", [
       {
         propertyName: "totalItems",
