@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   accessible,
   disabled,
+  focusable,
   formAssociated,
   hidden,
   HYDRATED_ATTR,
@@ -29,11 +30,13 @@ describe("calcite-switch", () => {
   });
 
   describe("accessible", () => {
-    accessible(`<calcite-switch label="test-label"></calcite-switch>`);
-  });
+    describe("unchecked", () => {
+      accessible(`<calcite-switch label="test-label"></calcite-switch>`);
+    });
 
-  describe("accessible: checked", () => {
-    accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
+    describe("checked", () => {
+      accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
+    });
   });
 
   describe("labelable", () => {
@@ -46,6 +49,10 @@ describe("calcite-switch", () => {
 
   describe("disabled", () => {
     disabled("calcite-switch");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-switch");
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {

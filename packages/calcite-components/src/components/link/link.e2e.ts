@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -24,13 +24,31 @@ describe("calcite-link", () => {
   });
 
   describe("accessible", () => {
-    accessible("<calcite-link href='/'>link</calcite-link>");
-    accessible("<calcite-link>link</calcite-link>");
-    accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
+    describe("default", () => {
+      accessible("<calcite-link>link</calcite-link>");
+    });
+
+    describe("with href", () => {
+      accessible("<calcite-link href='/'>link</calcite-link>");
+    });
+
+    describe("with href + icons", () => {
+      accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
+    });
   });
 
   describe("disabled", () => {
     disabled(`<calcite-link href='/'>link</calcite-link>`);
+  });
+
+  describe("focusable", () => {
+    describe("default", () => {
+      focusable(html`<calcite-link>link</calcite-link>`);
+    });
+
+    describe("with href", () => {
+      focusable(html`<calcite-link href="/">link</calcite-link>`);
+    });
   });
 
   it("sets download attribute on internal anchor", async () => {

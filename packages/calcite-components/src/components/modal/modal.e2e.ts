@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
 } from "../../tests/utils/puppeteer";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { Modal } from "./modal";
 
@@ -388,7 +389,7 @@ describe("calcite-modal", () => {
     });
   });
 
-  describe("setFocus", () => {
+  describe("focusable", () => {
     const createModalHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-modal open ${attrs}>${contentHTML}</calcite-modal>`;
 
@@ -397,6 +398,7 @@ describe("calcite-modal", () => {
 
     const focusableContentHTML = html`<h3 slot="header">Title</h3>
       <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
+    mockConsole("error");
 
     describe("focuses close button by default", () => {
       focusable(createModalHTML(focusableContentHTML), {

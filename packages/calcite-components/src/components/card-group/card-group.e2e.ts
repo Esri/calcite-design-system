@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, themed, focusable } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -21,40 +21,54 @@ describe("calcite-card-group", () => {
     disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", { focusTarget: "none" });
   });
 
-  describe("is accessible in selection mode none (default)", () => {
-    accessible(
-      html`<calcite-card-group label="test-label-group">
+  describe("focusable", () => {
+    focusable(
+      html` <calcite-card-group>
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
         <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
       </calcite-card-group>`,
+      {
+        focusTargetSelector: "calcite-card:first-of-type",
+      },
     );
   });
 
-  describe("is accessible in selection mode single", () => {
-    accessible(
-      html` <calcite-card-group label="test-label-group" selection-mode="single">
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-      </calcite-card-group>`,
-    );
-  });
+  describe("accessible", () => {
+    describe("is accessible in selection mode none (default)", () => {
+      accessible(
+        html` <calcite-card-group label="test-label-group">
+          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+        </calcite-card-group>`,
+      );
+    });
 
-  describe("is accessible in selection mode single-persist", () => {
-    accessible(
-      html`<calcite-card-group label="test-label-group" selection-mode="single-persist">
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-      </calcite-card-group>`,
-    );
-  });
+    describe("is accessible in selection mode single", () => {
+      accessible(
+        html` <calcite-card-group label="test-label-group" selection-mode="single">
+          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+        </calcite-card-group>`,
+      );
+    });
 
-  describe("is accessible in selection mode multiple", () => {
-    accessible(
-      html`<calcite-card-group label="test-label-group" selection-mode="multiple">
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-      </calcite-card-group>`,
-    );
+    describe("is accessible in selection mode single-persist", () => {
+      accessible(
+        html` <calcite-card-group label="test-label-group" selection-mode="single-persist">
+          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+        </calcite-card-group>`,
+      );
+    });
+
+    describe("is accessible in selection mode multiple", () => {
+      accessible(
+        html` <calcite-card-group label="test-label-group" selection-mode="multiple">
+          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+        </calcite-card-group>`,
+      );
+    });
   });
 
   describe("selection modes function as intended", () => {

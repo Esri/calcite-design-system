@@ -6,6 +6,8 @@ import {
   defaults,
   disabled,
   floatingUIOwner,
+  focusable,
+  focusable,
   formAssociated,
   hidden,
   labelable,
@@ -138,6 +140,15 @@ describe("calcite-combobox", () => {
         value: true,
       },
     ]);
+  });
+
+  describe("focusable", () => {
+    focusable(html`
+      <calcite-combobox label="Trees" value="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
   });
 
   describe("honors hidden attribute", () => {
