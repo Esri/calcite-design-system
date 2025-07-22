@@ -19,6 +19,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { IconNameOrString } from "../icon/interfaces";
+import { breakpoints } from "../../utils/responsive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -100,6 +101,14 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler),
+  );
+
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.handleResponsiveOverrides(width);
+  };
 
   //#endregion
 
@@ -239,6 +248,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
+  /** Specifies the component's responsive overrides. */
+  @property() responsiveOverrides: any;
+
   //#endregion
 
   //#region Public Methods
@@ -309,6 +321,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.resizeObserver?.observe(this.el);
     this.setupInteractions();
   }
 
@@ -343,12 +356,41 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
+    this.resizeObserver?.disconnect();
+
     this.cleanupInteractions();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private handleResponsiveOverrides(width: number): void {
+    if (!width || !this.responsiveOverrides) {
+      return;
+    }
+    const breakpointsKeys = breakpoints.width ? Object.keys(breakpoints.width) : [];
+    for (const key of breakpointsKeys) {
+      if (width >= breakpoints.width[key]) {
+        if (!this.responsiveOverrides[key]) {
+          return;
+        }
+        Object.entries(this.responsiveOverrides[key]).forEach((item) => {
+          if (item[1]["type"] === "self") {
+            console.log("responsive request type is SELF");
+          } else if (item[1]["type"] === "viewport") {
+            console.log("responsive request type is VIEWPORT");
+          }
+          const property = item[1]["property"];
+          if (!(property in this)) {
+            return;
+          }
+          this[property] = item[1]["value"] as any;
+        });
+        return;
+      }
+    }
+  }
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
