@@ -9847,5 +9847,20 @@
     "alias": ["4.3.0", "generic", "alignment", "placement", "position", "settings"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "person-magnifying-glass": {
+    "alias": ["4.3.0", "people", "launch", "preview", "information", "magnify", "user"],
+    "category": "People",
+    "release": "4.3.0"
+  },
+  "arrow-left-10": {
+    "alias": ["4.3.0", "arrows", "video", "direction", "scrub", "time"],
+    "category": "Arrows",
+    "release": "4.3.0"
+  },
+  "arrow-right-10": {
+    "alias": ["4.3.0", "arrows", "skip", "ahead", "time", "scrub", "direction"],
+    "category": "Arrows",
+    "release": "4.3.0"
   }
 }

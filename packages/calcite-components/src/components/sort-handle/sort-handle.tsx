@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -16,8 +15,9 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
+import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
@@ -37,6 +37,8 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private dropdownEl: Dropdown["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -118,8 +120,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.dropdownEl?.setFocus();
+    return this.focusSetter(() => {
+      return this.dropdownEl;
+    });
   }
 
   // #endregion
@@ -302,6 +305,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return this.hasSetInfo ? (
       <calcite-dropdown-group
         groupTitle={this.messages.reorder}
+        id={IDS.reorder}
         key="reorder"
         scale={this.scale}
         selectionMode="none"
@@ -320,6 +324,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
+        id={IDS.move}
         key="move-to-items"
         scale={scale}
         selectionMode="none"

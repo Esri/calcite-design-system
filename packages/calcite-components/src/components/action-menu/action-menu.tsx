@@ -11,16 +11,16 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { CSS, ICONS, SLOTS, IDS } from "./resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -119,6 +119,8 @@ export class ActionMenu extends LitElement {
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -152,7 +154,6 @@ export class ActionMenu extends LitElement {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -182,9 +183,9 @@ export class ActionMenu extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return focusElement(this.menuButtonEl);
+    return this.focusSetter(() => {
+      return this.menuButtonEl;
+    });
   }
 
   // #endregion
@@ -365,7 +366,7 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true,
@@ -383,6 +384,7 @@ export class ActionMenu extends LitElement {
         return previousValue;
       }, []);
 
+    await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   }
 

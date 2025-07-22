@@ -4,7 +4,6 @@ import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -15,6 +14,7 @@ import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { styles } from "./chip.scss";
@@ -48,6 +48,8 @@ export class Chip extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -136,12 +138,13 @@ export class Chip extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled && this.interactive) {
-      this.containerEl.value?.focus();
-    } else if (!this.disabled && this.closable) {
-      this.closeButtonEl.value?.focus();
-    }
+    return this.focusSetter(() => {
+      if (this.interactive) {
+        return this.containerEl.value;
+      } else if (this.closable) {
+        return this.closeButtonEl.value;
+      }
+    });
   }
 
   //#endregion

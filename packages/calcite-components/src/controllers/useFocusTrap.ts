@@ -1,6 +1,7 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
+import { SetReturnType } from "type-fest";
 import { createFocusTrapOptions } from "../utils/focusTrapComponent";
 
 export interface UseFocusTrap {
@@ -70,6 +71,20 @@ export type FocusTrapOptions =
      * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
      */
     extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
+
+    /**
+     * By default, when the focus trap is deactivated, focus will return to the element that was focused before the trap was activated. This option allows customizing that behavior.
+     *
+     * Returning undefined will use the default behavior of returning focus to the element focused before activation.
+     */
+    setReturnFocus?:
+      | Options["setReturnFocus"]
+      | undefined
+      | SetReturnType<
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type -- we only want this for function types regardless of signature
+          Extract<Options["setReturnFocus"], Function>,
+          undefined
+        >;
   };
 
 function getEffectiveContainerElements(

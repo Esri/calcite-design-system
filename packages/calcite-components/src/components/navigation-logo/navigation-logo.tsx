@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
@@ -18,6 +18,12 @@ export class NavigationLogo extends LitElement {
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -71,10 +77,11 @@ export class NavigationLogo extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (this.href) {
-      this.el.focus();
-    }
+    return this.focusSetter(() => {
+      if (this.href) {
+        return this.el;
+      }
+    });
   }
 
   // #endregion
