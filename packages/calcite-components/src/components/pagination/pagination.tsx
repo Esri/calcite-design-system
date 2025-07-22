@@ -97,7 +97,7 @@ export class Pagination extends LitElement {
   @property({ reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
-  @property({ reflect: true }) totalItems = 0;
+  @property({ reflect: true }) totalItems = 1;
 
   //#endregion
 
@@ -232,8 +232,14 @@ export class Pagination extends LitElement {
   private handleLastStartItemChange(): void {
     const { totalItems, pageSize, totalPages } = this;
 
+    const isStartNegative = totalItems - pageSize < 0;
+
     this.lastStartItem =
-      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
+      (totalItems % pageSize === 0
+        ? isStartNegative
+          ? 0
+          : totalItems - pageSize
+        : Math.floor(totalPages) * pageSize) + 1;
   }
 
   private handleIsXXSmall(): void {
