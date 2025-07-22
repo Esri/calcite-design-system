@@ -7,13 +7,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -53,6 +53,8 @@ export class Action extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -135,8 +137,9 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.buttonEl.value?.focus();
+    return this.focusSetter(() => {
+      return this.buttonEl.value;
+    });
   }
 
   //#endregion

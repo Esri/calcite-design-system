@@ -2,15 +2,10 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import {
-  focusElement,
-  focusElementInGroup,
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 
@@ -44,6 +39,8 @@ export class Menu extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region Public Properties
@@ -68,8 +65,9 @@ export class Menu extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.menuItems[0]);
+    return this.focusSetter(() => {
+      return this.menuItems[0];
+    });
   }
 
   //#endregion
@@ -108,7 +106,7 @@ export class Menu extends LitElement {
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -116,7 +114,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowUp") {
       if (this.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[submenuItems.length - 1].setFocus();
@@ -124,7 +122,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -132,7 +130,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           this.focusParentElement(event.target as MenuItem["el"]);

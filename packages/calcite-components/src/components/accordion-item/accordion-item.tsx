@@ -8,9 +8,9 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
@@ -37,6 +37,8 @@ export class AccordionItem extends LitElement {
   // #region Private Properties
 
   private headerEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -113,8 +115,9 @@ export class AccordionItem extends LitElement {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.headerEl.focus();
+    return this.focusSetter(() => {
+      return this.headerEl;
+    });
   }
 
   // #endregion

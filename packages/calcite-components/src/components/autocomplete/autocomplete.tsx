@@ -54,7 +54,7 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -130,6 +130,8 @@ export class Autocomplete
   private inputValueMatchPattern: RegExp;
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
@@ -389,9 +391,9 @@ export class Autocomplete
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.referenceEl.setFocus();
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    });
   }
 
   //#endregion

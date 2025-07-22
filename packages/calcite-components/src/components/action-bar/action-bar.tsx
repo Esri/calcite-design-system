@@ -2,12 +2,7 @@
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
@@ -17,6 +12,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -107,6 +103,8 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -177,9 +175,9 @@ export class ActionBar extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   //#endregion

@@ -22,11 +22,10 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
-import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
@@ -55,6 +54,8 @@ export class DatePicker extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -157,8 +158,9 @@ export class DatePicker extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   //#endregion

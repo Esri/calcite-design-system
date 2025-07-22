@@ -9,7 +9,7 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconNameOrString } from "../icon/interfaces";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -35,6 +35,8 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   // #region Private Properties
 
   private containerEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -151,10 +153,11 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled && this.interactive) {
-      this.containerEl?.focus();
-    }
+    return this.focusSetter(() => {
+      if (this.interactive) {
+        return this.containerEl;
+      }
+    });
   }
 
   // #endregion
