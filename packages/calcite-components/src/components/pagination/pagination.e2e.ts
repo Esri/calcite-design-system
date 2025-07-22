@@ -170,6 +170,23 @@ describe("calcite-pagination", () => {
       expect(toggleSpy).toHaveReceivedEventTimes(2);
     });
   });
+  describe("total-items and start-item", () => {
+    it("checks if default value for total-items is 1", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="1" page-size="10"></calcite-pagination>`);
+      const pagination = await page.find("calcite-pagination");
+      const totalItems = await pagination.getProperty("totalItems");
+      expect(totalItems).toBe(1);
+    });
+
+    it("checks page defaults to 1 when start-item is negative", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`);
+      const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
+      expect(links.length).toBe(1);
+      expect(await links[0].getProperty("value")).toBe("1");
+    });
+  });
   describe("showing one item at a time", () => {
     let page: E2EPage;
     let pagination: E2EElement;
