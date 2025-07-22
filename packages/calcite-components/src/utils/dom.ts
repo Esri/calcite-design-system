@@ -234,17 +234,6 @@ function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
   return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
 }
 
-/**
- * This helper returns true when an element has the descendant in question.
- *
- * @param {Element} element The starting element.
- * @param {Element} maybeDescendant The descendant.
- * @returns {boolean} The result.
- */
-export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
-  return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
-}
-
 /** An element which may contain a `setFocus` method. */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
