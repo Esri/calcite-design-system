@@ -5801,6 +5801,48 @@
           </script>
         </div>
       </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">canPull & canPut</div>
+
+        <div class="child">
+          <div style="display: flex; gap: 20px">
+            <div>
+              <h2>List 1</h2>
+              <calcite-list id="pull-put-list-1" drag-enabled group="pull-put-group" label="List 1">
+                <calcite-list-item sort-handle-open label="One"></calcite-list-item>
+                <calcite-list-item label="Two"></calcite-list-item>
+                <calcite-list-item label="Three"></calcite-list-item>
+              </calcite-list>
+            </div>
+            <div>
+              <h2>List 2</h2>
+              <calcite-list id="pull-put-list-2" drag-enabled group="pull-put-group" label="List 2">
+                <calcite-list-item label="Four"></calcite-list-item>
+                <calcite-list-item label="Five"></calcite-list-item>
+                <calcite-list-item label="Six"></calcite-list-item>
+              </calcite-list>
+            </div>
+            <script>
+              document.addEventListener("DOMContentLoaded", async () => {
+                const list1 = document.getElementById("pull-put-list-1");
+                const list2 = document.getElementById("pull-put-list-2");
+
+                await list1.componentOnReady();
+                await list2.componentOnReady();
+                list1.canPut = () => {
+                  console.log("canPut called for list 1");
+                  return true;
+                };
+                list2.canPut = () => {
+                  console.log("canPut called for list 2");
+                  return false;
+                };
+              });
+            </script>
+          </div>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

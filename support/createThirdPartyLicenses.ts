@@ -1,7 +1,6 @@
 import dedent from "dedent";
 import { writeFile } from "node:fs/promises";
 import { exec } from "node:child_process";
-import { dirname, isAbsolute, join } from "node:path";
 import { promisify } from "node:util";
 import { getProjectLicenses } from "generate-license-file";
 
