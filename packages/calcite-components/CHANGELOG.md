@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.40...@esri/calcite-components@3.3.0-next.41) (2025-07-22)
+
+### Features
+
+- **popover:** add token for specifying the max width ([#12516](https://github.com/Esri/calcite-design-system/issues/12516)) ([e58b1a6](https://github.com/Esri/calcite-design-system/commit/e58b1a67a6332647db8a2f0b7c52ff581e6f3c76)), closes [#12319](https://github.com/Esri/calcite-design-system/issues/12319)
+
+### Bug Fixes
+
+- **popover, tooltip:** do not close when a click was initiated inside the component ([#12543](https://github.com/Esri/calcite-design-system/issues/12543)) ([10a9e2a](https://github.com/Esri/calcite-design-system/commit/10a9e2a31695d7f5d8faec20046addcf2d2ea3e0)), closes [#9506](https://github.com/Esri/calcite-design-system/issues/9506)
+
 ## [3.3.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.39...@esri/calcite-components@3.3.0-next.40) (2025-07-22)
 
 ### Bug Fixes
