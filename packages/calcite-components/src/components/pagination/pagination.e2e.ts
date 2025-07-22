@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, t9n, themed, defaults } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -33,6 +33,19 @@ describe("calcite-pagination", () => {
 
   describe("translation support", () => {
     t9n("calcite-pagination");
+  });
+
+  describe.only("defaults", () => {
+    defaults("calcite-pagination", [
+      {
+        propertyName: "totalItems",
+        defaultValue: 1,
+      },
+      {
+        propertyName: "startItem",
+        defaultValue: 1,
+      },
+    ]);
   });
 
   describe("page links", () => {
@@ -170,15 +183,7 @@ describe("calcite-pagination", () => {
       expect(toggleSpy).toHaveReceivedEventTimes(2);
     });
   });
-  describe("total-items and start-item", () => {
-    it("checks if default value for total-items is 1", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" page-size="10"></calcite-pagination>`);
-      const pagination = await page.find("calcite-pagination");
-      const totalItems = await pagination.getProperty("totalItems");
-      expect(totalItems).toBe(1);
-    });
-
+  describe("start-item", () => {
     it("checks page defaults to 1 when start-item is negative", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`);
