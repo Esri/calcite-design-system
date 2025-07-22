@@ -1308,24 +1308,9 @@ describe("calcite-dialog", () => {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-header-action-background-color",
         },
-        "--calcite-dialog-header-action-background-color-hover": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-action-background-color-hover",
-          state: "hover",
-        },
-        "--calcite-dialog-header-action-background-color-press": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-action-background-color-press",
-          state: { press: `.${CSS.panel}` },
-        },
         "--calcite-dialog-header-action-text-color": {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-header-action-text-color",
-        },
-        "--calcite-dialog-header-action-text-color-press": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-action-text-color-press",
-          state: { press: `.${CSS.panel}` },
         },
         "--calcite-dialog-header-background-color": {
           shadowSelector: `.${CSS.panel}`,
