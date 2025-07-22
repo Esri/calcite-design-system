@@ -715,8 +715,6 @@ describe("calcite-tooltip", () => {
       <div id="selection">Selection</div>
     `);
 
-    await page.waitForChanges();
-
     const hoverTip = await page.find("#hoverTip");
 
     expect(await hoverTip.getProperty("open")).toBe(false);

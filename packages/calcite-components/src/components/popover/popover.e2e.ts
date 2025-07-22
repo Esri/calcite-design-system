@@ -408,8 +408,6 @@ describe("calcite-popover", () => {
       <button id="ref">Button</button>
     `);
 
-    await page.waitForChanges();
-
     const popover = await page.find("calcite-popover");
 
     expect(await popover.getProperty("open")).toBe(false);
@@ -434,8 +432,6 @@ describe("calcite-popover", () => {
       <calcite-popover reference-element="ref" open><div id="content">Content</div></calcite-popover>
       <button id="ref">Button</button>
     `);
-
-    await page.waitForChanges();
 
     const popover = await page.find("calcite-popover");
 

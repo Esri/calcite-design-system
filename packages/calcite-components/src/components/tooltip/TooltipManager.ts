@@ -190,11 +190,7 @@ export default class TooltipManager {
     this.toggleTooltip(tooltip, true);
   };
 
-  private blurHandler = (event: FocusEvent): void => {
-    if (event.defaultPrevented) {
-      return;
-    }
-
+  private blurHandler = (): void => {
     this.closeActiveTooltip();
   };
 
