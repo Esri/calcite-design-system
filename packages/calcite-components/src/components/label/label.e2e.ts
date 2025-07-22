@@ -21,7 +21,7 @@ describe("calcite-label", () => {
     `);
 
     const element = await page.find("calcite-label");
-    expect(element).toEqualAttribute("layout", "block");
+    expect(element).toEqualAttribute("layout", "default");
   });
 
   it("renders requested props when valid props are provided", async () => {

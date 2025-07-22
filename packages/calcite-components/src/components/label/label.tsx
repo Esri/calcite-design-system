@@ -34,7 +34,7 @@ export class Label extends LitElement {
 
   /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
-    "block";
+    "default";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
