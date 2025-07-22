@@ -98,8 +98,22 @@ export default class TooltipManager {
     }
   };
 
-  private pointerLeaveHandler = (): void => {
+  private activeTooltipHasSelection(): boolean {
+    const selection = window.getSelection();
+    return selection?.type === "Range" && this.activeTooltip?.contains(selection?.anchorNode);
+  }
+
+  private pointerLeaveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.clearHoverTimeout();
+
+    if (this.activeTooltipHasSelection()) {
+      return;
+    }
+
     this.closeHoveredTooltip();
   };
 
@@ -110,11 +124,10 @@ export default class TooltipManager {
     }
 
     const composedPath = event.composedPath();
-    const { activeTooltip } = this;
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (this.activeTooltipHasSelection() || this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
@@ -131,7 +144,7 @@ export default class TooltipManager {
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
-    } else if (activeTooltip?.open) {
+    } else if (this.activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
 
@@ -147,7 +160,7 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
-    if (event.defaultPrevented) {
+    if (event.defaultPrevented || window.getSelection()?.type === "Range") {
       return;
     }
 
