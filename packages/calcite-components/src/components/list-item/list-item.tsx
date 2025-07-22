@@ -323,6 +323,12 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemUpdateMoveToItems = createEvent({ cancelable: false });
+
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
 
@@ -458,6 +464,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeOpen.emit();
+    this.calciteInternalListItemUpdateMoveToItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {

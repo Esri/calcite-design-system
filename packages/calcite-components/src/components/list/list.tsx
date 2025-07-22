@@ -84,7 +84,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
-    this.updateListItems();
+    this.updateListItemsDebounced();
   });
 
   private parentListEl: List["el"];
@@ -93,60 +93,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   private cancelable = useCancelable<this>()(this);
 
-  private updateListItems = debounce((): void => {
-    this.updateGroupItems();
-
-    const {
-      selectionAppearance,
-      selectionMode,
-      interactionMode,
-      dragEnabled,
-      el,
-      filterEl,
-      moveToItems,
-      displayMode,
-      scale,
-    } = this;
-
-    const items = Array.from(this.el.querySelectorAll(listItemSelector));
-
-    items.forEach((item) => {
-      item.scale = scale;
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
-      if (item.closest(listSelector) === el) {
-        item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
-        );
-        item.dragHandle = dragEnabled;
-        item.displayMode = displayMode;
-      }
-    });
-
-    if (this.parentListEl) {
-      this.setUpSorting();
-      return;
-    }
-
-    this.listItems = items;
-    if (this.filterEnabled && this.willPerformFilter) {
-      this.willPerformFilter = false;
-      this.dataForFilter = this.getItemData();
-
-      if (filterEl) {
-        filterEl.items = this.dataForFilter;
-        this.filterAndUpdateData();
-      }
-    }
-    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
-    this.updateFilteredItems();
-    this.borderItems();
-    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
-    this.setActiveListItem();
-    this.updateSelectedItems();
-    this.setUpSorting();
-  }, DEBOUNCE.nextTick);
+  private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
 
@@ -337,17 +284,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   //#region Public Methods
 
   /**
-   * Emits a `calciteListMoveHalt` event.
-   *
-   * @private
-   * @param dragDetail
-   */
-  @method()
-  putFailed(dragDetail: ListDragDetail): void {
-    this.calciteListMoveHalt.emit(dragDetail);
-  }
-
-  /**
    * Sets focus on the component's first focusable element.
    *
    * @returns {Promise<void>}
@@ -384,7 +320,11 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  /**
+   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
+   *
+   * @deprecated No longer necessary.
+   */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
   /** Fires when the component's item order changes. */
@@ -406,6 +346,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
+    this.listen("calciteInternalListItemUpdateMoveToItems", this.handleUpdateMoveToItems);
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
     this.listen(
       "calciteInternalListItemSelectMultiple",
@@ -421,11 +362,11 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   override connectedCallback(): void {
     this.connectObserver();
     this.willPerformFilter = true;
-    this.updateListItems();
+    this.updateListItemsDebounced();
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
-    this.cancelable.add(this.updateListItems);
+    this.cancelable.add(this.updateListItemsDebounced);
   }
 
   async load(): Promise<void> {
@@ -474,9 +415,65 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   //#region Private Methods
 
+  private updateListItems(): void {
+    this.updateGroupItems();
+
+    const {
+      selectionAppearance,
+      selectionMode,
+      interactionMode,
+      dragEnabled,
+      el,
+      filterEl,
+      moveToItems,
+      displayMode,
+      scale,
+    } = this;
+
+    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+
+    items.forEach((item) => {
+      item.scale = scale;
+      item.selectionAppearance = selectionAppearance;
+      item.selectionMode = selectionMode;
+      item.interactionMode = interactionMode;
+      if (item.closest(listSelector) === el) {
+        item.moveToItems = moveToItems.filter(
+          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+        );
+
+        item.dragHandle = dragEnabled;
+        item.displayMode = displayMode;
+      }
+    });
+
+    if (this.parentListEl) {
+      this.setUpSorting();
+      return;
+    }
+
+    this.listItems = items;
+    if (this.filterEnabled && this.willPerformFilter) {
+      this.willPerformFilter = false;
+      this.dataForFilter = this.getItemData();
+
+      if (filterEl) {
+        filterEl.items = this.dataForFilter;
+        this.filterAndUpdateData();
+      }
+    }
+    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
+    this.updateFilteredItems();
+    this.borderItems();
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
+    this.setActiveListItem();
+    this.updateSelectedItems();
+    this.setUpSorting();
+  }
+
   private handleListItemChange(): void {
     this.willPerformFilter = true;
-    this.updateListItems();
+    this.updateListItemsDebounced();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -541,6 +538,28 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.handleReorder(event);
   }
 
+  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
+    event.stopPropagation();
+
+    const fromEl = this.el;
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const item = event.target as ListItem["el"];
+
+    await fromEl.componentOnReady();
+    await item.componentOnReady();
+    this.updateListItems();
+
+    item.moveToItems = item.moveToItems.filter((moveToItem) =>
+      this.validateMove({
+        fromEl,
+        toEl: moveToItem.element as List["el"],
+        dragEl: item,
+        newIndex: 0,
+        oldIndex: fromElItems.indexOf(item),
+      }),
+    );
+  }
+
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
     if (this.parentListEl || event.defaultPrevented) {
       return;
@@ -600,7 +619,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     }
 
     event.stopPropagation();
-    this.updateListItems();
+    this.updateListItemsDebounced();
   }
 
   private handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
@@ -648,7 +667,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   onDragSort(detail: ListDragDetail): void {
     this.setParentList();
-    this.updateListItems();
+    this.updateListItemsDebounced();
 
     this.calciteListOrderChange.emit(detail);
   }
@@ -788,7 +807,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       this.filteredData = filterEl.filteredItems as ItemData[];
     }
 
-    this.updateListItems();
+    this.updateListItemsDebounced();
   }
 
   private async filterAndUpdateData(): Promise<void> {
@@ -953,18 +972,21 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     }
   }
 
-  private handleMove(event: CustomEvent<MoveEventDetail>): void {
-    const { moveTo } = event.detail;
-
-    const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
-    const toEl = moveTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
-    const oldIndex = fromElItems.indexOf(dragEl);
-    const newIndex = 0;
-
-    if (!fromEl) {
-      return;
+  private validateMove({
+    fromEl,
+    toEl,
+    dragEl,
+    newIndex,
+    oldIndex,
+  }: {
+    fromEl?: List["el"];
+    toEl?: List["el"];
+    dragEl: ListItem["el"];
+    newIndex: number;
+    oldIndex: number;
+  }): boolean {
+    if (!fromEl || !toEl) {
+      return false;
     }
 
     if (
@@ -976,8 +998,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      this.calciteListMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
-      return;
+      return false;
     }
 
     if (
@@ -989,7 +1010,23 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) === false
     ) {
-      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return false;
+    }
+
+    return true;
+  }
+
+  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+    const { moveTo } = event.detail;
+
+    const dragEl = event.target as ListItem["el"];
+    const fromEl = dragEl?.parentElement as List["el"];
+    const toEl = moveTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 
@@ -999,7 +1036,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     toEl.prepend(dragEl);
     expandedAncestors(dragEl);
-    this.updateListItems();
+    this.updateListItemsDebounced();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
@@ -1053,7 +1090,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     parentEl.insertBefore(dragEl, referenceEl);
 
-    this.updateListItems();
+    this.updateListItemsDebounced();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
