@@ -517,6 +517,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             oncalciteSortHandleOpen={this.handleSortHandleOpen}
             overlayPositioning="fixed"
             ref={this.setSortHandleEl}
+            scale={this.scale}
             setPosition={setPosition}
             setSize={setSize}
           />
@@ -558,6 +559,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
           label={messages.options}
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
+          scale={this.scale}
         >
           <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
         </calcite-action-menu>

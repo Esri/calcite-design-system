@@ -121,8 +121,6 @@
   @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto;
   grid-template-areas: "handle header control menu actions-end";
-  grid-column: header-start / actions-end;
-  grid-row: 1 / 2;
 }
 
 .icon--start,
@@ -238,7 +236,7 @@ calcite-handle {
 }
 
 .content {
-  @apply animate-in flex-1 relative min-h-0;
+  @apply animate-in relative min-h-0;
 }
 
 .content-start {

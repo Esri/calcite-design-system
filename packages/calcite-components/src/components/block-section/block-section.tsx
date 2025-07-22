@@ -1,6 +1,15 @@
 // @ts-strict-ignore
-import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable } from "../../utils/dom";
+import {
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
+  h,
+  method,
+  JsxNode,
+  state,
+} from "@arcgis/lumina";
+import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Scale, Status } from "../interfaces";
 import { componentFocusable, getIconScale } from "../../utils/component";
@@ -34,6 +43,12 @@ export class BlockSection extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  //#endregion
+
+  // #region State Properties
+
+  @state() defaultSlotHasElements = false;
 
   //#endregion
 
@@ -127,6 +142,10 @@ export class BlockSection extends LitElement {
   private toggleSection(): void {
     this.expanded = !this.expanded;
     this.calciteBlockSectionToggle.emit();
+  }
+
+  private handleDefaultSlot(event: Event): void {
+    this.defaultSlotHasElements = slotChangeHasAssignedElement(event);
   }
 
   //#endregion
@@ -247,11 +266,11 @@ export class BlockSection extends LitElement {
         {headerNode}
         <section
           aria-labelledby={IDS.toggle}
-          class={CSS.content}
+          class={{ [CSS.content]: this.defaultSlotHasElements }}
           hidden={!expanded}
           id={IDS.content}
         >
-          <slot />
+          <slot onSlotChange={this.handleDefaultSlot} />
         </section>
       </>
     );
