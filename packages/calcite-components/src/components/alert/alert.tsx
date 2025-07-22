@@ -10,20 +10,16 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  setRequestedIcon,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -78,6 +74,8 @@ export class Alert extends LitElement implements OpenCloseComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -174,8 +172,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   //#endregion

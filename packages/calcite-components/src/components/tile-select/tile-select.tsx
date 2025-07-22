@@ -7,12 +7,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Alignment, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
 import type { RadioButton } from "../radio-button/radio-button";
 import type { Checkbox } from "../checkbox/checkbox";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./tile-select.scss";
@@ -39,6 +39,8 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   private guid = `calcite-tile-select-${guid()}`;
 
   private input: Checkbox["el"] | RadioButton["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -100,9 +102,9 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   /** Sets focus on the component. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.input?.setFocus();
+    return this.focusSetter(() => {
+      return this.input;
+    });
   }
 
   // #endregion
@@ -173,6 +175,7 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private checkboxChangeHandler(event: CustomEvent): void {
     const checkbox = event.target as Checkbox["el"];
     if (checkbox === this.input) {

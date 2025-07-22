@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
@@ -59,6 +59,8 @@ export class Pagination extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -142,8 +144,9 @@ export class Pagination extends LitElement {
   /** Sets focus on the component's first focusable element. */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+    return this.focusSetter(() => {
+      return this.el;
+    });
   }
 
   //#endregion
