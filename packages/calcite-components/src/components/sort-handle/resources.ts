@@ -21,3 +21,8 @@ export const REORDER_VALUES: Reorder[] = ["top", "up", "down", "bottom"] as cons
 export const SLOTS = {
   trigger: "trigger",
 };
+
+export const IDS = {
+  move: "move",
+  reorder: "reorder",
+};

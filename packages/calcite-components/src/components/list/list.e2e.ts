@@ -27,6 +27,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
 import { mockConsole } from "../../tests/utils/logging";
+import { IDS } from "../sort-handle/resources";
 import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
@@ -1598,9 +1599,6 @@ describe("calcite-list", () => {
       endOldIndex: number;
       startNewIndex: number;
       startOldIndex: number;
-      moveHaltNewIndex: number;
-      moveHaltOldIndex: number;
-      moveHaltCalledTimes: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -1844,11 +1842,11 @@ describe("calcite-list", () => {
     it("calls canPull and canPut for move items", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-list id="first-letters" drag-enabled group="letters">
+        <calcite-list label="First Letters" id="first-letters" drag-enabled group="letters">
           <calcite-list-item id="a" heading="a" label="A"></calcite-list-item>
           <calcite-list-item id="b" heading="b" label="B"></calcite-list-item>
         </calcite-list>
-        <calcite-list id="second-letters" drag-enabled group="letters">
+        <calcite-list label="Second Letters" id="second-letters" drag-enabled group="letters">
           <calcite-list-item id="c" heading="c" label="C"></calcite-list-item>
           <calcite-list-item id="d" heading="d" label="D"></calcite-list-item>
         </calcite-list>
@@ -1856,72 +1854,35 @@ describe("calcite-list", () => {
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
-        const testWindow = window as TestWindow;
-        testWindow.moveHaltCalledTimes = 0;
         const firstLetters = document.getElementById("first-letters") as List["el"];
-
-        firstLetters.addEventListener("calciteListMoveHalt", (event: CustomEvent<ListDragDetail>) => {
-          testWindow.moveHaltCalledTimes++;
-          testWindow.moveHaltNewIndex = event.detail.newIndex;
-          testWindow.moveHaltOldIndex = event.detail.oldIndex;
-        });
-
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
       });
       await page.waitForChanges();
 
-      async function clickMoveDropdownItem(id: string) {
+      async function getMoveItems(id: string) {
         const component = await page.find(`#${id}`);
         component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
 
-        const dropdownItem = await page.find(`#${id} >>> calcite-dropdown-group:last-child calcite-dropdown-item`);
-        expect(dropdownItem).not.toBeNull();
-        await dropdownItem.click();
-
-        await page.waitForChanges();
-      }
-
-      async function getResults() {
-        return await page.evaluate(() => {
-          const testWindow = window as TestWindow;
-
-          return {
-            moveHaltCalledTimes: testWindow.moveHaltCalledTimes,
-            moveHaltOldIndex: testWindow.moveHaltOldIndex,
-            moveHaltNewIndex: testWindow.moveHaltNewIndex,
-          };
+        return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
+          allowEmpty: true,
         });
       }
 
-      await clickMoveDropdownItem("a");
-      let results = await getResults();
+      const aMoveItems = await getMoveItems("a");
+      expect(aMoveItems.length).toBe(0);
 
-      expect(results.moveHaltCalledTimes).toBe(1);
-      expect(results.moveHaltNewIndex).toBe(0);
-      expect(results.moveHaltOldIndex).toBe(0);
+      const bMoveItems = await getMoveItems("b");
+      expect(bMoveItems.length).toBe(1);
+      expect(await bMoveItems[0].getProperty("label")).toBe("Second Letters");
 
-      await clickMoveDropdownItem("b");
-      results = await getResults();
+      const cMoveItems = await getMoveItems("c");
+      expect(cMoveItems.length).toBe(1);
+      expect(await cMoveItems[0].getProperty("label")).toBe("First Letters");
 
-      expect(results.moveHaltCalledTimes).toBe(1);
-      expect(results.moveHaltNewIndex).toBe(0);
-      expect(results.moveHaltOldIndex).toBe(0);
-
-      await clickMoveDropdownItem("c");
-      results = await getResults();
-
-      expect(results.moveHaltCalledTimes).toBe(1);
-      expect(results.moveHaltNewIndex).toBe(0);
-      expect(results.moveHaltOldIndex).toBe(0);
-
-      await clickMoveDropdownItem("d");
-      results = await getResults();
-
-      expect(results.moveHaltCalledTimes).toBe(2);
-      expect(results.moveHaltNewIndex).toBe(0);
-      expect(results.moveHaltOldIndex).toBe(1);
+      const dMoveItems = await getMoveItems("d");
+      expect(dMoveItems.length).toBe(0);
     });
 
     it("reorders using a keyboard", async () => {

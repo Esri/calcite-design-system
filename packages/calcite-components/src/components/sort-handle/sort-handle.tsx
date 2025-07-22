@@ -17,7 +17,7 @@ import {
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
+import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
@@ -302,6 +302,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return this.hasSetInfo ? (
       <calcite-dropdown-group
         groupTitle={this.messages.reorder}
+        id={IDS.reorder}
         key="reorder"
         scale={this.scale}
         selectionMode="none"
@@ -320,6 +321,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
+        id={IDS.move}
         key="move-to-items"
         scale={scale}
         selectionMode="none"

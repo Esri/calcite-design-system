@@ -211,6 +211,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   //#region Events
 
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
+
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
 
@@ -313,6 +319,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeOpen.emit();
+    this.calciteInternalBlockUpdateMoveToItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
